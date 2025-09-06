@@ -1,0 +1,131 @@
+@import "public_variables";
+
+.sidebar {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  background-color: $guest-color;
+  box-shadow: 0px 0px 60px #00000099;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  .site-bar-header{
+    background-color: $guest-color;
+    height: 88%;
+    .mobile-site-bar-menu{
+      padding: 40px 0 0;
+      div {
+        color: $text-gray;
+        font-size: 1rem;
+      }
+      a {
+        &:hover {
+          color: $primary-color;
+        }
+      }
+      .nav-item {
+        .dropdown-menu {
+          width: 90%;
+          margin-right: 7%;
+        }
+      }
+      .dropdown {
+        .menu-title {
+          display: inline-block;
+        }
+        .dropdown-toggle::after {
+          vertical-align: unset;
+        }
+        .dropdown-menu {
+          margin-left: 25px;
+        }
+        .dropdown-item {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+
+  .site-bar-footer{
+    background: $primary-color;
+    height: 12%;
+    font-size: 14px;
+    position: relative;
+    .social-link{
+      text-align: center;
+      a{
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar .site-panel-logo {
+  position: absolute;
+  top: 25px;
+  right: 105px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+.sidebar .closebtn{
+  position: absolute;
+  top:5px;
+  right: 25px;
+  font-size: 36px;
+}
+
+
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+#main {
+  transition: margin-left .5s;
+  padding: 16px;
+}
+
+.custom-navbar-toggler {
+  border: none !important;
+  padding: 0.50rem 0.1rem !important;
+}
+
+.navbar-light .navbar-toggler-icon{
+  background-image: asset_url("menu_icon.svg") !important;
+  width: 23px;
+  background-position-y: 5px;
+}
+.bk-active{
+  color: black !important;
+  &.notification-section {
+    .notification-counter {
+      color: $primary-color;
+    }
+  }
+}

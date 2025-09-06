@@ -1,0 +1,131 @@
+<style>
+    table, th, td {
+        border: 1px solid black; border-collapse: collapse; padding: 8px;
+    }
+</style>
+<div style="width: 800px">
+  Dear <%= @notification.recipient.name.present? ?
+             @notification.recipient.name : 'Concern' %>,
+  <br/><br/>
+  <div>
+    <div style="width: 50%; float: left; line-height: 0;">
+      <%= email_image_tag 'bk_logo.png', width: 100 %>
+    </div>
+    <div style="text-align: right;">
+      <strong style="display: block;">Bolokobul Ltd.</strong>
+      <span style="display: block;">Whatsapp: <a href="https://wa.me/8801611820410">+8801611820410</a></span>
+      <span style="display: block;">Email: <a href="mailto:support@bolokobul.com">support@bolokobul.com</a></span>
+      <span style="display: block;">Facebook: <a href="https://fb.com/bolokobulltd">fb.com/bolokobulltd</a></span>
+      <span style="display: block;">Web: <a href="https://bolokobul.com">bolokobul.com</a></span>
+    </div>
+  </div>
+
+  <div>
+    <h2 style="text-align: center;">Receipt</h2>
+    <div>
+      <p style="width: 50%; float: left; line-height: 0;">Date: <%= @notification.notifiable.created_at.strftime("%d/%m/%Y %I:%M:%S %p") %></p>
+      <p style="text-align: right;">Receipt # <%= @notification.notifiable_id&.to_s&.rjust(6, '0') %></p>
+    </div>
+  </div>
+
+  <div style="border: solid 1px #CCCCCC; padding: 20px;">
+    <h2 style="margin-top: 0; display: block;">Customer</h2>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Profile ID(s)</label>
+      <span>: <%= @notification.recipient&.marriage_profiles&.map(&:unique_id)&.join(', ') %></span>
+    </span>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Name</label>
+      <span>: <%= @notification.recipient&.name %></span>
+    </span>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Email</label>
+      <span>: <%= link_to @notification.recipient&.email, "mailto:#{@notification.recipient&.email}" %></span>
+    </span>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Contact</label>
+      <span>: <%= link_to @notification.recipient&.phone_number, "tel:#{@notification.recipient&.phone_number}" %></span>
+    </span>
+  </div>
+
+  <div>
+    <h2>Items</h2>
+    <table style="width: 100%; text-align: left; border: 1px solid black; border-collapse: collapse; padding: 8px;">
+      <tr style="background-color: rgba(99,115,129,.1);">
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 8px;">SI</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 8px;">Description</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 8px;">Quantity</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 8px;">Price</th>
+        <th style="text-align: right; border: 1px solid black; border-collapse: collapse; padding: 8px;">Amount (৳)</th>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">01</td>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">
+          <%= @notification.notifiable&.product.humanize %>
+        </td>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">
+          <%= @notification.notifiable&.quantity %>
+        </td>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">
+          <%= number_with_precision(@notification.notifiable&.price, precision: 2, delimiter: ',') %>
+        </td>
+        <td style="text-align: right; border: 1px solid black; border-collapse: collapse; padding: 8px;">
+          <%= number_with_precision(@notification.notifiable&.total_amount, precision: 2, delimiter: ',') %>
+        </td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">&nbsp;</td>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">&nbsp;</td>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">&nbsp;</td>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">&nbsp;</td>
+        <td style="border: 1px solid black; border-collapse: collapse; padding: 8px;">&nbsp;</td>
+      </tr>
+      <tr style="text-align: right;">
+        <th colspan="4" style="border: 1px solid black; border-collapse: collapse; padding: 8px;">Subtotal</th>
+        <th><%= number_with_precision(@notification.notifiable&.sub_total_amount, precision: 2, delimiter: ',') %></th>
+      </tr>
+      <tr style="text-align: right;">
+        <th colspan="4" style="border: 1px solid black; border-collapse: collapse; padding: 8px;">Discount</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 8px;"><%= number_with_precision(@notification.notifiable&.discount_amount, precision: 2, delimiter: ',') %></th>
+      </tr>
+      <tr style="text-align: right;">
+        <th colspan="4" style="border: 1px solid black; border-collapse: collapse; padding: 8px;">Grand Total</th>
+        <th style="border: 1px solid black; border-collapse: collapse; padding: 8px;"><%= number_with_precision(@notification.notifiable&.total_amount, precision: 2, delimiter: ',') %></th>
+      </tr>
+    </table>
+  </div>
+
+  <div>
+    <h3>Transaction Details:</h3>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Payment Method</label>
+      <span>: Online Payment</span>
+    </span>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Bank Transaction ID</label>
+      <span>: <%= @notification.notifiable&.transactions&.first&.bank_tran_id %></span>
+    </span>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Transaction Amount</label>
+      <span>: ৳ <%= number_with_precision(@notification.notifiable&.transactions&.first&.amount, precision: 2, delimiter: ',') %></span>
+    </span>
+    <span style="display: block;">
+      <label style="width: 150px; display: inline-block;">Transaction Time</label>
+      <span>: <%= @notification.notifiable&.transactions&.first&.created_at.strftime("%d/%m/%Y %I:%M:%S %p") %></span>
+    </span>
+  </div>
+
+  <p> Thank you for choosing <a href="http://bolokobul.com/"> Bolo Kobul </a> 💖</p>
+  <p>
+    Best wishes <br>
+    Team BK
+  </p>
+
+  <div style="background-color: rgba(99,115,129,.1); font-size: small">
+    <p>Disclaimer: "This email is confidential and may also be legally privileged. If you are not intended recipient
+      you must not copy, forward, disclose or use any part of it. Violation of this notice may be unlawful. If you
+      have receipt this email in error, please notify the sender immediately and delete this email and any attachment
+      from your system. Internet communication can not be guaranteed to be timely, secure, error free or virus-free.
+      Bolokobul does not accept any liability for any damage caused by such transmission and/or delay in its receipt."</p>
+  </div>
+</div>

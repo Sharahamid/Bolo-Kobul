@@ -1,0 +1,25 @@
+@import "public_variables";
+
+// For Desktop Devices
+.section-hr {
+  background-color: $primary-color;
+  height: 2px;
+  width: 8%;
+  margin: auto;
+}
+.error-page-header {
+  font-size: 35px;
+  margin-top: 2%;
+  text-align: center;
+}
+.error-page-container {
+  .error-page-items {
+    .error-page-content {
+      background-color: $white-color;
+      color: $text-gray;
+    }
+  }
+  .exception {
+    display: none;
+  }
+}

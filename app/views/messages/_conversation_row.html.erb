@@ -1,0 +1,10 @@
+<div class="d-flex flex-column pl-2 pr-2">
+  <div class="<%= message.marriage_profile.user.id == current_active_profile.user.id ?
+                      'align-self-end' : 'align-self-start' %>">
+    <span class="<%= row_background %>"> <%= message.body %> </span>
+    <small class="text-gray <%= message.marriage_profile.user.id == current_active_profile.user.id ?
+                                    'float-right' : 'float-left'  %>">
+      <%= format_date_messaging(message.created_at) %>
+    </small>
+  </div>
+</div>

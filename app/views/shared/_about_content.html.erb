@@ -1,0 +1,17 @@
+<% if about_content.present? %>
+  <div class="container about-container">
+    <div class="row">
+      <div class="col-md-12">
+        <div id="accordion" role="tablist" aria-multiselectable="true"
+             class="card-collapse">
+          <%= render partial: 'shared/dynamic_about_content',
+                     collection: about_content,
+                     as: :about
+          %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <%= render 'shared/default_content' %>
+<% end %>

@@ -1,0 +1,5 @@
+<% if privacy_setting.send "#{field_name}_public?" %>
+  <i class="fas fa-users" title="Public" data-toggle="tooltip" data-placement="top"></i>
+<% else %>
+  <i class="fas fa-user-lock" title="Private" data-toggle="tooltip" data-placement="top"></i>
+<% end %>

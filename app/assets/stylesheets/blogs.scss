@@ -1,0 +1,106 @@
+@import "public_variables";
+
+.blogs-container {
+  .section-hr {
+    background-color: $primary-color;
+    height: 2px;
+    width: 8%;
+    margin: auto;
+  }
+  .blogs-header {
+    font-size: 35px;
+    margin-top: 2%;
+    text-align: center;
+  }
+  .blogs-items {
+    display: flex;
+    .blogs-content {
+      a {
+        text-decoration: none;
+      }
+      .blog-section {
+        background: $white-color 0 0 no-repeat padding-box;
+        box-shadow: 1px 3px 9px $primary-box-shadow-color;
+        .blog-cover {
+          .blog-img {
+            width: 100%;
+            height: 15vw;
+            object-fit: cover;
+          }
+        }
+        .blog-details {
+          .post-time {
+            color: $shadowed-color;
+            font-size: 0.9rem;
+          }
+          .blog-title {
+            color: $black-color;
+            font-size: 1.35rem;
+            font-family: Merriweather, Arial, sans-serif;
+          }
+          .blog-text {
+            color: $dark-shadowed-color;
+            max-height: 11vw;
+            overflow: hidden;
+            text-align: justify;
+          }
+        }
+      }
+    }
+  }
+  .blogs-form {
+    text-align: center;
+    input, select, textarea {
+      margin: 5%;
+    }
+    .blog-post-title {
+      font-size: 1.35rem;
+      h5 {
+        line-height: unset;
+      }
+    }
+    .blog-detail-form {
+      .form-group {
+        overflow: hidden;
+        .form-control {
+          max-width: 90%;
+        }
+        .blog-submit {
+          border: none;
+          font-size: 1.15rem;
+          margin-top: 5%;
+        }
+      }
+    }
+  }
+}
+
+.blog-show-container {
+  .main-content {
+    background: #FFFFFF 0 0 no-repeat padding-box;
+    box-shadow: 1px 3px 9px #0000002B;
+    opacity: 1;
+  }
+
+  .sidebar-bottom {
+    background: #FFFFFF 0 0 no-repeat padding-box;
+    box-shadow: 0 6px 14px #00000029;
+    opacity: 1;
+    margin-top: 35px;
+  }
+
+  .ads-container {
+    margin-top: 111px;
+    margin-bottom: 122px;
+    height: 200px;
+    width: 100%;
+    background: #FF6464 0% 0% no-repeat padding-box;
+  }
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}

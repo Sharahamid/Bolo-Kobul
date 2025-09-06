@@ -1,0 +1,57 @@
+<div class="basic_info p-3">
+  <div class="basic-info-mandala">
+    <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+  </div>
+  <div class="blog-post-title pb-1">
+    <h5>Tell us your story</h5>
+  </div>
+  <div class="blog-detail-form">
+    <%= form_for @blog, url: blogs_path, method: :post do |f| %>
+      <div class="form-group">
+        <%= f.text_field :title,
+                         class: "form-control sign_up-input-field",
+                         placeholder: "Title of Your Story*",
+                         data: {toggle:'tooltip', placement:'top'},
+                         required: true
+        %>
+        <%= f.text_field :author,
+                         class: "form-control sign_up-input-field",
+                         placeholder: "Name (Your)"
+        %>
+        <%= f.text_field :partner,
+                         class: "form-control sign_up-input-field",
+                         placeholder: "Partner's Name"
+        %>
+        <%= f.text_field :email,
+                         class: "form-control sign_up-input-field",
+                         placeholder: "Your Email*",
+                         data: {toggle:'tooltip', placement:'top'},
+                         required: true
+        %>
+        <%= f.text_field :married_life_duration,
+                         class: "form-control sign_up-input-field",
+                         placeholder: "How long have you been married"
+        %>
+        <%= f.text_area :story,
+                         class: "form-control sign_up-input-field",
+                         placeholder: "Tell us your story!*",
+                         data: {toggle:'tooltip', placement:'top'},
+                         required: true
+        %>
+        <%= f.label :"Share Your Couple Photo!*" %>
+        <%= f.file_field :image,
+                         type: "file",
+                         accept: "image/png,image/gif,image/jpeg",
+                         class: "my-0",
+                         data: {toggle:'tooltip', placement:'top'},
+                         required: true
+        %>
+        <div class="register-btn-section text-center">
+          <button type="submit" class="btn btn-sign_up form-control blog-submit">
+            Submit
+          </button>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

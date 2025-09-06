@@ -1,0 +1,25 @@
+<div class="bk-card-content">
+  <div class="d-flex flex-row chat-plr">
+    <div class="chat-profile-photo p-2">
+      <%= render 'shared/chat_profile_photo', profile: profile %>
+    </div>
+    <div class="chat-profile-info p-2xx flex-grow ">
+      <%= link_to profile_message_path(profile) do %>
+        <div class="d-flex flex-column">
+        <span class="text-black"
+              title="<%= profile&.unique_id %>"
+              data-toggle="tooltip"
+              data-placement="top">
+          <%= profile&.unique_id %>
+          <%= "(#{profile.user.created_for})"  unless profile.user.self? %>
+        </span>
+          <div class="d-flex flex-row text-gray">
+            <% message = chat_room&.messages&.last %>
+            <small class="align-self-start width-last-msg">  <%= message.present? ? truncate(message&.body, length: 10) : 'New' %> </small>
+            <small class="align-self-end pl-5">  <%= message.present? ? format_date_chat(message.created_at) : 'New' %> </small>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

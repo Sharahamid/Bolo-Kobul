@@ -1,0 +1,121 @@
+<div class="container market-place-show-container">
+  <section>
+    <div class="row">
+      <div class="col-md-8 col-sm-12 mb-3 main-content">
+        <hr class="row col-md-12 section-hr my-0">
+        <h3 class="row col-md-12 my-4"><%= @market_place.name %></h3>
+        <h5 class="row col-md-12 cost-block my-3">
+          <%= @market_place.costing_unit ? @market_place.costing_unit.titleize : "Unit" %>
+          Starting cost:
+          <%= " ৳ " + @market_place.cost.round(2).to_s %>
+        </h5>
+        <div class="row col-md-12">
+          <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+            <% if @market_place.facility.present? %>
+              <div class="card card-plain my-3">
+                <div class="card-header"
+                     role="tab" id="heading_<%= @market_place.id.to_s + "__facilities" %>">
+                  <a data-toggle="collapse" data-parent="#accordion"
+                     href="#collapse_<%= @market_place.id.to_s + "__facilities" %>"
+                     aria-expanded="<%= false %>" aria-controls="collapse_<%= @market_place.id.to_s + "__facilities" %>">
+                    Facilities
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                </div>
+                <div id="collapse_<%= @market_place.id.to_s + "__facilities" %>" class="collapse" role="tabpanel" aria-labelledby="heading_<%= @market_place.id.to_s + "__facilities" %>">
+                  <div class="card-body" style="padding: 10px">
+                    <%= @market_place.facility %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <% if @market_place.policy.present? %>
+              <div class="card card-plain my-3">
+                <div class="card-header"
+                     role="tab" id="heading_<%= @market_place.id.to_s + "__policy" %>">
+                  <a data-toggle="collapse" data-parent="#accordion"
+                     href="#collapse_<%= @market_place.id.to_s + "__policy" %>" a
+                     ria-expanded="<%= false %>" aria-controls="collapse_<%= @market_place.id.to_s + "__policy" %>">
+                    Policy
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                </div>
+                <div id="collapse_<%= @market_place.id.to_s + "__policy" %>" class="collapse" role="tabpanel" aria-labelledby="heading_<%= @market_place.id.to_s + "__policy" %>">
+                  <div class="card-body" style="padding: 10px">
+                    <%= @market_place.policy %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <% if @market_place.experience.present? %>
+              <div class="card card-plain my-3">
+                <div class="card-header"
+                     role="tab" id="heading_<%= @market_place.id.to_s + "__experience" %>">
+                  <a data-toggle="collapse" data-parent="#accordion"
+                     href="#collapse_<%= @market_place.id.to_s + "__experience" %>" a
+                     ria-expanded="<%= false %>" aria-controls="collapse_<%= @market_place.id.to_s + "__policy" %>">
+                    Experience
+                    <i class="fa fa-angle-down"></i>
+                  </a>
+                </div>
+                <div id="collapse_<%= @market_place.id.to_s + "__experience" %>" class="collapse" role="tabpanel" aria-labelledby="heading_<%= @market_place.id.to_s + "__experience" %>">
+                  <div class="card-body" style="padding: 10px">
+                    <%= @market_place.experience %>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+
+            <% if @market_place.link.present? %>
+              <div class="card card-plain my-3">
+                <div class="card-header">Visit</div>
+                <div class="card-body" style="padding: 10px">
+                  <%= link_to @market_place.link, @market_place.link %>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+        <% if @market_place.about.present? %>
+          <div class="row col-md-12"><hr></div>
+          <h5>About</h5>
+          <p class="row col-md-12"><%= @market_place.about %></p>
+        <% end %>
+
+        <div class="row col-md-12"><hr></div>
+        <p class="row col-md-12 text-gray"> <strong> Location: &nbsp </strong>  <%= @market_place&.location&.humanize %></p>
+      </div>
+      <div class="col-md-4 col-sm-12 image-content">
+        <div class="image">
+          <%= image_tag "#{@market_place.image_url.present? ?
+                               @market_place.image_url : 'bg02.jpg'}",
+                        class: 'market-place-img img-responsive', width: '100%' %>
+        </div>
+        <div class="sidebar-bottom">
+          <div class="other-images">
+            <div class="m-2">
+              <%= image_tag "#{@market_place.image_url.present? ?
+                                   @market_place.image_url : 'bg02.jpg'}",
+                            class: 'market-place-img img-responsive', width: '100%' %>
+            </div>
+            <div class="m-2">
+              <%= image_tag "#{@market_place.image_url.present? ?
+                                   @market_place.image_url : 'bg02.jpg'}",
+                            class: 'market-place-img img-responsive', width: '100%' %>
+            </div>
+            <div class="m-2">
+              <%= image_tag "#{@market_place.image_url.present? ?
+                                   @market_place.image_url : 'bg02.jpg'}",
+                            class: 'market-place-img img-responsive', width: '100%' %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- campaign section -->
+    <%= render 'home/landing/campaign' unless user_signed_in? %>
+  </section>
+</div>

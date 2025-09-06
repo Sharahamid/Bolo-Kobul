@@ -1,0 +1,25 @@
+<section class="customer-support-section p-2 text-center">
+  <% if @customer_supports.present? %>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Issue Type</th>
+          <th scope="col">Description</th>
+          <th scope="col">Status</th>
+          <th scope="col">Attachment</th>
+          <th scope="col">Admin Replies</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%= render partial: 'customer_support', collection: @customer_supports %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="no-data-found text-gray">
+      <h4> No Data Found</h4>
+    </div>
+  <% end %>
+</section>

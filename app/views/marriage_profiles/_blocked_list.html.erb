@@ -1,0 +1,28 @@
+<div class="right-section mb-4">
+  <div class="d-flex flex-column dashboard-tab">
+    <% if blocked_profiles.present? %>
+      <% blocked_profiles.each do |profile| %>
+        <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-4">
+                <%= profile&.unique_id %>
+              </div>
+              <div class="col-4">
+                <i class="fa fa-ban text-danger" title="Blocked" data-toggle="tooltip" data-placement="top"></i>
+              </div>
+              <div class="col-4">
+                <%= link_to unblock_profile_marriage_profile_path(profile), method: :patch do %>
+                  Unblock
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <%= render 'shared/no_data_found' %>
+    <% end %>
+  </div>
+
+</div>

@@ -1,0 +1,25 @@
+@import "public_variables";
+
+.profiles-container {
+  min-width: 25%;
+}
+.orders-container {
+  min-width: 75%;
+  .orders-section {
+    background-color: $default-background;
+    border-radius: 5px;
+    box-shadow: 1px 3px 9px #0000002B;
+    margin-bottom: 1.5rem;
+    .form-group {
+      input, select, button {
+        margin: 1rem 0;
+      }
+    }
+    .btn-order {
+      background-color: $primary-color;
+      border-radius: 5px;
+      box-shadow: 0 3px 6px $primary-box-shadow-color;
+      color: $white-color;
+    }
+  }
+}

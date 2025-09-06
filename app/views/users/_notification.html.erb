@@ -1,0 +1,22 @@
+<div class="dropdown-item notification-box m-2 p-1 pb-3">
+  <div class="content" title="<%= notification.content %>">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-10"> <%= raw(notification.content) %> </div>
+        <div class="col-2 pt-2">
+          <% if !notification.is_read? %>
+            <%= link_to mark_notification_read_users_path(notification_id:
+                                                              notification.id),
+                        remote: true,
+                        class: 'btn btn-success btn-sm control text-right',
+                        method: :post do %>
+              <i class="fa fa-eye" aria-hidden="true"></i>
+            <% end %>
+          <% else %>
+            <i class="fas fa-check-circle control"> </i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

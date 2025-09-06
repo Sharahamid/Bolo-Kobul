@@ -1,0 +1,64 @@
+<div class="col-12">
+  <div class="row">
+    <div class="bk-request-btn col-6 p-0">
+      <% if current_active_profile.pending_friends.include?(marriage_profile) %>
+        <a href="#"
+           class="kobul_btn "
+           data-toggle="tooltip"
+           data-placement="top"
+           title="You Have Sent Butterfly Request To This User.">
+               <span>
+                 <%= image_tag 'butterfly_kobul_hover.svg',
+                               width: '14',
+                               height: '14',
+                               class: 'kobul-hover-butterfly' %>
+                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
+                 Pending
+               </span>
+        </a>
+        <% else %>
+        <a href="<%= send_request_marriage_profile_path(marriage_profile) %>"
+           data-method="post"
+           class="kobul_btn "
+           data-toggle="tooltip"
+           data-placement="top"
+           title="Send butterfly to request full profile.">
+               <span>
+                 <%= image_tag 'butterfly_kobul_hover.svg',
+                               width: '14',
+                               height: '14',
+                               class: 'kobul-hover-butterfly' %>
+                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
+                 Send
+               </span>
+        </a>
+        <% end %>
+    </div>
+    <%- if @marriage_profile.favourite_profile_ids
+        .include?(marriage_profile.id) %>
+      <div class="bk-cancel-btn col-6 p-0">
+        <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id),
+                    method: :delete,
+                    id: "fav_#{@marriage_profile.id}_to_#{marriage_profile.id}",
+                    class: 'kobul_cancel-btn',
+                    data: {toggle: 'tooltip', placement: 'top'},
+                    title: " Remove it in your favourite list!" do %>
+          <i class="fa fa-close"></i>
+          Remove
+        <% end %>
+      </div>
+    <% else %>
+      <div class="bk-cancel-btn col-6 p-0">
+        <%= link_to favourites_path(favourite_profile_id: marriage_profile.id),
+                    method: :post,
+                    id: "fav_#{@marriage_profile.id}_to_#{marriage_profile.id}",
+                    class: 'bk_favourite-btn',
+                    data: {toggle: 'tooltip', placement: 'top'},
+                    title: "Save it in your favourite list to view/show your friends and families later." do %>
+          <i class="far fa-heart"></i>
+         Favourite
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

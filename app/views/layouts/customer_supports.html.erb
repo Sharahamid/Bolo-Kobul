@@ -1,0 +1,18 @@
+<% content_for :content do %>
+  <div class="flash-msg-profile-change"></div>
+  <div class="container-fluid p-0 ">
+    <div class="dashboard">
+      <div class="container">
+        <div class="d-sm-flex flex-sm-row ">
+          <div class="flex-sm-column profiles-container">
+            <%= render 'home/dashboard/left_sidebar', marriage_profile: @marriage_profile %>
+          </div>
+          <div class="flex-sm-column mx-sm-0 mx-md-3 orders-container">
+            <%= content_for?(:customer_supports) ? yield(:customer_supports) : yield %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+<%= render template: "layouts/application" %>

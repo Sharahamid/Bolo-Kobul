@@ -1,0 +1,21 @@
+<div class="container blogs-container">
+  <h2 class="blogs-header">
+    About Us
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="blogs-items">
+    <div class="col-md-12 p-0 float-left">
+      <div class="row">
+        <div class="blogs-content col-md-9 mb-4">
+          <%= render 'shared/about_content', about_content: @about_content %>
+        </div>
+        <div class="col-md-3 p-0 float-right pt-2">
+          <%= render partial: 'shared/ad_for_about_page' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- campaign section -->
+    <%= render 'home/landing/campaign' unless user_signed_in? %>
+</div>

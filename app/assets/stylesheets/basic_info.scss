@@ -1,0 +1,39 @@
+@import "public_variables";
+.basic_info {
+  background-color: $default-background;
+  box-shadow: 0 6px 14px #00000029;
+  margin: auto;
+  padding: 3rem 1rem;
+  position: relative;
+  max-width: 24rem;;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  .basic-info-mandala{
+    img{
+      max-width: 75px;
+      opacity: 0.6;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+  h5{
+    line-height: 0;
+    strong{
+      hr{
+        border-bottom: 2px solid $primary-color;
+        text-align: center;
+        width: 40px;
+        margin: auto;
+        padding-top: 15px;
+      }
+    }
+  }
+  .form_title{
+    line-height: 0.5;
+    font-family: Merriweather, Arial, sans-serif;
+    span{
+      line-height: 1.5;
+    }
+  }
+}

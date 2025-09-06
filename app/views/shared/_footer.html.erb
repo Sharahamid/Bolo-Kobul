@@ -1,0 +1,77 @@
+<section class=" section_6 container-fluid p-0">
+  <div class="footer">
+    <div class="container  text-center">
+      <div class="d-sm-flex flex-sm-row ">
+        <div class=" p-2 footer-column flex-fill">
+          <strong> Need Help? </strong>
+          <div class="link-items pt-3">
+            <ul>
+              <li class="link-item">
+                <%= link_to 'Wedding Shopping', market_places_path %>
+              </li>
+              <li class="link-item"><%= link_to 'FAQ', faqs_path %></li>
+              <li class="link-item">
+                <%= link_to 'Contact Us', contact_path %>
+              </li>
+              <li class="link-item">
+                <%= link_to 'Customer Support', new_customer_support_path %>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-2 footer-column flex-fill">
+          <strong> Company </strong>
+
+          <div class="link-items pt-3">
+            <ul>
+              <li class="link-item"><%= link_to 'About Us', about_path %></li>
+              <li class="link-item">
+                <%= link_to 'How It Works',
+                            how_it_works_path %>
+              </li>
+              <li class="link-item">
+                <%= link_to 'Blogs', "#{blogs_path}" %>
+              </li>
+              <li class="link-item">
+                <%= link_to 'Success Stories',
+                            "#{blogs_path type: "success_story"}" %>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="p-2 footer-column flex-fill">
+          <strong> Privacy & You</strong>
+
+          <div class="link-items pt-3">
+            <ul>
+              <li class="link-item">
+                <%= link_to 'Terms of Use', "#{terms_of_uses_path}" %>
+              </li>
+              <li class="link-item">
+                <%= link_to 'Privacy Policy', "#{privacy_policies_path}" %>
+              </li>
+              <li class="link-item">
+                <%= link_to 'Precautionary Measures',
+                            precautionary_measures_path %>
+              </li>
+<!--              <li class="link-item">-->
+                <%#= link_to 'Earn A Butterfly',
+                            reference_path %>
+<!--              </li>-->
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="p-2 footer-column flex-fill payment-logo">
+        <%= image_tag 'aamarpay.png' %>
+      </div>
+      <div class="border-top">
+        <div class="mt-3">
+          <%= render 'shared/social_media_link', text_color: 'text-warning' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

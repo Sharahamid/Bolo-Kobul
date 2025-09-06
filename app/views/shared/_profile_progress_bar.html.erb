@@ -1,0 +1,15 @@
+<div class="profile-completeness-bar p-2">
+  <div class="progress">
+    <div class="progress-bar progress-bar-striped bg-danger"
+         role="progressbar" style="width: <%= current_active_profile.profile_completeness %>%" aria-valuenow="15"
+         aria-valuemin="0" aria-valuemax="100">
+    </div>
+  </div>
+  <div class="progress-value">
+    <small>
+      <%= current_active_profile.profile_completeness.present? ?
+              current_active_profile.profile_completeness : 0 %>
+      % complete
+    </small>
+  </div>
+</div>

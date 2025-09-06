@@ -1,0 +1,10 @@
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Wedding Shopping
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+  <% MarketPlaceType&.all&.each do |market_place_type| %>
+    <a class="dropdown-item" href="<%= market_places_path(market_place_type: "#{market_place_type.name}") %>">
+      <%= market_place_type.name&.titleize %>
+    </a>
+  <% end %>
+</div>

@@ -1,0 +1,23 @@
+<div class="card card-plain">
+  <div class="card-header" role="tab"
+       id="heading_<%= precautionary_measure.id %>">
+    <a data-toggle="collapse" data-parent="#accordion"
+       href="#collapse_<%= precautionary_measure.id %>"
+       aria-expanded="<%= precautionary_measure.id == @precautionary_measures
+           .first.id ? true : false %>"
+       aria-controls="collapse_<%= precautionary_measure.id %>">
+      <%= precautionary_measure.title %>
+      <i class="fa fa-angle-down pt-1"
+         aria-hidden="<%= precautionary_measure.id == @precautionary_measures
+             .first.id ? true : false %>"></i>
+    </a>
+  </div>
+  <div id="collapse_<%= precautionary_measure.id %>"
+       class="collapse <%= precautionary_measure.id == @precautionary_measures
+           .first.id ? 'show' : '' %>"
+       role="tabpanel" aria-labelledby="heading_<%= precautionary_measure.id %>">
+    <div class="card-body">
+      <%= precautionary_measure.content.html_safe %>
+    </div>
+  </div>
+</div>

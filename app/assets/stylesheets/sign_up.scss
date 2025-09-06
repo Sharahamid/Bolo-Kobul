@@ -1,0 +1,93 @@
+@import "public_variables";
+
+.desktop-sign_up_form {
+  position: relative;
+  .slick-dots{
+    bottom: 10px;
+    text-align: left;
+  }
+
+  .sign-up-form {
+    background: $white-color;
+    box-shadow: 0 3px 7px #00000008;
+    opacity: 1;
+    min-width: 20rem;
+    position: absolute;
+    right: 7rem;
+    top: 2.4rem;
+    max-height: 53.3rem;
+
+    .note {
+      font-size: 12px;
+      text-align: center;
+      color: #FFB627;
+    }
+
+    .register {
+      padding: 1rem;
+      line-height: 1;
+      font-family: Lobester, serif;
+
+      strong {
+        font-size: 20px;
+      }
+
+      .reg_underline {
+
+      }
+    }
+
+    .bk-input-feilds {
+      max-width: 17rem;
+      margin: auto;
+      padding: 0 0 1.5rem 0;
+      .custom-form-group{
+        margin-bottom: 0.75rem;
+      }
+      .notice {
+        font-size: 14px;
+        text-align: center;
+      }
+
+      .terms_and_condition {
+        font-size: 12.5px;
+        text-align: center;
+      }
+
+      .register-btn-section {
+
+      }
+
+      .btn-sign_up {
+        background: $primary-color !important;
+        box-shadow: 0 3px 6px $primary-box-shadow-color;
+        border-radius: 5px;
+        color: $white-color !important;
+        width: 100%;
+        margin: auto;
+      }
+
+      .sign_up-input-field {
+        background: #F5F5F5;
+        border: 1px solid #A6ADB4CF;
+        border-radius: 5px;
+        opacity: 1;
+        width: 100%;
+        height: 34.5px;
+        font-size: 14px;
+      }
+      select:first-child {
+        color: gray;
+      }
+    }
+  }
+}
+
+.btn-sign_up {
+  background-color: $primary-color !important;
+  box-shadow: 0 3px 6px $primary-box-shadow-color;
+  border-radius: 6px;
+  color: $white-color !important;
+  //min-width: 256px;
+  margin: auto;
+}

@@ -1,0 +1,14 @@
+<p>Dear <%= @receiver.name.present? ? @receiver.name : 'Concern' %>:</p>
+
+<p>
+  <%= @sender_profile&.unique_id %> would like to learn more about you!
+</p>
+<p>
+  Send a butterfly in return to check out more information on their profile and chat!
+  <%= link_to 'click', profile_info_marriage_profile_url(@sender_profile) %>
+</p>
+<p>Best of Luck</p>
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

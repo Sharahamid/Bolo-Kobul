@@ -1,0 +1,6 @@
+class RemoveDesignationFromOccupations < ActiveRecord::Migration[6.0]
+  def change
+
+    remove_column :occupations, :designation, :integer
+  end
+end

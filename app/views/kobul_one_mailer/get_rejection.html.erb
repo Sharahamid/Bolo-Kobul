@@ -1,0 +1,12 @@
+<p>Dear <%= @user.name.present? ? @user.name : 'Concern' %>:</p>
+
+<p>
+  <%= @profile.unique_id %> did not accept your butterfly!
+</p>
+<p>
+  Don't lose hope! Look out for <%= link_to 'more profiles', 'https://bolokobul.com' %>
+</p>
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

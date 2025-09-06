@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <h2 class="as-header">
+    <%= @assisted_service.page_title %>
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="section mt-3">
+    <div class="container as-container">
+      <div class="row">
+        <div class="col-md-12">
+          <%= @assisted_service.page_content.html_safe %>
+        </div>
+      </div>
+
+    </div>
+    <div class="orders-container">
+      <div class="assisted-service-form orders-section">
+        <div class="col-md-4">
+          Price: <%= @assisted_service.price %> BDT
+          <%= render partial: 'orders/form', locals: {product: 'assisted_service', assisted_service_id: @assisted_service.id} %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-50"></div>
+</div>

@@ -1,0 +1,14 @@
+<div class="container-fluid p-0 ">
+  <div class="dashboard">
+    <div class="container">
+      <div class="d-sm-flex flex-sm-row ">
+        <%= render 'home/dashboard/left_sidebar', marriage_profile: current_active_profile %>
+        <div class="right-section">
+          <%= render 'home/dashboard/dashboard_tabs', marriage_profile: current_active_profile %>
+          <%= render 'home/dashboard/favourite_list', favourites: @favourites,
+                     title: "" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

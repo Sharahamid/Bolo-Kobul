@@ -1,0 +1,6 @@
+<div class="d-sm-flex flex-sm-column pt-1 <%= 'pb-3' unless current_active_profile.full_view?(marriage_profile) ||
+    current_active_profile.more_view?(marriage_profile)  %>">
+  <div class="cultural_values_info profile-info-item">
+    <%= render 'cultural_values/cultural_values_info', marriage_profile: marriage_profile %>
+  </div>
+</div>

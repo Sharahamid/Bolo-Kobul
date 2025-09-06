@@ -1,0 +1,10 @@
+<div class="container-fluid p-0 ">
+  <div class="dashboard">
+    <div class="container">
+      <div class="d-sm-flex flex-sm-row privacy-settings">
+        <%= render 'privacy_settings/privacy_left_sidebar' %>
+        <%= render 'marriage_profiles/pendin_list', pending_profiles: @pending_profiles %>
+      </div>
+    </div>
+  </div>
+</div>

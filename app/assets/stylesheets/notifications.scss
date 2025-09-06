@@ -1,0 +1,12 @@
+@import "public_variables";
+
+.notification-box {
+  background-color: $white-color;
+  border: 1px solid $primary-color !important;
+  border-radius: 4px;
+  box-shadow: 0px 3px 6px #00000029;
+  display: block;
+  max-width: 100%;
+  //min-height: 100px;
+  width: auto !important;
+}

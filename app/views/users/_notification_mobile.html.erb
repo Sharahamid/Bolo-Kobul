@@ -1,0 +1,16 @@
+<div class="notification-box m-2 p-1 pb-3">
+  <div class="content" title="<%= notification.content %>">
+    <div>
+      <%= raw(notification.content) %>
+    </div>
+    <% if !notification.is_read? %>
+      <%= link_to 'Mark as Read', mark_notification_read_users_path(notification_id:
+                                                                        notification.id),
+                  remote: true,
+                  class: 'btn btn-success btn-sm control float-right',
+                  method: :post %>
+    <% else %>
+      <i class= "fas fa-check-circle control"> </i>
+    <% end %>
+  </div>
+</div>

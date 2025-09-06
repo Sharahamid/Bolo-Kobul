@@ -1,0 +1,10 @@
+<p>Dear <%= @sender_profile.user.name.present? ? @sender_profile.user.name : 'Concern' %>:</p>
+
+<p>
+  A butterfly has returned back. Use it to look out for more profiles.
+  Visit <%= link_to 'Bolokobul', 'https://bolokobul.com' %>
+</p>
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

@@ -1,0 +1,30 @@
+<div class="left-sidebar-section mb-4">
+  <div class="d-flex flex-column left-sidebar-card privacy-left-menu">
+    <%= link_to privacy_settings_path,
+                class: "text-gray p-3 border-bottom #{ params[:action] == 'index' ? 'menu_active' : '' }" do %>
+      Account Settings
+    <% end %>
+
+    <%= link_to refferel_code_marriage_profiles_path,
+                class: "text-gray p-3 border-bottom #{ params[:action] == 'refferel_code' ? 'menu_active' : '' }" do %>
+      Refer a Friend
+    <% end %>
+
+    <%= link_to privacy_setting_path(current_active_profile.privacy_setting),
+                class: "text-gray p-3 border-bottom #{ params[:action] == 'show' ? 'menu_active' : '' }" do %>
+      Privacy
+    <% end %>
+
+    <%= link_to blocked_profiles_marriage_profiles_path,
+                class: "text-gray p-3 border-bottom #{ params[:action] == 'blocked_profiles' ? 'menu_active' : '' }" do %>
+      Block List
+    <% end %>
+
+    <%= link_to pending_profiles_marriage_profiles_path,
+                class: "text-gray p-3 border-bottom #{ params[:action] == 'pending_profiles' ? 'menu_active' : '' }" do %>
+      Pending Profiles
+    <% end %>
+
+
+  </div>
+</div>

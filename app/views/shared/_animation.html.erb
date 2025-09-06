@@ -1,0 +1,15 @@
+<% if ButterflyConfig.last.present? && ButterflyConfig.last.butterfly_animation %>
+  <% if [params[:butterfly]&.downcase, session[:butterfly]&.downcase]
+      .include? "animate" %>
+    <div class="bird-container bird-container--one">
+      <div class="bird bird--one"></div>
+    </div>
+    <% session.delete(:butterfly) %>
+  <% elsif [params[:butterfly]&.downcase, session[:butterfly]&.downcase]
+      .include? "bk_animate" %>
+    <div class="bird-container-bk bird-container--one">
+      <div class="bird bird--one"></div>
+    </div>
+    <% session.delete(:butterfly) %>
+  <% end %>
+<% end %>

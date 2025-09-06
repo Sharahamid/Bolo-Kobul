@@ -1,0 +1,30 @@
+<div class="wrapper">
+  <h2 class="pm-places-header">
+    Precautionary Measures
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="section mt-3">
+    <div class="container pm-places-container">
+      <div class="row">
+        <div class="col-md-12">
+          <p>Bolo Kobul is committed to a safer internet and go great lengths to ensure you get the best
+            possible experience. Every single profile is screened for irrelevant and inappropriate content
+            and your matches are suggested as per your preferences.</p>
+          <p>While we do our part, we want you to play yours. Please read the precautionary measures in
+            order to have a safe and enjoyable match-making experience.</p>
+          <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+            <%= render partial: 'precautionary_measure',
+                       collection: @precautionary_measures %>
+          </div>
+          <p>If you observe anything suspicious <a href="/contact">write to us</a>.</p>
+          <p><u><b>
+            Please note: Bolo Kobul will NEVER ask you for money outside of the platform. If someone claims
+            to be from Bolo Kobul and asks you to send money via any mobile finance services or in person, please
+            know it is not us. We only accept debit and credit card payments made through the platform only.
+          </b></u></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-50"></div>
+</div>

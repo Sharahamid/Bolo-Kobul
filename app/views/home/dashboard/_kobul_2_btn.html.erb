@@ -1,0 +1,53 @@
+<div class="d-flex flex-row pl-2 pr-2">
+  <div class="bk-request-btn flex-fill">
+    <% if current_active_profile&.chat_friendships&.where(status: 2)&.map(&:chat_friend_id)&.include?(profile.id) %>
+      <a href="<%= profile_message_path(profile) %>"
+         class="kobul_btn kobul_2"
+         data-toggle="tooltip"
+         data-placement="top"
+         title="Pending Chat Request">
+               <span>
+                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
+                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
+                 Chat
+               </span>
+      </a>
+
+    <% elsif current_active_profile&.chat_friendships&.map(&:chat_friend_id)&.include?(profile.id) %>
+
+      <a href="#"
+         class="kobul_btn kobul_2"
+         data-method="post"
+         data-toggle="tooltip"
+         data-placement="top"
+         title="Getting butterflies in your stomach to chat with this profile?">
+               <span>
+                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
+                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
+                 Pending
+               </span>
+      </a>
+
+    <% else %>
+
+      <a href="<%= send_request_chat_friendship_path(profile) %>"
+         class="kobul_btn kobul_2"
+         data-method="post"
+         data-toggle="tooltip"
+         data-placement="top"
+         title="Getting butterflies in your stomach to chat with this profile?">
+               <span>
+                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
+                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
+                 Kobul (2)
+               </span>
+      </a>
+    <% end %>
+  </div>
+  <div class="bk-block-btn flex-fill">
+    <%= link_to block_profile_marriage_profile_path(profile), method: :patch, class: 'profile_block-btn' do %>
+      <i class="fa fa-ban"></i>
+      Block
+    <% end %>
+  </div>
+</div>

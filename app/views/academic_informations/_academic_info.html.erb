@@ -1,0 +1,87 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> Academic information </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_academic_info" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <% %>
+    <div id="collapse_academic_info" class="panel-collapse collapse p-2 detail-info">
+      <% if marriage_profile.id == current_active_profile.id %>
+        <div class="pr-2 new-info-btn">
+          <a href="<%= new_academic_information_path %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="New Academic Information" class="btn btn-sm btn-edit text-white">
+            <i class="fa fa-plus-circle"></i>
+          </a>
+        </div>
+      <% end %>
+      <% if marriage_profile.academic_informations.present? %>
+        <% marriage_profile.academic_informations&.order(passing_year: :DESC)&.each do |academic_info| %>
+          <div class="detail-info ">
+            <% if marriage_profile.id == current_active_profile.id %>
+              <div class="edit-info-btn">
+                <a href="<%= edit_academic_information_path(academic_info) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white">
+                  <i class="fa fa-pencil"></i>
+                </a>
+              </div>
+              <div class="delete-info-btn">
+                <a href="<%= academic_information_path(academic_info) %>" data-method="delete" data-remote="true"
+                   data-toggle="tooltip" data-placement="top" title="Remove information" class="btn btn-sm btn-delete text-white"
+                   data-confirm="Are you confirm?">
+                  <i class="fa fa-trash-alt"></i>
+                </a>
+              </div>
+            <% end %>
+            <div class="panel-body border-top">
+              <div class="d-sm-flex flex-sm-row info-alignment">
+                <table class=" flex-fill pr-3 table table-borderless table-responsive ">
+                  <tbody>
+                  <tr>
+                    <td> Institution</td>
+                    <td>:</td>
+                    <td><%= academic_info.institution.present? ? academic_info.institution : '' %></td>
+                  </tr>
+
+                  <tr>
+                    <td> Degree</td>
+                    <td>:</td>
+                    <td><%= academic_info.degree.present? ? academic_info.degree : '' %></td>
+                  </tr>
+                  <% if marriage_profile.id == current_active_profile.id || current_active_profile.chat_view?(marriage_profile) %>
+                    <tr>
+                      <td> Passing Year</td>
+                      <td>:</td>
+                      <td><%= academic_info.passing_year.present? ? academic_info.passing_year : '' %> </td>
+                    </tr>
+                  <% end %>
+
+                  </tbody>
+                </table>
+                <table class=" flex-fill pr-3 table table-borderless table-responsive ">
+                  <tbody>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <%= render 'shared/no_data_found' %>
+      <% end %>
+    </div>
+  </div>
+</div>

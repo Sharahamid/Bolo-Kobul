@@ -1,0 +1,237 @@
+<% if current_user.advanced_search == "enabled" %>
+  <div class="col-md-3">
+    <div class="container search-page-container p-3 ml-2">
+      <div class="row">
+        <div class="col-md-12 filter-container-content">
+          <div class="filter-container-title">
+            <div class="row col-md-12">
+              <span class="p-2">
+                Advanced Filter
+              </span>
+              <a href="<%= search_page_marriage_profile_path %>">
+                <button id="reset_radio_btn"
+                        class="btn btn-search btn-reset form-control ml-3">
+                  Reset
+                </button>
+              </a>
+            </div>
+          </div>
+          <div class="search-input-fields filter-input-fields">
+            <div class="row form-group col-md-12 mb-0">
+            </div>
+            <%= form_tag search_marriage_profile_path do %>
+              <div class="row form-group mx-1 mb-2">
+                <hr class="filter-hr mb-1">
+                <div class="col-md-12 filter-input-group px-0">
+                  <%= label_tag :height %>
+                  <br>
+                  <%= radio_button_tag :height, "tier_1",
+                                       params[:height] == "tier_1" ?
+                                           true : false,
+                                       {} %>  5'1"-5'4"
+                  <br>
+                  <%= radio_button_tag :height, "tier_2",
+                                       params[:height] == "tier_2" ?
+                                           true : false,
+                                       {} %>  5'5"-5'8"
+                  <br>
+                  <%= radio_button_tag :height, "tier_3",
+                                       params[:height] == "tier_3" ?
+                                           true : false,
+                                       {} %>  5'9"-6'0"
+                  <br>
+                  <%= radio_button_tag :height, "tier_4",
+                                       params[:height] == "tier_4" ?
+                                           true : false,
+                                       {} %>  6'1"-6'5"
+                  <br>
+                </div>
+              </div>
+              <div class="row form-group mx-1 mb-2">
+                <hr class="filter-hr mb-1">
+                <div class="col-md-12 filter-input-group px-0">
+                  <%= label_tag :marital_status %>
+                  <br>
+                  <% MarriageProfile.marital_statuses.each do |type, v| %>
+                    <%= radio_button_tag :marital_status, type,
+                                         params[:marital_status] == type ?
+                                             true : false,
+                                         {} %>  <%= type.titleize %>
+                    <br>
+                  <% end %>
+                </div>
+              </div>
+              <div class="row form-group mx-1 mb-2">
+                <hr class="filter-hr mb-1">
+                <div class="col-md-12 filter-input-group px-0">
+                  <%= label_tag :blood_group %>
+                  <br>
+                  <% MarriageProfile.blood_groups.each do |type, v| %>
+                    <%= radio_button_tag :blood_group, type,
+                                         params[:blood_group] == type ?
+                                             true : false,
+                                         {} %>  <%= type.upcase %>
+                    <br>
+                  <% end %>
+                </div>
+              </div>
+              <div class="row form-group mx-1 mb-2">
+                <hr class="filter-hr mb-1">
+                <div class="col-md-12 filter-input-group px-0">
+                  <%= label_tag :highest_education_level %>
+                  <br>
+                  <% MarriageProfile.highest_education_levels.each do |type, v| %>
+                    <%= radio_button_tag :highest_education_level, type,
+                                         params[:highest_education_level] == type ?
+                                             true : false,
+                                         {} %>  <%= type.titleize %>
+                    <br>
+                  <% end %>
+                </div>
+              </div>
+              <div class="row form-group mx-1 mb-2">
+                <hr class="filter-hr mb-1">
+                <div class="col-md-12 filter-input-group px-0">
+                  <%= label_tag :occupation %>
+                  <br>
+                  <div class="occupation-filter-inputs p-2">
+                    <% Occupation.names.each do |type, v| %>
+                      <%= radio_button_tag :occupation, type,
+                                           params[:occupation] == type ?
+                                               true : false,
+                                           {} %>  <%= type.titleize %>
+                      <br>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <div class="col-md-9">
+    <div class="container search-page-container p-3">
+          <div class="row">
+            <div class="search-container-background">
+              <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+            </div>
+            <div class="col-md-12 search-container-content">
+              <div class="search-container-title">
+                <div class="row col-md-12 mx-1">
+                  I am looking for...
+                </div>
+              </div>
+              <div class="search-input-fields">
+                <div class="row form-group col-md-12 mb-0">
+                </div>
+                <div class="row form-group mx-1 mb-3">
+                  <div class="col-md-3 search-input-group">
+                    <%= text_field_tag :age, params[:age].present? ? params[:age] : nil,
+                                       placeholder: "Age",
+                                       class:
+                                           "form-control sign_up-input-field search-input" %>
+                  </div>
+                  <div class="col-md-3 search-input-group">
+                    <%= select_tag :religion,
+                                   options_for_select(MarriageProfile.religions
+                                                          .map{|k, v| k.titleize},
+                                                      ),
+                                   prompt: params[:religion].present? ?
+                                               params[:religion] : "Religion",
+                                   class: "form-control sign_up-input-field search-input" %>
+                    <i class="fa fa-sort-down search-drop-icon"></i>
+                  </div>
+                  <div class="col-md-3 search-input-group">
+                    <%= select_tag :hometown,
+                                   options_for_select(District.order(:name)
+                                                          .pluck(:name)),
+                                   prompt: params[:hometown].present? ?
+                                               params[:hometown] : "Hometown",
+                                   class: "form-control sign_up-input-field search-input" %>
+                    <i class="fa fa-sort-down search-drop-icon"></i>
+                  </div>
+                  <div class="col-md-3 search-input-group">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-search form-control"> Search</button>
+                    </div>
+                  </div>
+                </div>
+    <% end %>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class="d-sm-flex flex-sm-row ">
+      <%= render 'home/dashboard/search_list', matches: @matches,
+                 title: ""%>
+    </div>
+  </div>
+<% else %>
+  <div class="col-md-12">
+    <div class="container search-page-container p-3">
+      <div class="row">
+        <div class="search-container-background">
+          <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+        </div>
+        <div class="col-md-12 search-container-content">
+          <div class="search-container-title">
+            <div class="row col-md-12 mx-1">
+              <span class="p-2">
+                I am looking for...
+              </span>
+              <a href="<%= privacy_settings_path%>">
+                <button id="buy-adv-search"
+                        class="btn btn-search btn-buy-adv-search form-control ml-3">
+                  Enable Advanced Search
+                </button>
+              </a>
+            </div>
+          </div>
+          <div class="search-input-fields">
+            <div class="row form-group col-md-12 mb-0">
+            </div>
+            <%= form_tag search_marriage_profile_path do %>
+              <div class="row form-group mx-1 mb-3">
+                <div class="col-md-3 search-input-group">
+                  <%= text_field_tag :age, params[:age].present? ? params[:age] : nil,
+                                     placeholder: "Age",
+                                     class:
+                                         "form-control sign_up-input-field search-input" %>
+                </div>
+                <div class="col-md-3 search-input-group">
+                  <%= select_tag :religion,
+                                 options_for_select(MarriageProfile.religions
+                                                        .map{|k, v| k.titleize},
+                                                    ),
+                                 prompt: params[:religion].present? ?
+                                             params[:religion] : "Religion",
+                                 class: "form-control sign_up-input-field search-input" %>
+                  <i class="fa fa-sort-down search-drop-icon"></i>
+                </div>
+                <div class="col-md-3 search-input-group">
+                  <%= select_tag :hometown,
+                                 options_for_select(District.order(:name)
+                                                        .pluck(:name)),
+                                 prompt: params[:hometown].present? ?
+                                             params[:hometown] : "Hometown",
+                                 class: "form-control sign_up-input-field search-input" %>
+                  <i class="fa fa-sort-down search-drop-icon"></i>
+                </div>
+                <div class="col-md-3 search-input-group">
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-search form-control"> Search</button>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container d-sm-flex flex-sm-row ">
+      <%= render 'home/dashboard/search_list', matches: @matches,
+                 title: ""%>
+    </div>
+  </div>
+<% end %>

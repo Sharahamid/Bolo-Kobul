@@ -1,0 +1,143 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> Cultural Values </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_cultural_values" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="collapse_cultural_values" class="panel-collapse collapse p-2 detail-info ">
+      <% if marriage_profile.id == current_active_profile.id %>
+      <div class="edit-info-btn">
+        <a href="<%= marriage_profile.cultural_value.present? ?
+                         edit_cultural_value_path(marriage_profile.cultural_value) :
+                         new_cultural_value_path %>"
+           data-remote="true"
+           data-toggle="tooltip"
+           data-placement="top"
+           title="<%=  marriage_profile.cultural_value.present? ? 'Edit' : 'Add' %> information"
+           class="btn btn-sm btn-edit text-white mr-2">
+          <i class="fa fa-pencil"></i>
+        </a>
+      </div>
+      <% end %>
+
+      <div class="panel-body border-top">
+        <div class="d-sm-flex flex-sm-row info-alignment">
+          <table class=" flex-fill pr-3 table table-borderless table-responsive">
+            <tbody>
+              <% if marriage_profile.cultural_value&.nationality.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td>Nationality</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.cultural_value&.nationality.present? ?
+                          marriage_profile&.cultural_value&.nationality.humanize : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.cultural_value&.birth_place.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Birth Place</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.cultural_value&.birth_place.present? ?
+                          District.get_district(marriage_profile&.cultural_value.birth_place).name : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.cultural_value&.willing_to_relocate.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Willing To Relocate</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.cultural_value&.willing_to_relocate.present? ?
+                          User::BOOLEAN_DATA.keys[marriage_profile&.cultural_value.willing_to_relocate] : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.cultural_value&.mother_tongue.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Mother Tongue</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.cultural_value&.mother_tongue.present? ?
+                          User::MOTHER_TONGUE.keys[marriage_profile&.cultural_value&.mother_tongue] : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.cultural_value&.languages_spoken.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Languages Spoken</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.cultural_value&.languages_spoken.present? ?
+                          marriage_profile.cultural_value.languages_spoken.map{|ds| User::LANGUAGES.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="vl"></div>
+          <table class=" flex-fill pr-3 table table-borderless table-responsive">
+            <tbody>
+              <% if marriage_profile.cultural_value&.languages_spoken.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Religion</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.cultural_value&.religion.present? ?
+                        User::RELIGION.keys[marriage_profile&.cultural_value&.religion] : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.cultural_value&.born_or_reverted.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Born/Reverted</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.cultural_value&.born_or_reverted.present? ?
+                          User::RELIGION.keys[marriage_profile&.cultural_value&.born_or_reverted] : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.cultural_value&.attend_religious_event.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Attend Religious Events</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.cultural_value&.attend_religious_event.present? ?
+                          User::BOOLEAN_DATA.keys[marriage_profile&.cultural_value&.attend_religious_event] : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.cultural_value&.political_view.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Political View</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.cultural_value&.political_view || '' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

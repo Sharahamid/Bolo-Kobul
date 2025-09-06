@@ -1,0 +1,29 @@
+{
+  "name": "bolokobul",
+  "private": true,
+  "dependencies": {
+    "@rails/actioncable": "^6.0.0",
+    "@rails/activestorage": "^6.0.0",
+    "@rails/ujs": "^6.0.0",
+    "@rails/webpacker": "^4.2.0",
+    "bootstrap": "^4.4.1",
+    "bootstrap-slider": "^11.0.2",
+    "bootstrap-select": "^1.13.18",
+    "channels": "^0.0.4",
+    "cropper": "^4.1.0",
+    "cropperjs": "^1.5.6",
+    "jquery": "3.4.1",
+    "jquery-cropper": "^1.0.1",
+    "jquery-ui": "^1.12.1",
+    "nouislider": "^14.2.0",
+    "packs": "^3.3.3",
+    "popper.js": "^1.16.1",
+    "slick": "^1.12.2",
+    "slick-carousel": "^1.8.1",
+    "turbolinks": "^5.2.0"
+  },
+  "version": "0.1.0",
+  "devDependencies": {
+    "webpack-dev-server": "^3.9.0"
+  }
+}

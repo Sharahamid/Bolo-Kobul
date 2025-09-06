@@ -1,0 +1,15 @@
+<div class="flex-sm-fill ads-right-sidebar">
+  <div class="d-sm-flex flex-sm-column align-items-center">
+    <div class="pb-2">
+      <%= link_to Ad.active.home_page_top.first&.url || '#', target: '_blank' do %>
+        <%= image_tag Ad.dashboard_top || 'ss_BK.jpg', width:'240', class: 'img-responsive' %>
+      <% end %>
+    </div>
+
+    <div class="pt-2">
+      <%= link_to Ad.active.home_page_bottom.first&.url || '#', target: '_blank' do %>
+        <%= image_tag Ad.dashboard_bottom || 'ad_BK.png', width:'240', class: 'img-responsive' %>
+      <% end %>
+    </div>
+  </div>
+</div>

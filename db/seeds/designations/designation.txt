@@ -1,0 +1,5 @@
+Employee
+Worker
+Director
+Office holder
+Self-employed and contractor

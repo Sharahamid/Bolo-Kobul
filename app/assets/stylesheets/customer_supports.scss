@@ -1,0 +1,30 @@
+@import "public_variables";
+
+.customer-file-field {
+  position: relative;
+
+  .attachment-icon {
+    position: absolute;
+    top: 11px;
+    left: 42px;
+  }
+
+  .customer-file-attachment{
+    opacity: 0;
+    cursor: pointer;
+    display: inline-block;
+  }
+}
+
+.customer-support-section {
+  background-color: $default-background;
+  border-radius: 5px;
+  box-shadow: 1px 3px 9px #0000002B;
+  font-size: 0.8rem;
+  margin-bottom: 1.5rem;
+
+  ul.replies {
+    text-align: left;
+    list-style: square;
+  }
+}

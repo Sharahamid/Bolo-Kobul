@@ -1,0 +1,98 @@
+<div class="sign-up-form">
+  <div class="register text-center">
+    <strong>Register Now</strong>
+    <div class="reg_underline text-center">
+      <%= image_tag 'reg_underline.svg' %>
+    </div>
+  </div>
+  <p class="note">These information will not be displayed to other users</p>
+  <div class="bk-input-feilds">
+    <%= form_for @user, url: user_registration_path do |f| %>
+      <div class="custom-form-group">
+        <%= f.text_field :name,
+                         autofocus: true,
+                         required: true,
+                         autocomplete: "name",
+                         class: 'form-control sign_up-input-field',
+                         placeholder: 'Full Name*' %>
+        <small class="text-danger">
+          <%= f.object.errors[:name].present? ? "Name #{f.object.errors[:name]&.first}" : '' %>
+        </small>
+      </div>
+      <div class="<%= f.object.errors[:email].present? ? '' : 'custom-form-group' %>">
+        <%= f.email_field :email,
+                          autofocus: true,
+                          autocomplete: "email",
+                          class: 'form-control sign_up-input-field',
+                          placeholder: 'Email*',
+                          required: true %>
+        <small class="text-danger">
+          <%= f.object.errors[:email].present? ? "Email #{f.object.errors[:email]&.first}" : '' %>
+        </small>
+      </div>
+
+      <div class="<%= f.object.errors[:phone_number].present? ? '' : 'custom-form-group' %>">
+        <%= f.phone_field :phone_number,
+                          autofocus: true,
+                          autocomplete: true,
+                          class: 'form-control sign_up-input-field',
+                          placeholder: 'Mobile* (+8801XXXXXXXXX)',
+                          required: true %>
+        <small class="text-danger">
+          <%= f.object.errors[:phone_number].present? ? "Mobile #{f.object.errors[:phone_number]&.first}" : '' %>
+        </small>
+      </div>
+
+      <div class="<%= f.object.errors[:password].present? ? '' : 'custom-form-group' %>">
+        <%= f.password_field :password,
+                             autocomplete: "password",
+                             class: 'form-control sign_up-input-field',
+                             placeholder: 'Password*( Must be at least 6 characters )',
+                             minlength: '6',
+                             maxlength:'20',
+                             pattern: "(?=.*[a-z])(?=.*[A-Z]).{6,}",
+                             title:"Must have at least 6 characters including 1 uppercase and lowercase letter,
+                            1 number, 1 special character.",
+                             data: {toggle:'tooltip', placement:'top'},
+                             required: true %>
+        <small class="text-danger">
+          <%= f.object.errors[:password].present? ? "Password #{f.object.errors[:password]&.first}" : '' %>
+        </small>
+      </div>
+      <div class="<%= f.object.errors[:password_confirmation].present? ? '' : 'custom-form-group' %>">
+        <%= f.password_field :password_confirmation,
+                             autocomplete: "new-password",
+                             class: 'form-control sign_up-input-field',
+                             placeholder: 'Confirm Password*',
+                             minlength: '6',
+                             required: true %>
+        <small class="text-danger">
+          <%= f.object.errors[:password_confirmation].present? ? "Confirm Password #{f.object.errors[:password_confirmation]&.first}" : '' %>
+        </small>
+      </div>
+
+      <div class="<%= f.object.errors[:created_for].present? ? '' : 'custom-form-group' %>">
+        <%= f.select :created_for,
+                     options_for_select(User::created_fors.to_h
+                                            .map { |k, v| [k.titleize, k] }),
+                     {prompt: 'Created For*'}, class: 'form-control sign_up-input-field', required: true %>
+        <small class="text-danger">
+          <%= f.object.errors[:created_for].present? ? "Created For #{f.object.errors[:created_for]&.first}" : '' %>
+        </small>
+      </div>
+
+      <div class="custom-form-group form-check terms_and_condition">
+        <label class="form-check-label">
+          <input class="form-check-input" type="checkbox" required> Have you read the
+          <a href="<%= terms_of_uses_path %>" target="_blank"> Terms of Use </a> &
+          <a href="<%= privacy_policies_path %>" target="_blank"> Privacy Policy </a> of Bolo Kobul?
+        </label>
+      </div>
+
+      <div class="register-btn-section text-center">
+        <%= f.submit 'Register Free', class: 'btn btn-sign_up text-white merriweather', style: 'background:#FFB627' %>
+      </div>
+
+    <% end %>
+  </div>
+</div>
