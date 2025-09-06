@@ -112,21 +112,26 @@ Rails.application.configure do
   # config.active_record.database_resolver = ActiveRecord::Middleware::DatabaseSelector::Resolver
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
-  #for mailer root url
-  config.action_mailer.default_url_options = { host: 'https://bolokobul.com/', protocol: 'https' }
-  #for mailer delivery errors
-  config.action_mailer.raise_delivery_errors = true
-  #for smtp
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-      address:              'smtp.mailgun.org',
-      port:                 587,
-      domain:               'bolokobul.mailgun.org',
-      user_name:            'noreply@mg.bolokobul.com',
-      password:             '87b889f2f0568e661c3fc780adf85697-09001d55-b4f7d74f',
-      authentication:       'plain',
-      enable_starttls_auto: true
-  }
+# for mailer root url
+config.action_mailer.default_url_options = { host: 'bolokobul.com', protocol: 'https' }
+
+# for mailer delivery errors
+config.action_mailer.raise_delivery_errors = true
+
+# for smtp (reads credentials from environment variables)
+config.action_mailer.delivery_method = :smtp
+config.action_mailer.smtp_settings = {
+  address:              'smtp.mailgun.org',
+  port:                 587,
+  domain:               ENV['MAILGUN_DOMAIN'],
+  user_name:            ENV['MAILGUN_USERNAME'],
+  password:             ENV['MAILGUN_PASSWORD'],
+  authentication:       'plain',
+  enable_starttls_auto: true
+}
+
 
 end
+
+
 
