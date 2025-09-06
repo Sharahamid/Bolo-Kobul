@@ -1,0 +1,130 @@
+<div class="card mt-3 mb-3">
+  <div class="card-header text-right white-background">
+    <%= link_to edit_partner_preference_path(preference),
+                remote: true,
+                data: {toggle: 'tooltip', placement: 'top'},
+                title: 'Edit Preference', class: 'text-gray' do %>
+      <i class="fa fa-pencil "></i> Edit
+    <% end %>
+  </div>
+  <div class="card-body">
+    <div class="d-sm-flex flex-sm-row info-alignment">
+
+      <div class="flex-fill pr-3">
+        <table class="table table-borderless table-responsive">
+          <tbody>
+          <tr>
+            <td> Looking For </td>
+            <td>:</td>
+            <td> <%= preference.gender.present? ? current_active_profile.gender_translate(preference.gender) : '' %></td>
+          </tr>
+          <tr>
+            <td> Min Age</td>
+            <td>:</td>
+            <td> <%= preference.min_age.present? ? "#{preference.min_age} Years" : '' %></td>
+          </tr>
+          <tr>
+            <td> Max Age</td>
+            <td>:</td>
+            <td> <%= preference.max_age.present? ? "#{preference.max_age} Years" : '' %> </td>
+          </tr>
+          <tr>
+            <td>Min Height</td>
+            <td>:</td>
+            <td> <%= preference.min_height.present? ? preference.min_height : '--' %>
+              '<%= preference.min_inch.present? ? preference.min_inch : '--' %>"
+            </td>
+          </tr>
+
+          <tr>
+            <td> Max Height</td>
+            <td>:</td>
+            <td> <%= preference.max_height.present? ? preference.max_height : '--' %>
+              '<%= preference.max_inch.present? ? preference.max_inch : '--' %>"
+            </td>
+          </tr>
+
+          <tr>
+            <td> Physical Status</td>
+            <td>:</td>
+            <td> <%= preference.physical_status.present? ? preference.physical_status&.humanize : '' %>  </td>
+          </tr>
+          <tr>
+            <td> Religion</td>
+            <td>:</td>
+            <td> <%= preference&.religion.present? ? preference&.religion.map(&:to_s).map(&:humanize).join(',') : '' %></td>
+          </tr>
+          <tr>
+            <td> Hometown</td>
+            <td>:</td>
+            <td>
+              <% if preference&.hometown.present? && preference&.hometown.length != 1%>
+                <% preference.hometown.drop(1)&.each do |pl| %>
+                  <%= pl %> <%= ',' if  pl != preference.hometown.last %>
+                <% end %>
+              <% else %>
+                &nbsp;
+              <% end %>
+            </td>
+          </tr>
+
+          <tr>
+            <td> Present Location</td>
+            <td>:</td>
+            <td>
+              <% if preference&.present_location.present? && preference&.present_location.length != 1%>
+                <% preference.present_location.drop(1)&.each do |pl| %>
+                  <%= pl %> <%= ',' if  pl != preference.present_location.last %>
+                <% end %>
+              <% else %>
+                &nbsp;
+              <% end %>
+            </td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div class="vl"></div>
+      <div class="flex-fill pr-3">
+        <table class="table table-borderless table-responsive">
+          <tbody>
+          <tr>
+            <td> Marital Status</td>
+            <td>:</td>
+            <td> <%= preference&.marital_status.present? ? preference&.marital_status.map(&:to_s).map(&:humanize).join(',') : '' %></td>
+          </tr>
+          <tr>
+            <td> Highest Education Level</td>
+            <td>:</td>
+            <td> <%= preference.highest_education_level.present? ? preference.highest_education_level&.humanize : '' %> </td>
+          </tr>
+          <tr>
+            <td> Family Status</td>
+            <td>:</td>
+            <td>  <%= preference.family_status.present? ? preference&.family_status&.humanize : '' %> </td>
+          </tr>
+          <tr>
+            <td> Family Values</td>
+            <td>:</td>
+            <td>  <%= preference.family_values.present? ? preference&.family_values&.humanize : '' %> </td>
+          </tr>
+          <tr>
+            <td> Family Type</td>
+            <td>:</td>
+            <td> <%= preference.family_type.present? ? preference&.family_type&.humanize : '' %></td>
+          </tr>
+
+          <tr>
+            <td> Blood Group</td>
+            <td>:</td>
+            <td> <%= preference.blood_group.present? ? preference.blood_group.join(', ') : '' %></td>
+          </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

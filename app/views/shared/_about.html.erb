@@ -1,0 +1,7 @@
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  About Us
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+  <%= render partial: 'shared/about_item',
+             collection: About.all.order(:display_order), as: :about %>
+</div>

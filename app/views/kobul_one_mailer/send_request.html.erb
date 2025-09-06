@@ -1,0 +1,12 @@
+<p>Dear <%= @user.name.present? ? @user.name : 'Concern' %>:</p>
+
+<p>
+  Your butterfly has been sent successfully to <%= @profile.unique_id %>.
+</p>
+<p>
+  Thank you for choosing Bolo Kobul!
+</p>
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

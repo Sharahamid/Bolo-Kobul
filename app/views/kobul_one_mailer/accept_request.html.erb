@@ -1,0 +1,10 @@
+<p>Dear <%= @user.name.present? ? @user.name : 'Concern' %>:</p>
+
+<p>
+  You can learn more about your potential prospect <%= @profile.unique_id %>.
+  If you are interested to chat with them, send them a butterfly! <%= link_to 'visit', 'https://bolokobul.com' %>
+</p>
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

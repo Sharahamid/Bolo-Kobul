@@ -1,0 +1,10 @@
+<p>Dear <%= @receiver.name.present? ? @receiver.name : 'Concern' %>:</p>
+
+<p>
+  <%= @sender_profile&.unique_id %> did not accept your butterfly!
+</p>
+<p>Don't lose hope! Look out for more profiles <%= link_to 'bolokobul.com', 'https://bolokobul.com' %></p>
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

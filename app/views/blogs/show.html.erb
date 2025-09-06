@@ -1,0 +1,19 @@
+<div class="container blog-show-container mt-3">
+  <div class="row">
+    <div class="col-md-3 mt-3">
+      <div class="image">
+        <%= image_tag "#{@blog.image_url.present? ?
+                             @blog.image_url : 'bg01.jpg'}",
+                      class: 'blog-img img-responsive', width: '100%' %>
+      </div>
+    </div>
+    <div class="col-md-8 main-content mx-3 mt-3">
+      <h3 class="pt-3 merriweather"><%= @blog.title %></h3>
+      <hr/>
+      <p class="text-justify"><%=raw @blog.story %></p>
+    </div>
+  </div>
+
+  <!-- campaign section -->
+  <%#= render 'home/landing/campaign' unless user_signed_in? %>
+</div>

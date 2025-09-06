@@ -1,0 +1,152 @@
+/* ---------------------------------------------------- */
+/* ---------------------------------------------------- */
+/*                   Dependencies                       */
+/* ---------------------------------------------------- */
+/* ---------------------------------------------------- */
+
+@font-face {
+  font-family: Lobester;
+  src: font_url('Lobster-Regular.ttf');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: font_url('Roboto-Black.ttf');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: font_url('Roboto-Bold.ttf');
+  font-weight: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: font_url('Roboto-Medium.ttf');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: font_url('Roboto-Regular.ttf');
+  font-weight: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: font_url('Roboto-Light.ttf');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Roboto;
+  src: font_url('Roboto-Thin.ttf');
+  font-weight: 100;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-Black.ttf');
+  font-weight: 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-BlackItalic.ttf');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-Bold.ttf');
+  font-weight: bold;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-BoldItalic.ttf');
+  font-weight: bold;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-Italic.ttf');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-Light.ttf');
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-LightItalic.ttf');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: Merriweather;
+  src: font_url('Merriweather-Regular.ttf');
+  font-weight: normal;
+  font-display: swap;
+}
+
+* { margin: 0; }
+html, body { height: 100%; }
+html {
+  height:          100%;
+  color:           #fff;
+/*	background:      #121212;*/
+  background-size: 100% 100%;
+  box-sizing:      border-box;
+}
+
+body {
+  position:        relative;
+  font-family:     Roboto, Arial, sans-serif ;
+  font-size:       12px;
+  box-sizing:      border-box;
+  overflow-x:      hidden;
+}
+
+a {
+  color: #fff; text-decoration: none;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+h1, h2, h3, h4, h5, h6, .card-header {
+    font-family: Lobester, Arial, sans-serif;
+}
+
+.merriweather {
+  font-family: Merriweather, Arial, sans-serif;
+}
+
+.nav-item {
+  .nav-link, .nav-linkx {
+    font-family: Merriweather, Arial, sans-serif;
+  }
+}

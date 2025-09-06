@@ -1,0 +1,46 @@
+<div class="dashboard-tab">
+  <ul class="nav nav-tabs nav-justified dashboard-header p-2">
+    <% if current_active_profile.id == marriage_profile.id %>
+      <li class="nav-item <%= params[:action] == 'dashboard' ? 'font-weight-bold' : '' %>">
+        <a class="nav-link text-white" href="<%= dashboard_marriage_profile_path(current_active_profile) %>">
+          <i class="fa fa-tachometer"></i>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item ">
+        <a class="nav-link text-white <%= params[:action] == 'profile_info' ? 'font-weight-bold' : '' %>"
+           href="<%= profile_info_marriage_profile_path(current_active_profile) %>">
+          <i class="fa fa-user"></i>
+          Profile
+        </a>
+      </li>
+      <li class="nav-item">
+        <%= link_to messages_path,
+                    class: "nav-link text-white #{ params[:action] == 'index' ? 'font-weight-bold' : '' }" do %>
+          <i class="fa fa-envelope"></i>
+          Messages
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to current_active_profile.partner_preference.present? ?
+                        partner_preference_path(current_active_profile.partner_preference) : new_partner_preference_path,
+                    class: "nav-link text-white #{ params[:action] == 'show' ? 'font-weight-bold' : '' }" do %>
+          <i class="fas fa-user-shield"></i>
+          Preference
+        <% end %>
+      </li>
+      <li class="nav-item">
+        <%= link_to  orders_path,
+                    class: "nav-link text-white #{ params[:action] == 'show' ?
+                                                       'font-weight-bold' : '' }" do %>
+          <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+        Orders
+        <% end %>
+      </li>
+    <% else %>
+      <li class="nav-item">
+        <%= link_to 'Profile Details', '#', class: 'nav-link text-white font-weight-bold' %>
+      </li>
+    <% end %>
+  </ul>
+</div>

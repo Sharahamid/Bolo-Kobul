@@ -1,0 +1,259 @@
+@import "public_variables";
+
+.notification {
+  position: relative;
+  .dropdown-menu {
+    left: -300px;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: auto;
+    white-space: normal;
+    word-break: break-word;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .notification-counter {
+    position: absolute;
+    top: 8px;
+    right: 13px;
+    font-size: 0.7em;
+    color: red;
+  }
+
+  .content {
+    display: inline-block;
+    white-space: normal;
+    min-width: 360px;
+    word-break: break-word;
+  }
+
+  .control {
+    margin-left: .1rem;
+    margin-right: 1rem;
+    display: inline-block;
+  }
+}
+
+.body_bg{
+  background-color: $guest-color;
+  font-family: Roboto, arial, sans-serif;
+}
+.white-background {
+  background-color: $default-background !important;
+}
+.custom-navbar-nav{
+  padding-left: 7rem !important;
+}
+.bk-full-header{
+  min-height: 5.625rem;
+}
+.bk-header{
+  box-shadow: 1px 3px 9px #0000002B;
+  background-color: $default-background;
+  .help-dropdown {
+    .dropdown-menu {
+      font-size: 0.95rem;
+      .dropdown-item {
+        padding: .25rem 0.5rem;
+      }
+    }
+  }
+  .dashboard-nav {
+    left: auto;
+    right: 0;
+    min-width: 15rem;
+  }
+  .landing-nav {
+    left: -1rem;
+    min-width: 13rem;
+  }
+}
+.bk-header-logo {
+  width: 4rem;
+  height: 4rem;
+}
+
+.bk-slider {
+  position: relative;
+
+  img {
+    background: black;
+    max-height: 44.2rem;
+    object-fit: cover;
+    width: 100%;
+  }
+}
+
+.feature_packages, .success-stories {
+  padding: 1rem 3rem 3rem;
+}
+
+.heading {
+  padding: 1rem 0 2rem 0;
+  line-height: 0;
+}
+
+.text-gray {
+  color: $text-gray;
+}
+.text-black{
+  color: $black-color;
+}
+
+.text-white {
+  color: $text-white;
+}
+
+.success-stories {
+  background: #FBFFC9;
+  .slick-initialized .slick-slide {
+    background: #FBFFC9;
+  }
+  .bk-success-story-slider {
+    .slick-slide img {
+      display: block;
+      height: 174px;
+      margin: auto;
+      max-width: 100%;
+      width: 174px;
+    }
+  }
+
+  .story-content {
+    span {
+      color: $text-gray;
+    }
+  }
+}
+
+.campaign {
+  .campaign-wrapper {
+    padding: 3rem;
+
+    .campaign-top-part {
+      .campaign_image {
+        img {
+          border-radius: 10px;
+          width: 15rem;
+        }
+      }
+
+      .campaign_banner {
+        background: #FF455E;
+        padding: 3rem 1rem;
+        margin: 15px 0;
+        position: relative;
+        height: 170px;
+
+        .dont-wait-mandala {
+          position: absolute;
+          top: 0;
+          right: 0;
+          opacity: 0.6;
+        }
+      }
+    }
+
+    .campaign-bottom-part {
+      background-image: asset_url("butterfly.svg");
+      background-repeat: no-repeat;
+      background-position: bottom center;
+      background-size: 654px 198px;
+
+      .bk-logo {
+        img {
+          width: 9rem;
+        }
+      }
+    }
+
+    .campaign-content {
+      max-width: 36rem;
+      margin: auto;
+      padding-bottom: 10px;
+      color: gray;
+    }
+  }
+}
+
+.wedding-related-business {
+  position: relative;
+
+  .wedding-related-business-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.4;
+  }
+
+  .wedding-related-business-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0.4;
+  }
+
+  .business-content {
+    padding: 3rem;
+  }
+
+  background: #FFB627;
+  //padding: 1rem 3rem 3rem;
+  line-height: 2;
+
+  .title {
+    h4 {
+      font-weight: bold;
+    }
+  }
+
+  .wedding-content {
+    font-size: 12px;
+  }
+
+  .join-us {
+    .join-btn {
+      background: $white-color;
+      width: 5rem;
+      font-size: 12px;
+      font-family: Merriweather, Arial, sans-serif;
+    }
+  }
+}
+.nav-login-btn{
+  background-color: $primary-color !important;
+  display: block !important;
+  box-shadow: 0px 3px 6px #00000029 !important;
+  border: 1px solid #FFB627 !important;
+  border-radius: 4px !important;
+}
+
+.bk-flash-msg{
+  position: relative;
+  .custom-alert{
+    position: fixed;
+    width: 86.5%;
+    z-index: 1050;
+    top: 60px;
+    margin: auto;
+  }
+}
+
+.slick-next {
+  right: 0 !important;
+}
+
+.slick-prev {
+  left: 0 !important;
+  z-index: 1;
+}
+
+.slick-next:before{
+  color: #FF455E !important;
+}
+.slick-prev:before{
+  color: #FF455E !important;
+}

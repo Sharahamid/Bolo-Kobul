@@ -1,0 +1,30 @@
+<%= form_for academic_info, remote:true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: "#{academic_info.new_record? ? 'Add Academic Information' : 'Edit Academic Information'}" %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <div class="form-group">
+        <%= f.text_field :degree, class: 'form-control sign_up-input-field', placeholder:'Degree', data: {toggle: 'tooltip', placement: 'top'}, title: 'Degree' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.text_field :institution, class: 'form-control sign_up-input-field', placeholder:'Institution', data: {toggle: 'tooltip', placement: 'top'}, title: 'Institution' %>
+      </div>
+
+      <div class="form-group">
+        <%= f.number_field :passing_year, min: 1900,
+                           max: Date.today.year + 5,
+                           class: 'form-control sign_up-input-field',
+                           placeholder:'Passing Year',
+                           data: {toggle: 'tooltip', placement: 'top'},
+                           title: 'Passing Year' %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>

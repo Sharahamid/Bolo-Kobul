@@ -1,0 +1,17 @@
+<div class="left-sidebar-card">
+  <div class=" d-flex flex-column align-content-center ">
+    <div class="card_title align-self-center p-3">
+      <strong>
+        <i class="fa fa-users"></i>
+        Chats
+      </strong>
+    </div>
+
+    <div class="left-side-single-card dashboard-chat-list border-top">
+      <% chat_channels&.each do |chat_room| %>
+        <% profile = chat_room.connected_profile(current_active_profile) %>
+        <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
+      <% end %>
+    </div>
+  </div>
+</div>

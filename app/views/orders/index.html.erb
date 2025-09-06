@@ -1,0 +1,25 @@
+<section class="orders-section p-2 text-center">
+  <% if @orders.present? %>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Date</th>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+          <th scope="col">Amount</th>
+          <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        <%= render partial: 'order', collection: @orders %>
+        </tbody>
+      </table>
+    </div>
+  <% else %>
+    <div class="no-data-found text-gray">
+      <h4> No butterfly purchased. </h4>
+    </div>
+  <% end %>
+</section>

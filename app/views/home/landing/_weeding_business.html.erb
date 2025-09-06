@@ -1,0 +1,25 @@
+<section class=" section_5 container-fluid p-0">
+    <div class="wedding-related-business text-center d-sm-flex flex-sm-row ">
+        <div class="wedding-related-business-right ">
+          <%= image_tag 'weddingbusiness_mandala_right.svg',class: 'img-responsive'  %>
+        </div>
+
+        <div class="container business-content flex-shrink-1xx">
+          <div class="title text-white">
+            <h4> Do you have Wedding Related Business? </h4>
+          </div>
+          <div class="wedding-content text-white">
+            <span> We have the customers who need your services.
+                  Wait no more, reach your potential clients </span>
+          </div>
+
+          <div class="join-us pt-2">
+            <%= link_to 'Join Us', contact_url, class:'btn btn-sm btn-default join-btn text-black' unless user_signed_in? %>
+          </div>
+        </div>
+
+        <div class="wedding-related-business-left">
+          <%= image_tag 'weddingbusiness_mandala_left.svg', class: 'img-responsive' %>
+        </div>
+      </div>
+</section>

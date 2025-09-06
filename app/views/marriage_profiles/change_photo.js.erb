@@ -1,0 +1,2 @@
+$('#marriage_profile_photos').html("<%= escape_javascript(render 'marriage_profiles/photos', marriage_profile: @marriage_profile) %>");
+$(".flash-msg-profile-change").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');

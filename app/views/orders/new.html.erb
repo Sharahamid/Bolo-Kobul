@@ -1,0 +1,7 @@
+<section class="orders-section p-5">
+  <div class="mb-3">Place your order for acquiring more Butterflies!
+    <span>Current Pricing for Each butterfly is,</span>
+    <b><%= " ৳ #{@butterfly_unit_price}" %></b>
+  </div>
+  <%= render partial: 'form', locals: {product: 'butterfly'} %>
+</section>

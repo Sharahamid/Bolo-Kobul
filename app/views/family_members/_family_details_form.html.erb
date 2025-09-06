@@ -1,0 +1,81 @@
+<%= form_for family_member, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: family_member.new_record? ? 'Add Family Member' : 'Edit Family Member', f: f %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <div class="form-group">
+        <%= f.text_field :name,
+                         placeholder: 'Name*',
+                         required: true,
+                         class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:name].present? ? "Name* #{f.object.errors[:name]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :occupation, FamilyMember::occupations.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Occupation*'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Occupation*',
+                     required: true,
+                     data: {toggle: 'tooltip',
+                            placement: 'top'} %>
+        <small class="text-danger"> <%= f.object.errors[:occupation].present? ? "Occupation* #{f.object.errors[:occupation]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :relation, FamilyMember::relations.to_h.map { |k, v| [k.titleize, k] },
+                     {prompt: 'Relation*'},
+                     class: 'form-control sign_up-input-field js-relation',
+                     title: 'Relation*',
+                     required: true,
+                     data: {toggle: 'tooltip',
+                            placement: 'top'} %>
+        <small class="text-danger"> <%= f.object.errors[:relation].present? ? "Relation* #{f.object.errors[:relation]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :marital_status, FamilyMember::marital_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Marital Status'},
+                     class: 'form-control sign_up-input-field js-marital-status',
+                     title: 'Marital Status*',
+                     data: {toggle: 'tooltip',
+                            placement: 'top'} %>
+        <small class="text-danger"> <%= f.object.errors[:marital_status].present? ? "Relation* #{f.object.errors[:marital_status]&.first}" : '' %> </small>
+      </div>
+
+
+      <div class="form-group">
+        <%= f.select :residence_type, FamilyMember::residence_types.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Residence Type*'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Residence Type*',
+                     required: true,
+                     data: {toggle: 'tooltip',
+                            placement: 'top'} %>
+        <small class="text-danger"> <%= f.object.errors[:residence_type].present? ? "Residence Type* #{f.object.errors[:residence_type]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.text_field :permanent_address,
+                        placeholder: 'Permanent Address',
+                        title: 'Permanent Address',
+                        data: {toggle: 'tooltip',
+                               placement: 'top'},
+                        class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:permanent_address].present? ? "Description #{f.object.errors[:permanent_address]&.first}" : '' %> </small>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>
+
+<style>
+  .js-marital-status{
+    display: none;
+  }
+</style>

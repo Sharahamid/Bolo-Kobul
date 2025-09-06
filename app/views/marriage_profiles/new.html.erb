@@ -1,0 +1,178 @@
+<div class="container-fluid p-0">
+  <div class="container">
+    <div class="basic_info">
+      <div class="basic-info-mandala">
+        <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+      </div>
+      <div class="d-flex flex-column align-items-center">
+        <div class="internal_form_heading align-self-center">
+          <%= image_tag 'basic_info_form_title.svg', width: '100%', class: "img-responsive" %>
+        </div>
+        <div class="form_title align-self-start pt-3 pl-2 pr-2">
+          <strong> Basics </strong> <br>
+          <%= image_tag 'yellow_line.svg', width: '51.59', height: '17' %>
+        </div>
+        <div class="form_input_fields pt-4 pl-2 pr-2">
+          <%= form_for @marriage_profile do |f| %>
+
+            <div class="form-group">
+              <%= f.text_field :name,
+                               autofocus: true,
+                               autocomplete: "name",
+                               class: 'form-control sign_up-input-field',
+                               placeholder: 'Full Name',
+                               required: true,
+                               data: {toggle: "tooltip", placement: "top" },
+                               title: "Full Name" %>
+              <small class="text-danger"> <%= f.object.errors[:name].present? ? f.object.errors[:name]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.text_field :nid_or_passport,
+                               autocomplete: "nid_or_passport",
+                               class: 'form-control sign_up-input-field',
+                               placeholder: 'NID or Passport No.',
+                               minlength: '6',
+                               data: {toggle: "tooltip", placement: "top" },
+                               title: "NID or Passport No.* 🔐 (information cannot be edited once submitted)" %>
+              <small class="text-danger"> <%= f.object.errors[:nid_or_passport].present? ? f.object.errors[:nid_or_passport]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <div>Upload A Clear Identification Document</div>
+              <%= f.file_field :identification_document, required: true,
+                               class: 'form-control sign_up-input-field',
+                               style: 'padding: 3px',
+                               data: {toggle: "tooltip", placement: "top" },
+                               title: 'NID, passport, birth certificate, driving license, office ID' %>
+              <small class="text-danger">
+                <%= f.object.errors[:identification_document].present? ? f.object.errors[:identification_document]&.first : '' %>
+              </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.select :gender,
+                           MarriageProfile::genders.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Gender*'},
+                           required: true,
+                           class: 'form-control sign_up-input-field',
+                           data: {toggle: "tooltip", placement: "top" },
+                           title: "Gender* 🔐 (These information will not be displayed to other users)" %>
+              <small class="text-danger"> <%= f.object.errors[:gender].present? ? f.object.errors[:gender]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.date_field :date_of_birth,
+                               max: Date.today.years_ago(18),
+                               autofocus: true,
+                               class: 'form-control sign_up-input-field',
+                               title:'Date of Birth* 🔐 (information cannot be edited once submitted)',
+                               required: true,
+                               data: {toggle: "tooltip", placement: "top" } %>
+              <small class="text-danger"> <%= f.object.errors[:date_of_birth].present? ? f.object.errors[:date_of_birth]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.select :religion,
+                           MarriageProfile::religions.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Religion*'},
+                           required: true,
+                           class: 'form-control sign_up-input-field',
+                           data: {toggle: "tooltip", placement: "top" },
+                           title:'Religion' %>
+              <small class="text-danger"> <%= f.object.errors[:religion].present? ? f.object.errors[:religion]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.select :hometown,
+                           District.order_by_name.pluck(:name),
+                           {prompt: 'Hometown*'},
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top" },
+                           title:'Hometown* 🔐 (information cannot be edited once submitted)' %>
+              <small class="text-danger"> <%= f.object.errors[:hometown].present? ? f.object.errors[:hometown]&.first : '' %> </small>
+            </div>
+            <div class="form-group">
+              <%= f.select :present_location,
+                           District.order_by_name.pluck(:name), {prompt: 'Present Location*'},
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top" },
+                           title:'Present Location*' %>
+              <small class="text-danger"> <%= f.object.errors[:present_location].present? ? f.object.errors[:present_location]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <div class=" d-flex flex-row">
+                <div class="flex-fill pr-1">
+                  <%= f.select :height_ft,
+                               MarriageProfile::height_fts.filter { |k, v| k != '0' },
+                               {prompt: 'Height(ft)*'},
+                               autofocus: true,
+                               autocomplete: "height",
+                               class: 'form-control sign_up-input-field',
+                               placeholder: 'Height(ft)*',
+                               required: true,
+                               data: {toggle: "tooltip", placement: "top" },
+                               title:'Height (ft)' %>
+                  <small class="text-danger"> <%= f.object.errors[:height].present? ? f.object.errors[:height]&.first : '' %> </small>
+                </div>
+                <div class="flex-fill pl-1">
+                  <%= f.select :height_inch,
+                               MarriageProfile::height_inches,
+                               {prompt: 'Height(inch)*'},
+                               autofocus: true,
+                               autocomplete: "height_inch",
+                               class: 'form-control sign_up-input-field',
+                               required: true,
+                               data: {toggle: "tooltip", placement: "top" },
+                               title:'Height (inch)' %>
+                  <small class="text-danger"> <%= f.object.errors[:height_inch].present? ? f.object.errors[:height_inch]&.first : '' %> </small>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= f.select :highest_education_level,
+                           MarriageProfile::highest_education_levels.sort_by { |k, v| k == 'other' ? 'zzz' : k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Highest Education Level*'},
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top" },
+                           title:'Height Education Level' %>
+              <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? f.object.errors[:highest_education_level]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.select :family_type,
+                           MarriageProfile::family_types.filter { |k, v| k != 'does_not_matter'}.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Family Type*'},
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top"},
+                           title: 'Family Type' %>
+              <small class="text-danger"> <%= f.object.errors[:family_type].present? ? f.object.errors[:family_values]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.select :blood_group,
+                           MarriageProfile::blood_groups.sort_by { |k, v| k }.to_h.map { |k, v| [k, k] },
+                           {prompt: 'Blood Group*'},
+                           autofocus: true,
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top" },
+                           title:'Blood Group* 🔐 (information cannot be edited once submitted)' %>
+              <small class="text-danger"> <%= f.object.errors[:blood_group].present? ? f.object.errors[:blood_group]&.first : '' %> </small>
+            </div>
+
+            <div class="register-btn-section text-center">
+              <button type="submit" class="btn btn-sign_up form-control"> Next</button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

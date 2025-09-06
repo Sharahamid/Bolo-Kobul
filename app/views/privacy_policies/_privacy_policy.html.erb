@@ -1,0 +1,20 @@
+<div class="card card-plain">
+  <div class="card-header" role="tab" id="heading_<%= privacy_policy.id %>">
+    <a data-toggle="collapse" data-parent="#accordion"
+       href="#collapse_<%= privacy_policy.id %>"
+       aria-expanded="<%= privacy_policy.id== @privacy_policies.first.id ?
+                              true : false %>"
+       aria-controls="collapse_<%= privacy_policy.id %>">
+      <%= privacy_policy.title %><i class="fa fa-angle-down pt-1"
+                                    aria-hidden="<%= privacy_policy.id == @privacy_policies.first.id ?
+                                                         true : false %>"></i>
+    </a>
+  </div>
+  <div id="collapse_<%= privacy_policy.id %>"
+       class="collapse <%= privacy_policy.id == @privacy_policies.first.id ? 'show' : '' %>"
+       role="tabpanel" aria-labelledby="heading_<%= privacy_policy.id %>">
+    <div class="card-body">
+      <%= privacy_policy.content.html_safe %>
+    </div>
+  </div>
+</div>

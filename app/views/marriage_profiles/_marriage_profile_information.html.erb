@@ -1,0 +1,47 @@
+<div class="marriage_information pt-3">
+  <div id="marriage_profile_photos">
+    <%= render 'marriage_profiles/photos',
+               marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+      current_active_profile.chat_view?(marriage_profile) %>
+  </div>
+
+  <%= render 'marriage_profiles/basic_info',
+             marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+      current_active_profile.more_view?(marriage_profile) %>
+
+  <%= render 'marriage_profiles/academic_information',
+             marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+      current_active_profile.more_view?(marriage_profile) %>
+
+  <%= render 'marriage_profiles/occupation',
+             marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+      current_active_profile.more_view?(marriage_profile) %>
+
+  <%= render 'marriage_profiles/appearance',
+             marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+      current_active_profile.more_view?(marriage_profile) %>
+
+  <%= render 'marriage_profiles/family_details',
+             marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+      current_active_profile.chat_view?(marriage_profile)
+  %>
+
+  <%= render 'marriage_profiles/marriage_information',
+             marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile)  ||
+      current_active_profile.more_view?(marriage_profile)
+  %>
+
+  <%= render 'marriage_profiles/life_style',
+             marriage_profile: marriage_profile %>
+
+  <%= render 'marriage_profiles/hobbies_and_interest',
+             marriage_profile: marriage_profile %>
+
+  <%= render 'marriage_profiles/cultural_values',
+             marriage_profile: marriage_profile %>
+
+  <%= render 'marriage_profiles/about_myself',
+             marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+      current_active_profile.more_view?(marriage_profile) %>
+
+</div>

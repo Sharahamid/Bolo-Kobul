@@ -1,0 +1,113 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> Occupation </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_occupation" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <% %>
+    <div id="collapse_occupation" class="panel-collapse collapse p-2 detail-info">
+      <% if marriage_profile.id == current_active_profile.id %>
+        <div class="pr-2 new-info-btn">
+          <a href="<%= new_occupation_path %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Add New Occupation" class="btn btn-sm btn-edit text-white">
+            <i class="fa fa-plus-circle"></i>
+          </a>
+        </div>
+      <% end %>
+      <% if marriage_profile&.occupations.present? %>
+        <% marriage_profile&.occupations&.order(start_date: :DESC)&.each do |occupation| %>
+          <div class="detail-info ">
+            <% if marriage_profile.id == current_active_profile.id %>
+              <div class="edit-info-btn">
+                <a href="<%= edit_occupation_path(occupation) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white">
+                  <i class="fa fa-pencil"></i>
+                </a>
+              </div>
+
+              <div class="delete-info-btn">
+                <a href="<%= occupation_path(occupation) %>" data-method="delete" data-remote="true" data-toggle="tooltip"
+                   data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white"
+                   data-cinfirm="Are you sure?">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+              </div>
+            <% end %>
+
+            <div class="panel-body border-top">
+              <div class="d-sm-flex flex-sm-row info-alignment">
+                <table class=" flex-fill pr-3 table table-borderless table-responsive">
+                  <tbody>
+                  <tr>
+                    <td> Occupation</td>
+                    <td>:</td>
+                    <td><%= occupation.name.present? ? occupation&.name&.humanize : '' %></td>
+                  </tr>
+                  <tr>
+                    <td> Organization</td>
+                    <td>:</td>
+                    <td> <%= occupation.organization.present? ? Organization.get_organization(occupation.organization)&.name&.humanize : '' %></td>
+                  </tr>
+                  <tr>
+                    <td> Company Name</td>
+                    <td>:</td>
+                    <td><%= occupation.company_name.present? ? occupation&.company_name&.humanize : '' %></td>
+                  </tr>
+                  <tr>
+                    <td> Designation</td>
+                    <td>:</td>
+                    <td><%= occupation.designation.present? ? occupation&.designation&.humanize : '' %></td>
+                  </tr>
+                  </tbody>
+                </table>
+                <div class="vl"></div>
+                <table class=" flex-fill pr-3 table table-borderless table-responsive">
+                  <tbody>
+                  <tr>
+                    <td> Employment Status</td>
+                    <td>:</td>
+                    <td><%= occupation.employment_status.present? ? occupation&.employment_status&.humanize : '' %></td>
+                  </tr>
+                  <tr>
+                    <td> Monthly Income</td>
+                    <td>:</td>
+                    <td><%= occupation.monthly_income.present? ? occupation&.monthly_income&.humanize : '' %> </td>
+                  </tr>
+                  <tr>
+                    <td> Start Date</td>
+                    <td>:</td>
+                    <td><%= occupation.start_date.present? ? get_date_format(occupation.start_date) : '' %> </td>
+                  </tr>
+                  <tr>
+                    <td> End Date</td>
+                    <td>:</td>
+                    <td>
+                      <% if occupation.present? && occupation.end_date.present? %>
+                        <%= get_date_format(occupation.end_date) if occupation.end_date.present? %>
+                      <% elsif occupation.present? && occupation.working_currently.present? %>
+                        Currently Working
+                      <% else %>
+                        &nbsp;
+                      <% end %>
+                    </td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <%= render 'shared/no_data_found' %>
+      <% end %>
+    </div>
+  </div>
+</div>

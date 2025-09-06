@@ -1,0 +1,52 @@
+<div class="request-card-top p-2">
+  <div class="d-flex flex-row action-menu">
+    <div class="partner-photo p-2">
+      <%= render 'shared/profile_photo', profile: profile %>
+    </div>
+    <div class="partner-short-info d-flex flex-column p-2 pt-4">
+      <div class="d-flex flex-row">
+        <strong class="align-content-start flex-fill">
+          <%= link_to profile_info_marriage_profile_path(profile), class:'text-black' do %>
+            <%= profile&.unique_id %>
+          <% end %>
+          <%- if profile.verified %>
+            <i title="Verified" class="fas fa-check-circle"></i>
+          <% end %>
+        </strong>
+        <% if profile.matching_percentage.present? %>
+          <span class="round-batch">
+            <%= "%02d" % profile.matching_percentage %>%
+          </span>
+        <% end %>
+      </div>
+      <div class="age-and-location">
+        <%= profile.age %> years,
+        <%= profile.height_ft %>
+        '<%= profile.height_inch %>''
+        <span title="<%= profile&.hometown&.humanize %>" data-toggle="tooltip" data-placement="top">
+          <%= profile&.hometown&.humanize %>
+        </span>
+      </div>
+      <div class="expire-time">
+        <%# if profile_action.present? %>
+<!--          <i class="far fa-clock"></i>-->
+<!--          Request Expires: 8hrs-->
+        <%# else %>
+          <i class="fas fa-graduation-cap"></i>
+          <span title=" <%= profile.highest_education_level? ? profile&.highest_education_level&.humanize : '' %>"
+                data-toggle="tooltip"
+                data-placement="top">
+            <%= profile.highest_education_level? ? profile&.highest_education_level.humanize : '' %>
+          </span>
+          <i class="fas fa-user-md"></i>
+          <span title="<%= profile.current_occupation.present? ?  profile&.current_occupation&.humanize: '' %>"
+                data-toggle="tooltip"
+                data-placement="top">
+            <%= profile.current_occupation.present? ?  profile&.current_occupation&.humanize : '' %>
+          </span>
+        <%# end %>
+      </div>
+    </div>
+    <%= render 'shared/profile_actions', profile: profile if profile_action.present? %>
+  </div>
+</div>

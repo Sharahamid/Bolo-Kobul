@@ -1,0 +1,320 @@
+Abilene
+Akron
+Akron
+Albany
+Albany
+Albuquerque
+Albuquerque
+Alexandria
+Alton
+Alton
+Anaheim
+Anaheim
+Anaheim
+Anaheim
+Anchorage
+Ann Arbor
+Ann Arbor
+Arlington
+Arlington
+Asheville
+Ashland
+Atlanta
+Atlanta
+Atlanta
+Atlanta
+Atlantic City
+Augusta
+Augusta
+Aurora
+Austin
+Austin
+Baltimore
+Baltimore
+Baltimore
+Baton Rouge
+Bellevue
+Bellingham
+Bethesda
+Bethlehem
+Bethlehem
+Bethlehem
+Billings
+Biloxi
+Birmingham
+Birmingham
+Bloomington
+Boise
+Boston
+Boston
+Brattleboro
+Brentwood
+Bridgeport
+Bridgeport
+Brooklyn
+Brooklyn
+Bryan
+Burbank
+Burbank
+Camden
+Cape Coral
+Cedar Rapids
+Champaign
+Champaign
+Charleston
+Charleston
+Charleston
+Charlotte
+Charlotte
+Chattanooga
+Chicago
+Chicago
+Chicago
+Chicopee
+Cicero
+Cicero
+Cincinatti
+Cincinnati
+Clarksville
+Cleveland
+Cleveland
+Columbia
+Columbia
+Columbus
+Columbus
+Concord
+Corpus Christi
+Dallas
+Dallas
+Dallas
+Daly City
+Daly City
+Danville
+Davenport
+Dayton
+Daytona Beach
+Denton
+Denver
+Denver
+Detroit
+Detroit
+Dodge City
+Duluth
+Eau Claire
+Eau Claire
+Edison
+Edison
+El Paso
+Elizabeth
+Elmira
+Erie
+Escondido
+Escondido
+Eugene
+Eugene
+Evansville
+Fargo
+Fayetteville
+Flint
+Fort Lauderdale
+Fort Lauderdale
+Fort Smith
+Fort Wayne
+Fort Worth
+Fort Worth
+Fresno
+Gainesville
+Galveston
+Gary
+Grand Junction
+Grand Rapids
+Grant
+Green Bay
+Green Bay
+Greensboro
+Greenville
+Hamilton
+Hammond
+Hartford
+Hartford
+Hempstead
+Honolulu
+Houston
+Houston
+Houston
+Huntsville
+Huntsville
+Huntsville
+Indianapolis
+Iowa City
+Irvine
+Jackson
+Jackson
+Jackson
+Jacksonville
+Jersey City
+Jersey City
+Jonesboro
+Kansas City
+Kansas City
+Kansas City
+Kearney
+Kenosha
+Kingston
+Knoxville
+Lafayette
+Lafayette
+Lakeland
+Lancaster
+Lancaster
+Lansing
+Laramie
+Laredo
+Las Cruces
+Las Vegas
+Lawton
+Lexington
+Little Rock
+Long Beach
+Los Angeles
+Los Angeles
+Los Angeles
+Louisville
+Lowell
+Lowell
+Lubbock
+Lynchburg
+Lynn
+Lynn
+Macon
+Madison
+Manchester
+Mankato
+Marshall
+Mason City
+Medina
+Memphis
+Miami
+Miami
+Milwaukee
+Minneapolis
+Mobile
+Montgomery
+Naperville
+Nashville
+New Castle
+New Orleans
+New York City
+New York City
+New York City
+Newark
+Newark
+Niagara Falls
+Oakland
+Oakland
+Odessa
+Oklahoma City
+Omaha
+Omaha
+Orlando
+Orlando
+Orlando
+Orlando
+Otsego
+Owensboro
+Owensboro
+Philadelphia
+Philadelphia
+Philadelphia
+Phoenix
+Phoenix
+Phoenix
+Pittsburgh
+Pittsburgh
+Plymouth
+Pomona
+Pontiac
+Port St Lucie
+Portland
+Portland
+Portland
+Providence
+Pueblo
+Raleigh
+Raleigh
+Redding
+Reno
+Richmond
+Riverside
+Roanoke
+Rochester
+Rock Island
+Rockford
+Rockford
+Rocky Mount
+Sacramento
+Saginaw
+Salinas
+Salt Lake City
+Salt Lake City
+San Antonio
+San Diego
+San Diego
+San Diego
+San Francisco
+San Francisco
+San Jose
+San Jose
+Santa Barbara
+Santa Clarita
+Santa Monica
+Santa Rosa
+Santa Rosa
+Santa Rosa
+Sarasota
+Sault Ste Marie
+Savannah
+Scranton
+Seattle
+Seattle
+Shreveport
+Silver Spring
+Silver Spring
+Sioux City
+Sioux Falls
+South Bend
+Spokane
+Springfield
+St. Charles
+St. George
+St. Louis
+St. Louis
+St. Paul
+St. Petersburg
+Starkville
+Stockton
+Stockton
+Syracuse
+Tacoma
+Tallahassee
+Tampa
+Toledo
+Toledo
+Topeka
+Troy
+Tucson
+Tulsa
+Tyler
+Tyler
+Virginia Beach
+Warren
+Washington
+Waukegan
+Waukegan
+West Palm Beach
+Wichita
+Wilmington
+Worcester
+Worcester
+Yonkers
+Yuma

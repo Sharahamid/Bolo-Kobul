@@ -1,0 +1,22 @@
+<div class="container blogs-container">
+  <h2 class="blogs-header">
+    <%= params[:type].present? ? params[:type].titleize.pluralize : "Blogs" %>
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="blogs-items row">
+    <div class="blogs-content
+      <%= params[:type].present? && params[:type] == "success_story" ?
+                           "col-md-8" : "col-md-12" %> py-3">
+      <%= render partial: 'blog', collection: @blogs %>
+      <!-- Pagination block-->
+      <div class="flickr_pagination text-center">
+        <%= will_paginate @blogs, :container => false %>
+      </div>
+    </div>
+    <% if params[:type].present? && params[:type] == "success_story" %>
+      <div class="blogs-form col-md-4 py-3">
+        <%= render partial: 'form' %>
+      </div>
+    <% end %>
+  </div>
+</div>

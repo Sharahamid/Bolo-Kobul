@@ -1,0 +1,24 @@
+<div class="request-card flex-sm-fill ">
+  <div class="p-2 pl-3 border-bottom ">
+    <strong> Accepted Profiles </strong>
+  </div>
+
+  <div class="recommended_profiles mb-4">
+    <% if get_accepted_profiles.present? %>
+      <% get_accepted_profiles.each do |accepted_profile| %>
+        <div class="flex-fill border-bottom">
+          <div class="d-flex flex-column">
+            <%= render 'home/dashboard/card_profile_info', profile: accepted_profile, profile_action: true %>
+            <div class="request-card-bottom p-2 border-top">
+              <%= render 'home/dashboard/kobul_2_btn', profile: accepted_profile %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="no-data-found alert text-center text-gray">
+        <p> You have no accepted profiles yet. </p>
+      </div>
+    <% end %>
+  </div>
+</div>

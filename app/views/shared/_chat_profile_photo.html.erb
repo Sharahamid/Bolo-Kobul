@@ -1,0 +1,6 @@
+<%= link_to profile_info_marriage_profile_path(profile) do %>
+  <%= image_tag profile.profile_image.present? ?
+                    profile.profile_image.url(:chat_profile_thumb) : 'bk.png',
+                width: '45', height: '45',
+                class: 'img-thumbnail rounded-circle' %>
+<% end %>

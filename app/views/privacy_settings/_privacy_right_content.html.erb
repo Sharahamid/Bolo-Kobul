@@ -1,0 +1,151 @@
+<div class="right-section mb-4">
+  <div class="d-flex flex-column dashboard-tab">
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Gender
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'gender' %>
+            <%= @privacy_setting&.gender&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'gender' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Date of Birth
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'date_of_birth' %>
+            <%= @privacy_setting&.date_of_birth&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'date_of_birth' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Height
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'height_ft' %>
+            <%= @privacy_setting&.height_ft&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'height_ft' %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Highest Education
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'highest_education_level' %>
+            <%= @privacy_setting&.highest_education_level&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'highest_education_level' %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Current Occupation
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'current_occupation' %>
+            <%= @privacy_setting&.current_occupation&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'current_occupation' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Physical Status
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'physical_status' %>
+            <%= @privacy_setting&.physical_status&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'physical_status' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Family Values
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'family_values' %>
+            <%= @privacy_setting&.family_values&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'family_values' %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Family Type
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'family_type' %>
+            <%= @privacy_setting&.family_type&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'family_type' %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-4">
+            Family Status
+          </div>
+          <div class="col-4 px-0">
+            <%= render 'privacy_settings/privacy_icon', privacy_setting: @privacy_setting, field_name: 'family_status' %>
+            <%= @privacy_setting&.family_status&.humanize %>
+          </div>
+          <div class="col-4">
+            <%= render 'privacy_settings/privacy_toggle_switch', privacy_setting: @privacy_setting, field_name: 'family_status' %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

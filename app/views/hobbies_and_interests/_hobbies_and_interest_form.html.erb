@@ -1,0 +1,199 @@
+<%= form_for hobbies_and_interest, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: 'Hobbies And Interest' %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <div class="form-group">
+        <%= f.label :hobby, 'Hobby:' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::HOBBIES.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[hobby][]",
+                                id,
+                                checked_hobby(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :interest, 'Interest:' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::INTEREST.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[interest][]",
+                                id,
+                                checked_interest(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :music, 'Music :' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::FAVOURITE_MUSIC.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[music][]",
+                                id,
+                                checked_music(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.text_field :favourite_song,
+                         placeholder: 'Favourite Song?',
+                         class: 'form-control',
+                         title: 'Favourite Song?',
+                         data: {toggle: 'tooltip', placement: 'top'} %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :read, 'Read :' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::FAVOURITE_BOOK.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[read][]",
+                                id,
+                                checked_read(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.text_field :favourite_book,
+                         placeholder: 'Favourite Book?',
+                         class: 'form-control',
+                         title: 'Favourite Book?',
+                         data: {toggle: 'tooltip', placement: 'top'} %>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :favourite_movie, 'Movie : ' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::FAVOURITE_MOVIE.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[favourite_movie][]",
+                                id,
+                                checked_favourite_movie(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :favourite_tv_show, 'TV Show :' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::FAVOURITE_TV_SHOW.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[favourite_tv_show][]",
+                                id,
+                                checked_favourite_tv_show(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :favourite_sports_show, 'Sports Show:' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::FAVOURITE_SPORTS.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[favourite_sports_show][]",
+                                id,
+                                checked_favourite_sports_show(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <%= f.label :fitness_activity, 'Fitness Activity:' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::FITNESS_ACTIVITIES.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[fitness_activity][]",
+                                id,
+                                checked_fitness_activity(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :cuisine, 'Cuisine:' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::FAVOURITE_CUISINE.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[cuisine][]",
+                                id,
+                                checked_cuisine(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :travel, 'Travel : ' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::TRAVEL.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "hobbies_and_interest[travel][]",
+                                id,
+                                checked_travel(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="">
+        <%= f.text_field :specific_entertainment,
+                         placeholder: 'What do you do the most for entertainment?',
+                         class: 'form-control',
+                         title: 'What do you do the most for entertainment?',
+                         data: {toggle: 'tooltip', placement: 'top'} %>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>

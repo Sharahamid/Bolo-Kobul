@@ -1,0 +1,21 @@
+<div class="card card-plain">
+  <div class="card-header" role="tab" id="heading_<%= assisted_service.id %>">
+    <a data-toggle="collapse" data-parent="#accordion"
+       href="#collapse_<%= assisted_service.id %>"
+       aria-expanded="<%= assisted_service.id == @assisted_services.first.id ?
+                              true : false %>"
+       aria-controls="collapse_<%= assisted_service.id %>">
+      <%= assisted_service.title %><i
+      class="fa fa-angle-down pt-1" aria-hidden="<%=
+      assisted_service.id == @assisted_services.first.id ? true : false %>"></i>
+    </a>
+  </div>
+  <div id="collapse_<%= assisted_service.id %>"
+       class="collapse <%= assisted_service.id == @assisted_services.first.id ?
+                               'show' : '' %>"
+       role="tabpanel" aria-labelledby="heading_<%= assisted_service.id %>">
+    <div class="card-body">
+      <%= assisted_service.detail.html_safe %>
+    </div>
+  </div>
+</div>

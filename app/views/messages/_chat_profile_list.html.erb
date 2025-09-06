@@ -1,0 +1,21 @@
+<div class="left-sidebar-card">
+  <div class=" d-flex flex-column align-content-center ">
+    <div class="card_title gary-light-background p-3">
+      <div class="d-flex flex-row">
+        <span
+          class="flex-fill text-center <%= params[:action] == 'index' || 'profile' ?
+                                               'font-weight-bold text-black border-bottom-yellowx' : 'text-gray' %>">
+          <i class="fa fa-users"></i>
+          All
+        </span>
+      </div>
+    </div>
+
+    <div class="left-side-single-card chat-list-window">
+      <% chat_rooms&.each do |chat_room| %>
+        <% profile = chat_room.connected_profile(current_active_profile) %>
+        <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
+      <% end %>
+    </div>
+  </div>
+</div>

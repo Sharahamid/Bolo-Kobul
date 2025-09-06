@@ -1,0 +1,29 @@
+<div class="container-fluid p-0">
+  <div class="container">
+    <div class="basic_info">
+      <div class="basic-info-mandala">
+        <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+      </div>
+      <div class="d-flex flex-column align-items-center">
+        <div class="internal_form_heading align-self-center">
+          <%= image_tag 'basic_info_form_title.svg', class: "img-responsive" %>
+        </div>
+        <div class="form_title align-self-start pt-3 pl-2 pr-2">
+          <strong> Basics </strong> <br>
+          <%= image_tag 'yellow_line.svg', width: '51.59', height: '17' %>
+        </div>
+        <div class="form_input_fields pt-4 pl-2 pr-2">
+          <%= form_for @advertiser_profile do |f| %>
+            <div class="form-group">
+              <%= f.text_field :company_name, autofocus: true, autocomplete: "company_name", required: true, class: 'form-control sign_up-input-field', placeholder: 'Company Name' %>
+              <small class="text-danger"> <%= f.object.errors[:company_name].present? ? "Company Name #{f.object.errors[:company_name]&.first}" : '' %> </small>
+            </div>
+            <div class="register-btn-section text-center">
+              <button type="submit" class="btn btn-sign_up form-control"> Next</button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

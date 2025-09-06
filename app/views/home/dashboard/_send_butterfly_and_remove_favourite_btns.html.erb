@@ -1,0 +1,26 @@
+<div class="col-12">
+  <div class="row">
+    <div class="bk-request-btn col-6 p-0">
+
+      <a href="<%= send_request_marriage_profile_path(profile) %>" data-method="post" class="kobul_btn " data-toggle="tooltip" data-placement="top" title="Send butterfly to request full profile.">
+               <span>
+                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
+                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
+                 Send
+               </span>
+      </a>
+
+    </div>
+    <div class="bk-cancel-btn col-6 p-0">
+      <%= link_to remove_favourites_path(favourite_profile_id: profile.id),
+                  method: :delete,
+                  id: "fav_#{current_active_profile.id}_to_#{profile.id}",
+                  class: 'kobul_cancel-btn',
+                  data: {toggle: 'tooltip', placement: 'top'},
+                  title: " Remove it in your favourite list to view/show your friends and families later." do %>
+        <i class="fa fa-close"></i>
+        Remove
+      <% end %>
+    </div>
+  </div>
+</div>

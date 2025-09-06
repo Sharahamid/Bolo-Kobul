@@ -1,0 +1,20 @@
+<div class="right-section mb-4">
+  <div class="d-flex flex-column dashboard-tab">
+    <div class="col-12 text-gray p-3 border-bottom">
+    <div class="p-2">
+      <span class="text-left"> Referral Code
+        <i class="fas fa-info-circle"
+        data-toggle="tooltip"
+        data-placement="top" title=" You can Share this refferel code to earn one butterfly from Bolokobul">
+        </i>
+      </span>
+      </div>
+    </div>
+
+    <div class="col-12 text-gray p-3 border-bottom">
+      <div class="p-2">
+        <span class=" text-left">  Your Code : <%= current_user.refferel_code.present? ? current_user.refferel_code : '' %> </span>
+      </div>
+    </div>
+  </div>
+</div>

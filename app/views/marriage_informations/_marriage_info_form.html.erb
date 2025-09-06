@@ -1,0 +1,50 @@
+<%= form_for marriage_info, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: marriage_info.new_record? ? 'Add Marriage Info' : 'Edit Marriage Info', f: f %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <div class="form-group">
+        <%= f.check_box :have_children, class: 'js-have-children' %>
+        <%= f.label :have_children, 'Have Children?' %>
+        <small class="text-danger"> <%= f.object.errors[:have_children].present? ? "Name #{f.object.errors[:have_children]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.number_field :no_of_childrens,
+                           min: 0, placeholder: 'No of Children*',
+                           class: 'form-control sign_up-input-field js-no-of-childrens'
+        %>
+        <small class="text-danger"> <%= f.object.errors[:no_of_childrens].present? ? "No of Childrens #{f.object.errors[:no_of_childrens]&.first}" : '' %> </small>
+      </div>
+
+      <div class="">
+        <%= f.check_box :want_more_child %>
+        <%= f.label :want_more_child, 'Want Child?' %>
+        <small class="text-danger"> <%= f.object.errors[:want_more_child].present? ? "Want more child #{f.object.errors[:want_more_child]&.first}" : '' %> </small>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+    checkchildrens('.js-have-children');
+    $(document).on('click', ".js-have-children", function () {
+        checkchildrens(this);
+    });
+
+    function checkchildrens(children) {
+        if ($(children).prop('checked') == true) {
+            $('.js-no-of-childrens').show();
+        } else {
+            $('.js-no-of-childrens').hide();
+            $('.js-no-of-childrens').val('');
+        }
+    }
+</script>

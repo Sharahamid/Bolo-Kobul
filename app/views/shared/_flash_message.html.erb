@@ -1,0 +1,18 @@
+<% flash.each do |type, msg| %>
+  <div class="container-fluid">
+  <div class="container bk-flash-msg">
+    <div class="alert yellow-background text-white alert-dismissible custom-alert" id="success-alert">
+      <button type="button" class="close text-white" data-dismiss="alert">&times;</button>
+      <%= msg %>
+    </div>
+  </div>
+  </div>
+ <% flash.discard %>
+<% end %>
+
+
+<script type="text/javascript" charset="utf-8">
+    $("#success-alert").fadeTo(5000, 500).slideUp(500, function(){
+        $("#success-alert").slideUp(500);
+    });
+</script>

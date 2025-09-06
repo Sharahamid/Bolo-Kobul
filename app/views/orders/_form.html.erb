@@ -1,0 +1,29 @@
+<%= form_for Order.new do |f| %>
+  <div class="form-group">
+    <% if product == 'butterfly' %>
+      <%= f.number_field :quantity, class: 'form-control',
+                         required: true, min: 1,
+                         placeholder: "No. of #{product.pluralize.humanize}" %>
+    <% else %>
+      <%= f.hidden_field :quantity, value: 1 %>
+    <% end %>
+    <%= f.hidden_field :payment_method, value: "foster_payment" %>
+    <%= f.hidden_field :product, value: product %>
+    <%= f.hidden_field :assisted_service_id, value: assisted_service_id if local_assigns[:assisted_service_id] %>
+
+    <% unless current_user %>
+      Please fill-up basic information or
+      <a class="nav-linkx text-white btn btn-sm nav-login-btn" href="#" data-toggle="modal" data-target="#loginModal">LOGIN </a>
+      <%= f.text_field :customer_name, class: 'form-control', required: true, placeholder: 'Your name' %>
+      <%= f.text_field :customer_phone, class: 'form-control', required: true, placeholder: 'Your Phone Number' %>
+      <%= f.text_field :customer_email, class: 'form-control', placeholder: 'Your Email Address' %>
+    <% end %>
+  </div>
+  <div class="actions">
+    <div class="text-center">
+      <button type="submit" class="btn btn-order form-control">
+        Purchase
+      </button>
+    </div>
+  </div>
+<% end %>

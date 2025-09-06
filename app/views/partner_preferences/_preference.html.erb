@@ -1,0 +1,14 @@
+<div class="partner-requests pt-3">
+  <span class="text-left"> Preference
+  <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="You can set your preference to get your expected partners from Bolokobul"></i>
+  </span>
+  <% if preference.present? %>
+    <div class="preference_info">
+      <%= render 'partner_preferences/preference_info', preference: preference %>
+    </div>
+  <% else %>
+    <div class="no-data-found alert text-center text-gray">
+      <h4> No Data Found</h4>
+    </div>
+  <% end %>
+</div>

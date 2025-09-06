@@ -1,0 +1,13 @@
+<div class="desktop-sign_up_form">
+  <div class="bk-home-slider">
+    <div class="bk-slider">
+      <%= image_tag 'slider/slider_image_1.webp', class: 'img-responsive bk-mobile-bg-image' %>
+    </div>
+    <div class="bk-slider">
+      <%= image_tag 'slider/slider_image_2.webp', class: 'img-responsive bk-mobile-bg-image' %>
+    </div>
+  </div>
+  <div class="container">
+    <%= render 'shared/bolokobul_sign_up_form' unless user_signed_in? %>
+  </div>
+</div>

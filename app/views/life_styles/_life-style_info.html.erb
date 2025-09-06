@@ -1,0 +1,102 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> Life Style </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_life_style" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="collapse_life_style" class="panel-collapse collapse p-2 detail-info ">
+      <% if marriage_profile.id == current_active_profile.id %>
+        <div class="edit-info-btn">
+          <a href="<%= marriage_profile.life_style.present? ?
+                           edit_life_style_path(marriage_profile.life_style) :
+                           new_life_style_path %>"
+             data-remote="true"
+             data-toggle="tooltip"
+             data-placement="top"
+             title="<%= marriage_profile.life_style.present? ? 'Edit' : 'Add' %> information"
+             class="btn btn-sm btn-edit text-white mr-2">
+            <i class="fa fa-pencil"></i>
+          </a>
+        </div>
+      <% end %>
+      <% if marriage_profile.life_style.present? || marriage_profile.id == current_active_profile.id %>
+        <div class="panel-body border-top">
+          <div class="d-sm-flex flex-sm-row info-alignment">
+            <table class=" flex-fill pr-3 table table-borderless table-responsive">
+              <tbody>
+                <% if marriage_profile.life_style&.drinker.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Do You Drink?</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.life_style&.drinker.present? ? User::BOOLEAN_DATA.keys[marriage_profile.life_style.drinker] : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.life_style&.smoker.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Do You Smoke?</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.life_style&.smoker.present? ? User::BOOLEAN_DATA.keys[marriage_profile&.life_style.smoker] : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.life_style&.food_habits.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Food Habits</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.life_style&.food_habits.present? ? User::FOOD_HABITS.keys[marriage_profile&.life_style&.food_habits] : '' %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+            <div class="vl"></div>
+            <table class=" flex-fill pr-3 table table-borderless table-responsive">
+              <tbody>
+                <% if marriage_profile.life_style&.dress_style.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Dress Style</td>
+                    <td>:</td>
+                    <td>
+                      <%= marriage_profile.life_style&.dress_style.present? ?
+                        marriage_profile.life_style.dress_style.map{|ds| User::DRESS_STYLE.keys[ds.to_i]}.join(', ') : '' %>
+                    </td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.life_style&.living_with.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Living With</td>
+                    <td>:</td>
+                    <td>
+                      <%= marriage_profile.life_style&.living_with.present? ?
+                        marriage_profile.life_style.living_with.map{|lw| User::LIVING_WITH.keys[lw.to_i]}.join(', ') : '' %>
+                    </td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.life_style&.specific_habits.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Specific Habits</td>
+                    <td>:</td>
+                    <td><%= marriage_profile&.life_style&.specific_habits || '' %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% else %>
+        <%= render 'shared/no_data_found' %>
+      <% end %>
+    </div>
+  </div>
+</div>

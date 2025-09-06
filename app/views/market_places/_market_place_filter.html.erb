@@ -1,0 +1,57 @@
+<div class="container search-page-container p-3">
+  <div class="row">
+    <div class="search-container-background">
+      <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+    </div>
+    <div class="col-md-12 search-container-content">
+      <div class="search-container-title">
+        <div class="row col-md-12 mx-1">
+          Filter By
+        </div>
+      </div>
+      <div class="search-input-fields">
+        <div class="row form-group col-md-12 mb-0">
+        </div>
+        <%= form_tag market_places_path, method: :get do %>
+          <div class="row form-group mx-1 mb-3">
+            <div class="col-md-3 search-input-group">
+              <%= select_tag :market_place_type,
+                             options_for_select(MarketPlaceType.order(:name)
+                                                    .pluck(:name), selected: params[:market_place_type]),
+                             prompt: params[:market_place_type].present? ?
+                                         params[:market_place_type].titleize : 'All' ,
+                             class: "form-control sign_up-input-field search-input" %>
+              <i class="fa fa-sort-down search-drop-icon"></i>
+            </div>
+            <div class="col-md-3 search-input-group">
+              <%= select_tag :location,
+                             options_for_select(District.order(:name)
+                                                    .pluck(:name), selected: params[:location]),
+                             prompt: params[:location].present? ?
+                                         params[:location] : "Location",
+                             class: "form-control sign_up-input-field search-input" %>
+              <i class="fa fa-sort-down search-drop-icon"></i>
+            </div>
+            <div class="col-md-3 search-input-group p-0 text-center">
+              <%= text_field_tag "price_range", nil, type: 'text',
+                                 data: {'slider-id' => 'ex1Slider',
+                                        'slider-min' => '0',
+                                        'slider-max' => "#{MarketPlace&.order(cost: :DESC)&.first&.cost}",
+                                        'slider-step' => '100',
+                                        'slider-value' => "[0, #{MarketPlace&.order(cost: :DESC)&.first&.cost}]"
+                                 }
+              %>
+              <br>
+              <span class="text-gray">Price range</span>
+            </div>
+            <div class="col-md-3 search-input-group">
+              <div class="text-center">
+                <button type="submit" class="btn btn-search form-control"> Search</button>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<% if @preference.errors.any? %>
+$(".error-modal-notice").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');
+<% else %>
+$('.preference_info').html("<%= escape_javascript(render 'partner_preferences/preference_info', preference: @preference ) %>");
+$('#global_update_modal_sm').modal('hide');
+$(".update-notice").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');
+<% end %>

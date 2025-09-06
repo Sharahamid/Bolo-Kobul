@@ -1,0 +1,230 @@
+<%= form_for preference, remote: preference.new_record? ? false : true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: 'Preference' unless preference.new_record? %>
+
+  <!-- Modal body -->
+  <div class=" <%= preference.new_record? ? '' : 'modal-body' %>">
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-6 pr-1">
+          <%= f.label :gender, 'Looking For' %>
+          <%= f.select :gender,
+                       options_for_select(PartnerPreference::genders.filter { |k, _| k != current_active_profile.gender }.map { |k, _| [current_active_profile.gender_translate(k), k] },
+                                          selected: current_active_profile.preferred_gender),
+                       {include_blank: false}, class: 'form-control sign_up-input-field selectpicker',
+                       data: {toggle: "tooltip", placement: "top"}, title: 'Looking For*' %>
+          <small class="text-danger"> <%= f.object.errors[:gender].present? ? "Gender #{f.object.errors[:gender]&.first}" : '' %> </small>
+        </div>
+        <div class="col-6 pl-1">
+          <%= f.label :religion %>
+          <%= f.select :religion,
+                       PartnerPreference.values_for_religion.sort.map { |k| [k.to_s.humanize, k] }, {},
+                       multiple: true,
+                       autofocus: true, required: true,
+                       class: 'form-control sign_up-input-field selectpicker',
+                       data: {selected_text_format: 'values'} %>
+          <small class="text-danger">
+            <%= f.object.errors[:religion].present? ? "Religion #{f.object.errors[:religion]&.first}" : '' %>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-6 pr-1">
+          <%= f.label :min_age %>
+          <%= f.number_field :min_age, min: 18, autocomplete: 'max_age',
+                             class: 'form-control sign_up-input-field',
+                             placeholder: 'Age(min-18)', data: {toggle: 'tooltip', placement: 'top'},
+                             title: 'Age(min)' %>
+          <small class="text-danger">
+            <%= f.object.errors[:min_age].present? ? "Min Age #{f.object.errors[:min_age]&.first}" : '' %>
+          </small>
+        </div>
+        <div class="col-6 pl-1">
+          <%= f.label :max_age %>
+          <%= f.number_field :max_age, autocomplete: 'max_age', min: 18, class: 'form-control sign_up-input-field',
+                             placeholder: 'Age(max)', data: {toggle: 'tooltip', placement: 'top'},
+                             title: 'Age(max)' %>
+          <small class="text-max-age">Should be greater than min age.</small>
+          <small class="text-danger">
+            <%= f.object.errors[:max_age].present? ? "Max Age #{f.object.errors[:max_age]&.first}" : '' %>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :hometown %>
+      <%= f.select :hometown,
+                   District.order_by_name.pluck(:name),
+                   {include_blank: false},
+                   multiple: true,
+                   class: 'form-control sign_up-input-field selectpicker',
+                   placeholder: 'Hometown' %>
+      <small class="text-danger">
+        <%= f.object.errors[:hometown].present? ? "Hometown #{f.object.errors[:hometown]&.first}" : '' %>
+      </small>
+    </div>
+    <div class="form-group">
+      <%= f.label :present_location %>
+      <%= f.select :present_location,
+                   District.order_by_name.pluck(:name),
+                   {include_blank: false},
+                   multiple: true,
+                   class: 'form-control sign_up-input-field selectpicker', placeholder: 'Present Location',
+                   data: {toggle: 'tooltip', placement: 'top'},
+                   title: 'Present Location' %>
+      <small class="text-danger">
+        <%= f.object.errors[:present_location].present? ? "Present Location #{f.object.errors[:present_location]&.first}" : '' %>
+      </small>
+    </div>
+    <div class="form-group">
+      <%= f.label :marital_status %>
+      <%= f.select :marital_status,
+                   PartnerPreference.values_for_marital_status.sort.map { |k| [k.to_s.humanize, k] },
+                   {},
+                   multiple: true,
+                   class: 'form-control sign_up-input-field selectpicker',
+                   data: {toggle: 'tooltip', placement: 'top'},
+                   title: 'Marital Status' %>
+      <small class="text-danger">
+        <%= f.object.errors[:marital_status].present? ? "Marital Status #{f.object.errors[:marital_status]&.first}" : '' %>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-6 pr-1">
+          <%= f.label :min_height %>
+          <%= f.number_field :min_height, min: 1, max: 10,
+                             autocomplete: 'min_height', class: 'form-control sign_up-input-field',
+                             placeholder: 'Feet (min)', data: {toggle: 'tooltip', placement: 'top'},
+                             title: 'Feet (min)' %>
+          <small class="text-danger">
+            <%= f.object.errors[:min_height].present? ? "Height #{f.object.errors[:min_height]&.first}" : '' %>
+          </small>
+        </div>
+        <div class="col-6 pl-1">
+          <%= f.label :min_inch %>
+          <%= f.number_field :min_inch, min: 0, max: 11,
+                             autocomplete: 'min_inch', class: 'form-control sign_up-input-field',
+                             placeholder: 'Inch (min)', data: {toggle: 'tooltip', placement: 'top'},
+                             title: 'Inch (min)' %>
+          <small class="text-danger">
+            <%= f.object.errors[:min_inch].present? ? "Min Inch #{f.object.errors[:min_inch]&.first}" : '' %>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="row">
+        <div class="col-6 pr-1">
+          <%= f.label :max_height %>
+          <%= f.number_field :max_height, min: 1, max: 11, autocomplete: 'max_height',
+                             class: 'form-control sign_up-input-field',
+                             placeholder: 'Feet (max)', data: {toggle: 'tooltip', placement: 'top'},
+                             title: 'Feet (max)' %>
+          <small class="text-max-height">Should be greater than min height.</small>
+          <small class="text-danger"> <%= f.object.errors[:max_height].present? ? "Height #{f.object.errors[:max_height]&.first}" : '' %> </small>
+        </div>
+        <div class="col-6 pl-1">
+          <%= f.label :max_inch %>
+          <%= f.number_field :max_inch, min: 0, max: 11,
+                             autocomplete: 'max_inch',
+                             class: 'form-control sign_up-input-field',
+                             placeholder: 'Inch (max)', data: {toggle: 'tooltip', placement: 'top'},
+                             title: 'Inch (max)' %>
+          <small class="text-max-inch">Should be greater than min inch.</small>
+          <small class="text-danger"> <%= f.object.errors[:max_inch].present? ? "Min Inch #{f.object.errors[:max_inch]&.first}" : '' %> </small>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :highest_education_level %>
+      <%= f.select :highest_education_level,
+                   PartnerPreference::highest_education_levels.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                   {prompt: 'Highest Education Level'},
+                   class: 'form-control sign_up-input-field selectpicker',
+                   data: {toggle: "tooltip", placement: "top"},
+                   title: 'Highest Education Level' %>
+      <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? "Highest Education Level #{f.object.errors[:highest_education_level]&.first}" : '' %> </small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :physical_status %>
+      <%= f.select :physical_status,
+                   PartnerPreference::physical_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                   {prompt: 'Physical Status'}, class: 'form-control sign_up-input-field selectpicker',
+                   data: {toggle: 'tooltip', placement: 'top'}, title: 'Physical Status' %>
+      <small class="text-danger">
+        <%= f.object.errors[:physical_status].present? ? "Family Values #{f.object.errors[:physical_status]&.first}" : '' %>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :family_type %>
+      <%= f.select :family_type,
+                   PartnerPreference::family_types.map.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                   {prompt: 'Family Type'}, class: 'form-control sign_up-input-field selectpicker',
+                   data: {toggle: 'tooltip', placement: 'top'}, title: 'Family Type' %>
+      <small class="text-danger">
+        <%= f.object.errors[:family_type].present? ? "Family Values #{f.object.errors[:family_type]&.first}" : '' %>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :family_status %>
+      <%= f.select :family_status,
+                   PartnerPreference::family_statuses.map.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                   {prompt: 'Family Status'}, class: 'form-control sign_up-input-field selectpicker',
+                   data: {toggle: 'tooltip', placement: 'top'}, title: 'Family Status' %>
+      <small class="text-danger">
+        <%= f.object.errors[:family_status].present? ? "Family Value #{f.object.errors[:family_status]&.first}" : '' %>
+      </small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :family_values %>
+      <%= f.select :family_values,
+                   PartnerPreference::family_values.map.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                   {prompt: 'Family Value'}, class: 'form-control sign_up-input-field selectpicker',
+                   data: {toggle: 'tooltip', placement: 'top'}, title: 'Family Value' %>
+      <small class="text-danger">
+        <%= f.object.errors[:family_values].present? ? "Family Value #{f.object.errors[:family_values]&.first}" : '' %>
+      </small>
+    </div>
+
+    <div class="<%= preference.new_record? ? 'form-group' : '' %>">
+      <%= f.label :blood_group %>
+      <%= f.select :blood_group,
+                   PartnerPreference::BLOOD_GROUPS,
+                   {include_blank: false},
+                   multiple: true,
+                   class: 'form-control sign_up-input-field selectpicker',
+                   data: {toggle: 'tooltip', placement: 'top'},
+                   title: 'Blood Group* 🔐 (information cannot be edited once submitted)' %>
+      <small class="text-danger">
+        <%= f.object.errors[:blood_group].present? ? "Height(inch) #{f.object.errors[:blood_group]&.first}" : '' %>
+      </small>
+    </div>
+
+  </div>
+  <% if preference.new_record? %>
+    <div class="register-btn-section text-center">
+      <button type="submit" class="btn btn-sign_up form-control">Next</button>
+    </div>
+  <% end %>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f unless preference.new_record? %>
+
+<% end %>
+
+<script>
+    $('.selectpicker').selectpicker();
+</script>

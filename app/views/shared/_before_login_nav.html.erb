@@ -1,0 +1,47 @@
+<ul class="navbar-nav mr-auto custom-navbar-nav">
+  <li class="nav-item dropdown">
+    <%= render 'shared/about' %>
+  </li>
+  <li class="nav-item dropdown">
+    <%= render 'shared/market_place_menu' %>
+  </li>
+  <li class="nav-item dropdown">
+    <%= render 'shared/assisted_services_menu' %>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Blogs
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+      <a class="dropdown-item" href="<%= blogs_path type: "success_story" %>">
+        Success Stories
+      </a>
+      <a class="dropdown-item" href="<%= blogs_path %>">
+        All Blogs
+      </a>
+    </div>
+  </li>
+</ul>
+<ul class="navbar-nav d-flex flex-row align-items-center">
+  <li class="nav-item flex-fill p-2">
+    <a class="nav-linkx text-white btn btn-sm nav-login-btn" href="#" data-toggle="modal" data-target="#loginModal">
+      LOGIN </a>
+  </li>
+
+  <li class="nav-item dropdown help-dropdown p-2 flex-fill">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Help
+    </a>
+    <div class="dropdown-menu landing-nav" aria-labelledby="navbarDropdownMenuLink">
+      <a class="dropdown-item" href="<%= faqs_path %>">
+        <i class="fa fa-question-circle"></i> FAQ
+      </a>
+      <a class="dropdown-item" href="<%= precautionary_measures_path %>">
+        <i class="fas fa-exclamation-circle"></i> Precautionary Measures
+      </a>
+      <a class="dropdown-item" href="<%= how_it_works_path %>">
+        <i class="fas fa-cogs"></i> How It Works
+      </a>
+    </div>
+  </li>
+</ul>

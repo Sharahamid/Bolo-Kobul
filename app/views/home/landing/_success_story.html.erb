@@ -1,0 +1,28 @@
+<div class="p-2 flex-fill">
+  <div class="story-photo text-center">
+    <%= image_tag "#{
+    if success_story.image_url.present?
+      success_story.image_url
+    else
+      "story/story_#{success_story_counter.even? ?
+                         "1" : "2"}.png"
+    end}",
+                  class: "img-thumbnail rounded-circle",
+                  alt: success_story.title
+    %>
+  </div>
+  <div class="story-title text-center">
+    <strong>
+      <%= success_story.title %>
+    </strong>
+  </div>
+  <div class="story-content text-center">
+    <span>
+     <%= truncate(success_story.story, length: 100) %>
+    </span>
+    <br>
+    <a href="<%= blog_path success_story %>" class="merriweather">
+      See More
+    </a>
+  </div>
+</div>

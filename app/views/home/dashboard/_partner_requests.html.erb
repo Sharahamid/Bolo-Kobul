@@ -1,0 +1,23 @@
+<div class="partner-requests pt-3">
+  <span class="text-left"> Requests For You
+  <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Interested to connect with you."></i>
+  </span>
+  <div class="d-sm-flex flex-sm-row pt-3 <%= get_requested_profiles&.count > 2 ? 'bk-request-slider' : '' %>">
+    <% if get_requested_profiles.present? %>
+      <% get_requested_profiles.each do |requested_profile| %>
+        <div class="request-card flex-fill">
+          <div class="d-sm-flex flex-sm-column">
+            <%= render 'home/dashboard/card_profile_info', profile: requested_profile, profile_action: true %>
+            <div class="request-card-bottom p-2 border-top">
+              <%= render 'home/dashboard/accept_and_cancel_btns', profile: requested_profile %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="no-data-found alert text-center text-gray">
+        <p> You have not received any request yet.</p>
+      </div>
+    <% end %>
+  </div>
+</div>

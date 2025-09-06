@@ -1,0 +1,18 @@
+<div class="container market-places-container">
+  <h2 class="market-places-header">
+    <% if params[:market_place_type].present? %>
+      <%= params[:market_place_type].titleize %>
+    <% else %>
+      All
+    <% end %>
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+
+  <%= render 'market_places/market_place_filter' %>
+
+  <div class="market-places-items">
+    <div class="market-places-content row col-md-12 py-3">
+      <%= render partial: 'market_place', collection: @market_places %>
+    </div>
+  </div>
+</div>

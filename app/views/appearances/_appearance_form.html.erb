@@ -1,0 +1,135 @@
+<%= form_for appearance, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: 'Appearance' %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <div class="form-group">
+        <div class=" d-flex flex-row">
+          <div class="flex-fill pr-1">
+            <%= f.text_field :hair_color,
+                             placeholder: 'Hair Color',
+                             class: 'form-control sign_up-input-field',
+                             title: 'Hair Color', data: {toggle: 'tooltip',
+                                                         placement: 'top'} %>
+            <small class="text-danger"> <%= f.object.errors[:hair_color].present? ? "Hair Color #{f.object.errors[:hair_color]&.first}" : '' %> </small>
+          </div>
+          <div class="flex-fill pl-1">
+            <%= f.text_field :hair_length, placeholder: 'Hair Length', min: 0,
+                               class: 'form-control sign_up-input-field',
+                               title: 'Hair Length',
+                               data: {toggle: 'tooltip', placement: 'top'} %>
+            <small class="text-danger"> <%= f.object.errors[:hair_length].present? ? "Hair Type #{f.object.errors[:hair_length]&.first}" : '' %> </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class=" d-flex flex-row">
+          <div class="flex-fill pr-1">
+            <%= f.text_field :hair_type, placeholder: 'Hair Type',
+                             class: 'form-control sign_up-input-field',
+                             title: 'Hair Type', data: {toggle: 'tooltip',
+                                                        placement: 'top'} %>
+            <small class="text-danger"> <%= f.object.errors[:hair_type].present? ? "Complexion #{f.object.errors[:hair_type]&.first}" : '' %> </small>
+          </div>
+          <div class="flex-fill pl-1">
+            <%= f.text_field :eye_color, placeholder: 'Eye Color',
+                             class: 'form-control sign_up-input-field',
+                             title: 'Eye Color',
+                             data: {toggle: 'tooltip',
+                                    placement: 'top'} %>
+            <small class="text-danger"> <%= f.object.errors[:eye_color].present? ? "Hair Type #{f.object.errors[:eye_color]&.first}" : '' %> </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :eye_wear, Appearance::eye_wears.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Eye Wear'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Eye Wear',
+                     data: {toggle: 'tooltip',
+                            placement: 'top'} %>
+        <small class="text-danger"> <%= f.object.errors[:eye_wear].present? ? "Body Art #{f.object.errors[:eye_wear]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.number_field :weight,
+                           placeholder: 'Weight(in kg)',
+                           min: 0,
+                           class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:weight].present? ? "Weight #{f.object.errors[:weight]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :body_type, Appearance::body_types.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Body Type'},
+                     title: 'Body Type',
+                     data: {toggle: 'tooltip', placement: 'top'},
+                     autofocus: true,
+                     class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:body_type].present? ? "Body Type #{f.object.errors[:body_type]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :body_art,
+                     Appearance::body_arts.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Body Art'},
+                     title: 'Body Art',
+                     data: {toggle: 'tooltip',
+                            placement: 'top'},
+                     class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:body_art].present? ? "Body Art #{f.object.errors[:body_art]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :complexion,
+                     Appearance::complexions.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Complexion'}, class: 'form-control sign_up-input-field',
+                     data: {toggle: "tooltip", placement: "top"},
+                     title: 'complexion' %>
+        <small class="text-danger"> <%= f.object.errors[:complexion].present? ? "Complexion #{f.object.errors[:complexion]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :physical_status,
+                     Appearance::physical_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Physical Status'}, class: 'form-control sign_up-input-field',
+                     data: {toggle: 'tooltip', placement: 'top'}, title: 'Physical Status' %>
+        <small class="text-danger">
+          <%= f.object.errors[:family_values].present? ? "Family Values #{f.object.errors[:family_values]&.first}" : '' %>
+        </small>
+      </div>
+
+
+      <% if current_active_profile.present? && current_active_profile.female? %>
+        <div class="form-group">
+          <div class=" d-flex flex-row">
+            <div class="flex-fill pr-1">
+              <%= f.select :is_hijab,
+                           Appearance::is_hijabs.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Hijab'},
+                           class: 'form-control sign_up-input-field' %>
+              <small class="text-danger"> <%= f.object.errors[:is_hijab].present? ? "Organization #{f.object.errors[:is_hijab]&.first}" : '' %> </small>
+            </div>
+            <div class="flex-fill pl-1">
+              <%= f.select :is_niqab,
+                           Appearance::is_niqabs.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Niqab'},
+                           class: 'form-control sign_up-input-field' %>
+              <small class="text-danger"> <%= f.object.errors[:is_niqab].present? ? "Organization #{f.object.errors[:is_niqab]&.first}" : '' %> </small>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>

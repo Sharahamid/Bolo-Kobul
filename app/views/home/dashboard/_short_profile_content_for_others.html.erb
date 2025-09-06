@@ -1,0 +1,40 @@
+<div class="bk-card-content p-2 border-top">
+  <div class="d-flex flex-row text-black">
+    <div class="info-label flex-fill">
+      <%= marriage_profile.age %> years
+    </div>
+    <div class="info-value align-self-end">
+      <i class="fas fa-graduation-cap"></i>
+      <span title=" <%= marriage_profile.highest_education_level? ? marriage_profile&.highest_education_level&.humanize : '' %>"
+            data-toggle="tooltip"
+            data-placement="top">
+            <%= marriage_profile&.highest_education_level&.humanize %>
+          </span>
+    </div>
+  </div>
+  <div class="d-flex flex-row text-black">
+    <div class="info-label flex-fill">
+      <%= marriage_profile.height_ft %>
+      '<%= marriage_profile.height_inch %>''
+    </div>
+    <div class="info-value align-self-end">
+      <i class="fas fa-user-md"></i>
+      <span title="<%= marriage_profile.current_occupation.present? ? marriage_profile&.current_occupation&.humanize : '' %>"
+            data-toggle="tooltip"
+            data-placement="top">
+            <%= marriage_profile&.current_occupation&.humanize || '' %>
+          </span>
+    </div>
+  </div>
+  <div class="">
+    <div class="d-flex flex-row text-black">
+      <div class="info-label flex-fill">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+        <span title="<%= marriage_profile&.hometown&.humanize %>" data-toggle="tooltip" data-placement="top">
+          <%= marriage_profile&.hometown&.humanize %>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</div>

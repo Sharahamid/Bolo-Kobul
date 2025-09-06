@@ -1,0 +1,41 @@
+<div class="container blogs-container">
+  <h2 class="blogs-header">
+    Reference Promo Code
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="blogs-items">
+    <div class="col-md-12 p-0 float-left">
+      <div class="row">
+        <div class="blogs-content col-md-9">
+          <% if @user.refferel_promo_code.present? %>
+            <div class="no-data-found alert text-center text-gray">
+              <p> You are not eligible to use any more referral promo code. You have already used a referral code. </p>
+            </div>
+          <% else %>
+            <%= form_for @user, url: update_referral_code_users_path, method: :patch do |f| %>
+              <div class="modal-body">
+                <div class="form_input_fields pl-2 pr-2">
+                  <div class="form-group">
+                    <%= f.text_field :refferel_promo_code,
+                                     autofocus: true,
+                                     autocomplete: "refferel_promo_code",
+                                     class: 'form-control sign_up-input-field',
+                                     placeholder: 'Type referral code',
+                                     title: 'Referral code ',
+                                     data: {toggle: 'tooltip', placement: 'top'},
+                                     required: true %>
+                  </div>
+                  <%= f.submit 'Submit', class: 'btn btn-warning text-white btn-sm' %>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="col-md-3 p-0">
+          <%= render partial: 'shared/ad_for_about_page' %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

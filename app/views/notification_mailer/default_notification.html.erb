@@ -1,0 +1,9 @@
+Dear <%= @notification.recipient.name.present? ?
+             @notification.recipient.name : 'Concern' %>
+
+<p><%= @notification.content %></p>
+
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

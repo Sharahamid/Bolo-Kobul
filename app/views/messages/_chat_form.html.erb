@@ -1,0 +1,18 @@
+<div class="chat-field">
+  <%= form_for message, class: '', remote: true, autocomplete: false do |f| %>
+    <div class="d-flex flex-row">
+      <%= f.text_field :body,
+                       id: 'message_text',
+                       autocomplete: 'off',
+                       class: 'form-control border-0',
+                       data: {chat_room_id: "#{chat_room.id }",
+                              recipient_id: "#{profile.id}"},
+                       date: "#{format_date_messaging(Time.zone.now)}" %>
+      <%= f.hidden_field :chat_room_id, value: "#{chat_room.id }" %>
+      <%= f.hidden_field :recipient_id, value: "#{profile.id }" %>
+      <button type="submit" class="send-private-message msg-send-btn mr-4 mt-1">
+        <i class="fas fa-mouse-pointer"></i>
+      </button>
+    </div>
+  <% end %>
+</div>

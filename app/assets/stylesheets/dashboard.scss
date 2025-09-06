@@ -1,0 +1,509 @@
+@import "public_variables";
+
+//common button
+.kobul_btn {
+  border-radius: 4px 0 0 4px;
+  border: 1px solid $kobul_btn_color;
+  color: $kobul_btn_color !important;
+  text-decoration: none !important;
+  padding: 6px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 10px;
+
+  img {
+    margin-bottom: 4px;
+    width: 10px;
+    height: 9px;
+  }
+}
+
+.kobul_cancel-btn, .profile_block-btn {
+  color: $cancel_color !important;
+  border: 1px solid $cancel_color;
+  text-decoration: none !important;
+  padding: 6px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 10px;
+}
+
+.profile_block-btn {
+  border-radius: 0 4px 4px 0;
+}
+
+.bk_favourite-btn {
+  color: $favourite-btn-color !important;
+  border-radius: 0 4px 4px 0;
+  border: 1px solid $favourite-btn-color;
+  text-decoration: none !important;
+  padding: 6px;
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-size: 10px;
+}
+
+
+.dashboard {
+  padding-top: 1.5rem;
+  .message-left-sidebar{
+    min-width: 20% !important;
+  }
+  .left-sidebar-section {
+    min-width: 25%;
+
+    .left-sidebar-card {
+      box-shadow: 1px 3px 9px #0000002B;
+      background-color: $default-background;
+      border-radius: 5px;
+      width: 100%;
+      margin-bottom: 1.5rem;
+
+      .left-side-single-card {
+        .profile-photo {
+          img {
+            height: 74px;
+            width: 74px;
+          }
+
+          position: relative;
+
+          .camera-icon-area {
+            position: absolute;
+            background: #E8003F;
+            bottom: 0;
+            left: 28px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+
+            .profile-photo-upload {
+              padding: 5px;
+              color: $white-color;
+            }
+
+            .profile-input-field {
+              position: absolute;
+              left: 0;
+              bottom: 0;
+              width: 26px;
+              height: 26px;
+              opacity: 0;
+            }
+          }
+
+          .camera-icon-area:hover {
+            cursor: pointer;
+          }
+
+        }
+
+        .card_title {
+          color: $black-color;
+          font-size: 16px;
+        }
+
+        .profile-completeness-bar {
+          .progress {
+            height: 0.5rem !important;
+          }
+
+          .progress-value {
+            font-size: 13px;
+            letter-spacing: 0;
+          }
+        }
+
+        .bk-card-content {
+          font-size: 14px;
+          .chat-plr{
+            padding-right: 1rem;
+            padding-left: 1rem;
+          }
+          .chat-profile-photo {
+            img {
+              height: 45px;
+              width: 45px;
+            }
+          }
+
+          .chat-profile-info {
+            small {
+              font-size: 11px;
+            }
+            .width-last-msg{
+              min-width: 4rem;
+            }
+          }
+        }
+
+        .profile-bk-edit-btn {
+
+        }
+      }
+
+      .dashboard-chat-list{
+        max-height: 262px !important;
+        overflow-y: auto !important;
+      }
+      .chat-list-window{
+        min-height: calc(100vh - 148px);
+        overflow-y: auto;
+      }
+
+      .bg-butterfly {
+        background-image: asset_url("butterfly_dashboard.svg");
+        background-repeat: no-repeat;
+        background-position: top center;
+        background-size: 84px 151px;
+      }
+    }
+  }
+
+  .message-right-sidebar{
+    min-width: 80% !important;
+  }
+  .right-section {
+    min-width: 75%;
+    padding-left: 1.5rem;
+
+    .dashboard-tab {
+      box-shadow: 1px 3px 9px #0000002B;
+      background-color: $default-background;
+      width: 100%;
+
+      .dashboard-header {
+        background-color: $primary-color;
+      }
+
+      .nav-tabs .nav-link:focus, .nav-tabs .nav-link:hover {
+        border: none;
+      }
+    }
+
+    .partner-requests {
+      width: 100%;
+
+      .request-card {
+        background-color: $default-background;
+        box-shadow: 1px 3px 9px #0000002B;
+        border-radius: 5px;
+        margin: 0 .75rem;
+        width: 92% !important;
+
+        .recommended_profiles {
+          max-height: 560px;
+          overflow-y: auto;
+        }
+
+        .request-card-top {
+
+          .partner-photo {
+            img {
+              min-height: 72px;
+              min-width: 72px;
+              height: 72px;
+              width: 72px;
+            }
+          }
+
+          .partner-short-info {
+            .age-and-location {
+              color: $black-color;
+              font-size: 12px;
+            }
+
+            .expire-time {
+              color: $text-gray;
+              font-size: 11px;
+            }
+
+          }
+        }
+
+      }
+
+      .ads-right-sidebar {
+        margin-left: 1rem;
+        padding-right: 6px;
+      }
+
+      //.request-card:nth-child(3n+1) {
+      //  margin-left: 0;
+      //}
+      //
+      //.request-card:nth-child(3n) {
+      //  margin-right: 0;
+      //}
+    }
+
+    .marriage_information {
+      width: 100%;
+
+      .btn-edit, .btn-delete {
+        background-color: $edit-btn-color;
+      }
+
+      .personal-photo {
+        position: relative;
+        display: inline-block;
+        max-width: 30%;
+
+        .small-thumbnail {
+          height: 150px;
+          cursor: pointer;
+        }
+
+        .modal-header {
+          margin: auto;
+        }
+
+        .camera-icon-area {
+          position: absolute;
+          background: #E8003F;
+          top: 5px;
+          left: 5px;
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+
+          .photo-upload {
+            padding: 5px;
+            color: #fff;
+          }
+
+          .photo-input-field {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 26px;
+            height: 26px;
+            opacity: 0;
+          }
+        }
+      }
+
+      .profile-info-item {
+        position: relative;
+
+        .info-yellow-line {
+          position: absolute;
+          border-top: 3px solid #DEB717;
+          width: 4rem;
+          top: 0;
+          left: 1rem;
+        }
+      }
+
+      .info-yellow-line {
+        position: absolute;
+        border-top: 3px solid #DEB717;
+        width: 4rem;
+        top: 0;
+        left: 1rem;
+      }
+
+      .detail-info, .new-info-add {
+        position: relative;
+
+        .edit-info-btn {
+          position: absolute;
+          right: 0;
+          top: 15px;
+        }
+
+        .delete-info-btn {
+          position: absolute;
+          right: 0;
+          top: 55px;
+        }
+
+        .new-info-btn {
+          position: absolute;
+          right: 30px;
+          top: -30px;
+          z-index: 4;
+        }
+      }
+
+
+    }
+  }
+}
+
+
+.info-alignment {
+  .special-td{
+    width: 158px;
+    padding: 10px;
+  }
+  table {
+    tbody {
+      tr {
+        td {
+          max-width: 200px;
+        }
+      }
+    }
+  }
+}
+
+ //For global btns css
+
+.request-card-bottom {
+  width: 100%;
+
+  .bk-request-btn {
+    width: 50%;
+
+    .kobul_btn {
+      .kobul-hover-butterfly {
+        display: none;
+      }
+
+      .kobul-butterfly {
+        display: inherit;
+      }
+
+    }
+
+    .kobul_btn:hover {
+      background-color: $kobul_btn_color;
+      color: $text-white !important;
+
+      .kobul-hover-butterfly {
+        display: inherit;
+      }
+
+      .kobul-butterfly {
+        display: none;
+      }
+    }
+  }
+
+
+  .bk-cancel-btn {
+    width: 50%;
+    font-size: 10px;
+
+    .kobul_cancel-btn {
+
+    }
+
+    .kobul_cancel-btn:hover {
+      background-color: $cancel_color;
+      color: $text-white !important;
+    }
+
+    .bk_favourite-btn {
+
+    }
+
+    .bk_favourite-btn:hover {
+      background-color: $favourite-btn-color;
+      color: $text-white !important;
+    }
+  }
+
+  .bk-block-btn {
+    .profile_block-btn:hover {
+      background-color: $cancel_color;
+      color: $text-white !important;
+    }
+  }
+}
+
+.vl {
+  margin: 10px;
+  border-left: 1px solid $text-gray;
+}
+
+.text-yellow {
+  color: $primary-color
+}
+
+.slick-next:before {
+  color: $primary-color !important;
+}
+
+.slick-prev:before {
+  color: $primary-color !important;
+}
+
+.fa-caret-down, .fa-caret-up {
+  color: $primary-color !important;
+}
+
+.favourite-list {
+  display: flex;
+  flex-wrap: wrap;
+
+  .favourite-card {
+    flex: 1 0 30% !important;
+  }
+}
+
+.slick-initialized .slick-slide {
+  background: $guest-color;
+}
+
+.modal-body{
+  overflow-y: auto;
+  max-height: 480px;
+}
+
+.flash-msg-profile-change .update-notice{
+  position: relative;
+  .bk-flash-msg{
+    position: absolute;
+    bottom: 66px;
+    left: 73px;
+  }
+}
+
+.border-bottom-yellow{
+  border-bottom: 2px solid $primary-color;
+}
+.yellow-background{
+  background-color: $primary-color;
+}
+.gary-light-background{
+  background-color: $gray-color;
+}
+.dropdown-item{
+  white-space: inherit !important;
+}
+.action-menu{
+  position: relative;
+  .menu-placement{
+    position: absolute;
+    right: 0;
+  }
+}
+
+.error-modal-notice{
+  position: relative;
+  .custom-alert{
+    position: fixed !important;
+    top: 1px !important;
+    right: 30px;
+    left: 0;
+    width: 32% !important;
+  }
+}
+
+.round-batch {
+  font-size: 12px;
+  font-weight: initial;
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 1px solid;
+  border-radius: 50%;
+  color: white;
+  background-color: #21BA45;
+  padding: 5px 2px;
+}

@@ -1,0 +1,30 @@
+<div class="right-section mb-4">
+  <div class="d-flex flex-column dashboard-tab">
+    <% if pending_profiles.present? %>
+      <% pending_profiles.each do |profile| %>
+        <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
+          <div class="col-12">
+            <div class="row">
+              <div class="col-4">
+                <%= link_to profile&.unique_id, profile_info_marriage_profile_path(profile) %>
+              </div>
+              <div class="col-4">
+                <i class="text-gray" title="Pending" data-toggle="tooltip" data-placement="top">
+                  Pending
+                </i>
+              </div>
+              <div class="col-4">
+                <%= link_to cancel_request_marriage_profile_path(profile), class:'w-100 btn btn-sm btn-danger', method: :patch do %>
+                  Cancel
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <%= render 'shared/no_data_found' %>
+    <% end %>
+  </div>
+
+</div>

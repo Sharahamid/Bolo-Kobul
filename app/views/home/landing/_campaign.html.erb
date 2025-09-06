@@ -1,0 +1,28 @@
+<section class=" section_5 container-fluid p-0">
+    <div class="campaign">
+      <div class="container text-centerx">
+
+        <div class="campaign-wrapper">
+          <div class="campaign-top-part text-white">
+            <div class="d-sm-flex flex-sm-row ">
+              <div class="campaign_image">
+                <%= image_tag 'dontwaitforlove.png', height: '200' %>
+              </div>
+              <div class="campaign_banner flex-grow-1 align-self-sm-end">
+                <div class="dont-wait-mandala">
+                  <%= image_tag 'dontwaitforlove_mandala.svg', width: '100', height: '100' %>
+                </div>
+                <div class="d-flex flex-column text-center">
+                  <h3 class="align-self-sm-end"> Don't wait for love to find you! </h3>
+                  <div class="align-items-sm-start pt-2 align-self-sm-end reg-btn">
+                    <%= link_to 'Register Free', root_path, class:'btn btn-sm text-black btn-default merriweather', style: 'background: #fff;' unless user_signed_in? %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <%= render 'home/landing/campaign_dialogue' %>
+        </div>
+      </div>
+    </div>
+</section>

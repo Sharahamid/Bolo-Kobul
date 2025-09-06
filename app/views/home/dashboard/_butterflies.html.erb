@@ -1,0 +1,33 @@
+<div class="left-sidebar-card p-3" , style="background: transparent linear-gradient(0deg, #FE7171 0%, #FF415B 100%) 0% 0% ;">
+  <div class="left-side-single-card d-flex flex-column align-content-center text-white bg-butterfly">
+    <div class="card_title align-self-center text-white">
+      <strong>
+        <%= image_tag 'butterfly_kobul_hover.svg',
+                      width: '18',
+                      height: '18',
+                      class: 'kobul-hover-butterfly mb-2' %>
+        Butterflies
+      </strong>
+    </div>
+
+    <div class="bk-card-content p-2">
+      <div class="d-flex flex-row ">
+        <div class="info-label flex-fill"> Balance</div>
+        <div class="info-value">
+          <%= current_user.butterfly_number.to_i %>
+        </div>
+      </div>
+      <div class="d-flex flex-row ">
+        <div class="info-label flex-fill"> In Process</div>
+        <div class="info-value">
+          <%= current_user.block_butterfly_number.to_i %>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-bk-edit-btn align-self-center p-2 mt-5">
+      <%= link_to 'Get More', new_order_path, class: 'btn btn-sm btn-default white-background' %>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,43 @@
+@import "public_variables";
+
+.fa-check-circle {
+  color: #82C91E;
+}
+.footer {
+  background: $white-color;
+  bottom: 0;
+  left: 0;
+  margin-top: 1rem;
+  padding-top: 3rem;
+  width: 100%;
+
+  .footer-column {
+    color: gray;
+    strong{
+      color: #D6AA00;
+      font-family: Merriweather, Arial, sans-serif;
+    }
+    .link-items {
+      ul {
+        list-style: none;
+        text-decoration: none;
+        padding: 0;
+
+        .link-item {
+          a {
+            color: gray;
+          }
+
+        }
+      }
+    }
+    &.payment-logo {
+      max-width: 600px;
+      margin: 0 auto;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+}

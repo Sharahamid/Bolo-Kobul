@@ -1,0 +1,19 @@
+<div class="container error-page-container">
+  <h2 class="error-page-header">
+    Oops!
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="error-page-items row my-3">
+    <div class="error-page-content col-md-12 py-3">
+      <div>Unfortunately, the site/page is down for maintenance right now. It may look like
+        nothing is going on but big changes are happening inside.
+      </div>
+      <div>
+        Check back shortly.
+      </div>
+    </div>
+  </div>
+  <%= content_tag :div, class: "exception", data: { status: @exception.status, response: @exception.response.to_s.humanize, rails: Rails.version }, onclick: ("location.href=\"#{root_url}\";" if @exception.status.to_s.first == "5" && Rails.application.routes.recognize_path("/")) do %>
+    <%= content_tag :span, @exception.description.html_safe %>
+  <% end %>
+</div>

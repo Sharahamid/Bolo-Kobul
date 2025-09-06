@@ -1,0 +1,186 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> Hobbies and Interests </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_hobbies_interest" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="collapse_hobbies_interest" class="panel-collapse collapse p-2 detail-info ">
+      <% if marriage_profile.id == current_active_profile.id %>
+      <div class="edit-info-btn">
+        <a href="<%= marriage_profile.hobbies_and_interest.present? ?
+                         edit_hobbies_and_interest_path(marriage_profile.hobbies_and_interest) :
+                         new_hobbies_and_interest_path %>"
+           data-remote="true"
+           data-toggle="tooltip"
+           data-placement="top"
+           title="<%= marriage_profile.hobbies_and_interest.present? ? 'Edit' : 'Add' %> information" class="btn btn-sm btn-edit text-white mr-2">
+          <i class="fa <%= marriage_profile.new_record? ? 'fa-plus-circle' : 'fa-pencil' %>"></i>
+        </a>
+      </div>
+        <% end %>
+      <div class="panel-body border-top">
+        <div class="d-sm-flex flex-sm-row info-alignment">
+          <table class=" flex-fill pr-3 table table-borderless table-responsive">
+            <tbody>
+              <% if marriage_profile.hobbies_and_interest&.hobby.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Hobby</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.hobby.present? ?
+                          marriage_profile.hobbies_and_interest.hobby.map{|ds| User::HOBBIES.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.interest.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Interest</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.interest.present? ?
+                          marriage_profile.hobbies_and_interest.interest.map{|ds| User::INTEREST.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.music.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Music</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.music.present? ?
+                          marriage_profile.hobbies_and_interest.music.map{|ds| User::FAVOURITE_MUSIC.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.favourite_song.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Favourite Song</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.hobbies_and_interest&.favourite_song.present? ?
+                                                                    marriage_profile.hobbies_and_interest.favourite_song.humanize : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.read.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Read</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.read.present? ?
+                          marriage_profile.hobbies_and_interest.read.map{|ds| User::FAVOURITE_BOOK.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.favourite_book.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Favourite Book</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.hobbies_and_interest&.favourite_book.present? ?
+                            marriage_profile.hobbies_and_interest.favourite_book.humanize : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.favourite_movie? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Movie</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.favourite_movie? ?
+                          marriage_profile.hobbies_and_interest.favourite_movie.map{|ds| User::FAVOURITE_MOVIE.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          <div class="vl"></div>
+          <table class=" flex-fill pr-3 table table-borderless table-responsive">
+            <tbody>
+              <% if marriage_profile.hobbies_and_interest&.favourite_tv_show? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> TV Show</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.favourite_tv_show? ?
+                          marriage_profile.hobbies_and_interest.favourite_tv_show.map{|ds| User::FAVOURITE_TV_SHOW.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.favourite_sports_show? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Sports Show</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.favourite_sports_show? ?
+                          marriage_profile.hobbies_and_interest.favourite_sports_show.map{|ds| User::FAVOURITE_SPORTS.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.fitness_activity? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Fitness Activity</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.fitness_activity? ?
+                          marriage_profile.hobbies_and_interest.fitness_activity.map{|ds| User::FITNESS_ACTIVITIES.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.cuisine.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Cuisine</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.cuisine.present? ?
+                          marriage_profile.hobbies_and_interest.cuisine.map{|ds| User::FAVOURITE_CUISINE.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.hobbies_and_interest&.travel.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Travel</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile.hobbies_and_interest&.travel.present? ?
+                          marriage_profile.hobbies_and_interest.travel.map{|ds| User::TRAVEL.keys[ds.to_i]}.join(', ') : '' %>
+                  </td>
+                </tr>
+               <% end %>
+
+               <% if marriage_profile.hobbies_and_interest&.specific_entertainment.present? || marriage_profile.id == current_active_profile.id %>
+                <tr>
+                  <td> Specific Entertainment</td>
+                  <td>:</td>
+                  <td>
+                    <%= marriage_profile&.hobbies_and_interest&.specific_entertainment.present? ?
+                          marriage_profile&.hobbies_and_interest&.specific_entertainment.humanize : '' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

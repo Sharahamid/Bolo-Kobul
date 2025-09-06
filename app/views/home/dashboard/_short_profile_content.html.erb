@@ -1,0 +1,27 @@
+<div class="bk-card-content p-2">
+  <div class="">
+    <a href="<%= pending_profiles_marriage_profiles_path %>" , class="d-flex flex-row text-black">
+    <div class="info-label flex-fill"> Pending Request</div>
+    <div class="info-value
+          <%= get_pending_profiles.present? ? 'text-yellow ' : '' %>">
+      <%= get_pending_profiles.present? ? get_pending_profiles.count : 0 %>
+    </div>
+    </a>
+  </div>
+  <div class="d-flex flex-row text-black">
+    <div class="info-label flex-fill"> Accepted</div>
+    <div class="info-value
+          <%= get_accepted_profiles.present? ? 'text-yellow ' : '' %>">
+      <%= get_accepted_profiles.present? ? get_accepted_profiles.count : 0 %>
+    </div>
+  </div>
+  <div class="">
+    <a href="<%= favourites_path %>" , class="d-flex flex-row text-black">
+      <div class="info-label flex-fill"> Favourites</div>
+      <div class="info-value
+            <%= current_active_profile.favourites.present? ? 'text-yellow ' : '' %>">
+        <%= current_active_profile.favourites.present? ? current_active_profile.favourites.count : 0 %>
+      </div>
+    </a>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css?family=Arima+Madurai:300');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.bird {
+  background-image: url(https://www.animatedimages.org/data/media/291/animated-butterfly-image-0018.gif);
+  background-repeat: no;
+  background-size: auto 100%;
+  width: 125px;
+  height: 125px;
+  will-change: background-position;
+
+  animation-name: fly-cycle;
+  animation-timing-function: steps(1);
+  animation-iteration-count: 1;
+
+  &--one {
+    animation-duration: 1s;
+    animation-delay: -0.5s;
+  }
+}
+
+.bird-container {
+  position: absolute;
+  top: 20%;
+  left: -10%;
+  transform: scale(0) translateX(-10vw);
+  will-change: transform;
+
+  animation-name: fly-right-two;
+  animation-timing-function: linear;
+  animation-iteration-count: 1;
+
+  z-index: 1;
+
+  &--one {
+    animation-duration: 15s;
+    animation-delay: 0s;
+  }
+}
+
+.bird-container-bk {
+  @extend .bird-container;
+  animation-name: fly-right-one;
+}
+
+@keyframes fly-cycle {
+
+  100% {
+    background-position: -900px 0;
+  }
+
+}
+
+@keyframes fly-right-one {
+
+  0% {
+    transform: translateY(-2vh) translateX(110vw);
+  }
+
+  10% {
+    transform: translateY(0vh) translateX(90vw) scale(0.4);
+  }
+
+  20% {
+    transform: translateY(-4vh) translateX(70vw) scale(0.5);
+  }
+
+  30% {
+    transform: translateY(1vh) translateX(50vw) scale(0.6);
+  }
+
+  40% {
+    transform: translateY(-2.5vh) translateX(30vw) scale(0.6);
+  }
+
+  50% {
+    transform: translateY(0vh) translateX(10vw) scale(0.6);
+  }
+
+  60% {
+    transform: translateY(0vh) translateX(0vw) scale(0.6);
+  }
+
+  100% {
+    transform: translateY(0vh) translateX(-10vw) scale(0.6);
+  }
+
+}
+
+@keyframes fly-right-two {
+
+  0% {
+    transform: translateY(-2vh) translateX(-10vw) scale(0.5);
+  }
+
+  10% {
+    transform: translateY(0vh) translateX(10vw) scale(0.4);
+  }
+
+  20% {
+    transform: translateY(-4vh) translateX(30vw) scale(0.6);
+  }
+
+  30% {
+    transform: translateY(1vh) translateX(50vw) scale(0.45);
+  }
+
+  40% {
+    transform: translateY(-2.5vh) translateX(70vw) scale(0.5);
+  }
+
+  50% {
+    transform: translateY(0vh) translateX(90vw) scale(0.45);
+  }
+
+  51% {
+    transform: translateY(0vh) translateX(110vw) scale(0.45);
+  }
+
+  100% {
+    transform: translateY(0vh) translateX(110vw) scale(0.45);
+  }
+
+}

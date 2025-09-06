@@ -1,0 +1,5 @@
+<div class="left-sidebar-section">
+  <%= render 'home/dashboard/left_sidebar_profile', marriage_profile: marriage_profile %>
+  <%= render 'home/dashboard/butterflies' %>
+  <%= render 'home/dashboard/chat_requests' if chat_channels.present? %>
+</div>

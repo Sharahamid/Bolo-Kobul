@@ -1,0 +1,21 @@
+<div class="container-fluid p-0 ">
+  <div class="dashboard p-0">
+    <div class="containerx">
+      <div class="d-sm-flex flex-sm-row message-page">
+        <div class="left-sidebar-section message-left-sidebar">
+          <%= render 'messages/chat_profile_list', chat_rooms: @chat_rooms %>
+
+        </div>
+        <div class="right-section message-right-sidebar p-0">
+          <%= render 'home/dashboard/dashboard_tabs', marriage_profile: current_active_profile %>
+          <div class="profile-chat-window border-left">
+            <%= render 'profile_chat_window',
+                       profile: @chat_rooms&.last&.connected_profile(current_active_profile),
+                       chat_room: @chat_rooms&.last,
+                       message: @message %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

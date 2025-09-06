@@ -1,0 +1,15 @@
+Dear <%= @user.name.present? ? @user.name : 'Concern' %>:
+
+<p>Say goodbye to marriage-stress!</p>
+<p>
+  Welcome to <a href="https://bolokobul.com/"> Bolo Kobul </a>, the first of a kind one-stop platform for finding your soul mate.<br/>
+  Here you can browse through potential matches according to your preference while ensuring your data to be fully secured.
+</p>
+<p>
+  Please click on the link below to login to your account and begin looking!<br/>
+  <a href="https://bolokobul.com/"> https://bolokobul.com </a>
+</p>
+<p>
+  Thank you for choosing Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

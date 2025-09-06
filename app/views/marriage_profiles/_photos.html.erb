@@ -1,0 +1,46 @@
+<div class="d-sm-flex flex-sm-column pt-1">
+  <div class="flex-sm-row">
+    <% (1..3).each do |index| %>
+      <div class="personal-photo flex-sm-column">
+        <% if marriage_profile.send("photo_#{index}").present? %>
+          <%= image_tag marriage_profile.send("photo_#{index}").url(:thumb), class: 'img-thumbnail small-thumbnail',
+                        onclick: "$('#photo-modal-#{index}').modal('show');" %>
+
+          <div class="modal fade" id="photo-modal-<%= index %>" role="dialog">
+            <div class="modal-dialog modal-lg">
+              <!--Modal Content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <%= image_tag marriage_profile.send("photo_#{index}").url(:large_thumb), class: 'img-thumbnail' %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% elsif marriage_profile.id == current_active_profile.id %>
+          <%= image_tag 'bk-upload-photo.png', class: 'img-thumbnail' %>
+        <% end %>
+
+        <% if marriage_profile.id == current_active_profile.id %>
+          <%= form_for current_active_profile, url: change_photo_marriage_profile_path(current_active_profile),
+                       method: :patch, remote: true do |f| %>
+
+            <div class="camera-icon-area">
+              <i class="fa fa-camera photo-upload"></i>
+              <%= f.file_field "photo_#{index}", id: "js-photo-upload-#{index}", class: 'photo-input-field' %>
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+              <%= f.submit class: 'd-none', id: "js-photo-submit-#{index}" %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+
+      <script type="text/javascript" charset="utf-8">
+          $(function () {
+              $('#js-photo-upload-<%= index %>').change(function () {
+                  $('#js-photo-submit-<%= index %>').click();
+              });
+          });
+      </script>
+    <% end %>
+  </div>
+</div>

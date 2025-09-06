@@ -1,0 +1,228 @@
+<div id="mySidebar" class="sidebar">
+  <div class="site-bar-header pb-4">
+    <a href="javascript:void(0)" class="site-panel-logo">
+      <%= image_tag 'bk_logo.webp', width: '64', height: '64' %>
+    </a>
+
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+
+    <% if current_user.present? %>
+      <div class="mobile-site-bar-menu">
+        <a href="<%=
+          (current_user.marriage_profiles.present? && current_active_profile.present?) ?
+              dashboard_marriage_profile_path(current_active_profile) : '#' %>"
+           class="bk-active">
+          <div class="">
+            <i class="fa fa-tachometer"></i>
+            <span class="pl-1">Dashboard</span>
+          </div>
+        </a>
+        <a href="<%=
+          current_active_profile.present? ?
+              profile_info_marriage_profile_path(current_active_profile) : '#' %>"
+           class="bk-active">
+          <div class="">
+            <i class="fa fa-user"></i>
+            <span class="pl-1">Profile</span>
+          </div>
+        </a>
+        <a href="<%=
+          current_active_profile.present? ?
+              orders_path : '#' %>"
+           class="bk-active">
+          <div class="">
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+            <span class="pl-1">Orders</span>
+          </div>
+        </a>
+        <a href="<%=
+          current_active_profile&.partner_preference.present? ?
+              partner_preference_path(current_active_profile.partner_preference)
+              : new_partner_preference_path %>"
+           class="bk-active">
+          <div class="">
+            <i class="fas fa-user-shield"></i>
+            <span class="pl-1">Preference</span>
+          </div>
+        </a>
+        <a href="<%= customer_supports_path  %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-headset"></i>
+            Reported Issues
+          </div>
+        </a>
+        <a href="<%= privacy_settings_path  %>" class="bk-active">
+          <div class="">
+            <i class="fa fa-user-cog"></i>
+             Privacy Settings
+          </div>
+        </a>
+        <a href="<%=
+          (current_user.present? && current_active_profile.present?) ?
+              search_page_marriage_profile_path(current_active_profile) : '#' %>"
+           class="bk-active">
+          <div class="">
+            <i class="far fa-address-card"></i>
+            <span class="pl-1">Search</span>
+          </div>
+        </a>
+        <a href="<%= how_it_works_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-cogs"></i>
+            How It Works
+          </div>
+        </a>
+        <a href="<%= market_places_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-store"></i>
+            Wedding Shopping
+          </div>
+        </a>
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="menu-title">
+              <i class="fas fa-hands-helping"></i>
+              Assisted Services
+            </div>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <% AssistedService.order(:display_order).each do |assisted_service| %>
+              <a class="dropdown-item" href="<%= assisted_service_path(assisted_service) %>">
+                <%= assisted_service.name&.titleize %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+        <a href="<%= precautionary_measures_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-exclamation-circle"></i>
+            Precautionary Measures
+          </div>
+        </a>
+        <a href="<%= notifications_users_path %>" class="bk-active notification-section">
+          <div class="">
+            <i class="fas fa-hand-holding-heart"></i>
+            Notifications
+            <span class="notification-counter">
+              <%= current_user&.notifications&.unread&.count&.zero? ?
+                      '' : current_user&.notifications&.unread&.count
+              %>
+          </span>
+          </div>
+        </a>
+        <% unless current_user.self? || current_user.other_as_matchmaker? %>
+          <div class="nav-item dropup text-center">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Switch Profile
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <% if current_user.marriage_profiles.present? %>
+                <% current_user&.marriage_profiles&.each do |profile| %>
+                  <a class="dropdown-item" href="<%=
+                    profile.persisted? ? switch_marriage_profile_path(profile)
+                        : '#' %>">
+                    <%= profile&.name || profile&.unique_id %> </a>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+    <% else %>
+      <div class="mobile-site-bar-menu">
+        <a class="bk-active" href="<%= about_path %>">
+          <div class="">
+            <i class="fas fa-hand-holding-heart"></i>
+            About Us
+          </div>
+        </a>
+
+        <a href="<%= how_it_works_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-cogs"></i>
+            How It Works
+          </div>
+        </a>
+
+        <a href="<%= faqs_path %>" class="bk-active">
+          <div class="">
+            <i class="far fa-question-circle"></i>
+            <span class="pl-1">FAQ</span>
+          </div>
+        </a>
+
+        <a href="<%= precautionary_measures_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-exclamation-circle"></i>
+            <span class="pl-1">Precautionary Measures</span>
+          </div>
+        </a>
+
+        <a href="<%= blogs_path type: "success_story" %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-hand-holding-heart"></i>
+            Success Stories
+          </div>
+        </a>
+
+        <a href="<%= blogs_path %>" class="bk-active">
+          <div class="">
+            <i class="far fa-newspaper"></i>
+            Blogs
+          </div>
+        </a>
+
+        <a href="<%= market_places_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-store"></i>
+            Wedding Shopping
+          </div>
+        </a>
+
+        <div class="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <div class="menu-title">
+              <i class="fas fa-hands-helping"></i>
+              Assisted Services
+            </div>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <% AssistedService.order(:display_order).each do |assisted_service| %>
+              <a class="dropdown-item" href="<%= assisted_service_path(assisted_service) %>">
+                <%= assisted_service.name&.titleize %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+
+        <a href="<%= contact_path %>" class="bk-active">
+          <div class="">
+            <i class="far fa-address-card"></i>
+            Contact Us
+          </div>
+        </a>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="site-bar-footer text-white">
+    <div class="pt-2 social-link">
+      <%= render 'shared/social_media_link', text_color:'text-white' %>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidebar").style.width = "265px";
+        $("body").css("overflow", "hidden");
+    }
+
+    function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        $("body").css("overflow", "visible");
+    }
+</script>

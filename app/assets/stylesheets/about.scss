@@ -1,0 +1,35 @@
+@import "public_variables";
+
+.about-container {
+  .card {
+    margin: 1rem 0;
+    .card-header {
+      background-color: $white-color;
+      border: 1px solid $primary-color;
+      border-radius: 4px;
+      a {
+        color: $dark-shadowed-color;
+        display: flex;
+        flex-direction: row;
+        font-size: 1.25rem;
+        justify-content: space-between;
+      }
+    }
+    .card-body {
+      padding: 0.8rem;
+      color: $text-gray;
+      text-align: justify;
+      p {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+        text-decoration: revert;
+      }
+      ul {
+        list-style: revert;
+        padding: revert;
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+<div class="request-card flex-sm-fill">
+
+  <div class="p-2 pl-3 border-bottom">
+    <strong> Recommended For You </strong>
+  </div>
+
+  <div class="recommended_profiles mb-4">
+    <% if current_active_profile.profile_completeness >= 80 %>
+    <% if get_recommended_profiles.present? %>
+      <% get_recommended_profiles.each do |recommended_profile| %>
+        <div class="border-bottom">
+          <div class="d-flex flex-column">
+            <%= render 'home/dashboard/card_profile_info', profile: recommended_profile, profile_action: false %>
+            <div class="request-card-bottom p-2 border-top">
+                <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: recommended_profile %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <%= render 'shared/no_data_found' %>
+    <% end %>
+      <% else %>
+      <div class="no-data-found alert text-center text-gray">
+        <p> <%= link_to 'Update profile', profile_info_marriage_profile_path(current_active_profile) %> and get recommendation here </p>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="container-fluid p-0">
+  <div class="container">
+    <div class="basic_info">
+      <div class="text-center">
+        <h5>
+          <strong class="">
+            Customer Support
+            <hr class="">
+          </strong>
+        </h5>
+      </div>
+      <div class="basic-info-mandala">
+        <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+      </div>
+      <div class="d-flex flex-column align-items-center">
+        <div class="form_title align-self-center pt-3 pl-2 pr-2 merriweather">
+          <strong> Submit your request/issue </strong> <br>
+        </div>
+        <div class="form_input_fields pt-4 pl-2 pr-2">
+          <%= render 'customer_support_form', customer_support: @customer_support %>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

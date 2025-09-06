@@ -1,0 +1,125 @@
+<%= render 'shared/profile_photo', profile: marriage_profile %>
+<% if marriage_profile.id == current_active_profile.id %>
+  <%= form_for current_active_profile,
+               url: change_profile_marriage_profile_path(current_active_profile),
+               method: :patch,
+               html: {class: 'js-change-image'},
+               remote: true do |f| %>
+
+    <div class="camera-icon-area">
+      <i class="fa fa-camera profile-photo-upload"></i>
+      <%= f.file_field :profile_image,  id:'js-profile-image-upload', class: 'profile-input-field js-profile-image' %>
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <%= f.submit class: 'd-none js-submit' %>
+    </div>
+  <% end %>
+<% end %>
+
+<!-- Image Cropping Modal -->
+<%= render 'shared/image_cropping_modal' %>
+
+<script type="text/javascript" charset="utf-8">
+    $(function () {
+        $('.js-profile-image').change(function () {
+            $(".js-submit").click();
+        });
+    });
+
+
+
+<!--    var profile_photo_x, profile_photo_y, profile_photo_w, profile_photo_h;-->
+
+    /* Upload profile image and attached file */
+
+<!--    $('#js-profile-image-upload').change(function () {-->
+<!--        $('#upload-modal').modal('show');-->
+<!--        var reader = new FileReader();-->
+<!--        var source_image = $('#image');-->
+<!--        reader.onload = function (e) {-->
+<!--            source_image.attr('src', e.target.result);-->
+<!--            setTimeout(function() {-->
+<!--                ProfileLoadCropper(source_image);-->
+<!--            }, 500);-->
+<!--        };-->
+<!--        reader.readAsDataURL(this.files[0]);-->
+<!--    });-->
+
+<!--    function ProfileLoadCropper(source_image) {-->
+<!--        source_image.cropper({-->
+<!--            aspectRatio: 1 / 1,-->
+<!--            crop: function (event) {-->
+<!--                console.log('yes cropping..');-->
+<!--                console.log(event.x);-->
+<!--                console.log(event.y);-->
+<!--                console.log(event.width);-->
+<!--                console.log(event.height);-->
+<!--                console.log(event.rotate);-->
+<!--                console.log(event.scaleX);-->
+<!--                console.log(event.scaleY);-->
+<!--                profile_photo_x = event.x;-->
+<!--                profile_photo_y = event.y;-->
+<!--                profile_photo_w = event.width;-->
+<!--                profile_photo_h = event.height;-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+
+
+<!--    $('#skip-cropping').click(function () {-->
+
+<!--        var form_data = new FormData();-->
+
+<!--        if ($('#js-profile-image-upload').get(0).files.length === 0)-->
+<!--        {-->
+<!--            var photo = $('#js-profile-image-upload')[0].files[0];-->
+<!--            console.log('profile_image selected');-->
+<!--            form_data.append('profile_image', photo);-->
+<!--        }-->
+
+<!--        $('#upload-modal').modal('hide');-->
+<!--        update_image(form_data);-->
+
+<!--    });-->
+
+<!--    $('#page-pic-save').click(function () {-->
+<!--        var form_data = new FormData();-->
+
+<!--        if ($('#js-profile-image-upload').get(0).files.length === 0)-->
+<!--        {-->
+<!--            var photo = $('#js-profile-image-upload')[0].files[0];-->
+<!--            console.log('Profile photo selected');-->
+<!--            form_data.append('profile_image', photo);-->
+<!--        }-->
+
+<!--        form_data.append('crop_x', profile_photo_x);-->
+<!--        form_data.append('crop_y', profile_photo_y);-->
+<!--        form_data.append('crop_w', profile_photo_w);-->
+<!--        form_data.append('crop_h', profile_photo_h);-->
+<!--        console.log(form_data);-->
+
+<!--        $('#upload-modal').modal('hide');-->
+<!--        update_image(form_data);-->
+
+<!--    });-->
+
+
+<!--    function update_image(form_data) {-->
+<!--        $.ajax({-->
+<!--            url: "<%#=  change_profile_marriage_profile_path(current_active_profile) %>",-->
+<!--            type: "patch",-->
+<!--            data: form_data,-->
+<!--            contentType: false,-->
+<!--            processData: false,-->
+<!--            success: function () {-->
+<!--                console.log('done');-->
+<!--            },-->
+<!--            error: function () {-->
+<!--                console.log('error');-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+
+
+
+
+</script>

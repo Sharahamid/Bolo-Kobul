@@ -1,0 +1,27 @@
+<div class="container">
+  <h4 class="text-right container">
+    <%= current_user.name  %>
+    <i class="fas fa-user-circle"></i>
+    <%= link_to  destroy_user_session_path, method: :delete do %>
+      Log Out
+    <% end %>
+  </h4>
+  <div class="size1 bg0 where1-parent success-container">
+    <div class="p-t-50 p-b-10 text-center">
+      <p class="m1-txt1 p-b-0 color-brand text-center">
+        You will be contacted soon for completing the registration!</br>
+        Thank you for choosing Bolo Kobul
+      </p>
+      <%= link_to  destroy_user_session_path, method: :delete do %>
+       <span class="fa fa-home"></span> &nbsp Back To Home
+      <% end %>
+    </div>
+
+    <div class="logo-success-page text-center">
+      <%= link_to root_path do  %>
+        <%= image_tag('bk_logo.webp', size: '300', alt: 'LOGO') %>
+      <% end %>
+    </div>
+  </div>
+
+</div>

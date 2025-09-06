@@ -1,0 +1,10 @@
+<p>Dear Bolokobul Admin</p>
+
+<p>
+  <%= @blog.author %> submitted a story and it's waiting for publish. Could you please check his story from the link below?
+</p>
+<%= link_to "Story: #{@blog.title}", shefali007_blog_url(@blog) %>
+<p>
+  Team Bolo Kobul 🥰<br>
+  <%= email_image_tag 'bk_logo.png', width: 100 %>
+</p>

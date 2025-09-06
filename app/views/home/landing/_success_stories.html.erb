@@ -1,0 +1,18 @@
+<section class=" section_4 container-fluid p-0">
+    <div class="success-stories ">
+      <div class="container text-center">
+        <div class="heading">
+          <h4 class=""> Success Stories </h4>
+          <div class="">
+            <%= image_tag 'red_line.svg' %>
+          </div>
+        </div>
+        <div class="flex-sm-row align-content-center bk-success-story-slider">
+          <%= render partial: "home/landing/success_story", collection: @success_stories %>
+        </div>
+        <div class="pt-5">
+          <%= link_to 'SEE MORE', blogs_path, class:'text-white btn btn-sm text-center btn-warning merriweather' %>
+        </div>
+      </div>
+    </div>
+</section>

@@ -1,0 +1,16 @@
+<div class="container-fluid p-4", style="height: 400px;">
+<div class="container">
+  <div class="ad_profile">
+    <h4> Hi !
+      <%= @advertiser_profile&.user&.name %>
+    </h4>
+
+    <hr>
+    <span> As we have not found any purpose of creating this account.</span>
+    <span> This is your place for now but the template is under construction .</span> <br>
+    <%= link_to root_path do %>
+      <span class="fa fa-home"> Back to Home</span>
+    <% end %>
+  </div>
+</div>
+</div>

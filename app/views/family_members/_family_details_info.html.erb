@@ -1,0 +1,108 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> Family Details </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_family_details" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="collapse_family_details" class="panel-collapse collapse p-2 detail-info ">
+      <% if marriage_profile.id == current_active_profile.id %>
+        <div class="pr-2 new-info-btn">
+          <a href="<%= new_family_member_path %>"
+             data-remote="true" data-toggle="tooltip"
+             data-placement="top"
+             title="Add New Family Member"
+             class="btn btn-sm btn-edit text-white">
+            <i class="fa fa-plus-circle"></i>
+          </a>
+        </div>
+      <% end %>
+
+      <% if marriage_profile&.family_members.present? %>
+        <% marriage_profile&.family_members&.order(created_at: :DESC)&.each do |family_member| %>
+          <div class="detail-info ">
+            <% if marriage_profile.id == current_active_profile.id %>
+              <div class="edit-info-btn">
+                <a href="<%= edit_family_member_path(family_member) %>"
+                   data-remote="true"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Edit information"
+                   class="btn btn-sm btn-edit text-white">
+                  <i class="fa fa-pencil"></i>
+                </a>
+              </div>
+
+              <div class="delete-info-btn">
+                <a href="<%= family_member_path(family_member) %>"
+                   data-method="delete"
+                   data-confirm="Are you sure?"
+                   data-remote="true"
+                   data-toggle="tooltip"
+                   data-placement="top"
+                   title="Remove information"
+                   class="btn btn-sm btn-delete text-white">
+                  <i class="far fa-trash-alt"></i>
+                </a>
+              </div>
+            <% end %>
+            <div class="panel-body border-top">
+              <div class="d-sm-flex flex-sm-row info-alignment">
+                <table class=" flex-fill pr-3 table table-borderless table-responsive">
+                  <tbody>
+                  <tr>
+                    <td> Name</td>
+                    <td>:</td>
+                    <td><%= family_member.name.present? ? family_member.name : '' %> </td>
+                  </tr>
+                  <tr>
+                    <td> Relation</td>
+                    <td>:</td>
+                    <td><%= family_member.relation.present? ? family_member.relation&.humanize : '' %></td>
+                  </tr>
+                  <tr>
+                    <td> Occupation</td>
+                    <td>:</td>
+                    <td><%= family_member.occupation.present? ? family_member.occupation&.humanize : '' %> </td>
+                  </tr>
+
+
+                  </tbody>
+                </table>
+                <div class="vl"></div>
+                <table class=" flex-fill pr-3 table table-borderless table-responsive">
+                  <tbody>
+                  <tr>
+                    <td> Family Residence</td>
+                    <td>:</td>
+                    <td><%= family_member.residence_type.present? ? family_member.residence_type&.humanize : '' %> </td>
+                  </tr>
+
+                  <tr>
+                    <td> Permanent Address</td>
+                    <td>:</td>
+                    <td>
+                      <%= family_member.permanent_address.present? ? family_member.permanent_address : '' %>
+                    </td>
+                  </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% else %>
+        <%= render 'shared/no_data_found' %>
+      <% end %>
+    </div>
+  </div>
+</div>

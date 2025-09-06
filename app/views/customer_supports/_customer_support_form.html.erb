@@ -1,0 +1,70 @@
+<%= form_for customer_support do |f| %>
+
+  <div class="form-group">
+    <%= f.select :issue_type,
+                 IssueType.order(:name).pluck(:name),
+                 {prompt: 'Select An Issue*'},
+                 autofocus: true,
+                 required: true,
+                 class: 'form-control sign_up-input-field',
+                 data: {toggle: 'tooltip', placement: 'top'},
+                 title: 'Type Of Issue*' %>
+    <small class="text-danger">
+      <%= f.object.errors[:issue_type].present? ? "Type of issue #{f.object.errors[:issue_type]&.first}" : '' %>
+    </small>
+  </div>
+
+  <div class="form-group">
+    <%= f.text_area :description,
+                    autocomplete: 'description',
+                    class: 'form-control sign_up-input-field',
+                    autofocus: true,
+                    required: true,
+                    placeholder: 'Description*', data: {toggle: 'tooltip', placement: 'top'},
+                    title: 'Description*' %>
+    <small class="text-danger">
+      <%= f.object.errors[:description].present? ? "Email #{f.object.errors[:email]&.first}" : '' %>
+    </small>
+  </div>
+
+  <div class="form-group customer-file-field">
+    <i class="fas fa-paperclip attachment-icon text-gray">
+      Upload An Image.
+    </i>
+    <%= f.file_field :customer_attachment,
+                     accept: 'application/jpg, application/jpeg, application/png',
+                     autocomplete: 'customer_attachment',
+                     class: 'form-control sign_up-input-field customer-file-attachment' %>
+    <div class="text-center" id="customer-uploaded-filename"></div>
+    <small class="text-danger">
+      <%= f.object.errors[:customer_attachment].present? ? "Customer attachment #{f.object.errors[:customer_attachment]&.first}" : '' %>
+    </small>
+  </div>
+
+
+  <div class="register-btn-section text-center merriweather">
+    <button type="submit" class="btn btn-sign_up form-control"> Submit</button>
+  </div>
+
+
+<% end %>
+
+<script type="text/javascript" charset="utf-8">
+
+    var input = document.getElementById('customer_support_customer_attachment');
+    var infoArea = document.getElementById('customer-uploaded-filename');
+
+    input.addEventListener('change', showFileName);
+
+    function showFileName(event) {
+
+        // the change event gives us the input it occurred in
+        var input = event.srcElement;
+
+        // the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
+        var fileName = input.files[0].name;
+
+        // use fileName however fits your app best, i.e. add it into a div
+        infoArea.textContent = '   ' + fileName;
+    }
+</script>

@@ -1,0 +1,39 @@
+<div class="container-fluid p-0">
+  <div class="container">
+    <div class="basic_info">
+      <div class="basic-info-mandala">
+        <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+      </div>
+      <div class="d-flex flex-column align-items-center">
+        <div class="internal_form_heading align-self-center">
+          <strong> Resend Confirmation Instructions </strong>
+        </div>
+        <div class="form_title align-self-start pt-3 pl-3 pr-2">
+          <span class="text-center"> Find Your Account
+            Please enter your email address to search for your account
+          </span> <br>
+        </div>
+        <div class="form_input_fields pt-4 pl-2 pr-2">
+          <%= form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: {method: :post}) do |f| %>
+            <div class="form-group">
+              <%= f.email_field :email, autofocus: true, autocomplete: "email",
+                                value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+                                class: 'form-control sign_up-input-field',
+                                placeholder: 'Email*', required: true,
+                                data: {toggle: "tooltip", placement: "top"},
+                                title: "Email*" %>
+            </div>
+            <div class="form-group">
+              <div class="register-btn-section text-center">
+                <button type="submit" class="btn btn-sign_up form-control"> Resend confirmation instructions</button>
+              </div>
+            </div>
+            <%= render "users/shared/links" %>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<tr>
+  <th scope="row"><%= get_date_format(customer_support.created_at) %></th>
+  <td><%= customer_support.issue_type %></td>
+  <td><%= customer_support.description %></td>
+  <td><%= customer_support.status.titleize %></td>
+  <td>
+    <a href="<%= customer_support.customer_attachment_url %>" target="_blank">
+      <%= image_tag customer_support.customer_attachment_url, class: 'img-responsive', width: '100px' %>
+    </a>
+  </td>
+  <td>
+    <ul class="replies">
+      <% customer_support.replies.each do |reply| %>
+        <li><%= reply.message %></li>
+      <% end %>
+    </ul>
+  </td>
+</tr>

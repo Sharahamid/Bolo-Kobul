@@ -1,0 +1,40 @@
+<section class=" section_1 container-fluid p-0 bk-full-header">
+  <div class="bk-header fixed-top">
+    <div class="container">
+      <header>
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a href="" class="custom-navbar-toggler navbar-toggler openbtn" onclick="openNav()" data-toggle="collapse" data-target="#navbarNavxx" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"> </span>
+          </a>
+
+          <a class="navbar-brand" href="<%= (user_signed_in? && current_active_profile.present?) ? dashboard_marriage_profile_path(current_active_profile) : root_path %>">
+            <%= image_tag 'bk_logo.webp', class: 'bk-header-logo', alt: 'Logo' %>
+          </a>
+
+          <div class="mobile-nav-login-btn">
+            <% if user_signed_in? %>
+              <a class="text-white btn btn-sm nav-login-btn" href="<%=  destroy_user_session_path %>" data-method="delete">
+                Logout
+              </a>
+            <% else %>
+              <a class="text-white btn btn-sm nav-login-btn" href="#" data-toggle="modal" data-target="#loginModal">
+                LOGIN
+              </a>
+            <% end %>
+          </div>
+
+
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <% if user_signed_in? %>
+              <%= render 'shared/after_login_nav' %>
+            <% else %>
+              <%= render 'shared/before_login_nav' %>
+            <% end %>
+          </div>
+        </nav>
+      </header>
+      <%= render 'shared/mobile_side_panel' %>
+    </div>
+  </div>
+
+</section>

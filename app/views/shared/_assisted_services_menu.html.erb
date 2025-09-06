@@ -1,0 +1,10 @@
+<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  Assisted Services
+</a>
+<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+  <% AssistedService.order(:display_order).each do |assisted_service| %>
+    <a class="dropdown-item" href="<%= assisted_service_path(assisted_service) %>">
+      <%= assisted_service.name&.titleize %>
+    </a>
+  <% end %>
+</div>

@@ -1,0 +1,163 @@
+<ul class="navbar-nav mr-auto custom-navbar-nav d-flex flex-row align-items-center">
+  <li class="nav-item dropdown p-2 flex-fill">
+    <%= render 'shared/about' %>
+  </li>
+  <li class="nav-item dropdown p-2 flex-fill">
+    <%= render 'shared/market_place_menu' %>
+  </li>
+  <li class="nav-item dropdown p-2 flex-fill">
+    <%= render 'shared/assisted_services_menu' %>
+  </li>
+  <li class="nav-item p-2 flex-fill">
+    <a class="nav-link" href="<%= how_it_works_path %>">
+      How It Works
+    </a>
+  </li>
+</ul>
+
+<ul class="navbar-nav d-flex flex-row align-items-center">
+
+  <% unless current_user.self? || current_user.other_as_matchmaker? %>
+    <li class="nav-item dropdown p-2 flex-fill">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Switch Profile
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <% if current_user.marriage_profiles.present? %>
+          <% current_user&.marriage_profiles&.each do |profile| %>
+            <a class="dropdown-item" href="<%= profile.persisted? ? switch_marriage_profile_path(profile) : '#' %>"> <%= profile&.name || profile&.unique_id %> </a>
+          <% end %>
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+
+  <li class="nav-item p-2 flex-fill">
+    <a class="nav-link" href="<%= (current_user.present? && current_active_profile.present?) ? search_page_marriage_profile_path(current_active_profile) : '#' %>">
+      <i class="fa fa-search" aria-hidden="true"></i>
+    </a>
+  </li>
+
+  <li class="nav-item dropdown p-2 flex-fill notification" title="<%= current_user.notification_msg %>">
+    <%= link_to '#show-notification', class: 'nav-link dropdown-toggle text-gray', role: 'button', data: {toggle: 'dropdown'}, 'aria-haspopup': true, 'aria-expanded': false do %>
+      <i class="fas fa-bell"></i>
+      <span class="notification-counter"><%= current_user&.notifications&.unread&.count&.zero? ? '' : current_user&.notifications&.unread&.count %></span>
+    <% end %>
+
+    <div class="dropdown-menu row js-notification-list" aria-labelledby="navbarDropdownMenuLink">
+      <% if current_user&.notifications.count > 0 %>
+        <%= render partial: 'users/notification', collection: current_user&.notifications&.order(:is_read, created_at: :desc) %>
+      <% else %>
+        <p class="text-center">No notification</p>
+      <% end %>
+    </div>
+  </li>
+
+  <li class="border-right p-2 nav-item flex-fill"></li>
+
+  <li class="nav-item dropdown p-2 flex-fill">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <%= image_tag current_active_profile.present? && current_active_profile.profile_image.present? ? current_active_profile.profile_image.url(:header_small_thumb) : 'bk.png', width: '21', height: '21', class: 'rounded-circle' %>
+    </a>
+    <div class="dropdown-menu dashboard-nav" aria-labelledby="navbarDropdownMenuLink">
+
+      <%= link_to root_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fa fa-home"></i>
+            </div>
+            <div class="col-10 p-0">
+              Home
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <%= link_to (current_user.marriage_profiles.present? && current_active_profile.present?) ? dashboard_marriage_profile_path(current_active_profile) : '#', class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fa fa-tachometer"></i>
+            </div>
+            <div class="col-10 p-0">
+              Dashboard
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : '#', class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fa fa-user"></i>
+            </div>
+            <div class="col-10 p-0">
+              Profile
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to privacy_settings_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fa fa-user-cog"></i>
+            </div>
+            <div class="col-10 p-0">
+              Privacy Settings
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to customer_supports_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fas fa-headset"></i>
+            </div>
+            <div class="col-10 p-0">
+              Reported Issues
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to faqs_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fa fa-question-circle"></i>
+            </div>
+            <div class="col-10 p-0">
+              FAQ
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to precautionary_measures_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="col-10 p-0">
+              Precautionary Measures
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to destroy_user_session_path, method: :delete, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fas fa-sign-out-alt"></i>
+            </div>
+            <div class="col-10 p-0">
+              Log Out
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </li>
+</ul>

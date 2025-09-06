@@ -1,0 +1,76 @@
+@import "public_variables";
+
+// For Desktop Devices
+.section-hr {
+  background-color: $primary-color;
+  height: 2px;
+  width: 8%;
+  margin: auto;
+}
+.as-header {
+  font-size: 35px;
+  margin-top: 2%;
+  text-align: center;
+}
+.as-container {
+  .card {
+    margin: 1rem 0;
+    .card-header {
+      background-color: $white-color;
+      border: 1px solid $primary-color;
+      border-radius: 4px;
+      a {
+        color: $dark-shadowed-color;
+        display: flex;
+        flex-direction: row;
+        font-size: 1.25rem;
+        justify-content: space-between;
+      }
+    }
+    .card-body {
+      padding: 0.8rem;
+      color: $text-gray;
+      p {
+        margin: 0;
+      }
+      a {
+        color: inherit;
+        text-decoration: revert;
+      }
+      ul {
+        list-style: revert;
+        padding: revert;
+      }
+    }
+  }
+  .as-items {
+    display: flex;
+    justify-content: center;
+    .as-content {
+      a {
+        text-decoration: none;
+      }
+      object {
+        width: 100%;
+        height: 100vh;
+      }
+      .faq-place-section {
+        background: $white-color 0 0 no-repeat padding-box;
+        box-shadow: 1px 3px 9px $primary-box-shadow-color;
+        margin-right: 1%;
+        width: 100%;
+      }
+    }
+  }
+}
+
+.assisted-service-form {
+  padding: 15px 0;
+  display: grid;
+
+  .nav-login-btn {
+    color: #FFB627 !important;
+    background-color: #FFFFFF !important;
+    display: inline-block !important;
+  }
+}

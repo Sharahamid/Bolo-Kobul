@@ -1,0 +1,147 @@
+<%= form_for @marriage_profile, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: 'Basic Information' %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <% unless @marriage_profile.identification_document.present? %>
+        <div class="form-group nid-input-field file-input-field">
+          <div>Upload A Clear Identification Document</div>
+          <%= f.file_field :identification_document,
+                           class: 'form-control sign_up-input-field',
+                           data: {toggle: "tooltip", placement: "top"},
+                           title: 'Identification Document' %>
+          <div id="file-upload-filename"></div>
+        </div>
+      <% end %>
+
+      <div class="form-group">
+        <%= f.text_field :name,
+                         class: 'form-control sign_up-input-field',
+                         placeholder:'Name',
+                         title: 'Name*',
+                         data: {toggle:'tooltip', placement:'top'},
+                         required: true %>
+        <small class="text-danger"> <%= f.object.errors[:name].present? ? "Name #{f.object.errors[:name]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :present_location,
+                     options_for_select(District.order_by_name.pluck(:name),
+                      selected: @marriage_profile&.present_location),
+                     {prompt: 'Present Location*'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Present location*',
+                     data: {toggle:'tooltip', placement:'top'},
+                     required: true %>
+        <small class="text-danger"> <%= f.object.errors[:present_location].present? ? "Present Location #{f.object.errors[:present_location]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.text_area :present_address,
+                        placeholder: 'Present Address*',
+                        class: 'sign_up-input-field',
+                        title: 'Present Address*',
+                        data: {toggle:'tooltip', placement:'top'},
+                        style: "width: 100%",
+                        rows: 3,
+                        required: true %>
+        <small class="text-danger"> <%= f.object.errors[:present_address].present? ? "Present Address #{f.object.errors[:present_address]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <div class=" d-flex flex-row">
+          <div class="flex-fill pr-1">
+            <%= f.select :height_ft,
+                         MarriageProfile::height_fts.filter { |k, v| k != '0' },
+                         {prompt: 'Height(ft)*'},
+                         autofocus: true,
+                         autocomplete: "height_ft",
+                         class: 'form-control sign_up-input-field',
+                         placeholder: 'Height(ft)*',
+                         required: true,
+                         data: {toggle:'tooltip', placement:'top'},
+                         title: 'Height(ft)*' %>
+            <small class="text-danger"> <%= f.object.errors[:height].present? ? "Height(ft) #{f.object.errors[:height]&.first}" : '' %> </small>
+          </div>
+          <div class="flex-fill pl-1">
+            <%= f.select :height_inch,
+                         MarriageProfile::height_inches,
+                         {prompt: 'Height(inch)*'},
+                         autofocus: true,
+                         autocomplete: "height_inch",
+                         class: 'form-control sign_up-input-field',
+                         required: true,
+                         data: {toggle: "tooltip",
+                         placement: "top"},
+                         title: 'Height (inch*)' %>
+            <small class="text-danger"> <%= f.object.errors[:height_inch].present? ? "Height(inch) #{f.object.errors[:height_inch]&.first}" : '' %> </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :highest_education_level,
+                     MarriageProfile::highest_education_levels.sort_by { |k, v| k == 'other' ? 'zzz' : k }.to_h.map { |k, v| [k.humanize, k] },
+                     {prompt: 'Highest Education Level*'},
+                     class: 'form-control sign_up-input-field',
+                     required: true,
+                     data: {toggle: "tooltip", placement: "top" },
+                     title:'Height Education Level' %>
+        <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? "Highest Education Level #{f.object.errors[:highest_education_level]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <div class=" d-flex flex-row">
+          <div class="flex-fill pr-1">
+            <%= f.select :family_values,
+                         MarriageProfile::family_values.filter { |k, v| k != 'does_not_matter'}.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                         {prompt: 'Family Value'},
+                         class: 'form-control sign_up-input-field',
+                         data: {toggle: "tooltip", placement: "top"},
+                         title: 'Family Value' %>
+            <small class="text-danger"> <%= f.object.errors[:family_values].present? ? "Family Values #{f.object.errors[:family_values]&.first}" : '' %> </small>
+          </div>
+          <div class="flex-fill pl-1">
+            <%= f.select :family_type,
+                         MarriageProfile::family_types.filter { |k, v| k != 'does_not_matter'}.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                         {prompt: 'Family Type*'}, class: 'form-control sign_up-input-field',
+                         required: true,
+                         data: {toggle: "tooltip", placement: "top"},
+                         title: 'Family Type' %>
+            <small class="text-danger"> <%= f.object.errors[:family_type].present? ? "Family Types #{f.object.errors[:family_values]&.first}" : '' %> </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div class=" d-flex flex-row">
+          <div class="flex-fill pr-1">
+            <%= f.select :marital_status,
+                         MarriageProfile::marital_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                         {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field',
+                         data: {toggle: "tooltip", placement: "top"},
+                         title: 'Marital Status' %>
+            <small class="text-danger"> <%= f.object.errors[:marital_status].present? ? "Marital Status #{f.object.errors[:marital_status]&.first}" : '' %> </small>
+          </div>
+          <div class="flex-fill pl-1">
+            <%= f.select :family_status,
+                         MarriageProfile::family_statuses.filter { |k, v| k != 'does_not_matter'}.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                         {prompt: 'Family Status'},
+                         class: 'form-control sign_up-input-field',
+                         data: {toggle: "tooltip",
+                                placement: "top"},
+                         title: 'Family Status' %>
+            <small class="text-danger"> <%= f.object.errors[:family_status].present? ? "Family Values #{f.object.errors[:family_status]&.first}" : '' %> </small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>

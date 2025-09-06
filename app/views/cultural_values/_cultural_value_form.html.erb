@@ -1,0 +1,115 @@
+<%= form_for cultural_value, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: 'Cultural Value' %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <div class="form-group">
+
+        <%= f.text_field :nationality,
+                         placeholder: 'Nationality',
+                         class: 'form-control sign_up-input-field',
+                         title: 'Nationality',
+                         data: {toggle: 'tooltip', placement: 'top'} %>
+        <small class="text-danger"> <%= f.object.errors[:nationality].present? ? "Nationality #{f.object.errors[:nationality]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :birth_place, District.order(:name).pluck(:name, :id),
+                     {prompt: 'Birth Place'},
+                     class: 'form-control sign_up-input-field',
+                     data: {toggle: "tooltip", placement: "top" },
+                     title:'Birth Place' %>
+        <small class="text-danger"> <%= f.object.errors[:birth_place].present? ? "Birth Place #{f.object.errors[:birth_place]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :willing_to_relocate, User::BOOLEAN_DATA,
+                     {prompt: 'Willing to relocate ?'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Willing to relocate ?',
+                     data: {toggle: 'tooltip', placement:'top'}
+        %>
+        <small class="text-danger"> <%= f.object.errors[:willing_to_relocate].present? ? "Willing to relocate #{f.object.errors[:willing_to_relocate]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :mother_tongue, User::LANGUAGES,
+                     {prompt: 'Mother Tongue'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Mother Tongue',
+                     data: {toggle: 'tooltip', placement:'top'}
+        %>
+        <small class="text-danger"> <%= f.object.errors[:mother_tongue].present? ? "Mother Tongue #{f.object.errors[:mother_tongue]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :languages_spoken, 'Languages Spoken :' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::LANGUAGES.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "cultural_value[languages_spoken][]",
+                                id,
+                                checked_languages_spoken(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <%= f.label :religion %>
+        <%= f.select :religion, User::RELIGION,
+                     {prompt: 'Religion'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Religion',
+                     data: {toggle: 'tooltip', placement:'top'}
+
+        %>
+        <small class="text-danger"> <%= f.object.errors[:religion].present? ? "Relation #{f.object.errors[:religion]&.first}" : '' %> </small>
+      </div>
+
+
+      <div class="form-group">
+        <%= f.select :born_or_reverted, User::BORN_OR_REVERTED,
+                     {prompt: 'Born Or Reverted'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Born Or Reverted',
+                     data: {toggle: 'tooltip', placement:'top'}
+        %>
+        <small class="text-danger"> <%= f.object.errors[:born_or_reverted].present? ? "Attend religious events #{f.object.errors[:born_or_reverted]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :attend_religious_event, User::BOOLEAN_DATA,
+                     {prompt: 'Attend Religious Events'},
+                     class: 'form-control sign_up-input-field',
+                     title: 'Attend religious events',
+                     data: {toggle: 'tooltip', placement:'top'}
+        %>
+        <small class="text-danger"> <%= f.object.errors[:attend_religious_event].present? ? "Attend religious events #{f.object.errors[:attend_religious_event]&.first}" : '' %> </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.text_area :political_view,
+                        placeholder: 'Political View',
+                     class: 'form-control sign_up-input-field',
+                     title: 'Political View',
+                     data: {toggle: 'tooltip', placement:'top'}
+        %>
+        <small class="text-danger"> <%= f.object.errors[:political_view].present? ? "Mother Tongue #{f.object.errors[:political_view]&.first}" : '' %> </small>
+      </div>
+
+
+
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>
