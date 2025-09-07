@@ -87,3 +87,26 @@ a:hover{
 .nav-item {
     padding: 0 10px;
 }
+
+/* Social Icons Styling */
+.social-icons {
+  display: flex;          /* arrange icons in a row */
+  gap: 15px;              /* space between icons */
+  justify-content: center; /* center them horizontally */
+  align-items: center;    /* center them vertically */
+  margin-top: 10px;       /* optional spacing from content above */
+}
+
+.social-icon i {
+  font-size: 20px;        /* size of icons */
+  transition: transform 0.2s, color 0.2s; /* smooth hover effect */
+}
+
+.social-icon:hover i {
+  transform: scale(1.2);  /* slightly enlarge on hover */
+}
+
+/* Optional: different colors for each platform on hover */
+.social-icon:hover i.fa-twitter { color: #1da1f2; }
+.social-icon:hover i.fa-facebook-f { color: #1877f2; }
+.social-icon:hover i.fa-instagram { color: #e4405f; }
