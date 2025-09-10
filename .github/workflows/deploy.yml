@@ -1,17 +1,18 @@
-name: Deploy to EC2
+name: Deploy Bolo-Kobul
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
-      - name: Setup SSH
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
@@ -19,4 +20,5 @@ jobs:
 
       - name: Deploy to EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2_key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "cd /home/ubuntu/bolokobul && git pull origin main && bundle install --without development test && rails db:migrate && rails assets:precompile && touch tmp/restart.txt"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2_key.pem ubuntu@52.76.139.89 \
+          "cd /home/ubuntu/bolokobul && git pull origin main && bundle install --without development test && rails db:migrate && rails assets:precompile && touch tmp/restart.txt"
