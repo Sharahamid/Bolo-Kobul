@@ -1,4 +1,4 @@
-name: Deploy Bolo-Kobul
+name: Deploy to EC2
 
 on:
   push:
@@ -10,15 +10,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Setup SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/ec2_key.pem
-          chmod 600 ~/.ssh/ec2_key.pem
-
-      - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/ec2_key.pem ubuntu@52.76.139.89 \
-          "cd /home/ubuntu/bolokobul && git pull origin main && bundle install --without development test && rails db:migrate && rails assets:precompile && touch tmp/restart.txt"
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
+        key: ${{ secrets.EC2_KEY }}
+        script: |
+          cd ~/bolokobul
+          git pull origin main
+          rm -f tmp/pids/server.pid
+          nohup bash -c 'RAILS_ENV=production rails server -b 0.0.0.0' > log.txt 2>&1 &
