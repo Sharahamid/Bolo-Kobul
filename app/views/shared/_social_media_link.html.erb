@@ -1,11 +1,20 @@
-<%= link_to 'https://x.com/BoloKobul', target:'_blank', class: "#{text_color} p-2" do %>
-  <i class="fa-brands fa-x-twitter"></i>
-<% end %>
+<!-- Components Header Partial -->
+<header class="components-header">
+  <!-- Your existing header content goes here -->
 
-<%= link_to 'https://www.facebook.com/BoloKobulLtd', target:'_blank', class: "#{text_color} p-2" do %>
-  <i class="fa-brands fa-facebook-f"></i>
-<% end %>
+  <!-- Social Media Links -->
+  <%= link_to 'https://x.com/BoloKobul', target:'_blank', class: "text-warning p-2" do %>
+    <i class="fa-brands fa-x-twitter"></i>
+  <% end %>
 
-<%= link_to 'https://www.instagram.com/BoloKobul', target:'_blank', class: "#{text_color} p-2" do %>
-  <i class="fa-brands fa-instagram"></i>
-<% end %>
+  <%= link_to 'https://www.facebook.com/BoloKobulLtd', target:'_blank', class: "text-warning p-2" do %>
+    <i class="fa-brands fa-facebook-f"></i>
+  <% end %>
+
+  <%= link_to 'https://www.instagram.com/BoloKobul', target:'_blank', class: "text-warning p-2" do %>
+    <i class="fa-brands fa-instagram"></i>
+  <% end %>
+
+  <!-- Debug Marker -->
+  <div id="shara-header-components">[components header partial]</div>
+</header>
