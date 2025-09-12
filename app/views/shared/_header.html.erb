@@ -1,4 +1,4 @@
-<section class=" section_1 container-fluid p-0 bk-full-header">
+<section class="section_1 container-fluid p-0 bk-full-header">
   <div class="bk-header fixed-top">
     <div class="container">
       <header>
@@ -13,7 +13,7 @@
 
           <div class="mobile-nav-login-btn">
             <% if user_signed_in? %>
-              <a class="text-white btn btn-sm nav-login-btn" href="<%=  destroy_user_session_path %>" data-method="delete">
+              <a class="text-white btn btn-sm nav-login-btn" href="<%= destroy_user_session_path %>" data-method="delete">
                 Logout
               </a>
             <% else %>
@@ -22,7 +22,6 @@
               </a>
             <% end %>
           </div>
-
 
           <div class="collapse navbar-collapse" id="navbarNav">
             <% if user_signed_in? %>
@@ -37,4 +36,6 @@
     </div>
   </div>
 
+  <!-- ✅ Debug Marker -->
+  <div id="shara-header-shared" style="color:limegreen;">[shared header partial]</div>
 </section>
