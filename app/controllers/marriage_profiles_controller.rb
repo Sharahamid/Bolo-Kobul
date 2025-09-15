@@ -126,10 +126,9 @@ class MarriageProfilesController < ApplicationController
   end
 
   def send_request
-
     if current_active_profile.friend_ids.include? @marriage_profile.id
       flash[:notice] = "You are already connected with each other!"
-      redirect_back(fallback_location: "/") && return
+      redirect_back(fallback_location: "/") and return
     end
 
     if current_active_profile.has_bfly_for_profile_view?
@@ -160,9 +159,11 @@ class MarriageProfilesController < ApplicationController
           "Someone wants to know you better! Check out the profile : #{profile_dashboard_url(@marriage_profile)}"
         )
       end
+
       if current_active_profile.favourite_profile_ids.include?(@marriage_profile.id)
         Favourite.remove_from_favourite(@marriage_profile.id)
       end
+      
       flash[:notice] = "Your butterfly has been sent successfully"
       session[:butterfly] = "animate"
       redirect_back(fallback_location: "/")
@@ -174,7 +175,6 @@ class MarriageProfilesController < ApplicationController
 
   def accept_request
     friendship = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id)
-
     if friendship.nil?
       flash[:alert] = "No pending request found."
       redirect_to dashboard_marriage_profile_path(current_active_profile) and return
@@ -182,7 +182,7 @@ class MarriageProfilesController < ApplicationController
 
     if current_active_profile.friend_ids.include? @marriage_profile.id
       flash[:notice] = "You are already connected with each other!"
-      redirect_back(fallback_location: "/") && return
+      redirect_back(fallback_location: "/") and return
     end
 
     if current_active_profile.has_bfly_for_profile_view?
@@ -211,9 +211,10 @@ class MarriageProfilesController < ApplicationController
         KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_acceptance.deliver_later
         SmsService.call(
           @marriage_profile.user.phone_number.to_s,
-          "Good News! The one you wanted to know more has responded. Visit their profile to learn more about your potential prospect #{profile_dashboard_url(@marriage_profile)}"
+          "Good News! Your prospect has responded. Visit the profile to learn more about your potential prospect #{profile_dashboard_url(@marriage_profile)}"
         )
-    end
+      end
+      
       flash[:notice] = "Request accepted successfully."
       redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                   butterfly: "animate")
@@ -239,17 +240,15 @@ class MarriageProfilesController < ApplicationController
         "🦋Your butterfly was not accepted. Don’t worry—discover more amazing profiles at www.bolokobul.com"
       )
     end
-      flash[:notice] = "kobul (1) request cancelled"
-      redirect_to dashboard_marriage_profile_path(current_active_profile)
+    flash[:notice] = "kobul (1) request cancelled"
+    redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
   def cancel_request
     cancel_request = current_active_profile.decline_request(@marriage_profile)
-    if cancel_request.present?
-      current_active_profile.unblock_blocked_butterflies
-    end
-      flash[:notice] = "Your kobul (1) request cancelled, was cancelled. But, you have got your butterfly back!!"
-      redirect_to dashboard_marriage_profile_path(current_active_profile,
+    current_active_profile.unblock_blocked_butterflies if cancel_request.present?
+    flash[:notice] = "Your kobul (1) request cancelled. But, you have got your butterfly back!!"
+    redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                 butterfly: "bk_animate")
   end
 
@@ -259,16 +258,14 @@ class MarriageProfilesController < ApplicationController
 
   def block_profile
     current_active_profile.block_friend(@marriage_profile)
-    end
-      flash[:notice] = "Blocked successfully."
-      redirect_to dashboard_marriage_profile_path(current_active_profile)
+    flash[:notice] = "Blocked successfully."
+    redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
   def unblock_profile
     current_active_profile.unblock_friend(@marriage_profile)
-    end
-      flash[:notice] = 'Unblocked Successfully'
-      redirect_back fallback_location: root_path
+    flash[:notice] = 'Unblocked Successfully'
+    redirect_back fallback_location: root_path
   end
 
   def requested_profiles
