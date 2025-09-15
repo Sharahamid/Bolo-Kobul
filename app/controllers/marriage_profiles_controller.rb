@@ -213,7 +213,7 @@ class MarriageProfilesController < ApplicationController
           @marriage_profile.user.phone_number.to_s,
           "Good News! The one you wanted to know more has responded. Visit their profile to learn more about your potential prospect #{profile_dashboard_url(@marriage_profile)}"
         )
-      end
+    end
       flash[:notice] = "Request accepted successfully."
       redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                   butterfly: "animate")
@@ -239,16 +239,17 @@ class MarriageProfilesController < ApplicationController
         "🦋Your butterfly was not accepted. Don’t worry—discover more amazing profiles at www.bolokobul.com"
       )
     end
-    flash[:notice] = "kobul (1) request cancelled"
-    redirect_to dashboard_marriage_profile_path(current_active_profile)
+      flash[:notice] = "kobul (1) request cancelled"
+      redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
   def cancel_request
     cancel_request = current_active_profile.decline_request(@marriage_profile)
     if cancel_request.present?
       current_active_profile.unblock_blocked_butterflies
-    flash[:notice] = "Your kobul (1) request cancelled, was cancelled. But, you have got your butterfly back!!"
-    redirect_to dashboard_marriage_profile_path(current_active_profile,
+    end
+      flash[:notice] = "Your kobul (1) request cancelled, was cancelled. But, you have got your butterfly back!!"
+      redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                 butterfly: "bk_animate")
   end
 
@@ -258,14 +259,16 @@ class MarriageProfilesController < ApplicationController
 
   def block_profile
     current_active_profile.block_friend(@marriage_profile)
-    flash[:notice] = "Blocked successfully."
-    redirect_to dashboard_marriage_profile_path(current_active_profile)
+    end
+      flash[:notice] = "Blocked successfully."
+      redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
   def unblock_profile
     current_active_profile.unblock_friend(@marriage_profile)
-    flash[:notice] = 'Unblocked Successfully'
-    redirect_back fallback_location: root_path
+    end
+      flash[:notice] = 'Unblocked Successfully'
+      redirect_back fallback_location: root_path
   end
 
   def requested_profiles
