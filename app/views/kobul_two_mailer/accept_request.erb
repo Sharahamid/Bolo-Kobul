@@ -1,7 +1,7 @@
 <p>Dear <%= @current_user.name.present? ? @current_user.name : 'Concern' %>:</p>
 
 <p>
-  Begin chatting with <%= @profile&.unique_id %>! <%= link_to 'Click here', profile_info_marriage_profile_url(@profile) %>
+  Begin chatting with your match <%= @profile&.unique_id %>! <%= link_to 'Click here', profile_info_marriage_profile_url(@profile) %>
 </p>
 <p>Best of Luck</p>
 <p>

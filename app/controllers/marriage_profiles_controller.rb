@@ -258,11 +258,12 @@ class MarriageProfilesController < ApplicationController
 
   def unblock_profile
     current_active_profile.unblock_friend(@marriage_profile)
-    redirect_back fallback_location: root_path, notice: 'Unblocked successfully from your blocked list.'
+    flash[:notice] = 'Unblocked Successfully'
+    redirect_back fallback_location: root_path
   end
 
   def requested_profiles
-    requested_profiles = current_active_profile.requested_friends
+    @requested_profiles = current_active_profile.requested_friends
   end
 
   def pending_profiles
