@@ -1,24 +1,27 @@
 <div class="col-12">
   <div class="row">
+    <!-- Kobul Button -->
     <div class="bk-request-btn col-4 p-0">
       <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
-        <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn " data-toggle="tooltip" data-placement="top" title="Send butterfly to chat with this profile.">
-               <span>
-                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                 <%= image_tag 'butterfly_kobul.svg', width: '14', height: '14', class: 'kobul-butterfly' %>
-                 Kobul (2)
-               </span>
-        </a>
+        <%= link_to accept_request_chat_friendship_path(profile), method: :patch, class: "kobul_btn", data: { toggle: "tooltip", placement: "top" }, title: "Send butterfly to chat with this profile." do %>
+          <span>
+            <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
+            <%= image_tag 'butterfly_kobul.svg', width: '14', height: '14', class: 'kobul-butterfly' %>
+            Kobul (2)
+          </span>
+        <% end %>
       <% else %>
-        <a href="<%= accept_request_marriage_profile_path(profile) %>" data-method="PATCH" class="kobul_btn " data-toggle="tooltip" data-placement="top" title="Send butterfly to view profile.">
-               <span>
-                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                 <%= image_tag 'butterfly_kobul.svg', width: '14', height: '14', class: 'kobul-butterfly' %>
-                 Kobul (1)
-               </span>
-        </a>
+        <%= link_to accept_request_marriage_profile_path(profile), method: :patch, class: "kobul_btn", data: { toggle: "tooltip", placement: "top" }, title: "Send butterfly to view profile." do %>
+          <span>
+            <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
+            <%= image_tag 'butterfly_kobul.svg', width: '14', height: '14', class: 'kobul-butterfly' %>
+            Kobul (1)
+          </span>
+        <% end %>
       <% end %>
     </div>
+
+    <!-- Reject Button -->
     <div class="bk-cancel-btn col-4 p-0">
       <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
         <%= link_to reject_request_chat_friendship_path(profile), method: :patch, class: 'kobul_cancel-btn' do %>
@@ -32,8 +35,10 @@
         <% end %>
       <% end %>
     </div>
+
+    <!-- Block Button -->
     <div class="bk-block-btn col-4 p-0">
-      <%= link_to block_profile_marriage_profile_path(profile), method: :patch, class: 'profile_block-btn' do %>
+      <%= link_to block_profile_marriage_profile_path(profile), method: :patch, class: 'profile_block-btn', data: { confirm: "Are you sure you want to block this profile?" } do %>
         <i class="fa fa-ban"></i>
         Block
       <% end %>
