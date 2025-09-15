@@ -247,7 +247,7 @@ class MarriageProfilesController < ApplicationController
     cancel_request = current_active_profile.decline_request(@marriage_profile)
     if cancel_request.present?
       current_active_profile.unblock_blocked_butterflies
-    flash[:notice] = "Your kobul (1) request cancelled, was cancelled. But, you’ve got your butterfly back!!"
+    flash[:notice] = "Your kobul (1) request cancelled, was cancelled. But, you have got your butterfly back!!"
     redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                 butterfly: "bk_animate")
   end
