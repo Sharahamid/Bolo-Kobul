@@ -225,29 +225,35 @@ class MarriageProfilesController < ApplicationController
   end
 
   def reject_request
-    cancel_request = current_active_profile.decline_request(@marriage_profile)
-    if cancel_request.present?
-      @marriage_profile.unblock_blocked_butterflies
-      @marriage_profile.user.notifications.create(
-        content: "Sorry, #{current_active_profile.unique_id} did not accept your butterfly!",
-        notifiable: @marriage_profile,
-        will_email: false,
-        will_sms: false
-      )
-      KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_rejection.deliver_later
-      SmsService.call(
-        @marriage_profile.user.phone_number.to_s,
-        "🦋Your butterfly was not accepted. Don’t worry—discover more amazing profiles at www.bolokobul.com"
-      )
+    if current_active_profile.pending_friends.include?(@marriage_profile)
+      cancel_request = current_active_profile.decline_request(@marriage_profile)
+      if cancel_request.present?
+        @marriage_profile.unblock_blocked_butterflies
+        @marriage_profile.user.notifications.create(
+          content: "Sorry, #{current_active_profile.unique_id} did not accept your butterfly!",
+          notifiable: @marriage_profile,
+          will_email: false,
+          will_sms: false
+        )
+        KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_rejection.deliver_later
+        SmsService.call(
+          @marriage_profile.user.phone_number.to_s,
+          "🦋Your butterfly was not accepted. Don’t worry—discover more amazing profiles at www.bolokobul.com"
+        )
+      end
+      flash[:notice] = "Kobul (1) request cancelled"
     end
-    flash[:notice] = "kobul (1) request cancelled"
     redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
   def cancel_request
-    cancel_request = current_active_profile.decline_request(@marriage_profile)
-    current_active_profile.unblock_blocked_butterflies if cancel_request.present?
-    flash[:notice] = "Your kobul (1) request cancelled. But, you have got your butterfly back!!"
+    if current_active_profile.pending_friends.include?(@marriage_profile)
+      cancel_request = current_active_profile.decline_request(@marriage_profile)
+      if cancel_request.present?
+        current_active_profile.unblock_blocked_butterflies 
+      end
+      flash[:notice] = "Your kobul (1) request cancelled. But, you have got your butterfly back!!"
+    end
     redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                 butterfly: "bk_animate")
   end
