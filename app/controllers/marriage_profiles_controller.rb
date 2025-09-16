@@ -176,8 +176,8 @@ class MarriageProfilesController < ApplicationController
   def accept_request
     friendship = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id)
     if friendship.nil?
-      flash[:alert] = "No pending request found."
-      redirect_to dashboard_marriage_profile_path(current_active_profile) and return
+     flash[:alert] = "No pending request found."
+     redirect_to dashboard_marriage_profile_path(current_active_profile) and return
     end
 
     if current_active_profile.friend_ids.include? @marriage_profile.id
@@ -225,6 +225,12 @@ class MarriageProfilesController < ApplicationController
   end
 
   def reject_request
+    friendship = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id)
+    if friendship.nil?
+      flash[:alert] = "No request found to reject."
+      redirect_to dashboard_marriage_profile_path(current_active_profile) and return
+    end
+
     cancel_request = current_active_profile.decline_request(@marriage_profile)
     if cancel_request.present?
       @marriage_profile.unblock_blocked_butterflies
@@ -237,7 +243,7 @@ class MarriageProfilesController < ApplicationController
       KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_rejection.deliver_later
       SmsService.call(
         @marriage_profile.user.phone_number.to_s,
-        "🦋Your butterfly was not accepted. Don’t worry—discover more amazing profiles at www.bolokobul.com"
+        "🦋Your butterfly was not accepted. Don't worry—discover more amazing profiles at www.bolokobul.com"
       )
     end
     flash[:notice] = "kobul (1) request cancelled"
