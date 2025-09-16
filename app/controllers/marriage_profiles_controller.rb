@@ -225,13 +225,6 @@ class MarriageProfilesController < ApplicationController
   end
 
   def reject_request
-    friendship = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id)
-
-    if friendship.nil?
-    flash[:alert] = "No request found to reject."
-    redirect_to dashboard_marriage_profile_path(current_active_profile) and return
-    end
-    
     cancel_request = current_active_profile.decline_request(@marriage_profile)
     if cancel_request.present?
       @marriage_profile.unblock_blocked_butterflies
