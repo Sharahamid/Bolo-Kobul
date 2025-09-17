@@ -24,12 +24,12 @@
     <!-- Reject Button -->
     <div class="bk-cancel-btn col-4 p-0">
       <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
-        <%= link_to reject_request_chat_friendship_path(profile), method: :patch, class: 'kobul_cancel-btn' do %>
+        <%= link_to reject_request_chat_friendship_path(profile), method: :patch, class: 'kobul_cancel-btn', data: { toggle: "tooltip", placement: "top" }, title: "Reject chat request" do %>
           <i class="fa fa-close"></i>
           Reject
         <% end %>
       <% else %>
-        <%= link_to reject_request_marriage_profile_path(profile), method: :patch, class: 'kobul_cancel-btn' do %>
+        <%= link_to reject_request_marriage_profile_path(profile), method: :patch, class: 'kobul_cancel-btn', data: { toggle: "tooltip", placement: "top" }, title: "Reject profile request" do %>
           <i class="fa fa-close"></i>
           Reject
         <% end %>
@@ -38,7 +38,7 @@
 
     <!-- Block Button -->
     <div class="bk-block-btn col-4 p-0">
-      <%= link_to block_profile_marriage_profile_path(profile), method: :patch, class: 'profile_block-btn', data: { confirm: "Are you sure you want to block this profile?" } do %>
+      <%= link_to block_profile_marriage_profile_path(profile), method: :patch, class: 'profile_block-btn', data: { confirm: "Are you sure you want to block this profile?", toggle: "tooltip", placement: "top" }, title: "Block this profile" do %>
         <i class="fa fa-ban"></i>
         Block
       <% end %>
