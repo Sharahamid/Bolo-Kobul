@@ -174,8 +174,12 @@ class MarriageProfilesController < ApplicationController
   end
 
   def accept_request
-    friendship = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id)
-    if friendship.nil?
+    friendship = current_active_profile.friend_request(@marriage_profile)
+
+    if friendship.present?
+      current_active_profile.accept_request(@marriage_profile)
+      flash[:notice] = "Request accepted."
+    else
      flash[:alert] = "No pending request found."
      redirect_to dashboard_marriage_profile_path(current_active_profile) and return
     end
@@ -225,11 +229,16 @@ class MarriageProfilesController < ApplicationController
   end
 
   def reject_request
-    friendship = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id)
-    if friendship.nil?
-      flash[:alert] = "No request found to reject."
-      redirect_to dashboard_marriage_profile_path(current_active_profile) and return
+    friendship = current_active_profile.friend_request(@marriage_profile)
+
+    if friendship.present?
+      current_active_profile.decline_request(@marriage_profile)
+      flash[:notice] = "Request rejected."
+    else
+      flash[:alert] = "No pending request found."
     end
+    redirect_to dashboard_marriage_profile_path(current_active_profile) and return
+  end
 
     cancel_request = current_active_profile.decline_request(@marriage_profile)
     if cancel_request.present?
@@ -263,14 +272,18 @@ class MarriageProfilesController < ApplicationController
   end
 
   def block_profile
-    current_active_profile.block_friend(@marriage_profile)
-    flash[:notice] = "Blocked successfully."
+    if current_active_profile.friends_with?(@marriage_profile)
+      current_active_profile.block_friend(@marriage_profile)
+      flash[:notice] = "Blocked successfully."
+    end
     redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
   def unblock_profile
-    current_active_profile.unblock_friend(@marriage_profile)
-    flash[:notice] = 'Unblocked Successfully'
+    if current_active_profile.blocked_friends.include?(@marriage_profile)
+      current_active_profile.unblock_friend(@marriage_profile)
+      flash[:notice] = 'Unblocked Successfully'
+    end
     redirect_back fallback_location: root_path
   end
 

@@ -88,5 +88,6 @@ test:
 production:
   <<: *default
   database: bolokobul_production
-  username: <%= ENV['BOLOKOBUL_DATABASE_USERNAME'] %>
-  password: <%= ENV['BOLOKOBUL_DATABASE_PASSWORD'] %>
+  username: postgres
+  password: MySecurePassword123
+  host: localhost
