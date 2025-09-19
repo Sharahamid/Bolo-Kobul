@@ -318,3 +318,4 @@ class MarriageProfilesController < ApplicationController
   def profile_dashboard_url(profile)
     "#{request.protocol + request.host_with_port}/marriage_profiles/#{profile.unique_id}/dashboard"
   end
+end
