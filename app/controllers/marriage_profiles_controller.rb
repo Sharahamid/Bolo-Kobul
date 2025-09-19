@@ -231,14 +231,9 @@ class MarriageProfilesController < ApplicationController
   def reject_request
     friendship = current_active_profile.friend_request(@marriage_profile)
     if friendship.present?
-      current_active_profile.decline_request(@marriage_profile)
-      flash[:notice] = "Request rejected."
-    end
-    redirect_to dashboard_marriage_profile_path(current_active_profile) and return
-  end
-
-    cancel_request = current_active_profile.decline_request(@marriage_profile)
-    if cancel_request.present?
+      cancel_request = current_active_profile.decline_request(@marriage_profile)
+  
+      if cancel_request.present?
       @marriage_profile.unblock_blocked_butterflies
       @marriage_profile.user.notifications.create(
         content: "Sorry, #{current_active_profile.unique_id} did not accept your butterfly!",
@@ -252,7 +247,13 @@ class MarriageProfilesController < ApplicationController
         "🦋Your butterfly was not accepted. Don't worry, discover more amazing profiles at www.bolokobul.com"
       )
       flash[:notice] = "Kobul (1) request was rejected"
+    else
+      flash[:notice] = "Request rejected."
     end
+  else
+    flash[:alert] = "No pending request found."
+  end
+  
     redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
