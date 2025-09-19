@@ -167,9 +167,10 @@ class MarriageProfilesController < ApplicationController
       flash[:notice] = "Your butterfly has been sent successfully"
       session[:butterfly] = "animate"
       redirect_back(fallback_location: "/")
-    else
+      else
       flash[:danger] = "You don't have enough butterflies as they are in use!"
       redirect_to new_order_path
+      end
     end
   end
 
@@ -222,9 +223,10 @@ class MarriageProfilesController < ApplicationController
       flash[:notice] = "Request accepted successfully."
       redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                   butterfly: "animate")
-    else
+      else
       flash[:danger] = "You don't have enough butterflies as they are in use!"
       redirect_to new_order_path
+      end
     end
   end
 
@@ -318,4 +320,3 @@ class MarriageProfilesController < ApplicationController
   def profile_dashboard_url(profile)
     "#{request.protocol + request.host_with_port}/marriage_profiles/#{profile.unique_id}/dashboard"
   end
-end
