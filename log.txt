@@ -1,2 +1,1 @@
-nohup: ignoring input
-bash: line 1: rails: command not found
+bash: rails: command not found

@@ -1,0 +1,9 @@
+[0;1;32m●[0m puma.service
+   Loaded: loaded (/etc/systemd/system/puma.service; enabled; vendor preset: enabled)
+   Active: [0;1;32mactive (running)[0m since Fri 2025-09-19 22:42:33 +06; 3s ago
+ Main PID: 16132 (ruby)
+    Tasks: 1 (limit: 4612)
+   CGroup: /system.slice/puma.service
+           └─16132 ruby /home/ubuntu/apps/bolokobul/releases/20240521162620/vendor/bundle/ruby/2.6.0/bin/ruby_executable_hooks /home/ubuntu/apps/bolokobul/releases/20240521162620/vendor/bundle/ruby/2.6.0/bin/puma -C /home/ubuntu/apps/bolokobul/current/config/puma.rb
+
+Sep 19 22:42:33 ip-172-31-19-141 systemd[1]: Started puma.service.

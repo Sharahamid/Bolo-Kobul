@@ -167,25 +167,21 @@ class MarriageProfilesController < ApplicationController
       flash[:notice] = "Your butterfly has been sent successfully"
       session[:butterfly] = "animate"
       redirect_back(fallback_location: "/")
-      else
-      flash[:danger] = "You don't have enough butterflies as they are in use!"
-      redirect_to new_order_path
-      end
+    else
+     	 flash[:danger] = "You don't have enough butterflies as they are in use!"
+     	 redirect_to new_order_path
     end
   end
 
   def accept_request
     friendship = current_active_profile.friend_request(@marriage_profile)
 
-    if friendship.present?
-      current_active_profile.accept_request(@marriage_profile)
-      flash[:notice] = "Request accepted."
-    else
-     flash[:alert] = "No pending request found."
-     redirect_to dashboard_marriage_profile_path(current_active_profile) and return
+    unless friendship.present?
+      flash[:alert] = "No pending request found."
+      redirect_to dashboard_marriage_profile_path(current_active_profile) and return
     end
 
-    if current_active_profile.friend_ids.include? @marriage_profile.id
+    if current_active_profile.friend_ids.include?(@marriage_profile.id)
       flash[:notice] = "You are already connected with each other!"
       redirect_back(fallback_location: "/") and return
     end
@@ -224,39 +220,81 @@ class MarriageProfilesController < ApplicationController
       redirect_to dashboard_marriage_profile_path(current_active_profile,
                                                   butterfly: "animate")
       else
-      flash[:danger] = "You don't have enough butterflies as they are in use!"
-      redirect_to new_order_path
+	 flash[:danger] = "You don't have enough butterflies as they are in use!"
+     	 redirect_to new_order_path
       end
+
+    unless current_active_profile.has_bfly_for_profile_view?
+      flash[:danger] = "You don't have enough butterflies as they are in use!"
+      redirect_to new_order_path and return
     end
+
+    # Accept the request
+    current_active_profile.accept_request(@marriage_profile)
+    current_active_profile.use_butterflies
+    @marriage_profile.use_with_blocked_butterflies
+
+    # Notifications and emails
+    current_user.notifications.create(
+      content: "Learn more about #{@marriage_profile.unique_id}. Send a butterfly if you are interested to proceed",
+      notifiable: @marriage_profile,
+      will_email: false,
+      will_sms: false
+    )
+    KobulOneMailer.with(user: current_user, profile: @marriage_profile).accept_request.deliver_later
+    SmsService.call(
+      current_user.phone_number.to_s,
+      "Get to know your potential match better #{profile_dashboard_url(@marriage_profile)}"
+    )
+
+    @marriage_profile.user.notifications.create(
+      content: "Good news! #{current_active_profile.unique_id} has accepted your butterfly! Check more details on their profile",
+      notifiable: @marriage_profile,
+      will_email: false,
+      will_sms: false
+    )
+    KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_acceptance.deliver_later
+    SmsService.call(
+      @marriage_profile.user.phone_number.to_s,
+      "Good News! Your prospect has responded. Visit the profile to learn more about your potential prospect #{profile_dashboard_url(@marriage_profile)}"
+    )
+
+    flash[:notice] = "Request accepted successfully."
+    redirect_to dashboard_marriage_profile_path(current_active_profile, butterfly: "animate")
   end
 
   def reject_request
     friendship = current_active_profile.friend_request(@marriage_profile)
 
-    if friendship.present?
-      cancel_request = current_active_profile.decline_request(@marriage_profile)
-  
-      if cancel_request.present?
-        @marriage_profile.unblock_blocked_butterflies
-        @marriage_profile.user.notifications.create(
-          content: "Sorry, #{current_active_profile.unique_id} did not accept your butterfly!",
-          notifiable: @marriage_profile,
-          will_email: false,
-          will_sms: false
-        )
-        KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_rejection.deliver_later
-        SmsService.call(
-          @marriage_profile.user.phone_number.to_s,
-          "🦋Your butterfly was not accepted. Don't worry, discover more amazing profiles at www.bolokobul.com"
-        )
-        flash[:notice] = "Kobul (1) request was rejected"
-      else
-        flash[:notice] = "Request rejected."
-      end
-    else
+    unless friendship.present?
       flash[:alert] = "No pending request found."
+      redirect_to dashboard_marriage_profile_path(current_active_profile) and return
     end
-  
+
+    cancel_request = current_active_profile.decline_request(@marriage_profile)
+
+    if cancel_request.present?
+      @marriage_profile.unblock_blocked_butterflies
+
+      @marriage_profile.user.notifications.create(
+        content: "Sorry, #{current_active_profile.unique_id} did not accept your butterfly!",
+        notifiable: @marriage_profile,
+        will_email: false,
+        will_sms: false
+      )
+    
+      KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_rejection.deliver_later
+    
+      SmsService.call(
+        @marriage_profile.user.phone_number.to_s,
+        "🦋Your butterfly was not accepted. Don't worry, discover more amazing profiles at www.bolokobul.com"
+      )
+    
+      flash[:notice] = "Kobul (1) request was rejected"
+    else
+      flash[:notice] = "Request rejected."
+    end
+
     redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
@@ -320,4 +358,5 @@ class MarriageProfilesController < ApplicationController
   def profile_dashboard_url(profile)
     "#{request.protocol + request.host_with_port}/marriage_profiles/#{profile.unique_id}/dashboard"
   end
+
 end
