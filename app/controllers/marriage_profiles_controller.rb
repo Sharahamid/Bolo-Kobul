@@ -1,3 +1,9 @@
+
+# After resolving conflicts
+git add app/controllers/marriage_profiles_controller.rb
+git rebase --continue   # if using rebase
+# or
+git commit              # if you just did a merge
 class MarriageProfilesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_marriage_profile, only: [:edit_about, :update_about, :edit,
