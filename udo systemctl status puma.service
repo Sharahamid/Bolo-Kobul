@@ -1,0 +1,16 @@
+● puma.service - Puma HTTP Server for Bolokobul
+   Loaded: loaded (/etc/systemd/system/puma.service; enabled; vendor preset: enabled)
+   Active: inactive (dead) since Wed 2025-09-24 20:07:27 +06; 3min 9s ago
+  Process: 27300 ExecStart=/bin/bash -lc bundle exec puma -C config/puma.rb (code=killed, signal=TERM)
+ Main PID: 27300 (code=killed, signal=TERM)
+
+Sep 24 20:06:48 ip-172-31-19-141 bash[27300]:   /home/ubuntu/apps/bolokobul/shared/vendor/bundle/ruby/2.6.0/gems/puma-4.3.0/lib/puma/configuration.rb:228:in `call'
+Sep 24 20:06:48 ip-172-31-19-141 bash[27300]:   /home/ubuntu/apps/bolokobul/shared/vendor/bundle/ruby/2.6.0/gems/puma-4.3.0/lib/puma/server.rb:667:in `handle_request'
+Sep 24 20:06:48 ip-172-31-19-141 bash[27300]:   /home/ubuntu/apps/bolokobul/shared/vendor/bundle/ruby/2.6.0/gems/puma-4.3.0/lib/puma/server.rb:470:in `process_client'
+Sep 24 20:06:48 ip-172-31-19-141 bash[27300]:   /home/ubuntu/apps/bolokobul/shared/vendor/bundle/ruby/2.6.0/gems/puma-4.3.0/lib/puma/server.rb:328:in `block in run'
+Sep 24 20:06:48 ip-172-31-19-141 bash[27300]:   /home/ubuntu/apps/bolokobul/shared/vendor/bundle/ruby/2.6.0/gems/puma-4.3.0/lib/puma/thread_pool.rb:134:in `block in spawn_thread'
+Sep 24 20:07:27 ip-172-31-19-141 systemd[1]: Stopping Puma HTTP Server for Bolokobul...
+Sep 24 20:07:27 ip-172-31-19-141 bash[27300]: - Gracefully stopping, waiting for requests to finish
+Sep 24 20:07:27 ip-172-31-19-141 bash[27300]: === puma shutdown: 2025-09-24 20:07:27 +0600 ===
+Sep 24 20:07:27 ip-172-31-19-141 bash[27300]: - Goodbye!
+Sep 24 20:07:27 ip-172-31-19-141 systemd[1]: Stopped Puma HTTP Server for Bolokobul.
