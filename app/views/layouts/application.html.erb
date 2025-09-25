@@ -38,9 +38,8 @@
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
 
   <!-- Preload fonts -->
-  <% ['Roboto-Black.ttf', 'Roboto-Bold.ttf', 'Roboto-Light.ttf', 'Roboto-Medium.ttf', 'Roboto-Regular.ttf', 'Roboto-Thin.ttf', 'Lobster-Regular.ttf'].each do |f| %>
-    <%= preload_link_tag f, rel: "preload", as: "font", type: "font/ttf", crossorigin: "anonymous" %>
-  <% end %>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet">
+
 
   <!-- Google Analytics -->
   <script async>
