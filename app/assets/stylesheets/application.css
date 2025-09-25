@@ -87,3 +87,50 @@ a:hover{
 .nav-item {
     padding: 0 10px;
 }
+
+/* --- Success Stories Section --- */
+.success-stories {
+  background: #fdfdd0;
+  padding: 40px;
+}
+
+.stories-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+
+.story-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  max-width: 280px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.story-photo img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.story-title {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.story-content span {
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.story-content a {
+  display: inline-block;
+  margin-top: 10px;
+  color: #e63946;
+  font-weight: bold;
+  text-decoration: none;
+}
