@@ -1,98 +1,43 @@
-<section class="section_1 container-fluid p-0 bk-full-header">
+nano app/views/shared/_header.html.erb
+
+
+<section class=" section_1 container-fluid p-0 bk-full-header">
   <div class="bk-header fixed-top">
     <div class="container">
       <header>
         <nav class="navbar navbar-expand-lg navbar-light">
+          <a href="" class="custom-navbar-toggler navbar-toggler openbtn" onclick="openNav()" data-toggle="collapse" data-target="#navbarNavxx" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"> </span>
+          </a>
 
-          <!-- Mobile hamburger -->
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-
-          <!-- Brand Logo -->
           <a class="navbar-brand" href="<%= (user_signed_in? && current_active_profile.present?) ? dashboard_marriage_profile_path(current_active_profile) : root_path %>">
             <%= image_tag 'bk_logo.webp', class: 'bk-header-logo', alt: 'Logo' %>
           </a>
 
-          <!-- Navbar links -->
-          <div class="collapse navbar-collapse" id="navbarMain">
-            <ul class="navbar-nav mr-auto">
+          <div class="mobile-nav-login-btn">
+            <% if user_signed_in? %>
+              <a class="text-white btn btn-sm nav-login-btn" href="<%=  destroy_user_session_path %>" data-method="delete">
+                Logout
+              </a>
+            <% else %>
+              <a class="text-white btn btn-sm nav-login-btn" href="#" data-toggle="modal" data-target="#loginModal">
+                LOGIN
+              </a>
+            <% end %>
+          </div>
 
-              <!-- About Us -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="<%= about_path %>" id="navbarDropdownAbout" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  About Us
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownAbout">
-                  <a class="dropdown-item" href="<%= about_path %>">Team</a>
-		  <a class="dropdown-item" href="<%= about_path %>">Our Story</a>
-                </div>
-              </li>
 
-              <!-- Wedding Shopping -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="<%= market_place_path %>" id="navbarDropdownMarket" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Wedding Shopping
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMarket">
-                  <%= render 'shared/market_place_menu' %>
-                </div>
-              </li>
-
-              <!-- Assisted Services -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="<%= assisted_services_path %>" id="navbarDropdownAssisted" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Assisted Services
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownAssisted">
-                  <%= render 'shared/assisted_services_menu' %>
-                </div>
-              </li>
-
-              <!-- Blogs -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="<%= blogs_path %>" id="navbarDropdownBlogs" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Blogs
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownBlogs">
-                  <a class="dropdown-item" href="<%= blogs_path(type: 'success_story') %>">Success Stories</a>
-                  <a class="dropdown-item" href="<%= blogs_path %>">All Blogs</a>
-                </div>
-              </li>
-
-            </ul>
-
-            <!-- Right-side login/logout -->
-            <ul class="navbar-nav">
-              <% if user_signed_in? %>
-                <li class="nav-item">
-                  <a class="nav-link btn btn-sm nav-login-btn text-white" href="<%= destroy_user_session_path %>" data-method="delete">Logout</a>
-                </li>
-              <% else %>
-                <li class="nav-item">
-                  <a class="nav-link btn btn-sm nav-login-btn text-white" href="#" data-toggle="modal" data-target="#loginModal">Login</a>
-                </li>
-              <% end %>
-
-              <!-- Help Dropdown -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="<%= help_path %>" id="navbarDropdownHelp" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Help
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownHelp">
-                  <a class="dropdown-item" href="<%= faqs_path %>"><i class="fa fa-question-circle"></i> FAQ</a>
-                  <a class="dropdown-item" href="<%= precautionary_measures_path %>"><i class="fas fa-exclamation-circle"></i> Precautionary Measures</a>
-                  <a class="dropdown-item" href="<%= how_it_works_path %>"><i class="fas fa-cogs"></i> How It Works</a>
-                </div>
-              </li>
-            </ul>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <% if user_signed_in? %>
+              <%= render 'shared/after_login_nav' %>
+            <% else %>
+              <%= render 'shared/before_login_nav' %>
+            <% end %>
           </div>
         </nav>
       </header>
-
-      <!-- Mobile side panel -->
       <%= render 'shared/mobile_side_panel' %>
     </div>
   </div>
-</section>
 
+</section>
