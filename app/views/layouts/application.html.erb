@@ -1,13 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Bolokobul</title>
+  <title>Bolokobul – Matchmaking for Bangladeshis Worldwide</title>
+  <meta name="description" content="Discover love with Bolo Kobul – the modern matchmaking platform for Bangladeshis around the world, blending preferences, privacy, and cultural values.">
+  <meta name="keywords" content="Bolo Kobul, Bolokobul, matchmaking, Bangladesh, wedding, partner search, privacy, cultural values">
+
+  <!-- Open Graph for social sharing -->
+  <meta property="og:title" content="Bolokobul – Matchmaking for Bangladeshis Worldwide">
+  <meta property="og:description" content="Discover love with Bolo Kobul – the modern matchmaking platform for Bangladeshis around the world, blending preferences, privacy, and cultural values.">
+  <meta property="og:url" content="https://bolokobul.com">
+  <meta property="og:image" content="https://bolokobul.com/assets/og-image.jpg">
+
+  <!-- Structured Data for Google -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Bolokobul",
+    "url": "https://bolokobul.com",
+    "description": "Discover love with Bolo Kobul – the modern matchmaking platform for Bangladeshis around the world, blending preferences, privacy, and cultural values."
+  }
+  </script>
+
   <%= favicon_link_tag 'bk.png' %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   <!-- Google Analytics -->
   <script>
     (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -20,6 +42,10 @@
   </script>
   <!-- End Google Analytics -->
 
+  <!-- Font Awesome (moved up for proper icon rendering) -->
+  <%= stylesheet_link_tag 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css', rel: 'stylesheet', crossorigin: 'anonymous', referrerpolicy: 'no-referrer' %>
+
+  <!-- Application styles and scripts -->
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': true %>
 
@@ -34,26 +60,15 @@
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- Add the slick-theme.css if you want default styling -->
+
+  <!-- Slick carousel styles -->
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
-  <!-- Add the slick-theme.css if you want default styling -->
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
-
-
 </head>
 
 <body class="body_bg" data-l>
-<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
-<%= render 'shared/flash_message' %>
-<%= render 'shared/animation' %>
-<%= render 'shared/header' %>
-<%= content_for?(:content) ? yield(:content) : yield %>
-<%= render 'shared/modal' %>
-<!-- fb chat widget -->
-<%= render('layouts/fbchat') %>
-<%= render 'shared/footer' %>
+  <script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 
-<!-- font awesome-->
-<script src="https://kit.fontawesome.com/0210ff8ef7.js" crossorigin="anonymous"></script>
-</body>
-</html>
+  <%= render 'shared/flash_message' %>
+  <%= render 'shared/animation' %>
+  <%= render 'shared/header' %>
