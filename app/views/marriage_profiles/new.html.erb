@@ -89,6 +89,7 @@
                            {prompt: 'Hometown*'},
                            class: 'form-control sign_up-input-field',
                            required: true,
+			   placeholder: 'Date of Birth (dd/mm/yyyy)',   # behaves like prompt
                            data: {toggle: "tooltip", placement: "top" },
                            title:'Hometown* 🔐 (information cannot be edited once submitted)' %>
               <small class="text-danger"> <%= f.object.errors[:hometown].present? ? f.object.errors[:hometown]&.first : '' %> </small>
