@@ -68,6 +68,7 @@
                                class: 'form-control sign_up-input-field',
                                title:'Date of Birth* 🔐 (information cannot be edited once submitted)',
                                required: true,
+			       placeholder: 'Date of Birth (dd/mm/yyyy)',   # behaves like prompt
                                data: {toggle: "tooltip", placement: "top" } %>
               <small class="text-danger"> <%= f.object.errors[:date_of_birth].present? ? f.object.errors[:date_of_birth]&.first : '' %> </small>
             </div>
