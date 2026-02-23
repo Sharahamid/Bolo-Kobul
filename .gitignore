@@ -39,3 +39,4 @@ yarn-debug.log*
 
 # Local gemset files ignored
 .ruby-gemset
+vendor/bundle
