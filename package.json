@@ -25,5 +25,9 @@
   "version": "0.1.0",
   "devDependencies": {
     "webpack-dev-server": "^3.9.0"
+  },
+  "resolutions": {
+    "minimatch": "9.0.1",
+    "node-sass": "6.0.1"
   }
 }
