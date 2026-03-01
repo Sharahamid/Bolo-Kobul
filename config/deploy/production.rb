@@ -62,7 +62,7 @@ server '52.76.139.89', user: 'ubuntu', roles: %w{app db web}
 # config valid for current version and patch releases of Capistrano
 lock "~> 3.11.2"
 
-set :repo_url,        'git@github.com:misfit-tech/bolokobul.git'
+set :repo_url,        'git@github.com:Sharahamid/Bolo-Kobul.git'
 set :application,     'bolokobul'
 set :user,            'ubuntu'
 set :puma_threads,    [4, 16]
@@ -89,7 +89,7 @@ set :rvm_type, :ubuntu
 
 ## Defaults:
 # set :scm,           :git
-set :branch,        :'master'
+set :branch,        :'main'
 # set :format,        :pretty
 # set :log_level,     :debug
 set :keep_releases, 5
