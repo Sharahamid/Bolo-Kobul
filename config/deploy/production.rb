@@ -134,7 +134,7 @@ namespace :deploy do
   desc "Make sure local git is in sync with remote."
   task :check_revision do
     on roles(:app) do
-      remote_branch = "new-origin/#{fetch(:branch)}"
+      remote_branch = "origin/#{fetch(:branch)}"
       unless `git rev-parse HEAD`.chomp == `git rev-parse #{remote_branch}`.chomp
         puts "WARNING: HEAD is not the same as #{remote_branch}"
         puts "Run `git push` to sync changes."
