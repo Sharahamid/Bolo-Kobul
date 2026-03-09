@@ -10,7 +10,7 @@ class HobbiesAndInterestsController < ApplicationController
     respond_to do |format|
       @hobbies_and_interest = current_active_profile.build_hobbies_and_interest(hobbies_and_interest_params)
       if @hobbies_and_interest.save
-        format.js { flash[:notice] = "Hobbies and interest added successfully." }
+        format.js { flash[:notice] = "Hobbies and interests added successfully" }
       else
         format.js { flash[:notice] = "#{@hobbies_and_interest.errors.full_messages.first}" }
       end
@@ -24,7 +24,7 @@ class HobbiesAndInterestsController < ApplicationController
   def update
     respond_to do |format|
       if @hobbies_and_interest.update(hobbies_and_interest_params)
-        format.js { flash[:notice] = "Hobbies and interest updated successfully." }
+        format.js { flash[:notice] = "Hobbies and interests updated successfully" }
       else
         format.js { flash[:notice] = "#{@hobbies_and_interest.errors.full_messages.first}" }
       end

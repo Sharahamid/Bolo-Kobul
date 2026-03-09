@@ -16,7 +16,7 @@ class PartnerPreferencesController < ApplicationController
   def create
     @preference = current_active_profile.build_partner_preference(preference_params)
     if @preference.save
-      flash[:success] = "Welcome! Your are in Bolokobul."
+      flash[:success] = "Welcome to Bolokobul! Please complete your profile!"
       redirect_to dashboard_marriage_profile_path(current_active_profile)
     else
       render 'new'

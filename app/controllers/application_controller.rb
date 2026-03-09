@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
 
   def check_current_active_profile
     if current_active_profile.blank?
-      flash[:notice] = 'Please complete your marriage profile first.'
+      flash[:notice] = 'Please complete your profile'
       redirect_to new_marriage_profile_path
     end
   end

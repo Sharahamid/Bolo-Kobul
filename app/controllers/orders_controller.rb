@@ -92,7 +92,7 @@ class OrdersController < ApplicationController
   def cancel
     if @order
       @order.update(status: "failed")
-      flash["danger"] = "You order has cancelled!"
+      flash["danger"] = "You order is cancelled!"
     else
       flash["danger"] = "Something went wrong!"
     end
