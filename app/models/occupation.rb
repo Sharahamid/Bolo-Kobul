@@ -52,7 +52,7 @@ class Occupation < ApplicationRecord
   # Validations
   #
 
-  validates_presence_of :name, :organization, :employment_status, :monthly_income, :company_name, :designation, unless: :not_working?
+  validates_presence_of :name, :organization, :employment_status, :monthly_income, :company_name, :designation, unless: -> { not_working? || unemployed? || student? }
 
   #
   # callbacks
@@ -69,7 +69,7 @@ class Occupation < ApplicationRecord
   end
 
   def reset_all_if_not_working
-    if not_working?
+    if not_working? || unemployed? || student?
       self.company_name = nil
       self.designation = nil
       self.employment_status = nil

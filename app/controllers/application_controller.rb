@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
 
   def user_homepage(resource)
     if resource.created_for.present? && resource.other_as_matchmaker?
-      resource.advertiser_profile.present? ? advertiser_profile_path(resource) : new_advertiser_profile_path
+      resource.marriage_profiles.present? ? dashboard_marriage_profile_path(resource.marriage_profiles.first) : new_marriage_profile_path
     elsif resource.marriage_profiles.present?
       current_active_profile.present? && current_active_profile.partner_preference.present? ? dashboard_marriage_profile_path(resource.marriage_profiles.first) : new_partner_preference_path
     else

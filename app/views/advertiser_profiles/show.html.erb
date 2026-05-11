@@ -1,16 +1,12 @@
-<div class="container-fluid p-4", style="height: 400px;">
-<div class="container">
-  <div class="ad_profile">
-    <h4> Hi !
-      <%= @advertiser_profile&.user&.name %>
-    </h4>
-
-    <hr>
-    <span> As we have not found any purpose of creating this account.</span>
-    <span> This is your place for now but the template is under construction .</span> <br>
-    <%= link_to root_path do %>
-      <span class="fa fa-home"> Back to Home</span>
-    <% end %>
+<div class="container-fluid p-4" style="height: 400px;">
+  <div class="container">
+    <div class="ad_profile text-center pt-5">
+      <h4>Welcome to Bolo Kobul!</h4>
+      <hr>
+      <p>Please contact us at <a href="mailto:support@bolokobul.com">support@bolokobul.com</a> if you need any assistance.</p>
+      <%= link_to root_path, class: 'btn btn-primary mt-3' do %>
+        <i class="fa fa-home"></i> Back to Home
+      <% end %>
+    </div>
   </div>
-</div>
 </div>

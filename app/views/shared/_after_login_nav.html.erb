@@ -135,7 +135,7 @@
         </div>
       <% end %>
 
-      <%= link_to (current_user.marriage_profiles.present? && current_active_profile.present?) ? dashboard_marriage_profile_path(current_active_profile) : '#', class: 'dropdown-item' do %>
+      <%= link_to current_active_profile.present? ? dashboard_marriage_profile_path(current_active_profile) : new_marriage_profile_path, class: 'dropdown-item' do %>
         <div class="col-12 p-1">
           <div class="row">
             <div class="col-2 p-0">
@@ -147,7 +147,7 @@
           </div>
         </div>
       <% end %>
-      <%= link_to current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : '#', class: 'dropdown-item' do %>
+      <%= link_to current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : new_marriage_profile_path, class: 'dropdown-item' do %>
         <div class="col-12 p-1">
           <div class="row">
             <div class="col-2 p-0">

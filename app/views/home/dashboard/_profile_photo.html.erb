@@ -1,5 +1,5 @@
 <%= render 'shared/profile_photo', profile: marriage_profile %>
-<% if marriage_profile&.id == current_active_profile&.id %>
+<% if marriage_profile.present? && current_active_profile.present? && marriage_profile.id == current_active_profile.id %>
   <%= form_for current_active_profile,
                url: change_profile_marriage_profile_path(current_active_profile),
                method: :patch,

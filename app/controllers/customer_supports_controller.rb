@@ -1,5 +1,6 @@
 class CustomerSupportsController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_current_active_profile
   before_action :set_user, only: [:index]
   layout 'application', only: [:new, :create]
 

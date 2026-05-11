@@ -80,7 +80,7 @@
         </div>
       </div>
 
-      <div>
+      <div id="working_currently_section">
         <%= f.check_box :working_currently, id: 'working_currently_checkbox' %>
         <%= f.label :working_currently %>
       </div>
@@ -88,34 +88,35 @@
   </div>
 
   <script type="text/javascript" charset="utf-8">
-      $(function () {
+      (function () {
           function check_occupation_name() {
-              if($('#occupation_name')[0].value === "not_working") {
+              var val = $('#occupation_name')[0].value;
+              var noWorkNeeded = ["not_working", "unemployed", "student"].includes(val);
+              if(noWorkNeeded) {
                   $('.required_for_working select, .required_for_working input').attr('required', false);
                   $('.required_for_working').hide();
-              }
-              else {
+                  $('#working_currently_section').hide();
+                  $('#working_currently_checkbox').prop('checked', false);
+              } else {
                   $('.required_for_working').show();
                   $('.required_for_working select, .required_for_working input').attr('required', true);
+                  $('#working_currently_section').show();
               }
           }
-
           function check_currently_working() {
               if($('#working_currently_checkbox')[0].checked) {
                   $('#occupation_end_date input').attr('required', false);
                   $('#occupation_end_date').hide();
-              }
-              else {
+              } else {
                   $('#occupation_end_date').show();
                   $('#occupation_end_date input').attr('required', true);
               }
           }
-
           $('#occupation_name').change(check_occupation_name);
           $('#working_currently_checkbox').change(check_currently_working);
           check_occupation_name();
           check_currently_working();
-      });
+      })();
   </script>
 
   <!-- Modal footer -->

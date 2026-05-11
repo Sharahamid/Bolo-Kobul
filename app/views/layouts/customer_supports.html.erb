@@ -5,7 +5,7 @@
       <div class="container">
         <div class="d-sm-flex flex-sm-row ">
           <div class="flex-sm-column profiles-container">
-            <%= render 'home/dashboard/left_sidebar', marriage_profile: @marriage_profile %>
+            <%= render 'home/dashboard/left_sidebar', marriage_profile: @marriage_profile || current_active_profile %>
           </div>
           <div class="flex-sm-column mx-sm-0 mx-md-3 orders-container">
             <%= content_for?(:customer_supports) ? yield(:customer_supports) : yield %>
