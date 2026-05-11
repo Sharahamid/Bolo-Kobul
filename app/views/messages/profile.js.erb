@@ -1,0 +1,4 @@
+$('.profile-chat-window').html("<%= escape_javascript(render 'messages/profile_chat_window',
+profile: @marriage_profile,
+chat_room: @chat_room,
+message: @message) %>");

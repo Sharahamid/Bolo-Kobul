@@ -1,0 +1,44 @@
+<%= form_for @marriage_profile, url: update_about_marriage_profile_path(@marriage_profile), method: :patch, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: 'About Yourself' %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+      <div class="form-group">
+        <%= f.text_area :about_my_self,
+                        autofocus: true,
+                        autocomplete: "about_my_self",
+                        class: 'form-control sign_up-input-field',
+                        placeholder: 'Type About Myself',
+                        title: 'About myself',
+                        data: {toggle: 'tooltip', placement:'top'},
+                        required: true %>
+      </div>
+
+
+      <div class="form-group">
+        <%= f.text_area :special_circumstances,
+                        placeholder: 'Special Circumstances',
+                        title: 'Special Circumstances',
+                        data: {toggle: 'tooltip',
+                               placement: 'top'},
+                        class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:special_circumstances].present? ? "Description #{f.object.errors[:special_circumstances]&.first}" : '' %> </small>
+      </div>
+
+      <div class="">
+        <%= f.text_area :description,
+                        placeholder: 'Few Line About Your Family',
+                        title: 'Few Line About Your Family',
+                        data: {toggle: 'tooltip',
+                               placement: 'top'},
+                        class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:description].present? ? "Description #{f.object.errors[:description]&.first}" : '' %> </small>
+      </div>
+
+    </div>
+  </div>
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>

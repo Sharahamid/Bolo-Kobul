@@ -1,0 +1,2 @@
+$('.academic_info').html("<%= escape_javascript(render 'academic_informations/academic_info', marriage_profile: @academic_info.marriage_profile ) %>");
+$(".update-notice").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');

@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Bolo Kobul — Profile: <%= @profile.name %></title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; font-size: 13px; color: #333; background: #fff; }
+    .page { max-width: 800px; margin: 0 auto; padding: 30px; }
+    .print-btn { text-align: center; margin-bottom: 20px; }
+    .print-btn button { background: #FFB627; color: #fff; border: none; padding: 10px 30px; border-radius: 6px; font-size: 14px; cursor: pointer; }
+    @media print { .print-btn { display: none; } }
+    .header { display: flex; align-items: center; gap: 20px; padding-bottom: 20px; border-bottom: 2px solid #FFB627; margin-bottom: 20px; }
+    .header-logo { font-size: 20px; font-weight: bold; color: #FFB627; }
+    .header-tagline { font-size: 11px; color: #888; letter-spacing: 1px; text-transform: uppercase; }
+    .profile-id { background: #FFF3CC; color: #856404; padding: 3px 10px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+    .photos { display: flex; gap: 12px; margin-bottom: 20px; }
+    .photos img { width: 120px; height: 120px; object-fit: cover; border-radius: 6px; border: 1px solid #eee; }
+    .section { margin-bottom: 20px; }
+    .section-title { font-size: 12px; font-weight: 700; color: #FFB627; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #FFE082; padding-bottom: 4px; margin-bottom: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .field { padding: 4px 0; }
+    .field-label { font-size: 11px; color: #888; margin-bottom: 1px; }
+    .field-value { font-size: 13px; color: #333; font-weight: 500; }
+    .full-width { grid-column: 1 / -1; }
+    .footer { margin-top: 30px; padding-top: 10px; border-top: 1px solid #eee; text-align: center; font-size: 11px; color: #888; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="print-btn">
+    <button onclick="window.print()">🖨 Biodata</button>
+  </div>
+
+  <div class="header">
+    <div>
+      <div class="header-logo">BOLO KOBUL</div>
+      <div class="header-tagline">Marriages are made in heaven</div>
+    </div>
+    <div style="flex:1"></div>
+    <div style="text-align:right;">
+      <%= image_tag 'bk_logo.png', width: 70, style: 'display:block; margin-left:auto; margin-bottom:6px;' %>
+      <div class="profile-id"><%= @profile.unique_id %></div>
+      <div style="font-size:11px; color:#888; margin-top:4px;">Generated: <%= Date.today.strftime("%d %b %Y") %></div>
+    </div>
+  </div>
+
+  <% photos = [@profile.photo_1, @profile.photo_2, @profile.photo_3].compact.select { |p| p.present? && p.url.present? } %>
+  <% if photos.any? %>
+    <div class="photos">
+      <% photos.each do |photo| %>
+        <img src="<%= photo.url %>" alt="Profile Photo">
+      <% end %>
+    </div>
+  <% end %>
+
+  <div class="section">
+    <div class="section-title">Personal Information</div>
+    <div class="grid">
+      <% if @profile.name.present? %>
+        <div class="field"><div class="field-label">Full Name</div><div class="field-value"><%= @profile.name %></div></div>
+      <% end %>
+      <% if @profile.gender.present? %>
+        <div class="field"><div class="field-label">Gender</div><div class="field-value"><%= @profile.gender.titleize %></div></div>
+      <% end %>
+      <% if @profile.date_of_birth.present? %>
+        <div class="field"><div class="field-label">Date of Birth</div><div class="field-value"><%= @profile.date_of_birth.strftime("%d %b %Y") %></div></div>
+      <% end %>
+      <% if @profile.blood_group.present? %>
+        <div class="field"><div class="field-label">Blood Group</div><div class="field-value"><%= @profile.blood_group.upcase %></div></div>
+      <% end %>
+      <% if @profile.marital_status.present? %>
+        <div class="field"><div class="field-label">Marital Status</div><div class="field-value"><%= @profile.marital_status.map(&:to_s).map(&:titleize).join(', ') %></div></div>
+      <% end %>
+      <% if @profile.height_ft.present? %>
+        <div class="field"><div class="field-label">Height</div><div class="field-value"><%= "#{@profile.height_ft} ft #{@profile.height_inch} inch" %></div></div>
+      <% end %>
+      <% if @profile.highest_education_level.present? %>
+        <div class="field"><div class="field-label">Highest Education</div><div class="field-value"><%= @profile.highest_education_level.titleize %></div></div>
+      <% end %>
+      <% if @profile.hometown.present? %>
+        <div class="field full-width"><div class="field-label">Hometown</div><div class="field-value"><%= @profile.hometown %></div></div>
+      <% end %>
+      <% if @profile.present_address.present? %>
+        <div class="field full-width"><div class="field-label">Present Address</div><div class="field-value"><%= @profile.present_address %></div></div>
+      <% end %>
+      <% if @profile.present_location.present? %>
+        <div class="field full-width"><div class="field-label">Present Location</div><div class="field-value"><%= @profile.present_location %></div></div>
+      <% end %>
+      <% if @profile.about_my_self.present? %>
+        <div class="field full-width"><div class="field-label">About</div><div class="field-value"><%= @profile.about_my_self %></div></div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Contact Information</div>
+    <div class="grid">
+      <% if @profile.user.email.present? %>
+        <div class="field"><div class="field-label">Email</div><div class="field-value"><%= @profile.user.email %></div></div>
+      <% end %>
+      <% if @profile.user.phone_number.present? %>
+        <div class="field"><div class="field-label">Phone</div><div class="field-value"><%= @profile.user.phone_number %></div></div>
+      <% end %>
+    </div>
+  </div>
+
+  <%
+    has_family_info = @profile.family_status.present? || @profile.family_type.present? ||
+                      @profile.family_values.present? || @profile.relation.present? ||
+                      @profile.family_members.any?
+  %>
+  <% if has_family_info %>
+    <div class="section">
+      <div class="section-title">Family Information</div>
+      <div class="grid">
+        <% if @profile.family_status.present? %>
+          <div class="field"><div class="field-label">Family Status</div><div class="field-value"><%= @profile.family_status.titleize %></div></div>
+        <% end %>
+        <% if @profile.family_type.present? %>
+          <div class="field"><div class="field-label">Family Type</div><div class="field-value"><%= @profile.family_type.titleize %></div></div>
+        <% end %>
+        <% if @profile.family_values.present? %>
+          <div class="field"><div class="field-label">Family Values</div><div class="field-value"><%= @profile.family_values.titleize %></div></div>
+        <% end %>
+        <% if @profile.relation.present? %>
+          <div class="field"><div class="field-label">Profile Created By</div><div class="field-value"><%= @profile.relation.titleize %></div></div>
+        <% end %>
+      </div>
+      <% if @profile.family_members.any? %>
+        <div style="margin-top:10px;">
+          <div class="field-label" style="margin-bottom:6px;">Family Members</div>
+          <% @profile.family_members.each do |fm| %>
+            <div style="padding:4px 0; border-bottom:1px solid #f5f5f5; font-size:12px;">
+              <strong><%= fm.relation&.titleize %></strong><%= fm.name.present? ? " — #{fm.name}" : '' %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @profile.marriage_information.present? %>
+    <% mi = @profile.marriage_information %>
+    <% if mi.have_children? || mi.no_of_childrens.present? || mi.want_more_child? %>
+      <div class="section">
+        <div class="section-title">Marriage Information</div>
+        <div class="grid">
+          <% if mi.have_children? %>
+            <div class="field"><div class="field-label">Has Children</div><div class="field-value">Yes</div></div>
+            <% if mi.no_of_childrens.present? %>
+              <div class="field"><div class="field-label">No. of Children</div><div class="field-value"><%= mi.no_of_childrens %></div></div>
+            <% end %>
+          <% end %>
+          <% if mi.want_more_child? %>
+            <div class="field"><div class="field-label">Wants More Children</div><div class="field-value">Yes</div></div>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if @profile.academic_informations.any? %>
+    <div class="section">
+      <div class="section-title">Education</div>
+      <% @profile.academic_informations.each do |ai| %>
+        <div style="padding:6px 0; border-bottom:1px solid #f5f5f5;">
+          <% if ai.degree.present? %>
+            <div style="font-weight:600;"><%= ai.degree %></div>
+          <% end %>
+          <div style="font-size:12px; color:#666;">
+            <%= ai.institution.presence %>
+            <%= ai.passing_year.present? ? "(#{ai.passing_year})" : '' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @profile.occupations.any? %>
+    <div class="section">
+      <div class="section-title">Occupation</div>
+      <% @profile.occupations.each do |occ| %>
+        <div style="padding:8px 0; border-bottom:1px solid #f5f5f5; margin-bottom:8px;">
+          <div class="grid">
+            <% if occ.name.present? %>
+              <div class="field"><div class="field-label">Occupation Type</div><div class="field-value"><%= Occupation::OCCUPATION_LABELS[occ.name.to_s] || occ.name.to_s.titleize %></div></div>
+            <% end %>
+            <% if occ.company_name.present? %>
+              <div class="field"><div class="field-label">Company / Organisation</div><div class="field-value"><%= occ.company_name %></div></div>
+            <% end %>
+            <% if occ.designation.present? %>
+              <div class="field"><div class="field-label">Designation</div><div class="field-value"><%= occ.designation %></div></div>
+            <% end %>
+            <% if occ.employment_status.present? %>
+              <div class="field"><div class="field-label">Employment Status</div><div class="field-value"><%= occ.employment_status.to_s.titleize %></div></div>
+            <% end %>
+            <% if occ.monthly_income.present? %>
+              <div class="field"><div class="field-label">Monthly Income</div><div class="field-value"><%= occ.monthly_income.to_s.gsub('_', ' ').titleize %></div></div>
+            <% end %>
+            <% if occ.start_date.present? %>
+              <div class="field"><div class="field-label">Start Date</div><div class="field-value"><%= occ.start_date.strftime("%b %Y") %></div></div>
+            <% end %>
+            <% if occ.working_currently %>
+              <div class="field"><div class="field-label">Currently Working</div><div class="field-value">Yes</div></div>
+            <% elsif occ.end_date.present? %>
+              <div class="field"><div class="field-label">End Date</div><div class="field-value"><%= occ.end_date.strftime("%b %Y") %></div></div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @profile.appearance.present? %>
+    <% ap = @profile.appearance %>
+    <div class="section">
+      <div class="section-title">Appearance</div>
+      <div class="grid">
+        <% if ap.physical_status.present? %>
+          <div class="field"><div class="field-label">Physical Status</div><div class="field-value"><%= ap.physical_status.titleize %></div></div>
+        <% end %>
+        <% if ap.complexion.present? %>
+          <div class="field"><div class="field-label">Complexion</div><div class="field-value"><%= ap.complexion.titleize %></div></div>
+        <% end %>
+        <% if ap.body_type.present? %>
+          <div class="field"><div class="field-label">Body Type</div><div class="field-value"><%= ap.body_type.to_s.titleize %></div></div>
+        <% end %>
+        <% if ap.weight.present? %>
+          <div class="field"><div class="field-label">Weight</div><div class="field-value"><%= "#{ap.weight} kg" %></div></div>
+        <% end %>
+        <% if ap.hair_color.present? %>
+          <div class="field"><div class="field-label">Hair Color</div><div class="field-value"><%= ap.hair_color %></div></div>
+        <% end %>
+        <% if ap.hair_type.present? %>
+          <div class="field"><div class="field-label">Hair Type</div><div class="field-value"><%= ap.hair_type %></div></div>
+        <% end %>
+        <% if ap.hair_length.present? %>
+          <div class="field"><div class="field-label">Hair Length</div><div class="field-value"><%= ap.hair_length %></div></div>
+        <% end %>
+        <% if ap.eye_color.present? %>
+          <div class="field"><div class="field-label">Eye Color</div><div class="field-value"><%= ap.eye_color %></div></div>
+        <% end %>
+        <% if ap.eye_wear.present? %>
+          <div class="field"><div class="field-label">Eye Wear</div><div class="field-value"><%= ap.eye_wear.to_s.titleize %></div></div>
+        <% end %>
+        <% if ap.body_art.present? %>
+          <div class="field"><div class="field-label">Body Art</div><div class="field-value"><%= ap.body_art.to_s.titleize %></div></div>
+        <% end %>
+        <% if ap.is_hijab.present? %>
+          <div class="field"><div class="field-label">Wears Hijab</div><div class="field-value"><%= ap.is_hijab.to_s.titleize %></div></div>
+        <% end %>
+        <% if ap.is_niqab.present? %>
+          <div class="field"><div class="field-label">Wears Niqab</div><div class="field-value"><%= ap.is_niqab.to_s.titleize %></div></div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @profile.life_style.present? %>
+    <div class="section">
+      <div class="section-title">Lifestyle</div>
+      <div class="grid">
+        <% if @profile.life_style.food_habits.present? %>
+          <div class="field"><div class="field-label">Food Habits</div><div class="field-value"><%= User::FOOD_HABITS.keys[@profile.life_style.food_habits.to_i] %></div></div>
+        <% end %>
+        <% if @profile.life_style.smoker.present? %>
+          <div class="field"><div class="field-label">Smoker</div><div class="field-value"><%= User::BOOLEAN_DATA.keys[@profile.life_style.smoker.to_i] %></div></div>
+        <% end %>
+        <% if @profile.life_style.drinker.present? %>
+          <div class="field"><div class="field-label">Drinker</div><div class="field-value"><%= User::BOOLEAN_DATA.keys[@profile.life_style.drinker.to_i] %></div></div>
+        <% end %>
+        <% if @profile.life_style.dress_style.present? %>
+          <div class="field"><div class="field-label">Dress Style</div><div class="field-value"><%= @profile.life_style.dress_style.map{|ds| User::DRESS_STYLE.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.life_style.living_with.present? %>
+          <div class="field"><div class="field-label">Living With</div><div class="field-value"><%= @profile.life_style.living_with.map{|lw| User::LIVING_WITH.keys[lw.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.life_style.specific_habits.present? %>
+          <div class="field full-width"><div class="field-label">Specific Habits</div><div class="field-value"><%= @profile.life_style.specific_habits %></div></div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @profile.hobbies_and_interest.present? %>
+    <div class="section">
+      <div class="section-title">Hobbies and Interests</div>
+      <div class="grid">
+        <% if @profile.hobbies_and_interest.hobby.present? %>
+          <div class="field"><div class="field-label">Hobbies</div><div class="field-value"><%= @profile.hobbies_and_interest.hobby.map{|ds| User::HOBBIES.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.interest.present? %>
+          <div class="field"><div class="field-label">Interests</div><div class="field-value"><%= @profile.hobbies_and_interest.interest.map{|ds| User::INTEREST.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.music.present? %>
+          <div class="field"><div class="field-label">Music</div><div class="field-value"><%= @profile.hobbies_and_interest.music.map{|ds| User::FAVOURITE_MUSIC.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.favourite_song.present? %>
+          <div class="field"><div class="field-label">Favourite Song</div><div class="field-value"><%= @profile.hobbies_and_interest.favourite_song.humanize %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.read.present? %>
+          <div class="field"><div class="field-label">Reading</div><div class="field-value"><%= @profile.hobbies_and_interest.read.map{|ds| User::FAVOURITE_BOOK.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.favourite_book.present? %>
+          <div class="field"><div class="field-label">Favourite Book</div><div class="field-value"><%= @profile.hobbies_and_interest.favourite_book.humanize %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.cuisine.present? %>
+          <div class="field"><div class="field-label">Cuisine</div><div class="field-value"><%= @profile.hobbies_and_interest.cuisine.map{|ds| User::FAVOURITE_CUISINE.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.travel.present? %>
+          <div class="field"><div class="field-label">Travel</div><div class="field-value"><%= @profile.hobbies_and_interest.travel.map{|ds| User::TRAVEL.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.hobbies_and_interest.specific_entertainment.present? %>
+          <div class="field full-width"><div class="field-label">Specific Entertainment</div><div class="field-value"><%= @profile.hobbies_and_interest.specific_entertainment.humanize %></div></div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @profile.cultural_value.present? %>
+    <div class="section">
+      <div class="section-title">Cultural Values</div>
+      <div class="grid">
+        <% if @profile.cultural_value.nationality.present? %>
+          <div class="field"><div class="field-label">Nationality</div><div class="field-value"><%= @profile.cultural_value.nationality.humanize %></div></div>
+        <% end %>
+        <% if @profile.cultural_value.mother_tongue.present? %>
+          <div class="field"><div class="field-label">Mother Tongue</div><div class="field-value"><%= User::MOTHER_TONGUE.keys[@profile.cultural_value.mother_tongue] %></div></div>
+        <% end %>
+        <% if @profile.cultural_value.languages_spoken.present? %>
+          <div class="field"><div class="field-label">Languages Spoken</div><div class="field-value"><%= @profile.cultural_value.languages_spoken.map{|ds| User::LANGUAGES.keys[ds.to_i]}.join(', ') %></div></div>
+        <% end %>
+        <% if @profile.cultural_value.willing_to_relocate.present? %>
+          <div class="field"><div class="field-label">Willing to Relocate</div><div class="field-value"><%= User::BOOLEAN_DATA.keys[@profile.cultural_value.willing_to_relocate] %></div></div>
+        <% end %>
+        <% if @profile.cultural_value.born_or_reverted.present? %>
+          <div class="field"><div class="field-label">Born/Reverted</div><div class="field-value"><%= User::BORN_OR_REVERTED.keys[@profile.cultural_value.born_or_reverted] %></div></div>
+        <% end %>
+        <% if @profile.cultural_value.attend_religious_event.present? %>
+          <div class="field"><div class="field-label">Attends Religious Events</div><div class="field-value"><%= User::BOOLEAN_DATA.keys[@profile.cultural_value.attend_religious_event] %></div></div>
+        <% end %>
+        <% if @profile.cultural_value.political_view.present? %>
+          <div class="field full-width"><div class="field-label">Political View</div><div class="field-value"><%= @profile.cultural_value.political_view %></div></div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @profile.partner_preference.present? %>
+    <% pp = @profile.partner_preference %>
+    <div class="section">
+      <div class="section-title">Partner Preferences</div>
+      <div class="grid">
+        <% if pp.gender.present? %>
+          <div class="field"><div class="field-label">Gender</div><div class="field-value"><%= pp.gender.titleize %></div></div>
+        <% end %>
+        <% if pp.min_age.present? && pp.max_age.present? %>
+          <div class="field"><div class="field-label">Age Range</div><div class="field-value"><%= "#{pp.min_age} – #{pp.max_age} years" %></div></div>
+        <% end %>
+        <% if pp.min_height.present? && pp.max_height.present? %>
+          <div class="field"><div class="field-label">Height Range</div><div class="field-value"><%= "#{pp.min_height} ft #{pp.min_inch} in – #{pp.max_height} ft #{pp.max_inch} in" %></div></div>
+        <% end %>
+        <% if pp.religion.present? && pp.religion.any? %>
+          <div class="field"><div class="field-label">Religion</div><div class="field-value"><%= pp.religion.map(&:to_s).map(&:titleize).join(', ') %></div></div>
+        <% end %>
+        <% if pp.marital_status.present? && pp.marital_status.any? %>
+          <div class="field"><div class="field-label">Marital Status</div><div class="field-value"><%= pp.marital_status.map(&:to_s).map(&:titleize).join(', ') %></div></div>
+        <% end %>
+        <% if pp.highest_education_level.present? %>
+          <div class="field"><div class="field-label">Education</div><div class="field-value"><%= pp.highest_education_level.to_s.titleize %></div></div>
+        <% end %>
+        <% if pp.family_type.present? %>
+          <div class="field"><div class="field-label">Family Type</div><div class="field-value"><%= pp.family_type.titleize %></div></div>
+        <% end %>
+        <% if pp.family_status.present? %>
+          <div class="field"><div class="field-label">Family Status</div><div class="field-value"><%= pp.family_status.to_s.titleize %></div></div>
+        <% end %>
+        <% if pp.physical_status.present? %>
+          <div class="field"><div class="field-label">Physical Status</div><div class="field-value"><%= pp.physical_status.titleize %></div></div>
+        <% end %>
+        <% if pp.family_values.present? %>
+          <div class="field"><div class="field-label">Family Values</div><div class="field-value"><%= pp.family_values.titleize %></div></div>
+        <% end %>
+        <% if pp.blood_group.present? && [pp.blood_group].flatten.compact.any? %>
+          <div class="field"><div class="field-label">Blood Group</div><div class="field-value"><%= [pp.blood_group].flatten.compact.join(', ') %></div></div>
+        <% end %>
+        <% if pp.present_location.present? && [pp.present_location].flatten.compact.reject(&:blank?).any? %>
+          <div class="field full-width"><div class="field-label">Preferred Location</div><div class="field-value"><%= [pp.present_location].flatten.compact.reject(&:blank?).join(', ') %></div></div>
+        <% end %>
+        <% if pp.hometown.present? && [pp.hometown].flatten.compact.reject(&:blank?).any? %>
+          <div class="field full-width"><div class="field-label">Preferred Hometown</div><div class="field-value"><%= [pp.hometown].flatten.compact.reject(&:blank?).join(', ') %></div></div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="footer">
+    Bolo Kobul &nbsp;|&nbsp; bolokobul.com &nbsp;|&nbsp; support@bolokobul.com &nbsp;|&nbsp;
+    Generated on <%= Date.today.strftime("%d %b %Y") %>
+  </div>
+
+</div>
+</body>
+</html>

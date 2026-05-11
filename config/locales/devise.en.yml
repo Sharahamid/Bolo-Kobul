@@ -1,0 +1,66 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+en:
+  devise:
+    confirmations:
+      confirmed: "Your email address has been successfully confirmed"
+      send_instructions: "You will receive an email shortly with instructions to confirm your email address"
+      send_paranoid_instructions: "If your email address exists in our system, you will receive an email shortly with confirmation instructions"
+    failure:
+      already_authenticated: "You are already signed in"
+      inactive: "Your account is not yet activated. Please complete the activation process"
+      invalid: "Invalid %{authentication_keys} or password. Please try again"
+      locked: "Your account is locked"
+      last_attempt: "Warning: You have one more attempt before your account is locked"
+      not_found_in_database: "Invalid %{authentication_keys} or password. Please try again"
+      timeout: "Your session has expired. Please login again"
+      unauthenticated: "Please login or sign up to continue"
+      unconfirmed: "Please confirm your email address before signing up"
+    mailer:
+      confirmation_instructions:
+        subject: "Confirm Your Email Address"
+      reset_password_instructions:
+        subject: "Password Reset Instructions"
+      unlock_instructions:
+        subject: "Unlock Your Account"
+      email_changed:
+        subject: "Email Address Updated"
+      password_change:
+        subject: "Password Changed"
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "Successfully authenticated via %{kind} account."
+    passwords:
+      no_token: "You cannot access this page without using the password reset link sent to your email"
+      send_instructions: "You will receive an email shortly with instructions to reset your password"
+      send_paranoid_instructions: "If your email address exists in our system, you will receive a password reset link shortly"
+      updated: "Your password has been changed successfully"
+      updated_not_active: "Your password has been changed successfully."
+    registrations:
+      destroyed: "Bye! Your account has been successfully deleted"
+      signed_up: "Welcome! Your account has been created successfully"
+      signed_up_but_inactive: "Your account has been created, but it’s not activated yet. Please complete the activation to login"
+      signed_up_but_locked: "Your account has been created, but it is currently locked"
+      signed_up_but_unconfirmed: "A confirmation email has been sent to your address. Please follow the link to activate your account"
+      update_needs_confirmation: "Your account was updated successfully, but we need to verify your new email. Please check your inbox"
+      updated: "Your account has been updated successfully"
+      updated_but_not_signed_in: "Your account was updated. Please login again since your password has changed"
+      custom_password_mismatch: "There was a problem with your signup. Make sure your password and confirmation match"
+    sessions:
+      signed_in: "You have logged in successfully"
+      signed_out: "You have logged out successfully"
+      already_signed_out: "You are logged out successfully"
+    unlocks:
+      send_instructions: "You will receive an email shortly with instructions to unlock your account"
+      send_paranoid_instructions: "If your account exists in our system, you will receive an email shortly with instructions to unlock it"
+      unlocked: "Your account has been unlocked successfully. Please login to continue"
+  errors:
+    messages:
+      already_confirmed: "This account was already confirmed. Please login"
+      confirmation_period_expired: "Confirmation period was within %{period}. Please request a new confirmation email"
+      expired: "This link has expired. Please request a new one"
+      not_found: "Not Found"
+      not_locked: "This account is not locked"
+      not_saved:
+        one: "An error prevented this %{resource} from being saved:"
+        other: "%{count} errors prevented this %{resource} from being saved:"

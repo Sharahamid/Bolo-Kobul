@@ -1,0 +1,11 @@
+    member do
+      post :send_request
+      patch :accept_request
+      patch :reject_request
+    end
+    collection do
+      get :kobul2_pending_profiles
+    end
+  end
+
+

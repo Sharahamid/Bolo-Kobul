@@ -1,0 +1,3 @@
+$('.hobbies_and_interest_info').html("<%= escape_javascript(render 'hobbies_and_interests/hobbies_and_interest_info', marriage_profile: @hobbies_and_interest.marriage_profile ) %>");
+$('#global_update_modal_sm').modal('hide');
+$(".update-notice").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');

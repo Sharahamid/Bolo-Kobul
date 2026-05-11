@@ -1,0 +1,7 @@
+<div class="p-0">
+  <div class="col-md-12">
+    <%= link_to Ad.active.about_us_page.first&.url || '#', target: '_blank' do %>
+      <%= image_tag Ad.about_us || 'about_ad.png', width:'100%', class: 'img-responsive' %>
+    <% end %>
+  </div>
+</div>

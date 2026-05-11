@@ -1,0 +1,265 @@
+@import "public_variables";
+
+// For Desktop Devices
+.market-places-container {
+  .section-hr {
+    background-color: $primary-color;
+    height: 2px;
+    width: 8%;
+    margin: auto;
+  }
+  .search-page-container {
+    background-color: $default-background;
+    box-shadow: 0 6px 14px #00000029;
+    position: relative;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    .search-container-background {
+      img{
+        max-width: 75px;
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+    .search-container-content {
+      .search-container-title {
+        color: $search-heading;
+        font-size: 1.15rem;
+        font-weight: bold;
+      }
+      .search-input-fields {
+        .form-group {
+          .search-input-group {
+            padding-bottom: 0.5rem;
+            padding-top: 0.5rem;
+            .search-input-title {
+              padding: 0.5rem;
+            }
+            .search-input {
+              background-color: $search-input-background;
+              border: 1px solid $search-input-border;
+              border-radius: 6px;
+              color: $search-heading;
+              -webkit-appearance: none;
+            }
+            .search-drop-icon {
+              color: $search-icon-gray;
+              font-size: 1.5rem;
+              position: absolute;
+              right: 12%;
+              top: 20%;
+            }
+          }
+        }
+      }
+    }
+    .filter-container-content {
+      font-size: 1rem;
+      .filter-container-title {
+        color: $black-color;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+      .filter-input-fields {
+        .filter-input-group {
+          .hometown-filter-inputs {
+            border: 1px solid $black-color;
+            height: 40vh;
+            overflow-y: scroll;
+          }
+          .occupation-filter-inputs {
+            @extend .hometown-filter-inputs;
+            height: 25vh;
+          }
+        }
+      }
+      .filter-hr {
+        height: 1px;
+        background-color: $black-color;
+      }
+    }
+    .partner-photo {
+      img {
+        max-height: 150px;
+        max-width: 150px;
+      }
+    }
+    .btn-search {
+      background-color: $primary-color;
+      border-radius: 5px;
+      box-shadow: 0 3px 6px $primary-box-shadow-color;
+      color: $white-color;
+    }
+    .btn-reset {
+      width: 5rem;
+    }
+    .btn-buy-adv-search {
+      width: 13rem;
+    }
+  }
+  .market-places-header {
+    font-size: 35px;
+    margin-top: 2%;
+    text-align: center;
+  }
+  .market-places-items {
+    display: flex;
+    justify-content: center;
+    .market-places-content {
+      a {
+        text-decoration: none;
+      }
+      .market-place-section {
+        background: $white-color 0 0 no-repeat padding-box;
+        box-shadow: 1px 3px 9px $primary-box-shadow-color;
+        margin-right: 1%;
+        width: 24.25%;
+        &:nth-of-type(4) {
+          margin-right: 0;
+        }
+        .market-place-cover {
+          .market-place-img {
+            width: 100%;
+            height: 10rem;
+            object-fit: cover;
+          }
+        }
+        .market-places-details {
+          .post-time {
+            color: $shadowed-color;
+            font-size: 0.9rem;
+          }
+          .market-place-title {
+            color: $black-color;
+            font-size: 1.15rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .market-place-details {
+            color: $dark-shadowed-color;
+            max-height: 12rem;
+            overflow: hidden;
+          }
+        }
+      }
+    }
+  }
+  .market-places-form {
+    text-align: center;
+    input, select, textarea {
+      margin: 5%;
+    }
+    .market-place-post-title {
+      font-size: 1.35rem;
+    }
+    .market-place-detail-form {
+      .form-group {
+        .form-control {
+          max-width: 90%;
+        }
+        .market-place-submit {
+          border: none;
+          font-size: 1.15rem;
+          margin-top: 5%;
+        }
+      }
+    }
+  }
+}
+.market-place-show-container {
+  margin-top: 62px;
+  .section-hr {
+    background-color: $primary-color;
+    float: left;
+    height: 2px;
+    width: 8%;
+    margin: auto;
+  }
+
+  .main-content {
+    background: #FFFFFF 0 0 no-repeat padding-box;
+    box-shadow: 1px 3px 9px #0000002B;
+    opacity: 1;
+    .card-collapse {
+      width: 100%;
+      .card {
+        border: none;
+        width: 100%;
+        a {
+          color: $dark-shadowed-color;
+          display: inline-block;
+          width: 100%;
+          i {
+            float: right;
+          }
+        }
+        .card-header {
+          background-color: transparent;
+          border-bottom: none;
+          margin-bottom: 0;
+          padding: 0;
+        }
+      }
+    }
+    .cost-block {
+      color: $primary-color;
+    }
+  }
+
+  .sidebar-bottom {
+    background: transparent 0 0 no-repeat padding-box;
+    display: flex;
+    opacity: 1;
+    margin-top: 35px;
+    .other-images {
+      display: flex;
+      flex-direction: row;
+    }
+  }
+
+  .ads-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20%;
+    margin-bottom: 10%;
+    height: 200px;
+    background: #FF6464 0% 0% no-repeat padding-box;
+  }
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+// For Mobile Devices
+@media screen and (max-width: 700px) {
+  .market-places-container {
+    .market-places-items {
+      .market-places-content {
+        .market-place-section {
+          margin: 0 2%;
+          width: 100%;
+        }
+      }
+    }
+  }
+  .market-place-show-container {
+    margin-top: 0;
+    .ads-container {
+      margin-bottom: 0;
+    }
+  }
+}
+
+
+.tooltip{
+  opacity: 1 !important;
+  z-index: 1 !important;
+}

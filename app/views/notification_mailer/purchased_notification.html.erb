@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0; padding:0; background:#f4f4f4; font-family: Arial, sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr><td align="center" style="padding: 2rem 1rem;">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px; width:100%;">
+
+  <tr><td style="background:#ffffff; border-radius:8px 8px 0 0; text-align:center; padding: 2rem 2rem 1rem;">
+    <img src="https://www.bolokobul.com/assets/bk_logo-d410475b2bfdeb425af379c0193908b7a02336b47f98b379e58edd6ba21c8435.png" width="80" style="margin-bottom:10px;" alt="Bolo Kobul" />
+    <div style="font-size:11px; color:#888; letter-spacing:2px; text-transform:uppercase;">Marriages are made in heaven</div>
+    <div style="width:40px; height:2px; background:#FFB627; margin:12px auto 0;"></div>
+  </td></tr>
+
+  <tr><td style="background:#FFB627; padding: 2rem; text-align:center;">
+    <div style="font-size:28px;">🧾</div>
+    <div style="font-size:22px; font-weight:bold; color:#ffffff; line-height:1.3; margin-top:8px;">
+      Your purchase was successful!
+    </div>
+    <div style="font-size:14px; color:#fff3cc; margin-top:8px;">Dear <%= @notification.recipient.name.present? ? @notification.recipient.name : 'there' %>,</div>
+  </td></tr>
+
+  <tr><td style="background:#ffffff; padding: 2rem;">
+    <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1.5rem;">
+      Thank you for your purchase on Bolo Kobul! Please find your receipt below for your records.
+    </p>
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:1.5rem;">
+      <tr>
+        <td style="font-size:13px; color:#555555; padding:4px 0;"><strong style="color:#333333;">Date</strong></td>
+        <td style="font-size:13px; color:#555555; padding:4px 0; text-align:right;"><%= @notification.notifiable.created_at.strftime("%d/%m/%Y %I:%M %p") %></td>
+      </tr>
+      <tr>
+        <td style="font-size:13px; color:#555555; padding:4px 0;"><strong style="color:#333333;">Receipt No.</strong></td>
+        <td style="font-size:13px; color:#555555; padding:4px 0; text-align:right;">#<%= @notification.notifiable_id&.to_s&.rjust(6, '0') %></td>
+      </tr>
+    </table>
+
+    <div style="background:#FFF8E7; border-radius:6px; padding:16px; margin-bottom:1.5rem;">
+      <div style="font-size:13px; font-weight:bold; color:#333333; margin-bottom:10px;">Customer Details</div>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0; width:140px;">Profile ID(s)</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: <%= @notification.recipient&.marriage_profiles&.map(&:unique_id)&.join(', ') %></td>
+        </tr>
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0;">Name</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: <%= @notification.recipient&.name %></td>
+        </tr>
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0;">Email</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: <%= @notification.recipient&.email %></td>
+        </tr>
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0;">Contact</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: <%= @notification.recipient&.phone_number %></td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="font-size:13px; font-weight:bold; color:#333333; margin-bottom:10px;">Items Purchased</div>
+    <table width="100%" cellpadding="8" cellspacing="0" style="border-collapse:collapse; margin-bottom:1.5rem; font-size:13px;">
+      <tr style="background:#FFB627;">
+        <th style="text-align:left; color:#ffffff; padding:10px 8px; border:1px solid #e8a020;">Description</th>
+        <th style="text-align:center; color:#ffffff; padding:10px 8px; border:1px solid #e8a020;">Qty</th>
+        <th style="text-align:right; color:#ffffff; padding:10px 8px; border:1px solid #e8a020;">Price (৳)</th>
+        <th style="text-align:right; color:#ffffff; padding:10px 8px; border:1px solid #e8a020;">Amount (৳)</th>
+      </tr>
+      <tr style="background:#ffffff;">
+      <td style="padding:10px 8px; border:1px solid #eeeeee; color:#333333;">
+        <%= @notification.notifiable&.butterfly? ? 'Butterfly Pack' : @notification.notifiable&.assisted_service&.name %>
+      </td>
+        <td style="padding:10px 8px; border:1px solid #eeeeee; color:#333333; text-align:center;"><%= @notification.notifiable&.quantity %></td>
+        <td style="padding:10px 8px; border:1px solid #eeeeee; color:#333333; text-align:right;"><%= number_with_precision(@notification.notifiable&.price, precision: 2, delimiter: ',') %></td>
+        <td style="padding:10px 8px; border:1px solid #eeeeee; color:#333333; text-align:right;"><%= number_with_precision(@notification.notifiable&.total_amount, precision: 2, delimiter: ',') %></td>
+      </tr>
+      <tr style="background:#FFF8E7;">
+        <td colspan="3" style="padding:10px 8px; border:1px solid #eeeeee; text-align:right; font-weight:bold; color:#333333;">Subtotal</td>
+        <td style="padding:10px 8px; border:1px solid #eeeeee; text-align:right; color:#333333;"><%= number_with_precision(@notification.notifiable&.sub_total_amount, precision: 2, delimiter: ',') %></td>
+      </tr>
+      <tr style="background:#FFF8E7;">
+        <td colspan="3" style="padding:10px 8px; border:1px solid #eeeeee; text-align:right; font-weight:bold; color:#333333;">Discount</td>
+        <td style="padding:10px 8px; border:1px solid #eeeeee; text-align:right; color:#333333;"><%= number_with_precision(@notification.notifiable&.discount_amount, precision: 2, delimiter: ',') %></td>
+      </tr>
+      <tr style="background:#FFB627;">
+        <td colspan="3" style="padding:10px 8px; border:1px solid #e8a020; text-align:right; font-weight:bold; color:#ffffff;">Grand Total</td>
+        <td style="padding:10px 8px; border:1px solid #e8a020; text-align:right; font-weight:bold; color:#ffffff;"><%= number_with_precision(@notification.notifiable&.total_amount, precision: 2, delimiter: ',') %></td>
+      </tr>
+    </table>
+
+    <div style="background:#FFF8E7; border-radius:6px; padding:16px; margin-bottom:1.5rem;">
+      <div style="font-size:13px; font-weight:bold; color:#333333; margin-bottom:10px;">Transaction Details</div>
+      <table width="100%" cellpadding="0" cellspacing="0">
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0; width:180px;">Payment Method</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: Online Payment</td>
+        </tr>
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0;">Bank Transaction ID</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: <%= @notification.notifiable&.transactions&.first&.bank_tran_id %></td>
+        </tr>
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0;">Transaction Amount</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: ৳ <%= number_with_precision(@notification.notifiable&.transactions&.first&.amount, precision: 2, delimiter: ',') %></td>
+        </tr>
+        <tr>
+          <td style="font-size:13px; color:#555555; padding:3px 0;">Transaction Time</td>
+          <td style="font-size:13px; color:#333333; padding:3px 0;">: <%= @notification.notifiable&.transactions&.first&.created_at.strftime("%d/%m/%Y %I:%M %p") %></td>
+        </tr>
+      </table>
+    </div>
+
+    <p style="font-size:14px; color:#555555; line-height:1.8; margin:0 0 1rem;">
+      If you have any questions about your purchase, please contact us at <a href="mailto:support@bolokobul.com" style="color:#FFB627;">support@bolokobul.com</a> or WhatsApp us at <a href="https://wa.me/8801611820410" style="color:#FFB627;">+8801611820410</a>.
+    </p>
+
+    <div style="background:#f9f9f9; border:1px solid #eeeeee; border-radius:6px; padding:14px 16px; margin-bottom:1rem;">
+      <div style="font-size:11px; color:#888888; line-height:1.7;">
+        <strong style="color:#666666;">Disclaimer:</strong> This email is confidential and may also be legally privileged. If you are not the intended recipient you must not copy, forward, disclose or use any part of it. If you have received this email in error, please notify us immediately at <a href="mailto:support@bolokobul.com" style="color:#FFB627;">support@bolokobul.com</a> and delete it from your system.
+      </div>
+    </div>
+
+  </td></tr>
+
+  <tr><td style="background:#FFF8E7; padding:1.5rem 2rem; text-align:center; border-top:1px solid #FFE082;">
+    <div style="font-size:14px; color:#888888; line-height:1.8;">With warm wishes,</div>
+    <div style="font-size:15px; font-weight:bold; color:#FFB627; margin-top:4px;">The Bolo Kobul Team</div>
+    <div style="font-size:11px; color:#aaaaaa; margin-top:12px;">
+      <a href="https://bolokobul.com" style="color:#FFB627; text-decoration:none;">bolokobul.com</a> &nbsp;|&nbsp;
+      <a href="mailto:support@bolokobul.com" style="color:#FFB627; text-decoration:none;">support@bolokobul.com</a> &nbsp;|&nbsp;
+      <a href="https://wa.me/8801611820410" style="color:#FFB627; text-decoration:none;">WhatsApp</a> &nbsp;|&nbsp;
+      <a href="https://fb.com/bolokobulltd" style="color:#FFB627; text-decoration:none;">Facebook</a>
+    </div>
+  </td></tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>

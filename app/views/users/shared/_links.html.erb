@@ -1,0 +1,41 @@
+<%- if controller_name != 'sessions' %>
+  <div class="form-group">
+  <%#= link_to "Sign in with Email", new_session_path(resource_name), class: 'form-control btn btn-primary' %>
+    <a class="btn btn-sign_up form-control" href="#" data-toggle="modal" data-target="#loginModal">
+      Login
+    </a>
+  </div>
+<% end %>
+
+<%- if devise_mapping.registerable? && controller_name != 'registrations' %>
+  <div class="form-group">
+  <%#= link_to "Sign up", new_registration_path(resource_name), class: 'btn btn-primary form-control' %>
+  <%= link_to "Sign up", root_path, class: 'btn btn-sign_up form-control' %>
+  </div><br />
+<% end %>
+
+<%#- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+<!--  <%#= link_to "Forgot your password?", new_password_path(resource_name) %><br />-->
+<%# end %>
+
+<%- if devise_mapping.confirmable? && controller_name != 'confirmations' %>
+  <%= link_to "Didn't receive confirmation instructions?", new_confirmation_path(resource_name) %><br />
+<% end %>
+
+<%- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks' %>
+  <%= link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name) %><br />
+<% end %>
+
+<%#- if devise_mapping.omniauthable? %>
+  <%#- resource_class.omniauth_providers.each do |provider| %>
+<!--    <%#= link_to "Sign in with #{OmniAuth::Utils.camelize(provider)}", omniauth_authorize_path(resource_name, provider) %><br />-->
+  <%# end %>
+<%# end %>
+<!--<div class="form-group">-->
+  <%#= link_to user_facebook_omniauth_authorize_path, class: 'btn btn-primary p-2 mt-2' do %>
+<!--      <i class="fab fa-facebook"> Sign in with Facebook</i>-->
+    <%# end %>
+  <%#= link_to user_google_oauth2_omniauth_authorize_path, class: 'btn btn-danger p-2 mt-2' do %>
+<!--  <i class="fab fa-google"> Sign in with Google</i>-->
+  <%# end %>
+<!--</div>-->

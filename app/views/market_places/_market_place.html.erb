@@ -1,0 +1,17 @@
+<div class="px-0 my-4 market-place-section">
+  <a class="col-md-12 px-0 py-0" href="<%= market_place_path market_place %>">
+    <div class="col-md-12 px-0 py-0 market-place-cover">
+      <%= image_tag "#{market_place.image_url.present? ?
+                           market_place.image_url : 'bg02.jpg'}",
+                    class: 'market-place-img img-responsive', width: '100%' %>
+    </div>
+    <div class="col-md-12 py-2 market-places-details">
+      <div class="market-place-title">
+        <%= market_place.name.truncate(28) %>
+      </div>
+      <div class="market-place-details pb-3">
+        <%= market_place.service_coverage %>
+      </div>
+    </div>
+  </a>
+</div>

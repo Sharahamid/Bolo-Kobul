@@ -1,0 +1,29 @@
+<div class="partner-requests">
+  <%- if title.present? %>
+    <span class="text-left">
+      <%= title %>
+      <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top"
+         title="You interested to connect with them. To view full profile you
+         have to send butterfly request."></i>
+    </span>
+  <% end %>
+
+  <div class="d-sm-flex flex-sm-row favourite-list">
+    <% if matches.present? %>
+      <% matches.limit(10).each do |match| %>
+        <div class="request-card flex-fill favourite-card ml-0 mb-3 ">
+          <div class="d-sm-flex flex-sm-column">
+            <%= render 'home/dashboard/card_profile_info', profile: match, profile_action: false %>
+            <div class="request-card-bottom p-2 border-top">
+              <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: match %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div class="no-data-found alert text-center text-gray">
+        <h4> No Data Found</h4>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="col-12">
+  <div class="row">
+    <!-- Remove Chat Request -->
+    <div class="bk-request-btn col-6 p-0">
+      <%= link_to reject_request_chat_friendship_path(req), method: :patch, class: 'kobul_btn', data: {toggle: 'tooltip', placement: 'top'}, title: "Remove this chat request" do %>
+        <span>
+          <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
+          <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
+          Remove
+        </span>
+      <% end %>
+    </div>
+
+    <!-- Block Profile -->
+    <div class="bk-cancel-btn col-6 p-0">
+      <%= link_to block_profile_marriage_profile_path(req.chat_friend), method: :patch, class: 'kobul_cancel-btn', data: {toggle: 'tooltip', placement: 'top'}, title: "Block this profile" do %>
+        <i class="fa fa-ban"></i>
+        Block
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+<div class=" white-background">
+
+  <div class="chat-profile border-bottom">
+    <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
+  </div>
+
+  <div class="conversation-list chat_screen border-bottom" id="messageBody">
+    <%= render 'messages/conversation_list', messages: chat_room.messages %>
+  </div>
+
+  <div class="chat-form p-3">
+    <%= render 'messages/chat_form', profile: profile, chat_room: chat_room, message: message %>
+  </div>
+
+</div>

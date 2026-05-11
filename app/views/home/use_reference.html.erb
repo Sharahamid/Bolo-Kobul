@@ -1,0 +1,39 @@
+<div class="container blogs-container">
+  <h2 class="blogs-header">
+    Reference Promo Code
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="blogs-items">
+    <div class="col-md-12 p-0 float-left">
+      <div class="row">
+        <div class="blogs-content col-md-9">
+
+          <% if !@logged_in %>
+            <p style="color:#555; font-size:15px; line-height:1.8; margin-bottom:1.5rem;">
+              Enter the referral code shared with you, then click Register Now!
+            </p>
+            <% if @referral_error %>
+              <div class="alert alert-danger"><%= @referral_error %></div>
+            <% end %>
+            <%= form_tag reference_path, method: :patch do %>
+              <div class="form_input_fields">
+                <div class="form-group">
+                  <%= text_field_tag :referral_code, '',
+                                     autofocus: true,
+                                     class: 'form-control sign_up-input-field',
+                                     placeholder: 'Type referral code here',
+                                     required: true %>
+                </div>
+                <%= submit_tag 'Register Now', class: 'btn btn-warning text-white' %>
+              </div>
+            <% end %>         
+          <% end %>
+
+        </div>
+        <div class="col-md-3 p-0">
+          <%= render partial: 'shared/ad_for_about_page' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

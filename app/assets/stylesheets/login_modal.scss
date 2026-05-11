@@ -1,0 +1,39 @@
+@import "public_variables";
+
+.bk-login-modal-header {
+  border-bottom: none !important;
+}
+.bk-modal-close{
+  position: absolute;
+  right: 25px;
+}
+.bk-check-box{
+  position: relative;
+  #user_remember_me{
+    position: absolute;
+    left: -5px;
+    top: 3px;
+  }
+  span{
+    padding-left: 15px;
+  }
+}
+
+.remember-password {
+  font-size: 12px;
+  .forget-password{
+    padding-left: 22px;
+  }
+
+  a {
+    color: $text-gray;
+    padding-left: 12px;
+  }
+
+  color: $text-gray;
+  padding-left: 7px;
+  padding-bottom: 4px;
+}
+.bk-login-btn{
+  padding-bottom: 5px;
+}

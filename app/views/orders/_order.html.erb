@@ -1,0 +1,8 @@
+<tr>
+  <th scope="row"><%= get_datetime_format(order.updated_at) %></th>
+  <td><%= order.product == 'butterfly' ? 'Butterfly' : order.assisted_service.name %></td>
+  <td><%= order.quantity %></td>
+  <td><%= order.price %></td>
+  <td><%= order.total_amount %></td>
+  <td><%= order.status %></td>
+</tr>

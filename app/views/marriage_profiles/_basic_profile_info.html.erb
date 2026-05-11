@@ -1,0 +1,163 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class="">Basic Info</strong>
+        </div>
+
+        <div class="align-self-end pr-2 js-plus-minus">
+          <a data-toggle="collapse" href="#collapse_basic_profile_info" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="collapse_basic_profile_info" class="panel-collapse collapse p-2 detail-info">
+      <% if marriage_profile.id == current_active_profile.id %>
+        <div class="edit-info-btn">
+          <a href="<%= edit_marriage_profile_path(marriage_profile) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white mr-2">
+            <i class="fa fa-pencil"></i>
+          </a>
+        </div>
+      <% end %>
+      <div class="panel-body border-top">
+        <div class="d-sm-flex flex-sm-row info-alignment">
+          <table class=" flex-fill pr-3 table table-borderless table-responsive">
+            <tbody>
+            <% if marriage_profile.id == current_active_profile.id %>
+              <tr>
+                <td> Name</td>
+                <td>:</td>
+                <td><%= marriage_profile&.name %></td>
+              </tr>
+              <tr>
+                <td> Date of Birth</td>
+                <td>:</td>
+                <td><%= marriage_profile.date_of_birth? ? get_date_format(marriage_profile.date_of_birth) : '' %></td>
+              </tr>
+            <% end %>
+
+            <% if (marriage_profile.gender.present? && marriage_profile.privacy_setting.gender_public?) || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Gender</td>
+                <td>:</td>
+                <td><%= marriage_profile.gender.present? ? marriage_profile&.gender.humanize : '' %></td>
+              </tr>
+            <% end %>
+
+            <% if ((marriage_profile.height_ft.present? || marriage_profile.height_inch.present?) &&
+              marriage_profile.privacy_setting.height_ft_public?) ||
+              current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Height</td>
+                <td>:</td>
+                <td>
+                  <%= marriage_profile.height_ft.present? ? marriage_profile&.height_ft : '--' %> '
+                  <%= marriage_profile.height_inch.present? ? marriage_profile.height_inch : '--' %> "
+                </td>
+              </tr>
+            <% end %>
+
+            <% if marriage_profile&.religion.present? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Religion</td>
+                <td>:</td>
+                <td> <%= marriage_profile&.religion.present? ? marriage_profile&.religion&.humanize : '' %></td>
+              </tr>
+            <% end %>
+
+            <% if marriage_profile&.hometown.present? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Hometown</td>
+                <td>:</td>
+                <td> <%= marriage_profile.hometown.present? ? marriage_profile.hometown&.humanize : '' %></td>
+              </tr>
+            <% end %>
+
+            <% if marriage_profile&.present_location.present? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Present Location</td>
+                <td>:</td>
+                <td><%= marriage_profile.present_location.present? ? marriage_profile.present_location&.humanize : '' %></td>
+              </tr>
+            <% end %>
+
+            <% if current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Present Address</td>
+                <td>:</td>
+                <td><%= marriage_profile.present_address.present? ? marriage_profile.present_address : '' %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+
+          <div class="vl"></div>
+
+          <table class=" flex-fill pr-3 table table-borderless table-responsive">
+            <tbody>
+            <tr>
+              <td> Identification Document </td>
+              <td>:</td>
+              <td><%= marriage_profile.identification_document.present? ? '✅ ️Uploaded️' : '❌ Not Yet' %> </td>
+            </tr>
+            <% if marriage_profile&.marital_status.present? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Marital Status</td>
+                <td>:</td>
+                <td><%= marriage_profile.marital_status.present? ? marriage_profile&.marital_status.humanize : '' %></td>
+              </tr>
+            <% end %>
+            <% if (marriage_profile.highest_education_level.present? && marriage_profile.privacy_setting.highest_education_level_public?) ||
+              current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Highest Education Level</td>
+                <td>:</td>
+                <td><%= marriage_profile.highest_education_level.present? ? marriage_profile&.highest_education_level&.humanize : '' %> </td>
+              </tr>
+            <% end %>
+            <% if marriage_profile.id == current_active_profile.id %>
+              <tr>
+                <td> NID or Passport No</td>
+                <td>:</td>
+                <td><%= marriage_profile.nid_or_passport.present? ? marriage_profile&.nid_or_passport : '' %> </td>
+              </tr>
+            <% end %>
+            <% if marriage_profile.blood_group.present? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Blood Group</td>
+                <td>:</td>
+                <td><%= marriage_profile.blood_group.present? ? marriage_profile&.blood_group : '' %>  </td>
+              </tr>
+            <% end %>
+            <% if marriage_profile.privacy_setting.family_type_public? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Family Type</td>
+                <td>:</td>
+                <td> <%= marriage_profile.family_type? ? marriage_profile&.family_type&.humanize : '' %> </td>
+              </tr>
+            <% end %>
+            <% if marriage_profile.privacy_setting.family_status_public? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Family Status</td>
+                <td>:</td>
+                <td><%= marriage_profile.family_status? ? marriage_profile&.family_status&.humanize : '' %> </td>
+              </tr>
+            <% end %>
+            <% if marriage_profile.privacy_setting.family_values_public? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Family Values</td>
+                <td>:</td>
+                <td><%= marriage_profile.family_values? ? marriage_profile&.family_values&.humanize : '' %> </td>
+              </tr>
+            <% end %>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

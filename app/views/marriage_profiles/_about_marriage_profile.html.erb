@@ -1,0 +1,75 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> About Myself </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_about" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="collapse_about" class="panel-collapse  collapse p-2 detail-info ">
+      <% if marriage_profile.id == current_active_profile.id %>
+        <div class="edit-info-btn">
+          <a href="<%= edit_about_marriage_profile_path(marriage_profile) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white mr-2">
+            <i class="fa fa-pencil"></i>
+          </a>
+        </div>
+      <% end %>
+
+      <div class="panel-body border-top ">
+
+        <div class="d-sm-flex flex-sm-row info-alignment">
+          <table class=" flex-fill pr-3 tablex table-borderlessx">
+            <tbody>
+              <% if marriage_profile.about_my_self? || marriage_profile.id == current_active_profile.id %>
+                <tr class="p-2">
+                  <td class="special-td"> About Myself</td>
+                  <td>:</td>
+                  <td class=" text-justify pr-5">
+                    <%= marriage_profile.about_my_self? ? marriage_profile.about_my_self : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.special_circumstances? || marriage_profile.id == current_active_profile.id %>
+                <tr class="p-2">
+                  <td class="special-td"> Special Circumstances</td>
+                  <td>:</td>
+                  <td class=" text-justify pr-5">
+                    <%= marriage_profile.special_circumstances? ? marriage_profile.special_circumstances : '' %>
+                  </td>
+                </tr>
+              <% end %>
+
+              <% if marriage_profile.description? || marriage_profile.id == current_active_profile.id %>
+                <tr class="p-2">
+                  <td class="special-td"> Few Line About My family</td>
+                  <td>:</td>
+                  <td class=" text-justify pr-5">
+                    <%= marriage_profile.description? ? marriage_profile.description : '' %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+            <tbody>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

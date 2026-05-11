@@ -1,0 +1,17 @@
+@import "public_variables";
+.privacy-settings{
+  .privacy-left-menu{
+    a:hover{
+      background-color: $primary-color;
+      color: $white-color;
+    }
+    .menu_active{
+      background-color: $primary-color;
+      color: $white-color;
+    }
+  }
+
+  .content-wrap{
+    overflow-wrap: break-word;
+  }
+}

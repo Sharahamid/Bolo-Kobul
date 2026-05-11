@@ -1,0 +1,209 @@
+@import "public_variables";
+
+.modal-body {
+  .file-input-field {
+    .form-control {
+      height: auto;
+    }
+  }
+}
+
+.search-container {
+  max-width: 100%;
+  .search-page-container {
+    background-color: $default-background;
+    box-shadow: 0 6px 14px #00000029;
+    position: relative;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    .search-container-background {
+      img{
+        max-width: 75px;
+        opacity: 0.6;
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
+    }
+    .search-container-content {
+      .search-container-title {
+        color: $search-heading;
+        font-size: 1.15rem;
+        font-weight: bold;
+      }
+      .search-input-fields {
+        .form-group {
+          .search-input-group {
+            padding-bottom: 0.5rem;
+            padding-top: 0.5rem;
+            .search-input-title {
+              padding: 0.5rem;
+            }
+            .search-input {
+              background-color: $search-input-background;
+              border: 1px solid $search-input-border;
+              border-radius: 6px;
+              color: $search-heading;
+              -webkit-appearance: none;
+            }
+            .search-drop-icon {
+              color: $search-icon-gray;
+              font-size: 1.5rem;
+              position: absolute;
+              right: 12%;
+              top: 20%;
+            }
+          }
+        }
+      }
+    }
+    .filter-container-content {
+      font-size: 1rem;
+      .filter-container-title {
+        color: $black-color;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+      .filter-input-fields {
+        .filter-input-group {
+          .hometown-filter-inputs {
+            border: 1px solid $black-color;
+            height: 40vh;
+            overflow-y: scroll;
+          }
+          .occupation-filter-inputs {
+            @extend .hometown-filter-inputs;
+            height: 25vh;
+          }
+        }
+      }
+      .filter-hr {
+        height: 1px;
+        background-color: $black-color;
+      }
+    }
+    .partner-photo {
+      img {
+        max-height: 150px;
+        max-width: 150px;
+      }
+    }
+    .btn-search {
+      background-color: $primary-color;
+      border-radius: 5px;
+      box-shadow: 0 3px 6px $primary-box-shadow-color;
+      color: $white-color;
+    }
+    .btn-reset {
+      width: 5rem;
+    }
+    .btn-buy-adv-search {
+      width: 13rem;
+    }
+  }
+}
+
+.partner-requests {
+  width: 100%;
+
+  .request-card {
+    background-color: $default-background;
+    box-shadow: 1px 3px 9px #0000002B;
+    border-radius: 5px;
+    margin: 0 .75rem;
+    width: 92% !important;
+
+    .recommended_profiles {
+      max-height: 560px;
+      overflow-y: auto;
+    }
+
+    .request-card-top {
+
+      .partner-photo {
+        img {
+          height: 74px;
+          width: 74px;
+        }
+      }
+
+      .partner-short-info {
+        .age-and-location {
+          color: $black-color;
+          font-size: 12px;
+        }
+
+        .expire-time {
+          color: $text-gray;
+          font-size: 11px;
+        }
+
+      }
+    }
+
+    .request-card-bottom {
+      width: 100%;
+
+      .bk-request-btn {
+        width: 50%;
+
+        .kobul_btn {
+          .kobul-hover-butterfly {
+            display: none;
+          }
+
+          .kobul-butterfly {
+            display: inherit;
+          }
+
+        }
+
+        .kobul_btn:hover {
+          background-color: $kobul_btn_color;
+          color: $text-white !important;
+
+          .kobul-hover-butterfly {
+            display: inherit;
+          }
+
+          .kobul-butterfly {
+            display: none;
+          }
+        }
+      }
+
+
+      .bk-cancel-btn {
+        width: 50%;
+        font-size: 10px;
+
+        .kobul_cancel-btn {
+
+        }
+
+        .kobul_cancel-btn:hover {
+          background-color: $cancel_color;
+          color: $text-white !important;
+        }
+
+        .bk_favourite-btn {
+
+        }
+
+        .bk_favourite-btn:hover {
+          background-color: $favourite-btn-color;
+          color: $text-white !important;
+        }
+      }
+    }
+  }
+
+  .favourite-card {
+    
+  }
+
+  .ads-right-sidebar {
+    margin-left: 1rem;
+    padding-right: 6px;
+  }
+}

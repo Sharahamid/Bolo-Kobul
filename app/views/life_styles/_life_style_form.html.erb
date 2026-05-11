@@ -1,0 +1,91 @@
+<%= form_for life_style, remote: true do |f| %>
+  <!-- Modal Header -->
+  <%= render 'shared/modal_header', title: 'Life Style' %>
+
+  <!-- Modal body -->
+  <div class="modal-body">
+    <div class="form_input_fields pl-2 pr-2">
+
+      <div class="form-group">
+        <%= f.select :drinker,
+                     User::BOOLEAN_DATA,
+                     {prompt: 'Do you drink?'},
+                     title: 'Do you drink?',
+                     data: {toggle: 'tooltip', placement: 'top'},
+                     class: 'form-control sign_up-input-field' %>
+        <small class="text-danger">
+          <%= f.object.errors[:drinker].present? ? "Food Habits #{f.object.errors[:drinker]&.first}" : '' %>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :smoker, User::BOOLEAN_DATA, {prompt: 'Do you smoke?'},
+                     title: 'Do you smoke?',
+                     data: {toggle: 'tooltip', placement: 'top'},
+                     class: 'form-control sign_up-input-field' %>
+        <small class="text-danger">
+          <%= f.object.errors[:smoker].present? ? "Food Habits #{f.object.errors[:smoker]&.first}" : '' %>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.select :food_habits,
+                     User::FOOD_HABITS,
+                     {prompt: 'Food Habits'},
+                     title: 'Food Habits',
+                     data: {toggle: 'tooltip', placement: 'top'},
+                     class: 'form-control sign_up-input-field' %>
+        <small class="text-danger">
+          <%= f.object.errors[:food_habits].present? ? "Food Habits #{f.object.errors[:food_habits]&.first}" : '' %>
+        </small>
+      </div>
+
+      <div class="form-group">
+        <%= f.label :dress_style, 'Dress Style :' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::DRESS_STYLE.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "life_style[dress_style][]",
+                                id ,
+                                checked_dress_style(id)%>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+
+      </div>
+
+      <div class="form-group">
+        <%= f.label :living_with, 'Living With : ' %><br/>
+        <div class="d-sm-flex flex-sm-row flex-wrap">
+          <% User::LIVING_WITH.each do |value, id| %>
+            <label class="check-box-lbl-item">
+              <%= check_box_tag "life_style[living_with][]",
+                                id,
+                                checked_living_with(id) %>
+              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
+              <%= value.to_s %>
+              </span>
+            </label>
+          <% end %>
+        </div>
+      </div>
+
+      <div>
+        <%= f.text_area :specific_habits,
+                        class: 'form-control',
+                        placeholder: 'Any Specific Habits You want to share?',
+                        title: 'Any Specific Habits You want to share?',
+                        data: {toggle: 'tooltip', placement: 'top'}
+        %>
+      </div>
+
+
+    </div>
+  </div>
+
+  <!-- Modal footer -->
+  <%= render 'shared/modal_footer', f: f %>
+<% end %>

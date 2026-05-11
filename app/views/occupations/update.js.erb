@@ -1,0 +1,3 @@
+$('.occupation_info').html("<%= escape_javascript(render 'occupations/occupation_info', marriage_profile: @occupation.marriage_profile ) %>");
+$('#global_update_modal_sm').modal('hide');
+$(".update-notice").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');

@@ -1,0 +1,18 @@
+<div class="wrapper">
+  <h2 class="faq-places-header">
+    Frequently Asked Questions
+  </h2>
+  <hr class="section-hr mt-0 mb-0">
+  <div class="section mt-3">
+    <div class="container faq-places-container">
+      <div class="row">
+        <div class="col-md-12">
+          <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
+            <%= render partial: 'faq', collection: @faqs %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-50"></div>
+</div>

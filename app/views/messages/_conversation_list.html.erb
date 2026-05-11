@@ -1,0 +1,12 @@
+<div class="conversation-row p-3" id="privat-chat-messages" data-login-user-id="<%= current_active_profile.id %>">
+  <% messages.each do |message| %>
+    <div class="d-flex flex-column">
+      <div class="conversation-row">
+        <%= render 'messages/conversation_row',
+                   message: message,
+                   row_background: "#{ message.marriage_profile.user.id == current_active_profile.user.id ?
+                                           'conversation-row-text-right' : 'conversation-row-text-left'}" %>
+      </div>
+    </div>
+  <% end %>
+</div>

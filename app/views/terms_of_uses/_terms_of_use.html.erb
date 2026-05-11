@@ -1,0 +1,20 @@
+<div class="card card-plain">
+  <div class="card-header" role="tab" id="heading_<%= terms_of_use.id %>">
+    <a data-toggle="collapse" data-parent="#accordion"
+       href="#collapse_<%= terms_of_use.id %>"
+       aria-expanded="<%= terms_of_use.id== @terms_of_uses.first.id ?
+                              true : false %>"
+       aria-controls="collapse_<%= terms_of_use.id %>">
+      <%= terms_of_use.title %><i class="fa fa-angle-down pt-1"
+                                    aria-hidden="<%= terms_of_use.id == @terms_of_uses.first.id ?
+                                                         true : false %>"></i>
+    </a>
+  </div>
+  <div id="collapse_<%= terms_of_use.id %>"
+       class="collapse <%= terms_of_use.id == @terms_of_uses.first.id ? 'show' : '' %>"
+       role="tabpanel" aria-labelledby="heading_<%= terms_of_use.id %>">
+    <div class="card-body">
+      <%= terms_of_use.content.html_safe %>
+    </div>
+  </div>
+</div>

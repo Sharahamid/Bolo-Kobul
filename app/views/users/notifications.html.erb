@@ -1,0 +1,60 @@
+<style>
+  .notification-bullet { display:inline-block; width:9px; height:9px; border-radius:50%; background:transparent; margin-right:8px; margin-top:4px; flex-shrink:0; transition:background 0.3s; }
+  .notification-unread .notification-bullet { background:#FFB627; }
+  .notification-box { cursor:pointer; }
+  .notification-unread { border-left:3px solid #FFB627 !important; }
+</style>
+<script>
+  window.markNotificationRead = function(el) {
+    if (!el.classList.contains('notification-unread')) return;
+    el.classList.remove('notification-unread');
+    var token = document.querySelector('meta[name="csrf-token"]');
+    if (!token) return;
+    fetch(el.dataset.markUrl, {
+      method: 'POST',
+      headers: { 'X-CSRF-Token': token.content, 'X-Requested-With': 'XMLHttpRequest' }
+    }).then(function() {
+      var counter = document.querySelector('.notification-counter');
+      if (counter) {
+        var count = parseInt(counter.textContent) - 1;
+        counter.textContent = count > 0 ? (count > 99 ? '99+' : count) : '';
+      }
+    });
+    if (el.dataset.pinned === 'true') {
+      var allIds = Array.from(document.querySelectorAll('[data-notification-id]'))
+                       .map(function(n) { return n.dataset.notificationId; }).join(',');
+      fetch('/users/next_unread_notification?exclude_ids=' + allIds, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+      }).then(function(r) { return r.text(); }).then(function(html) {
+        if (html.trim()) {
+          var temp = document.createElement('div');
+          temp.innerHTML = html;
+          var newNode = temp.firstElementChild;
+          if (newNode) { newNode.dataset.pinned = 'true'; el.parentNode.replaceChild(newNode, el); }
+        }
+      });
+    }
+  }
+</script>
+
+<%
+  recent_14 = @notifications
+    .where('(is_read = false AND created_at >= ?) OR (is_read = true AND created_at >= ?)', 3.months.ago, 1.month.ago)
+    .order(created_at: :desc).limit(14)
+  oldest_unread = @notifications
+    .where(is_read: false)
+    .where.not(id: recent_14.map(&:id))
+    .order(created_at: :asc).first
+  if oldest_unread.present?
+    notif_collection = recent_14.to_a + [oldest_unread]
+  else
+    notif_collection = @notifications
+      .where('(is_read = false AND created_at >= ?) OR (is_read = true AND created_at >= ?)', 3.months.ago, 1.month.ago)
+      .order(created_at: :desc).limit(15).to_a
+  end
+%>
+<% notif_collection.each_with_index do |notif, i| %>
+  <%= render partial: 'users/notification_mobile',
+             locals: { notification: notif,
+                       pinned: (oldest_unread.present? && i == notif_collection.length - 1) } %>
+<% end %>

@@ -1,0 +1,146 @@
+<div class="panel-group">
+  <div class="panel p-2 default-background white-background">
+    <div class="info-yellow-line"></div>
+    <div class="panel-heading">
+      <div class="d-flex flex-row">
+        <div class=" flex-fill pl-2 pt-1">
+          <strong class=""> Appearance </strong>
+        </div>
+        <div class="align-self-end pr-2">
+          <a data-toggle="collapse" href="#collapse_appearance" class="align-self-end text-white">
+            <i class="fas fa-caret-down"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div id="collapse_appearance" class="panel-collapse collapse p-2 detail-info ">
+      <% if marriage_profile.id == current_active_profile.id %>
+        <div class="edit-info-btn">
+          <a href="<%= marriage_profile.appearance.present? ?
+                           edit_appearance_path(marriage_profile.appearance) :
+                           new_appearance_path %>"
+             data-remote="true"
+             data-toggle="tooltip"
+             data-placement="top"
+             title="Edit information"
+             class="btn btn-sm btn-edit text-white mr-2">
+            <i class="fa fa-pencil"></i>
+          </a>
+        </div>
+      <% end %>
+      <% if marriage_profile.appearance.present? || marriage_profile.id == current_active_profile.id %>
+        <div class="panel-body border-top">
+          <div class="d-sm-flex flex-sm-row info-alignment">
+            <table class=" flex-fill pr-3 table table-borderless table-responsive">
+              <tbody>
+                <% if marriage_profile.appearance&.hair_color.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Hair Color</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.hair_color.present? ? marriage_profile&.appearance.hair_color.humanize : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.hair_length.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Hair Length</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.hair_length.present? ? marriage_profile.appearance.hair_length : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.hair_type.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Hair Type</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.hair_type.present? ? marriage_profile.appearance.hair_type : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.eye_color.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Eye Color</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.eye_color.present? ? marriage_profile.appearance.eye_color : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.eye_wear.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Eye Wear</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.eye_wear.present? ? marriage_profile.appearance.eye_wear.humanize : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.physical_status.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td>Physical Status</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.physical_status.present? ? marriage_profile.appearance.physical_status.humanize : '' %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+
+            <div class="vl"></div>
+
+            <table class="flex-fill pr-3 table table-borderless table-responsive">
+              <tbody>
+                <% if marriage_profile.appearance&.weight.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td> Weight</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.weight.present? ? marriage_profile.appearance.weight : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.body_type.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td> Body Type</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.body_type.present? ? marriage_profile.appearance.body_type.humanize : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.body_art.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td> Body Art</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.body_art.present? ? marriage_profile.appearance.body_art.humanize : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile&.female? && (marriage_profile.appearance&.is_hijab.present? || marriage_profile.id == current_active_profile.id) %>
+                  <tr>
+                    <td> Hijab</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.is_hijab.present? ? marriage_profile.appearance.is_hijab.humanize : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile&.female? && (marriage_profile.appearance&.is_niqab.present? || marriage_profile.id == current_active_profile.id) %>
+                  <tr>
+                    <td> Niqab</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.is_niqab.present? ? marriage_profile.appearance.is_niqab&.humanize : '' %></td>
+                  </tr>
+                <% end %>
+
+                <% if marriage_profile.appearance&.complexion.present? || marriage_profile.id == current_active_profile.id %>
+                  <tr>
+                    <td> Complexion</td>
+                    <td>:</td>
+                    <td><%= marriage_profile.appearance&.complexion.present? ? marriage_profile.appearance.complexion.humanize : '' %></td>
+                  </tr>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      <% else %>
+        <%= render 'shared/no_data_found' %>
+      <% end %>
+    </div>
+  </div>
+</div>

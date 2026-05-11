@@ -1,0 +1,47 @@
+<div class="container mt-5">
+  <div class="basic_info">
+    <div class="basic-info-mandala">
+      <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+    </div>
+    <div class="d-flex flex-column align-items-center">
+      <div class="form_title align-self-start pt-3 pl-2 pr-2">
+        <% if @user.phone_number.to_s.start_with?('+880', '01', '008801') %>
+          <strong>Phone number verification</strong>
+        <% else %>
+          <strong>Account verification</strong>
+        <% end %>
+        <br>
+        <%= image_tag 'yellow_line.svg', width: '51.59', height: '17' %>
+      </div>
+      <div class="form_input_fields pt-4 pl-2 pr-2">
+        <% if @user.phone_number.to_s.start_with?('+880', '01', '008801') %>
+          <p>
+            A verification code has been sent to your mobile number
+            <strong><%= "#{@user.phone_number.to_s[0...3]}.....#{@user.phone_number.to_s[-2..-1]}" %></strong>.
+            Please enter it below to activate your account.
+          </p>
+        <% else %>
+          <p>
+            A verification code has been sent to your email address
+            <strong><%= @user.email.to_s.gsub(/(?<=.{2})[^@](?=.*@)/, '*') %></strong>.
+            Please check your inbox and spam folder, then enter the code below to activate your account.
+          </p>
+        <% end %>
+        <%= form_tag verify_user_path(@user) do %>
+          <div class="form-group">
+            <%= label_tag :token, "Verification Code:" %>
+            <%= text_field_tag :token, '', class: "form-control", placeholder: 'Enter your verification code' %>
+          </div>
+          <button type="submit" class="btn btn-primary">Verify</button>
+          &nbsp;
+          <%= link_to 'Resend Code', resend_user_path(@user), method: :post %>
+        <% end -%>
+        <p class="mt-3" style="font-size:13px; color:#888;">
+          Did not receive the code? Check your spam folder or click <strong>Resend Code</strong> above.
+          For further help contact us at
+          <a href="mailto:support@bolokobul.com">support@bolokobul.com</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

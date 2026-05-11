@@ -1,0 +1,55 @@
+<div class="container-fluid p-0">
+  <div class="container">
+    <div class="basic_info">
+      <div class="basic-info-mandala">
+        <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+      </div>
+      <div class="d-flex flex-column align-items-center">
+        <div class="internal_form_heading align-self-center">
+          <%= image_tag 'basic_info_form_title.svg', class: "img-responsive" %>
+        </div>
+        <div class="form_title align-self-start pt-3 pl-2 pr-2">
+          <strong> Basics </strong> <br>
+          <%= image_tag 'yellow_line.svg', width: '51.59', height: '17' %>
+        </div>
+        <div class="form_input_fields pt-4 pl-2 pr-2">
+          <%= form_for profile do |f| %>
+            <%# unless profile.class == 'PartnerPreference' %>
+              <div class="form-group">
+                <%= f.text_field :gender, autofocus: true, autocomplete: "national_id", class: 'form-control sign_up-input-field', placeholder: profile.class.to_s %>
+                <small class="text-danger"> <%= f.object.errors[:national_id].present? ? "Email #{f.object.errors[:national_id]&.first}" : '' %> </small>
+              </div>
+            <%# end %>
+            <div class="form-group">
+              <%= f.select :gender, User::GENDER, {prompt: 'Gender'}, required: true, class: 'form-control sign_up-input-field' %>
+            </div>
+            <div class="form-group">
+              <%= f.select :hometown, District.order_by_name.collect { |d| [d.name, d.id] }, {prompt: 'Hometown'}, class: 'form-control sign_up-input-field', required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.select :present_location, District.order_by_name.collect { |d| [d.name, d.id] }, {prompt: 'Present Location'}, class: 'form-control sign_up-input-field', required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.select :marital_status, User::MARITAL_STATUS, {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field', required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.select :height, User::HEIGHT, {prompt: 'Height'}, class: 'form-control sign_up-input-field', required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.select :highest_education_level, User::EDUCATION_LEVEL, {prompt: 'Highest Education Level'}, class: 'form-control sign_up-input-field', required: true %>
+            </div>
+            <div class="form-group">
+              <%= f.select :family_values, User::FAMILY_VALUES, {prompt: 'Family Values'}, class: 'form-control sign_up-input-field' %>
+            </div>
+            <div class="register-btn-section text-center">
+              <button type="submit" class="btn btn-sign_up form-control"> Next</button>
+            </div>
+
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

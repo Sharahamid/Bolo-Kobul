@@ -1,0 +1,53 @@
+<div class="notification-box m-2 p-1 pb-3 <%= 'notification-unread' unless notification.is_read? %>"
+     data-mark-url="<%= mark_notification_read_users_path(notification_id: notification.id) %>"
+     data-notification-id="<%= notification.id %>"
+     data-pinned="<%= local_assigns[:pinned] ? 'true' : 'false' %>"
+     onclick="markNotificationRead(this)">
+  <div class="content d-flex align-items-start p-2">
+    <span class="notification-bullet"></span>
+    <div class="flex-fill">
+      <%= raw(notification.content) %>
+    </div>
+  </div>
+</div>
+
+<script>
+  if (typeof window.markNotificationRead === 'undefined') {
+    window.markNotificationRead = function(el) {
+      if (!el.classList.contains('notification-unread')) return;
+      el.classList.remove('notification-unread');
+
+      var token = document.querySelector('meta[name="csrf-token"]');
+      if (!token) return;
+
+      fetch(el.dataset.markUrl, {
+        method: 'POST',
+        headers: { 'X-CSRF-Token': token.content, 'X-Requested-With': 'XMLHttpRequest' }
+      }).then(function() {
+        var counter = document.querySelector('.notification-counter');
+        if (counter) {
+          var count = parseInt(counter.textContent) - 1;
+          counter.textContent = count > 0 ? (count > 99 ? '99+' : count) : '';
+        }
+      });
+
+      if (el.dataset.pinned === 'true') {
+        var allIds = Array.from(document.querySelectorAll('[data-notification-id]'))
+                         .map(function(n) { return n.dataset.notificationId; }).join(',');
+        fetch('/users/next_unread_notification?exclude_ids=' + allIds, {
+          headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        }).then(function(r) { return r.text(); }).then(function(html) {
+          if (html.trim()) {
+            var temp = document.createElement('div');
+            temp.innerHTML = html;
+            var newNode = temp.firstElementChild;
+            if (newNode) {
+              newNode.dataset.pinned = 'true';
+              el.parentNode.replaceChild(newNode, el);
+            }
+          }
+        });
+      }
+    }
+  }
+</script>
