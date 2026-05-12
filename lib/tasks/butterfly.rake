@@ -14,7 +14,7 @@ namespace :butterfly do
         will_email: false,
         will_sms: false
       )
-      KobulOneMailer.with(sender_profile: marriage_profile, friend: friendship.friend).request_expired.deliver_now
+      KobulOneMailer.with(sender_profile: marriage_profile, friend: friendship.friend).request_expired.deliver_later
       SmsService.call(
         marriage_profile.user.phone_number.to_s,
         "Your Kobul 1 request has expired without a response. Keep going — your perfect match is out there! Visit bolokobul.com"
@@ -35,7 +35,7 @@ namespace :butterfly do
         will_email: false,
         will_sms: false
       )
-      KobulTwoMailer.with(sender_profile: marriage_profile, friend: chat_friendship.chat_friend).request_expired.deliver_now
+      KobulTwoMailer.with(sender_profile: marriage_profile, friend: chat_friendship.chat_friend).request_expired.deliver_later
       SmsService.call(
         marriage_profile.user.phone_number.to_s,
         "Your Kobul 2 request has expired without a response. Keep exploring — your perfect match is waiting! Visit bolokobul.com"

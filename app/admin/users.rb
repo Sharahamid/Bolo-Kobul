@@ -3,7 +3,6 @@ ActiveAdmin.register User do
                 :email, :username, :butterfly_number, :block_butterfly_number
 
   menu parent: 'User'
-
   filter :name
   filter :email
   filter :phone_number
@@ -37,6 +36,25 @@ ActiveAdmin.register User do
       label = user.created_for&.titleize || 'Unknown'
       raw("<span style='background:#{color}; color:#{text_color}; padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600;'>#{label}</span>")
     end
+    column "Doc Verified" do |user|
+      profile = user.marriage_profiles.first
+      if profile&.identification_document.present?
+        doc_url = profile.identification_document.url
+        status = profile.doc_verification_status
+        icon = case status
+               when 1 then "<span style='color:green; font-size:16px;' title='Verified'>✅</span>"
+               when 2 then "<span style='color:red; font-size:16px;' title='Not Verified'>❌</span>"
+               else "<span style='color:orange; font-size:16px;' title='Pending'>⚠️</span>"
+               end
+        links = "<br/>"
+        links += link_to("View", shefali007_marriage_profile_path(profile), style: "font-size:11px; margin-right:5px;")
+        links += link_to("✅", verify_doc_shefali007_user_path(user, status: 1), method: :patch, style: "margin-right:3px;", title: "Mark Verified")
+        links += link_to("❌", verify_doc_shefali007_user_path(user, status: 2), method: :patch, style: "margin-right:3px;", title: "Mark Unverified")
+        raw(icon + links)
+      else
+        raw("<span style='color:#ccc;'>No Doc</span>")
+      end
+    end
     column :verified
     column :butterfly_number
     column :created_at
@@ -55,8 +73,35 @@ ActiveAdmin.register User do
       row :otp
       row :butterfly_number
       row :block_butterfly_number
+      row "Identification Document" do |user|
+        profile = user.marriage_profiles.first
+        if profile&.identification_document.present?
+          link_to "View Document", profile.identification_document.url, target: "_blank"
+        else
+          "No document uploaded"
+        end
+      end
+      row "Document Verification" do |user|
+        profile = user.marriage_profiles.first
+        if profile
+          case profile.doc_verification_status
+          when 1 then status_tag "Verified", class: "yes"
+          when 2 then status_tag "Not Verified", class: "no"
+          else status_tag "Pending", class: "warning"
+          end
+        end
+      end
       row :created_at
     end
+  end
+
+  member_action :verify_doc, method: :patch do
+    profile = resource.marriage_profiles.first
+    if profile
+      profile.update_column(:doc_verification_status, params[:status].to_i)
+      flash[:notice] = "Document verification status updated."
+    end
+    redirect_to shefali007_users_path
   end
 
   form do |f|

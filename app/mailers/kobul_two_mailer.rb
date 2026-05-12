@@ -12,7 +12,7 @@ class KobulTwoMailer < ApplicationMailer
     @current_user = params[:current_user]
     @profile = params[:profile]
     mail(to: @current_user.email,
-         subject: "You are now connected — start chatting!")
+         subject: "You are now connected - start chatting!")
   end
 
   # After B Accept the Request, A gets this message

@@ -27,7 +27,7 @@ class KobulOneMailer < ApplicationMailer
     @user = params[:user]
     @profile = params[:profile]
     mail(to: @user.email,
-         subject: "Great news — your butterfly was accepted!")
+         subject: "Great news - your butterfly was accepted!")
   end
 
   # When B rejects the request, A gets this message
