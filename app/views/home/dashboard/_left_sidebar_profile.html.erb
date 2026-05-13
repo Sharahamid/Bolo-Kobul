@@ -1,79 +1,113 @@
-<div class="left-sidebar-card p-3">
-  <div class="left-side-single-card d-flex flex-column align-content-center">
-    <div class="profile-photo align-self-center p-1">
+<style>
+  .left-sidebar-card .kobul_btn,
+  .left-sidebar-card .bk_favourite-btn,
+  .left-sidebar-card .kobul_cancel-btn,
+  .left-sidebar-card .kobul_2 { border-radius: 8px !important; }
+  .left-sidebar-card .bk-photo-wrap { cursor:pointer; position:absolute; bottom:-43px; left:50%; transform:translateX(-50%); width:86px; height:86px; border-radius:50%; border:4px solid #fff; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.15); box-sizing:border-box; }
+  .left-sidebar-card .bk-photo-wrap img { width:100% !important; height:100% !important; object-fit:cover !important; border-radius:50% !important; border:none !important; }
+  .left-sidebar-card .bk-photo-wrap:hover .bk-photo-overlay { opacity:1; }
+  .left-sidebar-card .bk-photo-overlay { position:absolute; inset:0; border-radius:50%; background:rgba(0,0,0,0.35); opacity:0; transition:opacity .2s; display:flex; align-items:center; justify-content:center; }
+  .left-sidebar-card .bk-info-row { display:flex; align-items:center; gap:7px; background:#f8f8f8; border-radius:8px; padding:7px 10px; font-size:12px; color:#333; font-weight:500; margin-bottom:6px; }
+  .left-sidebar-card .bk-info-icon { font-size:14px; color:#FFB627; flex-shrink:0; }
+  .left-sidebar-card .bk-top-row { display:flex; gap:4px; margin-bottom:6px; }
+  .left-sidebar-card .bk-top-pill { flex:1; background:#f8f8f8; border-radius:8px; padding:7px 4px; font-size:11px; color:#333; font-weight:500; text-align:center; display:flex; align-items:center; justify-content:center; gap:4px; }
+  .left-sidebar-card .bk-action-row { display:flex; gap:8px; margin-top:2px; }
+  .left-sidebar-card .bk-action-row a, .left-sidebar-card .bk-action-row span { flex:1; border-radius:8px !important; text-align:center; font-size:11px; padding:8px 4px; display:flex; align-items:center; justify-content:center; gap:5px; }
+  #bk-photo-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:12px; }
+  #bk-photo-modal img { width:300px; height:300px; border-radius:50%; object-fit:cover; border:4px solid #FFB627; }
+  #bk-photo-modal p { color:rgba(255,255,255,0.5); font-size:12px; margin:0; }
+</style>
+
+<div class="left-sidebar-card" style="border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); border:0.5px solid #eee; background:#fff;">
+
+  <% if marriage_profile&.id == current_active_profile&.id %>
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:20px 16px 30px; text-align:center;">
+      <style>.left-sidebar-card .img-thumbnail { width:90px !important; height:90px !important; object-fit:cover !important; border:3px solid #fff !important; box-shadow:0 2px 8px rgba(0,0,0,0.15) !important; }</style>
       <%= render 'home/dashboard/profile_photo', marriage_profile: marriage_profile %>
     </div>
-    <div class="card_title align-self-center p-1">
-      <%- if marriage_profile&.id == current_active_profile&.id %>
-        <strong><%= marriage_profile&.name&.split&.first %></strong>
-      <% end %>
-      <%- if marriage_profile&.verified %>
-        <i title="Verified" class="fas fa-check-circle"></i>
-      <% end %>
-    </div>
-    <div class="card_title align-self-center p-1">
-      <%= marriage_profile&.unique_id %>
-    </div>
-    <% if marriage_profile&.id == current_active_profile&.id %>
+    <div style="padding:8px 16px 16px; text-align:center;">
+      <div style="margin-bottom:8px;">
+        <strong style="font-size:15px; color:#222;"><%= marriage_profile&.name&.split&.first %></strong>
+        <% if marriage_profile&.verified %>
+          <i title="Verified" class="fas fa-check-circle" style="color:#FFB627;"></i>
+        <% end %>
+      </div>
+      <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:10px;"><%= marriage_profile&.unique_id %></span>
       <%= render 'shared/profile_progress_bar' %>
-      <%= render 'home/dashboard/short_profile_content' %>
       <%= render 'home/dashboard/create_and_edit_btns' %>
-    <% else %>
-      <%= render 'home/dashboard/short_profile_content_for_others', marriage_profile: marriage_profile %>
-      <div class="request-card-bottom p-2 border-top">
+      <%= render 'home/dashboard/short_profile_content' %>
+    </div>
+
+  <% else %>
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); height:90px; position:relative; text-align:center;">
+      <div class="bk-photo-wrap" onclick="bkOpenPhoto('<%= marriage_profile.profile_image.large_profile_thumb.url rescue '' %>')">
+        <%= render 'home/dashboard/profile_photo', marriage_profile: marriage_profile %>
+        <div class="bk-photo-overlay">
+          <i class="fas fa-search-plus" style="color:#fff; font-size:18px;"></i>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:50px 14px 16px; text-align:center;">
+      <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; display:inline-block; margin-bottom:12px;"><%= marriage_profile&.unique_id %></span>
+
+      <div style="height:0.5px; background:#eee; margin:0 0 10px;"></div>
+
+      <div class="bk-top-row">
+        <div class="bk-top-pill"><%= marriage_profile.age %> yrs</div>
+        <div class="bk-top-pill"><%= marriage_profile.height_ft %>'<%= marriage_profile.height_inch %>"</div>
+        <div class="bk-top-pill">
+          <i class="fas fa-map-marker-alt bk-info-icon"></i>
+          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= marriage_profile&.hometown&.humanize %></span>
+        </div>
+      </div>
+
+      <div class="bk-info-row">
+        <i class="fas fa-graduation-cap bk-info-icon"></i>
+        <span><%= marriage_profile&.highest_education_level&.humanize %></span>
+      </div>
+
+      <% if marriage_profile&.current_occupation.present? %>
+        <div class="bk-info-row">
+          <i class="fas fa-briefcase bk-info-icon"></i>
+          <span><%= Occupation::OCCUPATION_LABELS[marriage_profile&.current_occupation] || marriage_profile&.current_occupation&.humanize %></span>
+        </div>
+      <% end %>
+
+      <div class="request-card-bottom border-top pt-2">
         <% if current_active_profile.chat_friendships.where(status: 2).map(&:chat_friend_id).include?(marriage_profile.id) %>
-          <%= link_to "Chat", profile_message_path(marriage_profile), class: 'kobul_btn kobul_2' %>
+          <div class="bk-action-row">
+            <%= link_to profile_message_path(marriage_profile), class: 'kobul_btn kobul_2' do %>
+              <i class="fas fa-comment"></i> Chat
+            <% end %>
+          </div>
         <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(marriage_profile.id) %>
-          <div class="col-12">
-            <div class="row">
-              <div class="bk-request-btn col-6 p-0">
-                <a href="#" class="kobul_btn kobul_2" data-toggle="tooltip" data-placement="top" title="Waiting for Kobul 2 response">
-                  <span>Kobul 2 Pending</span>
-                </a>
-              </div>
-              <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
-                <div class="bk-cancel-btn col-6 p-0">
-                  <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn', data: {toggle: 'tooltip', placement: 'top'}, title: "Remove from favourites" do %>
-                    <i class="fa fa-close"></i> Remove
-                  <% end %>
-                </div>
-              <% else %>
-                <div class="bk-cancel-btn col-6 p-0">
-                  <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn', data: {toggle: 'tooltip', placement: 'top'}, title: "Save to Favourites" do %>
-                    <i class="far fa-heart"></i> Favourite
-                  <% end %>
-                </div>
+          <div class="bk-action-row">
+            <a href="#" class="kobul_btn kobul_2" style="font-size:11px;" data-toggle="tooltip" title="Waiting for Kobul 2 response">🦋 Kobul 2 Pending</a>
+            <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
+              <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
+                <i class="fa fa-close"></i> Remove
               <% end %>
-            </div>
+            <% else %>
+              <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn' do %>
+                <i class="far fa-heart"></i> Favourite
+              <% end %>
+            <% end %>
           </div>
         <% elsif get_requested_profiles.include?(marriage_profile) %>
           <%= render 'home/dashboard/accept_and_cancel_btns', profile: marriage_profile %>
         <% elsif current_active_profile.pending_friends.include?(marriage_profile) %>
-          <div class="col-12">
-            <div class="row">
-              <div class="bk-request-btn col-6 p-0">
-                <a href="#" class="kobul_btn" data-toggle="tooltip" data-placement="top" title="You Have Sent Butterfly Request To This User">
-                  <span>
-                    <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                    <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
-                    Pending
-                  </span>
-                </a>
-              </div>
-              <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
-                <div class="bk-cancel-btn col-6 p-0">
-                  <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn', data: {toggle: 'tooltip', placement: 'top'}, title: "Remove from favourites" do %>
-                    <i class="fa fa-close"></i> Remove
-                  <% end %>
-                </div>
-              <% else %>
-                <div class="bk-cancel-btn col-6 p-0">
-                  <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn', data: {toggle: 'tooltip', placement: 'top'}, title: "Save to Favourites" do %>
-                    <i class="far fa-heart"></i> Favourite
-                  <% end %>
-                </div>
+          <div class="bk-action-row">
+            <a href="#" class="kobul_btn" data-toggle="tooltip" title="Butterfly Request Sent">🦋 Pending</a>
+            <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
+              <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
+                <i class="fa fa-close"></i> Remove
               <% end %>
-            </div>
+            <% else %>
+              <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn' do %>
+                <i class="far fa-heart"></i> Favourite
+              <% end %>
+            <% end %>
           </div>
         <% elsif Friendship.where('(friendable_id = ? AND friend_id = ?) OR (friendable_id = ? AND friend_id = ?)', current_active_profile.id, marriage_profile.id, marriage_profile.id, current_active_profile.id).where(status: 1).exists? %>
           <%= render 'home/dashboard/kobul_2_btn', profile: marriage_profile %>
@@ -83,6 +117,21 @@
           <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: marriage_profile %>
         <% end %>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
 </div>
+
+<div id="bk-photo-modal" onclick="bkClosePhoto()">
+  <img id="bk-photo-modal-img" src="">
+  <p>Tap to close</p>
+</div>
+<script>
+  function bkOpenPhoto(src) {
+    if (!src) return;
+    document.getElementById('bk-photo-modal-img').src = src;
+    document.getElementById('bk-photo-modal').style.display = 'flex';
+  }
+  function bkClosePhoto() {
+    document.getElementById('bk-photo-modal').style.display = 'none';
+  }
+</script>
