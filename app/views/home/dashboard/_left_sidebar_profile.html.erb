@@ -3,10 +3,14 @@
   .left-sidebar-card .bk_favourite-btn,
   .left-sidebar-card .kobul_cancel-btn,
   .left-sidebar-card .kobul_2 { border-radius: 8px !important; }
+  .left-sidebar-card .bk-own-photo-wrap { position:absolute; bottom:-32px; left:50%; transform:translateX(-50%); width:64px; height:64px; border-radius:50%; border:3px solid #fff; box-shadow:0 2px 8px rgba(0,0,0,0.15); box-sizing:border-box; }
+  .left-sidebar-card .bk-own-photo-wrap img { width:100% !important; height:100% !important; object-fit:cover !important; border-radius:50% !important; border:none !important; box-shadow:none !important; }
   .left-sidebar-card .bk-photo-wrap { cursor:pointer; position:absolute; bottom:-43px; left:50%; transform:translateX(-50%); width:86px; height:86px; border-radius:50%; border:4px solid #fff; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.15); box-sizing:border-box; }
   .left-sidebar-card .bk-photo-wrap img { width:100% !important; height:100% !important; object-fit:cover !important; border-radius:50% !important; border:none !important; }
   .left-sidebar-card .bk-photo-wrap:hover .bk-photo-overlay { opacity:1; }
   .left-sidebar-card .bk-photo-overlay { position:absolute; inset:0; border-radius:50%; background:rgba(0,0,0,0.35); opacity:0; transition:opacity .2s; display:flex; align-items:center; justify-content:center; }
+  .left-sidebar-card .bk-own-photo-wrap .camera-icon-area { position:absolute; bottom:2px; right:2px; z-index:10; }
+  .left-sidebar-card .bk-own-photo-wrap .camera-icon-area i { background:rgba(0,0,0,0.55); color:#fff; border-radius:50%; padding:3px; font-size:10px; cursor:pointer; }
   .left-sidebar-card .bk-info-row { display:flex; align-items:center; gap:7px; background:#f8f8f8; border-radius:8px; padding:7px 10px; font-size:12px; color:#333; font-weight:500; margin-bottom:6px; }
   .left-sidebar-card .bk-info-icon { font-size:14px; color:#FFB627; flex-shrink:0; }
   .left-sidebar-card .bk-top-row { display:flex; gap:4px; margin-bottom:6px; }
@@ -21,21 +25,46 @@
 <div class="left-sidebar-card" style="border-radius:12px; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.07); border:0.5px solid #eee; background:#fff;">
 
   <% if marriage_profile&.id == current_active_profile&.id %>
-    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:20px 16px 30px; text-align:center;">
-      <style>.left-sidebar-card .img-thumbnail { width:90px !important; height:90px !important; object-fit:cover !important; border:3px solid #fff !important; box-shadow:0 2px 8px rgba(0,0,0,0.15) !important; }</style>
-      <%= render 'home/dashboard/profile_photo', marriage_profile: marriage_profile %>
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); height:70px; position:relative; display:flex; justify-content:center;">
+      <div class="bk-own-photo-wrap">
+        <%= render 'home/dashboard/profile_photo', marriage_profile: marriage_profile %>
+      </div>
     </div>
-    <div style="padding:8px 16px 16px; text-align:center;">
-      <div style="margin-bottom:8px;">
-        <strong style="font-size:15px; color:#222;"><%= marriage_profile&.name&.split&.first %></strong>
+
+    <div style="padding:36px 14px 12px; text-align:center;">
+      <div style="display:flex; align-items:center; justify-content:center; gap:5px; margin-bottom:8px; flex-wrap:wrap;">
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px;"><%= marriage_profile&.unique_id %></span>
+        <strong style="font-size:13px; color:#222;"><%= marriage_profile&.name&.split&.first %></strong>
         <% if marriage_profile&.verified %>
-          <i title="Verified" class="fas fa-check-circle" style="color:#FFB627;"></i>
+          <i title="Verified" class="fas fa-check-circle" style="color:#FFB627; font-size:13px;"></i>
         <% end %>
       </div>
-      <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:10px;"><%= marriage_profile&.unique_id %></span>
-      <%= render 'shared/profile_progress_bar' %>
+
+      <% pct = current_active_profile.profile_completeness.to_i %>
+      <div style="display:flex; justify-content:space-between; font-size:10px; color:#888; margin-bottom:3px;">
+        <span>Profile complete</span>
+        <span style="color:#FFB627; font-weight:700;"><%= pct %>%</span>
+      </div>
+      <div style="height:5px; background:#f0f0f0; border-radius:4px; overflow:hidden; margin-bottom:8px;">
+        <div style="width:<%= pct %>%; height:100%; background:linear-gradient(90deg,#FFB627,#ffca5e); border-radius:4px;"></div>
+      </div>
+
       <%= render 'home/dashboard/create_and_edit_btns' %>
-      <%= render 'home/dashboard/short_profile_content' %>
+
+      <div style="border-top:0.5px solid #f0f0f0; padding-top:8px; margin-top:8px; display:flex; justify-content:space-around;">
+        <a href="<%= pending_profiles_marriage_profiles_path %>" style="flex:1; text-align:center; text-decoration:none;">
+          <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= get_pending_profiles.present? ? get_pending_profiles.count : 0 %></div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Pending<br>Requests</div>
+        </a>
+        <a href="<%= pending_chat_profiles_chat_friendships_path %>" style="flex:1; text-align:center; text-decoration:none;">
+          <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= get_pending_chat_profiles.present? ? get_pending_chat_profiles.count : 0 %></div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Pending<br>Chats</div>
+        </a>
+        <a href="<%= favourites_path %>" style="flex:1; text-align:center; text-decoration:none;">
+          <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= current_active_profile.favourites.present? ? current_active_profile.favourites.count : 0 %></div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Favourite<br>Profiles</div>
+        </a>
+      </div>
     </div>
 
   <% else %>
@@ -54,7 +83,7 @@
       <div style="height:0.5px; background:#eee; margin:0 0 10px;"></div>
 
       <div class="bk-top-row">
-        <div class="bk-top-pill"><%= marriage_profile.age %> years</div>
+        <div class="bk-top-pill"><%= marriage_profile.age %> yrs</div>
         <div class="bk-top-pill"><%= marriage_profile.height_ft %>'<%= marriage_profile.height_inch %>"</div>
         <div class="bk-top-pill">
           <i class="fas fa-map-marker-alt bk-info-icon"></i>
