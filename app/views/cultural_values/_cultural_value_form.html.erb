@@ -24,7 +24,16 @@
                      title:'Birth Place' %>
         <small class="text-danger"> <%= f.object.errors[:birth_place].present? ? "Birth Place #{f.object.errors[:birth_place]&.first}" : '' %> </small>
       </div>
-
+      <div id="birth_place_abroad_fields" class="mb-3" style="display:none;">
+        <div class="row mt-2">
+          <div class="col-6">
+	    <%= f.select :birth_place_country, options_for_select(Country.order(:name).pluck(:name), f.object.birth_place_country), {prompt: 'Country*'}, class: 'form-control sign_up-input-field', id: 'birth_place_country_input' %>
+          </div>
+          <div class="col-6">
+            <%= f.text_field :birth_place_city, placeholder: 'City*', class: 'form-control sign_up-input-field', id: 'birth_place_city_input' %>
+          </div>
+        </div>
+      </div>
       <div class="form-group">
         <%= f.select :willing_to_relocate, User::BOOLEAN_DATA,
                      {prompt: 'Willing to relocate ?'},
@@ -64,16 +73,13 @@
 
       <div class="form-group">
         <%= f.label :religion %>
-        <%= f.select :religion, User::RELIGION,
-                     {prompt: 'Religion'},
-                     class: 'form-control sign_up-input-field',
-                     title: 'Religion',
-                     data: {toggle: 'tooltip', placement:'top'}
-
-        %>
-        <small class="text-danger"> <%= f.object.errors[:religion].present? ? "Relation #{f.object.errors[:religion]&.first}" : '' %> </small>
+        <% profile = current_active_profile %>
+        <% religion_display = profile&.mr_other? ? (profile&.other_religion.present? ? profile.other_religion : 'Other') : profile&.religion&.humanize %>
+        <p class="form-control sign_up-input-field" style="background:#f5f5f5; cursor:not-allowed;">
+          <%= religion_display || 'Not specified' %>
+        </p>
+        <%= f.hidden_field :religion, value: cultural_value.religion %>
       </div>
-
 
       <div class="form-group">
         <%= f.select :born_or_reverted, User::BORN_OR_REVERTED,
@@ -109,6 +115,25 @@
 
     </div>
   </div>
+  <script>
+  (function() {
+    var sel = document.querySelector('select[name="cultural_value[birth_place]"]');
+    var field = document.getElementById('birth_place_abroad_fields');
+    var input = document.getElementById('birth_place_country_input');
+    if (!sel || !field) return;
+    function toggle() {
+      if (sel.value === '65') {
+        field.style.display = 'block';
+        input.required = true;
+      } else {
+        field.style.display = 'none';
+        input.required = false;
+      }
+    }
+    sel.addEventListener('change', toggle);
+    toggle();
+  })();
+  </script>
 
   <!-- Modal footer -->
   <%= render 'shared/modal_footer', f: f %>

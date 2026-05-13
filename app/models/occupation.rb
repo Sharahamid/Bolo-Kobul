@@ -24,7 +24,7 @@ class Occupation < ApplicationRecord
   #
    enum monthly_income: %i[below_tk._15,000 tk._15,000_-_25,000 tk._25,000_-_50,000 tk._50,000_-_80,000 tk._80,000_-_100,000 tk._100,000_-_150,000 above_tk._150,000]
    enum employment_status: %i[full_time part_time freelance contract temporary]
-   enum name: %i[government_official defence private_service business self_employed unemployed student freelancer doctor engineer teacher retired not_working]
+   enum name: %i[government_official defence private_service business self_employed unemployed student freelancer doctor engineer teacher retired landlord not_working]
    OCCUPATION_LABELS = {
      "government_official" => "Government Official",
      "defence"             => "Defence / Armed Forces",
@@ -37,6 +37,7 @@ class Occupation < ApplicationRecord
      "doctor"              => "Doctor / Medical Professional",
      "engineer"            => "Engineer",
      "teacher"             => "Teacher / Academic",
+     "landlord"            => "Landlord / Landlady",
      "retired"             => "Retired",
      "not_working"         => "Not Working"
    }.freeze
@@ -52,7 +53,7 @@ class Occupation < ApplicationRecord
   # Validations
   #
 
-  validates_presence_of :name, :organization, :employment_status, :monthly_income, :company_name, :designation, unless: -> { not_working? || unemployed? || student? }
+  validates_presence_of :name, :organization, :employment_status, :monthly_income, :company_name, :designation, unless: -> { not_working? || unemployed? || student? || landlord? }
 
   #
   # callbacks
@@ -69,7 +70,7 @@ class Occupation < ApplicationRecord
   end
 
   def reset_all_if_not_working
-    if not_working? || unemployed? || student?
+    if not_working? || unemployed? || student? || landlord?
       self.company_name = nil
       self.designation = nil
       self.employment_status = nil

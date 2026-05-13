@@ -17,6 +17,9 @@
                      {prompt: 'Organization*'}, required: true, class: 'form-control sign_up-input-field', data: {toggle:'tooltip', placement:'top'}, title:'Organization' %>
         <small class="text-danger"> <%= f.object.errors[:designation].present? ? "Organization #{f.object.errors[:designation]&.first}" : '' %> </small>
       </div>
+      <div class="form-group" id="other_organization_field" style="display:none;">
+        <%= f.text_field :other_organization, placeholder: 'Please specify your organization*', class: 'form-control sign_up-input-field', id: 'other_organization_input' %>
+      </div>
 
       <div class="form-group required_for_working">
         <%= f.select :employment_status, Occupation::employment_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
@@ -91,7 +94,7 @@
       (function () {
           function check_occupation_name() {
               var val = $('#occupation_name')[0].value;
-              var noWorkNeeded = ["not_working", "unemployed", "student"].includes(val);
+              var noWorkNeeded = ["not_working", "unemployed", "student", "landlord"].includes(val);
               if(noWorkNeeded) {
                   $('.required_for_working select, .required_for_working input').attr('required', false);
                   $('.required_for_working').hide();
@@ -112,12 +115,28 @@
                   $('#occupation_end_date input').attr('required', true);
               }
           }
+          function check_organization() {
+              var orgSelect = document.querySelector('select[name="occupation[organization]"]');
+              var field = document.getElementById('other_organization_field');
+              var input = document.getElementById('other_organization_input');
+              if (!orgSelect || !field) return;
+              if (orgSelect.value === '41') {
+                  field.style.display = 'block';
+                  input.required = true;
+              } else {
+                  field.style.display = 'none';
+                  input.required = false;
+                  input.value = '';
+              }
+          }
           $('#occupation_name').change(check_occupation_name);
           $('#working_currently_checkbox').change(check_currently_working);
+          document.querySelector('select[name="occupation[organization]"]')?.addEventListener('change', check_organization);
           check_occupation_name();
           check_currently_working();
+          check_organization();
       })();
-  </script>
+  </script>  
 
   <!-- Modal footer -->
   <%= render 'shared/modal_footer', f: f %>

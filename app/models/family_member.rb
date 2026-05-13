@@ -39,7 +39,7 @@ class FamilyMember < ApplicationRecord
   }
   enum residence_type: %i[rented owned ]
   enum marital_status: %i[unmarried widow/Widower divorced separated married], _prefix: :fm
-  enum occupation: %i[government_official defence private_service business self_employed homemaker unemployed student freelancer doctor engineer teacher retired], _prefix: :mo
+  enum occupation: %i[government_official defence private_service business self_employed homemaker unemployed student freelancer doctor engineer teacher retired landlord], _prefix: :mo  
 
   FAMILY_OCCUPATION_LABELS = {
     "government_official" => "Government Official",
@@ -53,6 +53,7 @@ class FamilyMember < ApplicationRecord
     "freelancer"          => "Freelancer",
     "doctor"              => "Doctor / Medical Professional",
     "engineer"            => "Engineer",
+    "landlord"            => "Landlord / Landlady",
     "teacher"             => "Teacher / Academic",
     "retired"             => "Retired"
   }.freeze

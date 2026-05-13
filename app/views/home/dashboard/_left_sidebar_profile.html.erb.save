@@ -1,0 +1,90 @@
+<div class="left-sidebar-card" style="border-radius:12px; overflow:hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.07); border: 0.5px solid #eee; background:#fff;">
+  <% if marriage_profile&.id == current_active_profile&.id %>
+    <div style="background: linear-gradient(135deg, #FFB627, #ffca5e); padding: 20px 16px 30px; text-align: center;">
+  <style>.left-sidebar-card .img-thumbnail { width: 90px !important; height: 90px !important; object-fit: cover !important; border: 3px solid #fff !important; box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important; }</style>
+  <%= render 'home/dashboard/profile_photo', marriage_profile: marriage_profile %>
+</div>
+    <div style="padding: 8px 16px 16px; text-align: center;">
+      <div style="margin-bottom: 8px;">
+        <strong style="font-size:15px; color:#222;"><%= marriage_profile&.name&.split&.first %></strong>
+        <% if marriage_profile&.verified %>
+          <i title="Verified" class="fas fa-check-circle" style="color:#FFB627;"></i>
+        <% end %>
+      </div>
+      <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:10px;"><%= marriage_profile&.unique_id %></span>
+      <%= render 'shared/profile_progress_bar' %>
+      <%= render 'home/dashboard/short_profile_content' %>
+      <%= render 'home/dashboard/create_and_edit_btns' %>
+    </div>
+  <% else %>
+    <div style="background: linear-gradient(135deg, #FFB627, #ffca5e); padding: 20px 16px 45px; text-align: center;">
+      <%= render 'home/dashboard/profile_photo', marriage_profile: marriage_profile %>
+    </div>
+    <div style="padding: 8px 16px 16px; text-align: center;">
+      <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:10px;"><%= marriage_profile&.unique_id %></span>
+      <div style="font-size:13px; color:#333; margin-bottom:4px;">
+        <span><%= marriage_profile.age %> yrs</span> &nbsp;·&nbsp; <span><%= marriage_profile.height_ft %>'<%= marriage_profile.height_inch %>"</span>
+      </div>
+      <div style="font-size:12px; color:#888; margin-bottom:4px;">
+        🎓 <%= marriage_profile&.highest_education_level&.humanize %>
+      </div>
+      <div style="font-size:12px; color:#888; margin-bottom:6px;">
+        📍 <%= marriage_profile&.hometown&.humanize %>
+      </div>
+      <% if marriage_profile&.current_occupation.present? %>
+        <div style="background:#f8f8f8; border-radius:8px; padding:5px 8px; font-size:11px; color:#666; margin-bottom:10px;">
+          💼 <%= Occupation::OCCUPATION_LABELS[marriage_profile&.current_occupation] || marriage_profile&.current_occupation&.humanize %>
+        </div>
+      <% end %>
+      <div class="request-card-bottom border-top pt-2">
+        <% if current_active_profile.chat_friendships.where(status: 2).map(&:chat_friend_id).include?(marriage_profile.id) %>
+          <%= link_to "💬 Chat", profile_message_path(marriage_profile), class: 'kobul_btn kobul_2', style: 'width:100%; display:block; text-align:center;' %>
+        <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(marriage_profile.id) %>
+          <div class="row">
+            <div class="col-6 p-1">
+              <a href="#" class="kobul_btn kobul_2" style="font-size:11px;" data-toggle="tooltip" title="Waiting for Kobul 2 response">Kobul 2 Pending</a>
+            </div>
+            <div class="col-6 p-1">
+              <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
+                <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn', style: 'font-size:11px;' do %>
+                  <i class="fa fa-close"></i> Remove
+                <% end %>
+              <% else %>
+                <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn', style: 'font-size:11px;' do %>
+                  <i class="far fa-heart"></i> Favourite
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% elsif get_requested_profiles.include?(marriage_profile) %>
+          <%= render 'home/dashboard/accept_and_cancel_btns', profile: marriage_profile %>
+        <% elsif current_active_profile.pending_friends.include?(marriage_profile) %>
+          <div class="row">
+            <div class="col-6 p-1">
+              <a href="#" class="kobul_btn" style="font-size:11px;" data-toggle="tooltip" title="Butterfly Request Sent">
+                🦋 Pending
+              </a>
+            </div>
+            <div class="col-6 p-1">
+              <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
+                <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn', style: 'font-size:11px;' do %>
+                  <i class="fa fa-close"></i> Remove
+                <% end %>
+              <% else %>
+                <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn', style: 'font-size:11px;' do %>
+                  <i class="far fa-heart"></i> Favourite
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% elsif Friendship.where('(friendable_id = ? AND friend_id = ?) OR (friendable_id = ? AND friend_id = ?)', current_active_profile.id, marriage_profile.id, marriage_profile.id, current_active_profile.id).where(status: 1).exists? %>
+          <%= render 'home/dashboard/kobul_2_btn', profile: marriage_profile %>
+        <% elsif current_active_profile.favourite_profiles.include?(marriage_profile) %>
+          <%= render 'home/dashboard/send_butterfly_and_remove_favourite_btns', profile: marriage_profile %>
+        <% else %>
+          <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: marriage_profile %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <strong class="">Basic Info</strong>
+          <span style="font-size:18px;margin-right:8px;">👤</span><strong>Basic Info</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Age · Height · Education</span>
         </div>
 
         <div class="align-self-end pr-2 js-plus-minus">
@@ -60,14 +60,6 @@
               </tr>
             <% end %>
 
-            <% if marriage_profile&.religion.present? || current_active_profile.id == marriage_profile.id %>
-              <tr>
-                <td> Religion</td>
-                <td>:</td>
-                <td> <%= marriage_profile&.religion.present? ? marriage_profile&.religion&.humanize : '' %></td>
-              </tr>
-            <% end %>
-
             <% if marriage_profile&.hometown.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
                 <td> Hometown</td>
@@ -98,11 +90,6 @@
 
           <table class=" flex-fill pr-3 table table-borderless table-responsive">
             <tbody>
-            <tr>
-              <td> Identification Document </td>
-              <td>:</td>
-              <td><%= marriage_profile.identification_document.present? ? '✅ ️Uploaded️' : '❌ Not Yet' %> </td>
-            </tr>
             <% if marriage_profile&.marital_status.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
                 <td> Marital Status</td>

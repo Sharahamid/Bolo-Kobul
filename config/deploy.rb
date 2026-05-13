@@ -1,7 +1,6 @@
 ## config valid for current version and patch releases of Capistrano
 #lock "~> 3.11.2"
 #
-#set :repo_url,        'git@bitbucket.org:sajid_9185/bolokobul.git'
 #set :application,     'bolokobul_stage'
 #set :user,            'ubuntu'
 #set :puma_threads,    [4, 16]

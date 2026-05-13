@@ -1,4 +1,4 @@
-<%= form_for @marriage_profile, remote: true do |f| %>
+<%= form_for @marriage_profile, remote: true do |f| %
   <!-- Modal Header -->
   <%= render 'shared/modal_header', title: 'Basic Information' %>
 
@@ -41,14 +41,14 @@
 
       <div class="form-group">
         <%= f.text_area :present_address,
-                        placeholder: 'Detailed Present Address*',
+                        placeholder: 'Present Address*',
                         class: 'sign_up-input-field',
-                        title: 'Detailed Present Address*',
+                        title: 'Present Address*',
                         data: {toggle:'tooltip', placement:'top'},
                         style: "width: 100%",
                         rows: 3,
                         required: true %>
-        <small class="text-danger"> <%= f.object.errors[:present_address].present? ? "Detailed Present Address #{f.object.errors[:present_address]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:present_address].present? ? "Present Address #{f.object.errors[:present_address]&.first}" : '' %> </small>
       </div>
 
       <div class="form-group">
@@ -91,9 +91,6 @@
                      data: {toggle: "tooltip", placement: "top" },
                      title:'Height Education Level' %>
         <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? "Highest Education Level #{f.object.errors[:highest_education_level]&.first}" : '' %> </small>
-      </div>
-      <div class="form-group" id="other_education_field" style="display:none;">
-        <%= f.text_field :other_education, placeholder: 'Please specify your education*', class: 'form-control sign_up-input-field', id: 'other_education_input' %>
       </div>
 
       <div class="form-group">
@@ -144,30 +141,6 @@
 
     </div>
   </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  var eduSelect = document.querySelector('select[name="marriage_profile[highest_education_level]"]');
-  if (eduSelect) {
-    eduSelect.addEventListener('change', function() {
-      var field = document.getElementById('other_education_field');
-      var input = document.getElementById('other_education_input');
-      if (this.value === 'other') {
-        field.style.display = 'block';
-        input.required = true;
-      } else {
-        field.style.display = 'none';
-        input.required = false;
-        input.value = '';
-      }
-    });
-    // Show on load if already set to other
-    if (eduSelect.value === 'other') {
-      document.getElementById('other_education_field').style.display = 'block';
-    }
-  }
-});
-</script>
 
   <!-- Modal footer -->
   <%= render 'shared/modal_footer', f: f %>

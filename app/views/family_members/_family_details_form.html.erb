@@ -1,81 +1,109 @@
 <%= form_for family_member, remote: true do |f| %>
-  <!-- Modal Header -->
   <%= render 'shared/modal_header', title: family_member.new_record? ? 'Add Family Member' : 'Edit Family Member', f: f %>
-
-  <!-- Modal body -->
   <div class="modal-body">
     <div class="form_input_fields pl-2 pr-2">
-
       <div class="form-group">
-        <%= f.text_field :name,
-                         placeholder: 'Name*',
-                         required: true,
-                         class: 'form-control sign_up-input-field' %>
+        <%= f.text_field :name, placeholder: 'Name*', required: true, class: 'form-control sign_up-input-field' %>
         <small class="text-danger"> <%= f.object.errors[:name].present? ? "Name* #{f.object.errors[:name]&.first}" : '' %> </small>
       </div>
-
       <div class="form-group">
         <%= f.select :occupation, FamilyMember::occupations.map { |k, v| [FamilyMember::FAMILY_OCCUPATION_LABELS[k] || k.humanize, k] },
                      {prompt: 'Occupation*'},
-                     class: 'form-control sign_up-input-field',
-                     title: 'Occupation*',
-                     required: true,
-                     data: {toggle: 'tooltip',
-                            placement: 'top'} %>
+                     class: 'form-control sign_up-input-field js-family-occupation',
+                     title: 'Occupation*', required: true,
+                     data: {toggle: 'tooltip', placement: 'top'} %>
         <small class="text-danger"> <%= f.object.errors[:occupation].present? ? "Occupation* #{f.object.errors[:occupation]&.first}" : '' %> </small>
       </div>
-
+      <div class="form-group required_for_family_working">
+        <%= f.select :organization, options_for_select(Organization.order(:name).pluck(:name, :id), selected: f.object.organization),
+                     {prompt: 'Organization'},
+                     class: 'form-control sign_up-input-field js-family-org' %>
+      </div>
+      <div class="form-group required_for_family_working" id="family_other_org_field" style="display:none;">
+        <%= f.text_field :other_organization, placeholder: 'Please specify organization', class: 'form-control sign_up-input-field', id: 'family_other_org_input' %>
+      </div>
+      <div class="form-group required_for_family_working">
+        <%= f.text_field :company_name, placeholder: 'Company Name', class: 'form-control sign_up-input-field' %>
+      </div>
+      <div class="form-group required_for_family_working">
+        <%= f.text_field :designation, placeholder: 'Designation', class: 'form-control sign_up-input-field' %>
+      </div>
       <div class="form-group">
         <%= f.select :relation, FamilyMember::relations.to_h.map { |k, v| [k.titleize, k] },
                      {prompt: 'Relation*'},
                      class: 'form-control sign_up-input-field js-relation',
-                     title: 'Relation*',
-                     required: true,
-                     data: {toggle: 'tooltip',
-                            placement: 'top'} %>
+                     title: 'Relation*', required: true,
+                     data: {toggle: 'tooltip', placement: 'top'} %>
         <small class="text-danger"> <%= f.object.errors[:relation].present? ? "Relation* #{f.object.errors[:relation]&.first}" : '' %> </small>
       </div>
-
       <div class="form-group">
         <%= f.select :marital_status, FamilyMember::marital_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
                      {prompt: 'Marital Status'},
                      class: 'form-control sign_up-input-field js-marital-status',
                      title: 'Marital Status*',
-                     data: {toggle: 'tooltip',
-                            placement: 'top'} %>
+                     data: {toggle: 'tooltip', placement: 'top'} %>
         <small class="text-danger"> <%= f.object.errors[:marital_status].present? ? "Relation* #{f.object.errors[:marital_status]&.first}" : '' %> </small>
       </div>
-
-
       <div class="form-group">
         <%= f.select :residence_type, FamilyMember::residence_types.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
                      {prompt: 'Residence Type*'},
                      class: 'form-control sign_up-input-field',
-                     title: 'Residence Type*',
-                     required: true,
-                     data: {toggle: 'tooltip',
-                            placement: 'top'} %>
+                     title: 'Residence Type*', required: true,
+                     data: {toggle: 'tooltip', placement: 'top'} %>
         <small class="text-danger"> <%= f.object.errors[:residence_type].present? ? "Residence Type* #{f.object.errors[:residence_type]&.first}" : '' %> </small>
       </div>
-
       <div class="form-group">
-        <%= f.text_field :permanent_address,
-                        placeholder: 'Permanent Address',
-                        title: 'Permanent Address',
-                        data: {toggle: 'tooltip',
-                               placement: 'top'},
+        <%= f.text_field :permanent_address, placeholder: 'Permanent Address',
+                        title: 'Permanent Address', data: {toggle: 'tooltip', placement: 'top'},
                         class: 'form-control sign_up-input-field' %>
         <small class="text-danger"> <%= f.object.errors[:permanent_address].present? ? "Description #{f.object.errors[:permanent_address]&.first}" : '' %> </small>
       </div>
     </div>
   </div>
-
-  <!-- Modal footer -->
   <%= render 'shared/modal_footer', f: f %>
 <% end %>
-
 <style>
-  .js-marital-status{
-    display: none;
-  }
+  .js-marital-status { display: none; }
 </style>
+<script>
+(function() {
+  var NO_WORK = ["homemaker", "unemployed", "student", "retired", "landlord"];
+  var OTHERS_ID = '41';
+
+  function checkFamilyOccupation() {
+    var select = document.querySelector('select[name="family_member[occupation]"]');
+    if (!select) return;
+    var noWork = NO_WORK.includes(select.value);
+    document.querySelectorAll('.required_for_family_working').forEach(function(f) {
+      f.style.display = noWork ? 'none' : 'block';
+    });
+    if (noWork) {
+      var orgField = document.getElementById('family_other_org_field');
+      if (orgField) orgField.style.display = 'none';
+    } else {
+      checkFamilyOrg();
+    }
+  }
+
+  function checkFamilyOrg() {
+    var orgSelect = document.querySelector('select[name="family_member[organization]"]');
+    var field = document.getElementById('family_other_org_field');
+    var input = document.getElementById('family_other_org_input');
+    if (!orgSelect || !field) return;
+    if (orgSelect.value === OTHERS_ID) {
+      field.style.display = 'block';
+      input.required = true;
+    } else {
+      field.style.display = 'none';
+      input.required = false;
+      input.value = '';
+    }
+  }
+
+  var occSelect = document.querySelector('select[name="family_member[occupation]"]');
+  var orgSelect = document.querySelector('select[name="family_member[organization]"]');
+  if (occSelect) occSelect.addEventListener('change', checkFamilyOccupation);
+  if (orgSelect) orgSelect.addEventListener('change', checkFamilyOrg);
+  checkFamilyOccupation();
+})();
+</script>

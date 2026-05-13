@@ -7,7 +7,7 @@
                remote: true do |f| %>
     <div class="camera-icon-area">
       <i class="fa fa-camera profile-photo-upload"></i>
-      <%= f.file_field :profile_image, id:'js-profile-image-upload', class: 'profile-input-field js-profile-image' %>
+      <%= f.file_field :profile_image, id:'js-profile-image-upload', class: 'profile-input-field js-profile-image', style: 'display:none' %>
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <%= f.submit class: 'd-none js-submit' %>
     </div>

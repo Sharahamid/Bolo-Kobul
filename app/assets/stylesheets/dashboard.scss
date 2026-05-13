@@ -288,7 +288,6 @@
 
       .profile-info-item {
         position: relative;
-
         .info-yellow-line {
           position: absolute;
           border-top: 3px solid #DEB717;
@@ -296,14 +295,6 @@
           top: 0;
           left: 1rem;
         }
-      }
-
-      .info-yellow-line {
-        position: absolute;
-        border-top: 3px solid #DEB717;
-        width: 4rem;
-        top: 0;
-        left: 1rem;
       }
 
       .detail-info, .new-info-add {

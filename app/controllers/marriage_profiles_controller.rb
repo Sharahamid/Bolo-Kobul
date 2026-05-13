@@ -26,6 +26,7 @@ class MarriageProfilesController < ApplicationController
     if current_active_profile&.id != @marriage_profile.id && current_user
       key = "profile_views_#{@marriage_profile.id}"
       Rails.cache.write(key, (Rails.cache.read(key) || 0) + 1, expires_in: 8.days)
+      @marriage_profile.calculate_matching_percentage!(current_active_profile) if current_active_profile
     end
   end
 
@@ -308,7 +309,7 @@ class MarriageProfilesController < ApplicationController
                                              :date_of_birth, :religion, :hometown, :present_location, :present_address,
                                              :height_ft, :height_inch, :highest_education_level, :family_type, :blood_group,
                                              :photo_1, :photo_2, :photo_3, :family_values, :marital_status, :family_status,
-                                             :profile_image, :about_my_self, :special_circumstances, :description)
+                                             :profile_image, :about_my_self, :special_circumstances, :description, :other_religion, :other_education, :other_gender, :hometown_country, :hometown_city, :present_location_country, :present_location_city)
   end
 
   def profile_dashboard_url(profile)

@@ -63,6 +63,9 @@
                            title: "Gender* 🔐" %>
               <small class="text-danger"> <%= f.object.errors[:gender].present? ? f.object.errors[:gender]&.first : '' %> </small>
             </div>
+            <div class="form-group" id="other_gender_field" style="display:none;">
+              <%= f.text_field :other_gender, placeholder: 'Please specify your gender*', class: 'form-control sign_up-input-field', id: 'other_gender_input' %>
+            </div>
 
             <div class="form-group">
 	      <%= f.label :date_of_birth, "Date of Birth", class: "form-label" %>
@@ -77,6 +80,17 @@
               <small class="text-danger"> <%= f.object.errors[:date_of_birth].present? ? f.object.errors[:date_of_birth]&.first : '' %> </small>
             </div>
 
+	    <div class="form-group">
+              <%= f.select :marital_status,
+                           MarriageProfile::marital_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Marital Status*'},
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top"},
+                           title: 'Marital Status' %>
+              <small class="text-danger"> <%= f.object.errors[:marital_status].present? ? f.object.errors[:marital_status]&.first : '' %> </small>
+            </div>
+
             <div class="form-group">
               <%= f.select :religion,
                            MarriageProfile::religions.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
@@ -86,6 +100,9 @@
                            data: {toggle: "tooltip", placement: "top" },
                            title:'Religion' %>
               <small class="text-danger"> <%= f.object.errors[:religion].present? ? f.object.errors[:religion]&.first : '' %> </small>
+            </div>
+            <div class="form-group" id="other_religion_field" style="display:none;">
+              <%= f.text_field :other_religion, placeholder: 'Please specify your religion*', class: 'form-control sign_up-input-field', id: 'other_religion_input' %>
             </div>
 
             <div class="form-group">
@@ -99,6 +116,17 @@
                            title:'Hometown* 🔐 (information cannot be edited once submitted)' %>
               <small class="text-danger"> <%= f.object.errors[:hometown].present? ? f.object.errors[:hometown]&.first : '' %> </small>
             </div>
+	    <div id="hometown_abroad_fields" class="mb-3" style="display:none;">
+              <div class="row mt-2">
+                <div class="col-6">
+		  <%= f.select :hometown_country, options_for_select(Country.order(:name).pluck(:name), f.object.hometown_country), {prompt: 'Country*'}, class: 'form-control sign_up-input-field', id: 'hometown_country_input' %>
+                </div>
+                <div class="col-6">
+                  <%= f.text_field :hometown_city, placeholder: 'City*', class: 'form-control sign_up-input-field', id: 'hometown_city_input' %>
+                </div>
+              </div>
+            </div>
+
             <div class="form-group">
               <%= f.select :present_location,
                            District.order_by_name.pluck(:name), {prompt: 'Present Location*'},
@@ -107,6 +135,16 @@
                            data: {toggle: "tooltip", placement: "top" },
                            title:'Present Location*' %>
               <small class="text-danger"> <%= f.object.errors[:present_location].present? ? f.object.errors[:present_location]&.first : '' %> </small>
+            </div>
+	    <div id="present_location_abroad_fields" class="mb-3" style="display:none;">
+              <div class="row mt-2">
+                <div class="col-6">
+		  <%= f.select :present_location_country, options_for_select(Country.order(:name).pluck(:name), f.object.present_location_country), {prompt: 'Country*'}, class: 'form-control sign_up-input-field', id: 'present_location_country_input' %>
+                </div>
+                <div class="col-6">
+                  <%= f.text_field :present_location_city, placeholder: 'City*', class: 'form-control sign_up-input-field', id: 'present_location_city_input' %>
+                </div>
+              </div>
             </div>
 
             <div class="form-group">
@@ -149,6 +187,9 @@
                            title:'Height Education Level' %>
               <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? f.object.errors[:highest_education_level]&.first : '' %> </small>
             </div>
+            <div class="form-group" id="other_education_field" style="display:none;">
+              <%= f.text_field :other_education, placeholder: 'Please specify your education*', class: 'form-control sign_up-input-field', id: 'other_education_input' %>
+            </div>
 
             <div class="form-group">
               <%= f.select :family_type,
@@ -159,6 +200,27 @@
                            data: {toggle: "tooltip", placement: "top"},
                            title: 'Family Type' %>
               <small class="text-danger"> <%= f.object.errors[:family_type].present? ? f.object.errors[:family_values]&.first : '' %> </small>
+            </div>
+
+            <div class="form-group">
+              <%= f.select :family_status,
+                           MarriageProfile::family_statuses.filter { |k, v| k != 'does_not_matter' }.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Family Status*'},
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top"},
+                           title: 'Family Status' %>
+              <small class="text-danger"> <%= f.object.errors[:family_status].present? ? f.object.errors[:family_status]&.first : '' %> </small>
+            </div>
+            <div class="form-group">
+              <%= f.select :family_values,
+                           MarriageProfile::family_values.filter { |k, v| k != 'does_not_matter' }.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           {prompt: 'Family Values*'},
+                           class: 'form-control sign_up-input-field',
+                           required: true,
+                           data: {toggle: "tooltip", placement: "top"},
+                           title: 'Family Values' %>
+              <small class="text-danger"> <%= f.object.errors[:family_values].present? ? f.object.errors[:family_values]&.first : '' %> </small>
             </div>
 
             <div class="form-group">
@@ -181,4 +243,31 @@
       </div>
     </div>
   </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  function setupOtherField(selectName, fieldId, inputId, triggerValue) {
+    triggerValue = triggerValue || 'other';
+    var select = document.querySelector('select[name="marriage_profile[' + selectName + ']"]');
+    var field = document.getElementById(fieldId);
+    var input = document.getElementById(inputId);
+    if (!select || !field) return;
+    function toggle() {
+      if (select.value === triggerValue) {
+        field.style.display = 'block';
+        input.required = true;
+      } else {
+        field.style.display = 'none';
+        input.required = false;
+      }
+    }
+    select.addEventListener('change', toggle);
+    toggle();
+  }
+  setupOtherField('gender', 'other_gender_field', 'other_gender_input');
+  setupOtherField('religion', 'other_religion_field', 'other_religion_input');
+  setupOtherField('highest_education_level', 'other_education_field', 'other_education_input');
+  setupOtherField('hometown', 'hometown_abroad_fields', 'hometown_country_input', 'Outside Bangladesh');
+  setupOtherField('present_location', 'present_location_abroad_fields', 'present_location_country_input', 'Outside Bangladesh');
+});
+</script>
 </div>

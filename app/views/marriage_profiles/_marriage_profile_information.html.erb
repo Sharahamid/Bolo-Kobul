@@ -1,4 +1,27 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600&display=swap');
+.marriage_information .d-sm-flex { margin-bottom: 2px !important; padding-top: 0 !important; }
+.marriage_information .pt-1 { padding-top: 0 !important; }
+.marriage_information .basic_profile_info, .marriage_information .appearance_info, .marriage_information .profile-info-item { margin-bottom: 2px !important; padding-top: 0 !important; }
+.marriage_information .panel { border-radius: 10px !important; box-shadow: 0 1px 4px rgba(0,0,0,0.06) !important; border: 0.5px solid #f0f0f0 !important; overflow: hidden; margin-bottom: 2px !important; }
+.marriage_information .panel-group { margin-bottom: 2px !important; }
+.marriage_information .panel-heading { background: #ffffff !important; background-image: none !important; padding: 12px 16px !important; border-bottom: none !important; }
+.marriage_information .panel-heading strong { font-size: 13px !important; font-weight: 600 !important; color: #222 !important; font-family: 'Roboto', Arial, sans-serif !important; letter-spacing: 0.3px !important; }
+.marriage_information .info-yellow-line { display: none !important; }
+.marriage_information .panel-heading { background: linear-gradient(to right, #FFFBF0, #ffffff) !important; padding: 12px 16px !important; border-bottom: none !important; border-left: 3px solid #FFB627 !important; }
+.marriage_information .panel-default > .panel-heading { background: linear-gradient(to right, #FFFBF0, #ffffff) !important; }
+.marriage_information .panel-body { padding: 8px 12px !important; }
+.marriage_information .table td { padding: 4px 8px !important; }
+.marriage_information .detail-info { padding: 4px !important; }
+.marriage_information .p-2 { padding: 4px !important; }
+</style>
+
 <div class="marriage_information pt-3">
+  <% if @marriage_profile.matching_percentage.present? && @marriage_profile.matching_percentage > 0 %>
+    <div style="text-align:right; margin-bottom:8px;">
+      <span style="background:#FFF3CC; color:#854F0B; font-size:13px; font-weight:700; padding:5px 14px; border-radius:20px;">⭐ <%= @marriage_profile.matching_percentage %>% Match</span>
+    </div>
+  <% end %>
   <div id="marriage_profile_photos">
     <%= render 'marriage_profiles/photos',
                marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||

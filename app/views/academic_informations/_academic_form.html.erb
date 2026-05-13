@@ -15,8 +15,12 @@
       </div>
 
       <div class="form-group">
+        <%= f.text_field :location, class: 'form-control sign_up-input-field', placeholder:'Location (City/Country)', data: {toggle: 'tooltip', placement: 'top'}, title: 'Location' %>
+      </div>
+
+      <div class="form-group">
         <%= f.number_field :passing_year, min: 1900,
-                           max: Date.today.year + 5,
+                           max: Date.today.year + 8,
                            class: 'form-control sign_up-input-field',
                            placeholder:'Passing Year',
                            data: {toggle: 'tooltip', placement: 'top'},

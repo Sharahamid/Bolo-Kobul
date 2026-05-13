@@ -7,8 +7,11 @@
           <div class="flex-sm-column profiles-container">
             <%= render 'home/dashboard/left_sidebar', marriage_profile: @marriage_profile %>
           </div>
-          <div class="flex-sm-column mx-sm-0 mx-md-3 orders-container">
-            <%= content_for?(:orders) ? yield(:orders) : yield %>
+	  <div class="flex-sm-column mx-sm-0 mx-md-3 orders-container">
+            <div class="right-section">
+              <%= render 'home/dashboard/dashboard_tabs', marriage_profile: @marriage_profile || current_active_profile %>
+              <%= content_for?(:orders) ? yield(:orders) : yield %>
+            </div>
           </div>
         </div>
       </div>
