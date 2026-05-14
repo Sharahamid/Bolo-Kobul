@@ -1,84 +1,51 @@
-<section class=" section_6 container-fluid p-0">
-  <div class="footer">
-    <div class="container  text-center">
-      <div class="d-sm-flex flex-sm-row ">
-        <div class=" p-2 footer-column flex-fill">
-          <strong> Need Help? </strong>
-          <div class="link-items pt-3">
-            <ul>
-              <li class="link-item">
-                <%= link_to 'Wedding Shopping', market_places_path %>
-              </li>
-              <li class="link-item"><%= link_to 'FAQ', faqs_path %></li>
-              <li class="link-item">
-                <%= link_to 'Contact Us', contact_path %>
-              </li>
-              <li class="link-item">
-                <%= link_to 'Customer Support', new_customer_support_path %>
-              </li>
-            </ul>
-          </div>
+<section class="container-fluid p-0">
+  <div style="background:#fff; border-top:1px solid #f0f0f0; padding:20px 0 0;">
+    <div class="container">
+
+      <div class="d-sm-flex flex-sm-row" style="gap:24px; margin-bottom:16px;">
+        <div class="flex-fill">
+          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;">Need Help?</strong>
+          <ul style="list-style:none; padding:0; margin:6px 0 0;">
+            <li style="margin-bottom:3px;"><%= link_to 'Wedding Shopping', market_places_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'FAQ', faqs_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'Contact Us', contact_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'Customer Support', new_customer_support_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+          </ul>
         </div>
-
-        <div class="p-2 footer-column flex-fill">
-          <strong> Company </strong>
-
-          <div class="link-items pt-3">
-            <ul>
-              <li class="link-item"><%= link_to 'About Us', about_path %></li>
-              <li class="link-item">
-                <%= link_to 'How It Works',
-                            how_it_works_path %>
-              </li>
-              <li class="link-item">
-                <%= link_to 'Blogs', "#{blogs_path}" %>
-              </li>
-              <li class="link-item">
-                <%= link_to 'Success Stories',
-                            "#{blogs_path type: "success_story"}" %>
-              </li>
-            </ul>
-          </div>
+        <div class="flex-fill">
+          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;">Company</strong>
+          <ul style="list-style:none; padding:0; margin:6px 0 0;">
+            <li style="margin-bottom:3px;"><%= link_to 'About Us', about_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'How It Works', how_it_works_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'Blogs', blogs_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'Success Stories', blogs_path(type: 'success_story'), style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+          </ul>
         </div>
-
-        <div class="p-2 footer-column flex-fill">
-          <strong> Privacy & You</strong>
-
-          <div class="link-items pt-3">
-            <ul>
-              <li class="link-item">
-                <%= link_to 'Terms of Use', "#{terms_of_uses_path}" %>
-              </li>
-              <li class="link-item">
-                <%= link_to 'Privacy Policy', "#{privacy_policies_path}" %>
-              </li>
-              <li class="link-item">
-                <%= link_to 'Precautionary Measures',
-                            precautionary_measures_path %>
-              </li>
-              <li class="link-item">
-                <% if user_signed_in? && current_active_profile.present? %>
-                  <%= link_to 'Use Referral', refferel_code_marriage_profiles_path %>
-                <% else %>
-                  <%= link_to 'Use Referral', reference_path %>
-                <% end %>
-              </li>
-<!--              <li class="link-item">-->
-                <%#= link_to 'Earn A Butterfly',
-                            reference_path %>
-<!--              </li>-->
-            </ul>
-          </div>
+        <div class="flex-fill">
+          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;">Privacy & You</strong>
+          <ul style="list-style:none; padding:0; margin:6px 0 0;">
+            <li style="margin-bottom:3px;"><%= link_to 'Terms of Use', terms_of_uses_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'Privacy Policy', privacy_policies_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to 'Precautionary Measures', precautionary_measures_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;">
+              <% if user_signed_in? && current_active_profile.present? %>
+                <%= link_to 'Use Referral', refferel_code_marriage_profiles_path, style: 'font-size:12px; color:gray; text-decoration:none;' %>
+              <% else %>
+                <%= link_to 'Use Referral', reference_path, style: 'font-size:12px; color:gray; text-decoration:none;' %>
+              <% end %>
+            </li>
+          </ul>
         </div>
       </div>
-      <div class="p-2 footer-column flex-fill payment-logo">
-        <%= image_tag 'aamarpay.png' %>
-      </div>
-      <div class="border-top">
-        <div class="mt-3">
+
+      <div style="border-top:1px solid #f0f0f0; padding:10px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
+        <span style="font-size:11px; color:gray;">© <%= Time.now.year %> Bolo Kobul &middot; Marriages are made in heaven</span>
+        <%= image_tag 'aamarpay.png', style: 'height:32px; width:auto;' %>
+        <div style="display:flex; align-items:center; gap:4px;">
           <%= render 'shared/social_media_link', text_color: 'text-warning' %>
         </div>
       </div>
+
     </div>
   </div>
 </section>
