@@ -1,121 +1,106 @@
-<div class="container market-place-show-container">
-  <section>
-    <div class="row">
-      <div class="col-md-8 col-sm-12 mb-3 main-content">
-        <hr class="row col-md-12 section-hr my-0">
-        <h3 class="row col-md-12 my-4"><%= @market_place.name %></h3>
-        <h5 class="row col-md-12 cost-block my-3">
-          <%= @market_place.costing_unit ? @market_place.costing_unit.titleize : "Unit" %>
-          Starting cost:
-          <%= " ৳ " + @market_place.cost.round(2).to_s %>
-        </h5>
-        <div class="row col-md-12">
-          <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
-            <% if @market_place.facility.present? %>
-              <div class="card card-plain my-3">
-                <div class="card-header"
-                     role="tab" id="heading_<%= @market_place.id.to_s + "__facilities" %>">
-                  <a data-toggle="collapse" data-parent="#accordion"
-                     href="#collapse_<%= @market_place.id.to_s + "__facilities" %>"
-                     aria-expanded="<%= false %>" aria-controls="collapse_<%= @market_place.id.to_s + "__facilities" %>">
-                    Facilities
-                    <i class="fa fa-angle-down"></i>
-                  </a>
-                </div>
-                <div id="collapse_<%= @market_place.id.to_s + "__facilities" %>" class="collapse" role="tabpanel" aria-labelledby="heading_<%= @market_place.id.to_s + "__facilities" %>">
-                  <div class="card-body" style="padding: 10px">
-                    <%= @market_place.facility %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
+<div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
+  <div class="container" style="max-width:960px;">
 
-            <% if @market_place.policy.present? %>
-              <div class="card card-plain my-3">
-                <div class="card-header"
-                     role="tab" id="heading_<%= @market_place.id.to_s + "__policy" %>">
-                  <a data-toggle="collapse" data-parent="#accordion"
-                     href="#collapse_<%= @market_place.id.to_s + "__policy" %>" a
-                     ria-expanded="<%= false %>" aria-controls="collapse_<%= @market_place.id.to_s + "__policy" %>">
-                    Policy
-                    <i class="fa fa-angle-down"></i>
-                  </a>
-                </div>
-                <div id="collapse_<%= @market_place.id.to_s + "__policy" %>" class="collapse" role="tabpanel" aria-labelledby="heading_<%= @market_place.id.to_s + "__policy" %>">
-                  <div class="card-body" style="padding: 10px">
-                    <%= @market_place.policy %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
+    <%= link_to :back, style: "font-size:12px; color:#854F0B; text-decoration:none; display:inline-block; margin-bottom:14px;" do %>
+      ← Back to Marketplace
+    <% end %>
 
-            <% if @market_place.experience.present? %>
-              <div class="card card-plain my-3">
-                <div class="card-header"
-                     role="tab" id="heading_<%= @market_place.id.to_s + "__experience" %>">
-                  <a data-toggle="collapse" data-parent="#accordion"
-                     href="#collapse_<%= @market_place.id.to_s + "__experience" %>" a
-                     ria-expanded="<%= false %>" aria-controls="collapse_<%= @market_place.id.to_s + "__policy" %>">
-                    Experience
-                    <i class="fa fa-angle-down"></i>
-                  </a>
-                </div>
-                <div id="collapse_<%= @market_place.id.to_s + "__experience" %>" class="collapse" role="tabpanel" aria-labelledby="heading_<%= @market_place.id.to_s + "__experience" %>">
-                  <div class="card-body" style="padding: 10px">
-                    <%= @market_place.experience %>
-                  </div>
-                </div>
-              </div>
-            <% end %>
+    <div style="display:grid; grid-template-columns:1fr 320px; gap:20px; align-items:flex-start;">
 
-            <% if @market_place.link.present? %>
-              <div class="card card-plain my-3">
-                <div class="card-header">Visit</div>
-                <div class="card-body" style="padding: 10px">
-                  <%= link_to @market_place.link, @market_place.link %>
-                </div>
-              </div>
+      <!-- Left: details -->
+      <div>
+        <div style="border:0.5px solid #FAC775; border-radius:14px; background:#fff; padding:20px 24px; margin-bottom:14px;">
+          <h2 style="font-size:20px; font-weight:700; color:#412402; margin:0 0 10px;"><%= @market_place.name %></h2>
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px;">
+            <% if @market_place.cost.present? %>
+              <span style="background:#FFF3CC; color:#854F0B; font-size:12px; padding:4px 12px; border-radius:20px; font-weight:600;">
+                Starting from ৳ <%= number_with_delimiter(@market_place.cost.round(0).to_i) %>
+              </span>
+            <% end %>
+            <% if @market_place.location.present? %>
+              <span style="background:#FFF3CC; color:#854F0B; font-size:12px; padding:4px 12px; border-radius:20px;">
+                <i class="fas fa-map-marker-alt"></i> <%= @market_place.location.humanize %>
+              </span>
             <% end %>
           </div>
+          <% if @market_place.about.present? %>
+            <p style="font-size:13px; color:#666; line-height:1.8; margin:0;"><%= @market_place.about %></p>
+          <% end %>
         </div>
 
-        <% if @market_place.about.present? %>
-          <div class="row col-md-12"><hr></div>
-          <h5>About</h5>
-          <p class="row col-md-12"><%= @market_place.about %></p>
+        <% if @market_place.facility.present? %>
+          <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:16px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:#633806; margin-bottom:8px;">
+              <i class="fas fa-star" style="color:#FFB627;"></i> Facilities
+            </div>
+            <p style="font-size:13px; color:#666; line-height:1.8; margin:0;"><%= @market_place.facility %></p>
+          </div>
         <% end %>
 
-        <div class="row col-md-12"><hr></div>
-        <p class="row col-md-12 text-gray"> <strong> Location: &nbsp </strong>  <%= @market_place&.location&.humanize %></p>
-      </div>
-      <div class="col-md-4 col-sm-12 image-content">
-        <div class="image">
-          <%= image_tag "#{@market_place.image_url.present? ?
-                               @market_place.image_url : 'bg02.jpg'}",
-                        class: 'market-place-img img-responsive', width: '100%' %>
-        </div>
-        <div class="sidebar-bottom">
-          <div class="other-images">
-            <div class="m-2">
-              <%= image_tag "#{@market_place.image_url.present? ?
-                                   @market_place.image_url : 'bg02.jpg'}",
-                            class: 'market-place-img img-responsive', width: '100%' %>
+        <% if @market_place.policy.present? %>
+          <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:16px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:#633806; margin-bottom:8px;">
+              <i class="fas fa-file-alt" style="color:#FFB627;"></i> Policy
             </div>
-            <div class="m-2">
-              <%= image_tag "#{@market_place.image_url.present? ?
-                                   @market_place.image_url : 'bg02.jpg'}",
-                            class: 'market-place-img img-responsive', width: '100%' %>
-            </div>
-            <div class="m-2">
-              <%= image_tag "#{@market_place.image_url.present? ?
-                                   @market_place.image_url : 'bg02.jpg'}",
-                            class: 'market-place-img img-responsive', width: '100%' %>
-            </div>
+            <p style="font-size:13px; color:#666; line-height:1.8; margin:0;"><%= @market_place.policy %></p>
           </div>
-        </div>
+        <% end %>
+
+        <% if @market_place.experience.present? %>
+          <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:16px; margin-bottom:12px;">
+            <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:#633806; margin-bottom:8px;">
+              <i class="fas fa-award" style="color:#FFB627;"></i> Experience
+            </div>
+            <p style="font-size:13px; color:#666; line-height:1.8; margin:0;"><%= @market_place.experience %></p>
+          </div>
+        <% end %>
       </div>
+
+      <!-- Right: gallery + visit -->
+      <div>
+        <!-- Main image -->
+        <div style="border-radius:12px; overflow:hidden; margin-bottom:10px; border:0.5px solid #FAC775; background:#fff8ee; display:flex; align-items:center; justify-content:center; min-height:280px;">
+          <%= image_tag "#{@market_place.image_url.present? ? @market_place.image_url : 'bg02.jpg'}",
+                        id: "mp-main-img",
+                        style: "width:100%; max-height:360px; object-fit:contain; display:block; background:#fff8ee;",
+                        class: "img-responsive" %>
+        </div>
+
+        <!-- Thumbnails -->
+        <% images = [@market_place.image_url, @market_place.image2_url, @market_place.image3_url].compact.reject(&:blank?) %>
+        <% if images.length > 1 %>
+          <div style="display:flex; gap:8px; margin-bottom:12px;">
+            <% images.each do |img_url| %>
+              <div onclick="mpSwapImage('<%= img_url %>')"
+                   style="flex:1; border-radius:8px; overflow:hidden; border:0.5px solid #FAC775; cursor:pointer; background:#fff8ee; display:flex; align-items:center; justify-content:center; min-height:70px;">
+                <%= image_tag img_url,
+                              style: "width:100%; max-height:90px; object-fit:contain; display:block; background:#fff8ee;" %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+
+        <!-- Visit -->
+        <% if @market_place.link.present? %>
+          <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fffaf0; padding:12px 16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:6px;">
+              <i class="fas fa-globe" style="color:#FFB627; font-size:16px;"></i>
+              <p style="font-size:11px; color:#aaa; margin:0; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Visit</p>
+            </div>
+            <%= link_to @market_place.link, @market_place.link,
+                        target: '_blank',
+                        style: "font-size:13px; color:#854F0B; font-weight:600; text-decoration:none; word-break:break-all; display:block;" %>
+          </div>
+        <% end %>
+      </div>
+
     </div>
-    <!-- campaign section -->
     <%= render 'home/landing/campaign' unless user_signed_in? %>
-  </section>
+  </div>
 </div>
+
+<script>
+function mpSwapImage(url) {
+  document.getElementById('mp-main-img').src = url;
+}
+</script>

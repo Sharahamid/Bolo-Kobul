@@ -1,6 +1,6 @@
 ActiveAdmin.register MarketPlace do
   permit_params :name , :status, :cost, :costing_unit, :facility, :link,
-                :policy, :experience, :about, :service_coverage, :image, :location, :market_place_type_id
+                :policy, :experience, :about, :service_coverage, :image, :image2, :image3, :location, :market_place_type_id
 
   show do
     attributes_table do
@@ -36,6 +36,8 @@ ActiveAdmin.register MarketPlace do
       input :about, as: :text
       input :link, as: :string
       input :image, as: :file
+      input :image2, as: :file
+      input :image3, as: :file
     end
     f.actions
   end

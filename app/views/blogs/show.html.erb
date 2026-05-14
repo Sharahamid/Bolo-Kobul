@@ -1,19 +1,49 @@
-<div class="container blog-show-container mt-3">
-  <div class="row">
-    <div class="col-md-3 mt-3">
-      <div class="image">
-        <%= image_tag "#{@blog.image_url.present? ?
-                             @blog.image_url : 'bg01.jpg'}",
-                      class: 'blog-img img-responsive', width: '100%' %>
+<div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
+  <div class="container" style="max-width:860px;">
+
+    <!-- Back link -->
+    <div style="margin-bottom:16px;">
+      <%= link_to :back, style: "font-size:12px; color:#854F0B; text-decoration:none; display:inline-flex; align-items:center; gap:4px;" do %>
+        ← Back
+      <% end %>
+    </div>
+
+    <!-- Main card -->
+    <div style="border:0.5px solid #FAC775; border-radius:14px; overflow:hidden; background:#fff; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+
+      <!-- Image -->
+      <div style="width:100%; background:#fff8ee; display:flex; align-items:center; justify-content:center;">
+        <%= image_tag "#{@blog.image_url.present? ? @blog.image_url : 'bg01.jpg'}",
+                      style: "width:100%; max-height:380px; object-fit:contain; background:#fff8ee; display:block;",
+                      class: "img-responsive" %>
+      </div>
+
+      <!-- Content -->
+      <div style="padding:28px 32px;">
+
+        <!-- Title bar -->
+        <div style="border-left:4px solid #FFB627; padding-left:14px; margin-bottom:20px;">
+          <h2 style="font-size:20px; font-weight:700; color:#412402; margin:0 0 4px;"><%= @blog.title %></h2>
+          <p style="font-size:12px; color:#aaa; margin:0;">
+            <i class="fas fa-heart" style="color:#FFB627; margin-right:4px;"></i>
+            <%= @blog.story_type&.titleize || 'Blog' %>
+          </p>
+        </div>
+
+        <!-- Story text -->
+        <div style="font-size:14px; color:#555; line-height:2; text-align:justify;">
+          <%=raw @blog.story %>
+        </div>
+
+        <!-- Footer -->
+        <div style="margin-top:24px; padding-top:16px; border-top:0.5px solid #eee; display:flex; align-items:center; justify-content:space-between;">
+          <span></span>
+          <%= link_to :back, style: "background:#FAEEDA; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; text-decoration:none;" do %>
+            ← Back to Stories
+          <% end %>
+        </div>
       </div>
     </div>
-    <div class="col-md-8 main-content mx-3 mt-3">
-      <h3 class="pt-3 merriweather"><%= @blog.title %></h3>
-      <hr/>
-      <p class="text-justify"><%=raw @blog.story %></p>
-    </div>
-  </div>
 
-  <!-- campaign section -->
-  <%#= render 'home/landing/campaign' unless user_signed_in? %>
+  </div>
 </div>

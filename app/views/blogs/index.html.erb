@@ -1,22 +1,31 @@
-<div class="container blogs-container">
-  <h2 class="blogs-header">
-    <%= params[:type].present? ? params[:type].titleize.pluralize : "Blogs" %>
-  </h2>
-  <hr class="section-hr mt-0 mb-0">
-  <div class="blogs-items row">
-    <div class="blogs-content
-      <%= params[:type].present? && params[:type] == "success_story" ?
-                           "col-md-8" : "col-md-12" %> py-3">
-      <%= render partial: 'blog', collection: @blogs %>
-      <!-- Pagination block-->
-      <div class="flickr_pagination text-center">
-        <%= will_paginate @blogs, :container => false %>
-      </div>
+<div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
+  <div class="container">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); border-radius:14px; padding:28px 24px; text-align:center; margin-bottom:20px;">
+      <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;">
+        <%= params[:type].present? ? params[:type].titleize.pluralize : "Blogs" %>
+      </h2>
+
     </div>
-    <% if params[:type].present? && params[:type] == "success_story" %>
-      <div class="blogs-form col-md-4 py-3">
-        <%= render partial: 'form' %>
+
+    <div style="display:grid; grid-template-columns:<%= params[:type] == 'success_story' ? '1fr 300px' : '1fr' %>; gap:20px; align-items:flex-start;">
+
+      <!-- Stories / Blogs -->
+      <div>
+        <%= render partial: 'blog', collection: @blogs %>
+        <div style="text-align:center; margin-top:16px;">
+          <%= will_paginate @blogs, container: false %>
+        </div>
       </div>
-    <% end %>
+
+      <!-- Form (success stories only) -->
+      <% if params[:type] == 'success_story' %>
+        <div>
+          <%= render partial: 'form' %>
+        </div>
+      <% end %>
+
+    </div>
   </div>
 </div>

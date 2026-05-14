@@ -28,6 +28,8 @@ class MarketPlace < ApplicationRecord
   #Associations
   belongs_to :market_place_type
   has_one_attached :image
+  has_one_attached :image2
+  has_one_attached :image3
 
 
   #
@@ -40,6 +42,18 @@ class MarketPlace < ApplicationRecord
   #
   # Instance methods
   #
+  def image2_url
+    if image2.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(image2, only_path: true)
+    end
+  end
+
+  def image3_url
+    if image3.attached?
+      Rails.application.routes.url_helpers.rails_blob_path(image3, only_path: true)
+    end
+  end
+
   def image_url(size = :normal)
     if image.attached?
       Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)

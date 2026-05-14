@@ -1,57 +1,95 @@
-<div class="container search-page-container p-3">
-  <div class="row">
-    <div class="search-container-background">
-      <%= image_tag 'mandala.svg', class: 'img-responsive' %>
-    </div>
-    <div class="col-md-12 search-container-content">
-      <div class="search-container-title">
-        <div class="row col-md-12 mx-1">
-          Filter By
-        </div>
+<div style="background:#fff; border:0.5px solid #FAC775; border-radius:12px; padding:16px; margin-bottom:16px;">
+  <%= form_tag market_places_path, method: :get, id: "mp-filter-form" do %>
+    <div style="display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;">
+
+      <div style="flex:1; min-width:130px;">
+        <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;">Type</label>
+        <%= select_tag :market_place_type,
+                       options_for_select(MarketPlaceType.order(:name).pluck(:name), selected: params[:market_place_type]),
+                       prompt: 'All Types',
+                       style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:8px 12px; font-size:12px; color:#555; box-sizing:border-box;" %>
       </div>
-      <div class="search-input-fields">
-        <div class="row form-group col-md-12 mb-0">
-        </div>
-        <%= form_tag market_places_path, method: :get do %>
-          <div class="row form-group mx-1 mb-3">
-            <div class="col-md-3 search-input-group">
-              <%= select_tag :market_place_type,
-                             options_for_select(MarketPlaceType.order(:name)
-                                                    .pluck(:name), selected: params[:market_place_type]),
-                             prompt: params[:market_place_type].present? ?
-                                         params[:market_place_type].titleize : 'All' ,
-                             class: "form-control sign_up-input-field search-input" %>
-              <i class="fa fa-sort-down search-drop-icon"></i>
-            </div>
-            <div class="col-md-3 search-input-group">
-              <%= select_tag :location,
-                             options_for_select(District.order(:name)
-                                                    .pluck(:name), selected: params[:location]),
-                             prompt: params[:location].present? ?
-                                         params[:location] : "Location",
-                             class: "form-control sign_up-input-field search-input" %>
-              <i class="fa fa-sort-down search-drop-icon"></i>
-            </div>
-            <div class="col-md-3 search-input-group p-0 text-center">
-              <%= text_field_tag "price_range", nil, type: 'text',
-                                 data: {'slider-id' => 'ex1Slider',
-                                        'slider-min' => '0',
-                                        'slider-max' => "#{MarketPlace&.order(cost: :DESC)&.first&.cost}",
-                                        'slider-step' => '100',
-                                        'slider-value' => "[0, #{MarketPlace&.order(cost: :DESC)&.first&.cost}]"
-                                 }
-              %>
-              <br>
-              <span class="text-gray">Price range</span>
-            </div>
-            <div class="col-md-3 search-input-group">
-              <div class="text-center">
-                <button type="submit" class="btn btn-search form-control"> Search</button>
-              </div>
-            </div>
+
+      <div style="flex:1; min-width:130px;">
+        <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;">Location</label>
+        <%= select_tag :location,
+                       options_for_select(District.order(:name).pluck(:name), selected: params[:location]),
+                       prompt: 'All Locations',
+                       style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:8px 12px; font-size:12px; color:#555; box-sizing:border-box;" %>
+      </div>
+
+      <div style="flex:2; min-width:200px;">
+        <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;">
+          Price Range <span id="mp-price-display" style="display:none;"></span>
+        </label>
+        <% max_cost = 5000000 %>
+        <input type="hidden" name="price_range" id="mp-price-range-val" value="<%= params[:price_range] || "0,#{max_cost}" %>" />
+        <div style="position:relative; padding:28px 8px 4px; margin-top:4px;">
+          <!-- Min label -->
+          <div id="mp-min-label" style="position:absolute; top:0; background:#412402; color:#FAC775; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:700; transform:translateX(-50%); white-space:nowrap; left:0%;">৳ 0</div>
+          <!-- Max label -->
+          <div id="mp-max-label" style="position:absolute; top:0; background:#412402; color:#FAC775; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:700; transform:translateX(-50%); white-space:nowrap; left:100%;">৳ 50,00,000</div>
+          <div style="position:relative; height:5px; background:#eee; border-radius:5px;">
+            <div id="mp-slider-fill" style="position:absolute; height:5px; background:#FFB627; border-radius:5px; left:0; width:100%;"></div>
+            <input type="range" id="mp-min" min="0" max="<%= max_cost %>" value="0" step="50000"
+                   style="position:absolute; width:100%; height:5px; background:none; pointer-events:none; -webkit-appearance:none; top:0; margin:0;"
+                   oninput="mpUpdateSlider()" />
+            <input type="range" id="mp-max" min="0" max="<%= max_cost %>" value="<%= max_cost %>" step="50000"
+                   style="position:absolute; width:100%; height:5px; background:none; pointer-events:none; -webkit-appearance:none; top:0; margin:0;"
+                   oninput="mpUpdateSlider()" />
           </div>
-        <% end %>
+        </div>
       </div>
+
+      <div style="flex-shrink:0;">
+        <button type="submit" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;">
+          🔍 Search
+        </button>
+      </div>
+
     </div>
-  </div>
+  <% end %>
 </div>
+
+<style>
+  input[type=range]#mp-min::-webkit-slider-thumb,
+  input[type=range]#mp-max::-webkit-slider-thumb {
+    -webkit-appearance:none; width:18px; height:18px;
+    background:#FFB627; border:2px solid #fff; border-radius:50%;
+    pointer-events:all; cursor:pointer; box-shadow:0 1px 4px rgba(0,0,0,0.2);
+  }
+  input[type=range]#mp-min::-moz-range-thumb,
+  input[type=range]#mp-max::-moz-range-thumb {
+    width:18px; height:18px; background:#FFB627; border:2px solid #fff;
+    border-radius:50%; pointer-events:all; cursor:pointer;
+  }
+</style>
+
+<script>
+function mpUpdateSlider() {
+  var minEl = document.getElementById('mp-min');
+  var maxEl = document.getElementById('mp-max');
+  var fill  = document.getElementById('mp-slider-fill');
+  var label = document.getElementById('mp-price-display');
+  var hidden = document.getElementById('mp-price-range-val');
+  var minLbl = document.getElementById('mp-min-label');
+  var maxLbl = document.getElementById('mp-max-label');
+  var min = parseInt(minEl.value);
+  var max = parseInt(maxEl.value);
+  var total = parseInt(minEl.max);
+  if (min > max - 50000) { minEl.value = max - 50000; min = max - 50000; }
+  var leftPct  = (min / total * 100);
+  var rightPct = (max / total * 100);
+  fill.style.left  = leftPct + '%';
+  fill.style.width = (rightPct - leftPct) + '%';
+  label.textContent = '৳ ' + min.toLocaleString() + ' — ৳ ' + max.toLocaleString();
+  hidden.value = min + ',' + max;
+  var minPos = Math.max(2, leftPct);
+  var maxPos = Math.min(92, rightPct);
+  minLbl.style.left = minPos + '%';
+  minLbl.textContent = '৳ ' + min.toLocaleString();
+  maxLbl.style.left = maxPos + '%';
+  maxLbl.textContent = '৳ ' + max.toLocaleString();
+}
+document.addEventListener('DOMContentLoaded', mpUpdateSlider);
+</script>

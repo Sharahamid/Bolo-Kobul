@@ -1,18 +1,36 @@
-<div class="container market-places-container">
-  <h2 class="market-places-header">
-    <% if params[:market_place_type].present? %>
-      <%= params[:market_place_type].titleize %>
-    <% else %>
-      All
-    <% end %>
-  </h2>
-  <hr class="section-hr mt-0 mb-0">
+<div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
+  <div class="container">
 
-  <%= render 'market_places/market_place_filter' %>
-
-  <div class="market-places-items">
-    <div class="market-places-content row col-md-12 py-3">
-      <%= render partial: 'market_place', collection: @market_places %>
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); border-radius:14px; padding:20px 24px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between;">
+      <div>
+        <h2 style="font-size:20px; font-weight:700; color:#412402; margin:0 0 4px;">
+          <%= params[:market_place_type].present? ? params[:market_place_type].titleize : 'Marketplace' %>
+        </h2>
+        <p style="font-size:12px; color:#633806; margin:0;">Discover wedding services near you</p>
+      </div>
+      <% if @market_places.present? %>
+        <span style="background:#633806; color:#FAC775; font-size:12px; padding:4px 12px; border-radius:20px; font-weight:600;"><%= @market_places.count %> listings</span>
+      <% end %>
     </div>
+
+    <!-- Filter -->
+    <%= render 'market_places/market_place_filter' %>
+
+    <!-- Grid -->
+    <% if @market_places.present? %>
+      <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:14px;">
+        <%= render partial: 'market_place', collection: @market_places %>
+      </div>
+    <% else %>
+      <div style="text-align:center; padding:48px 20px; background:#fff; border-radius:14px; border:0.5px solid #eee;">
+        <div style="width:56px; height:56px; background:#FFF3CC; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+          <i class="fas fa-store" style="color:#FFB627; font-size:22px;"></i>
+        </div>
+        <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;">No listings found</p>
+        <p style="font-size:12px; color:#999; margin:0;">Try adjusting your filters</p>
+      </div>
+    <% end %>
+
   </div>
 </div>

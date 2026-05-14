@@ -1,57 +1,46 @@
-<div class="basic_info p-3">
-  <div class="basic-info-mandala">
-    <%= image_tag 'mandala.svg', class: 'img-responsive' %>
+<div style="border:0.5px solid #FAC775; border-radius:14px; overflow:hidden; background:#fff; position:sticky; top:20px;">
+  <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:14px 18px; text-align:center;">
+    <span style="font-size:14px; font-weight:700; color:#412402;">💬 Tell Us Your Story</span>
   </div>
-  <div class="blog-post-title pb-1">
-    <h5>Tell us your story</h5>
-  </div>
-  <div class="blog-detail-form">
+  <div style="padding:16px;">
     <%= form_for @blog, url: blogs_path, method: :post do |f| %>
-      <div class="form-group">
-        <%= f.text_field :title,
-                         class: "form-control sign_up-input-field",
-                         placeholder: "Title of Your Story*",
-                         data: {toggle:'tooltip', placement:'top'},
-                         required: true
-        %>
-        <%= f.text_field :author,
-                         class: "form-control sign_up-input-field",
-                         placeholder: "Name (Your)"
-        %>
-        <%= f.text_field :partner,
-                         class: "form-control sign_up-input-field",
-                         placeholder: "Partner's Name"
-        %>
-        <%= f.text_field :email,
-                         class: "form-control sign_up-input-field",
-                         placeholder: "Your Email*",
-                         data: {toggle:'tooltip', placement:'top'},
-                         required: true
-        %>
-        <%= f.text_field :married_life_duration,
-                         class: "form-control sign_up-input-field",
-                         placeholder: "How long have you been married"
-        %>
-        <%= f.text_area :story,
-                         class: "form-control sign_up-input-field",
-                         placeholder: "Tell us your story!*",
-                         data: {toggle:'tooltip', placement:'top'},
-                         required: true
-        %>
-        <%= f.label :"Share Your Couple Photo!*" %>
+      <%= f.text_field :title,
+                       class: "form-control sign_up-input-field",
+                       placeholder: "Title of Your Story*",
+                       style: "margin-bottom:10px;",
+                       required: true %>
+      <%= f.text_field :author,
+                       class: "form-control sign_up-input-field",
+                       placeholder: "Your Name",
+                       style: "margin-bottom:10px;" %>
+      <%= f.text_field :partner,
+                       class: "form-control sign_up-input-field",
+                       placeholder: "Partner's Name",
+                       style: "margin-bottom:10px;" %>
+      <%= f.text_field :email,
+                       class: "form-control sign_up-input-field",
+                       placeholder: "Your Email*",
+                       style: "margin-bottom:10px;",
+                       required: true %>
+      <%= f.text_field :married_life_duration,
+                       class: "form-control sign_up-input-field",
+                       placeholder: "How long have you been married?",
+                       style: "margin-bottom:10px;" %>
+      <%= f.text_area :story,
+                      class: "form-control sign_up-input-field",
+                      placeholder: "Tell us your story!*",
+                      style: "margin-bottom:10px; min-height:90px;",
+                      required: true %>
+      <div style="background:#fafaf8; border:0.5px solid #eee; border-radius:8px; padding:10px 14px; margin-bottom:12px;">
+        <p style="font-size:12px; color:#854F0B; font-weight:600; margin:0 0 6px;">📷 Share your couple photo!*</p>
         <%= f.file_field :image,
-                         type: "file",
                          accept: "image/png,image/gif,image/jpeg",
-                         class: "my-0",
-                         data: {toggle:'tooltip', placement:'top'},
-                         required: true
-        %>
-        <div class="register-btn-section text-center">
-          <button type="submit" class="btn btn-sign_up form-control blog-submit">
-            Submit
-          </button>
-        </div>
+                         style: "font-size:12px;",
+                         required: true %>
       </div>
+      <button type="submit" style="width:100%; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#412402; border:none; border-radius:8px; padding:11px; font-size:14px; font-weight:700; cursor:pointer;">
+        Submit Story
+      </button>
     <% end %>
   </div>
 </div>
