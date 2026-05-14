@@ -75,6 +75,7 @@ class MarriageProfile < ApplicationRecord
   has_many :academic_informations, dependent: :destroy
   has_one :appearance, dependent: :destroy
   has_one :cultural_value, dependent: :destroy
+  accepts_nested_attributes_for :cultural_value
   has_many :family_members, dependent: :destroy
   has_one :hobbies_and_interest, dependent: :destroy
   has_one :life_style, dependent: :destroy

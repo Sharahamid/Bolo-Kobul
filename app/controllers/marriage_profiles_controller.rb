@@ -137,6 +137,7 @@ class MarriageProfilesController < ApplicationController
       redirect_back(fallback_location: "/") && return
     end
 
+    Rails.cache.delete("recommendations_#{current_active_profile.id}_#{Date.today}")
     if current_active_profile.has_bfly_for_profile_view?
       sending_request = current_active_profile.friend_request(@marriage_profile)
       if sending_request.present?
@@ -309,7 +310,8 @@ class MarriageProfilesController < ApplicationController
                                              :date_of_birth, :religion, :hometown, :present_location, :present_address,
                                              :height_ft, :height_inch, :highest_education_level, :family_type, :blood_group,
                                              :photo_1, :photo_2, :photo_3, :family_values, :marital_status, :family_status,
-                                             :profile_image, :about_my_self, :special_circumstances, :description, :other_religion, :other_education, :other_gender, :hometown_country, :hometown_city, :present_location_country, :present_location_city)
+                                             :profile_image, :about_my_self, :special_circumstances, :description, :other_religion, :other_education, :other_gender, :hometown_country, :hometown_city, :present_location_country, :present_location_city,
+                                             cultural_value_attributes: [:id, :willing_to_relocate])
   end
 
   def profile_dashboard_url(profile)

@@ -90,6 +90,13 @@
 
           <table class=" flex-fill pr-3 table table-borderless table-responsive">
             <tbody>
+            <% if marriage_profile.cultural_value&.willing_to_relocate.present? || current_active_profile.id == marriage_profile.id %>
+              <tr>
+                <td> Willing To Relocate</td>
+                <td>:</td>
+                <td><%= marriage_profile.cultural_value&.willing_to_relocate.present? ? User::BOOLEAN_DATA.keys[marriage_profile.cultural_value.willing_to_relocate] : '' %></td>
+              </tr>
+            <% end %>
             <% if marriage_profile&.marital_status.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
                 <td> Marital Status</td>
@@ -105,13 +112,7 @@
                 <td><%= marriage_profile.highest_education_level.present? ? marriage_profile&.highest_education_level&.humanize : '' %> </td>
               </tr>
             <% end %>
-            <% if marriage_profile.id == current_active_profile.id %>
-              <tr>
-                <td> NID or Passport No</td>
-                <td>:</td>
-                <td><%= marriage_profile.nid_or_passport.present? ? marriage_profile&.nid_or_passport : '' %> </td>
-              </tr>
-            <% end %>
+
             <% if marriage_profile.blood_group.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
                 <td> Blood Group</td>

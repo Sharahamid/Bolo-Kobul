@@ -120,15 +120,27 @@
       </div>
 
       <div class="form-group">
-        <div class=" d-flex flex-row">
+        <%= f.fields_for :cultural_value, @marriage_profile.cultural_value || @marriage_profile.build_cultural_value do |cv| %>
+          <%= cv.select :willing_to_relocate, User::BOOLEAN_DATA,
+                       {prompt: 'Willing to relocate ?'},
+                       class: 'form-control sign_up-input-field',
+                       title: 'Willing to relocate ?',
+                       data: {toggle: 'tooltip', placement:'top'}
+          %>
+          <small class="text-danger"> <%= cv.object.errors[:willing_to_relocate].present? ? "Willing to relocate #{cv.object.errors[:willing_to_relocate]&.first}" : '' %> </small>
+        <% end %>
+      </div>
+      <div class="form-group">
+        <div class="d-flex flex-row">
           <div class="flex-fill pr-1">
             <%= f.select :marital_status,
-                         MarriageProfile::marital_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                         MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
                          {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field',
                          data: {toggle: "tooltip", placement: "top"},
                          title: 'Marital Status' %>
             <small class="text-danger"> <%= f.object.errors[:marital_status].present? ? "Marital Status #{f.object.errors[:marital_status]&.first}" : '' %> </small>
           </div>
+        </div>
           <div class="flex-fill pl-1">
             <%= f.select :family_status,
                          MarriageProfile::family_statuses.filter { |k, v| k != 'does_not_matter'}.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },

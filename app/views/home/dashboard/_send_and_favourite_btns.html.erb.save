@@ -1,3 +1,4 @@
+
 <div style="display:flex; gap:8px; margin-top:2px;">
   <% if current_active_profile.pending_friends.include?(marriage_profile) %>
     <a href="#" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; border-color:#FFB627 !important; color:#854F0B !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="You Have Sent Butterfly Request To This User">

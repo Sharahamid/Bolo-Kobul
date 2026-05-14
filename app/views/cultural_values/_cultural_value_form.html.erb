@@ -34,15 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="form-group">
-        <%= f.select :willing_to_relocate, User::BOOLEAN_DATA,
-                     {prompt: 'Willing to relocate ?'},
-                     class: 'form-control sign_up-input-field',
-                     title: 'Willing to relocate ?',
-                     data: {toggle: 'tooltip', placement:'top'}
-        %>
-        <small class="text-danger"> <%= f.object.errors[:willing_to_relocate].present? ? "Willing to relocate #{f.object.errors[:willing_to_relocate]&.first}" : '' %> </small>
-      </div>
+
 
       <div class="form-group">
         <%= f.select :mother_tongue, User::LANGUAGES,

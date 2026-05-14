@@ -1,43 +1,16 @@
-<div class="col-12">
-  <div class="row">
-    <div class="bk-request-btn col-4 p-0">
-      <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
-        <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn " data-toggle="tooltip" data-placement="top" title="Send butterfly to chat with this profile.">
-               <span>
-                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                 <%= image_tag 'butterfly_kobul.svg', width: '14', height: '14', class: 'kobul-butterfly' %>
-                 Kobul (2)
-               </span>
-        </a>
-      <% else %>
-        <a href="<%= accept_request_marriage_profile_path(profile) %>" data-method="PATCH" class="kobul_btn " data-toggle="tooltip" data-placement="top" title="Send butterfly to view profile.">
-               <span>
-                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                 <%= image_tag 'butterfly_kobul.svg', width: '14', height: '14', class: 'kobul-butterfly' %>
-                 Kobul (1)
-               </span>
-        </a>
-      <% end %>
-    </div>
-
-    <div class="bk-cancel-btn col-4 p-0"> 
-      <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
-        <%= button_to reject_request_chat_friendship_path(profile), 
-                    method: :patch, 
-                    class: 'kobul_cancel-btn',
-                    data: { toggle: "tooltip", placement: "top", title: "Reject 2nd Kobul" } do %>
-          <i class="fa fa-close"></i> 
-          Reject 
-        <% end %> 
-      <% else %> 
-        <%= button_to reject_request_marriage_profile_path(profile), 
-                    method: :patch, 
-                    class: 'kobul_cancel-btn',
-                    data: { toggle: "tooltip", placement: "top", title: "Reject 1st Kobul" } do %>
-          <i class="fa fa-close"></i>
-          Reject
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+<div style="display:flex; gap:8px; margin-top:2px;">
+  <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
+    <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to chat with this profile.">🦋 Kobul (2)</a>
+  <% else %>
+    <a href="<%= accept_request_marriage_profile_path(profile) %>" data-method="PATCH" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to view profile.">🦋 Kobul (1)</a>
+  <% end %>
+  <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
+    <%= button_to reject_request_chat_friendship_path(profile), method: :patch, class: 'kobul_cancel-btn', style: 'flex:1; font-size:11px; padding:8px 4px; width:100%; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;', data: { toggle: "tooltip", placement: "top", title: "Reject 2nd Kobul" } do %>
+      <i class="fa fa-close"></i> Reject
+    <% end %>
+  <% else %>
+    <%= button_to reject_request_marriage_profile_path(profile), method: :patch, class: 'kobul_cancel-btn', style: 'flex:1; font-size:11px; padding:8px 4px; width:100%; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;', data: { toggle: "tooltip", placement: "top", title: "Reject 1st Kobul" } do %>
+      <i class="fa fa-close"></i> Reject
+    <% end %>
+  <% end %>
 </div>

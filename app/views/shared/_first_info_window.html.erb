@@ -30,7 +30,7 @@
               <%= f.select :present_location, District.order_by_name.collect { |d| [d.name, d.id] }, {prompt: 'Present Location'}, class: 'form-control sign_up-input-field', required: true %>
             </div>
             <div class="form-group">
-              <%= f.select :marital_status, User::MARITAL_STATUS, {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field', required: true %>
+              <%= f.select :marital_status, MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] }, {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field', required: true %>
             </div>
             <div class="form-group">
               <%= f.select :height, User::HEIGHT, {prompt: 'Height'}, class: 'form-control sign_up-input-field', required: true %>

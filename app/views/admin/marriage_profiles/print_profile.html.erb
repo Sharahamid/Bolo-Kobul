@@ -70,6 +70,9 @@
       <% if @profile.blood_group.present? %>
         <div class="field"><div class="field-label">Blood Group</div><div class="field-value"><%= @profile.blood_group.upcase %></div></div>
       <% end %>
+      <% if @profile.cultural_value&.willing_to_relocate.present? %>
+        <div class="field"><div class="field-label">Willing to Relocate</div><div class="field-value"><%= User::BOOLEAN_DATA.keys[@profile.cultural_value.willing_to_relocate] %></div></div>
+      <% end %>
       <% if @profile.marital_status.present? %>
         <div class="field"><div class="field-label">Marital Status</div><div class="field-value"><%= @profile.marital_status.map(&:to_s).map(&:titleize).join(', ') %></div></div>
       <% end %>
@@ -332,9 +335,7 @@
         <% if @profile.cultural_value.languages_spoken.present? %>
           <div class="field"><div class="field-label">Languages Spoken</div><div class="field-value"><%= @profile.cultural_value.languages_spoken.map{|ds| User::LANGUAGES.keys[ds.to_i]}.join(', ') %></div></div>
         <% end %>
-        <% if @profile.cultural_value.willing_to_relocate.present? %>
-          <div class="field"><div class="field-label">Willing to Relocate</div><div class="field-value"><%= User::BOOLEAN_DATA.keys[@profile.cultural_value.willing_to_relocate] %></div></div>
-        <% end %>
+
         <% if @profile.cultural_value.born_or_reverted.present? %>
           <div class="field"><div class="field-label">Born/Reverted</div><div class="field-value"><%= User::BORN_OR_REVERTED.keys[@profile.cultural_value.born_or_reverted] %></div></div>
         <% end %>

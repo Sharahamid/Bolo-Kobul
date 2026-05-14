@@ -1,4 +1,7 @@
 <style>
+  .left-sidebar-card .kobul_btn { border-color: #FFB627 !important; color: #854F0B !important; }
+  .left-sidebar-card .kobul_btn { border-color: #FFB627 !important; color: #854F0B !important; }
+  .left-sidebar-card .kobul_btn, .left-sidebar-card a.kobul_btn, .left-sidebar-card button.kobul_btn { color:#854F0B !important; border-color:#FFB627 !important; border-radius:8px !important; }
   .left-sidebar-card .kobul_btn,
   .left-sidebar-card .bk_favourite-btn,
   .left-sidebar-card .kobul_cancel-btn,
@@ -61,7 +64,7 @@
           <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Pending<br>Chats</div>
         </a>
         <a href="<%= favourites_path %>" style="flex:1; text-align:center; text-decoration:none;">
-          <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= current_active_profile.favourites.present? ? current_active_profile.favourites.count : 0 %></div>
+          <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= current_active_profile.favourites.joins("INNER JOIN marriage_profiles ON marriage_profiles.id = favourites.favourite_profile_id").count %></div>
           <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Favourite<br>Profiles</div>
         </a>
       </div>
@@ -83,7 +86,7 @@
       <div style="height:0.5px; background:#eee; margin:0 0 10px;"></div>
 
       <div class="bk-top-row">
-        <div class="bk-top-pill"><%= marriage_profile.age %> yrs</div>
+        <div class="bk-top-pill"><%= marriage_profile.age %>  years</div>
         <div class="bk-top-pill"><%= marriage_profile.height_ft %>'<%= marriage_profile.height_inch %>"</div>
         <div class="bk-top-pill">
           <i class="fas fa-map-marker-alt bk-info-icon"></i>
@@ -112,7 +115,7 @@
           </div>
         <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(marriage_profile.id) %>
           <div class="bk-action-row">
-            <a href="#" class="kobul_btn kobul_2" style="font-size:11px;" data-toggle="tooltip" title="Waiting for Kobul 2 response">🦋 Kobul 2 Pending</a>
+            <a href="<%= reject_request_chat_friendship_path(marriage_profile) %>" data-method="patch" class="kobul_btn kobul_2" style="font-size:11px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel Kobul 2 request" data-confirm="Cancel your Kobul 2 request?">🦋 Kobul 2 Pending</a>
             <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
               <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
                 <i class="fa fa-close"></i> Remove
@@ -123,11 +126,13 @@
               <% end %>
             <% end %>
           </div>
+        <% elsif current_active_profile.favourite_profiles.include?(marriage_profile) %>
+          <%= render 'home/dashboard/send_butterfly_and_remove_favourite_btns', profile: marriage_profile %>
         <% elsif get_requested_profiles.include?(marriage_profile) %>
           <%= render 'home/dashboard/accept_and_cancel_btns', profile: marriage_profile %>
         <% elsif current_active_profile.pending_friends.include?(marriage_profile) %>
           <div class="bk-action-row">
-            <a href="#" class="kobul_btn" data-toggle="tooltip" title="Butterfly Request Sent">🦋 Pending</a>
+            <a href="<%= cancel_request_marriage_profile_path(marriage_profile) %>" data-method="patch" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel your Kobul request" data-confirm="Cancel your Kobul request?">🦋 Pending</a>
             <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
               <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
                 <i class="fa fa-close"></i> Remove
@@ -140,8 +145,6 @@
           </div>
         <% elsif Friendship.where('(friendable_id = ? AND friend_id = ?) OR (friendable_id = ? AND friend_id = ?)', current_active_profile.id, marriage_profile.id, marriage_profile.id, current_active_profile.id).where(status: 1).exists? %>
           <%= render 'home/dashboard/kobul_2_btn', profile: marriage_profile %>
-        <% elsif current_active_profile.favourite_profiles.include?(marriage_profile) %>
-          <%= render 'home/dashboard/send_butterfly_and_remove_favourite_btns', profile: marriage_profile %>
         <% else %>
           <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: marriage_profile %>
         <% end %>

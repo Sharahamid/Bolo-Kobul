@@ -56,17 +56,6 @@
                 </tr>
               <% end %>
 
-              <% if marriage_profile.cultural_value&.willing_to_relocate.present? || marriage_profile.id == current_active_profile.id %>
-                <tr>
-                  <td> Willing To Relocate</td>
-                  <td>:</td>
-                  <td>
-                    <%= marriage_profile.cultural_value&.willing_to_relocate.present? ?
-                          User::BOOLEAN_DATA.keys[marriage_profile&.cultural_value.willing_to_relocate] : '' %>
-                  </td>
-                </tr>
-              <% end %>
-
               <% if marriage_profile.cultural_value&.mother_tongue.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
                   <td> Mother Tongue</td>

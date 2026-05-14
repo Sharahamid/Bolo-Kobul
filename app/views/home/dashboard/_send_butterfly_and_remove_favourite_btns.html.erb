@@ -1,42 +1,24 @@
-<div class="col-12">
-  <div class="row">
-    <div class="bk-request-btn col-6 p-0">
-      <% if current_active_profile.chat_friendships.where(status: 2).map(&:chat_friend_id).include?(profile.id) %>
-        <%= link_to "Chat", profile_message_path(profile), class: 'kobul_btn kobul_2' %>
-      <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(profile.id) %>
-        <a href="#" class="kobul_btn kobul_2" data-toggle="tooltip" data-placement="top" title="Waiting for Kobul 2 response">
-          <span>Kobul 2 Pending</span>
-        </a>
-      <% elsif Friendship.where(friendable_id: current_active_profile.id, friend_id: profile.id, status: 1).exists? %>
-        <%= render 'home/dashboard/kobul_2_btn', profile: profile %>
-      <% elsif current_active_profile.pending_friends.include?(profile) %>
-        <a href="#" class="kobul_btn" data-toggle="tooltip" data-placement="top" title="You Have Sent Butterfly Request To This User.">
-          <span>
-            <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-            <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
-            Pending
-          </span>
-        </a>
-      <% else %>
-        <a href="<%= send_request_marriage_profile_path(profile) %>" data-method="post" class="kobul_btn" data-toggle="tooltip" data-placement="top" title="Send Kobul if you are interested!">
-          <span>
-            <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-            <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
-            Send
-          </span>
-        </a>
-      <% end %>
-    </div>
-    <div class="bk-cancel-btn col-6 p-0">
-      <%= link_to remove_favourites_path(favourite_profile_id: profile.id),
-                  method: :delete,
-                  id: "fav_#{current_active_profile.id}_to_#{profile.id}",
-                  class: 'kobul_cancel-btn',
-                  data: {toggle: 'tooltip', placement: 'top'},
-                  title: " Remove from Favourites!" do %>
-        <i class="fa fa-close"></i>
-        Remove
-      <% end %>
-    </div>
-  </div>
+<div style="display:flex; gap:8px; margin-top:2px;">
+  <% if current_active_profile.chat_friendships.where(status: 2).map(&:chat_friend_id).include?(profile.id) %>
+    <%= link_to profile_message_path(profile), class: 'kobul_btn kobul_2', style: 'flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;' do %>
+      💬 Chat
+    <% end %>
+  <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(profile.id) %>
+    <a href="<%= reject_request_chat_friendship_path(profile) %>" data-method="patch" class="kobul_btn kobul_2" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel Kobul 2 request" data-confirm="Cancel your Kobul 2 request?">🦋 Kobul 2 Pending</a>
+  <% elsif Friendship.where(friendable_id: current_active_profile.id, friend_id: profile.id, status: 1).exists? %>
+    <%= render 'home/dashboard/kobul_2_btn', profile: profile %>
+  <% elsif current_active_profile.pending_friends.include?(profile) %>
+    <a href="<%= cancel_request_marriage_profile_path(profile) %>" data-method="patch" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel your Kobul request" data-confirm="Cancel your Kobul request?">🦋 Pending</a>
+  <% else %>
+    <a href="<%= send_request_marriage_profile_path(profile) %>" data-method="post" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send Kobul if you are interested!">🦋 Kobul (1)</a>
+  <% end %>
+  <%= link_to remove_favourites_path(favourite_profile_id: profile.id),
+              method: :delete,
+              id: "fav_#{current_active_profile.id}_to_#{profile.id}",
+              class: 'bk_favourite-btn',
+              style: 'flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;',
+              data: {toggle: 'tooltip', placement: 'top'},
+              title: "Remove from Favourites!" do %>
+    <i class="far fa-heart"></i> Remove
+  <% end %>
 </div>

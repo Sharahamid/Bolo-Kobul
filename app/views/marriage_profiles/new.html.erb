@@ -82,7 +82,7 @@
 
 	    <div class="form-group">
               <%= f.select :marital_status,
-                           MarriageProfile::marital_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
+                           MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
                            {prompt: 'Marital Status*'},
                            class: 'form-control sign_up-input-field',
                            required: true,

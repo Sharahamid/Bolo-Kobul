@@ -6,20 +6,21 @@
                html: {class: 'js-change-image'},
                remote: true do |f| %>
     <div class="camera-icon-area">
-      <i class="fa fa-camera profile-photo-upload"></i>
+      <i class="fa fa-camera profile-photo-upload" style="cursor:pointer;" title="Change photo"></i>
       <%= f.file_field :profile_image, id:'js-profile-image-upload', class: 'profile-input-field js-profile-image', style: 'display:none' %>
       <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
       <%= f.submit class: 'd-none js-submit' %>
     </div>
   <% end %>
 <% end %>
-
 <%= render 'shared/image_cropping_modal' %>
-
 <script type="text/javascript" charset="utf-8">
-    $(function () {
-        $('.js-profile-image').change(function () {
-            $(".js-submit").click();
-        });
+  $(function () {
+    $('.profile-photo-upload').on('click', function () {
+      $('#js-profile-image-upload').trigger('click');
     });
+    $('.js-profile-image').change(function () {
+      $(".js-submit").click();
+    });
+  });
 </script>
