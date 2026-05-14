@@ -2,7 +2,7 @@
 .dashboard-header .nav-link { display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; gap:3px !important; font-size:13px !important; }
 .dashboard-header .nav-link i { font-size:18px !important; }
 </style>
-<div class="dashboard-tab">
+<div class="dashboard-tab" style="border-radius:10px; overflow:hidden; margin-bottom:0;">
   <ul class="nav nav-tabs nav-justified dashboard-header p-2">
     <% if current_active_profile&.id == marriage_profile.id %>
       <li class="nav-item <%= params[:action] == 'dashboard' ? 'font-weight-bold' : '' %>">

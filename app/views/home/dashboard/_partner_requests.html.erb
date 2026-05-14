@@ -1,12 +1,15 @@
-<div class="partner-requests pt-3">
-  <span class="text-left"> Requests For You
-  <i class="fas fa-info-circle" data-toggle="tooltip" data-placement="top" title="Interested to connect with you."></i>
-  </span>
-  <div class="d-sm-flex flex-sm-row pt-3 <%= get_requested_profiles&.count > 2 ? 'bk-request-slider' : '' %>">
+<div class="partner-requests flex-sm-fill" style="border-radius:10px; overflow:hidden; border:0.5px solid #eee;">
+  <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:10px 14px; display:flex; align-items:center; justify-content:space-between;">
+    <span style="font-size:13px; font-weight:700; color:#633806;">1st Kobul Request Received</span>
+    <% if get_requested_profiles.present? %>
+      <span style="background:#633806; color:#FAC775; font-size:10px; padding:1px 8px; border-radius:20px;"><%= get_requested_profiles.count %></span>
+    <% end %>
+  </div>
+  <div class="<%= get_requested_profiles&.count.to_i > 2 ? 'bk-request-slider' : '' %>">
     <% if get_requested_profiles.present? %>
       <% get_requested_profiles.each do |requested_profile| %>
-        <div class="request-card flex-fill">
-          <div class="d-sm-flex flex-sm-column">
+        <div class="request-card border-bottom">
+          <div class="d-flex flex-column">
             <%= render 'home/dashboard/card_profile_info', profile: requested_profile, profile_action: true %>
             <div class="request-card-bottom p-2 border-top">
               <%= render 'home/dashboard/accept_and_cancel_btns', profile: requested_profile %>
@@ -15,8 +18,8 @@
         </div>
       <% end %>
     <% else %>
-      <div class="no-data-found alert text-center text-gray">
-        <p> You have not received any request yet.</p>
+      <div class="alert text-center text-gray">
+        <p>No requests yet.</p>
       </div>
     <% end %>
   </div>

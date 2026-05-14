@@ -1,28 +1,29 @@
-<div class="request-card flex-sm-fill">
-
-  <div class="p-2 pl-3 border-bottom">
-    <strong> Recommended For You </strong>
+<div class="request-card flex-sm-fill" style="border-radius:10px; overflow:hidden; border:0.5px solid #eee;">
+  <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:10px 14px; display:flex; align-items:center; justify-content:space-between;">
+    <span style="font-size:13px; font-weight:700; color:#633806;">Recommendations</span>
+    <% if current_active_profile.profile_completeness >= 80 && get_recommended_profiles.present? %>
+      <span style="background:#633806; color:#FAC775; font-size:10px; padding:1px 8px; border-radius:20px;"><%= get_recommended_profiles.count %></span>
+    <% end %>
   </div>
-
   <div class="recommended_profiles mb-4">
     <% if current_active_profile.profile_completeness >= 80 %>
-    <% if get_recommended_profiles.present? %>
-      <% get_recommended_profiles.each do |recommended_profile| %>
-        <div class="border-bottom">
-          <div class="d-flex flex-column">
-            <%= render 'home/dashboard/card_profile_info', profile: recommended_profile, profile_action: false %>
-            <div class="request-card-bottom p-2 border-top">
+      <% if get_recommended_profiles.present? %>
+        <% get_recommended_profiles.each do |recommended_profile| %>
+          <div class="border-bottom">
+            <div class="d-flex flex-column">
+              <%= render 'home/dashboard/card_profile_info', profile: recommended_profile, profile_action: false %>
+              <div class="request-card-bottom p-2 border-top">
                 <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: recommended_profile %>
+              </div>
             </div>
           </div>
-        </div>
+        <% end %>
+      <% else %>
+        <%= render 'shared/no_data_found' %>
       <% end %>
     <% else %>
-      <%= render 'shared/no_data_found' %>
-    <% end %>
-      <% else %>
-      <div class="no-data-found alert text-center text-gray">
-        <p> <%= link_to 'Update profile', current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : root_path %> and get recommendation here </p>
+      <div class="alert text-center text-gray">
+        <p><%= link_to 'Update profile', current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : root_path %> to get recommendations</p>
       </div>
     <% end %>
   </div>
