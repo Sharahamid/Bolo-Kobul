@@ -1,5 +1,5 @@
 <div class="partner-requests pb-4">
-<div style="background:#fff; border-radius:12px; border:0.5px solid #eee; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); margin:16px 12px 0;">
+  <div style="background:#fff; border-radius:12px; border:0.5px solid #eee; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); margin:16px 12px 0;">
     <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:12px 18px; display:flex; align-items:center; justify-content:space-between;">
       <span style="font-size:14px; font-weight:700; color:#633806;">Requests Sent</span>
       <% if pending_profiles.present? %>
@@ -26,26 +26,37 @@
                 </div>
                 <div style="font-size:11px; color:#888; margin-bottom:2px;">
                   <i class="fas fa-map-marker-alt" style="color:#FFB627; font-size:10px;"></i>
-                  <%= profile.age %> yrs &middot; <%= profile.height_ft %>'<%= profile.height_inch %>'' &middot; <%= profile&.hometown&.humanize %>
+                  <%= profile.age %> years &middot; <%= profile.height_ft %>'<%= profile.height_inch %>'' &middot; <%= profile&.hometown&.humanize %>
                 </div>
-                <div style="font-size:11px; color:#888; margin-bottom:4px;">
-                  <i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i>
-                  <%= profile.highest_education_level? ? profile.highest_education_level.humanize : '' %>
+                <div style="font-size:11px; color:#888; margin-bottom:4px; display:flex; align-items:center; flex-wrap:wrap; gap:3px;">
+                  <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= profile.highest_education_level? ? profile.highest_education_level.humanize : '' %></span>
                   <% if profile.current_occupation.present? %>
-                    &middot; <%= Occupation::OCCUPATION_LABELS[profile.current_occupation] || profile.current_occupation.humanize %>
+                    <span>&middot;</span>
+                    <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= Occupation::OCCUPATION_LABELS[profile.current_occupation] || profile.current_occupation.humanize %></span>
                   <% end %>
-                </div>
-                <div style="font-size:10px; color:#FFB627; font-weight:600;">
-                  🦋 Kobul 1 Pending
                 </div>
               </div>
             </div>
-            <div style="padding:0 14px 12px;">
+            <div style="padding:0 14px 12px; display:flex; gap:8px;">
               <%= link_to cancel_request_marriage_profile_path(profile),
                           method: :patch,
-                          data: { confirm: "Cancel this request?" },
-                          style: "display:block; text-align:center; font-size:12px; background:#FCEBEB; color:#A32D2D; padding:6px; border-radius:8px; text-decoration:none; border:0.5px solid #F09595;" do %>
-                Cancel Request
+                          data: { confirm: "Cancel this Kobul 1 request?" },
+                          style: "flex:1; text-align:center; font-size:12px; background:#FFF3CC; color:#854F0B; padding:6px; border-radius:8px; text-decoration:none; border:0.5px solid #FFB627; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
+                🦋 Kobul 1 Pending
+              <% end %>
+              <% if current_active_profile.favourite_profile_ids.include?(profile.id) %>
+                <%= link_to remove_favourites_path(favourite_profile_id: profile.id),
+                            method: :delete,
+                            data: { confirm: "Remove from favourites?" },
+                            style: "flex:1; text-align:center; font-size:12px; background:#FCEBEB; color:#A32D2D; padding:6px; border-radius:8px; text-decoration:none; border:0.5px solid #F09595; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
+                  <i class="fa fa-heart"></i> Remove
+                <% end %>
+              <% else %>
+                <%= link_to favourites_path(favourite_profile_id: profile.id),
+                            method: :post,
+                            style: "flex:1; text-align:center; font-size:12px; background:#fff0f5; color:#c0396b; padding:6px; border-radius:8px; text-decoration:none; border:0.5px solid #f0a0bc; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
+                  <i class="far fa-heart"></i> Favourite
+                <% end %>
               <% end %>
             </div>
           </div>
@@ -55,5 +66,4 @@
       <%= render 'shared/no_data_found' %>
     <% end %>
   </div>
-
 </div>

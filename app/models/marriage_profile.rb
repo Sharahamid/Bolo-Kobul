@@ -237,7 +237,7 @@ class MarriageProfile < ApplicationRecord
   end
 
   def unique_id
-    "Bk#{id.to_s.rjust(7, '0')}"
+    "BK#{id.to_s.rjust(7, '0')}"
   end
 
   def create_slug
