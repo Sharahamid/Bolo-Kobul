@@ -1,30 +1,23 @@
 <div class="left-sidebar-section mb-4">
-  <div class="d-flex flex-column left-sidebar-card privacy-left-menu">
+  <div style="background:#fff; border-radius:12px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:12px 16px;">
+      <span style="font-size:13px; font-weight:700; color:#633806;">Account Settings</span>
+    </div>
     <%= link_to privacy_settings_path,
-                class: "text-gray p-3 border-bottom #{ params[:action] == 'index' ? 'menu_active' : '' }" do %>
-      Account Settings
+                style: "display:block; padding:12px 16px; font-size:13px; color:#555; text-decoration:none; border-bottom:0.5px solid #f0f0f0; background:#{params[:action] == 'index' ? '#FFF3CC' : '#fff'};" do %>
+      <i class="fa fa-cog" style="color:#FFB627; margin-right:8px;"></i> Account Settings
     <% end %>
-
     <%= link_to refferel_code_marriage_profiles_path,
-                class: "text-gray p-3 border-bottom #{ params[:action] == 'refferel_code' ? 'menu_active' : '' }" do %>
-      Refer a Friend
+                style: "display:block; padding:12px 16px; font-size:13px; color:#555; text-decoration:none; border-bottom:0.5px solid #f0f0f0; background:#{params[:action] == 'refferel_code' ? '#FFF3CC' : '#fff'};" do %>
+      <i class="fa fa-users" style="color:#FFB627; margin-right:8px;"></i> Refer a Friend
     <% end %>
-
     <%= link_to privacy_setting_path(current_active_profile.privacy_setting),
-                class: "text-gray p-3 border-bottom #{ params[:action] == 'show' ? 'menu_active' : '' }" do %>
-      Privacy
+                style: "display:block; padding:12px 16px; font-size:13px; color:#555; text-decoration:none; border-bottom:0.5px solid #f0f0f0; background:#{params[:action] == 'show' ? '#FFF3CC' : '#fff'};" do %>
+      <i class="fa fa-lock" style="color:#FFB627; margin-right:8px;"></i> Privacy
     <% end %>
-
     <%= link_to blocked_profiles_marriage_profiles_path,
-                class: "text-gray p-3 border-bottom #{ params[:action] == 'blocked_profiles' ? 'menu_active' : '' }" do %>
-      Block List
+                style: "display:block; padding:12px 16px; font-size:13px; color:#555; text-decoration:none; background:#{params[:action] == 'blocked_profiles' ? '#FFF3CC' : '#fff'};" do %>
+      <i class="fa fa-ban" style="color:#FFB627; margin-right:8px;"></i> Block List
     <% end %>
-
-    <%= link_to pending_profiles_marriage_profiles_path,
-                class: "text-gray p-3 border-bottom #{ params[:action] == 'pending_profiles' ? 'menu_active' : '' }" do %>
-      Requests Sent
-    <% end %>
-
-
   </div>
 </div>

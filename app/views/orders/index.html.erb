@@ -1,25 +1,20 @@
-<section class="orders-section p-2 text-center">
+<section class="orders-section p-2">
   <% if @orders.present? %>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Product</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Price</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Status</th>
-        </tr>
-        </thead>
-        <tbody>
-        <%= render partial: 'order', collection: @orders %>
-        </tbody>
-      </table>
+    <div style="background:#fff; border-radius:10px; border:0.5px solid #eee; overflow:hidden;">
+      <div style="display:grid; grid-template-columns:2fr 1.2fr 0.4fr 1fr 1fr 1fr; gap:12px; background:linear-gradient(135deg,#FFB627,#ffca5e); padding:10px 16px;">
+        <span style="font-size:12px; font-weight:700; color:#633806;">Product</span>
+        <span style="font-size:12px; font-weight:700; color:#633806;">Date</span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:center;">Quantity</span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:right;">Price</span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:right;">Total</span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:center;">Status</span>
+      </div>
+      <%= render partial: 'order', collection: @orders %>
     </div>
   <% else %>
-    <div class="no-data-found text-gray">
-      <h4> No butterfly purchased. </h4>
+    <div class="text-center text-gray p-4">
+      <i class="fa fa-shopping-cart" style="font-size:32px; color:#ddd; display:block; margin-bottom:8px;"></i>
+      <p>No orders yet.</p>
     </div>
   <% end %>
 </section>

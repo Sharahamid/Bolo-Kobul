@@ -1,9 +1,12 @@
-<div class="container-fluid p-0 ">
+<div class="container-fluid p-0">
   <div class="dashboard">
     <div class="container">
-      <div class="d-sm-flex flex-sm-row privacy-settings">
-        <%= render 'privacy_settings/privacy_left_sidebar' %>
-        <%= render 'marriage_profiles/pendin_list', pending_profiles: @pending_profiles %>
+      <div class="d-sm-flex flex-sm-row">
+        <%= render 'home/dashboard/left_sidebar', marriage_profile: current_active_profile %>
+        <div class="right-section">
+          <%= render 'home/dashboard/dashboard_tabs', marriage_profile: current_active_profile %>
+          <%= render 'marriage_profiles/pendin_list', pending_profiles: @pending_profiles %>
+        </div>
       </div>
     </div>
   </div>

@@ -1,52 +1,32 @@
-<div class="request-card-top p-2">
-  <div class="d-flex flex-row action-menu">
-    <div class="partner-photo p-2">
+<div style="padding:10px 12px; border-bottom:0.5px solid #f5f5f5;">
+  <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+    <div onclick="bkOpenPhoto('<%= profile.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
       <%= render 'shared/profile_photo', profile: profile %>
     </div>
-    <div class="partner-short-info d-flex flex-column p-2 pt-4">
-      <div class="d-flex flex-row">
-        <strong class="align-content-start flex-fill">
-          <%= link_to profile_info_marriage_profile_path(profile), class:'text-black' do %>
-            <%= profile&.unique_id %>
-          <% end %>
-          <%- if profile.verified %>
-            <i title="Verified" class="fas fa-check-circle"></i>
-          <% end %>
-        </strong>
+    <div style="flex:1; min-width:0;">
+      <div style="display:flex; align-items:center; gap:4px; margin-bottom:4px;">
+        <%= link_to profile_info_marriage_profile_path(profile), style: "font-weight:700; color:#854F0B; font-size:13px; text-decoration:none;" do %>
+          <%= profile&.unique_id %>
+        <% end %>
+        <% if profile.verified %>
+          <i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i>
+        <% end %>
         <% if profile.matching_percentage.present? %>
-          <span class="round-batch">
-            <%= "%02d" % profile.matching_percentage %>%
-          </span>
+          <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= "%02d" % profile.matching_percentage %>%</span>
         <% end %>
       </div>
-      <div class="age-and-location">
-        <%= profile.age %> years,
-        <%= profile.height_ft %>
-        '<%= profile.height_inch %>''
-        <span title="<%= profile&.hometown&.humanize %>" data-toggle="tooltip" data-placement="top">
-          <%= profile&.hometown&.humanize %>
-        </span>
+      <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px; align-items:center;">
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= profile.age %> years</span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= profile.height_ft %>'<%= profile.height_inch %>''</span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><i class="fas fa-map-marker-alt" style="color:#854F0B; font-size:9px; margin-right:2px;"></i><%= profile&.hometown&.humanize %></span>
       </div>
-      <div class="expire-time">
-        <%# if profile_action.present? %>
-<!--          <i class="far fa-clock"></i>-->
-<!--          Request Expires: 8hrs-->
-        <%# else %>
-          <i class="fas fa-graduation-cap"></i>
-          <span title=" <%= profile.highest_education_level? ? profile&.highest_education_level&.humanize : '' %>"
-                data-toggle="tooltip"
-                data-placement="top">
-            <%= profile.highest_education_level? ? profile&.highest_education_level.humanize : '' %>
-          </span>
-          <i class="fas fa-user-md"></i>
-          <span title="<%= profile.current_occupation.present? ?  Occupation::OCCUPATION_LABELS[profile&.current_occupation] || profile&.current_occupation&.humanize: '' %>"
-                data-toggle="tooltip"
-                data-placement="top">
-            <%= profile.current_occupation.present? ?  Occupation::OCCUPATION_LABELS[profile&.current_occupation] || profile&.current_occupation&.humanize : '' %>
-          </span>
-        <%# end %>
+      <div style="font-size:10px; color:#999; display:flex; align-items:center; flex-wrap:wrap; gap:3px;">
+        <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= profile.highest_education_level? ? profile.highest_education_level.humanize : '' %></span>
+        <% if profile.current_occupation.present? %>
+          <span>&middot;</span>
+          <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= Occupation::OCCUPATION_LABELS[profile.current_occupation] || profile.current_occupation.humanize %></span>
+        <% end %>
       </div>
     </div>
-    <%= render 'shared/profile_actions', profile: profile if profile_action.present? %>
   </div>
 </div>

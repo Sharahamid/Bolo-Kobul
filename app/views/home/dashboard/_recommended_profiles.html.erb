@@ -5,17 +5,34 @@
       <span style="background:#633806; color:#FAC775; font-size:10px; padding:1px 8px; border-radius:20px;"><%= get_recommended_profiles.count %></span>
     <% end %>
   </div>
-  <div class="recommended_profiles mb-4">
+  <div class="recommended_profiles mb-2">
     <% if current_active_profile.profile_completeness >= 80 %>
       <% if get_recommended_profiles.present? %>
-        <% get_recommended_profiles.each do |recommended_profile| %>
-          <div class="border-bottom">
-            <div class="d-flex flex-column">
-              <%= render 'home/dashboard/card_profile_info', profile: recommended_profile, profile_action: false %>
-              <div class="request-card-bottom p-2 border-top">
-                <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: recommended_profile %>
+        <% get_recommended_profiles.each do |p| %>
+          <div style="padding:10px 12px; border-bottom:0.5px solid #f5f5f5;">
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
+              <div onclick="bkOpenPhoto('<%= p.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
+                <%= render 'shared/profile_photo', profile: p %>
+              </div>
+              <div style="flex:1; min-width:0;">
+                <div style="display:flex; align-items:center; gap:4px; margin-bottom:4px;">
+                  <%= link_to p&.unique_id, profile_info_marriage_profile_path(p), style: "font-weight:700; color:#854F0B; font-size:13px; text-decoration:none;" %>
+                  <% if p.verified %><i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i><% end %>
+                  <% if p.matching_percentage.present? %>
+                    <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= "%02d" % p.matching_percentage %>%</span>
+                  <% end %>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px; align-items:center;">
+                  <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= p.age %> years</span>
+                  <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= p.height_ft %>'<%= p.height_inch %>''</span>
+                  <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><i class="fas fa-map-marker-alt" style="color:#854F0B; font-size:9px; margin-right:2px;"></i><%= p&.hometown&.humanize %></span>
+                </div>
+                <div style="font-size:10px; color:#999; display:flex; align-items:center; flex-wrap:wrap; gap:3px;">
+                  <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= p.highest_education_level? ? p.highest_education_level.humanize : '' %></span><% if p.current_occupation.present? %><span>&middot;</span><span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= Occupation::OCCUPATION_LABELS[p.current_occupation] || p.current_occupation.humanize %></span><% end %>
+                </div>
               </div>
             </div>
+            <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: p %>
           </div>
         <% end %>
       <% else %>

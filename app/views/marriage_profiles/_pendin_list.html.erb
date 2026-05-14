@@ -1,27 +1,56 @@
-<div class="right-section mb-4">
-  <div class="d-flex flex-column dashboard-tab">
+<div class="partner-requests pb-4">
+<div style="background:#fff; border-radius:12px; border:0.5px solid #eee; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); margin:16px 12px 0;">
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:12px 18px; display:flex; align-items:center; justify-content:space-between;">
+      <span style="font-size:14px; font-weight:700; color:#633806;">Requests Sent</span>
+      <% if pending_profiles.present? %>
+        <span style="background:#633806; color:#FAC775; font-size:11px; padding:2px 10px; border-radius:20px; font-weight:600;"><%= pending_profiles.count %></span>
+      <% end %>
+    </div>
     <% if pending_profiles.present? %>
-      <% pending_profiles.each do |profile| %>
-        <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-4">
-                <%= link_to profile&.unique_id, profile_info_marriage_profile_path(profile) %>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:14px;">
+        <% pending_profiles.each do |profile| %>
+          <div style="border:0.5px solid #f0e8d0; border-radius:10px; overflow:hidden; background:#fffaf5;">
+            <div style="padding:14px; display:flex; align-items:center; gap:12px;">
+              <div onclick="bkOpenPhoto('<%= profile.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
+                <%= render 'shared/profile_photo', profile: profile %>
               </div>
-              <div class="col-4">
-                <i class="text-gray" title="Pending" data-toggle="tooltip" data-placement="top">
-                  Pending
-                </i>
-              </div>
-              <div class="col-4">
-                <%= link_to cancel_request_marriage_profile_path(profile), class:'w-100 btn btn-sm btn-danger', method: :patch do %>
-                  Cancel
-                <% end %>
+              <div style="flex:1; min-width:0;">
+                <div style="display:flex; align-items:center; gap:6px; margin-bottom:3px;">
+                  <%= link_to profile&.unique_id, profile_info_marriage_profile_path(profile), style: "font-weight:700; color:#854F0B; font-size:13px; text-decoration:none;" %>
+                  <% if profile.verified %>
+                    <i class="fas fa-check-circle" style="color:#FFB627; font-size:12px;"></i>
+                  <% end %>
+                  <% if profile.matching_percentage.present? %>
+                    <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 6px; border-radius:20px; font-weight:700; margin-left:auto;"><%= "%02d" % profile.matching_percentage %>%</span>
+                  <% end %>
+                </div>
+                <div style="font-size:11px; color:#888; margin-bottom:2px;">
+                  <i class="fas fa-map-marker-alt" style="color:#FFB627; font-size:10px;"></i>
+                  <%= profile.age %> yrs &middot; <%= profile.height_ft %>'<%= profile.height_inch %>'' &middot; <%= profile&.hometown&.humanize %>
+                </div>
+                <div style="font-size:11px; color:#888; margin-bottom:4px;">
+                  <i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i>
+                  <%= profile.highest_education_level? ? profile.highest_education_level.humanize : '' %>
+                  <% if profile.current_occupation.present? %>
+                    &middot; <%= Occupation::OCCUPATION_LABELS[profile.current_occupation] || profile.current_occupation.humanize %>
+                  <% end %>
+                </div>
+                <div style="font-size:10px; color:#FFB627; font-weight:600;">
+                  🦋 Kobul 1 Pending
+                </div>
               </div>
             </div>
+            <div style="padding:0 14px 12px;">
+              <%= link_to cancel_request_marriage_profile_path(profile),
+                          method: :patch,
+                          data: { confirm: "Cancel this request?" },
+                          style: "display:block; text-align:center; font-size:12px; background:#FCEBEB; color:#A32D2D; padding:6px; border-radius:8px; text-decoration:none; border:0.5px solid #F09595;" do %>
+                Cancel Request
+              <% end %>
+            </div>
           </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     <% else %>
       <%= render 'shared/no_data_found' %>
     <% end %>

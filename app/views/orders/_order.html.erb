@@ -1,8 +1,8 @@
-<tr>
-  <th scope="row"><%= get_datetime_format(order.updated_at) %></th>
-  <td><%= order.product == 'butterfly' ? 'Butterfly' : order.assisted_service.name %></td>
-  <td><%= order.quantity %></td>
-  <td><%= order.price %></td>
-  <td><%= order.total_amount %></td>
-  <td><%= order.status %></td>
-</tr>
+<div style="display:grid; grid-template-columns:2fr 1.2fr 0.4fr 1fr 1fr 1fr; gap:12px; padding:10px 16px; border-bottom:0.5px solid #f0f0f0; background:<%= order_counter.odd? ? '#fffaf0' : '#fff' %>; align-items:center;">
+  <span style="font-size:12px; color:#333; font-weight:500;"><%= order.product == 'butterfly' ? 'Butterfly' : order.assisted_service&.name %></span>
+  <span style="font-size:11px; color:#888;"><%= get_datetime_format(order.updated_at) %></span>
+  <span style="font-size:12px; text-align:center;"><%= order.quantity %></span>
+  <span style="font-size:12px; text-align:right;">৳<%= number_with_delimiter(order.price.to_i) %></span>
+  <span style="font-size:12px; text-align:right;">৳<%= number_with_delimiter(order.total_amount.to_i) %></span>
+  <span style="font-size:11px; text-align:center; background:#FFF3CC; color:#854F0B; padding:2px 8px; border-radius:20px; display:inline-block;"><%= order.status&.capitalize %></span>
+</div>
