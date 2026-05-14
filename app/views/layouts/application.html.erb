@@ -56,5 +56,66 @@
 
 <!-- font awesome-->
 <script src="https://kit.fontawesome.com/0210ff8ef7.js" crossorigin="anonymous"></script>
+
+<!-- Custom Confirm Modal -->
+<div id="bk-confirm-modal" style="display:none; position:fixed; inset:0; z-index:99999; align-items:center; justify-content:center; background:rgba(0,0,0,0.5); backdrop-filter:blur(3px);">
+  <div style="background:#fff; border-radius:16px; padding:28px 24px 20px; max-width:320px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,0.18); text-align:center;">
+    <div style="width:52px; height:52px; background:linear-gradient(135deg,#FFB627,#ffca5e); border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">
+      <i class="fas fa-exclamation" style="color:#633806; font-size:22px;"></i>
+    </div>
+    <p id="bk-confirm-message" style="font-size:15px; color:#333; font-weight:600; margin-bottom:20px; line-height:1.5;"></p>
+    <div style="display:flex; gap:10px;">
+      <button id="bk-confirm-ok" style="flex:1; padding:10px; border-radius:10px; border:none; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#633806; font-size:13px; cursor:pointer; font-weight:700;">Yes, Confirm</button>
+      <button id="bk-confirm-cancel" style="flex:1; padding:10px; border-radius:10px; border:0.5px solid #ddd; background:#f5f5f5; color:#666; font-size:13px; cursor:pointer; font-weight:600;">No</button>
+    </div>
+  </div>
+</div>
+<script>
+  (function() {
+    var modal = document.getElementById('bk-confirm-modal');
+    var msgEl = document.getElementById('bk-confirm-message');
+    var okBtn = document.getElementById('bk-confirm-ok');
+    var cancelBtn = document.getElementById('bk-confirm-cancel');
+    var pendingEl = null;
+
+    function showModal(msg, el) {
+      msgEl.textContent = msg;
+      modal.style.display = 'flex';
+      pendingEl = el;
+    }
+
+    okBtn.addEventListener('click', function() {
+      modal.style.display = 'none';
+      if (pendingEl) {
+        var el = pendingEl;
+        pendingEl = null;
+        el.removeAttribute('data-confirm');
+        el.click();
+        el.setAttribute('data-confirm', msgEl.textContent);
+      }
+    });
+
+    cancelBtn.addEventListener('click', function() {
+      modal.style.display = 'none';
+      pendingEl = null;
+    });
+
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+        pendingEl = null;
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      var el = e.target.closest('[data-confirm]');
+      if (!el) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      showModal(el.getAttribute('data-confirm'), el);
+    }, true);
+  })();
+</script>
+
 </body>
 </html>

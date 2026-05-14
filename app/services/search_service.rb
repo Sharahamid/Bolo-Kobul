@@ -1,78 +1,73 @@
 class SearchService
-  # TODO: Fix an easy searching algorithm
-
   def self.with_params(params, current_profile_id)
+    search_params = [:age_from, :age_to, :religion, :hometown, :height,
+                     :marital_status, :blood_group, :highest_education_level, :occupation]
+    return MarriageProfile.none unless search_params.any? { |p| Array(params[p]).reject(&:blank?).present? }
+
     @matches = MarriageProfile.all
     @marriage_profile = MarriageProfile.find_by(id: current_profile_id)
 
-    # Filter out already found ones & same gender ones
     if @marriage_profile
-      @matches = @matches.where.not(id: current_profile_id,
-                                    gender: @marriage_profile.gender)
+      @matches = @matches.where.not(id: current_profile_id, gender: @marriage_profile.gender)
       @matches = @matches.where.not(id: @marriage_profile.friend_ids)
       @matches = @matches.where.not(id: @marriage_profile.favourite_profile_ids)
       @matches = @matches.where.not(id: @marriage_profile.pending_friend_ids)
       @matches = @matches.where.not(id: @marriage_profile.requested_friend_ids)
     end
 
-    # Basic Search
+    # Age range
+    age_from = params[:age_from].to_i if params[:age_from].present?
+    age_to   = params[:age_to].to_i   if params[:age_to].present?
+    if age_from && age_to
+      @matches = @matches.where('EXTRACT(YEAR FROM age(cast(date_of_birth as date))) BETWEEN ? AND ?', age_from, age_to)
+    elsif age_from
+      @matches = @matches.where('EXTRACT(YEAR FROM age(cast(date_of_birth as date))) >= ?', age_from)
+    elsif age_to
+      @matches = @matches.where('EXTRACT(YEAR FROM age(cast(date_of_birth as date))) <= ?', age_to)
+    end
+
+    # Religion
     if params[:religion].present?
-      @matches = @matches.where(
-        "religion IN (?)",
-        MarriageProfile.religions["#{params[:religion].downcase}"]
-      )
+      @matches = @matches.where("religion IN (?)", MarriageProfile.religions["#{params[:religion].downcase}"])
     end
+
+    # Hometown
     if params[:hometown].present?
-      @matches = @matches.where(
-        "hometown IN (?)",
-        params[:hometown]
-      )
-    end
-    if params[:age].present?
-      @matches = @matches.where('EXTRACT(
-                                YEAR FROM
-                                age(cast(date_of_birth as date))) = ?',
-                                params[:age].to_i)
+      @matches = @matches.where("hometown IN (?)", params[:hometown])
     end
 
     # Advanced Search
-    if @marriage_profile.user.advanced_search == "enabled"
-      if params[:height].present?
-        case params[:height]
-        when "tier_1"
-          @matches = @matches.where(height_ft: 5, height_inch: 1..4)
-        when "tier_2"
-          @matches = @matches.where(height_ft: 5, height_inch: 5..8)
-        when "tier_3"
-          @matches = @matches.where('(height_ft IN (?) AND height_inch IN (?))
-                                  OR (height_ft IN (?) AND height_inch IN (?))',
-                                    5, 9, 6, 0
-          )
-        when "tier_4"
-          @matches = @matches.where(height_ft: 6, height_inch: 1..5)
+    if @marriage_profile&.user&.advanced_search == "enabled"
+
+      # Height (individual)
+      heights = Array(params[:height]).reject(&:blank?)
+      if heights.present?
+        conditions = heights.map do |h|
+          parts = h.split('-')
+          "(height_ft = #{parts[0].to_i} AND height_inch = #{parts[1].to_i})"
         end
+        @matches = @matches.where(conditions.join(" OR "))
       end
 
-      if params[:marital_status].present?
-        @matches = @matches.where(marital_status: params[:marital_status])
-      end
+      # Marital status (multi)
+      marital = Array(params[:marital_status]).reject(&:blank?)
+      @matches = @matches.where(marital_status: marital) if marital.present?
 
-      if params[:blood_group].present?
-        @matches = @matches.where(blood_group: params[:blood_group])
-      end
+      # Blood group (multi)
+      blood = Array(params[:blood_group]).reject(&:blank?)
+      @matches = @matches.where(blood_group: blood) if blood.present?
 
-      if params[:highest_education_level].present?
-        @matches = @matches.where(highest_education_level:
-                                    params[:highest_education_level])
-      end
+      # Education (multi)
+      education = Array(params[:highest_education_level]).reject(&:blank?)
+      @matches = @matches.where(highest_education_level: education) if education.present?
 
-      if params[:occupation].present?
-        @matches = @matches.joins(:occupations)
-                     .where(occupations: {name: params[:occupation]})
+      # Occupation (multi)
+      occupations = Array(params[:occupation]).reject(&:blank?)
+      if occupations.present?
+        @matches = @matches.joins(:occupations).where(occupations: { name: occupations })
       end
     end
 
-    @matches
-      .paginate(page: params[:page], per_page: 10)
+    @matches.paginate(page: params[:page], per_page: 12)
   end
 end

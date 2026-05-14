@@ -1,237 +1,245 @@
-<% if current_user.advanced_search == "enabled" %>
-  <div class="col-md-3">
-    <div class="container search-page-container p-3 ml-2">
-      <div class="row">
-        <div class="col-md-12 filter-container-content">
-          <div class="filter-container-title">
-            <div class="row col-md-12">
-              <span class="p-2">
-                Advanced Filter
-              </span>
-              <a href="<%= search_page_marriage_profile_path %>">
-                <button id="reset_radio_btn"
-                        class="btn btn-search btn-reset form-control ml-3">
-                  Reset
-                </button>
-              </a>
+<% advanced = current_user.advanced_search == "enabled" %>
+<div style="width:100%;">
+
+  <!-- Search card -->
+  <div style="background:#fff; border-radius:14px; border:0.5px solid #eee; box-shadow:1px 3px 9px rgba(0,0,0,0.07); margin:16px 12px 0;">
+
+    <!-- Gold header: basic search -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:16px 20px;">
+      <p style="font-size:15px; font-weight:700; color:#633806; margin:0 0 12px;">I am looking for...</p>
+      <%= form_tag search_marriage_profile_path, method: :get, id: "bk-search-form" do %>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+          <input type="number" name="age_from" value="<%= params[:age_from] %>" placeholder="Age (from)"
+                 min="18" max="80"
+                 style="flex:1; min-width:100px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;" />
+          <input type="number" name="age_to" value="<%= params[:age_to] %>" placeholder="Age (to)"
+                 min="18" max="80"
+                 style="flex:1; min-width:100px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;" />
+          <select name="religion"
+                  style="flex:1; min-width:120px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;">
+            <option value="">Religion</option>
+            <% MarriageProfile.religions.each do |k, v| %>
+              <option value="<%= k.titleize %>" <%= 'selected' if params[:religion] == k.titleize %>><%= k.titleize %></option>
+            <% end %>
+          </select>
+          <select name="hometown"
+                  style="flex:1; min-width:130px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;">
+            <option value="">Hometown</option>
+            <% District.order(:name).pluck(:name).each do |d| %>
+              <option value="<%= d %>" <%= 'selected' if params[:hometown] == d %>><%= d %></option>
+            <% end %>
+          </select>
+          <button type="submit"
+                  style="background:#633806; color:#FAC775; border:none; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:700; cursor:pointer;">
+            🔍 Search
+          </button>
+        </div>
+
+        <% if advanced %>
+        <!-- Advanced filters row -->
+        <div style="margin-top:12px; padding-top:12px; border-top:0.5px solid rgba(99,56,6,0.2);">
+          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:flex-start;">
+
+            <!-- Height multi-select -->
+            <div class="bk-dropdown" style="position:relative; flex:1; min-width:120px;">
+              <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
+                <span class="bk-dropdown-label">Height</span> ▾
+              </div>
+              <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:120px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
+                <% (1..11).each do |inch| %>
+                  <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
+                    <input type="checkbox" name="height[]" value="5-<%= inch %>" <%= 'checked' if Array(params[:height]).include?("5-#{inch}") %> style="accent-color:#EF9F27;" />
+                    5'<%= inch %>"
+                  </label>
+                <% end %>
+                <% (0..5).each do |inch| %>
+                  <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
+                    <input type="checkbox" name="height[]" value="6-<%= inch %>" <%= 'checked' if Array(params[:height]).include?("6-#{inch}") %> style="accent-color:#EF9F27;" />
+                    6'<%= inch %>"
+                  </label>
+                <% end %>
+              </div>
             </div>
+
+            <!-- Marital status multi-select -->
+            <div class="bk-dropdown" style="position:relative; flex:1; min-width:130px;">
+              <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
+                <span class="bk-dropdown-label">Marital Status</span> ▾
+              </div>
+              <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:150px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
+                <% MarriageProfile.marital_statuses.reject { |type, v| type == "married" }.each do |type, v| %>
+                  <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
+                    <input type="checkbox" name="marital_status[]" value="<%= type %>" <%= 'checked' if Array(params[:marital_status]).include?(type) %> style="accent-color:#EF9F27;" />
+                    <%= type.titleize %>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Education multi-select -->
+            <div class="bk-dropdown" style="position:relative; flex:1; min-width:130px;">
+              <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
+                <span class="bk-dropdown-label">Education</span> ▾
+              </div>
+              <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:150px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
+                <% MarriageProfile.highest_education_levels.each do |type, v| %>
+                  <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
+                    <input type="checkbox" name="highest_education_level[]" value="<%= type %>" <%= 'checked' if Array(params[:highest_education_level]).include?(type) %> style="accent-color:#EF9F27;" />
+                    <%= type.titleize %>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Occupation multi-select -->
+            <div class="bk-dropdown" style="position:relative; flex:1; min-width:130px;">
+              <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
+                <span class="bk-dropdown-label">Occupation</span> ▾
+              </div>
+              <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:180px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:200px; overflow-y:auto;">
+                <% Occupation.names.each do |type, v| %>
+                  <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
+                    <input type="checkbox" name="occupation[]" value="<%= type %>" <%= 'checked' if Array(params[:occupation]).include?(type) %> style="accent-color:#EF9F27;" />
+                    <%= type.titleize %>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Blood group multi-select -->
+            <div class="bk-dropdown" style="position:relative; flex:1; min-width:120px;">
+              <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
+                <span class="bk-dropdown-label">Blood Group</span> ▾
+              </div>
+              <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:130px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
+                <% MarriageProfile.blood_groups.each do |type, v| %>
+                  <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
+                    <input type="checkbox" name="blood_group[]" value="<%= type %>" <%= 'checked' if Array(params[:blood_group]).include?(type) %> style="accent-color:#EF9F27;" />
+                    <%= type.upcase %>
+                  </label>
+                <% end %>
+              </div>
+            </div>
+
+            <!-- Reset -->
+            <%= link_to search_page_marriage_profile_path,
+                        style: "background:rgba(99,56,6,0.15); color:#633806; border:0.5px solid rgba(99,56,6,0.3); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:600; text-decoration:none; white-space:nowrap; display:flex; align-items:center;" do %>
+              ✕ Reset
+            <% end %>
+
           </div>
-          <div class="search-input-fields filter-input-fields">
-            <div class="row form-group col-md-12 mb-0">
-            </div>
-            <%= form_tag search_marriage_profile_path do %>
-              <div class="row form-group mx-1 mb-2">
-                <hr class="filter-hr mb-1">
-                <div class="col-md-12 filter-input-group px-0">
-                  <%= label_tag :height %>
-                  <br>
-                  <%= radio_button_tag :height, "tier_1",
-                                       params[:height] == "tier_1" ?
-                                           true : false,
-                                       {} %>  5'1"-5'4"
-                  <br>
-                  <%= radio_button_tag :height, "tier_2",
-                                       params[:height] == "tier_2" ?
-                                           true : false,
-                                       {} %>  5'5"-5'8"
-                  <br>
-                  <%= radio_button_tag :height, "tier_3",
-                                       params[:height] == "tier_3" ?
-                                           true : false,
-                                       {} %>  5'9"-6'0"
-                  <br>
-                  <%= radio_button_tag :height, "tier_4",
-                                       params[:height] == "tier_4" ?
-                                           true : false,
-                                       {} %>  6'1"-6'5"
-                  <br>
+        </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <!-- Results -->
+    <div style="padding:14px;">
+      <% if @matches.present? %>
+        <p style="font-size:12px; color:#999; margin:0 0 12px;">
+          <%= @matches.total_entries rescue @matches.count %> profiles found
+        </p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:10px;">
+          <% @matches.each do |match| %>
+            <div style="border:0.5px solid #f0e8d0; border-radius:10px; overflow:hidden; background:#fffaf5;">
+              <div style="padding:12px; display:flex; align-items:center; gap:10px;">
+                <div onclick="bkOpenPhoto('<%= match.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
+                  <%= render 'shared/profile_photo', profile: match %>
                 </div>
-              </div>
-              <div class="row form-group mx-1 mb-2">
-                <hr class="filter-hr mb-1">
-                <div class="col-md-12 filter-input-group px-0">
-                  <%= label_tag :marital_status %>
-                  <br>
-                  <% MarriageProfile.marital_statuses.each do |type, v| %>
-                    <%= radio_button_tag :marital_status, type,
-                                         params[:marital_status] == type ?
-                                             true : false,
-                                         {} %>  <%= type.titleize %>
-                    <br>
-                  <% end %>
-                </div>
-              </div>
-              <div class="row form-group mx-1 mb-2">
-                <hr class="filter-hr mb-1">
-                <div class="col-md-12 filter-input-group px-0">
-                  <%= label_tag :blood_group %>
-                  <br>
-                  <% MarriageProfile.blood_groups.each do |type, v| %>
-                    <%= radio_button_tag :blood_group, type,
-                                         params[:blood_group] == type ?
-                                             true : false,
-                                         {} %>  <%= type.upcase %>
-                    <br>
-                  <% end %>
-                </div>
-              </div>
-              <div class="row form-group mx-1 mb-2">
-                <hr class="filter-hr mb-1">
-                <div class="col-md-12 filter-input-group px-0">
-                  <%= label_tag :highest_education_level %>
-                  <br>
-                  <% MarriageProfile.highest_education_levels.each do |type, v| %>
-                    <%= radio_button_tag :highest_education_level, type,
-                                         params[:highest_education_level] == type ?
-                                             true : false,
-                                         {} %>  <%= type.titleize %>
-                    <br>
-                  <% end %>
-                </div>
-              </div>
-              <div class="row form-group mx-1 mb-2">
-                <hr class="filter-hr mb-1">
-                <div class="col-md-12 filter-input-group px-0">
-                  <%= label_tag :occupation %>
-                  <br>
-                  <div class="occupation-filter-inputs p-2">
-                    <% Occupation.names.each do |type, v| %>
-                      <%= radio_button_tag :occupation, type,
-                                           params[:occupation] == type ?
-                                               true : false,
-                                           {} %>  <%= type.titleize %>
-                      <br>
+                <div style="flex:1; min-width:0;">
+                  <div style="display:flex; align-items:center; gap:4px; margin-bottom:4px;">
+                    <%= link_to match&.unique_id, profile_info_marriage_profile_path(match), style: "font-weight:700; color:#854F0B; font-size:13px; text-decoration:none;" %>
+                    <% if match.verified %>
+                      <i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i>
+                    <% end %>
+                    <% if match.matching_percentage.present? %>
+                      <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= "%02d" % match.matching_percentage %>%</span>
+                    <% end %>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px;">
+                    <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= match.age %> years</span>
+                    <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= match.height_ft %>'<%= match.height_inch %>''</span>
+                    <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><i class="fas fa-map-marker-alt" style="font-size:9px; margin-right:2px;"></i><%= match&.hometown&.humanize %></span>
+                  </div>
+                  <div style="font-size:10px; color:#999; display:flex; align-items:center; flex-wrap:wrap; gap:3px;">
+                    <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= match.highest_education_level? ? match.highest_education_level.humanize : '' %></span>
+                    <% if match.current_occupation.present? %>
+                      <span>&middot;</span>
+                      <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= Occupation::OCCUPATION_LABELS[match.current_occupation] || match.current_occupation.humanize %></span>
                     <% end %>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  <div class="col-md-9">
-    <div class="container search-page-container p-3">
-          <div class="row">
-            <div class="search-container-background">
-              <%= image_tag 'mandala.svg', class: 'img-responsive' %>
-            </div>
-            <div class="col-md-12 search-container-content">
-              <div class="search-container-title">
-                <div class="row col-md-12 mx-1">
-                  I am looking for...
-                </div>
+              <div style="padding:0 12px 10px;">
+                <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: match %>
               </div>
-              <div class="search-input-fields">
-                <div class="row form-group col-md-12 mb-0">
-                </div>
-                <div class="row form-group mx-1 mb-3">
-                  <div class="col-md-3 search-input-group">
-                    <%= text_field_tag :age, params[:age].present? ? params[:age] : nil,
-                                       placeholder: "Age",
-                                       class:
-                                           "form-control sign_up-input-field search-input" %>
-                  </div>
-                  <div class="col-md-3 search-input-group">
-                    <%= select_tag :religion,
-                                   options_for_select(MarriageProfile.religions
-                                                          .map{|k, v| k.titleize},
-                                                      ),
-                                   prompt: params[:religion].present? ?
-                                               params[:religion] : "Religion",
-                                   class: "form-control sign_up-input-field search-input" %>
-                    <i class="fa fa-sort-down search-drop-icon"></i>
-                  </div>
-                  <div class="col-md-3 search-input-group">
-                    <%= select_tag :hometown,
-                                   options_for_select(District.order(:name)
-                                                          .pluck(:name)),
-                                   prompt: params[:hometown].present? ?
-                                               params[:hometown] : "Hometown",
-                                   class: "form-control sign_up-input-field search-input" %>
-                    <i class="fa fa-sort-down search-drop-icon"></i>
-                  </div>
-                  <div class="col-md-3 search-input-group">
-                    <div class="text-center">
-                      <button type="submit" class="btn btn-search form-control"> Search</button>
-                    </div>
-                  </div>
-                </div>
-    <% end %>
-    </div>
-    </div>
-    </div>
-    </div>
-    <div class="d-sm-flex flex-sm-row ">
-      <%= render 'home/dashboard/search_list', matches: @matches,
-                 title: ""%>
-    </div>
-  </div>
-<% else %>
-  <div class="col-md-12">
-    <div class="container search-page-container p-3">
-      <div class="row">
-        <div class="search-container-background">
-          <%= image_tag 'mandala.svg', class: 'img-responsive' %>
-        </div>
-        <div class="col-md-12 search-container-content">
-          <div class="search-container-title">
-            <div class="row col-md-12 mx-1">
-              <span class="p-2">
-                I am looking for...
-              </span>
-              <a href="<%= privacy_settings_path%>">
-                <button id="buy-adv-search"
-                        class="btn btn-search btn-buy-adv-search form-control ml-3">
-                  Enable Advanced Search
-                </button>
-              </a>
             </div>
-          </div>
-          <div class="search-input-fields">
-            <div class="row form-group col-md-12 mb-0">
-            </div>
-            <%= form_tag search_marriage_profile_path do %>
-              <div class="row form-group mx-1 mb-3">
-                <div class="col-md-3 search-input-group">
-                  <%= text_field_tag :age, params[:age].present? ? params[:age] : nil,
-                                     placeholder: "Age",
-                                     class:
-                                         "form-control sign_up-input-field search-input" %>
-                </div>
-                <div class="col-md-3 search-input-group">
-                  <%= select_tag :religion,
-                                 options_for_select(MarriageProfile.religions
-                                                        .map{|k, v| k.titleize},
-                                                    ),
-                                 prompt: params[:religion].present? ?
-                                             params[:religion] : "Religion",
-                                 class: "form-control sign_up-input-field search-input" %>
-                  <i class="fa fa-sort-down search-drop-icon"></i>
-                </div>
-                <div class="col-md-3 search-input-group">
-                  <%= select_tag :hometown,
-                                 options_for_select(District.order(:name)
-                                                        .pluck(:name)),
-                                 prompt: params[:hometown].present? ?
-                                             params[:hometown] : "Hometown",
-                                 class: "form-control sign_up-input-field search-input" %>
-                  <i class="fa fa-sort-down search-drop-icon"></i>
-                </div>
-                <div class="col-md-3 search-input-group">
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-search form-control"> Search</button>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </div>
+          <% end %>
         </div>
-      </div>
+        <div style="margin-top:14px; text-align:center;">
+          <%= will_paginate @matches, renderer: WillPaginate::ActionView::LinkRenderer rescue nil %>
+        </div>
+      <% elsif params[:age_from].present? || params[:age_to].present? || params[:religion].present? || params[:hometown].present? || Array(params[:height]).reject(&:blank?).present? || Array(params[:marital_status]).reject(&:blank?).present? || Array(params[:blood_group]).reject(&:blank?).present? || Array(params[:highest_education_level]).reject(&:blank?).present? || Array(params[:occupation]).reject(&:blank?).present? %>
+        <div style="text-align:center; padding:40px 20px;">
+          <div style="width:56px; height:56px; background:#FFF3CC; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+            <i class="fas fa-search" style="color:#FFB627; font-size:22px;"></i>
+          </div>
+          <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;">No profiles found</p>
+          <p style="font-size:12px; color:#999; margin:0;">Try adjusting your filters</p>
+        </div>
+      <% else %>
+        <div style="text-align:center; padding:40px 20px;">
+          <div style="width:56px; height:56px; background:#FFF3CC; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+            <i class="fas fa-heart" style="color:#FFB627; font-size:22px;"></i>
+          </div>
+          <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;">Find your ideal match</p>
+          <p style="font-size:12px; color:#999; margin:0;">Use the search filters above to discover profiles</p>
+        </div>
+      <% end %>
     </div>
-    <div class="container d-sm-flex flex-sm-row ">
-      <%= render 'home/dashboard/search_list', matches: @matches,
-                 title: ""%>
-    </div>
+
   </div>
-<% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Dropdown toggle
+    document.querySelectorAll('.bk-dropdown-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var menu = btn.nextElementSibling;
+        var isOpen = menu.style.display === 'block';
+        document.querySelectorAll('.bk-dropdown-menu').forEach(function(m) { m.style.display = 'none'; });
+        menu.style.display = isOpen ? 'none' : 'block';
+      });
+    });
+
+    // Close on outside click
+    document.addEventListener('click', function() {
+      document.querySelectorAll('.bk-dropdown-menu').forEach(function(m) { m.style.display = 'none'; });
+    });
+
+    // Update dropdown label with selected count
+    document.querySelectorAll('.bk-dropdown').forEach(function(dd) {
+      var checks = dd.querySelectorAll('input[type=checkbox]');
+      var label = dd.querySelector('.bk-dropdown-label');
+      var originalLabel = label.textContent;
+
+      function updateLabel() {
+        var checked = dd.querySelectorAll('input[type=checkbox]:checked');
+        if (checked.length > 0) {
+          label.textContent = originalLabel + ' (' + checked.length + ')';
+          dd.querySelector('.bk-dropdown-btn').style.background = '#FAEEDA';
+          dd.querySelector('.bk-dropdown-btn').style.borderColor = '#BA7517';
+        } else {
+          label.textContent = originalLabel;
+          dd.querySelector('.bk-dropdown-btn').style.background = '#fff8ee';
+          dd.querySelector('.bk-dropdown-btn').style.borderColor = '#EF9F27';
+        }
+      }
+
+      checks.forEach(function(c) { c.addEventListener('change', updateLabel); });
+      updateLabel();
+    });
+  });
+</script>
