@@ -1,30 +1,107 @@
-<div class="wrapper">
-  <h2 class="pm-places-header">
-    Precautionary Measures
-  </h2>
-  <hr class="section-hr mt-0 mb-0">
-  <div class="section mt-3">
-    <div class="container pm-places-container">
-      <div class="row">
-        <div class="col-md-12">
-          <p>Bolo Kobul is committed to a safer internet and go great lengths to ensure you get the best
-            possible experience. Every single profile is screened for irrelevant and inappropriate content
-            and your matches are suggested as per your preferences.</p>
-          <p>While we do our part, we want you to play yours. Please read the precautionary measures in
-            order to have a safe and enjoyable match-making experience.</p>
-          <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
-            <%= render partial: 'precautionary_measure',
-                       collection: @precautionary_measures %>
+<div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
+  <div class="container" style="max-width:960px;">
+    <div style="border:0.5px solid #eee; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
+        <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;">Precautionary Measures</h2>
+        <p style="font-size:13px; color:#633806; margin:0;">Stay safe while finding your ideal match on BoloKobul.com</p>
+      </div>
+
+      <!-- Intro banner -->
+      <div style="background:#fffaf0; border-bottom:0.5px solid #FAC775; padding:14px 20px; font-size:13px; color:#633806; line-height:1.7;">
+        Bolo Kobul is committed to a safer internet and goes to great lengths to ensure you get the best possible experience. Every profile is screened for inappropriate content. While we do our part, we want you to play yours too.
+      </div>
+
+      <!-- Two column body -->
+      <div style="display:flex; min-height:420px;">
+
+        <!-- Left: index -->
+        <div style="width:210px; flex-shrink:0; background:#fafaf8; padding:14px 10px; border-right:0.5px solid #eee;">
+          <p style="font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 10px; padding:0 4px;">Sections</p>
+          <% @precautionary_measures.each_with_index do |measure, index| %>
+            <div class="bk-pm-nav" data-index="<%= index %>" onclick="bkShowPm(<%= index %>)"
+                 style="padding:8px 10px; border-radius:8px; margin-bottom:4px; cursor:pointer; display:flex; align-items:center; gap:8px; <%= index == 0 ? 'background:#FAEEDA; border-left:3px solid #FFB627;' : '' %>">
+              <span style="font-size:10px; background:#FFF3CC; color:#854F0B; padding:1px 7px; border-radius:10px; flex-shrink:0; white-space:nowrap;"><%= measure.title.match(/^\d+\.\d+/) ? measure.title.match(/^\d+\.\d+/)[0] : (measure.title.match(/^\d+/) ? measure.title.match(/^\d+/)[0] : (index + 1)) %></span>
+              <span class="bk-pm-nav-label" style="font-size:12px; color:<%= index == 0 ? '#633806' : '#888' %>; font-weight:<%= index == 0 ? '600' : '400' %>; line-height:1.4;"><%= measure.title.gsub(/^\d+\.?\d*\.?\s*/, '') %></span>
+            </div>
+          <% end %>
+        </div>
+
+        <!-- Right: content -->
+        <div style="flex:1; padding:24px; background:#fff;">
+          <% @precautionary_measures.each_with_index do |measure, index| %>
+            <div class="bk-pm-content" data-index="<%= index %>" style="<%= index == 0 ? '' : 'display:none;' %>">
+              <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+                <div style="width:32px; height:32px; background:#FFB627; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:#412402; flex-shrink:0;">
+                  <%= measure.title.match(/^\d+\.\d+/) ? measure.title.match(/^\d+\.\d+/)[0] : (measure.title.match(/^\d+/) ? measure.title.match(/^\d+/)[0] : (index + 1)) %>
+                </div>
+                <h3 style="font-size:16px; font-weight:700; color:#633806; margin:0;"><%= measure.title.gsub(/^\d+\.?\d*\.?\s*/, '') %></h3>
+              </div>
+              <div style="font-size:13px; color:#555; line-height:1.9;">
+                <%= measure.content.html_safe %>
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:28px; padding-top:16px; border-top:0.5px solid #eee;">
+                <% if index > 0 %>
+                  <button onclick="bkShowPm(<%= index - 1 %>)" style="background:#FFF3CC; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; cursor:pointer;">
+                    ← Previous
+                  </button>
+                <% else %>
+                  <span></span>
+                <% end %>
+                <% if index < @precautionary_measures.count - 1 %>
+                  <button onclick="bkShowPm(<%= index + 1 %>)" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:8px 20px; font-size:12px; font-weight:600; cursor:pointer;">
+                    Next: <%= @precautionary_measures[index + 1]&.title.gsub(/^\d+\.?\d*\.?\s*/, '') %> →
+                  </button>
+                <% else %>
+                  <span style="font-size:12px; color:#aaa;">End of Precautionary Measures</span>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+      </div>
+
+      <!-- Warning banner at bottom -->
+      <div style="background:#FFF3CC; border-top:0.5px solid #FAC775; padding:14px 20px;">
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <i class="fas fa-exclamation-triangle" style="color:#854F0B; font-size:16px; margin-top:2px; flex-shrink:0;"></i>
+          <div>
+            <p style="font-size:13px; color:#854F0B; font-weight:700; margin:0 0 4px;">Important Notice</p>
+            <p style="font-size:12px; color:#633806; margin:0 0 6px; line-height:1.7;">Bolo Kobul will <strong>NEVER</strong> ask you for money outside of the platform. If someone claims to be from Bolo Kobul and asks you to send money via any mobile finance service or in person, please know it is not us. We accept debit/credit card and MFS payments made through the platform only.</p>
+            <p style="font-size:12px; color:#633806; margin:0;">If you observe anything suspicious, <a href="https://www.bolokobul.com/customer_supports/new" style="color:#854F0B; font-weight:700;">write to us</a>.</p>
           </div>
-          <p>If you observe anything suspicious <a href="https://www.bolokobul.com/customer_supports/new">write to us</a>.</p>
-          <p><u><b>
-            Please note: Bolo Kobul will NEVER ask you for money outside of the platform. If someone claims
-            to be from Bolo Kobul and asks you to send money via any mobile finance services or in person, please
-            know it is not us. We accept debit and credit card and MFS payments  made through the platform only.
-          </b></u></p>
         </div>
       </div>
+
     </div>
   </div>
-  <div class="mt-50"></div>
 </div>
+
+<script>
+function bkShowPm(index) {
+  document.querySelectorAll('.bk-pm-content').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  var content = document.querySelector('.bk-pm-content[data-index="' + index + '"]');
+  if (content) content.style.display = 'block';
+
+  document.querySelectorAll('.bk-pm-nav').forEach(function(el) {
+    var i = parseInt(el.getAttribute('data-index'));
+    var label = el.querySelector('.bk-pm-nav-label');
+    if (i === index) {
+      el.style.background = '#FAEEDA';
+      el.style.borderLeft = '3px solid #FFB627';
+      label.style.color = '#633806';
+      label.style.fontWeight = '600';
+    } else {
+      el.style.background = '';
+      el.style.borderLeft = '';
+      label.style.color = '#888';
+      label.style.fontWeight = '400';
+    }
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>

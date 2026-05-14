@@ -1,16 +1,48 @@
-<div class="col-md-12 white-background p-4 mt-2 blog-section">
-  <div class="text-justify pb-2 mt-3 merriweather">
-    <strong>
-      <%= contact&.heading %>
-    </strong>
-  </div>
-  <div class="text-justify">
-    <p><%= contact&.content %></p>
-  </div>
-</div>
+<div style="border:0.5px solid #eee; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
 
-<div class="col-md-12 white-background p-4 mt-2 blog-section mb-5 merriweather">
-  <div class="">
-    <strong>Email Address : </strong> <%= contact&.contact %>
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
+    <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;">Contact Us</h2>
+    <p style="font-size:13px; color:#633806; margin:0;">We'd love to hear from you — reach out anytime</p>
+  </div>
+
+  <!-- Body -->
+  <div style="padding:28px 24px; background:#fff;">
+
+    <!-- Heading + content -->
+    <div style="border:0.5px solid #FAC775; border-radius:12px; background:#fffaf0; padding:20px 24px; margin-bottom:20px;">
+      <h3 style="font-size:17px; font-weight:700; color:#633806; margin:0 0 12px;">
+        <i class="fas fa-bullhorn" style="color:#FFB627; margin-right:8px;"></i>
+        <%= contact&.heading %>
+      </h3>
+      <p style="font-size:13px; color:#666; line-height:1.9; margin:0;">
+        <%= contact&.content %>
+      </p>
+    </div>
+
+    <!-- Email card -->
+    <div style="border:0.5px solid #FAC775; border-radius:12px; background:#fffaf0; padding:18px 24px; margin-bottom:20px; display:flex; align-items:center; gap:16px;">
+      <div style="width:46px; height:46px; background:linear-gradient(135deg,#FFB627,#ffca5e); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <i class="fas fa-envelope" style="color:#412402; font-size:18px;"></i>
+      </div>
+      <div>
+        <p style="font-size:11px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 4px;">Email Address</p>
+        <a href="mailto:<%= contact&.contact %>" style="font-size:15px; color:#633806; font-weight:700; text-decoration:none;">
+          <%= contact&.contact %>
+        </a>
+      </div>
+    </div>
+
+    <!-- Write to us CTA -->
+    <div style="background:#FAEEDA; border-radius:12px; padding:18px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <div>
+        <p style="font-size:14px; font-weight:700; color:#633806; margin:0 0 4px;">Have a specific concern?</p>
+        <p style="font-size:12px; color:#854F0B; margin:0;">Submit a support request and we'll get back to you shortly.</p>
+      </div>
+      <a href="/customer_supports/new" style="background:#FFB627; color:#412402; border-radius:8px; padding:10px 22px; font-size:13px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+        <i class="fas fa-paper-plane"></i> Write to Us
+      </a>
+    </div>
+
   </div>
 </div>
