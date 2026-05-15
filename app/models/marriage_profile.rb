@@ -129,9 +129,11 @@ class MarriageProfile < ApplicationRecord
   mount_uploader :identification_document, IdentificationDocumentUploader
 
   scope :accepted_profiles, -> (p) {
-    accepted_ids = Friendship.where(friendable_id: p.id, status: 1).map(&:friend_id) &
-                   Friendship.where(friend_id: p.id, status: 1).map(&:friendable_id)
-    where(id: accepted_ids)
+    received_ids = Friendship.where(friend_id: p.id, status: 1).pluck(:friendable_id)
+    truly_accepted_ids = received_ids.select { |fid|
+      Friendship.exists?(friendable_id: p.id, friend_id: fid, status: 1)
+    }
+    where(id: truly_accepted_ids)
       .where.not(id: p.chat_friendships.map(&:chat_friend_id))
       .where.not(id: User.where(deactivated: true)&.map { |u| u.marriage_profiles }
                          .flatten.compact.map(&:id))

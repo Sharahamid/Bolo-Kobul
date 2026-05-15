@@ -1,18 +1,110 @@
-<tr>
-  <th scope="row"><%= get_date_format(customer_support.created_at) %></th>
-  <td><%= customer_support.issue_type %></td>
-  <td><%= customer_support.description %></td>
-  <td><%= customer_support.status.titleize %></td>
-  <td>
-    <a href="<%= customer_support.customer_attachment_url %>" target="_blank">
-      <%= image_tag customer_support.customer_attachment_url, class: 'img-responsive', width: '100px' %>
-    </a>
-  </td>
-  <td>
-    <ul class="replies">
+<div style="border:0.5px solid #FAC775; border-radius:12px; background:#fff; overflow:hidden;">
+
+  <!-- Card header -->
+  <div style="background:#fffaf0; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; border-bottom:0.5px solid #FAC775; flex-wrap:wrap; gap:8px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <span style="background:#FFF3CC; color:#854F0B; font-size:12px; padding:4px 12px; border-radius:20px; font-weight:600;">
+        <i class="fas fa-tag" style="margin-right:4px;"></i><%= customer_support.issue_type %>
+      </span>
+      <span style="font-size:11px; color:#aaa;"><i class="fas fa-clock" style="margin-right:3px;"></i><%= get_date_format(customer_support.created_at) %></span>
+    </div>
+    <% status_color = customer_support.status == 'resolved' ? '#22c55e' : customer_support.status == 'pending' ? '#f59e0b' : '#854F0B' %>
+    <span style="background:#<%= customer_support.status == 'resolved' ? 'dcfce7' : customer_support.status == 'pending' ? 'FFF3CC' : 'FFF3CC' %>; color:<%= status_color %>; font-size:11px; padding:3px 10px; border-radius:20px; font-weight:600; text-transform:capitalize;">
+      <%= customer_support.status.titleize %>
+    </span>
+  </div>
+
+  <!-- Card body -->
+  <div style="padding:14px 16px; display:flex; gap:16px; align-items:flex-start;">
+
+    <!-- Description -->
+    <div style="flex:1; min-width:0;">
+      <p style="font-size:11px; color:#aaa; margin:0 0 4px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Description</p>
+      <p style="font-size:13px; color:#555; line-height:1.7; margin:0;"><%= customer_support.description %></p>
+    </div>
+
+    <!-- Attachment -->
+    <% if customer_support.customer_attachment_url.present? %>
+      <div style="flex-shrink:0;">
+        <p style="font-size:11px; color:#aaa; margin:0 0 4px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Attachment</p>
+        <a href="<%= customer_support.customer_attachment_url %>" target="_blank">
+          <%= image_tag customer_support.customer_attachment_url,
+                        style: "width:70px; height:70px; object-fit:cover; border-radius:8px; border:0.5px solid #FAC775; display:block;" %>
+        </a>
+      </div>
+    <% end %>
+
+  </div>
+
+  <!-- Admin replies -->
+  <% if customer_support.replies.any? %>
+    <div style="background:#FAEEDA; padding:12px 16px; border-top:0.5px solid #FAC775;">
+      <p style="font-size:11px; color:#854F0B; font-weight:700; margin:0 0 8px; text-transform:uppercase; letter-spacing:0.05em;">
+        <i class="fas fa-reply" style="margin-right:4px;"></i>Admin Replies
+      </p>
       <% customer_support.replies.each do |reply| %>
-        <li><%= reply.message %></li>
+        <div style="background:#fff; border-radius:8px; padding:10px 12px; margin-bottom:6px; font-size:13px; color:#555; border-left:3px solid #FFB627;">
+          <% if reply.repliable_type == "User" %>
+            <span style="font-size:10px; color:#FFB627; font-weight:700; text-transform:uppercase; display:block; margin-bottom:4px;">You</span>
+          <% else %>
+            <span style="font-size:10px; color:#854F0B; font-weight:700; text-transform:uppercase; display:block; margin-bottom:4px;">Admin</span>
+          <% end %>
+          <%= reply.message %>
+          <% if reply.attachment.attached? %>
+            <div style="margin-top:8px;">
+              <% if reply.attachment.content_type.start_with?("image/") %>
+                <%= link_to rails_blob_path(reply.attachment, disposition: "attachment"), target: "_blank" do %>
+                  <%= image_tag rails_blob_path(reply.attachment),
+                                style: "max-width:120px; max-height:120px; border-radius:6px; border:0.5px solid #FAC775; display:block;" %>
+                <% end %>
+              <% else %>
+                <%= link_to rails_blob_path(reply.attachment, disposition: "attachment"),
+                            target: "_blank",
+                            style: "font-size:12px; color:#854F0B; font-weight:600; display:inline-flex; align-items:center; gap:4px;" do %>
+                  <i class="fas fa-file"></i> View Attachment
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
       <% end %>
-    </ul>
-  </td>
-</tr>
+    </div>
+  <% end %>
+
+
+  <!-- Customer reply form -->
+  <div style="background:#f9f9f9; padding:14px 16px; border-top:0.5px solid #FAC775;">
+    <p style="font-size:11px; color:#854F0B; font-weight:700; margin:0 0 10px; text-transform:uppercase; letter-spacing:0.05em;">
+      <i class="fas fa-reply" style="margin-right:4px;"></i>Add a Reply
+    </p>
+    <%= form_for [customer_support, CustomerSupportReply.new], html: { multipart: true } do |f| %>
+      <div style="display:flex; gap:10px; align-items:flex-end;">
+        <div style="flex:1;">
+          <%= f.text_area :message,
+                          placeholder: "Type your message...",
+                          rows: 2,
+                          style: "width:100%; background:#fff; border:0.5px solid #FAC775; border-radius:8px; padding:9px 12px; font-size:13px; color:#555; resize:none; box-sizing:border-box;" %>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; flex-shrink:0;">
+          <label style="background:#FFF3CC; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:7px 12px; font-size:11px; font-weight:600; cursor:pointer; text-align:center; white-space:nowrap;">
+            <i class="fas fa-paperclip"></i> Attach
+            <%= f.file_field :attachment, accept: "image/*,application/pdf", style: "display:none;" %>
+          </label>
+          <%= f.submit "Send", style: "background:#FFB627; color:#412402; border:none; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+</div>
+<script>
+function bkAttachFile(input, id) {
+  var label = document.querySelector('.bk-attach-label-' + id);
+  if (input.files && input.files[0]) {
+    var name = input.files[0].name;
+    var truncated = name.length > 12 ? name.substring(0, 12) + '...' : name;
+    label.textContent = '✓ ' + truncated;
+    label.style.color = '#22c55e';
+  }
+}
+</script>

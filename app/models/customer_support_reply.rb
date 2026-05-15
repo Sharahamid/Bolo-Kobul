@@ -20,6 +20,7 @@
 #
 
 class CustomerSupportReply < ApplicationRecord
+  has_one_attached :attachment
   # Associations
   belongs_to :customer_support
   belongs_to :repliable, polymorphic: true

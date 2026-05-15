@@ -4,14 +4,14 @@ class KobulOneMailer < ApplicationMailer
     @user = params[:user]
     @profile = params[:profile]
     mail(to: @user.email,
-         subject: "Your butterfly is on its way!")
+         subject: "🦋 Kobul 1 Sent!")
   end
 
   # When A Send request, B gets this message
   def receive_request
     @user = params[:user]
     mail(to: @user.email,
-         subject: "Someone sent you a butterfly!")
+         subject: "🦋 You received a Kobul 1!")
   end
 
   # When B accepts the request, B gets this message.
@@ -19,7 +19,7 @@ class KobulOneMailer < ApplicationMailer
     @user = params[:user]
     @profile = params[:profile]
     mail(to: @user.email,
-         subject: "You accepted a butterfly!")
+         subject: "🦋 Kobul 1 Accepted!")
   end
 
   # When B accepts the request, A gets this message
@@ -27,7 +27,7 @@ class KobulOneMailer < ApplicationMailer
     @user = params[:user]
     @profile = params[:profile]
     mail(to: @user.email,
-         subject: "Great news - your butterfly was accepted!")
+         subject: "🦋 Great News - Kobul 1 Accepted!")
   end
 
   # When B rejects the request, A gets this message
@@ -35,13 +35,13 @@ class KobulOneMailer < ApplicationMailer
     @user = params[:user]
     @profile = params[:profile]
     mail(to: @user.email,
-         subject: "Your butterfly was not accepted this time")
+         subject: "🦋 Kobul 1 Not Accepted")
   end
 
   # After expired a request, A will get this message
   def request_expired
     @sender_profile = params[:sender_profile]
     mail(to: @sender_profile.user.email,
-         subject: "Your butterfly has expired")
+         subject: "🦋 Kobul 1 Expired")
   end
 end

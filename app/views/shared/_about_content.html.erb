@@ -1,17 +1,74 @@
 <% if about_content.present? %>
-  <div class="container about-container">
-    <div class="row">
-      <div class="col-md-12">
-        <div id="accordion" role="tablist" aria-multiselectable="true"
-             class="card-collapse">
-          <%= render partial: 'shared/dynamic_about_content',
-                     collection: about_content,
-                     as: :about
-          %>
-        </div>
+  <div style="border:0.5px solid #eee; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
+      <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0;">About Us</h2>
+    </div>
+
+    <!-- Two column body -->
+    <div style="display:flex; min-height:380px;">
+
+      <!-- Left index -->
+      <div style="width:190px; flex-shrink:0; background:#fafaf8; padding:14px 10px; border-right:0.5px solid #eee;">
+        <% about_content.each_with_index do |about, index| %>
+          <div class="bk-about-nav" data-index="<%= index %>" onclick="bkShowAbout(<%= index %>)"
+               style="padding:8px 10px; border-radius:8px; margin-bottom:4px; cursor:pointer; display:flex; align-items:center; gap:8px; <%= index == 0 ? 'background:#FAEEDA; border-left:3px solid #FFB627;' : '' %>">
+            <span class="bk-about-nav-label" style="font-size:12px; color:<%= index == 0 ? '#633806' : '#888' %>; font-weight:<%= index == 0 ? '600' : '400' %>; line-height:1.4;"><%= about.content_type %></span>
+          </div>
+        <% end %>
       </div>
+
+      <!-- Right content -->
+      <div style="flex:1; padding:22px 24px; background:#fff;">
+        <% about_content.each_with_index do |about, index| %>
+          <div class="bk-about-content" data-index="<%= index %>" style="<%= index == 0 ? '' : 'display:none;' %>">
+            <h3 style="font-size:16px; font-weight:700; color:#633806; margin:0 0 16px; border-left:4px solid #FFB627; padding-left:12px;"><%= about.content_type %></h3>
+            <div style="font-size:13px; color:#555; line-height:1.9;">
+              <%= about.content.html_safe %>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:14px; border-top:0.5px solid #eee;">
+              <% if index > 0 %>
+                <button onclick="bkShowAbout(<%= index - 1 %>)" style="background:#FFF3CC; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; cursor:pointer;">← Previous</button>
+              <% else %>
+                <span></span>
+              <% end %>
+              <% if index < about_content.count - 1 %>
+                <button onclick="bkShowAbout(<%= index + 1 %>)" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:8px 20px; font-size:12px; font-weight:600; cursor:pointer;">Next: <%= about_content[index + 1]&.content_type %> →</button>
+              <% else %>
+                <span style="font-size:12px; color:#aaa;">End of About</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
     </div>
   </div>
 <% else %>
   <%= render 'shared/default_content' %>
 <% end %>
+
+<script>
+function bkShowAbout(index) {
+  document.querySelectorAll('.bk-about-content').forEach(function(el) { el.style.display = 'none'; });
+  var content = document.querySelector('.bk-about-content[data-index="' + index + '"]');
+  if (content) content.style.display = 'block';
+  document.querySelectorAll('.bk-about-nav').forEach(function(el) {
+    var i = parseInt(el.getAttribute('data-index'));
+    var label = el.querySelector('.bk-about-nav-label');
+    if (i === index) {
+      el.style.background = '#FAEEDA';
+      el.style.borderLeft = '3px solid #FFB627';
+      label.style.color = '#633806';
+      label.style.fontWeight = '600';
+    } else {
+      el.style.background = '';
+      el.style.borderLeft = '';
+      label.style.color = '#888';
+      label.style.fontWeight = '400';
+    }
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>

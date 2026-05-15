@@ -1,55 +1,32 @@
-<div class="d-flex flex-row pl-2 pr-2">
-  <div class="bk-request-btn flex-fill">
-    <% if current_active_profile&.chat_friendships&.where(status: 2)&.map(&:chat_friend_id)&.include?(profile.id) %>
-      <a href="<%= profile_message_path(profile) %>"
-         class="kobul_btn kobul_2"
-         data-toggle="tooltip"
-         data-placement="top"
-         title="Pending Chat Request">
-               <span>
-                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
-                 Chat
-               </span>
-      </a>
-
-    <% elsif current_active_profile&.chat_friendships&.map(&:chat_friend_id)&.include?(profile.id) %>
-      <a href="#"
-         class="kobul_btn kobul_2"
-         data-method="post"
-         data-toggle="tooltip"
-         data-placement="top"
-         title="Getting butterflies in your stomach to chat with this profile?">
-               <span>
-                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
-                 Pending
-               </span>
-      </a>
-
-    <% else %>
-      <a href="<%= send_request_chat_friendship_path(profile) %>"
-         class="kobul_btn kobul_2"
-         data-method="post"
-         data-toggle="tooltip"
-         data-placement="top"
-         title="Getting butterflies in your stomach to chat with this profile?">
-               <span>
-                 <%= image_tag 'butterfly_kobul_hover.svg', width: '14', height: '14', class: 'kobul-hover-butterfly' %>
-                 <%= image_tag 'butterfly_kobul.svg', class: 'kobul-butterfly' %>
-                 Kobul (2)
-               </span>
-      </a>
+<div style="display:flex; gap:8px; padding:0 8px 8px;">
+  <% if current_active_profile&.chat_friendships&.where(status: 2)&.map(&:chat_friend_id)&.include?(profile.id) %>
+    <%= link_to profile_message_path(profile),
+                class: "kobul_btn kobul_2",
+                style: "flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
+      🦋 Chat
     <% end %>
-  </div>
+  <% elsif current_active_profile&.chat_friendships&.map(&:chat_friend_id)&.include?(profile.id) %>
+    <a href="#" class="kobul_btn kobul_2"
+       style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;"
+       data-toggle="tooltip" title="Kobul 2 request pending">
+      🦋 Pending
+    </a>
+  <% else %>
+    <a href="<%= send_request_chat_friendship_path(profile) %>"
+       class="kobul_btn kobul_2"
+       data-method="post"
+       data-butterfly-target="bk-target-chats"
+       style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;"
+       data-toggle="tooltip" title="Send Kobul 2 to start chatting">
+      🦋 Kobul (2)
+    </a>
+  <% end %>
 
-  <div class="bk-reject-btn flex-fill">
-    <%= button_to reject_request_chat_friendship_path(profile),
-                  method: :patch,
-                  class: 'kobul_cancel-btn',
-                  data: { toggle: "tooltip", placement: "top", title: "Reject 2nd Kobul" } do %>
-      <i class="fa fa-close"></i> Reject
-    <% end %>
-  </div>
+  <%= link_to reject_request_chat_friendship_path(profile),
+              method: :patch,
+              data: { confirm: "Reject this Kobul 1 request?" },
+              class: "kobul_cancel-btn",
+              style: "flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
+    <i class="fa fa-close"></i> Reject
+  <% end %>
 </div>
-

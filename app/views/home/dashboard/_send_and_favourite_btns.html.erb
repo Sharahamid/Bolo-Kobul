@@ -4,7 +4,7 @@
       🦋 Pending
     </a>
   <% else %>
-    <a href="<%= send_request_marriage_profile_path(marriage_profile) %>" data-method="post" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; border-color:#FFB627 !important; color:#854F0B !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to request more details">
+    <a href="<%= send_request_marriage_profile_path(marriage_profile) %>" data-method="post" class="kobul_btn" data-butterfly-target="bk-target-requests-sent" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; border-color:#FFB627 !important; color:#854F0B !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to request more details">
       🦋 Kobul (1)
     </a>
   <% end %>

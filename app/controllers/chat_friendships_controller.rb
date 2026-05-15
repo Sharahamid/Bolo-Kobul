@@ -112,7 +112,7 @@ class ChatFriendshipsController < ApplicationController
     )
     
     flash[:notice] = "2nd Kobul Cancelled. Check out more profiles!"
-    redirect_to profile_info_marriage_profile_path(current_active_profile)
+    redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
   def pending_chat_profiles

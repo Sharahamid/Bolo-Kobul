@@ -1,8 +1,8 @@
 <div style="display:flex; gap:8px; margin-top:2px;">
   <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
-    <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to chat with this profile.">🦋 Kobul (2)</a>
+    <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn" data-butterfly-target="bk-target-chats" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to chat with this profile.">🦋 Kobul (2)</a>
   <% else %>
-    <a href="<%= accept_request_marriage_profile_path(profile) %>" data-method="PATCH" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to view profile.">🦋 Kobul (1)</a>
+    <a href="<%= accept_request_marriage_profile_path(profile) %>" data-method="PATCH" class="kobul_btn" data-butterfly-target="bk-target-chat-requests" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to view profile.">🦋 Kobul (1)</a>
   <% end %>
   <% if current_active_profile.chat_friendships.map(&:chat_friend_id).include?(profile.id) %>
     <%= button_to reject_request_chat_friendship_path(profile), method: :patch, class: 'kobul_cancel-btn', style: 'flex:1; font-size:11px; padding:8px 4px; width:100%; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;', data: { toggle: "tooltip", placement: "top", title: "Reject 2nd Kobul" } do %>

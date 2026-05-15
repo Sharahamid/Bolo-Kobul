@@ -1,7 +1,76 @@
-<section class="orders-section p-5">
-  <div class="mb-3">Place your order for acquiring more Butterflies!
-    <span>Current Pricing for Each butterfly is,</span>
-    <b><%= " ৳ #{@butterfly_unit_price}" %></b>
+<div style="background:#f7f5f0; min-height:80vh; padding:40px 0; display:flex; align-items:center; justify-content:center;">
+  <div style="max-width:480px; width:100%; padding:0 16px;">
+    <div style="border:0.5px solid #FAC775; border-radius:14px; overflow:hidden; box-shadow:1px 3px 16px rgba(0,0,0,0.08);">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:24px; text-align:center;">
+        <div style="font-size:36px; margin-bottom:8px;">🦋</div>
+        <h2 style="font-size:20px; font-weight:700; color:#412402; margin:0 0 4px;">Buy Butterflies</h2>
+        <p style="font-size:13px; color:#633806; margin:0;">Send more Kobul requests to potential matches</p>
+      </div>
+
+      <!-- Price per unit -->
+      <div style="background:#FAEEDA; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:0.5px solid #FAC775;">
+        <span style="font-size:13px; color:#633806; font-weight:600;">Price per butterfly</span>
+        <span style="font-size:18px; font-weight:700; color:#412402;">৳ <%= @butterfly_unit_price %></span>
+      </div>
+
+      <!-- Form -->
+      <div style="padding:24px; background:#fff;">
+        <%= form_for Order.new do |f| %>
+          <%= f.hidden_field :payment_method, value: "foster_payment" %>
+          <%= f.hidden_field :product, value: "butterfly" %>
+
+          <div style="margin-bottom:16px;">
+            <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;">Number of Butterflies*</label>
+            <%= f.number_field :quantity,
+                               required: true,
+                               min: 1,
+                               placeholder: "Enter quantity",
+                               id: "bk-qty-input",
+                               oninput: "bkUpdateTotal(this.value)",
+                               style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:10px 14px; font-size:13px; color:#555; box-sizing:border-box;" %>
+          </div>
+
+          <!-- Estimated total -->
+          <div style="background:#FFF3CC; border-radius:8px; padding:12px 14px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:13px; color:#854F0B; font-weight:600;">Estimated Total</span>
+            <span style="font-size:16px; font-weight:700; color:#412402;" id="bk-total">৳ 0</span>
+          </div>
+
+          <% unless current_user %>
+            <div style="margin-bottom:16px;">
+              <p style="font-size:12px; color:#854F0B; font-weight:600; margin:0 0 10px;">Please share your details or
+                <a href="#" data-toggle="modal" data-target="#loginModal" style="color:#412402; font-weight:700;">Login</a>
+              </p>
+              <%= f.text_field :customer_name, required: true, placeholder: 'Your Name*',
+                               style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:9px 12px; font-size:13px; margin-bottom:8px; box-sizing:border-box;" %>
+              <%= f.text_field :customer_phone, required: true, placeholder: 'Your Phone Number*',
+                               style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:9px 12px; font-size:13px; margin-bottom:8px; box-sizing:border-box;" %>
+              <%= f.text_field :customer_email, placeholder: 'Your Email Address',
+                               style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:9px 12px; font-size:13px; margin-bottom:8px; box-sizing:border-box;" %>
+            </div>
+          <% end %>
+
+          <div style="background:#FAEEDA; border-radius:8px; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#633806; display:flex; align-items:center; gap:8px;">
+            <i class="fas fa-shield-alt" style="font-size:15px;"></i>
+            Secure payment · Butterflies added instantly
+          </div>
+
+          <button type="submit" style="width:100%; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#412402; border:none; border-radius:8px; padding:12px; font-size:14px; font-weight:700; cursor:pointer;">
+            🦋 Purchase Now
+          </button>
+        <% end %>
+      </div>
+
+    </div>
   </div>
-  <%= render partial: 'form', locals: {product: 'butterfly'} %>
-</section>
+</div>
+
+<script>
+var unitPrice = <%= @butterfly_unit_price.to_f %>;
+function bkUpdateTotal(qty) {
+  var total = (parseFloat(qty) || 0) * unitPrice;
+  document.getElementById('bk-total').textContent = '৳ ' + total.toLocaleString();
+}
+</script>

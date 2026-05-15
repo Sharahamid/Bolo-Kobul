@@ -132,8 +132,10 @@ class MarriageProfilesController < ApplicationController
 
   def send_request
 
-    if current_active_profile.friend_ids.include? @marriage_profile.id
-      flash[:notice] = "You are already connected with each other!"
+    existing = Friendship.find_by(friendable_id: current_active_profile.id, friend_id: @marriage_profile.id) ||
+               Friendship.find_by(friendable_id: @marriage_profile.id, friend_id: current_active_profile.id)
+    if existing.present?
+      flash[:notice] = "You already have a connection with this profile!"
       redirect_back(fallback_location: "/") && return
     end
 
@@ -207,7 +209,7 @@ class MarriageProfilesController < ApplicationController
       KobulOneMailer.with(user: current_user, profile: @marriage_profile).accept_request.deliver_later
       SmsService.call(
         current_user.phone_number.to_s,
-        "Check out the profile: #{profile_dashboard_url(@marriage_profile.unique_id)} and get to know more about your potential match!"
+        "Check out the profile: #{profile_dashboard_url(@marriage_profile)} and get to know more about your potential match!"
       )
 
       @marriage_profile.user.notifications.create(

@@ -1,154 +1,123 @@
 <div class="right-section mb-4">
-  <div class="d-flex flex-column dashboard-tab">
-    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-4">
-            Email
-          </div>
-          <div class="col-4 content-wrap">
-            <%= current_user&.email %>
-          </div>
-          <div class="col-4">
-            <i class="fa fa-user-lock float-right btn btn-sm btn-warning text-white"></i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-4">
-            Phone
-          </div>
-          <div class="col-4 content-wrap">
-            <%= current_user&.phone_number %>
-          </div>
-          <div class="col-4">
-            <i class="fa fa-user-lock float-right btn btn-sm btn-warning text-white"> </i>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-4">
-            Password
-          </div>
-          <div class="col-4 content-wrap">
-            ********
-          </div>
-          <div class="col-4 content-wrap">
-            <%= link_to change_password_user_path(current_user),
-                        remote: true,
-                        title: 'Change Your Password',
-                        data: {toggle:'tooltip', placement:'top'},
-                        class: ' btn btn-sm btn-warning float-right text-white' do %>
-              <i class="fa fa-pencil"></i>
-            <% end %>
-          </div>
-        </div>
-      </div>
+  <div style="border:0.5px solid #FAC775; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:14px 18px; display:flex; align-items:center; gap:8px;">
+      <i class="fas fa-cog" style="color:#412402; font-size:16px;"></i>
+      <span style="font-size:15px; font-weight:700; color:#412402;">Account Settings</span>
     </div>
 
-    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-4 content-wrap">
-            Text Alert
-            <div>* Cost:&nbsp;
-              <b>
-                <%= pluralize(@text_alert_butterflies,"Butterfly")%>
-              </b>
-            </div>
+    <!-- Cards -->
+    <div style="padding:14px; background:#fffaf0; display:flex; flex-direction:column; gap:10px;">
+
+      <!-- Email -->
+      <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+          <div style="width:34px; height:34px; background:#FFF3CC; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-envelope" style="color:#854F0B; font-size:14px;"></i>
           </div>
-          <div class="col-4">
-            <%= current_user.text_alert.titleize %>
-          </div>
-          <div class="col-4">
-            <%= link_to toggle_text_alert_user_path(current_user),
-                        method: :patch,
-                        title: "#{current_user.text_alert == "on" ?
-                                      "Turn 'Off' Text Alerts, You have to use
-                                      Butterfly again to turn it 'On'!" :
-                                      "Turn 'On' Text Alerts"}",
-                        data: {toggle:'tooltip', placement:'top'},
-                        class: ' btn btn-sm btn-warning float-right text-white' do %>
-              <% if current_user.text_alert == "on" %>
-                <i class="fa fa-toggle-on"></i>
-              <% else %>
-                <i class="fa fa-toggle-off"></i>
-              <% end %>
-            <% end %>
+          <div style="min-width:0;">
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Email</p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= current_user&.email %></p>
           </div>
         </div>
+        <span style="background:#FFF3CC; border-radius:8px; padding:6px 8px; flex-shrink:0;">
+          <i class="fas fa-lock" style="color:#854F0B; font-size:14px;"></i>
+        </span>
       </div>
-    </div>
 
-    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-4 content-wrap">
-            Advanced Search
-            <div>* Cost:&nbsp;
-              <b>
-                <%= pluralize(@adv_search_butterflies,"Butterfly")%>
-              </b>
-            </div>
+      <!-- Phone -->
+      <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1;">
+          <div style="width:34px; height:34px; background:#FFF3CC; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-phone" style="color:#854F0B; font-size:14px;"></i>
           </div>
-          <div class="col-4">
-            <%= current_user.advanced_search.titleize %>
-          </div>
-          <div class="col-4">
-            <%= link_to toggle_advanced_search_user_path(current_user),
-                        method: :patch,
-                        title: "#{current_user.advanced_search == "disabled" ?
-                                      "'Disable' Advanced Search, You have to use
-                                      Butterfly again to 'Enable' it!" :
-                                      "'Enable' Advanced Search"}",
-                        data: {toggle:'tooltip', placement:'top'},
-                        class: ' btn btn-sm btn-warning float-right text-white' do %>
-              <% if current_user.advanced_search == "enabled" %>
-                <i class="fa fa-toggle-on"></i>
-              <% else %>
-                <i class="fa fa-toggle-off"></i>
-              <% end %>
-            <% end %>
+          <div>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Phone</p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0;"><%= current_user&.phone_number %></p>
           </div>
         </div>
+        <span style="background:#FFF3CC; border-radius:8px; padding:6px 8px; flex-shrink:0;">
+          <i class="fas fa-lock" style="color:#854F0B; font-size:14px;"></i>
+        </span>
       </div>
-    </div>
 
-    <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-      <div class="col-12">
-        <div class="row">
-          <div class="col-4 content-wrap">
-            Hide/Deactivate Account
+      <!-- Password -->
+      <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1;">
+          <div style="width:34px; height:34px; background:#FFF3CC; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-key" style="color:#854F0B; font-size:14px;"></i>
           </div>
-          <div class="col-4 content-wrap">
-            <% if current_user.deactivated.present? %>
-              <i class="fas fa-ban text-danger">  </i>
-              Deactivated
-            <% else %>
-              <i class="fas fa-check-circle text-warning"> </i>
-              Active
-            <% end %>
-
-          </div>
-          <div class="col-4 content-wrap">
-            <%= link_to current_user.deactivated.present? ?
-                            activate_account_user_path(current_user) : deactivate_account_user_path(current_user),
-                        method: :patch,
-                        title: "#{current_user.deactivated.present? ? 'Make Active Now' : 'Make Deactivate' }",
-                        data: {toggle:'tooltip', placement:'top'},
-                        class: ' btn btn-sm btn-warning float-right text-white' do %>
-              <i class="fa fa-<%= current_user.deactivated.present? ? 'check-circle text-white' : 'ban text-danger' %>"> </i>
-            <% end %>
+          <div>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Password</p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0; letter-spacing:3px;">••••••••</p>
           </div>
         </div>
+        <%= link_to change_password_user_path(current_user), remote: true,
+                    style: "background:#FFB627; color:#412402; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
+          <i class="fas fa-pencil-alt"></i> Change
+        <% end %>
       </div>
+
+      <!-- Text Alert -->
+      <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1;">
+          <div style="width:34px; height:34px; background:#FFF3CC; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-bell" style="color:#854F0B; font-size:14px;"></i>
+          </div>
+          <div>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Text Alert</p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0 0 2px;"><%= current_user.text_alert.titleize %></p>
+            <p style="font-size:11px; color:#aaa; margin:0;">🦋 Cost: <%= pluralize(@text_alert_butterflies, "Butterfly") %></p>
+          </div>
+        </div>
+        <%= link_to toggle_text_alert_user_path(current_user), method: :patch,
+                    style: "background:#{current_user.text_alert == 'on' ? '#FFB627' : '#f5f5f5'}; color:#{current_user.text_alert == 'on' ? '#412402' : '#aaa'}; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
+          <i class="fas fa-toggle-<%= current_user.text_alert == 'on' ? 'on' : 'off' %>"></i>
+          <%= current_user.text_alert == 'on' ? 'On' : 'Off' %>
+        <% end %>
+      </div>
+
+      <!-- Advanced Search -->
+      <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1;">
+          <div style="width:34px; height:34px; background:#FFF3CC; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-search" style="color:#854F0B; font-size:14px;"></i>
+          </div>
+          <div>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Advanced Search</p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0 0 2px;"><%= current_user.advanced_search.titleize %></p>
+            <p style="font-size:11px; color:#aaa; margin:0;">🦋 Cost: <%= pluralize(@adv_search_butterflies, "Butterfly") %></p>
+          </div>
+        </div>
+        <%= link_to toggle_advanced_search_user_path(current_user), method: :patch,
+                    style: "background:#{current_user.advanced_search == 'enabled' ? '#FFB627' : '#f5f5f5'}; color:#{current_user.advanced_search == 'enabled' ? '#412402' : '#aaa'}; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
+          <i class="fas fa-toggle-<%= current_user.advanced_search == 'enabled' ? 'on' : 'off' %>"></i>
+          <%= current_user.advanced_search == 'enabled' ? 'Enabled' : 'Disabled' %>
+        <% end %>
+      </div>
+
+      <!-- Hide/Deactivate Account -->
+      <div style="border:0.5px solid #<%= current_user.deactivated.present? ? 'F09595' : 'FAC775' %>; border-radius:10px; background:#<%= current_user.deactivated.present? ? 'FFF5F5' : 'fff' %>; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1;">
+          <div style="width:34px; height:34px; background:#<%= current_user.deactivated.present? ? 'FCEBEB' : 'FFF3CC' %>; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-<%= current_user.deactivated.present? ? 'ban' : 'check-circle' %>" style="color:#<%= current_user.deactivated.present? ? 'e53e3e' : '854F0B' %>; font-size:14px;"></i>
+          </div>
+          <div>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Account Status</p>
+            <p style="font-size:13px; color:#<%= current_user.deactivated.present? ? 'e53e3e' : '412402' %>; font-weight:600; margin:0;">
+              <%= current_user.deactivated.present? ? 'Deactivated' : 'Active' %>
+            </p>
+          </div>
+        </div>
+        <%= link_to current_user.deactivated.present? ? activate_account_user_path(current_user) : deactivate_account_user_path(current_user),
+                    method: :patch,
+                    data: { confirm: current_user.deactivated.present? ? "Activate your account?" : "Deactivate your account?" },
+                    style: "background:#{current_user.deactivated.present? ? '#FFB627' : '#FCEBEB'}; color:#{current_user.deactivated.present? ? '#412402' : '#A32D2D'}; border:0.5px solid #{current_user.deactivated.present? ? '#FFB627' : '#F09595'}; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
+          <%= current_user.deactivated.present? ? 'Activate' : 'Deactivate' %>
+        <% end %>
+      </div>
+
     </div>
   </div>
-
 </div>

@@ -55,17 +55,18 @@
       <%= render 'home/dashboard/create_and_edit_btns' %>
 
       <div style="border-top:0.5px solid #f0f0f0; padding-top:8px; margin-top:8px; display:flex; justify-content:space-around;">
-        <a href="<%= pending_profiles_marriage_profiles_path %>" style="flex:1; text-align:center; text-decoration:none;">
+        <a id="bk-target-requests-sent" href="<%= pending_profiles_marriage_profiles_path %>" style="flex:1; text-align:center; text-decoration:none;">
           <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= get_pending_profiles.present? ? get_pending_profiles.count : 0 %></div>
-          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Requests<br>Sent</div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;"><%= get_pending_profiles.count == 1 ? 'Request' : 'Requests' %><br>Sent</div>
         </a>
-        <a href="<%= pending_chat_profiles_chat_friendships_path %>" style="flex:1; text-align:center; text-decoration:none;">
+        <a id="bk-target-chat-requests" href="<%= pending_chat_profiles_chat_friendships_path %>" style="flex:1; text-align:center; text-decoration:none;">
           <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= get_pending_chat_profiles.present? ? get_pending_chat_profiles.count : 0 %></div>
-          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Chat Requests<br>Sent</div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;"><%= get_pending_chat_profiles.to_a.count == 1 ? 'Chat Request' : 'Chat Requests' %><br>Sent</div>
         </a>
         <a href="<%= favourites_path %>" style="flex:1; text-align:center; text-decoration:none;">
-          <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= current_active_profile.favourites.joins("INNER JOIN marriage_profiles ON marriage_profiles.id = favourites.favourite_profile_id").count %></div>
-          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Favourite<br>Profiles</div>
+          <% fav_count = current_active_profile.favourites.joins("INNER JOIN marriage_profiles ON marriage_profiles.id = favourites.favourite_profile_id").count %>
+          <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= fav_count %></div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Favourite<br><%= fav_count == 1 ? 'Profile' : 'Profiles' %></div>
         </a>
       </div>
       <div style="border-top:0.5px solid #eee; margin:10px 0 0;"></div>

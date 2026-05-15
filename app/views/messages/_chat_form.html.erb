@@ -1,18 +1,16 @@
-<div class="chat-field">
-  <%= form_for message, class: '', remote: true, autocomplete: false do |f| %>
-    <div class="d-flex flex-row">
-      <%= f.text_field :body,
-                       id: 'message_text',
-                       autocomplete: 'off',
-                       class: 'form-control border-0',
-                       data: {chat_room_id: "#{chat_room.id }",
-                              recipient_id: "#{profile.id}"},
-                       date: "#{format_date_messaging(Time.zone.now)}" %>
-      <%= f.hidden_field :chat_room_id, value: "#{chat_room.id }" %>
-      <%= f.hidden_field :recipient_id, value: "#{profile.id }" %>
-      <button type="submit" class="send-private-message msg-send-btn mr-4 mt-1">
-        <i class="fas fa-mouse-pointer"></i>
-      </button>
-    </div>
-  <% end %>
-</div>
+<%= form_for message, remote: true, autocomplete: false do |f| %>
+  <div style="display:flex; gap:8px; align-items:center;">
+    <%= f.text_field :body,
+                     id: 'message_text',
+                     autocomplete: 'off',
+                     placeholder: 'Type a message...',
+                     style: 'flex:1; border:0.5px solid #FAC775; border-radius:20px; padding:8px 16px; font-size:13px; background:#fff; color:#412402; outline:none;',
+                     data: { chat_room_id: chat_room.id, recipient_id: profile.id },
+                     date: format_date_messaging(Time.zone.now) %>
+    <%= f.hidden_field :chat_room_id, value: chat_room.id %>
+    <%= f.hidden_field :recipient_id, value: profile.id %>
+    <button type="submit" class="send-private-message msg-send-btn" style="background:#FFB627; color:#412402; border:none; border-radius:50%; width:38px; height:38px; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;">
+      <i class="fas fa-paper-plane" style="font-size:14px;"></i>
+    </button>
+  </div>
+<% end %>

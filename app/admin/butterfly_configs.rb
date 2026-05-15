@@ -52,8 +52,10 @@ ActiveAdmin.register ButterflyConfig, as: "Configurations" do
             label: "Price per butterfly"
       input :max_marriage_profiles, as: :number,
             label: "Maximum Marriage Profiles"
-      input :butterfly_animation, as: :select,
-            label: "Butterfly Animation"
+      input :butterfly_animation, label: 'Master: All Butterfly Animations', as: :boolean
+      input :anim_kobul1_recommendations, label: 'Kobul 1 Click (Recommendations → Requests Sent)', as: :boolean
+      input :anim_kobul1_request, label: 'Kobul 1 Click (1st Kobul Received → Chat Requests Sent)', as: :boolean
+      input :anim_kobul2, label: 'Kobul 2 Click (2nd Kobul Received → Chats)', as: :boolean
     end
     f.actions
   end

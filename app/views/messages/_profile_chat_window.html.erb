@@ -1,15 +1,18 @@
-<div class=" white-background">
-
-  <div class="chat-profile border-bottom">
-    <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
+<div style="display:flex; flex-direction:column; height:100%; background:#fff;">
+  <div style="background:#fffaf0; border-bottom:0.5px solid #FAC775; padding:10px 16px; display:flex; align-items:center; gap:8px; flex-shrink:0;">
+    <i class="fas fa-comment-dots" style="color:#854F0B; font-size:14px;"></i>
+    <span style="font-size:14px; font-weight:700; color:#412402;">
+      <%= profile&.unique_id %><%= " (#{profile.user.created_for})" if profile && !profile.user.self? %>
+    </span>
   </div>
-
-  <div class="conversation-list chat_screen border-bottom" id="messageBody">
+  <div class="conversation-list chat_screen bk-chat-msgs" id="messageBody">
     <%= render 'messages/conversation_list', messages: chat_room.messages %>
   </div>
-
-  <div class="chat-form p-3">
+  <div style="border-top:0.5px solid #FAC775; padding:10px 12px; background:#fffaf0; flex-shrink:0;">
     <%= render 'messages/chat_form', profile: profile, chat_room: chat_room, message: message %>
   </div>
-
 </div>
+<script>
+  var mb = document.getElementById("messageBody");
+  if (mb) mb.scrollTop = mb.scrollHeight;
+</script>

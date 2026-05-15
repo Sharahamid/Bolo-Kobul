@@ -89,6 +89,12 @@
       if (pendingEl) {
         var el = pendingEl;
         pendingEl = null;
+        if (el.closest('.kobul_btn') || el.classList.contains('kobul_btn')) {
+          if (typeof launchButterfly === 'function') {
+            var rect = el.getBoundingClientRect();
+            launchButterfly(rect.left + rect.width/2, rect.top + rect.height/2);
+          }
+        }
         el.removeAttribute('data-confirm');
         el.click();
         el.setAttribute('data-confirm', msgEl.textContent);
@@ -116,6 +122,112 @@
     }, true);
   })();
 </script>
+
+
+<% bfly_config = ButterflyConfig.last %>
+<% if bfly_config&.butterfly_animation %>
+<!-- Butterfly click animation -->
+<script>
+var bkAnimConfig = {
+  kobul1Recommendations: <%= bfly_config&.anim_kobul1_recommendations ? 'true' : 'false' %>,
+  kobul1Request: <%= bfly_config&.anim_kobul1_request ? 'true' : 'false' %>,
+  kobul2: <%= bfly_config&.anim_kobul2 ? 'true' : 'false' %>
+};
+</script>
+<script>
+function launchButterflyTo(originX, originY, targetId) {
+  var targetEl = targetId ? document.getElementById(targetId) : null;
+  if (!targetEl) { launchButterfly(originX, originY); return; }
+  var tr = targetEl.getBoundingClientRect();
+  var tx = tr.left + tr.width / 2;
+  var ty = tr.top + tr.height / 2;
+  var dx = tx - originX;
+  var dy = ty - originY;
+  var uid = Date.now();
+  var arc = -Math.abs(dx) * 0.4;
+  var style = document.createElement('style');
+  style.textContent =
+    '@keyframes bk-to-' + uid + ' {' +
+    '  0%   { transform:translate(0,0) scale(1.3) rotate(-10deg); opacity:1; }' +
+    '  25%  { transform:translate(' + (dx*0.25) + 'px,' + (dy*0.25 + arc) + 'px) scale(1.1) rotate(20deg); opacity:1; }' +
+    '  50%  { transform:translate(' + (dx*0.5) + 'px,' + (dy*0.5 + arc*1.5) + 'px) scale(1.0) rotate(-15deg); opacity:1; }' +
+    '  75%  { transform:translate(' + (dx*0.75) + 'px,' + (dy*0.75 + arc*0.8) + 'px) scale(0.7) rotate(10deg); opacity:0.8; }' +
+    '  100% { transform:translate(' + dx + 'px,' + dy + 'px) scale(0.2) rotate(0deg); opacity:0; }' +
+    '}';
+  document.head.appendChild(style);
+  var bf = document.createElement('div');
+  bf.style.cssText = 'position:fixed;left:' + (originX-14) + 'px;top:' + (originY-14) + 'px;font-size:28px;z-index:99999;pointer-events:none;animation:bk-to-' + uid + ' 1.2s ease-in-out forwards;line-height:1;will-change:transform;';
+  bf.textContent = '🦋';
+  document.body.appendChild(bf);
+  setTimeout(function() { bf.remove(); style.remove(); }, 1400);
+}
+
+function launchButterfly(originX, originY) {
+  var uid = Date.now();
+  var style = document.createElement('style');
+  style.textContent =
+    '@keyframes bk-bf-' + uid + ' {' +
+    '  0%   { transform: translate(0,0) scale(1.2) rotate(-10deg); opacity:1; }' +
+    '  25%  { transform: translate(-30px,-60px) scale(1.1) rotate(15deg); opacity:1; }' +
+    '  50%  { transform: translate(20px,-120px) scale(1.0) rotate(-8deg); opacity:0.9; }' +
+    '  75%  { transform: translate(-15px,-180px) scale(0.8) rotate(12deg); opacity:0.6; }' +
+    '  100% { transform: translate(10px,-240px) scale(0.4) rotate(-5deg); opacity:0; }' +
+    '}';
+  document.head.appendChild(style);
+  var bf = document.createElement('div');
+  bf.style.cssText = [
+    'position:fixed',
+    'left:' + (originX - 16) + 'px',
+    'top:' + (originY - 16) + 'px',
+    'font-size:28px',
+    'z-index:99999',
+    'pointer-events:none',
+    'animation:bk-bf-' + uid + ' 1.2s ease-out forwards',
+    'line-height:1',
+    'will-change:transform'
+  ].join(';');
+  bf.textContent = '🦋';
+  document.body.appendChild(bf);
+  setTimeout(function() { bf.remove(); style.remove(); }, 1400);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.kobul_btn');
+    if (!btn) return;
+    if (btn.getAttribute('data-bk-done')) return;
+    if (btn.getAttribute('data-confirm')) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+
+    var rect = btn.getBoundingClientRect();
+    var ox = rect.left + rect.width / 2;
+    var oy = rect.top + rect.height / 2;
+    var targetId = btn.getAttribute('data-butterfly-target');
+    var shouldAnimate = true;
+    if (typeof bkAnimConfig !== 'undefined') {
+      if (targetId === 'bk-target-requests-sent' && !bkAnimConfig.kobul1Recommendations) shouldAnimate = false;
+      if (targetId === 'bk-target-chat-requests' && !bkAnimConfig.kobul1Request) shouldAnimate = false;
+      if (targetId === 'bk-target-chats' && !bkAnimConfig.kobul2) shouldAnimate = false;
+    }
+    if (shouldAnimate) {
+      if (targetId) {
+        launchButterflyTo(ox, oy, targetId);
+      } else {
+        launchButterfly(ox, oy);
+      }
+    }
+
+    setTimeout(function() {
+      btn.setAttribute('data-bk-done', 'true');
+      btn.click();
+      setTimeout(function() { btn.removeAttribute('data-bk-done'); }, 500);
+    }, 1200);
+  }, true);
+});
+</script>
+<% end %>
 
 </body>
 </html>

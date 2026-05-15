@@ -1,16 +1,9 @@
-<div class="left-sidebar-card">
-  <div class=" d-flex flex-column align-content-center ">
-    <div class="card_title gary-light-background p-3">
-      <div class="d-flex flex-row">
-        <span
-          class="flex-fill text-center <%= params[:action] == 'index' || 'profile' ?
-                                               'font-weight-bold text-black border-bottom-yellowx' : 'text-gray' %>">
-          <i class="fa fa-users"></i>
-          All
-        </span>
-      </div>
+<div class="left-sidebar-card" style="border-radius:12px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); margin:0;">
+  <div class="d-flex flex-column">
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:12px 16px; display:flex; align-items:center; gap:8px;">
+      <i class="fas fa-comments" style="color:#412402; font-size:15px;"></i>
+      <span style="font-size:14px; font-weight:700; color:#412402;">Chats</span>
     </div>
-
     <div class="left-side-single-card chat-list-window">
       <% chat_rooms&.each do |chat_room| %>
         <% profile = chat_room.connected_profile(current_active_profile) %>

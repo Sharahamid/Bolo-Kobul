@@ -1,25 +1,42 @@
-<section class="customer-support-section p-2 text-center">
-  <% if @customer_supports.present? %>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th scope="col">Date</th>
-          <th scope="col">Issue Type</th>
-          <th scope="col">Description</th>
-          <th scope="col">Status</th>
-          <th scope="col">Attachment</th>
-          <th scope="col">Admin Replies</th>
-        </tr>
-        </thead>
-        <tbody>
+<div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
+  <div class="container" style="max-width:860px;">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); border-radius:14px; padding:20px 24px; margin-bottom:16px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:10px;">
+        <i class="fas fa-headset" style="color:#412402; font-size:20px;"></i>
+        <div>
+          <h2 style="font-size:18px; font-weight:700; color:#412402; margin:0 0 2px;">Support Requests</h2>
+          <p style="font-size:12px; color:#633806; margin:0;">Track the status of your submitted requests</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <% if @customer_supports.present? %>
+          <span style="background:#633806; color:#FAC775; font-size:12px; padding:4px 12px; border-radius:20px; font-weight:600;"><%= @customer_supports.count %> requests</span>
+        <% end %>
+        <%= link_to new_customer_support_path, style: "background:#633806; color:#FAC775; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; text-decoration:none; display:flex; align-items:center; gap:6px;" do %>
+          <i class="fas fa-plus"></i> New Request
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Requests -->
+    <% if @customer_supports.present? %>
+      <div style="display:flex; flex-direction:column; gap:12px;">
         <%= render partial: 'customer_support', collection: @customer_supports %>
-        </tbody>
-      </table>
-    </div>
-  <% else %>
-    <div class="no-data-found text-gray">
-      <h4> No Data Found</h4>
-    </div>
-  <% end %>
-</section>
+      </div>
+    <% else %>
+      <div style="text-align:center; padding:48px 20px; background:#fff; border-radius:14px; border:0.5px solid #eee;">
+        <div style="width:56px; height:56px; background:#FFF3CC; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+          <i class="fas fa-headset" style="color:#FFB627; font-size:22px;"></i>
+        </div>
+        <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;">No support requests yet</p>
+        <p style="font-size:12px; color:#999; margin:0 0 16px;">Submit a request if you need help with anything</p>
+        <%= link_to new_customer_support_path, style: "background:#FFB627; color:#412402; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:700; text-decoration:none; display:inline-block;" do %>
+          Submit a Request
+        <% end %>
+      </div>
+    <% end %>
+
+  </div>
+</div>

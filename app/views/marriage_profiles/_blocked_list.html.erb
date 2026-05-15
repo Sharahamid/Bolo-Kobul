@@ -1,28 +1,41 @@
 <div class="right-section mb-4">
-  <div class="d-flex flex-column dashboard-tab">
-    <% if blocked_profiles.present? %>
-      <% blocked_profiles.each do |profile| %>
-        <div class="d-flex flex-row white-background text-gray p-3 border-bottom">
-          <div class="col-12">
-            <div class="row">
-              <div class="col-4">
-                <%= profile&.unique_id %>
-              </div>
-              <div class="col-4">
-                <i class="fa fa-ban text-danger" title="Blocked" data-toggle="tooltip" data-placement="top"></i>
-              </div>
-              <div class="col-4">
-                <%= link_to unblock_profile_marriage_profile_path(profile), method: :patch do %>
-                  Unblock
-                <% end %>
-              </div>
+  <div style="border:0.5px solid #FAC775; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <i class="fas fa-ban" style="color:#412402; font-size:16px;"></i>
+        <span style="font-size:15px; font-weight:700; color:#412402;">Blocked Profiles</span>
+      </div>
+      <% if blocked_profiles.present? %>
+        <span style="background:#633806; color:#FAC775; font-size:11px; padding:2px 10px; border-radius:20px; font-weight:600;"><%= blocked_profiles.count %></span>
+      <% end %>
+    </div>
+
+    <!-- List -->
+    <div style="padding:14px; background:#fffaf0; display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px;">
+      <% if blocked_profiles.present? %>
+        <% blocked_profiles.each do |profile| %>
+          <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+              <i class="fas fa-ban" style="color:#e53e3e; font-size:14px; flex-shrink:0;"></i>
+              <%= link_to profile&.unique_id, profile_info_marriage_profile_path(profile),
+                          style: "font-size:12px; font-weight:700; color:#633806; text-decoration:none; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" %>
             </div>
+            <%= link_to unblock_profile_marriage_profile_path(profile),
+                        method: :patch,
+                        data: { confirm: "Unblock #{profile&.unique_id}?" },
+                        style: "background:#FAEEDA; color:#854F0B; border:0.5px solid #FFB627; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:600; text-decoration:none; white-space:nowrap; flex-shrink:0;" do %>
+              Unblock
+            <% end %>
           </div>
+        <% end %>
+      <% else %>
+        <div style="grid-column:1/-1; text-align:center; padding:30px; color:#aaa; font-size:13px;">
+          No blocked profiles
         </div>
       <% end %>
-    <% else %>
-      <%= render 'shared/no_data_found' %>
-    <% end %>
-  </div>
+    </div>
 
+  </div>
 </div>

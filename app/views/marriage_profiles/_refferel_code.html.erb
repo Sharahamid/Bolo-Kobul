@@ -1,20 +1,47 @@
 <div class="right-section mb-4">
-  <div class="d-flex flex-column dashboard-tab">
-    <div class="col-12 text-gray p-3 border-bottom">
-    <div class="p-2">
-      <span class="text-left"> Referral Code
-        <i class="fas fa-info-circle"
-        data-toggle="tooltip"
-        data-placement="top" title=" You can Share this refferel code to earn one butterfly from Bolokobul">
-        </i>
-      </span>
+  <div style="border:0.5px solid #FAC775; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+
+    <!-- Header -->
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:18px 20px; display:flex; align-items:center; gap:10px;">
+      <div style="width:38px; height:38px; background:rgba(255,255,255,0.3); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+        <span style="font-size:18px;">🦋</span>
+      </div>
+      <div>
+        <h3 style="font-size:15px; font-weight:700; color:#412402; margin:0 0 2px;">Referral Code</h3>
+        <p style="font-size:11px; color:#633806; margin:0;">Share and earn a free butterfly for each signup!</p>
       </div>
     </div>
 
-    <div class="col-12 text-gray p-3 border-bottom">
-      <div class="p-2">
-        <span class=" text-left">  Your Code : <%= current_user.refferel_code.present? ? current_user.refferel_code : '' %> </span>
+    <!-- Code display -->
+    <div style="padding:20px 24px; background:#fff;">
+      <p style="font-size:12px; color:#aaa; margin:0 0 10px; font-weight:600; text-transform:uppercase; letter-spacing:0.06em;">Your Code</p>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <div style="flex:1; background:#FFF3CC; border:0.5px solid #FFB627; border-radius:10px; padding:14px 18px; text-align:center;">
+          <span id="bk-referral-code" style="font-size:24px; font-weight:700; color:#412402; letter-spacing:4px;">
+            <%= current_user.refferel_code.present? ? current_user.refferel_code : '' %>
+          </span>
+        </div>
+        <button onclick="bkCopyCode()"
+                style="background:#FFB627; color:#412402; border:none; border-radius:10px; padding:14px 16px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:6px;">
+          <i class="fas fa-copy"></i> <span id="bk-copy-label">Copy</span>
+        </button>
+      </div>
+      <div style="background:#FAEEDA; border-radius:8px; padding:10px 14px; margin-top:14px; font-size:12px; color:#633806; display:flex; align-items:flex-start; gap:8px;">
+        <i class="fas fa-info-circle" style="font-size:15px; flex-shrink:0; margin-top:1px;"></i>
+        Share this code with friends or family who are looking for a soulmate. When they register using your code, you earn one free butterfly!
       </div>
     </div>
+
   </div>
 </div>
+
+<script>
+function bkCopyCode() {
+  var code = document.getElementById('bk-referral-code').textContent.trim();
+  navigator.clipboard.writeText(code).then(function() {
+    var label = document.getElementById('bk-copy-label');
+    label.textContent = 'Copied!';
+    setTimeout(function() { label.textContent = 'Copy'; }, 2000);
+  });
+}
+</script>

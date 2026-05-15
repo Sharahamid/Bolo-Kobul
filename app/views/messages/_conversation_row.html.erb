@@ -1,10 +1,11 @@
-<div class="d-flex flex-column pl-2 pr-2">
-  <div class="<%= message.marriage_profile.user.id == current_active_profile.user.id ?
-                      'align-self-end' : 'align-self-start' %>">
-    <span class="<%= row_background %>"> <%= message.body %> </span>
-    <small class="text-gray <%= message.marriage_profile.user.id == current_active_profile.user.id ?
-                                    'float-right' : 'float-left'  %>">
+<% is_mine = message.marriage_profile.user.id == current_active_profile.user.id %>
+<div style="display:flex; justify-content:<%= is_mine ? 'flex-end' : 'flex-start' %>; margin-bottom:8px;">
+  <div>
+    <div style="background:<%= is_mine ? '#FFB627' : '#f0f0f0' %>; color:<%= is_mine ? '#412402' : '#444' %>; padding:8px 14px; border-radius:<%= is_mine ? '14px 4px 14px 14px' : '4px 14px 14px 14px' %>; font-size:13px; max-width:260px; word-wrap:break-word; line-height:1.5;">
+      <%= message.body %>
+    </div>
+    <div style="font-size:10px; color:#aaa; margin-top:3px; text-align:<%= is_mine ? 'right' : 'left' %>;">
       <%= format_date_messaging(message.created_at) %>
-    </small>
+    </div>
   </div>
 </div>

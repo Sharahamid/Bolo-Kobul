@@ -89,6 +89,29 @@ class User < ApplicationRecord
 
   # From Devise module Validatable
   validates_presence_of :created_for, :name, :email, :phone_number
+  validates :name, length: { minimum: 2, maximum: 50 },
+                   format: { with: /\A[a-zA-Z\s\-\.'\.]+\z/, message: 'should only contain letters, spaces, hyphens or apostrophes' }
+  validate :name_looks_real
+
+  def name_looks_real
+    return if name.blank?
+    # Must have reasonable vowel ratio (at least 20%)
+    vowels = name.count('aeiouAEIOU').to_f
+    letters = name.count('a-zA-Z').to_f
+    if letters > 4 && (vowels / letters) < 0.15
+      errors.add(:name, 'does not appear to be a real name')
+      return
+    end
+    # No random mixed case (e.g. sUlIYyFQLU) - check for 3+ alternating cases
+    if name.match?(/[a-z][A-Z][a-z][A-Z][a-z][A-Z]/) || name.match?(/[A-Z][a-z][A-Z][a-z][A-Z][a-z]/)
+      errors.add(:name, 'does not appear to be a real name')
+      return
+    end
+    # Name should have at least one space for full name, or be a short single name
+    if name.length > 20 && !name.include?(' ')
+      errors.add(:name, 'please enter your full name')
+    end
+  end
   validates_uniqueness_of :email, :phone_number
   validates_uniqueness_of :refferel_promo_code,
                           unless: -> { refferel_promo_code.nil? }
