@@ -15,7 +15,7 @@
         <small style="color:#ccc; font-size:9px; white-space:nowrap;"><%= message.present? ? format_date_chat(message.created_at) : '' %></small>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:5px;">
-        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= profile.age %> yrs</span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= profile.age %> years</span>
         <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= profile.height_ft %>'<%= profile.height_inch %>"</span>
         <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><i class="fas fa-map-marker-alt" style="font-size:8px;"></i> <%= profile&.hometown&.humanize %></span>
       </div>
