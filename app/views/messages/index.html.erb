@@ -1,17 +1,27 @@
+<style>
+.bk-chat-container { margin-bottom: 20px; }
+.bk-chat-container .message-page { height: 460px !important; position: relative !important; }
+.bk-chat-container .message-right-sidebar { height: 460px !important; overflow: hidden; display: flex; flex-direction: column; }
+.bk-chat-container .profile-chat-window { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+.bk-chat-container .conversation-list.chat_screen { overflow-y: auto; max-height: 400px !important; }
+.bk-chat-container .chat-list-window { max-height: 400px !important; min-height: 0 !important; overflow-y: auto; }
+</style>
 <div class="container-fluid p-0">
   <div class="dashboard p-0">
     <div class="containerx">
-      <div class="d-sm-flex flex-sm-row message-page" style="gap:10px; padding:10px; background:#fff;">
-        <div class="left-sidebar-section message-left-sidebar">
-          <%= render 'messages/chat_profile_list', chat_rooms: @chat_rooms %>
-        </div>
-        <div class="right-section message-right-sidebar p-0" >
-          <%= render 'home/dashboard/dashboard_tabs', marriage_profile: current_active_profile %>
-          <div class="profile-chat-window border-left">
-            <%= render 'profile_chat_window',
-                       profile: @chat_rooms&.last&.connected_profile(current_active_profile),
-                       chat_room: @chat_rooms&.last,
-                       message: @message %>
+      <div class="bk-chat-container">
+        <div class="d-sm-flex flex-sm-row message-page" style="align-items:flex-start; gap:10px;">
+          <div class="left-sidebar-section message-left-sidebar" style="align-self:flex-start;">
+            <%= render 'messages/chat_profile_list', chat_rooms: @chat_rooms %>
+          </div>
+          <div class="right-section message-right-sidebar p-0">
+            <%= render 'home/dashboard/dashboard_tabs', marriage_profile: current_active_profile %>
+            <div class="profile-chat-window">
+              <%= render 'profile_chat_window',
+                         profile: @chat_rooms&.last&.connected_profile(current_active_profile),
+                         chat_room: @chat_rooms&.last,
+                         message: @message %>
+            </div>
           </div>
         </div>
       </div>

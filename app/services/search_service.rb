@@ -34,6 +34,14 @@ class SearchService
     # Hometown
     if params[:hometown].present?
       @matches = @matches.where("hometown IN (?)", params[:hometown])
+      if params[:hometown] == 'Outside Bangladesh'
+        if params[:hometown_country].present?
+          @matches = @matches.where("hometown_country ILIKE ?", "%#{params[:hometown_country]}%")
+        end
+        if params[:hometown_city].present?
+          @matches = @matches.where("hometown_city ILIKE ?", "%#{params[:hometown_city]}%")
+        end
+      end
     end
 
     # Advanced Search

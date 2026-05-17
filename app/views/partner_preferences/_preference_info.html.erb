@@ -52,6 +52,14 @@
               </strong></td>
             </tr>
             <tr>
+              <td class="text-muted">Except (Hometown)</td>
+              <td><strong>
+                <% if preference.except_hometown.present? && preference.except_hometown.length > 0 %>
+                  <%= preference.except_hometown.join(', ') %>
+                <% else %>-<% end %>
+              </strong></td>
+            </tr>
+            <tr>
               <td class="text-muted">Present Location</td>
               <td><strong>
                 <% if preference.present_location.present? && preference.present_location.length > 1 %>

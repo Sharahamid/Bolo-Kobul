@@ -17,7 +17,7 @@
             </div>
           </div>
         <% elsif marriage_profile.id == current_active_profile.id %>
-          <%= image_tag 'bk-upload-photo.png', class: 'img-thumbnail' %>
+          <%= image_tag 'bk-upload-photo.png', class: 'img-thumbnail', style: 'width:150px; height:150px; object-fit:cover;' %>
         <% end %>
 
         <% if marriage_profile.id == current_active_profile.id %>

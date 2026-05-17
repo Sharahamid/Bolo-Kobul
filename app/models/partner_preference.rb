@@ -43,6 +43,7 @@ class PartnerPreference < ApplicationRecord
   enum highest_education_level: %i[doctorate graduate post_graduate undergraduate intermediate school non_traditional_education diploma], _prefix: :pe
 
   serialize :hometown, Array
+  serialize :except_hometown, Array
   serialize :present_location, Array
   serialize :blood_group, Array
 

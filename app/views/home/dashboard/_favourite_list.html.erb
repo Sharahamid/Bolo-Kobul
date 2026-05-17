@@ -9,7 +9,7 @@
     <% if favourites.present? %>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:14px;">
         <% favourites.each do |profile| %>
-          <div style="border:0.5px solid #f0e8d0; border-radius:10px; overflow:hidden; background:#fffaf5;">
+          <div style="border:0.5px solid #f0e8d0; border-radius:10px; overflow:hidden; background:#fffaf5; position:relative;" data-profile-card="true">
             <div style="padding:14px; display:flex; align-items:center; gap:12px;">
               <div onclick="bkOpenPhoto('<%= profile.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
                 <%= render 'shared/profile_photo', profile: profile %>
@@ -39,6 +39,9 @@
             </div>
             <div style="padding:0 14px 12px;">
               <%= render 'home/dashboard/send_butterfly_and_remove_favourite_btns', profile: profile %>
+            </div>
+            <div style="position:absolute; top:8px; right:8px;">
+              <%= render 'shared/profile_actions', profile: profile %>
             </div>
           </div>
         <% end %>

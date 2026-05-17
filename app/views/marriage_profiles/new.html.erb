@@ -268,6 +268,19 @@ document.addEventListener('DOMContentLoaded', function() {
   setupOtherField('highest_education_level', 'other_education_field', 'other_education_input');
   setupOtherField('hometown', 'hometown_abroad_fields', 'hometown_country_input', 'Outside Bangladesh');
   setupOtherField('present_location', 'present_location_abroad_fields', 'present_location_country_input', 'Outside Bangladesh');
+  // Make city fields required too when Outside Bangladesh is selected
+  (function() {
+    ['hometown', 'present_location'].forEach(function(field) {
+      var select = document.querySelector('select[name="marriage_profile[' + field + ']"]');
+      var cityInput = document.getElementById(field + '_city_input');
+      if (!select || !cityInput) return;
+      function toggleCity() {
+        cityInput.required = select.value === 'Outside Bangladesh';
+      }
+      select.addEventListener('change', toggleCity);
+      toggleCity();
+    });
+  })();
 });
 </script>
 </div>

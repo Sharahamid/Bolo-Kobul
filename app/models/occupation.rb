@@ -22,7 +22,7 @@ class Occupation < ApplicationRecord
   #
   # enum, constant & attr
   #
-   enum monthly_income: %i[below_tk._15,000 tk._15,000_-_25,000 tk._25,000_-_50,000 tk._50,000_-_80,000 tk._80,000_-_100,000 tk._100,000_-_150,000 above_tk._150,000]
+   enum monthly_income: %i[below_tk._15,000 tk._15,000_-_25,000 tk._25,000_-_50,000 tk._50,000_-_80,000 tk._80,000_-_100,000 tk._100,000_-_150,000 above_tk._150,000 tk._150,000_-_250,000 tk._250,000_-_400,000 tk._400,000_-_600,000 above_600,000]
    enum employment_status: %i[full_time part_time freelance contract temporary]
    enum name: %i[government_official defence private_service business self_employed unemployed student freelancer doctor engineer teacher retired landlord not_working]
    OCCUPATION_LABELS = {

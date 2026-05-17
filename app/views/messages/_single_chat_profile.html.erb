@@ -1,5 +1,5 @@
 <% message = chat_room&.messages&.last %>
-<div style="padding:10px 12px; border-bottom:0.5px solid #FAC775; background:#fff; cursor:pointer;">
+<div style="padding:10px 12px; border-bottom:0.5px solid #FAC775; background:#fff; cursor:pointer; position:relative;">
   <div style="display:flex; align-items:flex-start; gap:10px;">
     <div onclick="bkOpenPhoto('<%= profile.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
       <%= render 'shared/chat_profile_photo', profile: profile %>
@@ -12,7 +12,10 @@
             <i class="fas fa-check-circle" style="color:#FFB627; font-size:10px;"></i>
           <% end %>
         <% end %>
-        <small style="color:#ccc; font-size:9px; white-space:nowrap;"><%= message.present? ? format_date_chat(message.created_at) : '' %></small>
+        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;">
+          <%= render 'shared/profile_actions', profile: profile %>
+          <small style="color:#ccc; font-size:9px; white-space:nowrap;"><%= message.present? ? format_date_chat(message.created_at) : '' %></small>
+        </div>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:5px;">
         <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= profile.age %> years</span>

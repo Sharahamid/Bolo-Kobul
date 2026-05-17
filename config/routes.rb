@@ -83,6 +83,7 @@ Rails.application.routes.draw do
       patch :cancel_request
       patch :remove_profile
       patch :block_profile
+      get :block_profile
       patch :unblock_profile
       patch :change_profile
       patch :change_photo

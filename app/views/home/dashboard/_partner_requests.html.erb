@@ -8,11 +8,14 @@
   <div class="mb-4 <%= get_requested_profiles&.count.to_i > 2 ? 'bk-request-slider' : '' %>">
     <% if get_requested_profiles.present? %>
       <% get_requested_profiles.each do |requested_profile| %>
-        <div class="request-card border-bottom">
+        <div class="request-card border-bottom" style="position:relative;" data-profile-card="true">
           <div class="d-flex flex-column">
             <%= render 'home/dashboard/card_profile_info', profile: requested_profile, profile_action: true %>
             <div class="request-card-bottom p-2 border-top">
               <%= render 'home/dashboard/accept_and_cancel_btns', profile: requested_profile %>
+            </div>
+            <div style="position:absolute; top:8px; right:8px;">
+              <%= render 'shared/profile_actions', profile: requested_profile %>
             </div>
           </div>
         </div>

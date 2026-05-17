@@ -63,10 +63,41 @@
                    {include_blank: false},
                    multiple: true,
                    class: 'form-control sign_up-input-field selectpicker',
+                   id: 'pref_hometown_select',
                    placeholder: 'Hometown' %>
       <small class="text-danger">
         <%= f.object.errors[:hometown].present? ? "Hometown #{f.object.errors[:hometown]&.first}" : '' %>
       </small>
+    </div>
+    <div id="pref_hometown_abroad_fields" class="mb-3" style="display:none;">
+      <div class="row mt-2">
+        <div class="col-6">
+          <%= f.select :hometown_country, options_for_select(Country.order(:name).pluck(:name), f.object.hometown_country), {prompt: 'Country*'}, class: 'form-control sign_up-input-field', id: 'pref_hometown_country_input' %>
+        </div>
+        <div class="col-6">
+          <%= f.text_field :hometown_city, placeholder: 'City*', class: 'form-control sign_up-input-field', id: 'pref_hometown_city_input' %>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <%= f.label :except_hometown, 'Except (Hometown)' %>
+      <%= f.select :except_hometown,
+                   District.order_by_name.pluck(:name),
+                   {include_blank: false},
+                   multiple: true,
+                   class: 'form-control sign_up-input-field selectpicker',
+                   id: 'pref_except_hometown_select',
+                   placeholder: 'Except (Hometown)' %>
+    </div>
+    <div id="pref_except_hometown_abroad_fields" class="mb-3" style="display:none;">
+      <div class="row mt-2">
+        <div class="col-6">
+          <%= f.select :except_hometown_country, options_for_select(Country.order(:name).pluck(:name), f.object.except_hometown_country), {prompt: 'Country*'}, class: 'form-control sign_up-input-field', id: 'pref_except_hometown_country_input' %>
+        </div>
+        <div class="col-6">
+          <%= f.text_field :except_hometown_city, placeholder: 'City*', class: 'form-control sign_up-input-field', id: 'pref_except_hometown_city_input' %>
+        </div>
+      </div>
     </div>
     <div class="form-group">
       <%= f.label :present_location %>
@@ -74,13 +105,47 @@
                    District.order_by_name.pluck(:name),
                    {include_blank: false},
                    multiple: true,
-                   class: 'form-control sign_up-input-field selectpicker', placeholder: 'Present Location',
+                   class: 'form-control sign_up-input-field selectpicker',
+                   id: 'pref_present_location_select',
+                   placeholder: 'Present Location',
                    data: {toggle: 'tooltip', placement: 'top'},
                    title: 'Present Location' %>
       <small class="text-danger">
         <%= f.object.errors[:present_location].present? ? "Present Location #{f.object.errors[:present_location]&.first}" : '' %>
       </small>
     </div>
+    <div id="pref_present_location_abroad_fields" class="mb-3" style="display:none;">
+      <div class="row mt-2">
+        <div class="col-6">
+          <%= f.select :present_location_country, options_for_select(Country.order(:name).pluck(:name), f.object.present_location_country), {prompt: 'Country*'}, class: 'form-control sign_up-input-field', id: 'pref_present_location_country_input' %>
+        </div>
+        <div class="col-6">
+          <%= f.text_field :present_location_city, placeholder: 'City*', class: 'form-control sign_up-input-field', id: 'pref_present_location_city_input' %>
+        </div>
+      </div>
+    </div>
+<script>
+(function() {
+  function setupPrefAbroadField(selectId, fieldId) {
+    var select = document.getElementById(selectId);
+    var field = document.getElementById(fieldId);
+    if (!select || !field) return;
+    function toggle() {
+      var selected = Array.from(select.selectedOptions).map(o => o.value);
+      if (selected.includes('Outside Bangladesh')) {
+        field.style.display = 'block';
+      } else {
+        field.style.display = 'none';
+      }
+    }
+    $(select).on('changed.bs.select change', toggle);
+    toggle();
+  }
+  setupPrefAbroadField('pref_hometown_select', 'pref_hometown_abroad_fields');
+  setupPrefAbroadField('pref_present_location_select', 'pref_present_location_abroad_fields');
+  setupPrefAbroadField('pref_except_hometown_select', 'pref_except_hometown_abroad_fields');
+})();
+</script>
     <div class="form-group">
       <%= f.label :marital_status %>
       <%= f.select :marital_status,

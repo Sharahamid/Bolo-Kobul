@@ -45,6 +45,6 @@ class PartnerPreferencesController < ApplicationController
   end
 
   def preference_params
-    params.require(:partner_preference).permit(:family_type, :physical_status, :max_age, :min_age,:family_status, :max_height, :min_height, :max_inch, :min_inch, :highest_education_level, :family_values,:gender, blood_group: [], hometown: [], present_location: [], religion: [], marital_status: [])
+    params.require(:partner_preference).permit(:family_type, :physical_status, :max_age, :min_age, :family_status, :max_height, :min_height, :max_inch, :min_inch, :highest_education_level, :family_values, :gender, :hometown_country, :hometown_city, :present_location_country, :present_location_city, :except_hometown_country, :except_hometown_city, blood_group: [], except_hometown: [], hometown: [], present_location: [], religion: [], marital_status: [])
   end
 end

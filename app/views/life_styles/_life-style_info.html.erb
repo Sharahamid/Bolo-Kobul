@@ -37,7 +37,7 @@
                   <tr>
                     <td>Do You Drink?</td>
                     <td>:</td>
-                    <td><%= marriage_profile.life_style&.drinker.present? ? User::BOOLEAN_DATA.keys[marriage_profile.life_style.drinker] : '' %></td>
+                    <td><%= marriage_profile.life_style&.drinker.present? ? User::DRINK_SMOKE_DATA.keys[marriage_profile.life_style.drinker] : '' %></td>
                   </tr>
                 <% end %>
 
@@ -45,7 +45,7 @@
                   <tr>
                     <td>Do You Smoke?</td>
                     <td>:</td>
-                    <td><%= marriage_profile.life_style&.smoker.present? ? User::BOOLEAN_DATA.keys[marriage_profile&.life_style.smoker] : '' %></td>
+                    <td><%= marriage_profile.life_style&.smoker.present? ? User::DRINK_SMOKE_DATA.keys[marriage_profile&.life_style.smoker] : '' %></td>
                   </tr>
                 <% end %>
 

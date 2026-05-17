@@ -41,6 +41,16 @@
   <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
 
 
+<% if controller_name == 'messages' %>
+<style>
+.dashboard .left-sidebar-section .left-sidebar-card .chat-list-window {
+  min-height: 0 !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+.bk-chat-container { height: auto; overflow: visible; }
+</style>
+<% end %>
 </head>
 
 <body class="body_bg" data-l>

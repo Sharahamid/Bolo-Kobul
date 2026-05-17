@@ -46,7 +46,7 @@
       </div>
 
       <div class="form-group required_for_working">
-        <%= f.select :monthly_income, Occupation::monthly_incomes.map { |k, v| [k.humanize, k] },
+        <%= f.select :monthly_income, Occupation::monthly_incomes.reject { |k, v| k == "above_tk._150,000" }.map { |k, v| [k.gsub("_", " ").gsub("tk.", "Tk."), k] },
                      {prompt: 'Monthly Income*'},
                      required: true, class: 'form-control sign_up-input-field',
                      data: {toggle:'tooltip', placement:'top'}, title:'Monthly Income*' %>

@@ -1,14 +1,12 @@
-<div class="left-sidebar-card" style="border-radius:12px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); margin:0;">
-  <div class="d-flex flex-column">
-    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:12px 16px; display:flex; align-items:center; gap:8px;">
-      <i class="fas fa-comments" style="color:#412402; font-size:15px;"></i>
-      <span style="font-size:14px; font-weight:700; color:#412402;">Chats</span>
-    </div>
-    <div class="left-side-single-card chat-list-window">
-      <% chat_rooms&.each do |chat_room| %>
-        <% profile = chat_room.connected_profile(current_active_profile) %>
-        <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
-      <% end %>
-    </div>
+<div style="border-radius:12px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+  <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:12px 16px; display:flex; align-items:center; gap:8px;">
+    <i class="fas fa-comments" style="color:#412402; font-size:15px;"></i>
+    <span style="font-size:14px; font-weight:700; color:#412402;">Chats</span>
+  </div>
+  <div style="max-height:200px; overflow-y:auto;">
+    <% chat_rooms&.each do |chat_room| %>
+      <% profile = chat_room.connected_profile(current_active_profile) %>
+      <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
+    <% end %>
   </div>
 </div>

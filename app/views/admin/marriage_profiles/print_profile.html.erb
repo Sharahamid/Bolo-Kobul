@@ -74,7 +74,7 @@
         <div class="field"><div class="field-label">Willing to Relocate</div><div class="field-value"><%= User::BOOLEAN_DATA.keys[@profile.cultural_value.willing_to_relocate] %></div></div>
       <% end %>
       <% if @profile.marital_status.present? %>
-        <div class="field"><div class="field-label">Marital Status</div><div class="field-value"><%= @profile.marital_status.map(&:to_s).map(&:titleize).join(', ') %></div></div>
+        <div class="field"><div class="field-label">Marital Status</div><div class="field-value"><%= Array(@profile.marital_status).map(&:to_s).map(&:titleize).join(', ') %></div></div>
       <% end %>
       <% if @profile.height_ft.present? %>
         <div class="field"><div class="field-label">Height</div><div class="field-value"><%= "#{@profile.height_ft} ft #{@profile.height_inch} inch" %></div></div>
@@ -157,7 +157,7 @@
             <% end %>
           <% end %>
           <% if mi.want_more_child? %>
-            <div class="field"><div class="field-label">Wants More Children</div><div class="field-value">Yes</div></div>
+            <div class="field"><div class="field-label">Wants Children</div><div class="field-value">Yes</div></div>
           <% end %>
         </div>
       </div>

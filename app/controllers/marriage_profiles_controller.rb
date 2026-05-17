@@ -268,16 +268,16 @@ class MarriageProfilesController < ApplicationController
     current_active_profile.remove_friend(@marriage_profile)
   end
 
-  def block_profile 
-    if current_active_profile.friends_with?(@marriage_profile)
-      current_active_profile.block_friend(@marriage_profile)
-      flash[:notice] = "Blocked Successfully"
-    end
+  def block_profile
+    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: current_active_profile.id, friend_id: @marriage_profile.id).update_all(status: 3, blocker_id: current_active_profile.id)
+    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: @marriage_profile.id, friend_id: current_active_profile.id).update_all(status: 3, blocker_id: current_active_profile.id)
+    flash[:notice] = "Blocked Successfully"
     redirect_back fallback_location: root_path
   end
 
   def unblock_profile
-    current_active_profile.unblock_friend(@marriage_profile)
+    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: current_active_profile.id, friend_id: @marriage_profile.id, status: 3).destroy_all
+    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: @marriage_profile.id, friend_id: current_active_profile.id, status: 3).destroy_all
     flash[:notice] = "Unblocked Successfully"
     redirect_back fallback_location: root_path
   end

@@ -27,6 +27,12 @@ module UserConcern
       :Yes => '0',
       :No => '1'
   }
+  DRINK_SMOKE_DATA = {
+      :Yes => '0',
+      :No => '1',
+      :'Used to' => '2',
+      :Occasionally => '3'
+  }
 
   MOTHER_TONGUE = {
       :Bengali => '0',

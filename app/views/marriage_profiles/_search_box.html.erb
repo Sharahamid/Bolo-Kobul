@@ -22,7 +22,7 @@
               <option value="<%= k.titleize %>" <%= 'selected' if params[:religion] == k.titleize %>><%= k.titleize %></option>
             <% end %>
           </select>
-          <select name="hometown"
+          <select name="hometown" id="search_hometown_select"
                   style="flex:1; min-width:130px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;">
             <option value="">Hometown</option>
             <% District.order(:name).pluck(:name).each do |d| %>
@@ -34,6 +34,30 @@
             🔍 Search
           </button>
         </div>
+        <div id="search_hometown_abroad" style="display:none; gap:8px; margin-top:8px;">
+          <select name="hometown_country"
+                  style="flex:1; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;">
+            <option value="">Country*</option>
+            <% Country.order(:name).pluck(:name).each do |c| %>
+              <option value="<%= c %>" <%= 'selected' if params[:hometown_country] == c %>><%= c %></option>
+            <% end %>
+          </select>
+          <input type="text" name="hometown_city" value="<%= params[:hometown_city] %>"
+                 placeholder="City*"
+                 style="flex:1; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;" />
+        </div>
+        <script>
+        (function() {
+          var select = document.getElementById('search_hometown_select');
+          var abroad = document.getElementById('search_hometown_abroad');
+          if (!select || !abroad) return;
+          function toggle() {
+            abroad.style.display = select.value === 'Outside Bangladesh' ? 'flex' : 'none';
+          }
+          select.addEventListener('change', toggle);
+          toggle();
+        })();
+        </script>
 
         <% if advanced %>
         <!-- Advanced filters row -->
@@ -56,21 +80,6 @@
                   <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
                     <input type="checkbox" name="height[]" value="6-<%= inch %>" <%= 'checked' if Array(params[:height]).include?("6-#{inch}") %> style="accent-color:#EF9F27;" />
                     6'<%= inch %>"
-                  </label>
-                <% end %>
-              </div>
-            </div>
-
-            <!-- Marital status multi-select -->
-            <div class="bk-dropdown" style="position:relative; flex:1; min-width:130px;">
-              <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
-                <span class="bk-dropdown-label">Marital Status</span> ▾
-              </div>
-              <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:150px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
-                <% MarriageProfile.marital_statuses.reject { |type, v| type == "married" }.each do |type, v| %>
-                  <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
-                    <input type="checkbox" name="marital_status[]" value="<%= type %>" <%= 'checked' if Array(params[:marital_status]).include?(type) %> style="accent-color:#EF9F27;" />
-                    <%= type.titleize %>
                   </label>
                 <% end %>
               </div>
