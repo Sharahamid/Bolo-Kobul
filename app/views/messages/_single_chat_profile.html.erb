@@ -22,10 +22,11 @@
         <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= profile.height_ft %>'<%= profile.height_inch %>"</span>
         <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><i class="fas fa-map-marker-alt" style="font-size:8px;"></i> <%= profile&.hometown&.humanize %></span>
       </div>
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:6px;">
-        <span style="font-size:10px; color:#aaa; flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-          <i class="fa fa-comment" style="font-size:9px; margin-right:2px;"></i>
-          <%= message.present? ? truncate(message&.body, length: 22) : 'New conversation' %>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; margin-top:4px;">
+        <% last_seen = profile.user.last_sign_in_at; days_ago = last_seen ? ((Time.now - last_seen) / 86400).to_i : nil %>
+        <span style="display:inline-flex; align-items:center; gap:3px; font-size:9px; color:gray;">
+          <span style="width:7px; height:7px; border-radius:50%; background:<%= days_ago && days_ago < 1 ? '#21BA45' : (days_ago && days_ago < 7 ? '#FFB627' : '#ccc') %>; display:inline-block;"></span>
+          <%= days_ago.nil? ? 'Inactive' : (days_ago < 1 ? 'Active today' : (days_ago < 7 ? "Active #{days_ago}d ago" : 'Inactive')) %>
         </span>
         <%= link_to profile_info_marriage_profile_path(profile),
                     target: '_blank',

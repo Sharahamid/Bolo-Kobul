@@ -1,3 +1,4 @@
+<% content_for :meta_description do %>Read success stories, relationship advice, and wedding tips on the Bolo Kobul blog. Real couples, real stories from Bangladesh.<% end %>
 <div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
   <div class="container">
 
@@ -13,6 +14,13 @@
 
       <!-- Stories / Blogs -->
       <div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+          <%= link_to "All", blogs_path, style: "padding:6px 16px; border-radius:20px; background:#{params[:type].blank? ? '#FFB627' : '#fff'}; color:#{params[:type].blank? ? '#fff' : '#FFB627'}; border:1px solid #FFB627; font-size:12px; text-decoration:none;" %>
+          <%= link_to "Success Stories", blogs_path(type: 'success_story'), style: "padding:6px 16px; border-radius:20px; background:#{params[:type]=='success_story' ? '#FFB627' : '#fff'}; color:#{params[:type]=='success_story' ? '#fff' : '#FFB627'}; border:1px solid #FFB627; font-size:12px; text-decoration:none;" %>
+          <%= link_to "Wedding Tips", blogs_path(type: 'wedding_tips'), style: "padding:6px 16px; border-radius:20px; background:#{params[:type]=='wedding_tips' ? '#FFB627' : '#fff'}; color:#{params[:type]=='wedding_tips' ? '#fff' : '#FFB627'}; border:1px solid #FFB627; font-size:12px; text-decoration:none;" %>
+          <%= link_to "Relationship Advice", blogs_path(type: 'relationship_advice'), style: "padding:6px 16px; border-radius:20px; background:#{params[:type]=='relationship_advice' ? '#FFB627' : '#fff'}; color:#{params[:type]=='relationship_advice' ? '#fff' : '#FFB627'}; border:1px solid #FFB627; font-size:12px; text-decoration:none;" %>
+          <%= link_to "Horoscope Compatibility", blogs_path(type: 'horoscope_compatibility'), style: "padding:6px 16px; border-radius:20px; background:#{params[:type]=='horoscope_compatibility' ? '#FFB627' : '#fff'}; color:#{params[:type]=='horoscope_compatibility' ? '#fff' : '#FFB627'}; border:1px solid #FFB627; font-size:12px; text-decoration:none;" %>
+        </div>
         <%= render partial: 'blog', collection: @blogs %>
         <div style="text-align:center; margin-top:16px;">
           <%= will_paginate @blogs, container: false %>
