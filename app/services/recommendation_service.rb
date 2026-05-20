@@ -7,6 +7,7 @@ class RecommendationService
     return [] unless current_profile
     filtered_profile_ids = build_excluded_ids(current_profile, matched_ids)
     @matches = MarriageProfile.where.not(id: filtered_profile_ids)
+    @matches = apply_age_gender_filter(@matches, current_profile)
     preference = current_profile.partner_preference
     apply_filters(@matches, preference, max_level)
     @matches.order("RANDOM()").last(MIN_RECOMMENDATIONS - matched_ids.count)
@@ -28,6 +29,7 @@ class RecommendationService
   def self.build_recommendations(current_profile)
     excluded_ids = build_excluded_ids(current_profile, [])
     all_candidates = MarriageProfile.where.not(id: excluded_ids)
+    all_candidates = apply_age_gender_filter(all_candidates, current_profile)
     preference = current_profile.partner_preference
 
     # Always include 75%+ matches first
@@ -68,6 +70,20 @@ class RecommendationService
       current_profile.chat_friendships.map(&:chat_friend_id) +
       Friendship.where('(friendable_id = ? OR friend_id = ?) AND status = ?', current_profile.id, current_profile.id, 1)
                 .map { |f| f.friendable_id == current_profile.id ? f.friend_id : f.friendable_id }
+  end
+
+  def self.apply_age_gender_filter(matches, current_profile)
+    return matches unless current_profile.date_of_birth.present?
+    if current_profile.male?
+      # Bride must not be older than groom — bride dob must be >= groom dob
+      matches = matches.where("gender = 1 AND date_of_birth >= ?", current_profile.date_of_birth)
+                       .or(matches.where("gender != 1"))
+    elsif current_profile.female?
+      # Groom must not be younger than bride — groom dob must be <= bride dob
+      matches = matches.where("gender = 0 AND date_of_birth <= ?", current_profile.date_of_birth)
+                       .or(matches.where("gender != 0"))
+    end
+    matches
   end
 
   def self.apply_filters(matches, preference, max_level)

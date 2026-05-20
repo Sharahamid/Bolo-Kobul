@@ -89,6 +89,14 @@ class User < ApplicationRecord
 
   # From Devise module Validatable
   validates_presence_of :created_for, :name, :email, :phone_number
+  validate :name_not_spam
+
+  def name_not_spam
+    if name.present? && name.match?(/\A[A-Z]{8,}\z/)
+      errors.add(:name, "is invalid")
+    end
+  end
+
   validates :name, length: { minimum: 2, maximum: 50 },
                    format: { with: /\A[a-zA-Z\s\-\.'\.]+\z/, message: 'should only contain letters, spaces, hyphens or apostrophes' }
   validate :name_looks_real

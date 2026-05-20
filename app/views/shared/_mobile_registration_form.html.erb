@@ -115,7 +115,11 @@
                 </label>
               </div>
 
-              <div class="register-btn-section text-center merriweather">
+              <%# Honeypot - hidden from humans %>
+      <div style="display:none !important; visibility:hidden; position:absolute; left:-9999px;">
+        <input type="text" name="user[website]" tabindex="-1" autocomplete="off" placeholder="Leave this empty">
+      </div>
+      <div class="register-btn-section text-center merriweather">
                 <button type="submit" class="btn btn-sign_up form-control">Register Free</button>
               </div>
              

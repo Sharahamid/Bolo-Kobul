@@ -429,65 +429,95 @@ class MarriageProfile < ApplicationRecord
   end
 
   def calculate_matching_percentage!(current_profile)
-    self.matching_percentage = 0
-
-    # 15% for Religion matching
-    if current_profile.partner_preference.religion.present? &&
-      current_profile.partner_preference.religion.include?(religion.to_sym)
-      self.matching_percentage += 15
+    # Filter: never show bride older than groom
+    if self.female? && current_profile.male?
+      return self.matching_percentage = 0 if self.date_of_birth.present? && current_profile.date_of_birth.present? && self.date_of_birth < current_profile.date_of_birth
+    end
+    if self.male? && current_profile.female?
+      return self.matching_percentage = 0 if self.date_of_birth.present? && current_profile.date_of_birth.present? && current_profile.date_of_birth < self.date_of_birth
     end
 
-    # 15% for Age matching
-    if current_profile.partner_preference.min_age.present? &&
-      current_profile.partner_preference.max_age.present?
-      age = ((Time.zone.now - date_of_birth.to_time) / 1.year.seconds).floor
-      if age > current_profile.partner_preference.min_age &&
-        age < current_profile.partner_preference.max_age
-        self.matching_percentage += 15
+    your_score  = calculate_one_way_score(current_profile, self)
+    their_score = calculate_one_way_score(self, current_profile)
+    raw_score   = (your_score * 0.9) + (their_score * 0.1)
+    self.matching_percentage = [raw_score.round, 100].min
+  end
+
+  def calculate_one_way_score(seeker, candidate)
+    score = 0
+    preference = seeker.partner_preference
+    return 0 unless preference
+
+    # Religion — 20pts
+    if preference.religion.present? && candidate.religion.present? &&
+       preference.religion.include?(candidate.religion.to_sym)
+      score += 20
+    end
+
+    # Age — 15pts
+    if preference.min_age.present? && preference.max_age.present? && candidate.date_of_birth.present?
+      candidate_age = ((Time.zone.now - candidate.date_of_birth.to_time) / 1.year.seconds).floor
+      if candidate_age >= preference.min_age.to_i && candidate_age <= preference.max_age.to_i
+        score += 15
       end
     end
 
-    # 15% for Hometown matching
-    if current_profile.partner_preference.hometown.present? &&
-      current_profile.partner_preference.hometown.include?(hometown)
-      self.matching_percentage += 15
+    # Education — 10pts
+    if preference.highest_education_level.present? && candidate.highest_education_level.present? &&
+       preference.highest_education_level == candidate.highest_education_level
+      score += 10
     end
 
-    # 10% for Present Location matching
-    if current_profile.partner_preference.present_location.present? &&
-      current_profile.partner_preference.present_location.include?(present_location)
-      self.matching_percentage += 10
+    # Hometown — 8pts
+    if preference.hometown.present? && candidate.hometown.present? &&
+       preference.hometown.include?(candidate.hometown)
+      score += 8
     end
 
-    # 10% for Marital status matching
-    if current_profile.partner_preference.marital_status.present? && marital_status.present? &&
-      current_profile.partner_preference.marital_status.include?(marital_status.to_sym)
-      self.matching_percentage += 10
+    # Present location — 8pts
+    if preference.present_location.present? && candidate.present_location.present? &&
+       preference.present_location.include?(candidate.present_location)
+      score += 8
     end
 
-    # 10% for Min Height matching
-    if current_profile.partner_preference.min_height.present? &&
-      (current_profile.partner_preference.min_height == height_ft.to_i && current_profile.partner_preference.min_inch <= height_inch.to_i ||
-        current_profile.partner_preference.min_height < height_ft.to_i)
-      self.matching_percentage += 10
+    # Marital status — 7pts
+    if preference.marital_status.present? && candidate.marital_status.present? &&
+       preference.marital_status.include?(candidate.marital_status.to_sym)
+      score += 7
     end
 
-    # 10% for Highest Education Level
-    if current_profile.partner_preference.highest_education_level.present? &&
-      current_profile.partner_preference.highest_education_level == highest_education_level
-      self.matching_percentage += 10
+    # Height — 5pts
+    if preference.min_height.present? && candidate.height_ft.present?
+      if (preference.min_height.to_i == candidate.height_ft.to_i && preference.min_inch.to_i <= candidate.height_inch.to_i) ||
+         preference.min_height.to_i < candidate.height_ft.to_i
+        score += 5
+      end
     end
 
-    # 10% for Family Status
-    if current_profile.partner_preference.family_status.present? &&
-      (current_profile.partner_preference.fs_does_not_matter? || current_profile.partner_preference.family_status == family_status)
-      self.matching_percentage += 10
+    # Family status — 5pts
+    if preference.family_status.present? && candidate.family_status.present? &&
+       (preference.fs_does_not_matter? || preference.family_status == candidate.family_status)
+      score += 5
     end
 
-    # 5% for Blood Group
-    if current_profile.partner_preference.blood_group.present? &&
-      current_profile.partner_preference.blood_group.include?(blood_group)
-      self.matching_percentage += 10
+    # Blood group — 5pts
+    if preference.blood_group.present? && candidate.blood_group.present? &&
+       preference.blood_group.include?(candidate.blood_group)
+      score += 5
     end
+
+    # Has photo — 5pts
+    score += 5 if candidate.photo_1.present?
+
+    # Verified profile — 3pts
+    score += 3 if candidate.verified?
+
+    # Recently active last 7 days — 4pts
+    if candidate.user.last_sign_in_at.present? &&
+       candidate.user.last_sign_in_at >= 7.days.ago
+      score += 4
+    end
+
+    score
   end
 end

@@ -12,6 +12,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    if params[:user][:website].present?
+      redirect_to root_path, notice: "Registration successful."
+      return
+    end
     build_resource(sign_up_params)
 
     if resource.save

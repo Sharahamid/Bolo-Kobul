@@ -48,6 +48,7 @@ ActiveAdmin.register User do
                end
         links = "<br/>"
         links += link_to("View", shefali007_marriage_profile_path(profile), style: "font-size:11px; margin-right:5px;")
+        links += link_to("🔍", auto_verify_doc_shefali007_user_path(user), method: :patch, style: "margin-right:3px;", title: "Auto-verify with OCR")
         links += link_to("✅", verify_doc_shefali007_user_path(user, status: 1), method: :patch, style: "margin-right:3px;", title: "Mark Verified")
         links += link_to("❌", verify_doc_shefali007_user_path(user, status: 2), method: :patch, style: "margin-right:3px;", title: "Mark Unverified")
         raw(icon + links)
@@ -93,6 +94,27 @@ ActiveAdmin.register User do
       end
       row :created_at
     end
+  end
+
+  member_action :auto_verify_doc, method: :patch do
+    profile = resource.marriage_profiles.first
+    if profile&.identification_document.present?
+      result = DocumentOcrService.verify(profile)
+      case result
+      when :verified
+        profile.update(doc_verification_status: 1)
+        flash[:notice] = "OCR matched — document auto-verified ✅"
+      when :unverified
+        flash[:alert] = "OCR could not match name, NID, or date of birth ❌"
+      when :unreadable
+        flash[:alert] = "Document could not be read by OCR ⚠️"
+      when :no_doc
+        flash[:alert] = "No document found"
+      end
+    else
+      flash[:alert] = "No document uploaded"
+    end
+    redirect_to admin_users_path
   end
 
   member_action :verify_doc, method: :patch do

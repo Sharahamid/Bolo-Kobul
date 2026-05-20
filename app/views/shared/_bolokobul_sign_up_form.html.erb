@@ -101,6 +101,11 @@
         </label>
       </div>
 
+      <%# Honeypot field - hidden from humans, bots will fill this %>
+      <div style="display:none !important; visibility:hidden; position:absolute; left:-9999px;">
+        <input type="text" name="user[website]" tabindex="-1" autocomplete="off" placeholder="Leave this empty">
+      </div>
+
       <div class="register-btn-section text-center">
         <%= f.submit 'Register Free', class: 'btn btn-sign_up text-white merriweather', style: 'background:#FFB627' %>
       </div>
