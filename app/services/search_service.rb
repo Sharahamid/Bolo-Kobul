@@ -76,6 +76,37 @@ class SearchService
       end
     end
 
-    @matches.paginate(page: params[:page], per_page: 12)
+    # Bride must not be older than groom
+    if @marriage_profile&.date_of_birth.present?
+      if @marriage_profile.male?
+        @matches = @matches.where("gender != 1 OR (gender = 1 AND date_of_birth >= ?)", @marriage_profile.date_of_birth)
+      elsif @marriage_profile.female?
+        @matches = @matches.where("gender != 0 OR (gender = 0 AND date_of_birth <= ?)", @marriage_profile.date_of_birth)
+      end
+    end
+
+    # Bi-directional marital status filter
+    if @marriage_profile&.marital_status.present?
+      seeker_marital = @marriage_profile.marital_status.to_s
+      @matches = @matches.to_a.select do |candidate|
+        candidate_pref = candidate.partner_preference
+        candidate_pref&.marital_status.blank? ||
+          candidate_pref.marital_status.keys.map(&:to_s).include?(seeker_marital)
+      end
+    end
+
+    if @matches.is_a?(Array)
+      total = @matches.length
+      page = (params[:page] || 1).to_i
+      per_page = 12
+      @matches = @matches.slice((page - 1) * per_page, per_page) || []
+      @matches.define_singleton_method(:total_entries) { total }
+      @matches.define_singleton_method(:current_page) { page }
+      @matches.define_singleton_method(:per_page) { per_page }
+      @matches.define_singleton_method(:total_pages) { (total.to_f / per_page).ceil }
+      @matches
+    else
+      @matches.paginate(page: params[:page], per_page: 12)
+    end
   end
 end
