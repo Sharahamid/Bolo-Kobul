@@ -150,7 +150,7 @@ class MarriageProfile < ApplicationRecord
   after_create :create_slug, :progress_recalculate, :set_privacy_setting
   after_destroy :remove_chat_friendship
   before_destroy :remove_friendships
-  after_save :crop_profile_image, :bf_by_referral_check, :check_progress
+  after_save :crop_profile_image, :bf_by_referral_check, :check_progress, :auto_ocr_verify_document
 
   #
   # instance methods
@@ -425,6 +425,22 @@ class MarriageProfile < ApplicationRecord
         self.other_supporting_doc = nil
         errors[:base] << "Not an acceptable format!"
       end
+    end
+  end
+
+  def auto_ocr_verify_document
+    return unless identification_document_changed? && identification_document.present?
+    return if doc_verification_status == 1
+    begin
+      result = DocumentOcrService.verify(self)
+      case result
+      when :verified
+        update_column(:doc_verification_status, 1)
+      when :unverified
+        update_column(:doc_verification_status, 0)
+      end
+    rescue => e
+      Rails.logger.error "OCR auto-verify failed for profile #{id}: #{e.message}"
     end
   end
 

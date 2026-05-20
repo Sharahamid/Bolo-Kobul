@@ -72,6 +72,25 @@ class RecommendationService
                 .map { |f| f.friendable_id == current_profile.id ? f.friend_id : f.friendable_id }
   end
 
+  def self.marital_status_compatible?(seeker, candidate)
+    seeker_pref = seeker.partner_preference
+    candidate_pref = candidate.partner_preference
+
+    # Step 1: candidate's marital status must be in seeker's preference (or seeker has no preference)
+    if seeker_pref&.marital_status.present?
+      seeker_accepts_candidate = seeker_pref.marital_status.keys.map(&:to_s).include?(candidate.marital_status.to_s)
+      return false unless seeker_accepts_candidate
+    end
+
+    # Step 2: seeker's marital status must be in candidate's preference (or candidate has no preference = open to all)
+    if candidate_pref&.marital_status.present?
+      candidate_accepts_seeker = candidate_pref.marital_status.keys.map(&:to_s).include?(seeker.marital_status.to_s)
+      return false unless candidate_accepts_seeker
+    end
+
+    true
+  end
+
   def self.apply_age_gender_filter(matches, current_profile)
     return matches unless current_profile.date_of_birth.present?
     if current_profile.male?
@@ -95,7 +114,7 @@ class RecommendationService
       matches = matches.where("religion IN (?)", preference.religion.map { |k, v| MarriageProfile.religions[k] })
     end
 
-    if preference.marital_status.present? && max_level >= 3
+    if preference.marital_status.present?
       matches = matches.where("marital_status IN (?)", preference.marital_status.map { |k, v| MarriageProfile.marital_statuses[k] })
     end
 
@@ -107,12 +126,14 @@ class RecommendationService
       matches = matches.where("present_location IN (?)", preference.present_location)
     end
 
-    if preference.min_age.present? && max_level >= 1
-      matches = matches.where('extract(year from date_of_birth) <= ?', Time.now.year - preference.min_age.to_i)
+    if preference.min_age.present? && max_level >= 3
+      buffer = max_level >= 4 ? 0 : 2
+      matches = matches.where('extract(year from date_of_birth) <= ?', Time.now.year - preference.min_age.to_i + buffer)
     end
 
-    if preference.max_age.present? && max_level >= 1
-      matches = matches.where('extract(year from date_of_birth) >= ?', Time.now.year - preference.max_age.to_i)
+    if preference.max_age.present? && max_level >= 3
+      buffer = max_level >= 4 ? 0 : 2
+      matches = matches.where('extract(year from date_of_birth) >= ?', Time.now.year - preference.max_age.to_i - buffer)
     end
 
     if preference.min_height.present? && max_level >= 2

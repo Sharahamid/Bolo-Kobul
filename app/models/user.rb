@@ -121,6 +121,26 @@ class User < ApplicationRecord
     end
   end
   validates_uniqueness_of :email, :phone_number
+  validate :phone_number_not_spam
+
+  def phone_number_not_spam
+    return unless phone_number.present?
+    digits = phone_number.to_s.gsub(/[^0-9]/, '')
+    # Must have between 7 and 15 digits
+    if digits.length < 7 || digits.length > 15
+      errors.add(:phone_number, "is invalid")
+      return
+    end
+    # Block obviously fake numbers (all same digit like 1111111111)
+    if digits.chars.uniq.length == 1
+      errors.add(:phone_number, "is invalid")
+      return
+    end
+    # Block sequential numbers like 1234567890
+    if digits == digits.chars.each_cons(2).all? { |a, b| b.to_i == a.to_i + 1 }.to_s
+      errors.add(:phone_number, "is invalid")
+    end
+  end
   validates_uniqueness_of :refferel_promo_code,
                           unless: -> { refferel_promo_code.nil? }
   validate :password_regex

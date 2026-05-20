@@ -8,8 +8,7 @@ class DocumentOcrService
     extracted_text = extract_text(doc_path)
     return :unreadable if extracted_text.blank?
 
-    user = profile.user
-    matched = matches_any?(extracted_text, profile, user)
+    matched = matches_any?(extracted_text, profile)
 
     matched ? :verified : :unverified
   end
@@ -39,12 +38,12 @@ class DocumentOcrService
     text.downcase.gsub(/[^a-z0-9\s]/, ' ').squeeze(' ').strip
   end
 
-  def self.matches_any?(text, profile, user)
+  def self.matches_any?(text, profile)
     checks = []
 
-    # Check name — split into parts, any part matches
-    if user.name.present?
-      name_parts = user.name.downcase.split(' ').select { |p| p.length > 2 }
+    # Check marriage profile name
+    if profile.name.present?
+      name_parts = profile.name.downcase.split(' ').select { |p| p.length > 2 }
       checks << name_parts.any? { |part| text.include?(part) }
     end
 
@@ -54,13 +53,7 @@ class DocumentOcrService
       checks << text.gsub(/\s/, '').include?(nid)
     end
 
-    # Check national_id from user
-    if user.national_id.present?
-      nid = user.national_id.to_s.downcase.gsub(/\s/, '')
-      checks << text.gsub(/\s/, '').include?(nid)
-    end
-
-    # Check date of birth
+    # Check date of birth from marriage profile
     if profile.date_of_birth.present?
       dob = profile.date_of_birth
       formats = [
