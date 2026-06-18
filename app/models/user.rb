@@ -93,6 +93,7 @@ class User < ApplicationRecord
 
   def name_not_spam
     if name.present? && name.match?(/\A[A-Z]{8,}\z/)
+      Rails.logger.warn("[BOT BLOCKED - Name Filter] #{Time.current} | Name: #{name} | Email: #{email}")
       errors.add(:name, "is invalid")
     end
   end
