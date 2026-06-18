@@ -30,3 +30,6 @@ every :week do
 end
 
 # Learn more: http://github.com/javan/whenever
+every :friday, at: '7:00 pm' do
+  rake 'weekly_report:send'
+end

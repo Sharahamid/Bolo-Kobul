@@ -14,6 +14,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     if params[:user][:website].present?
       Rails.logger.warn("[BOT BLOCKED - Honeypot] #{Time.current} | IP: #{request.remote_ip} | Name: #{params.dig(:user, :name)} | Email: #{params.dig(:user, :email)}")
+      BlockedRegistrationAttempt.create(name: params.dig(:user, :name), email: params.dig(:user, :email), phone: params.dig(:user, :phone_number), attempt_type: "honeypot", ip_address: request.remote_ip)
       redirect_to root_path, notice: "Registration successful."
       return
     end

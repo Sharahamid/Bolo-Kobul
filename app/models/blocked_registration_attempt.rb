@@ -1,0 +1,2 @@
+class BlockedRegistrationAttempt < ApplicationRecord
+end

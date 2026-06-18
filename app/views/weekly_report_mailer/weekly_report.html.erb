@@ -1,0 +1,38 @@
+<h2>Weekly Registration Report</h2>
+<p><%= @start_date.strftime('%B %d, %Y') %> to <%= @end_date.strftime('%B %d, %Y') %></p>
+
+<h3>Successful Registrations (<%= @successful_users.count %>)</h3>
+<% if @successful_users.any? %>
+  <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <tr style="background:#f0f0f0;"><th>Name</th><th>Email</th><th>Phone</th><th>Date</th></tr>
+    <% @successful_users.each do |user| %>
+      <tr><td><%= user.name %></td><td><%= user.email %></td><td><%= user.phone_number %></td><td><%= user.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>No successful registrations this week.</p>
+<% end %>
+
+<h3>Blocked by Hidden Bot Trap (<%= @honeypot_blocks.count %>)</h3>
+<% if @honeypot_blocks.any? %>
+  <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <tr style="background:#f0f0f0;"><th>Name</th><th>Email</th><th>Phone</th><th>IP Address</th><th>Date</th></tr>
+    <% @honeypot_blocks.each do |b| %>
+      <tr><td><%= b.name %></td><td><%= b.email %></td><td><%= b.phone %></td><td><%= b.ip_address %></td><td><%= b.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>No bot trap blocks this week.</p>
+<% end %>
+
+<h3>Blocked by Suspicious Name Filter (<%= @name_filter_blocks.count %>)</h3>
+<% if @name_filter_blocks.any? %>
+  <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
+    <tr style="background:#f0f0f0;"><th>Name</th><th>Email</th><th>Phone</th><th>Date</th></tr>
+    <% @name_filter_blocks.each do |b| %>
+      <tr><td><%= b.name %></td><td><%= b.email %></td><td><%= b.phone %></td><td><%= b.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
+    <% end %>
+  </table>
+<% else %>
+  <p>No name-filter blocks this week.</p>
+<% end %>
