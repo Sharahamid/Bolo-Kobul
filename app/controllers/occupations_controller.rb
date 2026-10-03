@@ -44,10 +44,10 @@ class OccupationsController < ApplicationController
   private
 
   def set_occupation
-    @occupation = Occupation.find_by(id: params[:id])
+    @occupation = Occupation.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def occupation_params
-    params.require(:occupation).permit!
+    params.require(:occupation).permit!.except(:marriage_profile_id)
   end
 end

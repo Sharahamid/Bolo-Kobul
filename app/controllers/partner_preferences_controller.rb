@@ -41,7 +41,7 @@ class PartnerPreferencesController < ApplicationController
 
   private
   def set_partner_preference
-    @preference = PartnerPreference.find_by(id:params[:id])
+    @preference = PartnerPreference.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def preference_params

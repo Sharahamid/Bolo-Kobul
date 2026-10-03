@@ -8,6 +8,9 @@ class MarriageProfilesController < ApplicationController
                                               :block_profile, :remove_profile,
                                               :unblock_profile, :switch,
                                               :dashboard, :search_page, :search]
+  before_action :require_own_profile, only: [:edit_about, :update_about, :edit, :update,
+                                            :change_profile, :change_photo, :switch,
+                                            :dashboard, :search_page, :search]
   before_action :check_current_active_profile, :check_preference, except: [:new, :create]
 
   def index
@@ -302,6 +305,11 @@ class MarriageProfilesController < ApplicationController
   end
 
   private
+
+  # Editing, switching to or viewing the dashboard of a profile is only allowed for its owner
+  def require_own_profile
+    raise ActiveRecord::RecordNotFound unless current_user.marriage_profiles.exists?(@marriage_profile.id)
+  end
 
   def set_marriage_profile
     @marriage_profile = MarriageProfile.friendly.find(params[:id])

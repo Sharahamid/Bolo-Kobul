@@ -2,15 +2,37 @@ require 'uri'
 require 'openssl'
 require 'net/http'
 require 'json'
+require 'cgi'
 
 class PaymentService
+  RETURN_TOKEN_PURPOSE = :payment_return
+
+  # Signed, expiring token added to the gateway return URLs so the return pages can
+  # tell a genuine checkout return from a forged request
+  def self.return_token(order)
+    Rails.application.message_verifier(RETURN_TOKEN_PURPOSE)
+         .generate(order.id, purpose: RETURN_TOKEN_PURPOSE, expires_in: 3.hours)
+  end
+
+  def self.valid_return_token?(order, token)
+    return false if token.blank?
+    Rails.application.message_verifier(RETURN_TOKEN_PURPOSE)
+         .verified(token.to_s, purpose: RETURN_TOKEN_PURPOSE) == order.id
+  rescue StandardError
+    false
+  end
+
+  def self.return_url(order, outcome)
+    "#{SECRETES.dig('aamarpay', 'callback_url')}/orders/#{order.id}/#{outcome}?rt=#{CGI.escape(return_token(order))}"
+  end
+
   def self.data(order)
     {
       "store_id": SECRETES.dig('aamarpay', 'store_id'),
       "tran_id": order.txn_no,
-      "success_url": "#{SECRETES.dig('aamarpay', 'callback_url')}/orders/#{order.id}/success",
-      "fail_url": "#{SECRETES.dig('aamarpay', 'callback_url')}/orders/#{order.id}/fail",
-      "cancel_url": "#{SECRETES.dig('aamarpay', 'callback_url')}/orders/#{order.id}/cancel",
+      "success_url": return_url(order, 'success'),
+      "fail_url": return_url(order, 'fail'),
+      "cancel_url": return_url(order, 'cancel'),
       "amount": order.total_amount,
       "currency": "BDT",
       "signature_key": SECRETES.dig('aamarpay', 'signature_key'),

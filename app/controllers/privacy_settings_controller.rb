@@ -25,7 +25,7 @@ class PrivacySettingsController < ApplicationController
   private
 
   def set_privacy_setting
-    @privacy_setting = PrivacySetting.find_by(id: params[:id])
+    @privacy_setting = PrivacySetting.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def privacy_setting_params

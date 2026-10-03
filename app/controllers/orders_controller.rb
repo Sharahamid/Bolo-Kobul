@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
     end
 
     if @order.save! && @order.update(status: "pending",
-                                     txn_no: "TRAN_" + Time.now.to_f.to_s)
+                                     txn_no: "TRAN_#{Time.now.to_i}#{SecureRandom.hex(4)}")
       res_body = JSON.parse(PaymentService.call @order.id)
       if res_body && res_body["result"] == 'true'
         uri = URI(res_body["payment_url"])
@@ -57,7 +57,9 @@ class OrdersController < ApplicationController
 
   def success
     begin
-      if @order
+      if @order&.success?
+        flash["success"] = "This payment has already been confirmed."
+      elsif @order
         res_body = JSON.parse(PaymentService.trxcheck(@order.txn_no))
         if res_body["pay_status"] == 'Successful'
           @order.update(status: "success")
@@ -96,7 +98,7 @@ class OrdersController < ApplicationController
       flash["danger"] = "Your payment may have been processed. Please contact support@bolokobul.com with your transaction details."
     end
     if @order&.user.present?
-      sign_in @order.user unless user_signed_in?
+      sign_in_order_user
       active_profile = @order.user.marriage_profiles.first
       if active_profile.present?
         redirect_to dashboard_marriage_profile_path(active_profile)
@@ -112,14 +114,14 @@ class OrdersController < ApplicationController
 
   def fail
     if @order
-      @order.update(status: "failed")
+      @order.update(status: "failed") if @return_verified && @order.pending?
       product_name = @order.butterfly? ? "Butterfly" : @order.assisted_service&.name
       flash["danger"] = "Your #{product_name} purchase was not successful. Please try again."
     else
       flash["danger"] = "Something went wrong. Please contact support@bolokobul.com"
     end
     if @order&.user.present?
-      sign_in @order.user unless user_signed_in?
+      sign_in_order_user
       redirect_to orders_path
     else
       redirect_to root_path
@@ -128,14 +130,14 @@ class OrdersController < ApplicationController
 
   def cancel
     if @order
-      @order.update(status: "failed")
+      @order.update(status: "failed") if @return_verified && @order.pending?
       product_name = @order.butterfly? ? "Butterfly" : @order.assisted_service&.name
       flash["warning"] = "Your #{product_name} purchase was cancelled. No payment has been taken."
     else
       flash["warning"] = "Your purchase was cancelled."
     end
     if @order&.user.present?
-      sign_in @order.user unless user_signed_in?
+      sign_in_order_user
       redirect_to orders_path
     else
       redirect_to root_path
@@ -154,13 +156,24 @@ class OrdersController < ApplicationController
                               ButterflyConfig.last.butterfly_price : 0.0
   end
 
+  # The payment gateway sends the customer back here. The order must match the URL,
+  # and only a valid signed return token (added to the return URLs by PaymentService)
+  # proves the visitor came from a real checkout for this order.
   def set_order_and_verify
     @order = Order.find_by(txn_no: params[:mer_txnid])
+    @order = nil if @order && @order.id.to_s != params[:id].to_s
+    @return_verified = @order.present? && PaymentService.valid_return_token?(@order, params[:rt])
+  end
+
+  # The session cookie is usually not sent when the gateway posts back, so the customer
+  # is signed in again here, but only for a verified return.
+  def sign_in_order_user
+    sign_in @order.user if @return_verified && !user_signed_in?
   end
 
   def order_params
     params.require(:order).permit(
-      :quantity, :payment_method, :promo_code, :txn_no, :customer_name, :customer_phone, :customer_email, :product, :assisted_service_id
+      :quantity, :payment_method, :promo_code, :customer_name, :customer_phone, :customer_email, :product, :assisted_service_id
     )
   end
 end

@@ -34,10 +34,10 @@ class AppearancesController < ApplicationController
   private
 
   def set_appearance
-    @appearance = Appearance.find_by(id: params[:id])
+    @appearance = Appearance.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def appearance_params
-    params.require(:appearance).permit!
+    params.require(:appearance).permit!.except(:marriage_profile_id)
   end
 end

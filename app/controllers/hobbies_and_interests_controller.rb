@@ -34,7 +34,7 @@ class HobbiesAndInterestsController < ApplicationController
   private
 
   def set_hobbies_and_interest
-    @hobbies_and_interest = HobbiesAndInterest.find_by(id: params[:id])
+    @hobbies_and_interest = HobbiesAndInterest.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def hobbies_and_interest_params
