@@ -31,6 +31,11 @@
   <meta name="apple-mobile-web-app-title" content="Bolo Kobul">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <% push_enabled = user_signed_in? && WebPushService.configured? %>
+  <% if push_enabled %>
+    <meta name="vapid-public-key" content="<%= WebPushService.public_key %>">
+    <script src="/push-notifications.js" defer></script>
+  <% end %>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
@@ -95,6 +100,7 @@
 <%= render 'shared/flash_message' %>
 <%= render 'shared/animation' %>
 <%= render 'shared/header' %>
+<%= render 'shared/push_prompt' if push_enabled %>
 <%= content_for?(:content) ? yield(:content) : yield %>
 <%= render 'shared/modal' %>
 <!-- fb chat widget -->

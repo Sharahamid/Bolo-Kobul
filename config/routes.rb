@@ -27,6 +27,9 @@ Rails.application.routes.draw do
   get '/animation', to: 'home#animation'
   match '/use_reference', to: 'home#use_reference', as: 'reference', via: [:get, :patch]
   
+  resources :push_subscriptions, only: [:create]
+  delete 'push_subscriptions', to: 'push_subscriptions#destroy'
+
   resources :messages do
     member do
       get :profile

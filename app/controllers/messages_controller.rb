@@ -37,6 +37,7 @@ class MessagesController < ApplicationController
         chat_room = @message.chat_room
         ActionCable.server.broadcast "room_#{chat_room.id}_channel",
                                      content: @message
+        notify_chat_recipients(chat_room)
 
         format.js
       else
@@ -51,6 +52,29 @@ class MessagesController < ApplicationController
   end
 
   private
+
+  # Phone notification for the other person in the chat. The message itself is not
+  # included, so nothing private shows on a lock screen. At most one per chat every
+  # 5 minutes, so a conversation doesn't flood the other person's phone.
+  def notify_chat_recipients(chat_room)
+    return unless WebPushService.configured?
+
+    sender = current_active_profile
+    recipient_profile_ids = chat_room.chat_room_users.where.not(marriage_profile_id: sender.id).select(:marriage_profile_id)
+    user_ids = MarriageProfile.where(id: recipient_profile_ids).distinct.pluck(:user_id) - [current_user.id]
+    user_ids.each do |user_id|
+      next unless Rails.cache.write("push_chat_#{chat_room.id}_#{user_id}", true, expires_in: 5.minutes, unless_exist: true)
+
+      WebPushJob.perform_later(user_id, {
+        'title' => 'Bolo Kobul',
+        'body' => 'You have a new message. Tap to read it.',
+        'url' => profile_message_path(sender),
+        'tag' => "chat-#{chat_room.id}"
+      })
+    end
+  rescue StandardError => e
+    Rails.logger.warn("[WebPush] chat notification failed: #{e.message}")
+  end
 
   def take_chat_rooms
     @chat_rooms = current_active_profile.chat_rooms.includes(:messages)

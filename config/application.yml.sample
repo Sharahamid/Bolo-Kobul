@@ -12,3 +12,6 @@ development:
   EXCEPTION_EMAILS: ''
   ADMIN_EMAIL: ''
   GA_MEASUREMENT_ID: ''
+  VAPID_PUBLIC_KEY: ''
+  VAPID_PRIVATE_KEY: ''
+  VAPID_SUBJECT: 'mailto:support@bolokobul.com'
