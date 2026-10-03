@@ -1,5 +1,4 @@
-# Ensure Rails secret key is set for Puma workers
-ENV['SECRET_KEY_BASE'] ||= '7db98b0dc3a079688a5e7a7beb7c6cc8ad90bc0d988757f153d915538b6634c1afdb0f409b79f5e236b89f558bad70ca7ba98b6c06e96acca6ee19583a0d4e82'
+# SECRET_KEY_BASE comes from the server's config/application.yml (never commit it here)
 
 # Bind Puma to a Unix socket for Nginx
 bind "unix:///home/ubuntu/apps/bolokobul/shared/tmp/sockets/bolokobul-puma.sock"
