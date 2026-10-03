@@ -66,6 +66,11 @@ class User < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
+  # Names in non-Latin scripts (e.g. Bangla) produce an empty slug; fall back to a random one
+  def normalize_friendly_id(value)
+    super.presence || "user-#{SecureRandom.alphanumeric(8).downcase}"
+  end
+
   #
   # Devise configuration
   # Include default devise modules. Others available are:
@@ -99,16 +104,18 @@ class User < ApplicationRecord
     end
   end
 
+  # Letters in any script (e.g. Bangla) plus common name punctuation: - . ' ( ) ,
   validates :name, length: { minimum: 2, maximum: 50 },
-                   format: { with: /\A[a-zA-Z\s\-\.'\.]+\z/, message: 'should only contain letters, spaces, hyphens or apostrophes' }
+                   format: { with: /\A[\p{L}\p{M}\s\-\.'(),]+\z/u, message: 'should only contain letters, spaces and - . \' ( ) ,' }
   validate :name_looks_real
 
   def name_looks_real
     return if name.blank?
-    # Must have reasonable vowel ratio (at least 20%)
+    # Single-word English names must have a reasonable vowel ratio (catches bot strings
+    # like "xKqzPwt"); multi-word names are skipped so abbreviations like "Md Shfqt" pass
     vowels = name.count('aeiouAEIOU').to_f
     letters = name.count('a-zA-Z').to_f
-    if letters > 4 && (vowels / letters) < 0.15
+    if letters > 4 && !name.strip.include?(' ') && (vowels / letters) < 0.15
       errors.add(:name, 'does not appear to be a real name')
       return
     end
@@ -256,9 +263,8 @@ class User < ApplicationRecord
   private
 
   def password_regex
-    return if password.blank? || password =~ /\A(?=.*\d)(?=.*[A-Z])(?=.*\W)[^ ]{5,}\z/
-    errors.add :password, 'should have at least 6 characters including 1 uppercase and lowercase letter,
-                            1 number, 1 special character'
+    return if password.blank? || password =~ /\A(?=.*\p{L})(?=.*\d).{8,}\z/
+    errors.add :password, 'must be at least 8 characters and include a letter and a number'
   end
 
   def give_default_butterfly
