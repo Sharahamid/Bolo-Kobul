@@ -26,7 +26,6 @@ development:
   database: bolokobul_development
   username: root
   password: password
-  #  authy_key: <%#= ENV["AUTHY_API_KEY"] %>
   #  secret_key_base: <%#= ENV["SECRET_KEY_BASE"] %>
 
   # The specified database role being used to connect to postgres.
@@ -64,7 +63,6 @@ test:
   database: bolokobul_test
   username: <%= ENV['BOLOKOBUL_DATABASE_USERNAME'] %>
   password: <%= ENV['BOLOKOBUL_DATABASE_PASSWORD'] %>
-  authy_key: <%= ENV["AUTHY_API_KEY"] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
