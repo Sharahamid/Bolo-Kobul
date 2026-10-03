@@ -37,6 +37,7 @@ class Notification < ApplicationRecord
 
   before_save :update_recipient
   after_create :enqueue_notifiers
+  after_create_commit :enqueue_push
 
   #
   # scope
@@ -66,6 +67,28 @@ class Notification < ApplicationRecord
     if recipient && is_read == false && (will_sms? || will_email?)
       NotificationWorker.perform_async id
     end
+  end
+
+  # Phone/desktop notification for users who have turned them on
+  def enqueue_push
+    return unless recipient && WebPushService.configured? && recipient.push_subscriptions.exists?
+    # No alert for confirmations of the user's own actions (they are on the site already)
+    return if Current.user && Current.user.id == recipient_id
+
+    WebPushJob.perform_later(recipient.id, push_payload)
+  rescue StandardError => e
+    Rails.logger.warn("[WebPush] could not queue notification #{id}: #{e.message}")
+  end
+
+  def push_payload
+    text = CGI.unescapeHTML(ActionController::Base.helpers.strip_tags(content.to_s)).squish
+    link = content.to_s[/href=['"]([^'"]+)['"]/, 1]
+    {
+      'title' => 'Bolo Kobul',
+      'body' => text.truncate(160),
+      'url' => link.to_s.start_with?('/') ? link : '/users/notifications',
+      'tag' => "notification-#{id}"
+    }
   end
 
   def send_sms

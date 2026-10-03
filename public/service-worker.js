@@ -2,8 +2,9 @@
 // - Pages always come from the network (never cached, so private data is never stored)
 //   and fall back to an offline page when there is no connection.
 // - Fingerprinted static files (/assets, /packs) and app icons are cached for speed.
+// - Shows phone/desktop notifications sent by the server and opens the right page on tap.
 
-const VERSION = 'v1';
+const VERSION = 'v2';
 const OFFLINE_CACHE = `bk-offline-${VERSION}`;
 const STATIC_CACHE = `bk-static-${VERSION}`;
 const OFFLINE_URL = '/offline.html';
@@ -55,4 +56,38 @@ self.addEventListener('fetch', (event) => {
       )
     );
   }
+});
+
+self.addEventListener('push', (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch (e) {
+    data = { body: event.data ? event.data.text() : '' };
+  }
+  event.waitUntil(
+    self.registration.showNotification(data.title || 'Bolo Kobul', {
+      body: data.body || 'You have a new update.',
+      icon: '/icons/icon-192.png',
+      badge: '/icons/badge-96.png',
+      tag: data.tag || undefined,
+      renotify: Boolean(data.tag),
+      data: { url: data.url || '/' }
+    })
+  );
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  let target = new URL((event.notification.data && event.notification.data.url) || '/', self.location.origin);
+  if (target.origin !== self.location.origin) target = new URL('/', self.location.origin);
+
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windows) => {
+      for (const client of windows) {
+        if (client.url === target.href && 'focus' in client) return client.focus();
+      }
+      return self.clients.openWindow(target.href);
+    })
+  );
 });

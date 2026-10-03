@@ -87,6 +87,7 @@ class User < ApplicationRecord
   has_many :customer_supports, dependent: :destroy
   has_one :advertiser_profile, dependent: :destroy
   has_many :notifications, foreign_key: 'recipient_id', dependent: :destroy
+  has_many :push_subscriptions, dependent: :destroy
   has_many :orders
   #
   # validations

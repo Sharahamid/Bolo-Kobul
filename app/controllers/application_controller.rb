@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action { Current.user = current_user }
   add_flash_types :info, :success, :danger, :warning
   helper_method :current_active_profile, :check_current_active_profile
 
