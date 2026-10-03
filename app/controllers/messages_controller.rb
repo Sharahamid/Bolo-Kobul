@@ -28,6 +28,10 @@ class MessagesController < ApplicationController
 
   def create
     @message = current_active_profile.messages.build(message_params)
+    # Only allow posting into chat rooms the sender is a member of
+    unless current_active_profile.chat_rooms.exists?(id: message_params[:chat_room_id])
+      head :forbidden and return
+    end
     respond_to do |format|
       if message_params[:body].present? && @message.save!
         chat_room = @message.chat_room
@@ -43,7 +47,7 @@ class MessagesController < ApplicationController
   end
 
   def show
-    @message = Message.find_by(id: params[:id])
+    @message = Message.where(chat_room_id: current_active_profile.chat_rooms.select(:id)).find(params[:id])
   end
 
   private
@@ -53,6 +57,7 @@ class MessagesController < ApplicationController
   end
 
   def message_params
-    params.require(:message).permit(:body, :chat_room_id, :sender_id, :recipient_id)
+    # sender_id is always the current profile and is never taken from the form
+    params.require(:message).permit(:body, :chat_room_id, :recipient_id)
   end
 end

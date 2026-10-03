@@ -44,10 +44,10 @@ class FamilyMembersController < ApplicationController
   private
 
   def set_family_member
-    @family_member = FamilyMember.find_by(id: params[:id])
+    @family_member = FamilyMember.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def family_params
-    params.require(:family_member).permit!
+    params.require(:family_member).permit!.except(:marriage_profile_id)
   end
 end

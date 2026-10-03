@@ -44,10 +44,10 @@ class AcademicInformationsController < ApplicationController
   private
 
   def set_academic_info
-    @academic_info = AcademicInformation.find_by(id: params[:id])
+    @academic_info = AcademicInformation.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def academic_info_params
-    params.require(:academic_information).permit!
+    params.require(:academic_information).permit!.except(:marriage_profile_id)
   end
 end

@@ -1,7 +1,12 @@
 class RoomChannel < ApplicationCable::Channel
+  # Only members of the chat room may listen to it
   def subscribed
-    stream_from "room_#{params[:chat_room_id]}_channel"
-    # stream_for chat_room
+    room = chat_room
+    if room && ChatRoomUser.where(chat_room_id: room.id, marriage_profile_id: current_user.marriage_profiles.select(:id)).exists?
+      stream_from "room_#{room.id}_channel"
+    else
+      reject
+    end
   end
 
   def unsubscribed
@@ -11,9 +16,6 @@ class RoomChannel < ApplicationCable::Channel
   private
 
   def chat_room
-    puts "\n"*8
-    p params[:chat_room]
-    puts "\n"*8
     ChatRoom.find_by(id: params[:chat_room_id])
   end
 

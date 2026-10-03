@@ -23,7 +23,7 @@ class AdvertiserProfilesController < ApplicationController
 
   private
   def advertiser_params
-    params.require(:advertiser_profile).permit!
+    params.require(:advertiser_profile).permit!.except(:user_id)
   end
 
   def set_advertiser_profile

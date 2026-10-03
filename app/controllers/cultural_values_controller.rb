@@ -34,10 +34,10 @@ class CulturalValuesController < ApplicationController
   private
 
   def set_cultural_values
-    @cultural_value = CulturalValue.find_by(id: params[:id])
+    @cultural_value = CulturalValue.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def cultural_value_params
-    params.require(:cultural_value).permit!
+    params.require(:cultural_value).permit!.except(:marriage_profile_id)
   end
 end

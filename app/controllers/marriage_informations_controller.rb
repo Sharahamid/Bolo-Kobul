@@ -34,10 +34,10 @@ class MarriageInformationsController < ApplicationController
   private
 
   def set_marriage_info
-    @marriage_info = MarriageInformation.find_by(id: params[:id])
+    @marriage_info = MarriageInformation.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def marriage_info_params
-    params.require(:marriage_information).permit!
+    params.require(:marriage_information).permit!.except(:marriage_profile_id)
   end
 end

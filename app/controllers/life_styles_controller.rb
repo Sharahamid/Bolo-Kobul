@@ -34,7 +34,7 @@ class LifeStylesController < ApplicationController
   private
 
   def set_life_style
-    @life_style = LifeStyle.find_by(id: params[:id])
+    @life_style = LifeStyle.where(marriage_profile_id: owned_profile_ids).find(params[:id])
   end
 
   def life_style_params

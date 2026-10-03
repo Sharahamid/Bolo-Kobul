@@ -11,7 +11,8 @@ class ApplicationController < ActionController::Base
     elsif current_user&.marriage_profiles.present?
       marriage_profile_id = current_user.marriage_profiles.first.id
     end
-    @current_active_profile = MarriageProfile.find_by_id(marriage_profile_id)
+    # Only ever pick one of the signed-in user's own profiles
+    @current_active_profile = current_user&.marriage_profiles&.find_by(id: marriage_profile_id)
     if @current_active_profile.nil? && current_user&.marriage_profiles.present?
       @current_active_profile = current_user.marriage_profiles.first
       session[:marriage_profile_id] = @current_active_profile.id
@@ -34,6 +35,12 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  # IDs of the marriage profiles that belong to the signed-in user, used to make
+  # sure people can only view or change records attached to their own profiles
+  def owned_profile_ids
+    current_user.marriage_profiles.select(:id)
+  end
 
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up) do |user_params|
