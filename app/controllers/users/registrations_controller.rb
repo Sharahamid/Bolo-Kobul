@@ -21,6 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
 
     if resource.save
+      session[:ga_event] = 'sign_up' # reported to Google Analytics on the next page
       referral_code = resource.refferel_promo_code.presence || session[:pending_referral_code]
       if referral_code.present?
         resource.earn_bf_by_reference(referral_code)
