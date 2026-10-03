@@ -363,8 +363,6 @@ GEM
       rack (< 2.1.0)
       rack-protection (>= 1.5.0)
       redis (>= 3.3.5, < 5)
-    slackistrano (4.0.1)
-      capistrano (>= 3.8.1)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
       listen (>= 2.7, < 4.0)
@@ -465,7 +463,6 @@ DEPENDENCIES
   sass-rails (>= 6)
   selenium-webdriver
   sidekiq (~> 5.2)
-  slackistrano
   spring
   spring-watcher-listen (~> 2.0.0)
   sshkit-interactive

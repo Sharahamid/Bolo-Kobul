@@ -102,13 +102,6 @@ set(
     %w[log tmp/pids tmp/states tmp/sockets tmp/cache vendor/bundle public/uploads storage]
 )
 
-# To notify deployments on slack!
-# set :slackistrano, {
-#   klass: Slackistrano::CustomMessaging,
-#   channel: "#deployments",
-#   webhook: "https://hooks.slack.com/services/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"
-# }
-
 namespace :puma do
   desc 'Create Directories for Puma Pids and Socket'
   task :make_dirs do
