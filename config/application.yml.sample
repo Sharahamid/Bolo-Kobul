@@ -11,3 +11,4 @@ development:
   SECRET_KEY_BASE: ''
   EXCEPTION_EMAILS: ''
   ADMIN_EMAIL: ''
+  GA_MEASUREMENT_ID: ''
