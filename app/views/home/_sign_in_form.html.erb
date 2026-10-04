@@ -33,13 +33,11 @@
     </div>
   </div>
 
+  <%# Filled in by the script below when signing in inside the installed app %>
+  <%= hidden_field_tag :app_mode, '0', class: 'js-app-mode' %>
+
   <div class="d-flex flex-row remember-password">
-    <div class="checkbox flex-fill">
-      <label class="bk-check-box">
-        <%= f.check_box :remember_me %>
-        <span class=""> Remember me </span>
-      </label>
-    </div>
+    <div class="flex-fill"></div>
 
 
     <div class="forget-password">
@@ -57,6 +55,10 @@
 <% end %>
 
 <script>
+  (function () {
+    var installedApp = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    document.querySelectorAll('.js-app-mode').forEach(function (field) { field.value = installedApp ? '1' : '0'; });
+  })();
   function togglePassword(inputId, button) {
     var input = document.getElementById(inputId);
     if (input.type === "password") {

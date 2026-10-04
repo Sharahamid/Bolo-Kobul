@@ -55,27 +55,40 @@ class MessagesController < ApplicationController
 
   private
 
-  # Phone notification for the other person in the chat. The message itself is not
-  # included, so nothing private shows on a lock screen. At most one per chat every
-  # 5 minutes, so a conversation doesn't flood the other person's phone.
+  # Tells the other person in the chat about a new message. The message itself is never
+  # included, so nothing private shows on a lock screen, in an inbox or in an SMS.
+  # - phone notification: at most one per chat every 5 minutes
+  # - site notification, email and SMS: at most one per chat every 30 minutes
   def notify_chat_recipients(chat_room)
-    return unless WebPushService.configured?
-
     sender = current_active_profile
-    recipient_profile_ids = chat_room.chat_room_users.where.not(marriage_profile_id: sender.id).select(:marriage_profile_id)
-    user_ids = MarriageProfile.where(id: recipient_profile_ids).distinct.pluck(:user_id) - [current_user.id]
-    user_ids.each do |user_id|
-      next unless Rails.cache.write("push_chat_#{chat_room.id}_#{user_id}", true, expires_in: 5.minutes, unless_exist: true)
+    recipient_profile_ids = chat_room.chat_room_users.where.not(marriage_profile_id: sender.id).pluck(:marriage_profile_id)
+    MarriageProfile.where(id: recipient_profile_ids).includes(:user).each do |recipient_profile|
+      user = recipient_profile.user
+      next if user.nil? || user.id == current_user.id
 
-      WebPushJob.perform_later(user_id, {
-        'title' => 'Bolo Kobul',
-        'body' => 'You have a new message. Tap to read it.',
-        'url' => profile_message_path(sender),
-        'tag' => "chat-#{chat_room.id}"
-      })
+      if WebPushService.configured? &&
+         Rails.cache.write("push_chat_#{chat_room.id}_#{user.id}", true, expires_in: 5.minutes, unless_exist: true)
+        WebPushJob.perform_later(user.id, {
+          'title' => 'Bolo Kobul',
+          'body' => 'You have a new message. Tap to read it.',
+          'url' => profile_message_path(sender),
+          'tag' => "chat-#{chat_room.id}"
+        })
+      end
+
+      next unless Rails.cache.write("alert_chat_#{chat_room.id}_#{user.id}", true, expires_in: 30.minutes, unless_exist: true)
+
+      user.notifications.create(
+        content: "You have a new message from #{sender.unique_id}. <a href='#{profile_message_path(sender)}' style='color:#FFB627;font-weight:600;'>Read and Reply</a>",
+        notifiable: recipient_profile,
+        will_email: false,
+        will_sms: false,
+        skip_push: true
+      )
+      ChatMessageAlertJob.perform_later(user.id, sender.id, profile_message_url(sender))
     end
   rescue StandardError => e
-    Rails.logger.warn("[WebPush] chat notification failed: #{e.message}")
+    Rails.logger.warn("[Chat] message alert failed: #{e.message}")
   end
 
   def take_chat_rooms

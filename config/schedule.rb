@@ -30,6 +30,11 @@ every :week do
 end
 
 # Learn more: http://github.com/javan/whenever
+# The server clock is UTC: 10:00 am UTC is 4:00 pm in Bangladesh
+every :friday, at: '10:00 am' do
+  rake 'reminders:weekly'
+end
+
 every :friday, at: '7:00 pm' do
   rake 'weekly_report:send'
 end
