@@ -22,7 +22,7 @@ class Notification < ApplicationRecord
   #
 
   enum category: [:default, :purchased]
-  attr_accessor :assign_to
+  attr_accessor :assign_to, :skip_push
 
   #
   # Associations
@@ -71,6 +71,7 @@ class Notification < ApplicationRecord
 
   # Phone/desktop notification for users who have turned them on
   def enqueue_push
+    return if skip_push
     return unless recipient && WebPushService.configured? && recipient.push_subscriptions.exists?
     # No alert for confirmations of the user's own actions (they are on the site already)
     return if Current.user && Current.user.id == recipient_id

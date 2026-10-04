@@ -66,8 +66,14 @@
 
   prompt.hidden = false;
 
+  function rememberAnswer() {
+    try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {}
+  }
+
   prompt.querySelector('[data-push-enable]').addEventListener('click', function () {
     hidePrompt();
+    // Some browsers close or silently ignore the permission request; don't ask again on every page
+    rememberAnswer();
     Promise.resolve(Notification.requestPermission())
       .then(function (permission) {
         if (permission === 'granted') return subscribe();
@@ -77,6 +83,6 @@
 
   prompt.querySelector('[data-push-dismiss]').addEventListener('click', function () {
     hidePrompt();
-    try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {}
+    rememberAnswer();
   });
 })();

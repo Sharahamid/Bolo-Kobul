@@ -169,7 +169,7 @@ class MarriageProfilesController < ApplicationController
         KobulOneMailer.with(user: @marriage_profile.user).receive_request.deliver_later
         SmsService.call(
           @marriage_profile.user.phone_number.to_s,
-          "Good news! Someone has sent you a 1st Kobul. Log in to check their profile: #{profile_info_marriage_profile_path(current_active_profile)}"
+          "Good news! Someone has sent you a 1st Kobul. Log in to check their profile: #{profile_info_marriage_profile_url(current_active_profile)}"
         )
       end
       if current_active_profile.favourite_profile_ids.include?(@marriage_profile.id)
@@ -213,11 +213,11 @@ class MarriageProfilesController < ApplicationController
       KobulOneMailer.with(user: current_user, profile: @marriage_profile).accept_request.deliver_later
       SmsService.call(
         current_user.phone_number.to_s,
-        "Check out the profile: #{profile_dashboard_url(@marriage_profile)} and get to know more about your potential match!"
+        "Check out the profile: #{profile_info_marriage_profile_url(@marriage_profile)} and get to know more about your potential match!"
       )
 
       @marriage_profile.user.notifications.create(
-        content: "Good news! #{current_active_profile.unique_id} has accepted your 1st Kobul! Send a 2nd Kobul to start chatting. <a href='#{profile_info_marriage_profile_path(@marriage_profile)}' style='color:#FFB627;font-weight:600;'>Check Their Profile</a>",
+        content: "Good news! #{current_active_profile.unique_id} has accepted your 1st Kobul! Send a 2nd Kobul to start chatting. <a href='#{profile_info_marriage_profile_path(current_active_profile)}' style='color:#FFB627;font-weight:600;'>Check Their Profile</a>",
         notifiable: @marriage_profile,
         will_email: false,
         will_sms: false
@@ -226,7 +226,7 @@ class MarriageProfilesController < ApplicationController
       KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).get_acceptance.deliver_later
       SmsService.call(
         @marriage_profile.user.phone_number.to_s,
-        "Good News! Your 1st Kobul was accepted! Log in to view their full profile: #{profile_info_marriage_profile_path(@marriage_profile)}"
+        "Good News! Your 1st Kobul was accepted! Log in to view their full profile: #{profile_info_marriage_profile_url(current_active_profile)}"
       )
      
       flash[:notice] = "Your 1st Kobul has been accepted successfully"

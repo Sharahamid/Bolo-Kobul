@@ -241,6 +241,12 @@ class User < ApplicationRecord
     end
   end
 
+  # Website: stay signed in for 3 days. Installed app (Current.remember_in_app is set at
+  # sign-in): until the member signs out.
+  def remember_expires_at
+    Current.remember_in_app ? super : 3.days.from_now
+  end
+
   def active_for_authentication?
     verified?
   end

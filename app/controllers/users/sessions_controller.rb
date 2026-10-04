@@ -24,6 +24,9 @@ class Users::SessionsController < Devise::SessionsController
       if resource.present? && resource.valid_password?(params[:user][:password])
         if resource.active_for_authentication?
           sign_in :user, resource
+          # Stay signed in: 3 days on the website, until signing out in the installed app
+          Current.remember_in_app = params[:app_mode] == '1'
+          Devise::Hooks::Proxy.new(warden).remember_me(resource)
           flash[:success] = 'Signed in successfully.'
           format.js
           format.html { redirect_to after_sign_in_path_for(resource) }

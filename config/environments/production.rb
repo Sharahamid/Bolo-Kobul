@@ -113,7 +113,8 @@ Rails.application.configure do
   # config.active_record.database_resolver_context = ActiveRecord::Middleware::DatabaseSelector::Resolver::Session
 
 # for mailer root url
-config.action_mailer.default_url_options = { host: 'bolokobul.com', protocol: 'https' }
+# Same address as the installed app, so links in emails can open in it
+config.action_mailer.default_url_options = { host: 'www.bolokobul.com', protocol: 'https' }
 
 # for mailer delivery errors
 config.action_mailer.raise_delivery_errors = true

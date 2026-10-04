@@ -152,7 +152,9 @@ Devise.setup do |config|
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-   config.remember_for = 30.days
+   # The longest a member can stay signed in (the installed app). On the website the
+   # sign-in cookie lasts 3 days - see User#remember_expires_at.
+   config.remember_for = 1.year
 
   # Invalidates all the remember me tokens when the user signs out.
   config.expire_all_remember_me_on_sign_out = true

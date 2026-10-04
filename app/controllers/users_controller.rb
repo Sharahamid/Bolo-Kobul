@@ -20,6 +20,7 @@ class UsersController < ApplicationController
       @user.update(verified: true)
       UserAccountMailer.with(user: @user).registration.deliver_later
       sign_in(:user, @user)
+      Devise::Hooks::Proxy.new(warden).remember_me(@user) # signed in for 3 days
       redirect_to after_sign_in_path_for(@user)
     when :expired
       redirect_to show_verify_user_path(@user), notice: 'This code has expired. Please request a new code.'
