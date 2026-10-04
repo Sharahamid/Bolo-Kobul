@@ -29,6 +29,6 @@ class AdvertiserProfilesController < ApplicationController
   def set_advertiser_profile
     @advertiser_profile = AdvertiserProfile.find(params[:id])
   rescue ActiveRecord::RecordNotFound
-    render file: "#{Rails.root}/public/404", layout: false, status: :not_found
+    render file: Rails.root.join("public", "404.html"), layout: false, status: :not_found
   end
 end

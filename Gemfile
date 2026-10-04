@@ -1,28 +1,32 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.3'
-gem 'activeadmin'
+ruby '2.7.8'
+gem 'activeadmin', '~> 2.13'
 gem 'active_storage_validations'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'bitmask_attributes'
 gem 'carrierwave', '~> 2.0'
 gem 'ckeditor'
 gem 'cropper-rails'
-gem 'devise', '~> 4.7.1'
+gem 'devise', '~> 4.9'
 gem 'exception_handler', '~> 0.8.0.0'
 gem "figaro"
-gem 'friendly_id', '~> 5.3'
-gem 'has_friendship'
+gem 'friendly_id', '~> 5.5'
+gem 'has_friendship', '~> 1.2'
 gem 'jbuilder', '~> 2.7'
 gem "mini_magick"
 gem 'omniauth-facebook', '~> 5.0'
 gem 'omniauth-google-oauth2', '~> 0.8.0'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 4.1'
-gem 'rails', '~> 6.0.1'
+gem 'rails', '~> 6.1.7'
+# concurrent-ruby 1.3.5+ no longer loads Logger, which Rails before 7.1 relies on
+gem 'concurrent-ruby', '< 1.3.5'
 gem 'redis', '~> 4.1', '>= 4.1.0'
 gem 'sass-rails', '>= 6'
+# sassc 2.4 crashes (segfault) while compiling this site's stylesheets
+gem 'sassc', '~> 2.2.1'
 gem 'sidekiq', '~>5.2'
 gem 'turbolinks', '~> 5'
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby] # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
@@ -54,7 +58,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'sshkit-interactive'
-  gem 'web-console', '>= 3.3.0'
+  gem 'web-console', '>= 4.1.0'
 end
 
 group :test do

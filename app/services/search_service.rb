@@ -8,7 +8,7 @@ class SearchService
     @marriage_profile = MarriageProfile.find_by(id: current_profile_id)
 
     if @marriage_profile
-      @matches = @matches.where.not(id: current_profile_id, gender: @marriage_profile.gender)
+      @matches = @matches.where.not(id: current_profile_id).where.not(gender: @marriage_profile.gender)
       @matches = @matches.where.not(id: @marriage_profile.friend_ids)
       @matches = @matches.where.not(id: @marriage_profile.favourite_profile_ids)
       @matches = @matches.where.not(id: @marriage_profile.pending_friend_ids)

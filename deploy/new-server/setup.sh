@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Prepares a fresh Ubuntu 24.04 server to run Bolo Kobul exactly as it runs today
-# (Ruby 2.6.3, the same gems), with a supported OS, PostgreSQL 16 and Redis 7.
+# Prepares an Ubuntu 24.04 server to run Bolo Kobul (Ruby, gems, Node, PostgreSQL 16,
+# Redis 7, nginx and the background services).
 #
 # Run as the "ubuntu" user:   bash deploy/new-server/setup.sh
-# Safe to run more than once. It does NOT copy data, start the site or install
-# scheduled jobs - see README.md for those steps.
+# Safe to run more than once, and re-run after a Ruby upgrade (README, "Upgrading Ruby
+# and Rails"). It does NOT copy data, start the site or install scheduled jobs.
 set -euo pipefail
 
 APP_ROOT=/home/ubuntu/apps/bolokobul
@@ -12,14 +12,16 @@ SHARED=$APP_ROOT/shared
 CURRENT=$APP_ROOT/current
 REPO_URL=git@github.com:Sharahamid/Bolo-Kobul.git
 
-RUBY_VERSION=2.6.3
-# The prebuilt Ruby only works from the folder it was built for, so it lives there and
-# /opt/rubies/ruby-2.6.3 (used by the services and PATH) is a shortcut to it
+RUBY_VERSION=2.7.8
+# The prebuilt Ruby only works from the folder it was built for, so it lives there.
+# /opt/rubies/ruby-<version> and /opt/rubies/current (used by the services and PATH)
+# are shortcuts to it; switching Ruby versions only moves /opt/rubies/current.
 RUBY_HOME=/opt/hostedtoolcache/Ruby/$RUBY_VERSION/x64
 RUBY_PREFIX=/opt/rubies/ruby-$RUBY_VERSION
+RUBY_CURRENT=/opt/rubies/current
 RUBY_URL=https://github.com/ruby/ruby-builder/releases/download/toolcache/ruby-$RUBY_VERSION-ubuntu-24.04.tar.gz
-RUBY_SHA256=88a7254921c96feda654f38c964ad174d895df3f11cda9b1425351f8f7d39a77
-BUNDLER_VERSION=2.2.21
+RUBY_SHA256=63db9dc0634646d587a0bbab0d30d5ecbf3beaa2e67a7de02b97180e361f1de5
+BUNDLER_VERSION=2.4.22
 
 NODE_VERSION=16.20.2
 NODE_PREFIX=/opt/node-$NODE_VERSION
@@ -62,7 +64,7 @@ if ! sudo swapon --show | grep -q /swapfile; then
   sudo sysctl -p /etc/sysctl.d/99-swappiness.conf >/dev/null
 fi
 
-step "3/9 Ruby $RUBY_VERSION (same version as the current server)"
+step "3/9 Ruby $RUBY_VERSION"
 if [ ! -x "$RUBY_HOME/bin/ruby" ]; then
   tmp=$(mktemp -d)
   curl -fsSL -o "$tmp/ruby.tar.gz" "$RUBY_URL"
@@ -77,11 +79,12 @@ if [ -e "$RUBY_PREFIX" ] && [ ! -L "$RUBY_PREFIX" ]; then
 fi
 sudo mkdir -p "$(dirname "$RUBY_PREFIX")"
 sudo ln -sfn "$RUBY_HOME" "$RUBY_PREFIX"
+sudo ln -sfn "$RUBY_HOME" "$RUBY_CURRENT"
 sudo tee /etc/profile.d/bolokobul-ruby.sh >/dev/null <<PROFILE
-export PATH=$RUBY_PREFIX/bin:$NODE_PREFIX/bin:\$PATH
+export PATH=$RUBY_CURRENT/bin:$NODE_PREFIX/bin:\$PATH
 PROFILE
-export PATH=$RUBY_PREFIX/bin:$NODE_PREFIX/bin:$PATH
-sudo "$RUBY_PREFIX/bin/gem" install bundler -v "$BUNDLER_VERSION" --no-document --conservative
+export PATH=$RUBY_CURRENT/bin:$NODE_PREFIX/bin:$PATH
+sudo "$RUBY_CURRENT/bin/gem" install bundler -v "$BUNDLER_VERSION" --no-document --conservative
 ruby -v
 
 step "4/9 Node.js $NODE_VERSION and Yarn (needed to build the site's JavaScript)"

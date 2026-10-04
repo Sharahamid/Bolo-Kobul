@@ -46,10 +46,10 @@ class CustomerSupport < ApplicationRecord
     if customer_attachment.attached?
       if customer_attachment.blob.byte_size > 2000000
         self.customer_attachment = nil
-        errors[:base] << "File size(max 2MB) too large!"
+        errors.add(:base, "File size(max 2MB) too large!")
       elsif !customer_attachment.blob.content_type.starts_with?('image/')
         self.customer_attachment = nil
-        errors[:base] << "Not an acceptable format!"
+        errors.add(:base, "Not an acceptable format!")
       end
     end
   end

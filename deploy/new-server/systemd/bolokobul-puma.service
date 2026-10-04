@@ -8,8 +8,8 @@ Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/apps/bolokobul/current
 Environment=RAILS_ENV=production
-Environment=PATH=/opt/rubies/ruby-2.6.3/bin:/opt/node-16.20.2/bin:/usr/local/bin:/usr/bin:/bin
-ExecStart=/opt/rubies/ruby-2.6.3/bin/bundle exec puma -C config/puma.rb
+Environment=PATH=/opt/rubies/current/bin:/opt/node-16.20.2/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/rubies/current/bin/bundle exec puma -C config/puma.rb
 # Zero-downtime restart after a code update: sudo systemctl reload bolokobul-puma
 ExecReload=/bin/kill -USR2 $MAINPID
 Restart=always

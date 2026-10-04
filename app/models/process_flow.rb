@@ -30,10 +30,10 @@ class ProcessFlow < ApplicationRecord
     if process_image.attached?
       if process_image.blob.byte_size > 2000000
         process_image.delete
-        errors[:base] << "File size(max 2MB) too large!"
+        errors.add(:base, "File size(max 2MB) too large!")
       elsif !process_image.blob.content_type.starts_with?('image/')
         process_image.delete
-        errors[:base] << "Not in an acceptable format!"
+        errors.add(:base, "Not in an acceptable format!")
       end
     end
   end
