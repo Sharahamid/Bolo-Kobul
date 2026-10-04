@@ -12,7 +12,7 @@
        class="collapse <%= about.id== @about_content.first.id ? 'show' : '' %>"
        role="tabpanel" aria-labelledby="heading_<%= about.id %>">
     <div class="card-body">
-      <%= about.content.html_safe %>
+      <%= safe_html(about.content) %>
     </div>
   </div>
 </div>

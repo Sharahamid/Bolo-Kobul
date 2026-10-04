@@ -15,6 +15,18 @@ module ApplicationHelper
     date.strftime("%d %b %Y %l:%M %p")
   end
 
+  # Formatting that stored rich text (blogs, FAQs, policies, notifications...) may keep.
+  # Anything that can run code - scripts, event handlers like onclick, javascript: links,
+  # iframes, forms - is removed.
+  RICH_TEXT_TAGS = (Rails::Html::SafeListSanitizer.allowed_tags.to_a +
+                    %w[table thead tbody tfoot tr td th caption colgroup col u s strike font center figure figcaption]).freeze
+  RICH_TEXT_ATTRIBUTES = (Rails::Html::SafeListSanitizer.allowed_attributes.to_a +
+                          %w[style target rel colspan rowspan align color size]).freeze
+
+  def safe_html(html)
+    sanitize(html.to_s, tags: RICH_TEXT_TAGS, attributes: RICH_TEXT_ATTRIBUTES)
+  end
+
   def format_date_chat(date)
     local_time_tag(date, :day)
   end

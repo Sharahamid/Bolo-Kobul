@@ -6,7 +6,7 @@
   <div class="content d-flex align-items-start p-2">
     <span class="notification-bullet"></span>
     <div class="flex-fill">
-      <%= raw(notification.content) %>
+      <%= safe_html(notification.content) %>
     </div>
   </div>
 </div>

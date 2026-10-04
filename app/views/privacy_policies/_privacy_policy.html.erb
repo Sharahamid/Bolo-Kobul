@@ -14,7 +14,7 @@
        class="collapse <%= privacy_policy.id == @privacy_policies.first.id ? 'show' : '' %>"
        role="tabpanel" aria-labelledby="heading_<%= privacy_policy.id %>">
     <div class="card-body">
-      <%= privacy_policy.content.html_safe %>
+      <%= safe_html(privacy_policy.content) %>
     </div>
   </div>
 </div>

@@ -17,7 +17,7 @@
            .first.id ? 'show' : '' %>"
        role="tabpanel" aria-labelledby="heading_<%= precautionary_measure.id %>">
     <div class="card-body">
-      <%= precautionary_measure.content.html_safe %>
+      <%= safe_html(precautionary_measure.content) %>
     </div>
   </div>
 </div>
