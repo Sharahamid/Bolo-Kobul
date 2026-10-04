@@ -21,7 +21,7 @@
             <div class="form-group">
               <%= f.text_field :name,
                                autofocus: true,
-                               autocomplete: "name",
+                               autocomplete: f.object.own_name_locked? ? "name" : "off",
                                class: 'form-control sign_up-input-field',
                                placeholder: 'Full Name',
                                required: true,

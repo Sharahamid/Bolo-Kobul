@@ -91,7 +91,7 @@ class SearchService
       @matches = @matches.to_a.select do |candidate|
         candidate_pref = candidate.partner_preference
         candidate_pref&.marital_status.blank? ||
-          candidate_pref.marital_status.keys.map(&:to_s).include?(seeker_marital)
+          candidate_pref.marital_status.to_a.map(&:to_s).include?(seeker_marital)
       end
     end
 
