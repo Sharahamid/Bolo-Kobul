@@ -18,6 +18,19 @@ class PushSubscriptionsController < ApplicationController
     end
   end
 
+  # "Send test notification" on the notifications page
+  def test
+    return head(:not_found) unless WebPushService.configured? && current_user.push_subscriptions.exists?
+
+    WebPushJob.perform_later(current_user.id, {
+      'title' => 'Bolo Kobul',
+      'body' => 'Notifications are working! You will hear about new Kobuls and messages like this.',
+      'url' => '/users/notifications',
+      'tag' => "test-#{Time.current.to_i}"
+    })
+    head :accepted
+  end
+
   def destroy
     current_user.push_subscriptions.where(endpoint: params[:endpoint]).destroy_all
     head :no_content

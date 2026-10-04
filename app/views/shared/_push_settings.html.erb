@@ -1,0 +1,69 @@
+<%# Phone/desktop notification status for this device, with Turn on and a test %>
+<style>
+  .bk-push-settings { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:0 0 14px; padding:14px 16px;
+                      background:#FFFFFF; border:1px solid #F1E6C8; border-left:4px solid #C99A16; border-radius:12px; }
+  .bk-push-settings__text { flex:1 1 220px; min-width:0; }
+  .bk-push-settings__title { margin:0 0 2px; font-size:15px; font-weight:700; color:#222233; }
+  .bk-push-settings__status { margin:0; font-size:13px; color:#6E6E78; line-height:1.5; }
+  .bk-push-settings__actions { display:flex; gap:8px; flex-wrap:wrap; }
+  .bk-push-settings__btn { appearance:none; border:0; cursor:pointer; font-size:13px; font-weight:600; padding:9px 16px; border-radius:999px; }
+  .bk-push-settings__btn--primary { background:#C99A16; color:#FFFFFF; }
+  .bk-push-settings__btn--ghost { background:#FBF4E2; color:#7A5C0C; }
+  .bk-push-settings__btn[hidden] { display:none; }
+</style>
+<div class="bk-push-settings" id="bk-push-settings">
+  <div class="bk-push-settings__text">
+    <p class="bk-push-settings__title">Phone notifications</p>
+    <p class="bk-push-settings__status" data-push-status>Checking this device…</p>
+  </div>
+  <div class="bk-push-settings__actions">
+    <button type="button" class="bk-push-settings__btn bk-push-settings__btn--primary" data-push-turn-on hidden>Turn on</button>
+    <button type="button" class="bk-push-settings__btn bk-push-settings__btn--ghost" data-push-test hidden>Send test notification</button>
+  </div>
+</div>
+<script>
+  (function () {
+    var box = document.getElementById('bk-push-settings');
+    var status = box.querySelector('[data-push-status]');
+    var turnOn = box.querySelector('[data-push-turn-on]');
+    var testBtn = box.querySelector('[data-push-test]');
+
+    function show() {
+      if (!window.bkPush) {
+        status.textContent = 'This browser cannot show notifications. On iPhone, add Bolo Kobul to your Home Screen first, then open it from there.';
+        return;
+      }
+      var permission = window.bkPush.permission();
+      turnOn.hidden = permission !== 'default';
+      testBtn.hidden = permission !== 'granted';
+      if (permission === 'granted') {
+        status.textContent = 'On for this device. New Kobuls and messages arrive with your phone\'s notification sound and vibration.';
+      } else if (permission === 'denied') {
+        status.textContent = 'Blocked for this device. To allow them: open your phone\'s Settings → Apps → (Chrome or Bolo Kobul) → Notifications, and turn them on. Then reload this page.';
+      } else {
+        status.textContent = 'Off for this device. Turn them on to hear about new Kobuls and messages even when Bolo Kobul is closed.';
+      }
+    }
+
+    turnOn.addEventListener('click', function () {
+      window.bkPush.enable().then(show, show);
+    });
+
+    testBtn.addEventListener('click', function () {
+      var token = document.querySelector('meta[name="csrf-token"]');
+      testBtn.disabled = true;
+      fetch('/push_subscriptions/test', {
+        method: 'POST', credentials: 'same-origin',
+        headers: { 'X-CSRF-Token': token ? token.content : '' }
+      }).then(function (response) {
+        status.textContent = response.ok
+          ? 'Test sent. It should appear in a few seconds with sound and vibration. If it does not, check that notifications for Chrome/Bolo Kobul are allowed and not silent in your phone\'s Settings.'
+          : 'This device is not registered yet. Tap Turn on again, or reload the page.';
+      }).finally(function () { setTimeout(function () { testBtn.disabled = false; }, 5000); });
+    });
+
+    // push-notifications.js loads after this page; wait for it
+    if (document.readyState === 'complete') show();
+    else window.addEventListener('load', show);
+  })();
+</script>

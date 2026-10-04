@@ -27,7 +27,9 @@ Rails.application.routes.draw do
   get '/animation', to: 'home#animation'
   match '/use_reference', to: 'home#use_reference', as: 'reference', via: [:get, :patch]
   
-  resources :push_subscriptions, only: [:create]
+  resources :push_subscriptions, only: [:create] do
+    post :test, on: :collection
+  end
   delete 'push_subscriptions', to: 'push_subscriptions#destroy'
 
   resources :messages do

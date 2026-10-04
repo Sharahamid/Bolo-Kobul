@@ -34,7 +34,7 @@
   <% push_enabled = user_signed_in? && WebPushService.configured? %>
   <% if push_enabled %>
     <meta name="vapid-public-key" content="<%= WebPushService.public_key %>">
-    <script src="/push-notifications.js?v=3" defer></script>
+    <script src="/push-notifications.js?v=4" defer></script>
   <% end %>
   <script src="/local-times.js?v=1" defer></script>
   <script>

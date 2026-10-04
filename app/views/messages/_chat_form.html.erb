@@ -1,10 +1,11 @@
 <%= form_for message, remote: true, autocomplete: false do |f| %>
-  <div style="display:flex; gap:8px; align-items:center;">
-    <%= f.text_field :body,
+  <div style="display:flex; gap:8px; align-items:flex-end;">
+    <%= f.text_area :body,
                      id: 'message_text',
+                     rows: 1,
                      autocomplete: 'off',
                      placeholder: 'Type a message...',
-                     style: 'flex:1; border:0.5px solid #FAC775; border-radius:20px; padding:8px 16px; font-size:13px; background:#fff; color:#412402; outline:none;',
+                     style: 'flex:1; border:0.5px solid #FAC775; border-radius:20px; padding:9px 16px; font-size:13px; line-height:1.4; background:#fff; color:#412402; outline:none; resize:none; overflow-y:auto; max-height:120px; font-family:inherit;',
                      data: { chat_room_id: chat_room.id, recipient_id: profile.id },
                      date: format_date_messaging(Time.zone.now) %>
     <%= f.hidden_field :chat_room_id, value: chat_room.id %>

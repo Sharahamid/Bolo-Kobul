@@ -64,6 +64,18 @@
     if (prompt) prompt.hidden = true;
   }
 
+  // Used by the notification settings panel (notifications page)
+  window.bkPush = {
+    supported: true,
+    permission: function () { return Notification.permission; },
+    enable: function () {
+      return Promise.resolve(Notification.requestPermission()).then(function (permission) {
+        if (permission !== 'granted') return permission;
+        return subscribe().then(function () { return 'granted'; });
+      });
+    }
+  };
+
   // Already allowed on this device: make sure the server has the subscription
   if (Notification.permission === 'granted') {
     subscribe().catch(function () {});
