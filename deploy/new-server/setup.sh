@@ -98,6 +98,9 @@ node -v && yarn -v
 
 step "5/9 Folders"
 mkdir -p "$SHARED"/{config,log,storage,public/uploads,tmp/pids,tmp/sockets,tmp/cache}
+# Ubuntu 24.04 closes home folders to other users; nginx must be able to pass through
+# (not list) /home/ubuntu to reach the site's files and the Puma socket
+chmod o+x "$HOME"
 
 step "6/9 Website code from GitHub"
 if [ ! -d "$CURRENT/.git" ]; then
