@@ -34,6 +34,9 @@ Rails.application.routes.draw do
     member do
       get :profile
     end
+    collection do
+      post :read
+    end
   end
 
   resources :users, shallow: true do

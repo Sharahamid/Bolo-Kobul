@@ -4,7 +4,7 @@
 // - Fingerprinted static files (/assets, /packs) and app icons are cached for speed.
 // - Shows phone/desktop notifications sent by the server and opens the right page on tap.
 
-const VERSION = 'v2';
+const VERSION = 'v3';
 const OFFLINE_CACHE = `bk-offline-${VERSION}`;
 const STATIC_CACHE = `bk-static-${VERSION}`;
 const OFFLINE_URL = '/offline.html';
@@ -72,6 +72,9 @@ self.addEventListener('push', (event) => {
       badge: '/icons/badge-96.png',
       tag: data.tag || undefined,
       renotify: Boolean(data.tag),
+      // Phone's notification sound plus a short buzz, like other messengers
+      silent: false,
+      vibrate: [180, 80, 180],
       data: { url: data.url || '/' }
     })
   );

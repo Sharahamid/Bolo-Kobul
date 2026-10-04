@@ -27,6 +27,16 @@ module ApplicationHelper
     sanitize(html.to_s, tags: RICH_TEXT_TAGS, attributes: RICH_TEXT_ATTRIBUTES)
   end
 
+  # Stories typed in a plain text box: blank lines become paragraphs and single line
+  # breaks are kept. Stories already written as HTML (paragraph/line-break tags) keep
+  # their own layout.
+  def formatted_story(text)
+    text = text.to_s
+    return safe_html(text) if text.match?(%r{<(p|br|div|li|h[1-6]|table)\b}i)
+
+    safe_html(simple_format(text, {}, sanitize: false))
+  end
+
   def format_date_chat(date)
     local_time_tag(date, :day)
   end

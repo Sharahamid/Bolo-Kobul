@@ -44,6 +44,9 @@ bob_education = bob_profile.academic_informations.create!(degree: 'BSc', institu
 # Alice and Bob are already connected so they can chat
 alice_profile.friend_request(bob_profile)
 bob_profile.accept_request(alice_profile)
+ChatFriendship.where(marriage_profile_id: [alice_profile.id, bob_profile.id]).delete_all
+ChatFriendship.create!(marriage_profile_id: alice_profile.id, chat_friend_id: bob_profile.id, status: :accepted)
+ChatFriendship.create!(marriage_profile_id: bob_profile.id, chat_friend_id: alice_profile.id, status: :accepted)
 
 admin = AdminUser.find_or_initialize_by(email: 'admin@example.com')
 admin.password = admin.password_confirmation = PASSWORD
