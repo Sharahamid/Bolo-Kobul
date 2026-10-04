@@ -60,9 +60,13 @@ ls -lh /tmp/bolokobul.dump
 sudo systemctl stop bolokobul-sidekiq bolokobul-puma 2>/dev/null || true
 sudo -u postgres dropdb --if-exists "$DB_NAME"
 sudo -u postgres createdb -O "$DB_USER" "$DB_NAME"
+# Leave out the two entries PostgreSQL 16 already has (the "public" schema and the
+# built-in plpgsql comment); restoring them from the old PostgreSQL 10 only gives errors.
+pg_restore -l /tmp/bolokobul.dump | grep -vE ' SCHEMA - public | COMMENT - EXTENSION plpgsql | COMMENT - SCHEMA public ' > /tmp/bolokobul.list
 # shellcheck disable=SC2024  # the ubuntu user reads the dump; postgres only restores it
-sudo -u postgres pg_restore --no-owner --no-privileges --role="$DB_USER" -d "$DB_NAME" < /tmp/bolokobul.dump
-rm -f /tmp/bolokobul.dump
+sudo -u postgres pg_restore --no-owner --no-privileges --exit-on-error --role="$DB_USER" -d "$DB_NAME" \
+  -L /tmp/bolokobul.list < /tmp/bolokobul.dump
+rm -f /tmp/bolokobul.dump /tmp/bolokobul.list
 bundle exec rails runner 'puts "Members: #{User.count}, profiles: #{MarriageProfile.count}, orders: #{Order.count}"'
 
 step "5/8 Uploaded photos and documents"
