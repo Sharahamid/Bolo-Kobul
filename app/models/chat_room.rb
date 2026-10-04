@@ -44,6 +44,18 @@ class ChatRoom < ApplicationRecord
     end
   end
 
+  # Messages from the other person this profile has not seen yet
+  def unread_count_for(profile)
+    last_read = chat_room_users.find_by(marriage_profile_id: profile.id)&.last_read_at
+    scope = messages.where.not(sender_id: profile.id)
+    scope = scope.where('messages.created_at > ?', last_read) if last_read
+    scope.count
+  end
+
+  def mark_read!(profile)
+    chat_room_users.where(marriage_profile_id: profile.id).update_all(last_read_at: Time.current)
+  end
+
   def connected_profile(current_profile)
     marriage_profiles.where.not(id: current_profile.id).first
   end

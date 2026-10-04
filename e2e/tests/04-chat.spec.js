@@ -2,6 +2,11 @@ const { test, expect } = require('@playwright/test');
 const { login, seed, csrfToken } = require('../support/helpers');
 
 test.describe('Chat', () => {
+  // Close every page a test opened: an open chat page keeps receiving (and reading) messages
+  test.afterEach(async ({ browser }) => {
+    await Promise.all(browser.contexts().map((context) => context.close()));
+  });
+
   test('a message appears for the other member live, without refreshing', async ({ browser }) => {
     const alice = await (await browser.newContext()).newPage();
     const bob = await (await browser.newContext()).newPage();
@@ -70,6 +75,53 @@ test.describe('Chat', () => {
       const shown = await page.locator('#messageBody time.js-local-time').last().textContent();
       expect(shown).toContain(`, ${hour}:`);
     }
+  });
+
+  test('a new message chimes in the open chat and shows as "New message" on the chat card until read', async ({ browser }) => {
+    const alice = await (await browser.newContext()).newPage();
+    const bob = await (await browser.newContext()).newPage();
+    await login(alice, 'alice@example.com');
+    await login(bob, 'bob@example.com');
+
+    // Alice is away from the chat: Bob's message shows as new on her chat card
+    await bob.goto(`/messages/${seed().members.alice}/profile`);
+    await expect(bob.locator('#message_text')).toHaveAttribute('placeholder', 'Send message...');
+    await bob.locator('#message_text').fill(`Are you there? ${Date.now()}`);
+    await bob.locator('#message_text').press('Enter');
+    await expect(bob.locator('#message_text')).toHaveValue('');
+    await alice.goto('/messages');
+    const card = alice.locator('.bk-chat-card').first();
+    await expect(card.locator('.bk-new-message')).toBeVisible();
+
+    // Tapping anywhere on the card (not just the name) opens the chat, which marks it read
+    await Promise.all([alice.waitForURL(/\/messages\/.+\/profile/), card.locator('span', { hasText: 'years' }).click()]);
+    await expect(alice.locator('.bk-chat-card .bk-new-message')).toHaveCount(0);
+
+    // With the chat open, a new message plays the chime
+    await alice.evaluate(() => {
+      window.bkChimes = 0;
+      const play = HTMLMediaElement.prototype.play;
+      HTMLMediaElement.prototype.play = function () { window.bkChimes += 1; return Promise.resolve(); };
+    });
+    await expect(alice.locator('#message_text')).toHaveAttribute('placeholder', 'Send message...');
+    const text = `Ding ${Date.now()}`;
+    await bob.locator('#message_text').fill(text);
+    await bob.locator('#message_text').press('Enter');
+    await expect(alice.getByText(text)).toBeVisible({ timeout: 15_000 });
+    await expect.poll(() => alice.evaluate(() => window.bkChimes)).toBe(1);
+
+    // Seen live, so it is not "new" when she comes back to her chat list
+    await alice.waitForTimeout(500);
+    await alice.goto('/messages');
+    await expect(alice.locator('.bk-chat-card .bk-new-message')).toHaveCount(0);
+  });
+
+  test('chatting only opens after both 2nd Kobuls are accepted', async ({ browser }) => {
+    const carol = await (await browser.newContext()).newPage();
+    await login(carol, 'carol@example.com');
+    await carol.goto(`/messages/${seed().members.alice}/profile`);
+    await expect(carol).toHaveURL(new RegExp(`/marriage_profiles/${seed().members.alice}/profile_info`));
+    await expect(carol.locator('#message_text')).toHaveCount(0);
   });
 
   test("someone outside the chat cannot post into it", async ({ browser }) => {

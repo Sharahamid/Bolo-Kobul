@@ -12,9 +12,16 @@ class MessagesController < ApplicationController
   end
 
   def profile
+    @marriage_profile = MarriageProfile.friendly.find(params[:id])
+    # Chatting opens only after both 2nd Kobuls are accepted
+    unless current_active_profile&.chat_friendships&.exists?(chat_friend_id: @marriage_profile.id, status: 2)
+      flash[:warning] = "Your chatting option will be open after you send 2 Kobuls to a profile you like, and they accept it"
+      return redirect_to(profile_info_marriage_profile_path(@marriage_profile))
+    end
+
     respond_to do |format|
-      @marriage_profile = MarriageProfile.friendly.find(params[:id])
       @chat_room = ChatRoom.get_private_chat_room(@marriage_profile, current_active_profile)
+      @chat_room.mark_read!(current_active_profile)
       @messages = Message.includes(:chat_room, :marriage_profile).where(chat_room_id: @chat_room.id).order(created_at: :asc)
       @message = Message.new
       format.html
@@ -24,6 +31,15 @@ class MessagesController < ApplicationController
 
   def new
     @message = Message.new
+  end
+
+  # The open chat window saw a new message arrive live
+  def read
+    chat_room = current_active_profile&.chat_rooms&.find_by(id: params[:chat_room_id])
+    return head(:not_found) unless chat_room
+
+    chat_room.mark_read!(current_active_profile)
+    head :no_content
   end
 
   def create
@@ -40,6 +56,7 @@ class MessagesController < ApplicationController
         ActionCable.server.broadcast "room_#{chat_room.id}_channel",
                                      content: @message.as_json.merge('body' => ERB::Util.html_escape(@message.body.to_s))
         notify_chat_recipients(chat_room)
+        chat_room.mark_read!(current_active_profile)
 
         format.js
       else
@@ -57,7 +74,7 @@ class MessagesController < ApplicationController
 
   # Tells the other person in the chat about a new message. The message itself is never
   # included, so nothing private shows on a lock screen or in an inbox.
-  # - phone notification: at most one per chat every 5 minutes
+  # - phone notification (with sound and vibration): at most one per chat every 30 seconds
   # - site notification and email: at most one per chat every 30 minutes
   def notify_chat_recipients(chat_room)
     sender = current_active_profile
@@ -67,7 +84,7 @@ class MessagesController < ApplicationController
       next if user.nil? || user.id == current_user.id
 
       if WebPushService.configured? &&
-         Rails.cache.write("push_chat_#{chat_room.id}_#{user.id}", true, expires_in: 5.minutes, unless_exist: true)
+         Rails.cache.write("push_chat_#{chat_room.id}_#{user.id}", true, expires_in: 30.seconds, unless_exist: true)
         WebPushJob.perform_later(user.id, {
           'title' => 'Bolo Kobul',
           'body' => 'You have a new message. Tap to read it.',

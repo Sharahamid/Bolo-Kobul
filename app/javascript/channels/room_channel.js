@@ -1,5 +1,26 @@
 import consumer from "./consumer"
 
+// A new message from the other person: chime and vibrate (like other messengers), and
+// tell the server it has been seen. When the app is in the background the phone
+// notification does this instead.
+function newMessageAlert(chatRoomId) {
+    if (!document.hidden) {
+        try {
+            var chime = new Audio('/sounds/message.mp3');
+            var playing = chime.play();
+            if (playing && playing.catch) playing.catch(function () {});
+        } catch (e) {}
+        if (navigator.vibrate) navigator.vibrate([180, 80, 180]);
+    }
+    var token = document.querySelector('meta[name="csrf-token"]');
+    fetch('/messages/read', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': token ? token.content : '' },
+        body: JSON.stringify({ chat_room_id: chatRoomId })
+    }).catch(function () {});
+}
+
 $(function () {
     var messages_to_bottom;
 
@@ -31,6 +52,8 @@ $(function () {
 
             received(data) {
                 // Called when there's incoming data on the websocket for this channel
+                    var mine = data.content['sender_id'] == $('#privat-chat-messages').attr('data-login-user-id');
+                    if (!mine) newMessageAlert(data.content['chat_room_id']);
                     var row_background =  data.content['sender_id'] == $('#privat-chat-messages').attr('data-login-user-id') ? 'conversation-row-text-right' : 'conversation-row-text-left';
                     var row_align =  data.content['sender_id'] == $('#privat-chat-messages').attr('data-login-user-id') ? 'align-self-end' : 'align-self-start';
                     $('#privat-chat-messages').append("<div class=\"d-flex flex-column pl-2 pr-2\">\n" +
