@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_10_05_100000) do
+ActiveRecord::Schema.define(version: 2026_10_05_110000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -161,7 +161,7 @@ ActiveRecord::Schema.define(version: 2026_10_05_100000) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "display_order", default: 0
-    t.string "name", null: false
+    t.string "name"
     t.decimal "price", default: "0.0"
   end
 
@@ -202,6 +202,9 @@ ActiveRecord::Schema.define(version: 2026_10_05_100000) do
     t.boolean "butterfly_animation", default: false
     t.integer "adv_search_butterflies", default: 0
     t.integer "max_marriage_profiles", default: 5
+    t.boolean "anim_kobul1_recommendations", default: true
+    t.boolean "anim_kobul1_request", default: true
+    t.boolean "anim_kobul2", default: true
   end
 
   create_table "chat_friendships", force: :cascade do |t|
@@ -744,7 +747,6 @@ ActiveRecord::Schema.define(version: 2026_10_05_100000) do
     t.string "refferel_promo_code"
     t.integer "advanced_search", default: 0
     t.boolean "is_reference", default: false
-    t.string "identification_document"
     t.string "otp"
     t.datetime "otp_sent_at"
     t.integer "otp_attempts", default: 0, null: false
