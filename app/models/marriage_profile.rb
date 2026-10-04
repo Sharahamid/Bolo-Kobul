@@ -147,6 +147,7 @@ class MarriageProfile < ApplicationRecord
   # callback
   #
   #
+  before_validation :keep_registered_name
   after_create :create_slug, :progress_recalculate, :set_privacy_setting
   after_destroy :remove_chat_friendship
   before_destroy :remove_friendships
@@ -236,6 +237,23 @@ class MarriageProfile < ApplicationRecord
     percentage += 5 if photo_1.present? || photo_2.present? || photo_3.present?
 
     update(profile_completeness: percentage)
+  end
+
+  # A member who registered for themself: their first profile always carries the
+  # name they registered with, and it can't be changed on the profile
+  def own_name_locked?
+    return false unless user&.created_for == "self"
+    first_id = user.marriage_profiles.minimum(:id)
+    new_record? ? first_id.nil? : first_id == id
+  end
+
+  def keep_registered_name
+    return unless own_name_locked?
+    if new_record?
+      self.name = user.name
+    elsif will_save_change_to_name?
+      self.name = name_in_database
+    end
   end
 
   def unique_id

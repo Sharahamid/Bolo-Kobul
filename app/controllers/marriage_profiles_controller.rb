@@ -55,7 +55,8 @@ class MarriageProfilesController < ApplicationController
                     notice: 'You have already reached the maximum number of
                             profiles one can create for others!'
     else
-      @marriage_profile = MarriageProfile.new
+      @marriage_profile = MarriageProfile.new(user: current_user)
+      @marriage_profile.name = current_user.name if @marriage_profile.own_name_locked?
     end
   end
 
@@ -142,7 +143,7 @@ class MarriageProfilesController < ApplicationController
       redirect_back(fallback_location: "/") && return
     end
 
-    Rails.cache.delete("recommendations_#{current_active_profile.id}_#{Date.today}")
+    Rails.cache.delete(RecommendationService.cache_key(current_active_profile))
     if current_active_profile.has_bfly_for_profile_view?
       sending_request = current_active_profile.friend_request(@marriage_profile)
       if sending_request.present?
