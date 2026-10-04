@@ -83,9 +83,17 @@ class ChatFriendshipsController < ApplicationController
     end
   end
 
-  def reject_request 
+  # One action for:
+  # - Cancel: the member sent a 2nd Kobul that is still pending (pending list)
+  # - Reject: the member received a 2nd Kobul, or no 2nd Kobul has been sent yet
+  def reject_request
+    sent = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id, status: :pending)
+    return cancel_sent_request if sent
+
+    received = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id, status: :requested)
     current_active_profile.decline_chat_request(@marriage_profile)
-    @marriage_profile.unblock_blocked_butterflies_chat
+    # Only a received 2nd Kobul has the sender's butterflies In Process
+    @marriage_profile.unblock_blocked_butterflies_chat if received
     Friendship.where(
       '(friendable_id = ? AND friend_id = ?) OR (friendable_id = ? AND friend_id = ?)',
       current_active_profile.id, @marriage_profile.id,
@@ -111,7 +119,7 @@ class ChatFriendshipsController < ApplicationController
       "Your 2nd Kobul was not accepted this time. Keep exploring — the right match is out there: www.bolokobul.com"
     )
     
-    flash[:notice] = "2nd Kobul Cancelled. Check out more profiles!"
+    flash[:notice] = "2nd Kobul rejected. Check out more profiles!"
     redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
@@ -122,6 +130,21 @@ class ChatFriendshipsController < ApplicationController
   end
 
   private
+
+  # 2nd Kobuls never expire; the sender can cancel. The butterflies used are not returned,
+  # they only stop showing as "In Process". The 1st Kobul connection stays.
+  def cancel_sent_request
+    current_active_profile.decline_chat_request(@marriage_profile)
+    current_active_profile.unblock_blocked_butterflies_chat
+    current_user.notifications.create(
+      content: "You have cancelled your 2nd Kobul to #{@marriage_profile.unique_id}.",
+      notifiable: current_active_profile,
+      will_email: false,
+      will_sms: false
+    )
+    flash[:notice] = "2nd Kobul cancelled"
+    redirect_back(fallback_location: dashboard_marriage_profile_path(current_active_profile))
+  end
 
   def set_marriage_profile
     @marriage_profile = MarriageProfile.friendly.find(params[:id])

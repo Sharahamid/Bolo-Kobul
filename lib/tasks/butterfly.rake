@@ -1,5 +1,5 @@
 namespace :butterfly do
-  desc 'Butterfly return to requester after 7 days if not accepted or rejected'
+  desc '1st Kobuls expire after 7 days without an answer; the butterflies are returned'
   task :return_after_7_days => :environment do
     #
     # Check Kobul-1 expirations
@@ -22,27 +22,8 @@ namespace :butterfly do
       puts "MarriageProfile-#{friendship.friendable_id} Kobul-1 request expired for MarriageProfile-#{friendship.friend_id}"
       friendship.destroy
     end
-    #
-    # Check Kobul-2 expirations
-    #
-    expired_chat_friendships = ChatFriendship.pending.where('created_at <= ?', 7.days.ago)
-    expired_chat_friendships.each do |chat_friendship|
-      marriage_profile = chat_friendship.marriage_profile
-      marriage_profile.unblock_blocked_butterflies_chat
-      marriage_profile.user.notifications.create(
-        content: "Your Kobul 2 request expired without a response. Don't give up — keep exploring profiles!",
-        notifiable: marriage_profile,
-        will_email: false,
-        will_sms: false
-      )
-      KobulTwoMailer.with(sender_profile: marriage_profile, friend: chat_friendship.chat_friend).request_expired.deliver_later
-      SmsService.call(
-        marriage_profile.user.phone_number.to_s,
-        "Your Kobul 2 request has expired without a response. Keep exploring — your perfect match is waiting! Visit bolokobul.com"
-      )
-      puts "MarriageProfile-#{chat_friendship.marriage_profile_id} Kobul-2 request expired for MarriageProfile-#{chat_friendship.chat_friend_id}"
-      marriage_profile.decline_chat_request(chat_friendship.chat_friend)
-    end
+    # 2nd Kobuls do not expire: they stay pending until the sender cancels or the
+    # other member rejects them.
   end
 
   desc "Clean up old notifications"

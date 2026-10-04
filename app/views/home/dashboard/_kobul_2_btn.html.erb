@@ -29,11 +29,14 @@
     </a>
   <% end %>
 
+  <%# Reject is offered until this member sends a 2nd Kobul (then they cancel it from the pending list) %>
+  <% unless current_active_profile&.chat_friendships&.where(status: 0)&.exists?(chat_friend_id: profile.id) %>
   <%= link_to reject_request_chat_friendship_path(profile),
               method: :patch,
               data: { confirm: "Reject this Kobul 1 request?" },
               class: "kobul_cancel-btn",
               style: "flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
     <i class="fa fa-close"></i> Reject
+  <% end %>
   <% end %>
 </div>
