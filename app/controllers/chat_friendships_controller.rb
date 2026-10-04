@@ -83,21 +83,17 @@ class ChatFriendshipsController < ApplicationController
     end
   end
 
-  # One button, two situations:
-  # - the member sent a 2nd Kobul that is still pending: they cancel it
-  # - the member received a 2nd Kobul: they reject it
-  # An accepted 1st Kobul without a 2nd Kobul can't be removed.
+  # One action for:
+  # - Cancel: the member sent a 2nd Kobul that is still pending (pending list)
+  # - Reject: the member received a 2nd Kobul, or no 2nd Kobul has been sent yet
   def reject_request
     sent = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id, status: :pending)
-    received = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id, status: :requested)
     return cancel_sent_request if sent
-    unless received
-      flash[:notice] = "There is no 2nd Kobul to cancel or reject"
-      return redirect_back(fallback_location: dashboard_marriage_profile_path(current_active_profile))
-    end
 
+    received = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id, status: :requested)
     current_active_profile.decline_chat_request(@marriage_profile)
-    @marriage_profile.unblock_blocked_butterflies_chat
+    # Only a received 2nd Kobul has the sender's butterflies In Process
+    @marriage_profile.unblock_blocked_butterflies_chat if received
     Friendship.where(
       '(friendable_id = ? AND friend_id = ?) OR (friendable_id = ? AND friend_id = ?)',
       current_active_profile.id, @marriage_profile.id,
@@ -123,7 +119,7 @@ class ChatFriendshipsController < ApplicationController
       "Your 2nd Kobul was not accepted this time. Keep exploring — the right match is out there: www.bolokobul.com"
     )
     
-    flash[:notice] = "2nd Kobul Cancelled. Check out more profiles!"
+    flash[:notice] = "2nd Kobul rejected. Check out more profiles!"
     redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 

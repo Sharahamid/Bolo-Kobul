@@ -124,7 +124,7 @@
           </div>
         <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(marriage_profile.id) %>
           <div class="bk-action-row">
-            <a href="<%= reject_request_chat_friendship_path(marriage_profile) %>" data-method="patch" class="kobul_btn kobul_2" style="font-size:11px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel Kobul 2 request" data-confirm="Cancel your 2nd Kobul? The butterflies used for it are not returned.">🦋 Kobul 2 Pending</a>
+            <a href="<%= reject_request_chat_friendship_path(marriage_profile) %>" data-method="patch" class="kobul_btn kobul_2" style="font-size:11px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel Kobul 2 request" data-confirm="Cancel your Kobul 2 request?">🦋 Kobul 2 Pending</a>
             <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
               <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
                 <i class="fa fa-close"></i> Remove
