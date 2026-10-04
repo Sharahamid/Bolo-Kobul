@@ -33,4 +33,36 @@ async function smsLog(request) {
   return response.json();
 }
 
-module.exports = { FAKE_SERVICES, seed, login, csrfToken, trackPageErrors, smsLog };
+// Fills in the sign-up form on the home page and returns the new member's details.
+// Ends on the "enter your verification code" page.
+async function registerNewMember(page, { name = 'Test Member' } = {}) {
+  const unique = `${Date.now()}`.slice(-7);
+  const member = { name, unique, email: `new${unique}@example.com`, phone: `+880171${unique}`, password: 'dhaka2024' };
+  await page.goto('/');
+  const form = page.locator('form#new_user').first();
+  await form.locator('input[name="user[name]"]').fill(member.name);
+  await form.locator('input[name="user[email]"]').fill(member.email);
+  await form.locator('input[name="user[phone_number]"]').fill(member.phone);
+  await form.locator('input[name="user[password]"]').fill(member.password);
+  await form.locator('input[name="user[password_confirmation]"]').fill(member.password);
+  await form.locator('select[name="user[created_for]"]').selectOption('self');
+  await form.locator('input[type="checkbox"][required]').check();
+  await Promise.all([page.waitForNavigation(), form.locator('input[type="submit"]').click()]);
+  await expect(page).toHaveURL(/show_verify/);
+  member.verifyUrl = page.url();
+  return member;
+}
+
+// The most recent verification code texted to a phone number (via the stand-in SMS gateway)
+async function latestCode(request, member) {
+  const sms = (await smsLog(request)).reverse().find((entry) => entry.to && entry.to.includes(member.unique));
+  expect(sms, 'verification SMS sent').toBeTruthy();
+  return sms.message.match(/code is (\d{6})/)[1];
+}
+
+async function submitCode(page, code) {
+  await page.locator('input[name="token"]').fill(code);
+  await Promise.all([page.waitForNavigation(), page.locator('button[type="submit"]', { hasText: 'Verify' }).click()]);
+}
+
+module.exports = { FAKE_SERVICES, seed, login, csrfToken, trackPageErrors, smsLog, registerNewMember, latestCode, submitCode };

@@ -35,4 +35,23 @@ test.describe('Chat', () => {
     });
     expect(response.status()).toBe(403);
   });
+
+  test('code inside a chat message is shown as text and never runs', async ({ browser }) => {
+    const alice = await (await browser.newContext()).newPage();
+    const bob = await (await browser.newContext()).newPage();
+    await login(alice, 'alice@example.com');
+    await login(bob, 'bob@example.com');
+    await bob.goto(`/messages/${seed().members.alice}/profile`);
+    await alice.goto(`/messages/${seed().members.bob}/profile`);
+    await expect(bob.locator('#message_text')).toHaveAttribute('placeholder', 'Send message...');
+    await expect(alice.locator('#message_text')).toHaveAttribute('placeholder', 'Send message...');
+
+    const attack = `<img src=x onerror="window.__hacked=1"> hi ${Date.now()}`;
+    await alice.locator('#message_text').fill(attack);
+    await alice.locator('#message_text').press('Enter');
+
+    await expect(bob.getByText(attack)).toBeVisible({ timeout: 15_000 });
+    expect(await bob.evaluate(() => window.__hacked)).toBeUndefined();
+    expect(await bob.locator('#privat-chat-messages img[src="x"]').count()).toBe(0);
+  });
 });

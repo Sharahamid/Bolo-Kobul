@@ -53,5 +53,6 @@ admin.save!
 puts({
   members: { alice: alice_profile.slug, bob: bob_profile.slug, carol: carol_profile.slug },
   bob_family_member_id: bob_family.id, bob_academic_information_id: bob_education.id,
+  alice_user_slug: alice.slug,
   password: PASSWORD, admin: admin.email
 }.to_json)
