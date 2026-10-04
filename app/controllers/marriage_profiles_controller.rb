@@ -185,17 +185,17 @@ class MarriageProfilesController < ApplicationController
   end
 
   def accept_request
-    friendship = Friendship.find_by(friendable: @marriage_profile, friend: current_active_profile) ||
-                 Friendship.find_by(friendable: current_active_profile, friend: @marriage_profile)
+    # Only the receiver can accept, and only while the 1st Kobul is still unanswered
+    friendship = Friendship.find_by(friendable: @marriage_profile, friend: current_active_profile, status: :pending)
 
     unless friendship.present?
       flash[:alert] = "No pending request"
-      redirect_to dashboard_marriage_profile_path(current_active_profile) && return
+      return redirect_to(dashboard_marriage_profile_path(current_active_profile))
     end
 
     unless current_active_profile.has_bfly_for_profile_view?
       flash[:danger] = "You don't have enough butterflies! You can purchase more."
-      redirect_to new_order_path && return
+      return redirect_to(new_order_path)
     end
 
     friendship.accept! if friendship.respond_to?(:accept!)
