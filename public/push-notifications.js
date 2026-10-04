@@ -5,8 +5,8 @@
   if (!keyMeta || !keyMeta.content) return;
   if (!('serviceWorker' in navigator) || !('PushManager' in window) || !('Notification' in window)) return;
 
-  var DISMISS_KEY = 'bkPushPromptDismissedAt';
-  var DISMISS_DAYS = 30;
+  // Until notifications are on, the prompt shows once a day: on the first page of the day
+  var SHOWN_DAY_KEY = 'bkPushPromptShownDay';
   var prompt = document.getElementById('bk-push-prompt');
 
   function keyToBytes(base64url) {
@@ -44,12 +44,19 @@
       .then(saveSubscription);
   }
 
-  function dismissedRecently() {
+  function today() {
+    var d = new Date();
+    return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+  }
+
+  // True the first time this is called on a given day (per device)
+  function firstVisitToday() {
     try {
-      var at = parseInt(localStorage.getItem(DISMISS_KEY) || '0', 10);
-      return Date.now() - at < DISMISS_DAYS * 24 * 60 * 60 * 1000;
+      if (localStorage.getItem(SHOWN_DAY_KEY) === today()) return false;
+      localStorage.setItem(SHOWN_DAY_KEY, today());
+      return true;
     } catch (e) {
-      return false;
+      return true;
     }
   }
 
@@ -62,18 +69,12 @@
     subscribe().catch(function () {});
     return;
   }
-  if (Notification.permission === 'denied' || !prompt || dismissedRecently()) return;
+  if (Notification.permission === 'denied' || !prompt || !firstVisitToday()) return;
 
   prompt.hidden = false;
 
-  function rememberAnswer() {
-    try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {}
-  }
-
   prompt.querySelector('[data-push-enable]').addEventListener('click', function () {
     hidePrompt();
-    // Some browsers close or silently ignore the permission request; don't ask again on every page
-    rememberAnswer();
     Promise.resolve(Notification.requestPermission())
       .then(function (permission) {
         if (permission === 'granted') return subscribe();
@@ -81,8 +82,5 @@
       .catch(function () {});
   });
 
-  prompt.querySelector('[data-push-dismiss]').addEventListener('click', function () {
-    hidePrompt();
-    rememberAnswer();
-  });
+  prompt.querySelector('[data-push-dismiss]').addEventListener('click', hidePrompt);
 })();

@@ -1,18 +1,28 @@
-# Friday reminder (email + SMS) to every active member:
+# Friday reminder email to every active member who has not used the site or app for
+# 7 days:
 # - no profile yet: create one
 # - profile under 80% complete: finish it
 # - otherwise: look at today's recommended profiles
 class WeeklyReminderService
   HOST = 'www.bolokobul.com'.freeze
 
+  INACTIVE_FOR = 7.days
+
+  # Members whose last visit (or, before visits were recorded, last sign-in) is a week ago or more
+  def self.recipients
+    cutoff = INACTIVE_FOR.ago
+    User.where(verified: true, deactivated: [false, nil])
+        .where.not(email: [nil, ''])
+        .where('last_seen_at < :cutoff OR (last_seen_at IS NULL AND (last_sign_in_at IS NULL OR last_sign_in_at < :cutoff))', cutoff: cutoff)
+  end
+
   def self.call(logger: Rails.logger)
     sent = 0
-    User.where(verified: true).where(deactivated: [false, nil]).find_each do |user|
+    recipients.find_each do |user|
       reminder = new(user).reminder
       next unless reminder
 
-      ReminderMailer.with(user: user, reminder: reminder).weekly.deliver_now if user.email.present?
-      SmsService.call(user.phone_number.to_s, reminder[:sms]) if user.phone_number.present?
+      ReminderMailer.with(user: user, reminder: reminder).weekly.deliver_now
       sent += 1
     rescue StandardError => e
       logger.warn("[WeeklyReminder] user #{user.id}: #{e.class}: #{e.message}")
@@ -46,8 +56,7 @@ class WeeklyReminderService
       title: 'Start your search today',
       lines: ['You have joined Bolo Kobul, but your marriage profile is not set up yet.',
               'Create your profile so we can recommend people who match what you are looking for.'],
-      button: 'Create My Profile', link: link,
-      sms: "Your life partner could be waiting on Bolo Kobul! Create your profile today: #{link}"
+      button: 'Create My Profile', link: link
     }
   end
 
@@ -60,8 +69,7 @@ class WeeklyReminderService
       title: "Your profile is #{percent}% complete",
       lines: ['Complete profiles get up to 5x more attention, and you start receiving recommended matches once your profile is at least 80% complete.',
               'Add your photos, family, education and preferences. It only takes a few minutes.'],
-      button: 'Complete My Profile', link: link,
-      sms: "Your Bolo Kobul profile is #{percent}% complete. Complete profiles get 5x more attention: #{link}"
+      button: 'Complete My Profile', link: link
     }
   end
 
@@ -73,8 +81,7 @@ class WeeklyReminderService
       title: 'See who matches you this week',
       lines: ['We have picked profiles that match your preferences.',
               'Take a look and send a Kobul to someone you like. Your next chapter could start today!'],
-      button: 'See My Matches', link: link,
-      sms: "New matches are waiting for you on Bolo Kobul! See your recommended profiles: #{link}"
+      button: 'See My Matches', link: link
     }
   end
 end
