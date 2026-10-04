@@ -128,13 +128,14 @@ class MarriageProfile < ApplicationRecord
   mount_uploader :photo_3, MarriagePhotoUploader
   mount_uploader :identification_document, IdentificationDocumentUploader
 
+  # Both sides accepted the 1st Kobul and aren't chatting yet (includes 2nd Kobuls sent or received)
   scope :accepted_profiles, -> (p) {
     received_ids = Friendship.where(friend_id: p.id, status: 1).pluck(:friendable_id)
     truly_accepted_ids = received_ids.select { |fid|
       Friendship.exists?(friendable_id: p.id, friend_id: fid, status: 1)
     }
     where(id: truly_accepted_ids)
-      .where.not(id: p.chat_friendships.map(&:chat_friend_id))
+      .where.not(id: p.chat_friendships.where(status: 2).map(&:chat_friend_id))
       .where.not(id: User.where(deactivated: true)&.map { |u| u.marriage_profiles }
                          .flatten.compact.map(&:id))
   }
@@ -169,11 +170,12 @@ class MarriageProfile < ApplicationRecord
     end
   end
 
+  # 1st Kobuls this profile has received and not answered yet. Sending one creates
+  # sender->receiver as pending (0) and receiver->sender as 1; accepting sets both to 1
+  # and rejecting deletes both, so only unanswered ones still have the pending row.
   def self.requested_profiles(current_active_profile)
-    view_requested_profiles = current_active_profile.requested_friends
-    chat_requested_profiles = self.where(id: current_active_profile.chat_friendships.where(status: 1).map(&:chat_friend_id))
-    chat_accepted_profiles = self.where(id: current_active_profile.chat_friendships.where(status: 2).map(&:chat_friend_id))
-    total_requested_profiles = view_requested_profiles + chat_requested_profiles - chat_accepted_profiles
+    where(id: Friendship.where(friend_id: current_active_profile.id, status: 0).select(:friendable_id))
+      .where.not(id: User.deactivated_users_profile_ids)
   end
 
   def friend_chat_request(friend)
