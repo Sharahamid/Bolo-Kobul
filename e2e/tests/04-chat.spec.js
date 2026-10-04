@@ -116,6 +116,69 @@ test.describe('Chat', () => {
     await expect(alice.locator('.bk-chat-card .bk-new-message')).toHaveCount(0);
   });
 
+  test('long messages wrap over several lines, live messages look like loaded ones', async ({ browser }) => {
+    const alice = await (await browser.newContext()).newPage();
+    await login(alice, 'alice@example.com');
+    await alice.goto(`/messages/${seed().members.bob}/profile`);
+    const box = alice.locator('#message_text');
+    await expect(box).toHaveAttribute('placeholder', 'Send message...');
+
+    // Shift+Enter starts a new line and the box grows; Enter sends
+    const stamp = Date.now();
+    await box.fill(`First line ${stamp}`);
+    const oneLine = (await box.boundingBox()).height;
+    await box.press('Shift+Enter');
+    await box.type('Second line');
+    await box.press('Shift+Enter');
+    await box.type('Third line');
+    expect((await box.boundingBox()).height).toBeGreaterThan(oneLine);
+    await box.press('Enter');
+    await expect(box).toHaveValue('');
+
+    const bubble = alice.locator('#privat-chat-messages div', { hasText: `First line ${stamp}` }).last();
+    await expect(bubble).toBeVisible();
+    expect(await bubble.innerText()).toContain('Second line\nThird line');
+    // Same gold bubble as messages loaded with the page
+    expect(await bubble.evaluate((el) => getComputedStyle(el).backgroundColor)).toBe('rgb(255, 182, 39)');
+
+    // After a reload it still shows on three lines
+    await alice.reload();
+    const loaded = alice.locator('#messageBody div', { hasText: `First line ${stamp}` }).last();
+    expect(await loaded.innerText()).toContain('Second line\nThird line');
+  });
+
+  test('a new message alerts the member on any page, with a banner that opens the chat', async ({ browser }) => {
+    const alice = await (await browser.newContext()).newPage();
+    const bob = await (await browser.newContext()).newPage();
+    await login(alice, 'alice@example.com');
+    await login(bob, 'bob@example.com');
+    await alice.goto('/users/notifications');
+    await alice.evaluate(() => {
+      window.bkChimes = 0;
+      HTMLMediaElement.prototype.play = function () { window.bkChimes += 1; return Promise.resolve(); };
+    });
+    await alice.waitForTimeout(1500); // live connection
+
+    await bob.goto(`/messages/${seed().members.alice}/profile`);
+    await expect(bob.locator('#message_text')).toHaveAttribute('placeholder', 'Send message...');
+    await bob.locator('#message_text').fill(`Ping ${Date.now()}`);
+    await bob.locator('#message_text').press('Enter');
+
+    const banner = alice.locator('#bk-message-banner');
+    await expect(banner).toBeVisible({ timeout: 15_000 });
+    await expect(banner).toContainText('New message from');
+    expect(await alice.evaluate(() => window.bkChimes)).toBe(1);
+    await Promise.all([alice.waitForURL(/\/messages\/.+\/profile/), banner.click()]);
+  });
+
+  test('the notifications page shows this device\'s notification status', async ({ browser }) => {
+    const alice = await (await browser.newContext()).newPage();
+    await login(alice, 'alice@example.com');
+    await alice.goto('/users/notifications');
+    await expect(alice.locator('#bk-push-settings')).toBeVisible();
+    await expect(alice.locator('[data-push-status]')).not.toHaveText('Checking this device…');
+  });
+
   test('chatting only opens after both 2nd Kobuls are accepted', async ({ browser }) => {
     const carol = await (await browser.newContext()).newPage();
     await login(carol, 'carol@example.com');

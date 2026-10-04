@@ -83,6 +83,10 @@ class MessagesController < ApplicationController
       user = recipient_profile.user
       next if user.nil? || user.id == current_user.id
 
+      # Live alert on whatever page they have open (sound, vibration, banner)
+      AlertsChannel.broadcast_to(user, kind: 'message', from: sender.unique_id,
+                                       url: profile_message_path(sender), chat_room_id: chat_room.id)
+
       if WebPushService.configured? &&
          Rails.cache.write("push_chat_#{chat_room.id}_#{user.id}", true, expires_in: 30.seconds, unless_exist: true)
         WebPushJob.perform_later(user.id, {
