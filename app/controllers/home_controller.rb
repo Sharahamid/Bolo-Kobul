@@ -4,6 +4,13 @@ class HomeController < ApplicationController
   :check_preference, except: [:landing, :about, :email_template, :contact, :animation, :use_reference]
 
   def landing
+    # Signed-in members (opening the app, or tapping the logo) go straight to their
+    # dashboard instead of the sign-up page
+    if user_signed_in?
+      flash.keep
+      return redirect_to(user_homepage(current_user))
+    end
+
     @user = User.new
     @success_stories = Blog.approved.success_story
   end
