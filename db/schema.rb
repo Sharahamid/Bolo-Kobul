@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_05_20_233846) do
+ActiveRecord::Schema.define(version: 2026_10_04_170100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.string "passing_year"
     t.string "institution"
     t.string "degree"
+    t.string "location"
   end
 
   create_table "active_admin_comments", force: :cascade do |t|
@@ -85,7 +86,14 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "ad_locations", force: :cascade do |t|
@@ -155,6 +163,16 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.integer "display_order", default: 0
     t.string "name", null: false
     t.decimal "price", default: "0.0"
+  end
+
+  create_table "blocked_registration_attempts", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.string "attempt_type"
+    t.string "ip_address"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "blogs", force: :cascade do |t|
@@ -237,6 +255,8 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.integer "willing_to_relocate"
     t.string "nationality"
     t.integer "born_or_reverted"
+    t.string "birth_place_country"
+    t.string "birth_place_city"
   end
 
   create_table "customer_support_replies", force: :cascade do |t|
@@ -289,6 +309,10 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.integer "marital_status"
     t.integer "occupation"
     t.string "permanent_address"
+    t.string "organization"
+    t.string "company_name"
+    t.string "designation"
+    t.string "other_organization"
   end
 
   create_table "faqs", force: :cascade do |t|
@@ -433,6 +457,14 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.string "photo_2"
     t.string "photo_3"
     t.text "present_address"
+    t.integer "doc_verification_status"
+    t.string "other_religion"
+    t.string "other_education"
+    t.string "other_gender"
+    t.string "hometown_country"
+    t.string "hometown_city"
+    t.string "present_location_country"
+    t.string "present_location_city"
     t.index ["slug"], name: "index_marriage_profiles_on_slug", unique: true
   end
 
@@ -473,6 +505,7 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.string "designation"
     t.integer "monthly_income"
     t.string "company_name"
+    t.string "other_organization"
   end
 
   create_table "orders", force: :cascade do |t|
@@ -523,6 +556,13 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.text "present_location"
     t.integer "max_inch"
     t.integer "min_inch"
+    t.string "hometown_country"
+    t.string "hometown_city"
+    t.string "present_location_country"
+    t.string "present_location_city"
+    t.text "except_hometown"
+    t.string "except_hometown_country"
+    t.string "except_hometown_city"
   end
 
   create_table "partner_requests", force: :cascade do |t|
@@ -596,6 +636,18 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.integer "display_order", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "push_subscriptions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.text "endpoint", null: false
+    t.string "p256dh", null: false
+    t.string "auth", null: false
+    t.string "user_agent"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
+    t.index ["user_id"], name: "index_push_subscriptions_on_user_id"
   end
 
   create_table "success_stories", force: :cascade do |t|
@@ -693,6 +745,8 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
     t.boolean "is_reference", default: false
     t.string "identification_document"
     t.string "otp"
+    t.datetime "otp_sent_at"
+    t.integer "otp_attempts", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["slug"], name: "index_users_on_slug", unique: true
@@ -701,5 +755,7 @@ ActiveRecord::Schema.define(version: 2024_05_20_233846) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "customer_support_replies", "customer_supports"
+  add_foreign_key "push_subscriptions", "users"
 end
