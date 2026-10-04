@@ -43,7 +43,7 @@ step "1/9 System packages"
 sudo apt-get update -q
 sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -q
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
-  build-essential g++-11 gcc-11 git curl xz-utils rsync \
+  build-essential g++-11 gcc-11 pkg-config git curl xz-utils rsync \
   libpq-dev libxml2-dev libxslt1-dev libyaml-dev zlib1g-dev libffi-dev shared-mime-info \
   postgresql postgresql-contrib redis-server nginx certbot python3-certbot-nginx \
   imagemagick ghostscript tesseract-ocr tesseract-ocr-eng tesseract-ocr-ben \
