@@ -13,6 +13,9 @@ CURRENT=$APP_ROOT/current
 REPO_URL=git@github.com:Sharahamid/Bolo-Kobul.git
 
 RUBY_VERSION=2.6.3
+# The prebuilt Ruby only works from the folder it was built for, so it lives there and
+# /opt/rubies/ruby-2.6.3 (used by the services and PATH) is a shortcut to it
+RUBY_HOME=/opt/hostedtoolcache/Ruby/$RUBY_VERSION/x64
 RUBY_PREFIX=/opt/rubies/ruby-$RUBY_VERSION
 RUBY_URL=https://github.com/ruby/ruby-builder/releases/download/toolcache/ruby-$RUBY_VERSION-ubuntu-24.04.tar.gz
 RUBY_SHA256=88a7254921c96feda654f38c964ad174d895df3f11cda9b1425351f8f7d39a77
@@ -60,14 +63,20 @@ if ! sudo swapon --show | grep -q /swapfile; then
 fi
 
 step "3/9 Ruby $RUBY_VERSION (same version as the current server)"
-if [ ! -x "$RUBY_PREFIX/bin/ruby" ]; then
+if [ ! -x "$RUBY_HOME/bin/ruby" ]; then
   tmp=$(mktemp -d)
   curl -fsSL -o "$tmp/ruby.tar.gz" "$RUBY_URL"
   echo "$RUBY_SHA256  $tmp/ruby.tar.gz" | sha256sum -c -
-  sudo mkdir -p "$RUBY_PREFIX"
-  sudo tar -xzf "$tmp/ruby.tar.gz" -C "$RUBY_PREFIX" --strip-components=1
+  sudo mkdir -p "$(dirname "$RUBY_HOME")"
+  sudo tar -xzf "$tmp/ruby.tar.gz" -C "$(dirname "$RUBY_HOME")"
   rm -rf "$tmp"
 fi
+# Replace any earlier copy at the shortcut location with the shortcut itself
+if [ -e "$RUBY_PREFIX" ] && [ ! -L "$RUBY_PREFIX" ]; then
+  sudo rm -rf "$RUBY_PREFIX"
+fi
+sudo mkdir -p "$(dirname "$RUBY_PREFIX")"
+sudo ln -sfn "$RUBY_HOME" "$RUBY_PREFIX"
 sudo tee /etc/profile.d/bolokobul-ruby.sh >/dev/null <<PROFILE
 export PATH=$RUBY_PREFIX/bin:$NODE_PREFIX/bin:\$PATH
 PROFILE
