@@ -13,7 +13,7 @@ They are the safety net for upgrades: run them before and after every change.
 | `01-public.spec.js` | Home page loads without JavaScript errors; link previews and app (PWA) files; sign-up with a Bangla name and SMS verification code; password rules |
 | `02-login.spec.js` | Login, wrong password, members-only pages |
 | `03-profile-security.spec.js` | Members can view others' profiles but cannot edit, switch to or open the dashboard of them, or change their family or education details |
-| `04-chat.spec.js` | Messages appear live for the other member; outsiders cannot post into a chat; code inside a message is shown as text and never runs |
+| `04-chat.spec.js` | Messages appear live for the other member; WhatsApp-style ticks (sent, delivered, read); outsiders cannot post into a chat; code inside a message is shown as text and never runs |
 | `05-payments.spec.js` | Full butterfly purchase through a stand-in aamarPay; a forged payment return does not log anyone in |
 | `06-admin.spec.js` | Admin login and main admin pages; members cannot open the admin panel |
 | `07-notifications.spec.js` | Phone notification subscriptions only accept real push services |

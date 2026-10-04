@@ -179,6 +179,40 @@ test.describe('Chat', () => {
     await expect(alice.locator('[data-push-status]')).not.toHaveText('Checking this device…');
   });
 
+  test('my messages show WhatsApp-style ticks: sent, delivered, then read (live)', async ({ browser }) => {
+    const alice = await (await browser.newContext()).newPage();
+    const bob = await (await browser.newContext()).newPage();
+    await login(alice, 'alice@example.com');
+    await login(bob, 'bob@example.com');
+    // Bob reads the chat first, then leaves the site
+    await bob.goto(`/messages/${seed().members.alice}/profile`);
+    await bob.context().close();
+
+    await alice.goto(`/messages/${seed().members.bob}/profile`);
+    await expect(alice.locator('#message_text')).toHaveAttribute('placeholder', 'Send message...');
+    const text = `Ticks ${Date.now()}`;
+    await alice.locator('#message_text').fill(text);
+    await alice.locator('#message_text').press('Enter');
+    const row = alice.locator('#privat-chat-messages > div').filter({ hasText: text }).last();
+    // Bob is offline: one grey tick
+    await expect(row.locator('.bk-ticks')).toHaveAttribute('data-status', 'sent');
+
+    // Bob opens the site on another page: two grey ticks, live
+    const bob2 = await (await browser.newContext()).newPage();
+    await login(bob2, 'bob@example.com');
+    await expect(row.locator('.bk-ticks')).toHaveAttribute('data-status', 'delivered', { timeout: 15_000 });
+
+    // Bob opens the chat: two blue ticks, live
+    await bob2.goto(`/messages/${seed().members.alice}/profile`);
+    await expect(row.locator('.bk-ticks')).toHaveAttribute('data-status', 'read', { timeout: 15_000 });
+    await expect(row.locator('.bk-ticks path')).toHaveAttribute('stroke', '#34B7F1');
+
+    // Reloading keeps the blue ticks; Bob sees no ticks on Alice's message
+    await alice.reload();
+    await expect(alice.locator('.bk-ticks').last()).toHaveAttribute('data-status', 'read');
+    await expect(bob2.locator('#privat-chat-messages > div').filter({ hasText: text }).last().locator('.bk-ticks')).toHaveCount(0);
+  });
+
   test('chatting only opens after both 2nd Kobuls are accepted', async ({ browser }) => {
     const carol = await (await browser.newContext()).newPage();
     await login(carol, 'carol@example.com');

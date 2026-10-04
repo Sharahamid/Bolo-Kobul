@@ -6,6 +6,8 @@ import { chimeAndVibrate, showMessageBanner } from "./bk_alert"
 consumer.subscriptions.create({ channel: "AlertsChannel" }, {
     received(data) {
         if (data.kind !== 'message') return;
+        // Two grey ticks for the sender: the message reached this phone or browser
+        this.perform('delivered');
         var openChat = document.getElementById('message_text');
         if (openChat && String(openChat.getAttribute('data-chat-room-id')) === String(data.chat_room_id)) return;
         chimeAndVibrate();
