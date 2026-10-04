@@ -36,6 +36,7 @@
     <meta name="vapid-public-key" content="<%= WebPushService.public_key %>">
     <script src="/push-notifications.js?v=3" defer></script>
   <% end %>
+  <script src="/local-times.js?v=1" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () {
