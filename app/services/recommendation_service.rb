@@ -10,7 +10,7 @@ class RecommendationService
     @matches = apply_age_gender_filter(@matches, current_profile)
     preference = current_profile.partner_preference
     apply_filters(@matches, preference, max_level)
-    @matches.order("RANDOM()").last(MIN_RECOMMENDATIONS - matched_ids.count)
+    @matches.order(Arel.sql("RANDOM()")).last(MIN_RECOMMENDATIONS - matched_ids.count)
   end
 
   def self.daily_recommendations(current_profile)

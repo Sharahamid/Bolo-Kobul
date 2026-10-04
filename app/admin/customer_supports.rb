@@ -46,7 +46,7 @@ ActiveAdmin.register CustomerSupport do
 
     panel 'New Reply' do
       active_admin_form_for resource.replies.build, url: reply_shefali007_customer_support_path, html: { multipart: true } do |f|
-        f.semantic_errors(*f.object.errors.keys)
+        f.semantic_errors(*f.object.errors.attribute_names)
         f.inputs do
           f.input :message, as: :text
           f.input :attachment, as: :file, label: 'Attach Image/PDF (optional)'

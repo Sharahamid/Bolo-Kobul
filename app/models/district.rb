@@ -16,7 +16,7 @@ class District < ApplicationRecord
   #validations
   validates :name, uniqueness: true
 
-  scope :order_by_name, -> {order("name = 'Outside Bangladesh', name")}
+  scope :order_by_name, -> { order(Arel.sql("name = 'Outside Bangladesh', name")) }
 
   def self.get_district(id)
     if id.present?

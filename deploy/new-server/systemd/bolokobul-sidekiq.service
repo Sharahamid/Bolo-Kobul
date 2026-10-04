@@ -8,8 +8,8 @@ Type=simple
 User=ubuntu
 WorkingDirectory=/home/ubuntu/apps/bolokobul/current
 Environment=RAILS_ENV=production
-Environment=PATH=/opt/rubies/ruby-2.6.3/bin:/usr/local/bin:/usr/bin:/bin
-ExecStart=/opt/rubies/ruby-2.6.3/bin/bundle exec sidekiq -e production -C config/sidekiq.yml
+Environment=PATH=/opt/rubies/current/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/rubies/current/bin/bundle exec sidekiq -e production -C config/sidekiq.yml
 Restart=always
 RestartSec=5
 # Let running jobs finish before stopping

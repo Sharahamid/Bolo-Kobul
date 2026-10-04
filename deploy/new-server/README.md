@@ -1,9 +1,10 @@
 # Moving Bolo Kobul to a new server
 
 The current server runs Ubuntu 18.04 and PostgreSQL 10, both past end of support.
-This kit builds a **new Ubuntu 24.04 server** that runs the **same website code** (Ruby 2.6.3,
-identical gems) with PostgreSQL 16 and Redis 7, then switches visitors over by moving the
-Elastic IP address. Nothing changes for members except a few minutes of maintenance.
+This kit builds a **new Ubuntu 24.04 server** that runs the website with PostgreSQL 16 and
+Redis 7, then switches visitors over by moving the Elastic IP address. Nothing changes for
+members except a few minutes of maintenance. (The move itself was done on Ruby 2.6.3; see
+"Upgrading Ruby and Rails" below for later upgrades.)
 
 The old server is only ever **read from**, so it stays as an instant fallback.
 
@@ -86,7 +87,7 @@ git clone git@github.com:Sharahamid/Bolo-Kobul.git /tmp/bolokobul-setup
 bash /tmp/bolokobul-setup/deploy/new-server/setup.sh
 ```
 
-It installs everything (system updates, PostgreSQL, Redis, nginx, Ruby 2.6.3, Node, the site's
+It installs everything (system updates, PostgreSQL, Redis, nginx, Ruby, Node, the site's
 libraries) and prints **Setup finished** at the end. It is safe to run again if it stops part-way.
 
 ## 6. Copy the data and test (new server)
@@ -173,3 +174,21 @@ Anything members did on the new server in the meantime would need copying back, 
 | Background jobs status | `sudo systemctl status bolokobul-sidekiq` |
 
 The website and background jobs now **start automatically after a reboot**.
+
+## Upgrading Ruby and Rails
+
+When an upgrade changes the Ruby version (`.ruby-version`), take an AWS snapshot first, then:
+
+```bash
+cd ~/apps/bolokobul/current && git pull --ff-only && bash deploy/new-server/setup.sh
+source /etc/profile.d/bolokobul-ruby.sh && ruby -v
+bundle exec rails db:migrate && bundle exec rails assets:precompile
+sudo systemctl restart bolokobul-puma bolokobul-sidekiq
+```
+
+`setup.sh` installs the new Ruby next to the old one and points `/opt/rubies/current` at it.
+The site is unaffected until the `restart`, which takes it offline for about 20 seconds.
+
+**Undo:** `git checkout <previous commit>`, point `/opt/rubies/current` back
+(`sudo ln -sfn /opt/hostedtoolcache/Ruby/<old version>/x64 /opt/rubies/current`) and run the
+`restart` line again. The old Ruby's libraries are still in place.

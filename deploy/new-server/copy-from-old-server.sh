@@ -17,7 +17,7 @@ APP_ROOT=/home/ubuntu/apps/bolokobul
 SHARED=$APP_ROOT/shared
 CURRENT=$APP_ROOT/current
 OLD_SHARED=/home/ubuntu/apps/bolokobul/shared
-export PATH=/opt/rubies/ruby-2.6.3/bin:/opt/node-16.20.2/bin:$PATH
+export PATH=/opt/rubies/current/bin:/opt/node-16.20.2/bin:$PATH
 export RAILS_ENV=production
 
 step() { printf '\n\033[1;33m==> %s\033[0m\n' "$*"; }

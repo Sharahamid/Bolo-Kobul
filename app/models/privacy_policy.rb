@@ -29,10 +29,10 @@ class PrivacyPolicy < ApplicationRecord
     if pdf_content.attached?
       if pdf_content.blob.byte_size > 2000000
         pdf_content.delete
-        errors[:base] << "File size(max 2MB) too large!"
+        errors.add(:base, "File size(max 2MB) too large!")
       elsif !pdf_content.blob.content_type.starts_with?('application/pdf')
         pdf_content.delete
-        errors[:base] << "Not in an acceptable format!"
+        errors.add(:base, "Not in an acceptable format!")
       end
     end
   end

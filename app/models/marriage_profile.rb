@@ -428,10 +428,10 @@ class MarriageProfile < ApplicationRecord
     if nid_image.attached?
       if nid_image.blob.byte_size > 2000000
         self.nid_image = nil
-        errors[:base] << "File size(max 2MB) too large!"
+        errors.add(:base, "File size(max 2MB) too large!")
       elsif !nid_image.blob.content_type.starts_with?('image/')
         self.nid_image = nil
-        errors[:base] << "Not an acceptable format!"
+        errors.add(:base, "Not an acceptable format!")
       end
     end
   end
@@ -440,10 +440,10 @@ class MarriageProfile < ApplicationRecord
     if other_supporting_doc.attached?
       if other_supporting_doc.blob.byte_size > 2000000
         self.other_supporting_doc = nil
-        errors[:base] << "File size(max 2MB) too large!"
+        errors.add(:base, "File size(max 2MB) too large!")
       elsif !other_supporting_doc.blob.content_type.starts_with?('image/')
         self.other_supporting_doc = nil
-        errors[:base] << "Not an acceptable format!"
+        errors.add(:base, "Not an acceptable format!")
       end
     end
   end
