@@ -47,17 +47,18 @@ class RecommendationService
     end
     high_matches.sort_by! { |p| -p.matching_percentage }
 
-    # Fill remaining slots with daily shuffled profiles
+    # Fill remaining slots with the best matches, relaxing the preferences step by step
+    # (equal matches are shuffled, so the list still varies from day to day)
     remaining_count = [MIN_RECOMMENDATIONS - high_matches.count, 0].max
     high_match_ids = high_matches.map(&:id)
 
-    daily_seed = Date.today.to_s.gsub('-', '').to_i
     other_profiles = []
     preference_level = 5
     while other_profiles.count < remaining_count && preference_level >= 0
-      pool = apply_filters(all_candidates.where.not(id: high_match_ids + other_profiles.map(&:id)), preference, preference_level)
-      pool = pool.order("RANDOM()").limit(remaining_count - other_profiles.count)
-      other_profiles += pool.to_a
+      pool = apply_filters(all_candidates.where.not(id: high_match_ids + other_profiles.map(&:id)), preference, preference_level).to_a
+      pool.each { |profile| profile.calculate_matching_percentage!(current_profile) }
+      other_profiles += pool.shuffle.sort_by { |profile| -profile.matching_percentage.to_i }
+                            .first(remaining_count - other_profiles.count)
       preference_level -= 1
     end
 
@@ -84,13 +85,13 @@ class RecommendationService
 
     # Step 1: candidate's marital status must be in seeker's preference (or seeker has no preference)
     if seeker_pref&.marital_status.present?
-      seeker_accepts_candidate = seeker_pref.marital_status.keys.map(&:to_s).include?(candidate.marital_status.to_s)
+      seeker_accepts_candidate = seeker_pref.marital_status.to_a.map(&:to_s).include?(candidate.marital_status.to_s)
       return false unless seeker_accepts_candidate
     end
 
     # Step 2: seeker's marital status must be in candidate's preference (or candidate has no preference = open to all)
     if candidate_pref&.marital_status.present?
-      candidate_accepts_seeker = candidate_pref.marital_status.keys.map(&:to_s).include?(seeker.marital_status.to_s)
+      candidate_accepts_seeker = candidate_pref.marital_status.to_a.map(&:to_s).include?(seeker.marital_status.to_s)
       return false unless candidate_accepts_seeker
     end
 
