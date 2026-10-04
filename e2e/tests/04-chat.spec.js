@@ -52,6 +52,26 @@ test.describe('Chat', () => {
     await expect(phone.locator('#messageBody').getByText(text)).toBeVisible({ timeout: 15_000 });
   });
 
+  test("message times are shown in the viewer's own time zone", async ({ browser }) => {
+    for (const timezoneId of ['Asia/Dhaka', 'America/New_York']) {
+      const page = await (await browser.newContext({ timezoneId })).newPage();
+      await login(page, 'alice@example.com');
+      await page.goto(`/messages/${seed().members.bob}/profile`);
+      await expect(page.locator('#message_text')).toHaveAttribute('placeholder', 'Send message...');
+      const text = `Time check ${timezoneId} ${Date.now()}`;
+      await page.locator('#message_text').fill(text);
+      await page.locator('#message_text').press('Enter');
+      await expect(page.locator('#privat-chat-messages').getByText(text)).toBeVisible();
+
+      // The clock time of "now" in this browser's zone, e.g. "11:17 PM"
+      const clock = await page.evaluate(() => new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }));
+      const hour = clock.split(':')[0];
+      await page.reload();
+      const shown = await page.locator('#messageBody time.js-local-time').last().textContent();
+      expect(shown).toContain(`, ${hour}:`);
+    }
+  });
+
   test("someone outside the chat cannot post into it", async ({ browser }) => {
     const alice = await (await browser.newContext()).newPage();
     await login(alice, 'alice@example.com');
