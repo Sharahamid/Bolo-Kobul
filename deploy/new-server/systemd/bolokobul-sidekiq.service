@@ -1,0 +1,19 @@
+[Unit]
+Description=Bolo Kobul background jobs (Sidekiq)
+After=network.target postgresql.service redis-server.service
+Requires=postgresql.service redis-server.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/apps/bolokobul/current
+Environment=RAILS_ENV=production
+Environment=PATH=/opt/rubies/ruby-2.6.3/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/rubies/ruby-2.6.3/bin/bundle exec sidekiq -e production -C config/sidekiq.yml
+Restart=always
+RestartSec=5
+# Let running jobs finish before stopping
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
