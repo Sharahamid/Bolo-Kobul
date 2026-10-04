@@ -61,7 +61,7 @@ sudo systemctl stop bolokobul-sidekiq bolokobul-puma 2>/dev/null || true
 sudo -u postgres dropdb --if-exists "$DB_NAME"
 sudo -u postgres createdb -O "$DB_USER" "$DB_NAME"
 # shellcheck disable=SC2024  # the ubuntu user reads the dump; postgres only restores it
-sudo -u postgres pg_restore --no-owner --role="$DB_USER" -d "$DB_NAME" < /tmp/bolokobul.dump
+sudo -u postgres pg_restore --no-owner --no-privileges --role="$DB_USER" -d "$DB_NAME" < /tmp/bolokobul.dump
 rm -f /tmp/bolokobul.dump
 bundle exec rails runner 'puts "Members: #{User.count}, profiles: #{MarriageProfile.count}, orders: #{Order.count}"'
 
