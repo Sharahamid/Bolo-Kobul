@@ -117,7 +117,8 @@
       <div class="request-card-bottom border-top pt-2">
         <% if current_active_profile.chat_friendships.where(status: 2).map(&:chat_friend_id).include?(marriage_profile.id) %>
           <div class="bk-action-row">
-            <%= link_to profile_message_path(marriage_profile), class: 'kobul_btn kobul_2' do %>
+            <%= link_to profile_message_path(marriage_profile), class: 'kobul_btn kobul_2',
+                        style: 'background:#FFB627; border-color:#FFB627; color:#412402; font-weight:600;' do %>
               <i class="fas fa-comment"></i> Chat
             <% end %>
           </div>

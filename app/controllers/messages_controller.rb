@@ -56,9 +56,9 @@ class MessagesController < ApplicationController
   private
 
   # Tells the other person in the chat about a new message. The message itself is never
-  # included, so nothing private shows on a lock screen, in an inbox or in an SMS.
+  # included, so nothing private shows on a lock screen or in an inbox.
   # - phone notification: at most one per chat every 5 minutes
-  # - site notification, email and SMS: at most one per chat every 30 minutes
+  # - site notification and email: at most one per chat every 30 minutes
   def notify_chat_recipients(chat_room)
     sender = current_active_profile
     recipient_profile_ids = chat_room.chat_room_users.where.not(marriage_profile_id: sender.id).pluck(:marriage_profile_id)

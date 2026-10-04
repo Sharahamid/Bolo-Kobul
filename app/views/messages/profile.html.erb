@@ -5,6 +5,13 @@
 .bk-chat-container .profile-chat-window { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
 .bk-chat-container .conversation-list.chat_screen { overflow-y: auto; max-height: 400px !important; }
 .bk-chat-container .chat-list-window { max-height: 400px !important; min-height: 0 !important; overflow-y: auto; }
+/* Phones: the chat list, menu and conversation are stacked, so let the page grow
+   instead of cutting off the message box below a fixed height */
+@media (max-width: 575.98px) {
+  .bk-chat-container .message-page,
+  .bk-chat-container .message-right-sidebar { height: auto !important; overflow: visible; }
+  .bk-chat-container .conversation-list.chat_screen { max-height: 55vh !important; min-height: 160px; }
+}
 </style>
 <div class="container-fluid p-0">
   <div class="dashboard p-0">

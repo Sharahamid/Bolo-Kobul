@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action { Current.user = current_user }
+  before_action :track_last_seen
   add_flash_types :info, :success, :danger, :warning
   helper_method :current_active_profile, :check_current_active_profile
 
@@ -70,5 +71,16 @@ class ApplicationController < ActionController::Base
     else
       new_marriage_profile_path
     end
+  end
+
+  private
+
+  # When the member last used the site or app (saved at most once an hour); the Friday
+  # reminder only goes to members who have not been here for 7 days
+  def track_last_seen
+    return unless current_user
+    return if current_user.last_seen_at && current_user.last_seen_at > 1.hour.ago
+
+    current_user.update_column(:last_seen_at, Time.current)
   end
 end
