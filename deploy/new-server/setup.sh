@@ -82,6 +82,8 @@ sudo ln -sfn "$RUBY_HOME" "$RUBY_PREFIX"
 sudo ln -sfn "$RUBY_HOME" "$RUBY_CURRENT"
 sudo tee /etc/profile.d/bolokobul-ruby.sh >/dev/null <<PROFILE
 export PATH=$RUBY_CURRENT/bin:$NODE_PREFIX/bin:\$PATH
+# This server only runs the live site, so rails commands typed here default to production
+export RAILS_ENV=production
 PROFILE
 export PATH=$RUBY_CURRENT/bin:$NODE_PREFIX/bin:$PATH
 sudo "$RUBY_CURRENT/bin/gem" install bundler -v "$BUNDLER_VERSION" --no-document --conservative
