@@ -7,6 +7,15 @@ test.describe('Login', () => {
     await expect(page).toHaveURL(new RegExp(`/marriage_profiles/${seed().members.alice}/dashboard`));
   });
 
+  test('opening the app (or the home page) while signed in shows the dashboard, not sign-up', async ({ page }) => {
+    await login(page, 'alice@example.com');
+    for (const url of ['/?source=app', '/']) {
+      await page.goto(url);
+      await expect(page).toHaveURL(new RegExp(`/marriage_profiles/${seed().members.alice}/dashboard`));
+      await expect(page.getByText('Register Now')).toHaveCount(0);
+    }
+  });
+
   test('a wrong password is refused', async ({ page }) => {
     await login(page, 'alice@example.com', 'wrong-password-1');
     await expect(page).not.toHaveURL(/dashboard/);
