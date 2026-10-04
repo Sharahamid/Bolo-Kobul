@@ -20,7 +20,7 @@
 
 class CulturalValue < ApplicationRecord
 
-  serialize :languages_spoken,  Array
+  serialize :languages_spoken, type: Array, coder: YAML
   #Associations
   belongs_to :marriage_profile
 

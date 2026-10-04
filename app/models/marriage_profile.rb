@@ -48,17 +48,17 @@ class MarriageProfile < ApplicationRecord
   #
   attr_accessor :crop_x, :crop_y, :crop_w, :crop_h
 
-  enum gender: %i[male female other]
-  enum marital_status: %i[unmarried widow_or_widower divorced separated married]
-  enum family_type: %i[joint_family nuclear_family does_not_matter]
-  enum family_values: %i[orthodox traditional moderate liberal does_not_matter], _prefix: :mfv
-  enum family_status: %i[middle_Class upper_middle_class rich/affluent does_not_matter], _prefix: :mfs
-  enum blood_group: %i[A+ A- B+ B- O+ O- AB+ AB-]
-  enum height_ft: %i[0 1 2 3 4 5 6 7 8]
-  enum height_inch: %i[0 1 2 3 4 5 6 7 8 9 10 11], _prefix: :inch
-  enum religion: %i[islam hinduism christianity buddhism other], _prefix: :mr
-  enum highest_education_level: %i[doctorate graduate post_graduate undergraduate intermediate school non_traditional_education diploma other],
-       _prefix: :me
+  enum :gender, %i[male female other]
+  enum :marital_status, %i[unmarried widow_or_widower divorced separated married]
+  enum :family_type, %i[joint_family nuclear_family does_not_matter]
+  enum :family_values, %i[orthodox traditional moderate liberal does_not_matter], prefix: :mfv
+  enum :family_status, %i[middle_Class upper_middle_class rich/affluent does_not_matter], prefix: :mfs
+  enum :blood_group, %i[A+ A- B+ B- O+ O- AB+ AB-]
+  enum :height_ft, %i[0 1 2 3 4 5 6 7 8]
+  enum :height_inch, %i[0 1 2 3 4 5 6 7 8 9 10 11], prefix: :inch
+  enum :religion, %i[islam hinduism christianity buddhism other], prefix: :mr
+  enum :highest_education_level, %i[doctorate graduate post_graduate undergraduate intermediate school non_traditional_education diploma other],
+       prefix: :me
 
   extend FriendlyId
   friendly_id :unique_id, use: :slugged

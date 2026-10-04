@@ -54,7 +54,7 @@ class MessagesController < ApplicationController
         # The chat window inserts the body as HTML, so send it escaped: a message
         # can never run code in the other person's browser
         ActionCable.server.broadcast "room_#{chat_room.id}_channel",
-                                     content: @message.as_json.merge('body' => ERB::Util.html_escape(@message.body.to_s))
+                                     { content: @message.as_json.merge('body' => ERB::Util.html_escape(@message.body.to_s)) }
         notify_chat_recipients(chat_room)
         chat_room.mark_read!(current_active_profile)
 
@@ -84,8 +84,8 @@ class MessagesController < ApplicationController
       next if user.nil? || user.id == current_user.id
 
       # Live alert on whatever page they have open (sound, vibration, banner)
-      AlertsChannel.broadcast_to(user, kind: 'message', from: sender.unique_id,
-                                       url: profile_message_path(sender), chat_room_id: chat_room.id)
+      AlertsChannel.broadcast_to(user, { kind: 'message', from: sender.unique_id,
+                                         url: profile_message_path(sender), chat_room_id: chat_room.id })
 
       if WebPushService.configured? &&
          Rails.cache.write("push_chat_#{chat_room.id}_#{user.id}", true, expires_in: 30.seconds, unless_exist: true)

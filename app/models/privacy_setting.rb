@@ -21,15 +21,15 @@ class PrivacySetting < ApplicationRecord
   #
   # enum, constant & attr
   #
-  enum current_occupation: %i[public private], _prefix: true
-  enum date_of_birth: %i[public private], _prefix: true
-  enum family_status: %i[public private], _prefix: true
-  enum family_type: %i[public private], _prefix: true
-  enum family_values: %i[public private], _prefix: true
-  enum gender: %i[public private], _prefix: true
-  enum height_ft: %i[public private], _prefix: true
-  enum highest_education_level: %i[public private], _prefix: true
-  enum physical_status: %i[public private], _prefix: true
+  enum :current_occupation, %i[public private], prefix: true
+  enum :date_of_birth, %i[public private], prefix: true
+  enum :family_status, %i[public private], prefix: true
+  enum :family_type, %i[public private], prefix: true
+  enum :family_values, %i[public private], prefix: true
+  enum :gender, %i[public private], prefix: true
+  enum :height_ft, %i[public private], prefix: true
+  enum :highest_education_level, %i[public private], prefix: true
+  enum :physical_status, %i[public private], prefix: true
   #
   #Associations
   #

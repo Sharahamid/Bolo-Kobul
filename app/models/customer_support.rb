@@ -16,7 +16,7 @@ class CustomerSupport < ApplicationRecord
   #
   # enum & constants
   #
-  enum status: %i[in_queue processing resolved]
+  enum :status, %i[in_queue processing resolved]
 
   #
   #Associations

@@ -58,9 +58,9 @@ class User < ApplicationRecord
   #
   # enum, constant & attr
   include UserConcern
-  enum created_for: %i[self parents sibling relative friend colleague children other_as_matchmaker]
-  enum text_alert: %i[off on]
-  enum advanced_search: %i[disabled enabled]
+  enum :created_for, %i[self parents sibling relative friend colleague children other_as_matchmaker]
+  enum :text_alert, %i[off on]
+  enum :advanced_search, %i[disabled enabled]
 
   attr_writer :login
   extend FriendlyId

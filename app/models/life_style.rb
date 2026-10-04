@@ -15,8 +15,8 @@
 #
 
 class LifeStyle < ApplicationRecord
-  serialize :dress_style,  Array
-  serialize :living_with,  Array
+  serialize :dress_style, type: Array, coder: YAML
+  serialize :living_with, type: Array, coder: YAML
   #Associations
   belongs_to :marriage_profile
 

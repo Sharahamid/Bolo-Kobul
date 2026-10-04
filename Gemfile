@@ -1,68 +1,56 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.8'
-gem 'activeadmin', '~> 2.13'
-gem 'active_storage_validations'
-gem 'bootsnap', '>= 1.4.2', require: false
-gem 'bitmask_attributes'
-gem 'carrierwave', '~> 2.0'
-gem 'ckeditor'
+ruby '3.4.6'
+gem 'rails', '~> 8.1.4'
+
+gem 'activeadmin', '~> 3.5'
+gem 'active_admin_role', '~> 0.2.2'
+gem 'active_storage_validations', '~> 3.0'
+gem 'benchmark' # no longer built into Ruby 3.5; mini_magick needs it
+gem 'bootsnap', require: false
+gem 'bitmask_attributes', require: false # loaded in config/initializers/bitmask_attributes.rb
+gem 'carrierwave', '~> 3.1'
+gem 'ckeditor', '~> 4.3'
 gem 'cropper-rails'
+# Stylesheets are compiled with Dart Sass (the old libsass/sassc is no longer maintained)
+gem 'dartsass-sprockets', '~> 3.2'
 gem 'devise', '~> 4.9'
-gem 'exception_handler', '~> 0.8.0.0'
-gem "figaro"
+gem 'exception_handler', '~> 0.8.0'
+gem 'figaro'
 gem 'friendly_id', '~> 5.5'
 gem 'has_friendship', '~> 1.2'
-gem 'jbuilder', '~> 2.7'
-gem "mini_magick"
-gem 'omniauth-facebook', '~> 5.0'
-gem 'omniauth-google-oauth2', '~> 0.8.0'
-gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 4.1'
-gem 'rails', '~> 6.1.7'
-# concurrent-ruby 1.3.5+ no longer loads Logger, which Rails before 7.1 relies on
-gem 'concurrent-ruby', '< 1.3.5'
-gem 'redis', '~> 4.1', '>= 4.1.0'
-gem 'sass-rails', '>= 6'
-# sassc 2.4 crashes (segfault) while compiling this site's stylesheets
-gem 'sassc', '~> 2.2.1'
-gem 'sidekiq', '~>5.2'
+gem 'jbuilder', '~> 2.13'
+gem 'mini_magick', '~> 4.10'
+gem 'omniauth-facebook', '~> 10.0'
+gem 'omniauth-google-oauth2', '~> 1.2'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
+gem 'pg', '~> 1.5'
+gem 'puma', '~> 6.6'
+gem 'redis', '~> 5.4'
+gem 'sidekiq', '~> 7.3'
+# connection_pool 3 changed an API that Sidekiq 7 still uses
+gem 'connection_pool', '~> 2.5'
 gem 'turbolinks', '~> 5'
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby] # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'webpacker', '~> 4.0'
-## Pagination Gem
-gem 'will_paginate', '~> 3.1.0'
-gem 'active_admin_role', '~> 0.2.2'
-gem 'whenever', '~> 1.0.0', require: false
-gem 'twilio-ruby'
+gem 'twilio-ruby', '~> 7.10'
+gem 'tzinfo-data', platforms: [:windows, :jruby] # Windows does not include zoneinfo files
+gem 'webpacker', '~> 5.4'
+gem 'whenever', '~> 1.0', require: false
+gem 'will_paginate', '~> 4.0'
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'debug', platforms: [:mri, :windows]
   gem 'rspec-rails'
-  gem 'rspec-expectations'
 end
 
 group :development do
-  gem 'annotate'
-  gem 'capistrano', require: false
-  gem 'capistrano-rails', require: false
-  gem 'capistrano-rvm', require: false
-  gem 'capistrano3-puma', require: false
-  gem 'capistrano-yarn', require: false
-  gem 'capistrano-rails-console'
-  gem 'capistrano-sidekiq'
   gem 'listen'
-  gem 'pry', '~> 0.12.2'
+  gem 'pry'
   gem 'rubocop-rails', require: false
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'sshkit-interactive'
-  gem 'web-console', '>= 4.1.0'
+  gem 'web-console'
 end
 
 group :test do
-  gem 'capybara', '>= 2.15'
+  gem 'capybara'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
 end

@@ -26,8 +26,8 @@ class Blog < ApplicationRecord
   # enum & constants
   #
 
-  enum status: %i[pending approved]
-  enum story_type: %i[success_story blog wedding_tips relationship_advice horoscope_compatibility]
+  enum :status, %i[pending approved]
+  enum :story_type, %i[success_story blog wedding_tips relationship_advice horoscope_compatibility]
   has_one_attached :image
 
   #

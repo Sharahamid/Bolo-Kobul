@@ -177,18 +177,31 @@ The website and background jobs now **start automatically after a reboot**.
 
 ## Upgrading Ruby and Rails
 
-When an upgrade changes the Ruby version (`.ruby-version`), take an AWS snapshot first, then:
+When an upgrade changes the Ruby version (`.ruby-version`), take an AWS snapshot first
+(EC2 → Instances → the server → Storage → volume → Actions → Create snapshot), then:
 
 ```bash
+grep -c SECRET_KEY_BASE ~/apps/bolokobul/shared/config/application.yml   # should print 1
 cd ~/apps/bolokobul/current && git pull --ff-only && bash deploy/new-server/setup.sh
 source /etc/profile.d/bolokobul-ruby.sh && ruby -v
 bundle exec rails db:migrate && bundle exec rails assets:precompile
 sudo systemctl restart bolokobul-puma bolokobul-sidekiq
+sleep 20 && curl -s -o /dev/null -w 'Home page: HTTP %{http_code}\n' https://bolokobul.com/
 ```
 
-`setup.sh` installs the new Ruby next to the old one and points `/opt/rubies/current` at it.
-The site is unaffected until the `restart`, which takes it offline for about 20 seconds.
+`setup.sh` installs the new Ruby and its libraries next to the old ones and points
+`/opt/rubies/current` at it. The running site keeps using the old Ruby until the `restart`,
+which takes it offline for about 20 seconds. Members stay signed in.
 
-**Undo:** `git checkout <previous commit>`, point `/opt/rubies/current` back
-(`sudo ln -sfn /opt/hostedtoolcache/Ruby/<old version>/x64 /opt/rubies/current`) and run the
-`restart` line again. The old Ruby's libraries are still in place.
+**Undo** (the old Ruby and its libraries stay in place):
+
+```bash
+cd ~/apps/bolokobul/current && git checkout <commit before the upgrade>
+sudo ln -sfn /opt/hostedtoolcache/Ruby/<old version>/x64 /opt/rubies/current
+source /etc/profile.d/bolokobul-ruby.sh && bundle exec rails assets:precompile
+sudo systemctl restart bolokobul-puma bolokobul-sidekiq
+```
+
+| Upgrade | Ruby | Rails | Commit before it |
+|---|---|---|---|
+| October 2026 | 2.7.8 → 3.4.6 | 6.1 → 8.1 | `9ffb4bd` |

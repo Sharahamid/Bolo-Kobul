@@ -1,10 +1,12 @@
 ActiveAdmin.setup do |config|
-  # == Friendly Id addon
-  ActiveAdmin::ResourceController.class_eval do
-    def find_resource
-      resource_class.is_a?(FriendlyId) ?
-        scoped_collection.friendly.find(params[:id]) :
-        scoped_collection.find(params[:id])
+  # == Friendly Id addon (once the controllers have loaded)
+  Rails.application.config.to_prepare do
+    ActiveAdmin::ResourceController.class_eval do
+      def find_resource
+        resource_class.is_a?(FriendlyId) ?
+          scoped_collection.friendly.find(params[:id]) :
+          scoped_collection.find(params[:id])
+      end
     end
   end
 

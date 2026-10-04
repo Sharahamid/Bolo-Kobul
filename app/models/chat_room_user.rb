@@ -33,6 +33,6 @@ class ChatRoomUser < ApplicationRecord
 
   # Tells the open chat window of the other person to update its ticks
   def broadcast_receipt
-    ActionCable.server.broadcast "room_#{chat_room_id}_channel", receipt: receipt
+    ActionCable.server.broadcast "room_#{chat_room_id}_channel", { receipt: receipt }
   end
 end

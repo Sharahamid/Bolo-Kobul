@@ -31,9 +31,9 @@ class Order < ApplicationRecord
   # enum & constants
   #
 
-  enum status: %i[pending success failed]
-  enum payment_method: %i[foster_payment]
-  enum product: %i[butterfly assisted_service]
+  enum :status, %i[pending success failed]
+  enum :payment_method, %i[foster_payment]
+  enum :product, %i[butterfly assisted_service]
 
   #
   # associations

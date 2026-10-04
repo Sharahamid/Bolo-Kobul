@@ -24,7 +24,7 @@ class MarketPlace < ApplicationRecord
   # enum & constants
   #
 
-  enum status: %i[pending approved]
+  enum :status, %i[pending approved]
   #Associations
   belongs_to :market_place_type
   has_one_attached :image
