@@ -35,8 +35,10 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if message_params[:body].present? && @message.save!
         chat_room = @message.chat_room
+        # The chat window inserts the body as HTML, so send it escaped: a message
+        # can never run code in the other person's browser
         ActionCable.server.broadcast "room_#{chat_room.id}_channel",
-                                     content: @message
+                                     content: @message.as_json.merge('body' => ERB::Util.html_escape(@message.body.to_s))
         notify_chat_recipients(chat_room)
 
         format.js

@@ -16,6 +16,7 @@ class Users::SessionsController < Devise::SessionsController
         format.js
         format.html { redirect_back(fallback_location: "/") }
       end
+      return
     end
 
     resource = User.find_for_database_authentication(email: params[:user][:login]) ||  User.find_for_database_authentication(phone_number: params[:user][:login])

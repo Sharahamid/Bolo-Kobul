@@ -245,8 +245,37 @@ class User < ApplicationRecord
     verified?
   end
 
+  OTP_VALID_FOR = 10.minutes
+  OTP_MAX_ATTEMPTS = 5
+
+  def self.generate_otp
+    SecureRandom.random_number(1_000_000).to_s.rjust(6, '0')
+  end
+
+  # Checks a verification code: it must match, be under 10 minutes old, and at most
+  # 5 guesses are allowed per code. Returns :ok, :wrong, :expired or :too_many_attempts.
+  def check_otp(code)
+    return :expired if otp.blank? || otp_sent_at.nil? || otp_sent_at < OTP_VALID_FOR.ago
+
+    # Count the guess in the database first (atomic, so parallel guesses all count)
+    User.update_counters(id, otp_attempts: 1)
+    return :too_many_attempts if User.where(id: id).pick(:otp_attempts).to_i > OTP_MAX_ATTEMPTS
+
+    ActiveSupport::SecurityUtils.secure_compare(otp.to_s, code.to_s.strip) ? :ok : :wrong
+  end
+
+  # A code can only be used once
+  def clear_otp!
+    update_columns(otp: nil, otp_sent_at: nil, otp_attempts: 0)
+  end
+
+  # Allows a new code at most once a minute (each one costs an SMS)
+  def otp_resend_allowed?
+    otp_sent_at.nil? || otp_sent_at < 1.minute.ago
+  end
+
   def send_otp
-    update_attribute(:otp, rand.to_s[2..7])
+    update_columns(otp: User.generate_otp, otp_sent_at: Time.current, otp_attempts: 0)
     message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 10 minutes. Not you? Please contact support@bolokobul.com"
     if phone_number.to_s.start_with?('+880', '01', '008801')
       SmsService.call(phone_number.to_s, message)
@@ -277,7 +306,7 @@ class User < ApplicationRecord
   end
 
   def set_otp
-    self.otp = rand.to_s[2..7]
+    self.otp = User.generate_otp
   end
 
   def downcase_email
