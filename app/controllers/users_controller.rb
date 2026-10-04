@@ -11,19 +11,34 @@ class UsersController < ApplicationController
   end
 
   def verify
-    if @user.otp == params[:token]
+    # Already-verified accounts log in with their password, never with a code
+    return redirect_to(root_path, notice: 'Your account is already verified. Please log in.') if @user.verified?
+
+    case @user.check_otp(params[:token])
+    when :ok
+      @user.clear_otp!
       @user.update(verified: true)
       UserAccountMailer.with(user: @user).registration.deliver_later
       sign_in(:user, @user)
       redirect_to after_sign_in_path_for(@user)
+    when :expired
+      redirect_to show_verify_user_path(@user), notice: 'This code has expired. Please request a new code.'
+    when :too_many_attempts
+      redirect_to show_verify_user_path(@user), notice: 'Too many incorrect attempts. Please request a new code.'
     else
       redirect_to show_verify_user_path(@user), notice: 'Incorrect code, please try again'
     end
   end
 
   def resend
-    @user.send_otp
-    redirect_to show_verify_user_path(@user), notice: 'Verification code re-sent'
+    return redirect_to(root_path, notice: 'Your account is already verified. Please log in.') if @user.verified?
+
+    if @user.otp_resend_allowed?
+      @user.send_otp
+      redirect_to show_verify_user_path(@user), notice: 'Verification code re-sent'
+    else
+      redirect_to show_verify_user_path(@user), notice: 'Please wait a minute before requesting another code.'
+    end
   end
 
   def notifications
