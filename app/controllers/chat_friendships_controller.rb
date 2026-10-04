@@ -83,7 +83,16 @@ class ChatFriendshipsController < ApplicationController
     end
   end
 
-  def reject_request 
+  # One button, three situations:
+  # - the member sent a 2nd Kobul that is still pending: they cancel it
+  # - the member received a 2nd Kobul: they reject it
+  # - no 2nd Kobul yet (accepted 1st Kobul): they remove the match
+  def reject_request
+    sent = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id, status: :pending)
+    received = current_active_profile.chat_friendships.find_by(chat_friend_id: @marriage_profile.id, status: :requested)
+    return cancel_sent_request if sent
+    return remove_match unless received
+
     current_active_profile.decline_chat_request(@marriage_profile)
     @marriage_profile.unblock_blocked_butterflies_chat
     Friendship.where(
@@ -111,7 +120,7 @@ class ChatFriendshipsController < ApplicationController
       "Your 2nd Kobul was not accepted this time. Keep exploring — the right match is out there: www.bolokobul.com"
     )
     
-    flash[:notice] = "2nd Kobul Cancelled. Check out more profiles!"
+    flash[:notice] = "2nd Kobul rejected. Check out more profiles!"
     redirect_to dashboard_marriage_profile_path(current_active_profile)
   end
 
@@ -122,6 +131,32 @@ class ChatFriendshipsController < ApplicationController
   end
 
   private
+
+  # 2nd Kobuls never expire; the sender can cancel. The butterflies used are not returned,
+  # they only stop showing as "In Process". The 1st Kobul connection stays.
+  def cancel_sent_request
+    current_active_profile.decline_chat_request(@marriage_profile)
+    current_active_profile.unblock_blocked_butterflies_chat
+    current_user.notifications.create(
+      content: "You have cancelled your 2nd Kobul to #{@marriage_profile.unique_id}.",
+      notifiable: current_active_profile,
+      will_email: false,
+      will_sms: false
+    )
+    flash[:notice] = "2nd Kobul cancelled"
+    redirect_back(fallback_location: dashboard_marriage_profile_path(current_active_profile))
+  end
+
+  # Accepted 1st Kobul, no 2nd Kobul: just end the connection (no butterflies involved)
+  def remove_match
+    Friendship.where(
+      '(friendable_id = ? AND friend_id = ?) OR (friendable_id = ? AND friend_id = ?)',
+      current_active_profile.id, @marriage_profile.id,
+      @marriage_profile.id, current_active_profile.id
+    ).destroy_all
+    flash[:notice] = "#{@marriage_profile.unique_id} has been removed from your list"
+    redirect_to dashboard_marriage_profile_path(current_active_profile)
+  end
 
   def set_marriage_profile
     @marriage_profile = MarriageProfile.friendly.find(params[:id])

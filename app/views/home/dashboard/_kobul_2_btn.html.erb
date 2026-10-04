@@ -13,9 +13,10 @@
       🦋 Accept Kobul (2)
     </a>
   <% elsif current_active_profile&.chat_friendships&.map(&:chat_friend_id)&.include?(profile.id) %>
-    <a href="#" class="kobul_btn kobul_2"
+    <a href="<%= reject_request_chat_friendship_path(profile) %>" data-method="patch" class="kobul_btn kobul_2"
        style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;"
-       data-toggle="tooltip" title="Kobul 2 request pending">
+       data-toggle="tooltip" title="Tap to cancel your 2nd Kobul"
+       data-confirm="Cancel your 2nd Kobul? The butterflies used for it are not returned.">
       🦋 Pending
     </a>
   <% else %>

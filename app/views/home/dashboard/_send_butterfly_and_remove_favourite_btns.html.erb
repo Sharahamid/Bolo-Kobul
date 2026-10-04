@@ -4,7 +4,7 @@
       💬 Chat
     <% end %>
   <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(profile.id) %>
-    <a href="<%= reject_request_chat_friendship_path(profile) %>" data-method="patch" class="kobul_btn kobul_2" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel Kobul 2 request" data-confirm="Cancel your Kobul 2 request?">🦋 Kobul 2 Pending</a>
+    <a href="<%= reject_request_chat_friendship_path(profile) %>" data-method="patch" class="kobul_btn kobul_2" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel Kobul 2 request" data-confirm="Cancel your 2nd Kobul? The butterflies used for it are not returned.">🦋 Kobul 2 Pending</a>
   <% elsif Friendship.where(friendable_id: current_active_profile.id, friend_id: profile.id, status: 1).exists? %>
     <%= render 'home/dashboard/kobul_2_btn', profile: profile %>
   <% elsif current_active_profile.pending_friends.include?(profile) %>
