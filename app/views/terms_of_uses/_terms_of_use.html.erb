@@ -14,7 +14,7 @@
        class="collapse <%= terms_of_use.id == @terms_of_uses.first.id ? 'show' : '' %>"
        role="tabpanel" aria-labelledby="heading_<%= terms_of_use.id %>">
     <div class="card-body">
-      <%= terms_of_use.content.html_safe %>
+      <%= safe_html(terms_of_use.content) %>
     </div>
   </div>
 </div>

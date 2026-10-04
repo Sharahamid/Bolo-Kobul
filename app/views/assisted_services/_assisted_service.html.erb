@@ -15,7 +15,7 @@
                                'show' : '' %>"
        role="tabpanel" aria-labelledby="heading_<%= assisted_service.id %>">
     <div class="card-body">
-      <%= assisted_service.detail.html_safe %>
+      <%= safe_html(assisted_service.detail) %>
     </div>
   </div>
 </div>
