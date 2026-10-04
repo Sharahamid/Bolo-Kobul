@@ -25,8 +25,12 @@
                                class: 'form-control sign_up-input-field',
                                placeholder: 'Full Name',
                                required: true,
+                               readonly: f.object.own_name_locked?,
                                data: {toggle: "tooltip", placement: "top" },
                                title: "Full Name" %>
+              <% if f.object.own_name_locked? %>
+                <small class="form-text text-muted">The name you registered with</small>
+              <% end %>
               <small class="text-danger"> <%= f.object.errors[:name].present? ? f.object.errors[:name]&.first : '' %> </small>
             </div>
 

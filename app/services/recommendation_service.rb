@@ -15,15 +15,21 @@ class RecommendationService
 
   def self.daily_recommendations(current_profile)
     return [] unless current_profile
-    cache_key = "recommendations_#{current_profile.id}_#{Date.today}"
-    cached_ids = Rails.cache.read(cache_key)
+    key = cache_key(current_profile)
+    cached_ids = Rails.cache.read(key)
     if cached_ids.present?
       return MarriageProfile.where(id: cached_ids)
     end
 
     recommendations = build_recommendations(current_profile)
-    Rails.cache.write(cache_key, recommendations.map(&:id), expires_in: DAILY_CACHE_EXPIRY)
+    Rails.cache.write(key, recommendations.map(&:id), expires_in: DAILY_CACHE_EXPIRY)
     recommendations
+  end
+
+  # Recalculated daily, and also as soon as a new member joins or this member changes their preferences
+  def self.cache_key(profile)
+    "recommendations_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
+      "#{profile.partner_preference&.updated_at.to_i}"
   end
 
   def self.build_recommendations(current_profile)
@@ -137,11 +143,11 @@ class RecommendationService
     end
 
     if preference.min_height.present? && max_level >= 2
-      matches = matches.where('(height_ft = ? AND height_inch >= ?) OR (height_ft > ?)', preference.min_height, preference.min_inch, preference.min_height)
+      matches = matches.where('(height_ft = ? AND height_inch >= ?) OR (height_ft > ?)', preference.min_height, preference.min_inch.to_i, preference.min_height)
     end
 
     if preference.max_height.present? && max_level >= 5
-      matches = matches.where('height_ft <= ? AND height_inch >= ?', preference.max_height, preference.max_inch)
+      matches = matches.where('(height_ft = ? AND height_inch <= ?) OR (height_ft < ?)', preference.max_height, preference.max_inch.to_i, preference.max_height)
     end
 
     if preference.physical_status.present? && !preference.ps_does_not_matter? && max_level >= 5

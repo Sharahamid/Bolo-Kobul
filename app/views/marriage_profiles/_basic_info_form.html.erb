@@ -23,6 +23,7 @@
                          placeholder:'Name',
                          title: 'Name*',
                          data: {toggle:'tooltip', placement:'top'},
+                         readonly: f.object.own_name_locked?,
                          required: true %>
         <small class="text-danger"> <%= f.object.errors[:name].present? ? "Name #{f.object.errors[:name]&.first}" : '' %> </small>
       </div>
