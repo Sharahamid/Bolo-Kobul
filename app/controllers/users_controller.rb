@@ -86,11 +86,31 @@ class UsersController < ApplicationController
 
   def activate_account
     @user = User.find_by(id: current_user.id)
-    if @user&.update(deactivated: false)
+    # Activating the account also cancels a pending deletion
+    if @user&.update(deactivated: false, deletion_requested_at: nil)
       redirect_back fallback_location: root_path, notice: 'Activated Successfully'
     else
       redirect_back fallback_location: root_path, notice: "#{@user.errors.full_messages.first}"
     end
+  end
+
+  # "Delete my account": hides the account now and erases it after 30 days
+  def request_deletion
+    unless params[:confirm_deletion] == '1' && current_user.valid_password?(params[:password].to_s)
+      return redirect_back(fallback_location: privacy_settings_path,
+                           notice: 'Please enter your correct password and tick the box to confirm.')
+    end
+
+    current_user.request_deletion!
+    UserAccountMailer.with(user: current_user).deletion_scheduled.deliver_later if current_user.email.present?
+    AdminSupportMailer.account_deletion_requested(current_user).deliver_later
+    redirect_back fallback_location: privacy_settings_path,
+                  notice: "Your account will be deleted on #{current_user.deletion_date.strftime('%-d %B %Y')}. You can cancel any time before then."
+  end
+
+  def cancel_deletion
+    current_user.cancel_deletion!
+    redirect_back fallback_location: root_path, notice: 'Deletion cancelled. Welcome back! Your account is active again.'
   end
 
   def toggle_text_alert

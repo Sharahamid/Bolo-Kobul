@@ -24,6 +24,8 @@ Rails.application.routes.draw do
   get '/email_template', to: 'home#email_template', as: 'email_template'
   get '/about', to: 'home#about', as: 'about'
   get '/contact', to: 'home#contact', as: 'contact'
+  # Public page explaining how to delete an account (linked from the Google Play listing)
+  get '/delete-account', to: 'home#delete_account', as: 'delete_account_info'
   get '/animation', to: 'home#animation'
   match '/use_reference', to: 'home#use_reference', as: 'reference', via: [:get, :patch]
   
@@ -56,6 +58,8 @@ Rails.application.routes.draw do
       patch :update_password
       patch :deactivate_account
       patch :activate_account
+      post :request_deletion
+      patch :cancel_deletion
       patch :toggle_text_alert
       patch :toggle_advanced_search
     end

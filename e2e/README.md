@@ -18,6 +18,7 @@ They are the safety net for upgrades: run them before and after every change.
 | `06-admin.spec.js` | Admin login and main admin pages; members cannot open the admin panel |
 | `07-notifications.spec.js` | Phone notification subscriptions only accept real push services |
 | `08-verification-codes.spec.js` | Sign-up codes: 5 wrong guesses lock the code, a code works only once, resend at most once a minute, verified accounts can't be entered with a code |
+| `09-account-deletion.spec.js` | A member can schedule deletion of their account with their password, sees the date and a banner, and can cancel; the public /delete-account page |
 
 ## How it works
 
