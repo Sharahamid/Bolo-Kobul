@@ -67,13 +67,16 @@ Rails.application.configure do
   #for mailer delivery errors
   config.action_mailer.raise_delivery_errors = true
   #for smtp
-  config.action_mailer.delivery_method = :smtp
+  # Mailgun login comes from config/application.yml (never written in the code). Without
+  # it, emails are saved as files in tmp/mails instead of being sent.
+  config.action_mailer.delivery_method = ENV['MAILGUN_PASSWORD'].present? ? :smtp : :file
+  config.action_mailer.file_settings = { location: Rails.root.join('tmp/mails') }
   config.action_mailer.smtp_settings = {
       address:              'smtp.mailgun.org',
       port:                 587,
-      domain:               'bolokobul.mailgun.org',
-      user_name:            'noreply@mg.bolokobul.com',
-      password:             '87b889f2f0568e661c3fc780adf85697-09001d55-b4f7d74f',
+      domain:               ENV['MAILGUN_DOMAIN'],
+      user_name:            ENV['MAILGUN_USERNAME'],
+      password:             ENV['MAILGUN_PASSWORD'],
       authentication:       'plain',
       enable_starttls_auto: true
   }
