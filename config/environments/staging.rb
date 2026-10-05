@@ -115,13 +115,14 @@ Rails.application.configure do
   #for mailer delivery errors
   config.action_mailer.raise_delivery_errors = true
   #for smtp
+  # Mailgun login comes from config/application.yml (never written in the code)
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
       address:              'smtp.mailgun.org',
       port:                 587,
-      domain:               'bolokobul.mailgun.org',
-      user_name:            'noreply@mg.bolokobul.com',
-      password:             '87b889f2f0568e661c3fc780adf85697-09001d55-b4f7d74f',
+      domain:               ENV['MAILGUN_DOMAIN'],
+      user_name:            ENV['MAILGUN_USERNAME'],
+      password:             ENV['MAILGUN_PASSWORD'],
       authentication:       'plain',
       enable_starttls_auto: true
   }
