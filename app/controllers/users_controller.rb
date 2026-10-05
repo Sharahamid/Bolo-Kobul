@@ -35,8 +35,11 @@ class UsersController < ApplicationController
     return redirect_to(root_path, notice: 'Your account is already verified. Please log in.') if @user.verified?
 
     if @user.otp_resend_allowed?
-      @user.send_otp
-      redirect_to show_verify_user_path(@user), notice: 'Verification code re-sent'
+      if @user.send_otp
+        redirect_to show_verify_user_path(@user), notice: 'Verification code re-sent'
+      else
+        redirect_to show_verify_user_path(@user), notice: "We couldn't send the code just now. Please try again in a minute."
+      end
     else
       redirect_to show_verify_user_path(@user), notice: 'Please wait a minute before requesting another code.'
     end

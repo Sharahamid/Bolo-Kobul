@@ -32,8 +32,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_in(resource_name, resource)
         respond_with resource, :location => redirect_location(resource_name, resource)
       else
-        resource.send_otp
+        code_sent = resource.send_otp
         set_flash_message :info, :"signed_up_but_#{resource.inactive_message}", :reason => resource.inactive_message.to_s if is_navigational_format?
+        unless code_sent
+          flash.delete(:info)
+          flash[:warning] = "Your account is created, but we couldn't send your verification code just now. Please tap Resend Code in a minute."
+        end
         expire_data_after_sign_in!
         respond_with resource, :location => after_inactive_sign_up_path_for(resource)
       end
