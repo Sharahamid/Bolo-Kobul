@@ -4,6 +4,16 @@ class Users::PasswordsController < Devise::PasswordsController
   prepend_before_action :require_no_authentication
   # Render the #edit only if coming from a reset password email link
   append_before_action :assert_reset_token_passed, only: :edit
+  # At most 5 reset emails an hour from one internet address, so nobody can flood
+  # members' inboxes
+  rate_limit to: 5, within: 1.hour, only: :create, with: lambda {
+    flash[:danger] = 'Too many password reset requests. Please try again in an hour.'
+    redirect_to root_path
+  }
+
+  # Problems sending the email (mail server refused it, network down)
+  EMAIL_ERRORS = [Net::SMTPError, Net::OpenTimeout, Net::ReadTimeout, SocketError,
+                  IOError, SystemCallError].freeze
 
   # GET /resource/password/new
   def new
@@ -12,7 +22,13 @@ class Users::PasswordsController < Devise::PasswordsController
 
   # POST /resource/password
   def create
-    self.resource = resource_class.send_reset_password_instructions(resource_params)
+    begin
+      self.resource = resource_class.send_reset_password_instructions(resource_params)
+    rescue *EMAIL_ERRORS => e
+      Rails.logger.error("[password reset] email could not be sent: #{e.class}: #{e.message}")
+      flash[:danger] = "We couldn't send the reset email just now. Please try again later, or contact us from the Customer Support page."
+      return redirect_to(root_path)
+    end
     yield resource if block_given?
 
     if successfully_sent?(resource)
