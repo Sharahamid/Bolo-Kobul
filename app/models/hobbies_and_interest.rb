@@ -24,16 +24,16 @@
 #
 
 class HobbiesAndInterest < ApplicationRecord
-  serialize :cuisine,  Array
-  serialize :read,  Array
-  serialize :favourite_movie,  Array
-  serialize :music,  Array
-  serialize :favourite_tv_show,  Array
-  serialize :favourite_sports_show,  Array
-  serialize :fitness_activity,  Array
-  serialize :hobby,  Array
-  serialize :interest,  Array
-  serialize :travel,  Array
+  serialize :cuisine, type: Array, coder: YAML
+  serialize :read, type: Array, coder: YAML
+  serialize :favourite_movie, type: Array, coder: YAML
+  serialize :music, type: Array, coder: YAML
+  serialize :favourite_tv_show, type: Array, coder: YAML
+  serialize :favourite_sports_show, type: Array, coder: YAML
+  serialize :fitness_activity, type: Array, coder: YAML
+  serialize :hobby, type: Array, coder: YAML
+  serialize :interest, type: Array, coder: YAML
+  serialize :travel, type: Array, coder: YAML
   #Associations
   belongs_to :marriage_profile
 

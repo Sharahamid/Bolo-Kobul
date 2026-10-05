@@ -1,6 +1,9 @@
 ActiveAdmin.register MarriageProfile do
   permit_params :verified
 
+  # The Kobul lists (from has_friendship) cannot be used as filters
+  remove_filter :friends, :blocked_friends, :requested_friends, :pending_friends
+
   menu parent: 'User'
 
   member_action :print_profile, method: :get do

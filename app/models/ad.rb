@@ -19,8 +19,8 @@ class Ad < ApplicationRecord
   # constants and enum
   #
 
-  enum status: %i[pending active inactive]
-  enum location: %i[home_page_top home_page_bottom profile_page about_us_page]
+  enum :status, %i[pending active inactive]
+  enum :location, %i[home_page_top home_page_bottom profile_page about_us_page]
 
   #
   # Associations

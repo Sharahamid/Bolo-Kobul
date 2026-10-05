@@ -12,7 +12,7 @@ SHARED=$APP_ROOT/shared
 CURRENT=$APP_ROOT/current
 REPO_URL=git@github.com:Sharahamid/Bolo-Kobul.git
 
-RUBY_VERSION=2.7.8
+RUBY_VERSION=3.4.6
 # The prebuilt Ruby only works from the folder it was built for, so it lives there.
 # /opt/rubies/ruby-<version> and /opt/rubies/current (used by the services and PATH)
 # are shortcuts to it; switching Ruby versions only moves /opt/rubies/current.
@@ -20,8 +20,8 @@ RUBY_HOME=/opt/hostedtoolcache/Ruby/$RUBY_VERSION/x64
 RUBY_PREFIX=/opt/rubies/ruby-$RUBY_VERSION
 RUBY_CURRENT=/opt/rubies/current
 RUBY_URL=https://github.com/ruby/ruby-builder/releases/download/toolcache/ruby-$RUBY_VERSION-ubuntu-24.04.tar.gz
-RUBY_SHA256=63db9dc0634646d587a0bbab0d30d5ecbf3beaa2e67a7de02b97180e361f1de5
-BUNDLER_VERSION=2.4.22
+RUBY_SHA256=18bd7bfa7841672e0cfe54cbf62a3414bf3ca4c5c0479f959b8c4ea01087630e
+BUNDLER_VERSION=2.6.9
 
 NODE_VERSION=16.20.2
 NODE_PREFIX=/opt/node-$NODE_VERSION
@@ -43,10 +43,12 @@ fi
 
 step "1/9 System packages"
 sudo apt-get update -q
-sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -q
-sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
+# NEEDRESTART_MODE=l: only list services that need a restart, so the running website is
+# never restarted halfway through an upgrade
+sudo NEEDRESTART_MODE=l DEBIAN_FRONTEND=noninteractive apt-get upgrade -y -q
+sudo NEEDRESTART_MODE=l DEBIAN_FRONTEND=noninteractive apt-get install -y -q \
   build-essential g++-11 gcc-11 pkg-config git curl xz-utils rsync \
-  libpq-dev libxml2-dev libxslt1-dev libyaml-dev zlib1g-dev libffi-dev shared-mime-info \
+  libpq-dev libxml2-dev libxslt1-dev libyaml-dev zlib1g-dev libffi-dev libgmp-dev libssl-dev shared-mime-info \
   postgresql postgresql-contrib redis-server nginx certbot python3-certbot-nginx \
   imagemagick ghostscript tesseract-ocr tesseract-ocr-eng tesseract-ocr-ben \
   unattended-upgrades
@@ -125,14 +127,10 @@ done
 
 step "7/9 Ruby libraries (gems) - exact versions from Gemfile.lock"
 cd "$CURRENT"
-# The old sassc library only compiles with GCC 11, so point the compiler names at it for this install
-compat=$(mktemp -d)
-ln -s /usr/bin/gcc-11 "$compat/gcc"; ln -s /usr/bin/g++-11 "$compat/g++"; ln -s /usr/bin/g++-11 "$compat/c++"
 bundle _"$BUNDLER_VERSION"_ config set --local path vendor/bundle
 bundle _"$BUNDLER_VERSION"_ config set --local without 'development test'
 bundle _"$BUNDLER_VERSION"_ config set --local build.nokogiri --use-system-libraries
-PATH="$compat:$PATH" bundle _"$BUNDLER_VERSION"_ install --jobs 2
-rm -rf "$compat"
+bundle _"$BUNDLER_VERSION"_ install --jobs 2
 
 step "8/9 JavaScript packages"
 yarn install --frozen-lockfile --non-interactive --silent

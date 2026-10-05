@@ -21,7 +21,7 @@ class Notification < ApplicationRecord
   # enum, accessor, constant
   #
 
-  enum category: [:default, :purchased]
+  enum :category, [:default, :purchased]
   attr_accessor :assign_to, :skip_push
 
   #

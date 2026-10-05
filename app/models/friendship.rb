@@ -2,7 +2,7 @@ class Friendship < ApplicationRecord
   belongs_to :friendable, class_name: "MarriageProfile"
   belongs_to :friend, class_name: "MarriageProfile"
 
-  enum status: { pending: 0, accepted: 1, declined: 2 }
+  enum :status, { pending: 0, accepted: 1, declined: 2 }
 
   # Scopes
   scope :pending_for, ->(profile) { where("(friendable_id = ? OR friend_id = ?) AND status = ?", profile.id, profile.id, :pending) }

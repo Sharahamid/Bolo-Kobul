@@ -32,20 +32,18 @@ class PartnerPreference < ApplicationRecord
   # enum, constant & attr
   #
   bitmask :religion, as: %i[islam hinduism christianity buddhism other]
-  enum gender: %i[male female]
+  enum :gender, %i[male female]
   bitmask :marital_status, as:  %i[unmarried widow_or_widower divorced separated]
-  enum family_type: %i[joint_family nuclear_family does_not_matter]
-  enum physical_status: %i[normal physically_challenged does_not_matter], _prefix: :ps
-  enum family_values: %i[orthodox traditional moderate liberal does_not_matter], _prefix: :fv
-  enum family_status: %i[middle_Class upper_middle_class rich/affluent does_not_matter], _prefix: :fs
-  enum height_ft: %i[0 1 2 3 4 5 6 7 8]
-  enum height_inch: %i[0 1 2 3 4 5 6 7 8 9 10 11], _prefix: :inch
-  enum highest_education_level: %i[doctorate graduate post_graduate undergraduate intermediate school non_traditional_education diploma], _prefix: :pe
+  enum :family_type, %i[joint_family nuclear_family does_not_matter]
+  enum :physical_status, %i[normal physically_challenged does_not_matter], prefix: :ps
+  enum :family_values, %i[orthodox traditional moderate liberal does_not_matter], prefix: :fv
+  enum :family_status, %i[middle_Class upper_middle_class rich/affluent does_not_matter], prefix: :fs
+  enum :highest_education_level, %i[doctorate graduate post_graduate undergraduate intermediate school non_traditional_education diploma], prefix: :pe
 
-  serialize :hometown, Array
-  serialize :except_hometown, Array
-  serialize :present_location, Array
-  serialize :blood_group, Array
+  serialize :hometown, type: Array, coder: YAML
+  serialize :except_hometown, type: Array, coder: YAML
+  serialize :present_location, type: Array, coder: YAML
+  serialize :blood_group, type: Array, coder: YAML
 
   #Associations
   belongs_to :marriage_profile

@@ -19,7 +19,7 @@ class FamilyMember < ApplicationRecord
   #
   # enum, constant & attr
   #
-  enum relation: {
+  enum :relation, {
     father: 1,
     mother: 2,
     brother: 3,
@@ -37,9 +37,9 @@ class FamilyMember < ApplicationRecord
     # grandfather: 15,
     cousin: 16
   }
-  enum residence_type: %i[rented owned ]
-  enum marital_status: %i[unmarried widow/Widower divorced separated married], _prefix: :fm
-  enum occupation: %i[government_official defence private_service business self_employed homemaker unemployed student freelancer doctor engineer teacher retired landlord], _prefix: :mo  
+  enum :residence_type, %i[rented owned ]
+  enum :marital_status, %i[unmarried widow/Widower divorced separated married], prefix: :fm
+  enum :occupation, %i[government_official defence private_service business self_employed homemaker unemployed student freelancer doctor engineer teacher retired landlord], prefix: :mo  
 
   FAMILY_OCCUPATION_LABELS = {
     "government_official" => "Government Official",

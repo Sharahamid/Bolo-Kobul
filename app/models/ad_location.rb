@@ -13,7 +13,7 @@ class AdLocation < ApplicationRecord
   # enum and constant
   #
 
-  enum location: %i[home_page_left home_page_right profile_page]
+  enum :location, %i[home_page_left home_page_right profile_page]
 
   #
   # associations

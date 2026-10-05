@@ -14,7 +14,7 @@ class ChatFriendship < ApplicationRecord
   #
   # Enums
   #
-  enum status: %i[pending requested accepted blocked]
+  enum :status, %i[pending requested accepted blocked]
 
   #
   # Associations

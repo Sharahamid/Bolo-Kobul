@@ -24,7 +24,7 @@ class Transaction < ApplicationRecord
   # enum and constants
   #
 
-  enum status: %i[pending success failed canceled]
+  enum :status, %i[pending success failed canceled]
 
   #
   # associations

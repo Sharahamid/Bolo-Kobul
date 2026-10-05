@@ -3,15 +3,15 @@ ActiveAdmin.register ::ActiveAdmin::Permission, as: "Permission" do
 
   filter :state, as: :select, collection: controller.resource_class.states
 
-  filter :managed_resource_action_equals, as: :select,
+  filter :managed_resource_action_eq, as: :select,
          label: ::ActiveAdmin::ManagedResource.human_attribute_name(:action),
          collection: -> { ::ActiveAdmin::ManagedResource.distinct.order(:action).pluck(:action) }
 
-  filter :managed_resource_name_equals, as: :select,
+  filter :managed_resource_name_eq, as: :select,
          label: ::ActiveAdmin::ManagedResource.human_attribute_name(:name),
          collection: -> { ::ActiveAdmin::ManagedResource.distinct.pluck(:name).sort }
 
-  filter :managed_resource_class_name_equals, as: :select,
+  filter :managed_resource_class_name_eq, as: :select,
          label: ::ActiveAdmin::ManagedResource.human_attribute_name(:class_name),
          collection: -> { ::ActiveAdmin::ManagedResource.distinct.order(:class_name).pluck(:class_name) }
 
