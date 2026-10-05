@@ -280,19 +280,23 @@ class User < ApplicationRecord
     otp_sent_at.nil? || otp_sent_at < 1.minute.ago
   end
 
+  # Sends a new verification code (SMS for Bangladeshi numbers, email for other
+  # countries). Returns true when it was sent.
   def send_otp
     update_columns(otp: User.generate_otp, otp_sent_at: Time.current, otp_attempts: 0)
     message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 10 minutes. Not you? Please contact support@bolokobul.com"
     if phone_number.to_s.start_with?('+880', '01', '008801')
-      SmsService.call(phone_number.to_s, message)
-      elsif phone_number.to_s.start_with?('+')
+      SmsService.call(phone_number.to_s, message).present?
+    elsif phone_number.to_s.start_with?('+')
       begin
         UserAccountMailer.with(user: self).otp_verification.deliver_now
+        true
       rescue => e
         Rails.logger.error "OTP email failed for #{email}: #{e.message}"
+        false
       end
     else
-      SmsService.call(phone_number.to_s, message)
+      SmsService.call(phone_number.to_s, message).present?
     end
   end
 

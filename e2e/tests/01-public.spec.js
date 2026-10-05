@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { trackPageErrors, registerNewMember, latestCode, submitCode } = require('../support/helpers');
+const { FAKE_SERVICES, trackPageErrors, registerNewMember, latestCode, submitCode } = require('../support/helpers');
 
 test.describe('Public pages', () => {
   test('home page loads with sign-up and login forms and no JavaScript errors', async ({ page }) => {
@@ -29,6 +29,16 @@ test.describe('Public pages', () => {
     await submitCode(page, await latestCode(request, member));
     await expect(page).not.toHaveURL(/show_verify/);
     await expect(page.locator('[href*="sign_out"]').first()).toBeAttached();
+  });
+
+  test('if the SMS gateway is down, registration still works and says the code could not be sent', async ({ page, request }) => {
+    await request.get(`${FAKE_SERVICES}/_sms_down?down=1`);
+    try {
+      await registerNewMember(page);
+      await expect(page.getByText("we couldn't send your verification code just now")).toBeVisible();
+    } finally {
+      await request.get(`${FAKE_SERVICES}/_sms_down?down=0`);
+    }
   });
 
   test('registration rejects a weak password', async ({ page }) => {

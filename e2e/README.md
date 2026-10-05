@@ -10,7 +10,7 @@ They are the safety net for upgrades: run them before and after every change.
 
 | File | Checks |
 |---|---|
-| `01-public.spec.js` | Home page loads without JavaScript errors; link previews and app (PWA) files; sign-up with a Bangla name and SMS verification code; password rules |
+| `01-public.spec.js` | Home page loads without JavaScript errors; link previews and app (PWA) files; sign-up with a Bangla name and SMS verification code; sign-up still works when the SMS gateway is down; password rules |
 | `02-login.spec.js` | Login, wrong password, members-only pages |
 | `03-profile-security.spec.js` | Members can view others' profiles but cannot edit, switch to or open the dashboard of them, or change their family or education details |
 | `04-chat.spec.js` | Messages appear live for the other member; WhatsApp-style ticks (sent, delivered, read); outsiders cannot post into a chat; code inside a message is shown as text and never runs |

@@ -1,5 +1,6 @@
 // Stand-in for the outside services the site calls, used only by the browser tests:
-//   - SMS gateway         GET  /sms                     -> always "sent"
+//   - SMS gateway         GET  /sms                     -> "sent" (or HTTP 503 while switched off
+//                         with GET /_sms_down?down=1, back on with ?down=0)
 //   - aamarPay checkout   POST /aamarpay/payment         -> returns a local "payment page" URL
 //   - aamarPay pay page   GET  /aamarpay/pay?tran_id=..  -> posts back to the site like the real gateway
 //                         (&outcome=success|fail|cancel, default success)
@@ -19,6 +20,7 @@ const tls = process.env.FAKE_SERVICES_CERT && process.env.FAKE_SERVICES_KEY
 const scheme = tls ? 'https' : 'http';
 const checkouts = new Map(); // tran_id -> { success_url, fail_url, cancel_url, paid }
 const smsLog = [];
+let smsDown = false;
 
 function send(res, status, body, type = 'application/json') {
   res.writeHead(status, { 'Content-Type': type });
@@ -39,6 +41,7 @@ const handler = async (req, res) => {
   const url = new URL(req.url, `${scheme}://127.0.0.1:${port}`);
 
   if (url.pathname === '/sms') {
+    if (smsDown) return send(res, 503, 'SMS gateway unavailable', 'text/plain');
     smsLog.push({ to: url.searchParams.get('receiver'), message: url.searchParams.get('message') });
     return send(res, 200, [{ status: 'SUCCESS' }]);
   }
@@ -69,6 +72,10 @@ const handler = async (req, res) => {
   }
 
   if (url.pathname === '/_sms_log') return send(res, 200, smsLog);
+  if (url.pathname === '/_sms_down') {
+    smsDown = url.searchParams.get('down') === '1';
+    return send(res, 200, { smsDown });
+  }
   if (url.pathname === '/_health') return send(res, 200, { ok: true });
   return send(res, 404, 'Not found', 'text/plain');
 };
