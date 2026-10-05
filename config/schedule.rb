@@ -17,6 +17,11 @@ every :day, at: '12:00am' do
   rake 'butterfly:return_after_7_days'
 end
 
+# Accounts whose 30-day deletion period has ended (3 am Bangladesh time)
+every :day, at: '9:00 pm' do
+  rake 'accounts:purge_deleted'
+end
+
 every :week do
   rake 'butterfly:clean_notifications'
 end

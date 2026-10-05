@@ -241,6 +241,29 @@ class User < ApplicationRecord
     end
   end
 
+  # Account deletion: the member asks, the account is hidden at once and erased for good
+  # after DELETION_GRACE_PERIOD (AccountDeletionService, run nightly). Logging in before
+  # then lets them cancel.
+  DELETION_GRACE_PERIOD = 30.days
+
+  scope :due_for_deletion, -> { where('deletion_requested_at <= ?', DELETION_GRACE_PERIOD.ago) }
+
+  def deletion_scheduled?
+    deletion_requested_at.present?
+  end
+
+  def deletion_date
+    deletion_requested_at && (deletion_requested_at + DELETION_GRACE_PERIOD).to_date
+  end
+
+  def request_deletion!
+    update_columns(deactivated: true, deletion_requested_at: Time.current)
+  end
+
+  def cancel_deletion!
+    update_columns(deactivated: false, deletion_requested_at: nil)
+  end
+
   # Website: stay signed in for 3 days. Installed app (Current.remember_in_app is set at
   # sign-in): until the member signs out.
   def remember_expires_at

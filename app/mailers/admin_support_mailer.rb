@@ -7,6 +7,10 @@ class AdminSupportMailer < ApplicationMailer
     @blog = params[:blog]
     mail(to: "support@bolokobul.com", subject: "New Success Story Submitted ##{@blog.id}")
   end
+  def account_deletion_requested(user)
+    @user = user
+    mail(to: "support@bolokobul.com", subject: "Account deletion requested - #{user.name}")
+  end
   def new_payment(order)
     @order = order
     mail(to: "support@bolokobul.com", subject: "New Payment Received - #{@order.customer_name}")

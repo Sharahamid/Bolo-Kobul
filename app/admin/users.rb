@@ -57,6 +57,9 @@ ActiveAdmin.register User do
     end
     column :verified
     column :butterfly_number
+    column "Deletion" do |user|
+      user.deletion_scheduled? ? status_tag("On #{user.deletion_date.strftime('%-d %b %Y')}", class: 'red') : ''
+    end
     column :created_at
     actions
   end

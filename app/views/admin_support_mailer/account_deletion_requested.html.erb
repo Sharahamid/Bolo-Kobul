@@ -1,0 +1,11 @@
+<h2>Account Deletion Requested</h2>
+
+<p><strong>Member:</strong> <%= @user.name %> (<%= @user.email %>, <%= @user.phone_number %>)</p>
+
+<p><strong>Profiles:</strong> <%= @user.marriage_profiles.map(&:unique_id).join(', ').presence || 'none' %></p>
+
+<p><strong>Requested:</strong> <%= @user.deletion_requested_at.in_time_zone('Asia/Dhaka').strftime('%-d %B %Y, %-I:%M %p') %> (Bangladesh time)</p>
+
+<p><strong>Will be erased on:</strong> <%= @user.deletion_date.strftime('%-d %B %Y') %>, unless the member logs in and cancels.</p>
+
+<p>The account is hidden from other members now. Payment records will be kept without the member's name, phone and email.</p>
