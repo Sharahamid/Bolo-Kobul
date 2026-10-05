@@ -327,3 +327,10 @@ and (-webkit-min-device-pixel-ratio: 1.5) {
 
 
 }
+// Pages with a sidebar (About, Contact, Success Stories): on phones the sidebar goes
+// below the content, so the page never becomes wider than the screen
+@media (max-width: 767px) {
+  .bk-two-col {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}

@@ -40,7 +40,7 @@
 
       <div style="border-top:1px solid #f0f0f0; padding:10px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
         <span style="font-size:11px; color:gray;">© <%= Time.now.year %> Bolo Kobul &middot; Marriages are made in heaven</span>
-        <%= image_tag 'aamarpay.png', style: 'height:32px; width:auto;' %>
+        <%= image_tag 'aamarpay.png', alt: 'Payment methods', style: 'height:auto; max-height:32px; max-width:100%;' %>
         <div style="display:flex; align-items:center; gap:4px;">
           <%= render 'shared/social_media_link', text_color: 'text-warning' %>
         </div>
