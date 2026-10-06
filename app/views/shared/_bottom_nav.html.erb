@@ -1,0 +1,64 @@
+<%# App-style bar at the bottom of the screen on phones (members with a profile) %>
+<% profile = current_active_profile %>
+<% kobul_count = get_requested_profiles.count %>
+<% unread_chats = profile.chat_rooms.count { |room| room.unread_count_for(profile).positive? } %>
+<% here = "#{controller_name}##{action_name}" %>
+<% own_profile_page = here == 'marriage_profiles#profile_info' && @marriage_profile&.id == profile.id %>
+<style>
+  .bk-bottom-nav, .bk-bottom-nav-spacer { display:none; }
+  @media (max-width: 767.98px) {
+    :root { --bk-bottom-nav-h: calc(62px + env(safe-area-inset-bottom, 0px)); }
+    .bk-bottom-nav-spacer { height: var(--bk-bottom-nav-h); }
+    .bk-bottom-nav-spacer { display:block; }
+    .bk-bottom-nav { display:flex; position:fixed; left:0; right:0; bottom:0; z-index:1500; height:var(--bk-bottom-nav-h);
+                     padding-bottom:env(safe-area-inset-bottom, 0px); background:#fff; border-top:0.5px solid #eee;
+                     box-shadow:0 -4px 16px rgba(0,0,0,0.06); }
+    .bk-bottom-nav a { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+                       color:#9a8a70; font-size:11px; font-weight:500; text-decoration:none !important; position:relative; }
+    .bk-bottom-nav a i { font-size:19px; line-height:1; }
+    .bk-bottom-nav a svg { display:block; }
+    .bk-bottom-nav a.active { color:#C77C00; font-weight:600; }
+    .bk-bottom-nav a.active::before { content:''; position:absolute; top:0; left:30%; right:30%; height:3px; border-radius:0 0 3px 3px; background:#FFB627; }
+    .bk-bottom-nav .bk-badge { position:absolute; top:6px; left:calc(50% + 6px); min-width:17px; height:17px; padding:0 5px; border-radius:9px;
+                               background:#FF596C; color:#fff; font-size:10px; font-weight:700; line-height:17px; text-align:center; }
+  }
+</style>
+<div class="bk-bottom-nav-spacer"></div>
+<nav class="bk-bottom-nav" aria-label="Main">
+  <%= link_to dashboard_marriage_profile_path(profile), class: ('active' if here == 'marriage_profiles#dashboard') do %>
+    <i class="fas fa-home"></i><span>Home</span>
+  <% end %>
+  <%= link_to "#{dashboard_marriage_profile_path(profile)}#bk-recommendations" do %>
+    <i class="fas fa-heart"></i><span>Matches</span>
+  <% end %>
+  <%= link_to "#{dashboard_marriage_profile_path(profile)}#bk-kobul-requests" do %>
+    <svg width="22" height="20" viewBox="0 0 24 22" fill="currentColor" aria-hidden="true">
+      <path d="M11.2 9.5C9.9 5.6 6.4 1.4 3 1.1 0.9 0.9 0.2 2.7 0.6 4.7c0.5 2.6 2.4 4.8 5.2 5.4-2.6.7-4 2.7-3.4 5 .6 2.5 3.2 3.4 5.5 1.7 1.7-1.3 2.8-3.4 3.3-5.3z"/>
+      <path d="M12.8 9.5c1.3-3.9 4.8-8.1 8.2-8.4 2.1-.2 2.8 1.6 2.4 3.6-.5 2.6-2.4 4.8-5.2 5.4 2.6.7 4 2.7 3.4 5-.6 2.5-3.2 3.4-5.5 1.7-1.7-1.3-2.8-3.4-3.3-5.3z"/>
+      <rect x="11.3" y="7" width="1.4" height="12" rx=".7"/>
+    </svg><span>Kobuls</span>
+    <% if kobul_count.positive? %><span class="bk-badge"><%= kobul_count > 9 ? '9+' : kobul_count %></span><% end %>
+  <% end %>
+  <%= link_to messages_path, class: ('active' if controller_name == 'messages') do %>
+    <i class="fas fa-comment-dots"></i><span>Chats</span>
+    <% if unread_chats.positive? %><span class="bk-badge"><%= unread_chats > 9 ? '9+' : unread_chats %></span><% end %>
+  <% end %>
+  <%= link_to profile_info_marriage_profile_path(profile), class: ('active' if own_profile_page) do %>
+    <i class="fas fa-user-circle"></i><span>Profile</span>
+  <% end %>
+</nav>
+<script>
+  // Home, Matches and Kobuls all live on the dashboard: highlight the one in view
+  (function () {
+    var nav = document.querySelector('.bk-bottom-nav');
+    if (!nav || !/\/dashboard$/.test(location.pathname)) return;
+    var links = nav.querySelectorAll('a');
+    function mark() {
+      var index = { '#bk-recommendations': 1, '#bk-kobul-requests': 2 }[location.hash] || 0;
+      links.forEach(function (link, i) { link.classList.toggle('active', i === index); });
+    }
+    mark();
+    window.addEventListener('hashchange', mark);
+    links.forEach(function (link) { link.addEventListener('click', function () { setTimeout(mark, 50); }); });
+  })();
+</script>

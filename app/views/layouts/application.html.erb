@@ -90,12 +90,13 @@
   <%= preload_link_tag 'poppins-400.woff2' %>
   <%= preload_link_tag 'plus-jakarta-sans-700.woff2' %>
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- Add the slick-theme.css if you want default styling -->
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick.css"/>
-  <!-- Add the slick-theme.css if you want default styling -->
-  <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/kenwheeler/slick@1.8.1/slick/slick-theme.css"/>
+  <%# Bootstrap, icons and slider styles are served from our own server (public/vendor) %>
+  <link rel="stylesheet" href="/vendor/bootstrap-4.3.1/bootstrap.min.css">
+  <link rel="stylesheet" href="/vendor/slick-1.8.1/slick.css">
+  <link rel="stylesheet" href="/vendor/slick-1.8.1/slick-theme.css">
+  <link rel="stylesheet" href="/vendor/fontawesome-free-5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="/vendor/fontawesome-free-5.15.4/css/v4-shims.min.css">
+  <link rel="preload" href="/vendor/fontawesome-free-5.15.4/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
 
 <% if controller_name == 'messages' %>
@@ -111,7 +112,6 @@
 </head>
 
 <body class="body_bg" data-l>
-<script async defer src="https://connect.facebook.net/en_US/sdk.js"></script>
 <%= render 'shared/flash_message' %>
 <%= render 'shared/animation' %>
 <%= render 'shared/header' %>
@@ -121,12 +121,9 @@
 <%= render 'shared/modal' %>
 <%= render 'shared/report_block_modal' if user_signed_in? && current_active_profile %>
 <%= render 'shared/photo_protection' if user_signed_in? && current_active_profile %>
-<!-- fb chat widget -->
-<%= render('layouts/fbchat') %>
 <%= render 'shared/footer' %>
+<%= render 'shared/bottom_nav' if user_signed_in? && current_active_profile && !(controller_name == 'messages' && action_name == 'profile') %>
 
-<!-- font awesome-->
-<script src="https://kit.fontawesome.com/0210ff8ef7.js" crossorigin="anonymous"></script>
 
 <!-- Custom Confirm Modal -->
 <div id="bk-confirm-modal" style="display:none; position:fixed; inset:0; z-index:99999; align-items:center; justify-content:center; background:rgba(0,0,0,0.5); backdrop-filter:blur(3px);">

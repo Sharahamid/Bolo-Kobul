@@ -7,7 +7,7 @@
   .bk-kobul-unlock-bar div { height:100%; background:linear-gradient(90deg,#FFB627,#ffca5e); border-radius:4px; }
   .bk-kobul-unlock-btn { flex:0 0 auto; background:#FFB627; color:#412402 !important; font-size:11px; font-weight:700; padding:6px 12px; border-radius:8px; text-decoration:none !important; white-space:nowrap; }
 </style>
-<div class="request-card flex-sm-fill" style="border-radius:10px; overflow:hidden; border:0.5px solid #eee;">
+<div id="bk-recommendations" class="request-card flex-sm-fill" style="scroll-margin-top:90px; border-radius:10px; overflow:hidden; border:0.5px solid #eee;">
   <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:10px 14px; display:flex; align-items:center; justify-content:space-between;">
     <span style="font-size:13px; font-weight:700; color:#633806;">Recommendations</span>
     <% if get_recommended_profiles.present? %>

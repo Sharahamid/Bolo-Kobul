@@ -11,6 +11,11 @@ function seed() {
 async function login(page, email, password = seed().password) {
   await page.goto('/');
   const form = page.locator('form[action="/users/sign_in"]');
+  // The form is in the LOGIN pop-up window
+  if (!(await form.locator('input[name="user[login]"]').isVisible())) {
+    await page.locator('a[data-target="#loginModal"]:visible').first().click();
+    await form.locator('input[name="user[login]"]').waitFor({ state: 'visible' });
+  }
   await form.locator('input[name="user[login]"]').fill(email);
   await form.locator('input[name="user[password]"]').fill(password);
   await Promise.all([page.waitForNavigation(), form.locator('input[type="submit"]').click()]);

@@ -21,7 +21,7 @@ export function showMessageBanner(from, url) {
     banner.id = 'bk-message-banner';
     banner.href = url;
     banner.setAttribute('role', 'status');
-    banner.style.cssText = 'position:fixed; left:50%; bottom:20px; transform:translateX(-50%); z-index:2000;' +
+    banner.style.cssText = 'position:fixed; left:50%; bottom:calc(20px + var(--bk-bottom-nav-h, 0px)); transform:translateX(-50%); z-index:2000;' +
         'display:flex; align-items:center; gap:10px; max-width:calc(100% - 32px); box-sizing:border-box;' +
         'background:#412402; color:#FFFFFF; padding:12px 18px; border-radius:999px; text-decoration:none;' +
         'box-shadow:0 6px 20px rgba(0,0,0,0.25); font-size:14px; line-height:1.3;';

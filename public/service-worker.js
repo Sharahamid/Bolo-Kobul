@@ -28,7 +28,8 @@ self.addEventListener('activate', (event) => {
 function isStaticAsset(url) {
   return url.pathname.startsWith('/assets/') ||
          url.pathname.startsWith('/packs/') ||
-         url.pathname.startsWith('/icons/');
+         url.pathname.startsWith('/icons/') ||
+         url.pathname.startsWith('/vendor/'); // versioned folders, e.g. /vendor/bootstrap-4.3.1/
 }
 
 self.addEventListener('fetch', (event) => {
