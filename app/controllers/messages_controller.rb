@@ -29,10 +29,6 @@ class MessagesController < ApplicationController
     end
   end
 
-  def new
-    @message = Message.new
-  end
-
   # The open chat window saw a new message arrive live
   def read
     chat_room = current_active_profile&.chat_rooms&.find_by(id: params[:chat_room_id])
@@ -66,10 +62,6 @@ class MessagesController < ApplicationController
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  def show
-    @message = Message.where(chat_room_id: current_active_profile.chat_rooms.select(:id)).find(params[:id])
   end
 
   private

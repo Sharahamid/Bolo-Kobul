@@ -5,7 +5,7 @@ class MarriageProfilesController < ApplicationController
                                               :change_profile, :change_photo,
                                               :send_request, :accept_request,
                                               :cancel_request, :reject_request,
-                                              :block_profile, :remove_profile,
+                                              :block_profile,
                                               :unblock_profile, :switch,
                                               :dashboard, :search_page, :search]
   before_action :require_own_profile, only: [:edit_about, :update_about, :edit, :update,
@@ -272,10 +272,6 @@ class MarriageProfilesController < ApplicationController
     redirect_back(fallback_location: dashboard_marriage_profile_path(current_active_profile, butterfly: "bk_animate"))
   end
 
-  def remove_profile
-    current_active_profile.remove_friend(@marriage_profile)
-  end
-
   def block_profile
     current_active_profile.block_profile!(@marriage_profile)
     respond_to do |format|
@@ -294,10 +290,6 @@ class MarriageProfilesController < ApplicationController
       flash[:warning] = "Only the member who blocked this profile can unblock it"
     end
     redirect_back fallback_location: root_path
-  end
-
-  def requested_profiles
-    @requested_profiles = current_active_profile.requested_friends
   end
 
   def pending_profiles

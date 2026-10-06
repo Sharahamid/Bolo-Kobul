@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!, 
   :check_current_active_profile, 
-  :check_preference, except: [:landing, :about, :email_template, :contact, :animation, :use_reference, :delete_account]
+  :check_preference, except: [:landing, :about, :contact, :use_reference, :delete_account]
 
   def landing
     # Signed-in members (opening the app, or tapping the logo) go straight to their
@@ -27,12 +27,7 @@ class HomeController < ApplicationController
     @contact = Contact.last
   end
 
-  def email_template
 
-  end
-
-  def animation
-  end
 
   def use_reference
     @user = current_user
