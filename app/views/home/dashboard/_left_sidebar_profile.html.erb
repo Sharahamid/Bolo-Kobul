@@ -23,7 +23,7 @@
   .left-sidebar-card .bk-report-link { display:inline-flex; align-items:center; gap:6px; margin-top:12px; background:none; border:none; color:#999; font-size:12px; cursor:pointer; padding:4px 8px; }
   .left-sidebar-card .bk-report-link:hover { color:#FF596C; }
   #bk-photo-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:12px; }
-  #bk-photo-modal img { width:300px; height:300px; border-radius:50%; object-fit:cover; border:4px solid #FFB627; }
+  #bk-photo-modal img { width:min(300px, 80vw); height:min(300px, 80vw); border-radius:50%; object-fit:cover; border:4px solid #FFB627; }
   #bk-photo-modal p { color:rgba(255,255,255,0.5); font-size:12px; margin:0; }
 </style>
 
@@ -178,7 +178,7 @@
 </div>
 
 <div id="bk-photo-modal" onclick="bkClosePhoto()">
-  <img id="bk-photo-modal-img" src="">
+  <span class="bk-wm" style="border-radius:50%;"><img id="bk-photo-modal-img" src="" alt=""></span>
   <p>Tap to close</p>
 </div>
 <script>

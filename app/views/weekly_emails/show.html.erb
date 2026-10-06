@@ -1,0 +1,17 @@
+<div class="container" style="max-width:520px; padding:48px 16px 64px;">
+  <div style="background:#fff; border-radius:16px; box-shadow:0 2px 12px rgba(0,0,0,0.07); padding:32px 24px; text-align:center;">
+    <div style="width:56px; height:56px; margin:0 auto 16px; border-radius:50%; background:#FFF3CC; display:flex; align-items:center; justify-content:center; font-size:24px;">🦋</div>
+    <% if @user.nil? %>
+      <h4 style="color:#412402; font-weight:700; margin-bottom:10px;">This link has expired</h4>
+      <p style="color:#666; font-size:14px; margin:0;">Please use the link in your latest email, or contact <a href="mailto:support@bolokobul.com">support@bolokobul.com</a>.</p>
+    <% elsif @user.weekly_matches_email %>
+      <h4 style="color:#412402; font-weight:700; margin-bottom:10px;">You're subscribed again</h4>
+      <p style="color:#666; font-size:14px; margin:0;">You'll get new matches by email every other Friday while you're away.</p>
+    <% else %>
+      <h4 style="color:#412402; font-weight:700; margin-bottom:10px;">You're unsubscribed</h4>
+      <p style="color:#666; font-size:14px; margin:0 0 20px;">You won't get the matches email any more. Your account and matches are not affected.</p>
+      <%= button_to 'Send me matches again', weekly_email_resubscribe_path(token: @token), method: :post,
+                    style: 'background:#FFB627; color:#412402; border:none; border-radius:10px; padding:11px 22px; font-weight:700; font-size:14px; cursor:pointer;' %>
+    <% end %>
+  </div>
+</div>

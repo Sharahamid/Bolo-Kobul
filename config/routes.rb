@@ -77,6 +77,9 @@ Rails.application.routes.draw do
   end
 
   resources :profile_reports, only: :create
+  get  'weekly-email/unsubscribe', to: 'weekly_emails#unsubscribe', as: :weekly_email_unsubscribe
+  post 'weekly-email/unsubscribe', to: 'weekly_emails#unsubscribe'
+  post 'weekly-email/resubscribe', to: 'weekly_emails#resubscribe', as: :weekly_email_resubscribe
   resources :marriage_profiles do
     collection do
       get :blocked_profiles

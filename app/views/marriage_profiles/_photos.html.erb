@@ -8,15 +8,17 @@
     <% (1..3).each do |index| %>
       <div class="personal-photo flex-sm-column">
         <% if marriage_profile.send("photo_#{index}").present? %>
-          <%= image_tag marriage_profile.send("photo_#{index}").url(:thumb), class: 'img-thumbnail small-thumbnail',
-                        onclick: "$('#photo-modal-#{index}').modal('show');" %>
+          <% own = marriage_profile.id == current_active_profile.id %>
+          <span class="<%= 'bk-wm' unless own %>" style="cursor:pointer;" onclick="$('#photo-modal-<%= index %>').modal('show');">
+            <%= image_tag marriage_profile.send("photo_#{index}").url(:thumb), class: 'img-thumbnail small-thumbnail' %>
+          </span>
 
           <div class="modal fade" id="photo-modal-<%= index %>" role="dialog">
             <div class="modal-dialog modal-lg">
               <!--Modal Content-->
               <div class="modal-content">
                 <div class="modal-header">
-                  <%= image_tag marriage_profile.send("photo_#{index}").url(:large_thumb), class: 'img-thumbnail' %>
+                  <span class="<%= 'bk-wm' unless own %>"><%= image_tag marriage_profile.send("photo_#{index}").url(:large_thumb), class: 'img-thumbnail' %></span>
                 </div>
               </div>
             </div>
