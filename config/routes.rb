@@ -23,12 +23,10 @@ Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#landing'
-  get '/email_template', to: 'home#email_template', as: 'email_template'
   get '/about', to: 'home#about', as: 'about'
   get '/contact', to: 'home#contact', as: 'contact'
   # Public page explaining how to delete an account (linked from the Google Play listing)
   get '/delete-account', to: 'home#delete_account', as: 'delete_account_info'
-  get '/animation', to: 'home#animation'
   match '/use_reference', to: 'home#use_reference', as: 'reference', via: [:get, :patch]
   
   resources :push_subscriptions, only: [:create] do
@@ -36,7 +34,7 @@ Rails.application.routes.draw do
   end
   delete 'push_subscriptions', to: 'push_subscriptions#destroy'
 
-  resources :messages do
+  resources :messages, only: [:index, :create] do
     member do
       get :profile
     end
@@ -86,7 +84,6 @@ Rails.application.routes.draw do
     collection do
       get :blocked_profiles
       get :pending_profiles
-      get :requested_profiles
       get :refferel_code
     end
     member do
@@ -99,12 +96,10 @@ Rails.application.routes.draw do
       patch :accept_request
       patch :reject_request
       patch :cancel_request
-      patch :remove_profile
       patch :block_profile
       patch :unblock_profile
       patch :change_profile
       patch :change_photo
-      get :requested_profiles
       get :search_page
       get :search
       post :search

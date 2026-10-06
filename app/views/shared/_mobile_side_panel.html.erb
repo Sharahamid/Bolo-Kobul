@@ -1,8 +1,8 @@
 <div id="mySidebar" class="sidebar">
   <div class="site-bar-header pb-4">
-    <a href="javascript:void(0)" class="site-panel-logo">
-      <%= image_tag 'bk_logo.webp', width: '64', height: '64' %>
-    </a>
+    <%= link_to root_path, class: 'site-panel-logo', 'aria-label': 'Bolo Kobul home' do %>
+      <%= image_tag 'bk_logo.webp', width: '64', height: '64', alt: 'Bolo Kobul' %>
+    <% end %>
 
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 

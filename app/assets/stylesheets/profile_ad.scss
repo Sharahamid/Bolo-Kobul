@@ -1,0 +1,14 @@
+// "Profile page" ad (Admin > Ads), on members' profile pages
+.bk-profile-ad {
+  margin: 12px auto 0; max-width: 260px; border-radius: 12px; overflow: hidden;
+  background: #fff; border: 0.5px solid #eee; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  img { display: block; width: 100%; height: auto; }
+  &__label { display: block; padding: 6px 10px; color: #8a7a60; font-size: 10px; font-weight: 600; letter-spacing: 0.4px;
+             text-transform: uppercase; border-bottom: 0.5px solid #f0f0f0; background: #fffdf7; }
+  &--inline { margin: 16px auto 8px; max-width: 360px; }
+}
+
+// Photos on the left, ad on the right (computers)
+.bk-photos-ad-row { display: flex; align-items: flex-start; gap: 16px; }
+.bk-photos-ad-row__photos { flex: 1; min-width: 0; }
+.bk-profile-ad--beside-photos { flex: 0 0 200px; max-width: 200px; margin: 4px 0 12px; }

@@ -13,11 +13,11 @@
       🦋 Accept Kobul (2)
     </a>
   <% elsif current_active_profile&.chat_friendships&.map(&:chat_friend_id)&.include?(profile.id) %>
-    <a href="#" class="kobul_btn kobul_2"
-       style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;"
+    <span class="kobul_btn kobul_2"
+       style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px; cursor:default;"
        data-toggle="tooltip" title="Kobul 2 request pending">
       🦋 Pending
-    </a>
+    </span>
   <% else %>
     <a href="<%= send_request_chat_friendship_path(profile) %>"
        class="kobul_btn kobul_2"

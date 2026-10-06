@@ -50,6 +50,11 @@ class Ad < ApplicationRecord
     active.about_us_page.first&.image_url
   end
 
+  # Active "Profile page" ad with a picture, shown on members' profile pages
+  def self.for_profile_page
+    active.profile_page.order(updated_at: :desc).detect { |ad| ad.image.attached? }
+  end
+
   def self.dashboard_top
     active.home_page_top.first&.image_url
   end

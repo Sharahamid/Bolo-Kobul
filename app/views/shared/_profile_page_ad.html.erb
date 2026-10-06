@@ -1,0 +1,7 @@
+<%# The "Profile page" ad from Admin > Ads, on members' profile pages %>
+<div class="bk-profile-ad <%= ad_class(ad) %> <%= local_assigns[:extra_class] %>">
+  <span class="bk-profile-ad__label">Sponsored</span>
+  <%= link_to ad.url.presence || '#', target: '_blank', rel: 'noopener sponsored' do %>
+    <%= image_tag ad.image_url, alt: ad.title.to_s, loading: 'lazy' %>
+  <% end %>
+</div>

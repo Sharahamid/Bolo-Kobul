@@ -3,8 +3,8 @@
 
     <!-- Back link -->
     <div style="margin-bottom:16px;">
-      <%= link_to :back, style: "font-size:12px; color:#854F0B; text-decoration:none; display:inline-flex; align-items:center; gap:4px;" do %>
-        ← Back
+      <%= link_to blogs_path(type: @blog.story_type), style: "font-size:12px; color:#854F0B; text-decoration:none; display:inline-flex; align-items:center; gap:4px;" do %>
+        ← <%= @blog.success_story? ? 'All success stories' : 'All articles' %>
       <% end %>
     </div>
 
@@ -38,8 +38,8 @@
         <!-- Footer -->
         <div style="margin-top:24px; padding-top:16px; border-top:0.5px solid #eee; display:flex; align-items:center; justify-content:space-between;">
           <span></span>
-          <%= link_to :back, style: "background:#FAEEDA; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; text-decoration:none;" do %>
-            ← Back to Stories
+          <%= link_to blogs_path(type: @blog.story_type), style: "background:#FAEEDA; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; text-decoration:none;" do %>
+            ← <%= @blog.success_story? ? 'More success stories' : 'More articles' %>
           <% end %>
         </div>
       </div>
