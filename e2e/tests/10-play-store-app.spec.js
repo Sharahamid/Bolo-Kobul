@@ -12,7 +12,8 @@ test.describe('Play Store app', () => {
     // Website: Get More and the butterfly offer ad are there, and the purchase page opens
     await web.goto(dashboard);
     await expect(web.getByRole('link', { name: 'Get More' }).first()).toBeVisible();
-    await expect(web.locator('.ads-right-sidebar img[src*="ss_BK"]').first()).toBeVisible();
+    await expect(web.getByAltText('E2E Butterfly offer')).toBeVisible();
+    await expect(web.getByAltText('E2E Partner ad')).toBeVisible();
     await web.goto('/orders/new');
     await expect(web).toHaveURL(/\/orders\/new/);
 
@@ -25,8 +26,8 @@ test.describe('Play Store app', () => {
     await expect(app.getByText('Balance').first()).toBeVisible();
     for (const link of await app.getByRole('link', { name: 'Get More' }).all()) await expect(link).toBeHidden();
     // The butterfly offer ad is hidden; partner ads (e.g. wedding photographers) still show
-    await expect(app.locator('.ads-right-sidebar img[src*="ss_BK"]').first()).toBeHidden();
-    await expect(app.locator('.ads-right-sidebar img[src*="ad_BK"]').first()).toBeVisible();
+    await expect(app.getByAltText('E2E Butterfly offer')).toBeHidden();
+    await expect(app.getByAltText('E2E Partner ad')).toBeVisible();
 
     // Still the app on later pages in the same session; the purchase page is not available
     await app.goto(dashboard);

@@ -54,6 +54,15 @@ ChatFriendship.where(marriage_profile_id: [alice_profile.id, bob_profile.id]).de
 ChatFriendship.create!(marriage_profile_id: alice_profile.id, chat_friend_id: bob_profile.id, status: :accepted)
 ChatFriendship.create!(marriage_profile_id: bob_profile.id, chat_friend_id: alice_profile.id, status: :accepted)
 
+# Two dashboard ads: a partner ad, and a butterfly offer that links to the purchase page
+Ad.where("title LIKE 'E2E %'").destroy_all
+[['E2E Partner ad', :home_page_bottom, 'https://example.com/photographer'],
+ ['E2E Butterfly offer', :home_page_top, '/orders/new']].each do |title, location, url|
+  ad = Ad.new(title: title, location: location, url: url, status: :active)
+  ad.image.attach(io: File.open(FIXTURES.join('test-id-card.png')), filename: "#{title.parameterize}.png")
+  ad.save!
+end
+
 admin = AdminUser.find_or_initialize_by(email: 'admin@example.com')
 admin.password = admin.password_confirmation = PASSWORD
 admin.role = 'super_admin' if admin.respond_to?(:role=)

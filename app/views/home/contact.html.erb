@@ -1,6 +1,6 @@
 <div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
   <div class="container">
-    <div class="bk-two-col" style="display:grid; grid-template-columns:1fr 280px; gap:20px; align-items:flex-start;">
+    <div class="bk-two-col" style="display:grid; grid-template-columns:<%= about_page_ad? ? "1fr 280px" : "1fr" %>; gap:20px; align-items:flex-start;">
       <div>
         <%= render 'shared/contact_content', contact: @contact %>
       </div>
