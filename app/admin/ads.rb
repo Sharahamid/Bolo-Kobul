@@ -11,7 +11,7 @@ ActiveAdmin.register Ad do
       input :location
       input :advertiser
       input :status, as: :select, collection: Ad.statuses.keys
-      input :image, as: :file
+      input :image, as: :file, hint: admin_image_hint(f.object, :image)
     end
     f.actions
   end
@@ -24,6 +24,7 @@ ActiveAdmin.register Ad do
     column :location
     column :advertiser
     column :status
+    column('Picture') { |o| o.image.attached? ? image_tag(rails_blob_path(o.image, only_path: true), style: 'max-width:90px; max-height:60px; border-radius:4px;') : 'none' }
     actions
   end
 
@@ -34,9 +35,7 @@ ActiveAdmin.register Ad do
       row :price
       row :location
       row :advertiser
-      row :image do |o|
-        image_tag o.image_url, size:'200*200'
-      end
+      row(:image) { |o| admin_image_or_none(o, :image) }
       row :status
     end
   end

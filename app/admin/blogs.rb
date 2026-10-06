@@ -24,9 +24,7 @@ ActiveAdmin.register Blog do
       row :married_life_duration, as: :string
       row :story, as: :text
       row :status, as: :string
-      row "Image" do |image|
-        image_tag image.image_url
-      end
+      row('Image') { |b| admin_image_or_none(b, :image) }
     end
   end
 
@@ -41,7 +39,7 @@ ActiveAdmin.register Blog do
       input :married_life_duration, as: :string
       input :story, as: :text
       input :status, as: :select
-      input :image, as: :file
+      input :image, as: :file, hint: admin_image_hint(f.object, :image)
     end
     f.actions
   end
