@@ -65,6 +65,18 @@ module ApplicationHelper
     end
   end
 
+  # Inside the Google Play app, notifications don't invite members to buy butterflies
+  # (Google Play's payments policy): "...left. Get more ...! <a href='/orders/new'>...</a>"
+  # becomes "...left."
+  def notification_text(content)
+    return content unless play_store_app?
+
+    content.to_s
+           .gsub(%r{\s*<a [^>]*href=['"]/orders/new['"][^>]*>.*?</a>}im, '')
+           .gsub(/\s*(Purchase|Get) more\b[^.!<]*[.!]/i, '')
+           .strip
+  end
+
   # A time shown in the viewer's own time zone: public/local-times.js rewrites it in the
   # browser. Without JavaScript it shows Bangladesh time.
   def local_time_tag(time, format)

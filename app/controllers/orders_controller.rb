@@ -5,6 +5,7 @@ class OrdersController < ApplicationController
   before_action :set_user, :set_butterfly_price
   before_action :set_order_and_verify, only: [:success, :fail, :cancel]
   skip_before_action :verify_authenticity_token, only: [:success, :fail, :cancel]
+  before_action :no_butterfly_purchases_in_play_app, only: [:new, :create]
 
   def index
     @orders = @user.orders.order('created_at desc')
@@ -145,6 +146,15 @@ class OrdersController < ApplicationController
   end
 
   private
+
+  # Google Play's payments policy: no butterfly purchases inside the Play Store app
+  # (assisted services are real-world services and may still be paid with aamarPay)
+  def no_butterfly_purchases_in_play_app
+    return unless play_store_app?
+    return if action_name == 'create' && params.dig(:order, :product) == 'assisted_service'
+
+    redirect_to root_path
+  end
 
   def set_user
     @user = current_user

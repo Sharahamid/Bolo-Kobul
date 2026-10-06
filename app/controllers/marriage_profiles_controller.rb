@@ -179,8 +179,7 @@ class MarriageProfilesController < ApplicationController
       session[:butterfly] = "animate"
       redirect_back(fallback_location: "/")
     else
-      flash[:danger] = "You don't have enough butterflies! You can purchase more."
-      redirect_to new_order_path
+      redirect_for_more_butterflies("You don't have enough butterflies! You can purchase more.")
     end
   end
 
@@ -194,8 +193,7 @@ class MarriageProfilesController < ApplicationController
     end
 
     unless current_active_profile.has_bfly_for_profile_view?
-      flash[:danger] = "You don't have enough butterflies! You can purchase more."
-      return redirect_to(new_order_path)
+      return redirect_for_more_butterflies("You don't have enough butterflies! You can purchase more.")
     end
 
     friendship.accept! if friendship.respond_to?(:accept!)

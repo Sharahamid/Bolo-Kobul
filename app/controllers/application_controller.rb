@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_action { Current.user = current_user }
   before_action :track_last_seen
   add_flash_types :info, :success, :danger, :warning
-  helper_method :current_active_profile, :check_current_active_profile
+  helper_method :current_active_profile, :check_current_active_profile, :play_store_app?
 
   def current_active_profile
     marriage_profile_id = 0
@@ -61,6 +61,25 @@ class ApplicationController < ActionController::Base
   # Overwriting the sign_out redirect path method
   def after_sign_out_path_for(resource)
     root_path
+  end
+
+  # Inside the Google Play app, butterflies can't be bought or advertised (Google Play's
+  # payments policy). The page script in the layout sets this cookie only while the
+  # site runs inside the Play Store app; normal browser tabs clear it.
+  def play_store_app?
+    cookies[:bk_play] == '1'
+  end
+
+  # Not enough butterflies: on the website, go to the purchase page; inside the Play
+  # Store app, just say so
+  def redirect_for_more_butterflies(website_message, flash_type: :danger)
+    if play_store_app?
+      flash[flash_type] = "You don't have enough butterflies for this."
+      redirect_back fallback_location: root_path
+    else
+      flash[flash_type] = website_message
+      redirect_to new_order_path
+    end
   end
 
   def user_homepage(resource)

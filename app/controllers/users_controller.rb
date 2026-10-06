@@ -129,8 +129,7 @@ class UsersController < ApplicationController
                         notice: "#{@user.errors.full_messages.first}"
         end
       else
-        redirect_to new_order_path,
-                      notice: "You don't have enough Butterflies for this!"
+        redirect_for_more_butterflies("You don't have enough Butterflies for this!", flash_type: :notice)
       end
     else
       @user.text_alert = "off"
@@ -160,8 +159,7 @@ class UsersController < ApplicationController
                         notice: "#{@user.errors.full_messages.first}"
         end
       else
-        redirect_to new_order_path,
-                      notice: "You don't have enough Butterflies for this!"
+        redirect_for_more_butterflies("You don't have enough Butterflies for this!", flash_type: :notice)
       end
     else
       @user.advanced_search = "disabled"
