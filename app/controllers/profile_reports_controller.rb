@@ -3,7 +3,8 @@
 class ProfileReportsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_current_active_profile
-  rate_limit to: 10, within: 1.hour, only: :create,
+  # Counted per member: many mobile users in Bangladesh share one internet address
+  rate_limit to: 10, within: 1.hour, only: :create, by: -> { current_user.id },
              with: -> { redirect_back fallback_location: root_path, warning: 'Too many reports in a short time. Please try again later.' }
 
   def create
