@@ -57,7 +57,8 @@ ChatFriendship.create!(marriage_profile_id: bob_profile.id, chat_friend_id: alic
 # Two dashboard ads: a partner ad, and a butterfly offer that links to the purchase page
 Ad.where("title LIKE 'E2E %'").destroy_all
 [['E2E Partner ad', :home_page_bottom, 'https://example.com/photographer'],
- ['E2E Butterfly offer', :home_page_top, '/orders/new']].each do |title, location, url|
+ ['E2E Butterfly offer', :home_page_top, '/orders/new'],
+ ['E2E Profile ad', :profile_page, 'https://example.com/sponsor']].each do |title, location, url|
   ad = Ad.new(title: title, location: location, url: url, status: :active)
   ad.image.attach(io: File.open(FIXTURES.join('test-id-card.png')), filename: "#{title.parameterize}.png")
   ad.save!
