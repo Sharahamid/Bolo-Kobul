@@ -6,7 +6,7 @@ ActiveAdmin.register Ad do
     f.semantic_errors
     f.inputs do
       input :title
-      input :url
+      input :url, hint: 'Ads that link to the butterfly purchase page (/orders/new) are hidden in the Google Play app. All other ads show everywhere.'
       input :price
       input :location
       input :advertiser
