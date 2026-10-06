@@ -18,6 +18,8 @@ Rails.application.routes.draw do
       confirmations: 'users/confirmations',
       omniauth_callbacks: 'users/omniauth_callbacks'
   }
+  get  'users/social-signup', to: 'users/social_signups#new', as: :new_social_signup
+  post 'users/social-signup', to: 'users/social_signups#create', as: :social_signup
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   root 'home#landing'
