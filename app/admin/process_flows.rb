@@ -6,7 +6,7 @@ ActiveAdmin.register ProcessFlow do
     f.semantic_errors
     f.inputs do
       input :title, as: :string
-      input :process_image, as: :file
+      input :process_image, as: :file, hint: admin_image_hint(f.object, :process_image)
       input :display_order, as: :number
     end
     f.actions
@@ -16,9 +16,7 @@ ActiveAdmin.register ProcessFlow do
     attributes_table do
       row :title, as: :string
       row :display_order, as: :number
-      row "Process Image" do |process_flow|
-        image_tag process_flow.process_image_url
-      end
+      row('Process Image') { |p| admin_image_or_none(p, :process_image) }
     end
   end
 end

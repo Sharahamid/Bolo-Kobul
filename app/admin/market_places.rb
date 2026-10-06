@@ -15,9 +15,9 @@ ActiveAdmin.register MarketPlace do
       row :experience, as: :text
       row :about, as: :text
       row :link, as: :link
-      row "Image" do |image|
-        image_tag image.image_url
-      end
+      row('Image') { |m| admin_image_or_none(m, :image) }
+      row('Image 2') { |m| admin_image_or_none(m, :image2) }
+      row('Image 3') { |m| admin_image_or_none(m, :image3) }
     end
   end
 
@@ -35,9 +35,9 @@ ActiveAdmin.register MarketPlace do
       input :experience, as: :text
       input :about, as: :text
       input :link, as: :string
-      input :image, as: :file
-      input :image2, as: :file
-      input :image3, as: :file
+      input :image, as: :file, label: 'Image (main)', hint: admin_image_hint(f.object, :image)
+      input :image2, as: :file, label: 'Image 2', hint: admin_image_hint(f.object, :image2)
+      input :image3, as: :file, label: 'Image 3', hint: admin_image_hint(f.object, :image3)
     end
     f.actions
   end
