@@ -1,7 +1,7 @@
 <% about_ad = Ad.active.about_us_page.first %>
-<div class="<%= ad_class(about_ad, 'about_ad.png') %>" style="border:0.5px solid #eee; border-radius:12px; overflow:hidden; background:#fff; height:100%; display:flex; align-items:stretch;">
+<div class="<%= ad_class(about_ad, 'about_ad.webp') %>" style="border:0.5px solid #eee; border-radius:12px; overflow:hidden; background:#fff; height:100%; display:flex; align-items:stretch;">
   <%= link_to about_ad&.url || '#', target: '_blank', style: "display:block; width:100%;" do %>
-    <%= image_tag Ad.about_us || 'about_ad.png',
+    <%= image_tag Ad.about_us || 'about_ad.webp',
                   style: "width:100%; height:100%; object-fit:contain; display:block; background:#fff;",
                   class: "img-responsive" %>
   <% end %>

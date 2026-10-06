@@ -43,7 +43,7 @@
   }
   .mobile-sign-up-form, .login_form {
     display: block;
-    background: asset_url("header-image_mobile.png");
+    background: asset_url("header-image_mobile.webp");
     background-repeat: no-repeat;
     box-shadow: 0 3px 7px #00000008;
     //opacity: 0.74;
@@ -85,7 +85,7 @@
         .register {
           padding: 1rem;
           line-height: 1;
-          font-family: Lobester, serif;
+          font-family: 'Plus Jakarta Sans', 'Noto Serif Bengali', Arial, sans-serif;
 
           strong {
             font-size: 20px;

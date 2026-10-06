@@ -8,9 +8,9 @@
     </div>
 
     <% bottom_ad = Ad.active.home_page_bottom.first %>
-    <div class="pt-2 <%= ad_class(bottom_ad, 'ad_BK.png') %>">
+    <div class="pt-2 <%= ad_class(bottom_ad, 'ad_BK.webp') %>">
       <%= link_to bottom_ad&.url || '#', target: '_blank' do %>
-        <%= image_tag Ad.dashboard_bottom || 'ad_BK.png', width:'240', class: 'img-responsive' %>
+        <%= image_tag Ad.dashboard_bottom || 'ad_BK.webp', width:'240', class: 'img-responsive' %>
       <% end %>
     </div>
   </div>
