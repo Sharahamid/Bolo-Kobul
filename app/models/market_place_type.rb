@@ -19,4 +19,7 @@ class MarketPlaceType < ApplicationRecord
   #
   validates_presence_of :name
   validates_uniqueness_of :name
+
+  # Order of the Wedding Shopping menu (Admin > Market Place Types > Display order)
+  scope :menu_order, -> { order(:display_order, :id) }
 end
