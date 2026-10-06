@@ -3,11 +3,13 @@
   <div class="dashboard">
     <div class="container">
       <div class="d-sm-flex flex-sm-row ">
-        <%= render 'home/dashboard/left_sidebar', marriage_profile: @marriage_profile, profile_ad: true %>
+        <%= render 'home/dashboard/left_sidebar', marriage_profile: @marriage_profile %>
         <div class="right-section">
           <%= render 'home/dashboard/dashboard_tabs', marriage_profile: @marriage_profile %>
-          <%= render 'marriage_profiles/marriage_profile_information', marriage_profile: @marriage_profile %>
-          <% if (profile_ad = Ad.for_profile_page) %>
+          <% profile_ad = Ad.for_profile_page %>
+          <%= render 'marriage_profiles/marriage_profile_information', marriage_profile: @marriage_profile, profile_ad: profile_ad %>
+          <%# Phones: the "Profile page" ad goes below the profile details (computers: beside the photos) %>
+          <% if profile_ad %>
             <%= render 'shared/profile_page_ad', ad: profile_ad, extra_class: 'd-sm-none bk-profile-ad--inline' %>
           <% end %>
         </div>

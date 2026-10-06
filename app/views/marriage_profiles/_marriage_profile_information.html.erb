@@ -21,10 +21,16 @@
       <span style="background:#FFF3CC; color:#854F0B; font-size:13px; font-weight:700; padding:5px 14px; border-radius:20px;">⭐ <%= @marriage_profile.matching_percentage %>% Match</span>
     </div>
   <% end %>
-  <div id="marriage_profile_photos">
-    <%= render 'marriage_profiles/photos',
-               marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
-      current_active_profile.more_view?(marriage_profile) %>
+  <div class="bk-photos-ad-row">
+    <div id="marriage_profile_photos" class="bk-photos-ad-row__photos">
+      <%= render 'marriage_profiles/photos',
+                 marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
+        current_active_profile.more_view?(marriage_profile) %>
+    </div>
+    <%# Computers: the "Profile page" ad from Admin > Ads, beside the photos %>
+    <% if local_assigns[:profile_ad] %>
+      <%= render 'shared/profile_page_ad', ad: profile_ad, extra_class: 'd-none d-sm-block bk-profile-ad--beside-photos' %>
+    <% end %>
   </div>
   <%= render 'marriage_profiles/basic_info',
              marriage_profile: marriage_profile %>

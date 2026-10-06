@@ -1,10 +1,4 @@
-<% profile_ad = local_assigns[:profile_ad] ? Ad.for_profile_page : nil %>
 <div class="left-sidebar-section">
   <%= render 'home/dashboard/left_sidebar_profile', marriage_profile: marriage_profile %>
-  <% if profile_ad %>
-    <%# Computers: under the profile card. Phones show it below the profile details instead. %>
-    <%= render 'shared/profile_page_ad', ad: profile_ad, extra_class: 'd-none d-sm-block' %>
-  <% else %>
-    <%= render 'home/dashboard/ads' %>
-  <% end %>
+  <%= render 'home/dashboard/ads' %>
 </div>
