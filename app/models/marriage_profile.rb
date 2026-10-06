@@ -204,6 +204,56 @@ class MarriageProfile < ApplicationRecord
     Friendship.where("friendable_id = ? OR friend_id = ?", id, id).destroy_all
   end
 
+  # Blocks another profile, whether or not a Kobul was ever exchanged: both sides stop
+  # seeing each other in lists and search, and their chat closes
+  def block_profile!(other)
+    return if other.nil? || other.id == id
+
+    transaction do
+      [[self, other], [other, self]].each do |one, two|
+        friendship = HasFriendship::Friendship.find_or_initialize_by(friendable_type: 'MarriageProfile', friendable_id: one.id, friend_id: two.id)
+        friendship.update_columns(status: 3, blocker_id: id, updated_at: Time.current) if friendship.persisted?
+        if friendship.new_record?
+          HasFriendship::Friendship.insert({ friendable_type: 'MarriageProfile', friendable_id: one.id, friend_id: two.id,
+                                             status: 3, blocker_id: id, created_at: Time.current, updated_at: Time.current })
+        end
+      end
+      ChatFriendship.where(marriage_profile_id: id, chat_friend_id: other.id)
+                    .or(ChatFriendship.where(marriage_profile_id: other.id, chat_friend_id: id))
+                    .update_all(status: ChatFriendship.statuses[:blocked])
+      Favourite.where(marriage_profile_id: id, favourite_profile_id: other.id)
+               .or(Favourite.where(marriage_profile_id: other.id, favourite_profile_id: id)).delete_all
+    end
+  end
+
+  # Only the member who blocked can unblock
+  def unblock_profile!(other)
+    return false unless blocked_by_me?(other)
+
+    transaction do
+      HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', status: 3)
+                               .where('(friendable_id = :a AND friend_id = :b) OR (friendable_id = :b AND friend_id = :a)', a: id, b: other.id)
+                               .delete_all
+      ChatFriendship.where(marriage_profile_id: id, chat_friend_id: other.id, status: :blocked)
+                    .or(ChatFriendship.where(marriage_profile_id: other.id, chat_friend_id: id, status: :blocked)).delete_all
+    end
+    true
+  end
+
+  def blocked_by_me?(other)
+    HasFriendship::Friendship.exists?(friendable_type: 'MarriageProfile', friendable_id: id, friend_id: other.id, status: 3, blocker_id: id)
+  end
+
+  # Either side has blocked the other
+  def blocked_with?(other)
+    HasFriendship::Friendship.exists?(friendable_type: 'MarriageProfile', friendable_id: id, friend_id: other.id, status: 3)
+  end
+
+  # Profiles this profile has blocked (not the ones that blocked it)
+  def profiles_i_blocked
+    MarriageProfile.where(id: HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', friendable_id: id, status: 3, blocker_id: id).select(:friend_id))
+  end
+
   def nid_image_url(size = :normal)
     if nid_image.attached?
       Rails.application.routes.url_helpers.rails_blob_path(nid_image, only_path: true)

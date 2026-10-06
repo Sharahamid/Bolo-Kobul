@@ -20,6 +20,8 @@
   .left-sidebar-card .bk-top-pill { flex:1; background:#f8f8f8; border-radius:8px; padding:7px 4px; font-size:11px; color:#333; font-weight:500; text-align:center; display:flex; align-items:center; justify-content:center; gap:4px; }
   .left-sidebar-card .bk-action-row { display:flex; gap:8px; margin-top:2px; }
   .left-sidebar-card .bk-action-row a, .left-sidebar-card .bk-action-row span { flex:1; border-radius:8px !important; text-align:center; font-size:11px; padding:8px 4px; display:flex; align-items:center; justify-content:center; gap:5px; }
+  .left-sidebar-card .bk-report-link { display:inline-flex; align-items:center; gap:6px; margin-top:12px; background:none; border:none; color:#999; font-size:12px; cursor:pointer; padding:4px 8px; }
+  .left-sidebar-card .bk-report-link:hover { color:#FF596C; }
   #bk-photo-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.88); z-index:9999; align-items:center; justify-content:center; flex-direction:column; gap:12px; }
   #bk-photo-modal img { width:300px; height:300px; border-radius:50%; object-fit:cover; border:4px solid #FFB627; }
   #bk-photo-modal p { color:rgba(255,255,255,0.5); font-size:12px; margin:0; }
@@ -158,6 +160,12 @@
           <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: marriage_profile %>
         <% end %>
       </div>
+      <% unless marriage_profile.user_id == current_user.id %>
+        <button type="button" class="bk-report-link"
+                onclick="bkOpenReport('<%= marriage_profile.id %>', '<%= j marriage_profile.unique_id %>', '<%= block_profile_marriage_profile_path(marriage_profile) %>')">
+          <i class="fas fa-flag"></i> Report &amp; Block
+        </button>
+      <% end %>
       <div style="border-top:0.5px solid #eee; margin:10px 0 0;"></div>
       <div style="background:#FF596C; border-radius:10px; padding:12px 14px; margin-top:10px;">
         <div style="font-size:12px; font-weight:700; color:#fff; text-align:center; margin-bottom:8px;">🦋 Butterflies</div>

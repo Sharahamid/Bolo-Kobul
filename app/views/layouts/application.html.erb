@@ -124,6 +124,7 @@
 <%= render 'shared/push_prompt' if push_enabled %>
 <%= content_for?(:content) ? yield(:content) : yield %>
 <%= render 'shared/modal' %>
+<%= render 'shared/report_block_modal' if user_signed_in? && current_active_profile %>
 <!-- fb chat widget -->
 <%= render('layouts/fbchat') %>
 <%= render 'shared/footer' %>

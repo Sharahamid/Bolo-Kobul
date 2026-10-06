@@ -45,9 +45,11 @@ class MessagesController < ApplicationController
   def create
     @message = current_active_profile.messages.build(message_params)
     # Only allow posting into chat rooms the sender is a member of
-    unless current_active_profile.chat_rooms.exists?(id: message_params[:chat_room_id])
-      head :forbidden and return
-    end
+    chat_room = current_active_profile.chat_rooms.find_by(id: message_params[:chat_room_id])
+    head :forbidden and return unless chat_room
+    # No messages to or from a blocked member
+    other = chat_room.connected_profile(current_active_profile)
+    head :forbidden and return if other && current_active_profile.blocked_with?(other)
     respond_to do |format|
       if message_params[:body].present? && @message.save!
         chat_room = @message.chat_room
@@ -113,7 +115,9 @@ class MessagesController < ApplicationController
   end
 
   def take_chat_rooms
-    @chat_rooms = current_active_profile.chat_rooms.includes(:messages)
+    blocked_ids = HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', friendable_id: current_active_profile.id, status: 3).select(:friend_id)
+    blocked_room_ids = ChatRoomUser.where(marriage_profile_id: blocked_ids).select(:chat_room_id)
+    @chat_rooms = current_active_profile.chat_rooms.where.not(id: blocked_room_ids).includes(:messages)
   end
 
   def message_params

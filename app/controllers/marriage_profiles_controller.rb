@@ -19,13 +19,18 @@ class MarriageProfilesController < ApplicationController
   end
 
   def show
-    render :profile_info
+    profile_info
+    render :profile_info unless performed?
   end
 
   def dashboard
   end
 
   def profile_info
+    if current_active_profile && current_active_profile.id != @marriage_profile.id && current_active_profile.blocked_with?(@marriage_profile)
+      flash[:warning] = 'This profile is not available.'
+      return redirect_to(user_homepage(current_user))
+    end
     if current_active_profile&.id != @marriage_profile.id && current_user
       key = "profile_views_#{@marriage_profile.id}"
       Rails.cache.write(key, (Rails.cache.read(key) || 0) + 1, expires_in: 8.days)
@@ -271,16 +276,22 @@ class MarriageProfilesController < ApplicationController
   end
 
   def block_profile
-    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: current_active_profile.id, friend_id: @marriage_profile.id).update_all(status: 3, blocker_id: current_active_profile.id)
-    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: @marriage_profile.id, friend_id: current_active_profile.id).update_all(status: 3, blocker_id: current_active_profile.id)
-    flash[:notice] = "Blocked Successfully"
-    redirect_back fallback_location: root_path
+    current_active_profile.block_profile!(@marriage_profile)
+    respond_to do |format|
+      format.html do
+        flash[:notice] = "Blocked successfully. You won't see each other any more."
+        redirect_back fallback_location: user_homepage(current_user)
+      end
+      format.json { head :no_content }
+    end
   end
 
   def unblock_profile
-    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: current_active_profile.id, friend_id: @marriage_profile.id, status: 3).destroy_all
-    HasFriendship::Friendship.where(friendable_type: "MarriageProfile", friendable_id: @marriage_profile.id, friend_id: current_active_profile.id, status: 3).destroy_all
-    flash[:notice] = "Unblocked Successfully"
+    if current_active_profile.unblock_profile!(@marriage_profile)
+      flash[:notice] = "Unblocked Successfully"
+    else
+      flash[:warning] = "Only the member who blocked this profile can unblock it"
+    end
     redirect_back fallback_location: root_path
   end
 
@@ -297,7 +308,7 @@ class MarriageProfilesController < ApplicationController
   end
 
   def blocked_profiles
-    @blocked_profiles = current_active_profile.blocked_friends
+    @blocked_profiles = current_active_profile.profiles_i_blocked
   end
 
   def refferel_code

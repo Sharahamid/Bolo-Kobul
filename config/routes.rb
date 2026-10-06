@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   resources :partner_preferences do
   end
 
+  resources :profile_reports, only: :create
   resources :marriage_profiles do
     collection do
       get :blocked_profiles
@@ -95,7 +96,6 @@ Rails.application.routes.draw do
       patch :cancel_request
       patch :remove_profile
       patch :block_profile
-      get :block_profile
       patch :unblock_profile
       patch :change_profile
       patch :change_photo

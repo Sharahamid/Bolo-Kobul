@@ -33,6 +33,12 @@ end
 alice, alice_profile = member('alice', name: 'Alice Test', gender: :female, phone: '+8801711000001', nid: 'TESTNID0001')
 bob,   bob_profile   = member('bob',   name: 'Bob Test',   gender: :male,   phone: '+8801711000002', nid: 'TESTNID0002')
 carol, carol_profile = member('carol', name: 'Carol Test', gender: :female, phone: '+8801711000003', nid: 'TESTNID0003')
+# Dave and Erin are only used by the Report & Block tests
+dave,  dave_profile  = member('dave',  name: 'Dave Test',  gender: :male,   phone: '+8801711000004', nid: 'TESTNID0004')
+erin,  erin_profile  = member('erin',  name: 'Erin Test',  gender: :female, phone: '+8801711000005', nid: 'TESTNID0005')
+# Dave and Erin can chat, so the tests can check blocking closes the chat
+ChatFriendship.create!(marriage_profile_id: dave_profile.id, chat_friend_id: erin_profile.id, status: :accepted)
+ChatFriendship.create!(marriage_profile_id: erin_profile.id, chat_friend_id: dave_profile.id, status: :accepted)
 
 # Records on Bob's profile, used to check other members can't change them
 bob_family = bob_profile.family_members.create!(
@@ -54,7 +60,9 @@ admin.role = 'super_admin' if admin.respond_to?(:role=)
 admin.save!
 
 puts({
-  members: { alice: alice_profile.slug, bob: bob_profile.slug, carol: carol_profile.slug },
+  members: { alice: alice_profile.slug, bob: bob_profile.slug, carol: carol_profile.slug,
+             dave: dave_profile.slug, erin: erin_profile.slug },
+  unique_ids: { carol: carol_profile.unique_id, erin: erin_profile.unique_id },
   bob_family_member_id: bob_family.id, bob_academic_information_id: bob_education.id,
   alice_user_slug: alice.slug,
   password: PASSWORD, admin: admin.email
