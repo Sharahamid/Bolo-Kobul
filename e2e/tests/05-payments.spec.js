@@ -16,7 +16,7 @@ test.describe('Payments (with a stand-in aamarPay)', () => {
     await expect(page.getByText(/Purchase successful/i).first()).toBeVisible();
 
     await page.goto('/orders');
-    await expect(page.getByText(/success/i).first()).toBeVisible();
+    await expect(page.locator('.orders-section').getByText(/success/i).first()).toBeVisible();
   });
 
   test('a forged payment return does not log anyone in', async ({ browser }) => {
