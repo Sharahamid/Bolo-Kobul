@@ -1,0 +1,35 @@
+<div class="bk-social-signup">
+  <div class="bk-social-signup__card">
+    <div class="bk-social-signup__icon">🦋</div>
+    <h4>Almost there</h4>
+    <p class="bk-social-signup__lead">You're signing up with <strong><%= SocialLogin.label(@data['provider']) %></strong> as <strong><%= @data['email'] %></strong>.<br>Add your mobile number: we'll send a code to verify it.</p>
+
+    <%= form_for @user, url: social_signup_path, method: :post, html: { 'data-turbolinks' => 'false' } do |f| %>
+      <% if @user.errors.any? %>
+        <div class="bk-social-signup__errors">
+          <% @user.errors.full_messages.reject { |m| m.start_with?('Password') }.each do |message| %>
+            <div><%= message %></div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <label for="user_name">Full name</label>
+      <%= f.text_field :name, required: true, autocomplete: 'name', class: 'form-control' %>
+
+      <label for="user_phone_number">Mobile number</label>
+      <%= f.phone_field :phone_number, required: true, autocomplete: 'tel', class: 'form-control', placeholder: '+8801XXXXXXXXX', autofocus: true %>
+
+      <label for="user_created_for">Profile created for</label>
+      <%= f.select :created_for, options_for_select(User.created_fors.keys.map { |k| [k.titleize, k] }, @user.created_for),
+                   { prompt: 'Choose one' }, class: 'form-control', required: true %>
+
+      <label class="bk-social-signup__terms">
+        <input type="checkbox" required>
+        <span>I have read the <a href="<%= terms_of_uses_path %>" target="_blank">Terms of Use</a> and <a href="<%= privacy_policies_path %>" target="_blank">Privacy Policy</a> of Bolo Kobul</span>
+      </label>
+
+      <%= f.submit 'Continue', class: 'bk-social-signup__submit' %>
+    <% end %>
+    <p class="bk-social-signup__note"><i class="fas fa-lock"></i> Your email and mobile number are never shown to other members.</p>
+  </div>
+</div>

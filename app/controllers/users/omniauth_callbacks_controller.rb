@@ -1,35 +1,51 @@
+# "Continue with Google / Facebook"
+# - an account already linked to this Google/Facebook login, or with the same verified
+#   email: logged in (or sent to phone verification if that isn't done yet)
+# - otherwise: a short "finish sign-up" page asks for the mobile number, and the phone is
+#   verified by SMS code like every other new account
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-
-  def facebook
-    @user = User.from_omniauth(request.env["omniauth.auth"])
-    if @user.persisted?
-      sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
-      set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
-    else
-      session["devise.facebook_data"] = request.env["omniauth.auth"]
-      redirect_to new_user_registration_url
-    end
+  def google_oauth2
+    handle_social_login
   end
 
-  def google_oauth2
-    @user = User.from_omniauth(request.env["omniauth.auth"])
-    if @user.persisted?
-      sign_in @user, :event => :authentication #this will throw if @user is not activated
-      set_flash_message(:notice, :success, :kind => "Google") if is_navigational_format?
-    else
-      session["devise.google_data"] = request.env["omniauth.auth"]
-    end
-    redirect_to new_user_registration_url
+  def facebook
+    handle_social_login
   end
 
   def failure
+    flash[:warning] = "We couldn't sign you in with #{SocialLogin.label(params[:strategy] || failed_strategy&.name)}. Please try again, or log in with your email or mobile."
     redirect_to root_path
   end
 
-  # protected
+  private
 
-  # The path used when OmniAuth fails
-  # def after_omniauth_failure_path_for(scope)
-  #   super(scope)
-  # end
+  def handle_social_login
+    auth = request.env['omniauth.auth']
+    kind = SocialLogin.label(auth.provider)
+    email = SocialLogin.verified_email(auth)
+
+    user = User.find_by(provider: auth.provider, uid: auth.uid.to_s)
+    if user.nil? && email
+      user = User.find_by(email: email)
+      user&.update_columns(provider: auth.provider, uid: auth.uid.to_s) if user && user.uid.blank?
+    end
+
+    if user
+      if user.active_for_authentication?
+        sign_in :user, user
+        Devise::Hooks::Proxy.new(warden).remember_me(user)
+        flash[:success] = "Signed in with #{kind}."
+        redirect_to after_sign_in_path_for(user)
+      else
+        redirect_to show_verify_user_path(user)
+      end
+    elsif email
+      session[:social_signup] = { 'provider' => auth.provider, 'uid' => auth.uid.to_s, 'name' => auth.info&.name.to_s.first(50),
+                                  'email' => email, 'at' => Time.current.to_i }
+      redirect_to new_social_signup_path
+    else
+      flash[:warning] = "Your #{kind} account didn't share a verified email address. Please register with the form instead."
+      redirect_to root_path
+    end
+  end
 end

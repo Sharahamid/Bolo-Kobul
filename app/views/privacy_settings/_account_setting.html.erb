@@ -142,6 +142,12 @@
             Your account is hidden at once and erased for good after 30 days: profiles, photos, chats and Kobul
             connections. Unused butterflies are lost. You can cancel within the 30 days by logging in.
           </p>
+          <% if current_user.provider.present? %>
+            <p style="font-size:12px; color:#854F0B; background:#FFF8E6; border-radius:8px; padding:8px 10px; line-height:1.6; margin:0 0 10px;">
+              Signed up with <%= SocialLogin.label(current_user.provider) %>? Set a password first with
+              <%= link_to 'Forgot Password', new_user_password_path, style: 'color:#C77C00; font-weight:600;' %>, then enter it here.
+            </p>
+          <% end %>
           <%= form_tag request_deletion_user_path(current_user), method: :post, style: 'margin:0;' do %>
             <input type="password" name="password" required autocomplete="current-password" placeholder="Enter your password"
                    style="width:100%; max-width:320px; border:0.5px solid #F09595; border-radius:8px; padding:7px 10px; font-size:13px; margin-bottom:8px; display:block;">

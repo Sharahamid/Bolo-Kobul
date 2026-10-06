@@ -1,0 +1,18 @@
+<%# "Continue with Google / Facebook"; only shown for providers whose keys are set %>
+<% providers = SocialLogin.providers %>
+<% if providers.any? %>
+  <% placement = local_assigns.fetch(:placement, 'login') %>
+  <div class="bk-social-login bk-social-login--<%= placement %>">
+    <% if placement == 'signup' %>
+      <% providers.each do |provider| %>
+        <%= render 'shared/social_login_button', provider: provider %>
+      <% end %>
+      <div class="bk-social-or"><span>or register with your email</span></div>
+    <% else %>
+      <div class="bk-social-or"><span>or</span></div>
+      <% providers.each do |provider| %>
+        <%= render 'shared/social_login_button', provider: provider %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

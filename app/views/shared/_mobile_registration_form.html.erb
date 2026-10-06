@@ -11,6 +11,7 @@
           </div>
           <p class="note">These information will not be displayed to other users</p>
           <div class="bk-input-feilds">
+            <%= render 'shared/social_login_buttons', placement: 'signup' %>
             <%= form_for @user, url: user_registration_path do |f| %>
 
               <div class="<%= f.object.errors[:name].present? ? '' : 'form-group' %>">
