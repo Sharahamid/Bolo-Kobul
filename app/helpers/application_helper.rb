@@ -1,13 +1,12 @@
 module ApplicationHelper
-  # Fallback ad pictures that advertise butterfly offers (the rest are partner ads)
-  BUTTERFLY_PROMO_IMAGES = %w[ss_BK.jpg ss_BK.png].freeze
-
   # Ads that sell butterflies (they link to the purchase page) are hidden inside the
   # Play Store app; partner ads still show there
-  def ad_class(ad, fallback_image)
-    url = ad ? ad.url.to_s : ''
-    promo = ad ? url.match?(%r{/orders(/new)?\b|butterfl}i) : BUTTERFLY_PROMO_IMAGES.include?(fallback_image)
-    promo ? 'bk-purchase' : ''
+  def ad_class(ad)
+    ad.url.to_s.match?(%r{/orders(/new)?\b|butterfl}i) ? 'bk-purchase' : ''
+  end
+
+  def about_page_ad?
+    Ad.active.about_us_page.first&.image&.attached?
   end
 
   def show_organization_name(id)

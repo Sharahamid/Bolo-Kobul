@@ -1,17 +1,15 @@
-<div class="flex-sm-fill ads-right-sidebar">
-  <div class="d-sm-flex flex-sm-column align-items-center">
-    <% top_ad = Ad.active.home_page_top.first %>
-    <div class="pb-2 <%= ad_class(top_ad, 'ss_BK.jpg') %>">
-      <%= link_to top_ad&.url || '#', target: '_blank' do %>
-        <%= image_tag Ad.dashboard_top || 'ss_BK.jpg', width:'240', class: 'img-responsive' %>
-      <% end %>
-    </div>
-
-    <% bottom_ad = Ad.active.home_page_bottom.first %>
-    <div class="pt-2 <%= ad_class(bottom_ad, 'ad_BK.webp') %>">
-      <%= link_to bottom_ad&.url || '#', target: '_blank' do %>
-        <%= image_tag Ad.dashboard_bottom || 'ad_BK.webp', width:'240', class: 'img-responsive' %>
+<%# Real ads uploaded in Admin > Ads; nothing shows when a slot has no active ad %>
+<% ads = [Ad.active.home_page_top.first, Ad.active.home_page_bottom.first].select { |ad| ad&.image&.attached? } %>
+<% if ads.any? %>
+  <div class="flex-sm-fill ads-right-sidebar">
+    <div class="d-sm-flex flex-sm-column align-items-center">
+      <% ads.each_with_index do |ad, i| %>
+        <div class="<%= i.zero? ? 'pb-2' : 'pt-2' %> <%= ad_class(ad) %>">
+          <%= link_to ad.url.presence || '#', target: '_blank', rel: 'noopener' do %>
+            <%= image_tag ad.image_url, width: '240', class: 'img-responsive', alt: ad.title.to_s %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
-</div>
+<% end %>
