@@ -4,112 +4,95 @@
 /* ---------------------------------------------------- */
 /* ---------------------------------------------------- */
 
+/* Fonts: Plus Jakarta Sans for headings, Poppins for text, Noto Serif Bengali for Bangla.
+   Bangla files are only downloaded when a page shows Bangla text (unicode-range). */
 @font-face {
-  font-family: Lobester;
-  src: font_url('Lobster-Regular.ttf');
+  font-family: 'Poppins';
+  src: font_url('poppins-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Roboto;
-  src: font_url('Roboto-Black.ttf');
-  font-weight: 900;
+  font-family: 'Poppins';
+  src: font_url('poppins-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Roboto;
-  src: font_url('Roboto-Bold.ttf');
-  font-weight: bold;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Roboto;
-  src: font_url('Roboto-Medium.ttf');
+  font-family: 'Poppins';
+  src: font_url('poppins-500.woff2') format('woff2');
   font-weight: 500;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Roboto;
-  src: font_url('Roboto-Regular.ttf');
-  font-weight: normal;
+  font-family: 'Poppins';
+  src: font_url('poppins-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Roboto;
-  src: font_url('Roboto-Light.ttf');
-  font-weight: 300;
+  font-family: 'Poppins';
+  src: font_url('poppins-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Roboto;
-  src: font_url('Roboto-Thin.ttf');
-  font-weight: 100;
+  font-family: 'Plus Jakarta Sans';
+  src: font_url('plus-jakarta-sans-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-Black.ttf');
-  font-weight: 900;
+  font-family: 'Plus Jakarta Sans';
+  src: font_url('plus-jakarta-sans-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-BlackItalic.ttf');
-  font-weight: 900;
-  font-style: italic;
+  font-family: 'Plus Jakarta Sans';
+  src: font_url('plus-jakarta-sans-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
-
 @font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-Bold.ttf');
-  font-weight: bold;
+  font-family: 'Noto Serif Bengali';
+  src: font_url('noto-serif-bengali-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0951-0952,U+0964-0965,U+0980-09FE,U+1CD0,U+1CD2,U+1CD5-1CD6,U+1CD8,U+1CE1,U+1CEA,U+1CED,U+1CF2,U+1CF5-1CF7,U+200C-200D,U+20B9,U+25CC,U+A8F1;
 }
-
 @font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-BoldItalic.ttf');
-  font-weight: bold;
-  font-style: italic;
+  font-family: 'Noto Serif Bengali';
+  src: font_url('noto-serif-bengali-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
   font-display: swap;
+  unicode-range: U+0951-0952,U+0964-0965,U+0980-09FE,U+1CD0,U+1CD2,U+1CD5-1CD6,U+1CD8,U+1CE1,U+1CEA,U+1CED,U+1CF2,U+1CF5-1CF7,U+200C-200D,U+20B9,U+25CC,U+A8F1;
 }
-
 @font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-Italic.ttf');
-  font-weight: normal;
-  font-style: italic;
+  font-family: 'Noto Serif Bengali';
+  src: font_url('noto-serif-bengali-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
   font-display: swap;
-}
-
-@font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-Light.ttf');
-  font-weight: 300;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-LightItalic.ttf');
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: Merriweather;
-  src: font_url('Merriweather-Regular.ttf');
-  font-weight: normal;
-  font-display: swap;
+  unicode-range: U+0951-0952,U+0964-0965,U+0980-09FE,U+1CD0,U+1CD2,U+1CD5-1CD6,U+1CD8,U+1CE1,U+1CEA,U+1CED,U+1CF2,U+1CF5-1CF7,U+200C-200D,U+20B9,U+25CC,U+A8F1;
 }
 
 * { margin: 0; }
@@ -124,7 +107,7 @@ html {
 
 body {
   position:        relative;
-  font-family:     Roboto, Arial, sans-serif ;
+  font-family:     Poppins, 'Noto Serif Bengali', Arial, sans-serif ;
   font-size:       12px;
   box-sizing:      border-box;
   overflow-x:      hidden;
@@ -138,15 +121,15 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6, .card-header {
-    font-family: Lobester, Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Noto Serif Bengali', Arial, sans-serif;
 }
 
 .merriweather {
-  font-family: Merriweather, Arial, sans-serif;
+  font-family: Poppins, 'Noto Serif Bengali', Arial, sans-serif;
 }
 
 .nav-item {
   .nav-link, .nav-linkx {
-    font-family: Merriweather, Arial, sans-serif;
+    font-family: Poppins, 'Noto Serif Bengali', Arial, sans-serif;
   }
 }

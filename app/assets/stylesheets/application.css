@@ -46,7 +46,7 @@ time, mark, audio, video {
     scroll-padding-top: 90px;
 }
 h1, h2, h3, h4, h5, h6, .card-header {
-    font-family: Lobester, Arial, sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Noto Serif Bengali', Arial, sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
