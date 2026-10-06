@@ -67,7 +67,7 @@ class WeeklyReminderService
       kind: :incomplete,
       subject: "✨ Your profile is #{percent}% complete. Finish it to get noticed",
       title: "Your profile is #{percent}% complete",
-      lines: ['Complete profiles get up to 5x more attention, and you start receiving recommended matches once your profile is at least 80% complete.',
+      lines: ['Complete profiles get up to 5x more attention, and you can send Kobuls once your profile is at least 80% complete.',
               'Add your photos, family, education and preferences. It only takes a few minutes.'],
       button: 'Complete My Profile', link: link
     }

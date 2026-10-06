@@ -274,6 +274,14 @@ class MarriageProfile < ApplicationRecord
     progress_recalculate if identification_document_changed? || about_my_self_changed? || photo_1_changed? || photo_2_changed? || photo_3_changed?
   end
 
+  # Members can browse recommendations straight away, but sending a Kobul needs
+  # a profile at least this complete
+  KOBUL_MIN_COMPLETENESS = 80
+
+  def ready_for_kobul?
+    profile_completeness.to_i >= KOBUL_MIN_COMPLETENESS
+  end
+
   def progress_recalculate
     percentage = identification_document.present? ? 40 : 20
     percentage += 10 if academic_informations.count > 0

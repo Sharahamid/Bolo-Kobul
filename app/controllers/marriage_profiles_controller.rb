@@ -12,6 +12,7 @@ class MarriageProfilesController < ApplicationController
                                             :change_profile, :change_photo, :switch,
                                             :dashboard, :search_page, :search]
   before_action :check_current_active_profile, :check_preference, except: [:new, :create]
+  before_action :require_profile_ready_for_kobul, only: :send_request
 
   def index
     @marriage_profile = MarriageProfile.new

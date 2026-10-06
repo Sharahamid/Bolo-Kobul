@@ -82,6 +82,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Sending a Kobul (1st or 2nd) needs an 80% complete profile
+  def require_profile_ready_for_kobul
+    return if current_active_profile.nil? || current_active_profile.ready_for_kobul?
+
+    flash[:warning] = "Complete at least #{MarriageProfile::KOBUL_MIN_COMPLETENESS}% of your profile to send a Kobul. " \
+                      "Yours is #{current_active_profile.profile_completeness.to_i}% now: add your education, occupation, family and photos."
+    redirect_to profile_info_marriage_profile_path(current_active_profile)
+  end
+
   def user_homepage(resource)
     if resource.created_for.present? && resource.other_as_matchmaker?
       resource.marriage_profiles.present? ? dashboard_marriage_profile_path(resource.marriage_profiles.first) : new_marriage_profile_path
