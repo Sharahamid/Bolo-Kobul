@@ -41,6 +41,8 @@ every :friday, at: '10:00 am' do
   rake 'reminders:weekly'
 end
 
-every :friday, at: '7:00 pm' do
+# Registration report to the admin on the 15th and 30th (28th/29th in February);
+# the task checks the date, so it can run on all four of these days
+every '0 19 15,28,29,30 * *' do
   rake 'weekly_report:send'
 end

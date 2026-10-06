@@ -1,4 +1,4 @@
-<h2>Weekly Registration Report</h2>
+<h2>Registration Report</h2>
 <p><%= @start_date.strftime('%B %d, %Y') %> to <%= @end_date.strftime('%B %d, %Y') %></p>
 
 <h3>Successful Registrations (<%= @successful_users.count %>)</h3>
@@ -10,7 +10,7 @@
     <% end %>
   </table>
 <% else %>
-  <p>No successful registrations this week.</p>
+  <p>No successful registrations in this period.</p>
 <% end %>
 
 <h3>Blocked by Hidden Bot Trap (<%= @honeypot_blocks.count %>)</h3>
@@ -22,7 +22,7 @@
     <% end %>
   </table>
 <% else %>
-  <p>No bot trap blocks this week.</p>
+  <p>No bot trap blocks in this period.</p>
 <% end %>
 
 <h3>Blocked by Suspicious Name Filter (<%= @name_filter_blocks.count %>)</h3>
@@ -34,5 +34,5 @@
     <% end %>
   </table>
 <% else %>
-  <p>No name-filter blocks this week.</p>
+  <p>No name-filter blocks in this period.</p>
 <% end %>
