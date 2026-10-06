@@ -1,6 +1,10 @@
 namespace :reminders do
-  desc 'Friday reminder email to members away for 7 days (see WeeklyReminderService)'
+  desc 'Every other Friday: matches email and push for members away for 14 days (see WeeklyReminderService)'
   task weekly: :environment do
-    puts "Weekly reminders sent to #{WeeklyReminderService.call} members"
+    if WeeklyReminderService.sending_week? || ENV['FORCE'] == '1'
+      puts "Match reminders sent to #{WeeklyReminderService.call} members"
+    else
+      puts 'Not a sending week (reminders go out every other Friday)'
+    end
   end
 end

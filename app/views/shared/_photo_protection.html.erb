@@ -1,0 +1,30 @@
+<%# Members' photos: no long-press "Save image", right-click or drag-to-download, and a
+    faint "Bolo Kobul · viewer's profile ID" watermark on enlarged photos (.bk-wm), so a
+    leaked screenshot shows who took it %>
+<style>
+  img[src*="/uploads/marriage_profile/"], .bk-wm img { -webkit-touch-callout:none; -webkit-user-drag:none; user-select:none; -webkit-user-select:none; }
+  .bk-wm { position:relative; display:inline-block; line-height:0; max-width:100%; -webkit-touch-callout:none; user-select:none; }
+  .bk-wm::after { content:''; position:absolute; inset:0; border-radius:inherit; background-image:var(--bk-wm); background-repeat:repeat; background-position:center; pointer-events:auto; }
+</style>
+<script>
+  (function () {
+    var text = <%= raw "Bolo Kobul · #{current_active_profile.unique_id}".to_json %>;
+    var esc = text.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="150">' +
+      '<text x="125" y="75" text-anchor="middle" dominant-baseline="middle" transform="rotate(-24 125 75)" ' +
+      'font-family="Arial, sans-serif" font-size="13" font-weight="600" fill="#ffffff" fill-opacity="0.38" ' +
+      'stroke="#000000" stroke-opacity="0.12" stroke-width="0.6">' + esc + '</text></svg>';
+    document.documentElement.style.setProperty('--bk-wm', 'url("data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg) + '")');
+
+    if (window.bkPhotoGuard) return;
+    window.bkPhotoGuard = true;
+    function isMemberPhoto(el) {
+      if (!el || !el.closest) return false;
+      if (el.closest('.bk-wm')) return true;
+      return el.tagName === 'IMG' && (el.getAttribute('src') || '').indexOf('/uploads/marriage_profile/') !== -1;
+    }
+    ['contextmenu', 'dragstart'].forEach(function (type) {
+      document.addEventListener(type, function (e) { if (isMemberPhoto(e.target)) e.preventDefault(); });
+    });
+  })();
+</script>
