@@ -8,7 +8,8 @@ class HomeController < ApplicationController
     # dashboard instead of the sign-up page
     if user_signed_in?
       flash.keep
-      return redirect_to(user_homepage(current_user))
+      # Keep the Play Store app marker (see the layout) on the way to the dashboard
+      return redirect_to(params[:source] == 'play' ? "#{user_homepage(current_user)}?source=play" : user_homepage(current_user))
     end
 
     @user = User.new

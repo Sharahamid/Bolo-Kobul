@@ -97,17 +97,21 @@ Website: https://www.bolokobul.com · Support: support@bolokobul.com
 | Account deletion URL (Data safety) | https://www.bolokobul.com/delete-account |
 | Target audience | **18 and over** only |
 | Ads | **Yes**: the app shows Bolo Kobul's own promotions and partner offers |
-| In-app purchases | ⚠️ Decide first, see "Payments" below |
+| In-app purchases | **No** (butterflies are not sold in the app; see "Payments" below) |
 
-## ⚠️ Payments: decide before submitting
+## Payments (decided)
 
-Google Play's payments policy says digital items bought **inside** a Play Store app (Bolo Kobul's
-butterflies and paid services) must use **Google Play Billing** (Google keeps 15% for most developers).
-Paying with aamarPay inside the app can lead to the app being rejected or removed.
+Google Play requires its own billing for digital items bought **inside** the app, and its
+"Billing Choice" programme only reaches Bangladesh around September 2027. So:
 
-Options:
-1. **Hide buying inside the Play Store app**: members buy butterflies on the website as today. The app
-   can tell it is running from the Play Store and hide the Buy buttons.
-2. **Add Google Play Billing** for purchases made in the app (bigger change; Google's fee applies).
-3. Check whether Google's **alternative / user choice billing** programme is available for Bangladesh
-   (Play Console → Monetization setup), which can allow aamarPay alongside Google Play Billing.
+- **Inside the Play Store app** butterflies cannot be bought or advertised: no Get More
+  buttons, purchase page, promotional banners, "purchase more" messages or links.
+  Balances still show and butterflies work as usual.
+- **Assisted services** (real-world services) can still be paid with aamarPay in the app.
+- **The website** is unchanged: butterflies are bought there with aamarPay.
+- The app must never tell members to buy on the website (Google treats that as steering).
+
+## Building the Android package (PWABuilder)
+
+When generating the package at pwabuilder.com, set **Start URL** to **`/?source=play`**.
+That is how the site knows it is running inside the Play Store app.

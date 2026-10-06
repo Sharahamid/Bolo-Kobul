@@ -7,6 +7,25 @@
   <%= favicon_link_tag 'bk.png' %>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
+  <%# Google Play app: the Play Store app opens /?source=play (and Android marks pages it
+      opens with an android-app:// referrer). That browsing session then hides butterfly
+      purchases (Google Play's payments policy); normal browser tabs are never affected. %>
+  <script>
+    (function () {
+      var store = null;
+      try { store = window.sessionStorage; } catch (e) {}
+      var fromPlay = /[?&]source=play(&|$)/.test(location.search) || document.referrer.indexOf('android-app://') === 0;
+      if (fromPlay && store) { try { store.setItem('bk_play', '1'); } catch (e) {} }
+      var inPlayApp = fromPlay || (store && store.getItem('bk_play') === '1');
+      if (inPlayApp) {
+        document.documentElement.classList.add('bk-play');
+        document.cookie = 'bk_play=1; path=/; SameSite=Lax';
+      } else if (document.cookie.indexOf('bk_play=1') !== -1) {
+        document.cookie = 'bk_play=; path=/; max-age=0; SameSite=Lax';
+      }
+    })();
+  </script>
+  <style>html.bk-play .bk-purchase { display: none !important; }</style>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
