@@ -1,6 +1,7 @@
 class ChatFriendshipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_marriage_profile, except: [:pending_chat_profiles]
+  before_action :require_profile_ready_for_kobul, only: :send_request
 
   def send_request
     if current_active_profile&.chat_friendships&.where(status:1).map(&:chat_friend_id)&.include?(@marriage_profile.id)

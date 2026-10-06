@@ -13,6 +13,7 @@ class SearchService
       @matches = @matches.where.not(id: @marriage_profile.favourite_profile_ids)
       @matches = @matches.where.not(id: @marriage_profile.pending_friend_ids)
       @matches = @matches.where.not(id: @marriage_profile.requested_friend_ids)
+      @matches = @matches.where.not(id: @marriage_profile.blocked_friend_ids)
     end
 
     # Age range

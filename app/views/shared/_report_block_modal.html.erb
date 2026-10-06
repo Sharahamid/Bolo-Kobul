@@ -1,0 +1,98 @@
+<%# One "Report & Block" window per page; opened with bkOpenReport(...) from a profile's menu %>
+<style>
+  #bk-report-modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:10000; align-items:center; justify-content:center; padding:16px; }
+  #bk-report-modal .bk-report-card { background:#fff; border-radius:16px; width:100%; max-width:420px; max-height:calc(100vh - 32px); overflow-y:auto; box-shadow:0 8px 32px rgba(0,0,0,0.2); padding:24px 22px 20px; }
+  #bk-report-modal .bk-report-head { display:flex; align-items:center; gap:12px; margin-bottom:14px; }
+  #bk-report-modal .bk-report-icon { width:44px; height:44px; flex-shrink:0; background:#FDE7E9; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+  #bk-report-modal h5 { color:#412402; font-weight:700; font-size:17px; margin:0; }
+  #bk-report-modal .bk-report-sub { color:#888; font-size:12px; margin:2px 0 0; }
+  #bk-report-modal .bk-report-label { font-size:13px; font-weight:600; color:#412402; margin:0 0 8px; }
+  #bk-report-modal .bk-reason { display:flex; align-items:center; gap:10px; border:1px solid #eee; border-radius:10px; padding:9px 12px; margin-bottom:6px; font-size:13px; color:#333; cursor:pointer; font-weight:400; }
+  #bk-report-modal .bk-reason:hover { border-color:#FFB627; }
+  #bk-report-modal .bk-reason input { accent-color:#FF596C; margin:0; flex-shrink:0; }
+  #bk-report-modal .bk-reason:has(input:checked) { border-color:#FF596C; background:#FFF5F6; }
+  #bk-report-modal textarea { width:100%; border:1px solid #ddd; border-radius:10px; padding:10px 12px; font-size:13px; resize:vertical; min-height:70px; margin-top:6px; }
+  #bk-report-modal .bk-report-block { display:flex; align-items:flex-start; gap:10px; background:#FFF8E6; border-radius:10px; padding:10px 12px; margin:12px 0 6px; font-size:13px; color:#412402; cursor:pointer; font-weight:400; }
+  #bk-report-modal .bk-report-block input { accent-color:#FFB627; margin-top:3px; flex-shrink:0; }
+  #bk-report-modal .bk-report-note { font-size:11px; color:#999; margin:8px 0 16px; display:flex; gap:6px; align-items:flex-start; }
+  #bk-report-modal .bk-report-actions { display:flex; gap:10px; }
+  #bk-report-modal .bk-report-actions button { flex:1; padding:11px; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; }
+  #bk-report-modal .bk-report-submit { border:none; background:#FF596C; color:#fff; }
+  #bk-report-modal .bk-report-submit:disabled { opacity:.5; cursor:not-allowed; }
+  #bk-report-modal .bk-report-cancel { border:1px solid #ddd; background:#f5f5f5; color:#555; font-weight:400 !important; }
+  #bk-report-modal .bk-report-only-block { display:block; width:100%; text-align:center; margin-top:12px; background:none; border:none; color:#854F0B; font-size:12px; text-decoration:underline; cursor:pointer; }
+</style>
+
+<div id="bk-report-modal" role="dialog" aria-modal="true" aria-labelledby="bk-report-title" onclick="if (event.target === this) bkCloseReport()">
+  <div class="bk-report-card">
+    <div class="bk-report-head">
+      <div class="bk-report-icon"><i class="fas fa-flag" style="color:#FF596C; font-size:18px;"></i></div>
+      <div>
+        <h5 id="bk-report-title">Report &amp; Block</h5>
+        <p class="bk-report-sub">Profile <strong id="bk-report-profile-id"></strong></p>
+      </div>
+    </div>
+
+    <%= form_with url: profile_reports_path, method: :post, local: true, id: 'bk-report-form' do %>
+      <%= hidden_field_tag :profile_id, '', id: 'bk-report-profile' %>
+      <p class="bk-report-label">Why are you reporting this profile?</p>
+      <% ProfileReport::REASONS.each do |key, label| %>
+        <label class="bk-reason">
+          <input type="radio" name="reason" value="<%= key %>" required onchange="bkReportChanged()">
+          <span><%= label %></span>
+        </label>
+      <% end %>
+
+      <textarea name="details" id="bk-report-details" maxlength="1000" placeholder="Tell us more (optional)" oninput="bkReportChanged()"></textarea>
+
+      <label class="bk-report-block">
+        <input type="hidden" name="block" value="0">
+        <input type="checkbox" name="block" value="1" id="bk-report-also-block" checked onchange="bkReportChanged()">
+        <span><strong>Also block this profile</strong><br><span style="color:#854F0B; font-size:12px;">You won't see each other, and any chat between you closes.</span></span>
+      </label>
+
+      <p class="bk-report-note"><i class="fas fa-lock" style="margin-top:2px;"></i><span>Your report is confidential. The member won't know who reported them. Our team reviews every report within 24 hours.</span></p>
+
+      <div class="bk-report-actions">
+        <button type="submit" class="bk-report-submit" id="bk-report-submit" disabled>Report &amp; Block</button>
+        <button type="button" class="bk-report-cancel" onclick="bkCloseReport()">Cancel</button>
+      </div>
+    <% end %>
+
+    <%= form_with url: '#', method: :patch, local: true, id: 'bk-block-only-form' do %>
+      <button type="submit" class="bk-report-only-block" data-confirm="Block this profile without reporting it?">Just block, don't report</button>
+    <% end %>
+  </div>
+</div>
+
+<script>
+  function bkOpenReport(profileId, uniqueId, blockUrl) {
+    var form = document.getElementById('bk-report-form');
+    form.reset();
+    document.getElementById('bk-report-profile').value = profileId;
+    document.getElementById('bk-report-profile-id').textContent = uniqueId;
+    document.getElementById('bk-block-only-form').action = blockUrl;
+    bkReportChanged();
+    document.getElementById('bk-report-modal').style.display = 'flex';
+  }
+  function bkCloseReport() {
+    document.getElementById('bk-report-modal').style.display = 'none';
+  }
+  function bkReportChanged() {
+    var form = document.getElementById('bk-report-form');
+    var reason = form.querySelector('input[name="reason"]:checked');
+    var details = document.getElementById('bk-report-details');
+    var block = document.getElementById('bk-report-also-block').checked;
+    var needsDetails = reason && reason.value === 'other';
+    details.placeholder = needsDetails ? 'Please tell us what happened' : 'Tell us more (optional)';
+    details.required = !!needsDetails;
+    document.getElementById('bk-report-submit').disabled = !reason || (needsDetails && !details.value.trim());
+    document.getElementById('bk-report-submit').textContent = block ? 'Report & Block' : 'Send Report';
+  }
+  if (!window.bkReportKeys) {
+    window.bkReportKeys = true;
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && document.getElementById('bk-report-modal')) bkCloseReport();
+    });
+  }
+</script>
