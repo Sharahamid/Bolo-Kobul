@@ -85,7 +85,7 @@ class MessagesController < ApplicationController
          Rails.cache.write("push_chat_#{chat_room.id}_#{user.id}", true, expires_in: 30.seconds, unless_exist: true)
         WebPushJob.perform_later(user.id, {
           'title' => 'Bolo Kobul',
-          'body' => 'You have a new message. Tap to read it.',
+          'body' => I18n.with_locale(user.locale.presence_in(%w[en bn]) || :en) { I18n.t('push.new_message') },
           'url' => profile_message_path(sender),
           'tag' => "chat-#{chat_room.id}"
         })

@@ -26,6 +26,9 @@ bn:
       signed_in: "সফলভাবে লগইন হয়েছে"
       signed_out: "সফলভাবে লগআউট হয়েছে"
       already_signed_out: "সফলভাবে লগআউট হয়েছে"
+    mailer:
+      reset_password_instructions:
+        subject: "পাসওয়ার্ড রিসেটের নির্দেশনা"
     omniauth_callbacks:
       failure: '%{kind} দিয়ে লগইন করা যায়নি, কারণ: "%{reason}"'
       success: "%{kind} দিয়ে লগইন হয়েছে"

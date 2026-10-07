@@ -1,6 +1,6 @@
 ActiveAdmin.register Faq do
   menu parent: 'Manage Site'
-  permit_params :title, :content, :pdf_content, :display_order
+  permit_params :title, :content, :title_bn, :content_bn, :pdf_content, :display_order
 
   # generate custom link
   action_item :remove_pdf, only: [:show, :edit] do
@@ -25,6 +25,8 @@ ActiveAdmin.register Faq do
     f.inputs do
       input :title, as: :string
       input :content, as: :ckeditor, label: false
+      input :title_bn, as: :string, label: 'Title (Bangla)', hint: 'Shown on the Bangla site. Leave empty to show the English title.'
+      input :content_bn, as: :ckeditor, label: 'Content (Bangla) — leave empty to show the English content'
       input :display_order, as: :number
     end
     f.actions
@@ -34,6 +36,8 @@ ActiveAdmin.register Faq do
     attributes_table do
       row :title, as: :string
       row :content, as: :text
+      row('Title (Bangla)') { |r| r.title_bn }
+      row('Content (Bangla)') { |r| r.content_bn&.html_safe }
       row :display_order, as: :number
       row :pdf_content_url, as: :image
     end

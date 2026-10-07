@@ -24,7 +24,7 @@ class PushSubscriptionsController < ApplicationController
 
     WebPushJob.perform_later(current_user.id, {
       'title' => 'Bolo Kobul',
-      'body' => 'Notifications are working! You will hear about new Kobuls and messages like this.',
+      'body' => t('push.test'),
       'url' => '/users/notifications',
       'tag' => "test-#{Time.current.to_i}"
     })

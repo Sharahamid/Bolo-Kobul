@@ -5,8 +5,8 @@
 
       <!-- Header -->
       <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
-        <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;">Frequently Asked Questions</h2>
-        <p style="font-size:13px; color:#633806; margin:0;">Everything you need to know about BoloKobul.com</p>
+        <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;"><%= t('pages.faq.title') %></h2>
+        <p style="font-size:13px; color:#633806; margin:0;"><%= t('pages.faq.sub') %></p>
       </div>
 
       <!-- Two column body -->
@@ -14,7 +14,7 @@
 
         <!-- Left: index -->
         <div style="width:210px; flex-shrink:0; background:#fafaf8; padding:14px 10px; border-right:0.5px solid #eee;">
-          <p style="font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 10px; padding:0 4px;">Sections</p>
+          <p style="font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 10px; padding:0 4px;"><%= t('pages.sections') %></p>
           <% @faqs.each_with_index do |faq, index| %>
             <div class="bk-faq-nav" data-index="<%= index %>" onclick="bkShowFaq(<%= index %>)"
                  style="padding:8px 10px; border-radius:8px; margin-bottom:4px; cursor:pointer; display:flex; align-items:flex-start; gap:8px; <%= index == 0 ? 'background:#FAEEDA; border-left:3px solid #FFB627;' : '' %>">
@@ -40,17 +40,17 @@
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:28px; padding-top:16px; border-top:0.5px solid #eee;">
                 <% if index > 0 %>
                   <button onclick="bkShowFaq(<%= index - 1 %>)" style="background:#FFF3CC; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; cursor:pointer;">
-                    ← Previous
+                    <%= t('pages.previous') %>
                   </button>
                 <% else %>
                   <span></span>
                 <% end %>
                 <% if index < @faqs.count - 1 %>
                   <button onclick="bkShowFaq(<%= index + 1 %>)" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:8px 20px; font-size:12px; font-weight:600; cursor:pointer;">
-                    Next Question →
+                    <%= t('pages.faq.next') %>
                   </button>
                 <% else %>
-                  <span style="font-size:12px; color:#aaa;">End of FAQs</span>
+                  <span style="font-size:12px; color:#aaa;"><%= t('pages.faq.end') %></span>
                 <% end %>
               </div>
             </div>

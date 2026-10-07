@@ -11,6 +11,9 @@
 #
 
 class ProcessFlow < ApplicationRecord
+  include BanglaContent
+  bangla_fields :title
+
   # Associations
   has_one_attached :process_image
 

@@ -5,8 +5,8 @@
 
       <!-- Header -->
       <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
-        <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;">Terms of Use</h2>
-        <p style="font-size:13px; color:#633806; margin:0;">Please read carefully before registering on BoloKobul.com</p>
+        <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;"><%= t('pages.terms.title') %></h2>
+        <p style="font-size:13px; color:#633806; margin:0;"><%= t('pages.terms.sub') %></p>
       </div>
 
       <!-- Two column body -->
@@ -14,7 +14,7 @@
 
         <!-- Left: index -->
         <div style="width:210px; flex-shrink:0; background:#fafaf8; padding:14px 10px; border-right:0.5px solid #eee;">
-          <p style="font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 10px; padding:0 4px;">Contents</p>
+          <p style="font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 10px; padding:0 4px;"><%= t('pages.contents') %></p>
           <% @terms_of_uses.each_with_index do |term, index| %>
             <div class="bk-tos-nav" data-index="<%= index %>" onclick="bkShowTos(<%= index %>)"
                  style="padding:8px 10px; border-radius:8px; margin-bottom:4px; cursor:pointer; display:flex; align-items:center; gap:8px; <%= index == 0 ? 'background:#FAEEDA; border-left:3px solid #FFB627;' : '' %>">
@@ -40,17 +40,17 @@
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:28px; padding-top:16px; border-top:0.5px solid #eee;">
                 <% if index > 0 %>
                   <button onclick="bkShowTos(<%= index - 1 %>)" style="background:#FFF3CC; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; cursor:pointer;">
-                    ← Previous
+                    <%= t('pages.previous') %>
                   </button>
                 <% else %>
                   <span></span>
                 <% end %>
                 <% if index < @terms_of_uses.count - 1 %>
                   <button onclick="bkShowTos(<%= index + 1 %>)" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:8px 20px; font-size:12px; font-weight:600; cursor:pointer;">
-                    Next: <%= @terms_of_uses[index + 1]&.title %> →
+                    <%= t('pages.next_title', title: @terms_of_uses[index + 1]&.title) %>
                   </button>
                 <% else %>
-                  <span style="font-size:12px; color:#aaa;">End of Terms</span>
+                  <span style="font-size:12px; color:#aaa;"><%= t('pages.terms.end') %></span>
                 <% end %>
               </div>
             </div>

@@ -12,6 +12,9 @@
 #
 
 class Contact < ApplicationRecord
+  include BanglaContent
+  bangla_fields :heading, :content
+
   #
   # validations
   #

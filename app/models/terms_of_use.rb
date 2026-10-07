@@ -11,6 +11,9 @@
 #
 
 class TermsOfUse < ApplicationRecord
+  include BanglaContent
+  bangla_fields :title, :content
+
   # Associations
   has_one_attached :pdf_content
 

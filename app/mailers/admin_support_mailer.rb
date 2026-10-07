@@ -20,4 +20,11 @@ class AdminSupportMailer < ApplicationMailer
     @order = order
     mail(to: "support@bolokobul.com", subject: "New Payment Received - #{@order.customer_name}")
   end
+
+  private
+
+  # Emails to the Bolo Kobul team are always in English
+  def locale_recipient
+    nil
+  end
 end

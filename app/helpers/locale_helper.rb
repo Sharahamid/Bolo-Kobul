@@ -10,6 +10,11 @@ module LocaleHelper
     "#{local_digits(date.day)} #{BANGLA_MONTHS[date.month - 1]} #{local_digits(date.year)}"
   end
 
+  # Dates in emails: "7 November 2026" / "৭ নভেম্বর ২০২৬"
+  def email_date(date)
+    local_date(date)
+  end
+
   # The current page in the other language
   def locale_switch_url(locale)
     query = request.query_parameters.merge('locale' => locale.to_s)

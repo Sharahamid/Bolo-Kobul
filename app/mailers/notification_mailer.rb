@@ -2,9 +2,9 @@ class NotificationMailer < ApplicationMailer
   def default_notification
     @notification = params[:notification]
     subject = if @notification.notifiable_type == 'CustomerSupport'
-                'Your support request has been updated'
+                t('email.notification.support_title')
               else
-                'You have a new update from Bolo Kobul'
+                t('email.notification.title')
               end
 
     mail(to: @notification.recipient.email,
@@ -14,6 +14,6 @@ class NotificationMailer < ApplicationMailer
   def purchased_notification
     @notification = params[:notification]
     mail(to: @notification.recipient.email,
-         subject: "Your purchase was successful — here is your receipt")
+         subject: t('email.subject.receipt'))
   end
 end
