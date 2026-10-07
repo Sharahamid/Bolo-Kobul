@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_10_10_090000) do
+ActiveRecord::Schema.define(version: 2026_10_11_090000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -679,6 +679,16 @@ ActiveRecord::Schema.define(version: 2026_10_10_090000) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["endpoint"], name: "index_push_subscriptions_on_endpoint", unique: true
     t.index ["user_id"], name: "index_push_subscriptions_on_user_id"
+  end
+
+  create_table "saved_searches", force: :cascade do |t|
+    t.bigint "marriage_profile_id", null: false
+    t.string "name", null: false
+    t.jsonb "criteria", default: {}, null: false
+    t.datetime "last_run_at"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["marriage_profile_id"], name: "index_saved_searches_on_marriage_profile_id"
   end
 
   create_table "success_stories", force: :cascade do |t|

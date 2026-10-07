@@ -936,3 +936,20 @@ en:
         person, please know it is not us. We accept debit/credit card and MFS payments made through the platform only.
       suspicious_html: If you observe anything suspicious, %{link}.
       write_to_us: write to us
+  saved_search:
+    title: My saved searches
+    run: Run this search again
+    new: '%{count} new'
+    delete: Delete saved search
+    delete_confirm: Delete the saved search "%{name}"?
+    save_label: Save this search
+    save: Save
+    saved: Search saved as "%{name}". Run it again any time from the top of this page.
+    deleted: Saved search deleted.
+    limit: You can keep up to %{count} saved searches. Delete one to save a new one.
+    ages: '%{ages} years'
+    more_filters: +%{count} filters
+    my_search: My search
+  confirm:
+    'yes': Yes, Confirm
+    'no': 'No'

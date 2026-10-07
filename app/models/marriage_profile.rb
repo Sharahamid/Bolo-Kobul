@@ -84,6 +84,7 @@ class MarriageProfile < ApplicationRecord
   has_one :partner_preference, dependent: :destroy
   has_one :privacy_setting, dependent: :destroy
   has_many :suggested_profiles, dependent: :destroy
+  has_many :saved_searches, -> { order(:created_at) }, dependent: :destroy
   has_many :messages, dependent: :destroy, foreign_key: :sender_id
   has_many :chat_room_users, dependent: :destroy
   has_many :chat_rooms, through: :chat_room_users

@@ -77,6 +77,9 @@ Rails.application.routes.draw do
   end
 
   resources :profile_reports, only: :create
+  resources :saved_searches, only: [:create, :destroy] do
+    get :run, on: :member
+  end
   get  'weekly-email/unsubscribe', to: 'weekly_emails#unsubscribe', as: :weekly_email_unsubscribe
   post 'weekly-email/unsubscribe', to: 'weekly_emails#unsubscribe'
   post 'weekly-email/resubscribe', to: 'weekly_emails#resubscribe', as: :weekly_email_resubscribe
