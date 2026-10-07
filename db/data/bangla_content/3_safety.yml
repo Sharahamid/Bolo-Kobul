@@ -1,0 +1,79 @@
+# Bangla text for the Precautionary Measures (safety tips) page.
+- model: PrecautionaryMeasure
+  id: 1
+  fields:
+    title_bn: কাউকে জানা ও চেনা
+    content_bn: |
+      <p style="text-align: justify;">বলো কবুলের ৩ কবুল পদ্ধতি আপনার নিরাপত্তার কথা ভেবেই তৈরি। দুজনেই পারস্পরিকভাবে আগ্রহ জানানোর পরই কেবল চ্যাট (৩য় কবুল) চালু হয়। তাই কোনো অপরিচিত ব্যক্তি হঠাৎ করে আপনাকে বার্তা পাঠাতে পারে না।</p>
+      <p style="text-align: justify;"><b>- প্রাথমিক কথোপকথন</b></p>
+      <p style="text-align: justify;"><b>- প্রথম সাক্ষাৎ</b></p>
+      <p style="text-align: justify;"><b>- অস্বস্তিকর অভিজ্ঞতা → অভিযোগ বা ব্লক</b></p>
+      <p style="text-align: justify;">ব্যক্তিগত তথ্য জানানোর আগে কাউকে ভালোভাবে চিনতে সময় নিন। শুরুর দিকের সব কথোপকথনের জন্য বলো কবুলের নিরাপদ মেসেজিং ব্যবস্থা ব্যবহার করুন। যথেষ্ট আস্থা তৈরি না হওয়া পর্যন্ত কখনো আপনার এনআইডি নম্বর, ব্যাংকের তথ্য, বাসার ঠিকানা বা কর্মস্থলের তথ্য জানাবেন না।</p>
+
+- model: PrecautionaryMeasure
+  id: 2
+  fields:
+    title_bn: প্রাথমিক কথোপকথন
+    content_bn: |
+      <p style="text-align: justify;">নিজের গতিতে সময় নিয়ে অপরজনকে জানুন। এটি জীবন বদলে দেওয়া, সারা জীবনের সিদ্ধান্ত, তাই তাড়াহুড়ো না করাই ভালো।</p>
+      <p style="text-align: justify;"><strong>জড়তা কাটানো:</strong></p>
+      <p style="text-align: justify;">- নিজের পরিচয় সুরক্ষিত রাখতে আমাদের চ্যাট ব্যবস্থা ব্যবহার করুন</p>
+      <p style="text-align: justify;">- ব্যাংকের তথ্য, বাসার ঠিকানা, যোগাযোগের ঠিকানা ও নম্বর, নিজের নাম বা পরিচয় প্রকাশ করে এমন কোনো ব্যক্তিগত তথ্য জানাবেন না</p>
+      <p style="text-align: justify;"><strong>ফোন নম্বর বিনিময়:</strong></p>
+      <p style="text-align: justify;">- যথেষ্ট আস্থা তৈরি না হওয়া পর্যন্ত অপেক্ষা করুন</p>
+      <p style="text-align: justify;"><strong>খোঁজখবর নেওয়া</strong></p>
+      <p style="text-align: justify;">- বিভিন্ন সামাজিক যোগাযোগমাধ্যম ও সরকারি সূত্র থেকে সদস্য সম্পর্কে আরও জেনে নেওয়া বুদ্ধিমানের কাজ।</p>
+      <p style="text-align: justify;">- আরও জানতে চাইলে নির্দ্বিধায় তৃতীয় পক্ষের পটভূমি যাচাই সেবা নিতে পারেন</p>
+      <p style="text-align: justify;"><strong>সিদ্ধান্ত আপনার</strong></p>
+      <p style="text-align: justify;">- কোনো সদস্যকে আপনার ওপর কোনো কিছুর জন্য চাপ দিতে দেবেন না। এমন হলে ব্লক করুন, অভিযোগ করুন অথবা আমাদের জানান। বলো কবুলের প্রতিটি প্রোফাইলে ব্লক অপশন আছে (প্রোফাইল কার্ডের তিন-বিন্দু মেনুতে)। কেউ অস্বস্তি তৈরি করলে সঙ্গে সঙ্গে এটি ব্যবহার করুন — তিনি আর আপনার প্রোফাইল দেখতে বা আপনার সঙ্গে যোগাযোগ করতে পারবেন না।</p>
+      <p style="text-align: justify;"><strong>প্রতারণা থেকে সাবধান (বাংলাদেশে প্রায়ই ঘটে)</strong></p>
+      <p style="text-align: justify;">কেউ খুব তাড়াতাড়ি টাকা চাইলে, বিদেশে থাকেন দাবি করে আর্থিক সাহায্য চাইলে, আপনার প্রোফাইলের সঙ্গে সম্পর্কহীন একই ধাঁচের বার্তা পাঠালে, অথবা প্ল্যাটফর্মের বাইরে কথা বলতে চাপ দিলে সতর্ক থাকুন</p>
+      <p style="text-align: justify;">আমরা আছি আপনার পাশে</p>
+      <p style="text-align: justify;">- যেকোনো বিষয়ে আপনি <a href="https://bolokobul.com/customer_supports/new">আমাদের সঙ্গে যোগাযোগ</a> করতে পারেন।</p>
+
+- model: PrecautionaryMeasure
+  id: 3
+  fields:
+    title_bn: প্রথম সাক্ষাৎ
+    content_bn: |
+      <p style="text-align: justify;">প্রথম দেখার আগে মনে প্রজাপতি উড়বে, এটাই স্বাভাবিক। দেখা করার জায়গা ও যাতায়াত পরিকল্পনার কিছু পরামর্শ:</p>
+      <p style="text-align: justify;">- জনসমাগমপূর্ণ জায়গা বেছে নিন</p>
+      <p style="text-align: justify;">- নিজের যানবাহনে যাতায়াত করুন</p>
+      <p style="text-align: justify;">- একজন বন্ধু বা আত্মীয়কে সঙ্গে নিন এবং অপর সদস্যকেও একই কাজ করতে বলুন। একা দেখা করলে আপনার পরিকল্পনার কথা কোনো বন্ধু বা পরিবারের সদস্যকে জানিয়ে রাখুন</p>
+      <p style="text-align: justify;">যেকোনো বিষয়ে আপনি <a href="https://bolokobul.com/customer_supports/new">আমাদের সঙ্গে যোগাযোগ</a> করতে পারেন।</p>
+
+- model: PrecautionaryMeasure
+  id: 4
+  fields:
+    title_bn: অপ্রীতিকর অভিজ্ঞতা
+    content_bn: |
+      <p style="text-align: justify;">BoloKobul.com-এর মাধ্যমে জীবনসঙ্গী খোঁজার সময় আপনি যেন সবচেয়ে ভালো অভিজ্ঞতা পান, সেজন্য আমরা সর্বোচ্চ চেষ্টা করি। প্রতিটি প্রোফাইল ও অনুপযুক্ত বিষয়বস্তু যাচাই করা হয়, এবং আপনার পছন্দ অনুযায়ী ম্যাচ সুপারিশ করা হয়। তবু কোনো অপ্রীতিকর বা অস্বস্তিকর অভিজ্ঞতা হলে অথবা নিচের কোনোটির মুখোমুখি হলে:</p>
+      <p style="margin-left: 40px; text-align: justify;"><span style="color:#c0392b;">x</span> কেউ হয়রানিমূলক বা আপত্তিকর বার্তা পাঠালে</p>
+      <p style="margin-left: 40px; text-align: justify;"><span style="color:#c0392b;">x</span> কেউ অশ্লীল ছবি পাঠালে</p>
+      <p style="margin-left: 40px; text-align: justify;"><span style="color:#c0392b;">x</span> কেউ অপমানজনক আচরণ করলে</p>
+      <p style="margin-left: 40px; text-align: justify;"><span style="color:#c0392b;">x</span> কেউ বিভ্রান্তিকর তথ্য দিলে</p>
+      <p style="margin-left: 40px; text-align: justify;"><span style="color:#c0392b;">x</span> কেউ টাকা চাইলে</p>
+      <p style="margin-left: 40px; text-align: justify;"><span style="color:#c0392b;">x</span> কারও একাধিক প্রোফাইল থাকলে</p>
+      <p style="text-align: justify;"><strong>তার বিরুদ্ধে অভিযোগ করুন বা তাকে ব্লক করুন।</strong></p>
+      <p style="text-align: justify;">যেকোনো বিষয়ে আপনি <a href="https://bolokobul.com/customer_supports/new">আমাদের সঙ্গে যোগাযোগ</a> করতে পারেন।</p>
+
+- model: PrecautionaryMeasure
+  id: 5
+  fields:
+    title_bn: প্রতারক চেনার লক্ষণ
+    content_bn: |
+      <p style="text-align: justify;">কোনো সত্যিকারের মানুষ আপনার কাছে টাকা চাইবেন না, তাই প্ল্যাটফর্মের মাধ্যমে পরিচয় হওয়া কাউকে <strong>কখনোই</strong> টাকা দেবেন না। কেউ জরুরি অবস্থার কথা বললেও সঙ্গে সঙ্গে আমাদের জানান।</p>
+      <p style="text-align: justify;">কেউ নিচের কাজগুলো করলে আপনি হয়তো একজন প্রতারকের পাল্লায় পড়েছেন:</p>
+      <p style="margin-left: 40px; text-align: justify;">! একেবারে শুরুতেই BoloKobul.com-এর বাইরে কথা বলতে বলেন</p>
+      <p style="margin-left: 40px; text-align: justify;">! জরুরি অবস্থার কথা বলে টাকা চান</p>
+      <p style="margin-left: 40px; text-align: justify;">! রহস্যজনকভাবে ওয়েবসাইট থেকে উধাও হয়ে আবার ফিরে আসেন</p>
+      <p style="margin-left: 40px; text-align: justify;">! উপহার বা ফুল পাঠানোর অজুহাতে আপনার ঠিকানা চান</p>
+      <p style="margin-left: 40px; text-align: justify;">! অপ্রত্যাশিত দ্রুততায় আপনার ব্যাপারে গুরুতর হওয়ার ভান করেন</p>
+      <p style="margin-left: 40px; text-align: justify;">! নিজের সম্পর্কে অসংগতিপূর্ণ বর্ণনা দেন</p>
+      <p style="margin-left: 40px; text-align: justify;">! নিজের পরিবার ও বন্ধুদের সঙ্গে আপনার পরিচয় করিয়ে দিতে চান না</p>
+      <p style="margin-left: 40px; text-align: justify;">! শুরুতেই টাকা বা মোবাইল ব্যাংকিংয়ে টাকা পাঠাতে বলেন</p>
+      <p style="margin-left: 40px; text-align: justify;">! ভিডিও কল বা সামনাসামনি দেখা করতে রাজি হন না</p>
+      <p style="margin-left: 40px; text-align: justify;">! প্রোফাইলের ছবি অতিরিক্ত পেশাদার মনে হয় বা সামাজিক মাধ্যম থেকে নেওয়া</p>
+      <p style="margin-left: 40px; text-align: justify;">! বিদেশে থাকা বাংলাদেশি বলে দাবি করেন এবং জরুরি সাহায্য চান</p>
+      <p style="margin-left: 40px; text-align: justify;">! দ্রুত হোয়াটসঅ্যাপ বা টেলিগ্রামে যেতে চাপ দেন</p>
+      <p style="margin-left: 40px; text-align: justify;">! চাকরি বা পরিবারের মতো গুরুত্বপূর্ণ বিষয়ে বারবার গল্প বদলান</p>

@@ -1,0 +1,101 @@
+# Bangla text for About Us, Contact Us and the "how it works" title.
+# Loaded with: RAILS_ENV=production bin/rails bangla_content:load
+- model: About
+  id: 3
+  fields:
+    content_type_bn: আমরা কারা
+    content_bn: |
+      বলো কবুল আপনার জীবনসঙ্গী খোঁজা এবং স্বপ্নের বিয়ের আয়োজন — দুটোরই এক জায়গার সমাধান, নিরাপদে এবং সহজে। আমাদের বাছাই করা প্রোফাইল থেকে সম্ভাব্য জীবনসঙ্গী খুঁজুন, আগ্রহ জানাতে “বাটারফ্লাই” পাঠান এবং যারা আপনার প্রতি একই আগ্রহ দেখান তাদের সঙ্গে যুক্ত হোন। মিল হলে একে অপরের প্রোফাইল দেখুন, অনলাইনে চ্যাট করুন এবং সামনাসামনি দেখা করার পরের ধাপে এগিয়ে যান।<br><br>
+      সঠিক জীবনসঙ্গী খুঁজে পাওয়া তো কেবল শুরু। বলো কবুলের বিশ্বস্ত সেবাদাতাদের বিশেষ ডিরেক্টরি — ইভেন্ট প্ল্যানার, ফটোগ্রাফার, ক্যাটারার, মেকআপ আর্টিস্ট ও ভেন্যু — দিয়ে আপনার বাজেটের মধ্যেই ঠিক যেমনটি ভেবেছেন তেমনভাবে বিশেষ দিনটি সাজাতে পারবেন।<br><br>
+      আমাদের উন্নত অ্যালগরিদম গোপনীয়তা, নিয়ন্ত্রণ এবং সবচেয়ে উপযুক্ত ম্যাচ নিশ্চিত করে, যাতে প্রতিটি সিদ্ধান্ত আপনি আত্মবিশ্বাসের সঙ্গে নিতে পারেন। জীবনসঙ্গী খোঁজা থেকে বিয়ের আয়োজন পর্যন্ত পুরো যাত্রায় বলো কবুল আপনার পাশে থাকে — সহজ, নিরাপদ ও দুশ্চিন্তামুক্তভাবে।
+
+- model: About
+  id: 1
+  fields:
+    content_type_bn: আমরা কী করি
+    content_bn: |
+      বিয়ে মানেই বাড়তি চাপ, দুশ্চিন্তা বা অনিশ্চয়তা হওয়া উচিত নয়। বলো কবুল সঠিক জীবনসঙ্গী খোঁজার পথটি সহজ করে, আর আপনার ব্যক্তিগত তথ্য রাখে নিরাপদ ও সুরক্ষিত।
+      আমাদের অনন্য ৩ কবুল পদ্ধতি জীবনসঙ্গী খোঁজার প্রক্রিয়াকে সহজ, সম্মানজনক ও কার্যকর করে তোলে:<br><br>
+      <strong>কবুল ১ (আগ্রহ প্রকাশ)</strong> - প্রোফাইল দেখুন এবং যার প্রতি আগ্রহী তাকে একটি "কবুল" পাঠান। ব্যক্তিগত যোগাযোগের তথ্য না দিয়েই "আমি আগ্রহী" বলার এটাই আপনার উপায়।<br>
+      <br><strong>কবুল ২ (পারস্পরিক মিল)</strong> - দুজনেই একে অপরকে কবুল পাঠালে সেটি পারস্পরিক মিল হয়। তখন শিক্ষা, পরিবার, জীবনযাপন ও পছন্দসহ একে অপরের পূর্ণ প্রোফাইল দেখতে পারবেন।<br>
+      <br><strong>কবুল ৩ (যোগাযোগ ও চ্যাট)</strong> - পারস্পরিক মিল হলে সরাসরি চ্যাট চালু হয়, আর নিরাপদ ও গোপনীয় পরিবেশে নিজের গতিতে কথোপকথন এগিয়ে নিতে পারেন।<br><br>
+      <strong>আমাদের আরও যেসব সুবিধা রয়েছে:</strong><br>
+      <br><strong>জীবনসঙ্গীর পছন্দ</strong> - বয়স, উচ্চতা, শিক্ষা, পেশা, নিজ জেলা ও জীবনযাপনের অভ্যাসসহ বিস্তারিত শর্ত ঠিক করে সবচেয়ে মানানসই জীবনসঙ্গী খুঁজুন<br>
+      <br><strong>যাচাইকৃত প্রোফাইল</strong> - আমাদের পরিচয় যাচাই সেবা নিশ্চিত করতে সাহায্য করে যে সদস্যরা সত্যিই তারা যা বলছেন, যাতে আপনি নিশ্চিন্ত থাকতে পারেন<br>
+      <br><strong>গোপনীয়তার নিয়ন্ত্রণ</strong> - যাত্রার প্রতিটি ধাপে কোন তথ্য কে দেখবে, তা আপনিই ঠিক করেন<br>
+      <br><strong>সহায়তা সেবা</strong> - বায়োডাটা তৈরিতে সাহায্য থেকে শুরু করে ঘটক ও সম্পর্ক বিষয়ক পরামর্শদাতা পর্যন্ত — প্রয়োজনে আমরা মানুষের সরাসরি সহায়তা দিই
+
+- model: About
+  id: 2
+  fields:
+    content_type_bn: আমরা কীভাবে করি
+    content_bn: |
+      আমাদের প্ল্যাটফর্মে আপনি সম্ভাব্য জীবনসঙ্গীদের প্রোফাইল দেখতে, বাটারফ্লাই পাঠাতে এবং সত্যিই আগ্রহী মানুষদের সঙ্গে যুক্ত হতে পারেন। মিল হলে বিস্তারিত প্রোফাইল দেখতে, নিরাপদে চ্যাট করতে এবং প্রস্তুত হলে সামনাসামনি দেখা করতে পারবেন। জীবনসঙ্গী খুঁজে পাওয়ার পর আমাদের বাছাই করা ডিরেক্টরি সেবাদাতা থেকে ভেন্যু পর্যন্ত বিয়ের প্রতিটি আয়োজন সহজ করে দেয়, যাতে আপনার বিশেষ দিনটি ঠিক আপনার কল্পনার মতো হয়।
+
+- model: About
+  id: 5
+  fields:
+    content_type_bn: কেন আমরা
+    content_bn: |
+      <table style="width:100%; border-collapse:collapse; font-size:13px;">
+        <thead>
+          <tr style="background:#FFB627; color:#fff;">
+            <th style="padding:12px 16px; text-align:left; border-radius:8px 0 0 0;">বিষয়</th>
+            <th style="padding:12px 16px; text-align:left;">প্রচলিত ঘটকালি</th>
+            <th style="padding:12px 16px; text-align:left; border-radius:0 8px 0 0;">বলো কবুল</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background:#fff;">
+            <td style="padding:10px 16px; font-weight:600; color:#412402;">গোপনীয়তা</td>
+            <td style="padding:10px 16px; text-align:left; color:#DB2828;">❌ সবাই জেনে যায়</td>
+            <td style="padding:10px 16px; text-align:left; color:#21BA45;">✅ কে আপনার প্রোফাইল দেখবে, তা আপনিই ঠিক করেন</td>
+          </tr>
+          <tr style="background:#fffbea;">
+            <td style="padding:10px 16px; font-weight:600; color:#412402;">গতি</td>
+            <td style="padding:10px 16px; text-align:left; color:#DB2828;">❌ মাসের পর মাস, এমনকি বছর</td>
+            <td style="padding:10px 16px; text-align:left; color:#21BA45;">✅ সঙ্গে সঙ্গে ম্যাচ খুঁজুন</td>
+          </tr>
+          <tr style="background:#fff;">
+            <td style="padding:10px 16px; font-weight:600; color:#412402;">নিরাপত্তা</td>
+            <td style="padding:10px 16px; text-align:left; color:#DB2828;">❌ কোনো যাচাই নেই</td>
+            <td style="padding:10px 16px; text-align:left; color:#21BA45;">✅ যাচাই করা প্রোফাইল + ব্লক সুবিধা</td>
+          </tr>
+          <tr style="background:#fffbea;">
+            <td style="padding:10px 16px; font-weight:600; color:#412402;">পরিসর</td>
+            <td style="padding:10px 16px; text-align:left; color:#DB2828;">❌ সীমিত পরিচিতি</td>
+            <td style="padding:10px 16px; text-align:left; color:#21BA45;">✅ হাজারো যাচাইকৃত প্রোফাইল</td>
+          </tr>
+          <tr style="background:#fff;">
+            <td style="padding:10px 16px; font-weight:600; color:#412402;">খরচ</td>
+            <td style="padding:10px 16px; text-align:left; color:#DB2828;">❌ ব্যয়বহুল ঘটক</td>
+            <td style="padding:10px 16px; text-align:left; color:#21BA45;">✅ বিনামূল্যে নিবন্ধন, সাশ্রয়ী প্যাকেজ</td>
+          </tr>
+          <tr style="background:#fffbea;">
+            <td style="padding:10px 16px; font-weight:600; color:#412402;">আপনার পছন্দ</td>
+            <td style="padding:10px 16px; text-align:left; color:#DB2828;">❌ পরিবার সিদ্ধান্ত নেয়</td>
+            <td style="padding:10px 16px; text-align:left; color:#21BA45;">✅ সিদ্ধান্ত আপনার, পরিবার পাশে থেকে পথ দেখায়</td>
+          </tr>
+          <tr style="background:#fff;">
+            <td style="padding:10px 16px; font-weight:600; color:#412402; border-radius:0 0 0 8px;">বিয়ের আয়োজন</td>
+            <td style="padding:10px 16px; text-align:left; color:#DB2828;">❌ সেবাদাতা নিজেকেই খুঁজতে হয়</td>
+            <td style="padding:10px 16px; text-align:left; color:#21BA45; border-radius:0 0 8px 0;">✅ বিয়ের ডিরেক্টরি এক জায়গাতেই</td>
+          </tr>
+        </tbody>
+      </table>
+
+- model: Contact
+  id: 1
+  fields:
+    heading_bn: আমাদের সঙ্গে যুক্ত হোন!
+    content_bn: |
+      আপনার কি বিয়ে-সংক্রান্ত কোনো ব্যবসা আছে? এই মুহূর্তে আপনার সেবা খুঁজছেন এমন অনেক মানুষের কাছে পৌঁছাতে আমরা আপনাকে সাহায্য করতে পারি।
+
+      বিয়ের আয়োজন, ফটোগ্রাফি, ক্যাটারিং, ফুল বা বিয়ে-সংক্রান্ত যেকোনো কাজ করলে আমাদের প্ল্যাটফর্ম আপনাকে সঠিক গ্রাহকের কাছে পৌঁছাতে এবং ব্যবসা বাড়াতে সাহায্য করবে।
+
+      আজই যুক্ত হোন এবং স্বপ্নের বিয়ের পরিকল্পনা করছেন এমন দম্পতিদের সঙ্গে সংযোগ গড়ুন!
+
+- model: ProcessFlow
+  id: 2
+  fields:
+    title_bn: যেভাবে কাজ করে
