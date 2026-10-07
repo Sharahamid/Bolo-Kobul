@@ -21,9 +21,9 @@
         </div>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:5px;">
-        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= profile.age %> years</span>
-        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= profile.height_ft %>'<%= profile.height_inch %>"</span>
-        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><i class="fas fa-map-marker-alt" style="font-size:8px;"></i> <%= profile&.hometown&.humanize %></span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= years_label(profile.age) %></span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= local_digits(profile.height_ft) %>'<%= local_digits(profile.height_inch) %>"</span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><i class="fas fa-map-marker-alt" style="font-size:8px;"></i> <%= district_label(profile&.hometown) %></span>
       </div>
       <% if unread > 0 %>
       <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
@@ -37,12 +37,12 @@
         <% last_seen = profile.user.last_seen_at || profile.user.last_sign_in_at; days_ago = last_seen ? ((Time.now - last_seen) / 86400).to_i : nil %>
         <span style="display:inline-flex; align-items:center; gap:3px; font-size:9px; color:gray;">
           <span style="width:7px; height:7px; border-radius:50%; background:<%= days_ago && days_ago < 1 ? '#21BA45' : (days_ago && days_ago < 7 ? '#FFB627' : '#ccc') %>; display:inline-block;"></span>
-          <%= days_ago.nil? ? 'Inactive' : (days_ago < 1 ? 'Active today' : (days_ago < 7 ? "Active #{days_ago}d ago" : 'Inactive')) %>
+          <%= days_ago.nil? ? t('chat.inactive') : (days_ago < 1 ? t('chat.active_today') : (days_ago < 7 ? t('chat.active_days_ago', days: local_digits(days_ago)) : t('chat.inactive'))) %>
         </span>
         <%= link_to profile_info_marriage_profile_path(profile),
                     target: '_blank',
                     style: "font-size:9px; background:#FFB627; color:#412402; border-radius:4px; padding:3px 7px; text-decoration:none; font-weight:700; white-space:nowrap; flex-shrink:0;" do %>
-          View Profile
+          <%= t('chat.view_profile') %>
         <% end %>
       </div>
     </div>

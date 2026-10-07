@@ -1,12 +1,12 @@
 <div class="card mt-3 mb-3">
   <div class="card-header d-flex justify-content-between align-items-center" style="background:#fff;">
-    <h5 class="mb-0" style="color:#FFB627; font-weight:700;">Partner Preferences</h5>
+    <h5 class="mb-0" style="color:#FFB627; font-weight:700;"><%= t('preference.title') %></h5>
     <%= link_to edit_partner_preference_path(preference), remote: true,
                 data: {toggle: 'tooltip', placement: 'top'},
-                title: 'Edit Preference',
+                title: t('preference.edit_title'),
                 class: 'btn btn-sm',
                 style: 'border:1px solid #FFB627; color:#FFB627;' do %>
-      <i class="fa fa-pencil"></i> Edit
+      <i class="fa fa-pencil"></i> <%= t('preference.edit') %>
     <% end %>
   </div>
   <div class="card-body">
@@ -16,54 +16,54 @@
         <table class="table table-borderless table-sm">
           <tbody>
             <tr>
-              <td class="text-muted" style="width:50%;">Looking For</td>
-              <td><strong><%= preference.gender.present? ? current_active_profile.gender_translate(preference.gender) : '-' %></strong></td>
+              <td class="text-muted" style="width:50%;"><%= t('preference.looking_for') %></td>
+              <td><strong><%= preference.gender.present? ? I18n.t("enums.looking_for.#{preference.gender}", default: current_active_profile.gender_translate(preference.gender)) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Min Age</td>
-              <td><strong><%= preference.min_age.present? ? "#{preference.min_age} Years" : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.min_age') %></td>
+              <td><strong><%= preference.min_age.present? ? years_label(preference.min_age) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Max Age</td>
-              <td><strong><%= preference.max_age.present? ? "#{preference.max_age} Years" : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.max_age') %></td>
+              <td><strong><%= preference.max_age.present? ? years_label(preference.max_age) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Min Height</td>
-              <td><strong><%= preference.min_height.present? ? "#{preference.min_height}' #{preference.min_inch}\"" : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.min_height') %></td>
+              <td><strong><%= preference.min_height.present? ? "#{local_digits(preference.min_height)}' #{local_digits(preference.min_inch)}\"" : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Max Height</td>
-              <td><strong><%= preference.max_height.present? ? "#{preference.max_height}' #{preference.max_inch}\"" : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.max_height') %></td>
+              <td><strong><%= preference.max_height.present? ? "#{local_digits(preference.max_height)}' #{local_digits(preference.max_inch)}\"" : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Physical Status</td>
-              <td><strong><%= preference.physical_status.present? ? preference.physical_status.humanize : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.physical_status') %></td>
+              <td><strong><%= preference.physical_status.present? ? enum_label(:appearance, :physical_status, preference.physical_status) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Religion</td>
-              <td><strong><%= preference.religion.present? ? preference.religion.map(&:to_s).map(&:humanize).join(', ') : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.religion') %></td>
+              <td><strong><%= preference.religion.present? ? preference.religion.map { |r| enum_label(:marriage_profile, :religion, r.to_s) }.join(', ') : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Hometown</td>
+              <td class="text-muted"><%= t('preference.hometown') %></td>
               <td><strong>
                 <% if preference.hometown.present? && preference.hometown.length > 1 %>
-                  <%= preference.hometown.drop(1).join(', ') %>
+                  <%= preference.hometown.drop(1).map { |d| district_label(d) }.join(', ') %>
                 <% else %>-<% end %>
               </strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Except (Hometown)</td>
+              <td class="text-muted"><%= t('preference.except_hometown') %></td>
               <td><strong>
                 <% if preference.except_hometown.present? && preference.except_hometown.length > 0 %>
-                  <%= preference.except_hometown.join(', ') %>
+                  <%= preference.except_hometown.map { |d| district_label(d) }.join(', ') %>
                 <% else %>-<% end %>
               </strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Present Location</td>
+              <td class="text-muted"><%= t('preference.present_location') %></td>
               <td><strong>
                 <% if preference.present_location.present? && preference.present_location.length > 1 %>
-                  <%= preference.present_location.drop(1).join(', ') %>
+                  <%= preference.present_location.drop(1).map { |d| district_label(d) }.join(', ') %>
                 <% else %>-<% end %>
               </strong></td>
             </tr>
@@ -75,27 +75,27 @@
         <table class="table table-borderless table-sm">
           <tbody>
             <tr>
-              <td class="text-muted" style="width:50%;">Marital Status</td>
-              <td><strong><%= preference.marital_status.present? ? preference.marital_status.map(&:to_s).map(&:humanize).join(', ') : '-' %></strong></td>
+              <td class="text-muted" style="width:50%;"><%= t('preference.marital_status') %></td>
+              <td><strong><%= preference.marital_status.present? ? preference.marital_status.map { |m| enum_label(:marriage_profile, :marital_status, m.to_s) }.join(', ') : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Education Level</td>
-              <td><strong><%= preference.highest_education_level.present? ? preference.highest_education_level.humanize : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.education') %></td>
+              <td><strong><%= preference.highest_education_level.present? ? enum_label(:marriage_profile, :highest_education_level, preference.highest_education_level) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Family Status</td>
-              <td><strong><%= preference.family_status.present? ? preference.family_status.humanize : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.family_status') %></td>
+              <td><strong><%= preference.family_status.present? ? enum_label(:marriage_profile, :family_status, preference.family_status) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Family Values</td>
-              <td><strong><%= preference.family_values.present? ? preference.family_values.humanize : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.family_values') %></td>
+              <td><strong><%= preference.family_values.present? ? enum_label(:marriage_profile, :family_values, preference.family_values) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Family Type</td>
-              <td><strong><%= preference.family_type.present? ? preference.family_type.humanize : '-' %></strong></td>
+              <td class="text-muted"><%= t('preference.family_type') %></td>
+              <td><strong><%= preference.family_type.present? ? enum_label(:marriage_profile, :family_type, preference.family_type) : '-' %></strong></td>
             </tr>
             <tr>
-              <td class="text-muted">Blood Group</td>
+              <td class="text-muted"><%= t('preference.blood_group') %></td>
               <td><strong><%= preference.blood_group.present? ? preference.blood_group.join(', ') : '-' %></strong></td>
             </tr>
           </tbody>

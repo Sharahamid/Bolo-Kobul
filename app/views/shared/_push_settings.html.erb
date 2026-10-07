@@ -13,12 +13,12 @@
 </style>
 <div class="bk-push-settings" id="bk-push-settings">
   <div class="bk-push-settings__text">
-    <p class="bk-push-settings__title">Phone notifications</p>
-    <p class="bk-push-settings__status" data-push-status>Checking this device…</p>
+    <p class="bk-push-settings__title"><%= t('push.settings_title') %></p>
+    <p class="bk-push-settings__status" data-push-status><%= t('push.checking') %></p>
   </div>
   <div class="bk-push-settings__actions">
-    <button type="button" class="bk-push-settings__btn bk-push-settings__btn--primary" data-push-turn-on hidden>Turn on</button>
-    <button type="button" class="bk-push-settings__btn bk-push-settings__btn--ghost" data-push-test hidden>Send test notification</button>
+    <button type="button" class="bk-push-settings__btn bk-push-settings__btn--primary" data-push-turn-on hidden><%= t('push.turn_on') %></button>
+    <button type="button" class="bk-push-settings__btn bk-push-settings__btn--ghost" data-push-test hidden><%= t('push.send_test') %></button>
   </div>
 </div>
 <script>
@@ -30,18 +30,18 @@
 
     function show() {
       if (!window.bkPush) {
-        status.textContent = 'This browser cannot show notifications. On iPhone, add Bolo Kobul to your Home Screen first, then open it from there.';
+        status.textContent = <%= raw t('push.unsupported').to_json %>;
         return;
       }
       var permission = window.bkPush.permission();
       turnOn.hidden = permission !== 'default';
       testBtn.hidden = permission !== 'granted';
       if (permission === 'granted') {
-        status.textContent = 'On for this device. New Kobuls and messages arrive with your phone\'s notification sound and vibration.';
+        status.textContent = <%= raw t('push.on').to_json %>;
       } else if (permission === 'denied') {
-        status.textContent = 'Blocked for this device. To allow them: open your phone\'s Settings → Apps → (Chrome or Bolo Kobul) → Notifications, and turn them on. Then reload this page.';
+        status.textContent = <%= raw t('push.blocked').to_json %>;
       } else {
-        status.textContent = 'Off for this device. Turn them on to hear about new Kobuls and messages even when Bolo Kobul is closed.';
+        status.textContent = <%= raw t('push.off').to_json %>;
       }
     }
 
@@ -57,8 +57,8 @@
         headers: { 'X-CSRF-Token': token ? token.content : '' }
       }).then(function (response) {
         status.textContent = response.ok
-          ? 'Test sent. It should appear in a few seconds with sound and vibration. If it does not, check that notifications for Chrome/Bolo Kobul are allowed and not silent in your phone\'s Settings.'
-          : 'This device is not registered yet. Tap Turn on again, or reload the page.';
+          ? <%= raw t('push.test_sent').to_json %>
+          : <%= raw t('push.not_registered').to_json %>;
       }).finally(function () { setTimeout(function () { testBtn.disabled = false; }, 5000); });
     });
 

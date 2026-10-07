@@ -6,7 +6,7 @@
       </div>
       <div class="d-flex flex-column align-items-center">
         <div class="internal_form_heading align-self-center">
-          <strong> Change Your Password </strong>
+          <strong> <%= t('password.change_title') %> </strong>
         </div>
 
         <div class="form_input_fields pt-4 pl-2 pr-2">
@@ -17,12 +17,12 @@
                                    autofocus: true,
                                    autocomplete: "password",
                                    class: 'form-control sign_up-input-field',
-                                   placeholder: 'New Password*',
+                                   placeholder: t('password.new'),
                                    required: true,
                                    data: {toggle: "tooltip", placement: "top"},
-                                   title: "New Password*" %>
+                                   title: t('password.new') %>
               <% if @minimum_password_length %>
-                <em>(<%= @minimum_password_length %> characters minimum)</em>
+                <em><%= t('password.minimum', count: local_digits(@minimum_password_length)) %></em>
               <% end %>
             </div>
 
@@ -30,15 +30,15 @@
               <%= f.password_field :password_confirmation,
                                    autocomplete: "off",
                                    class: 'form-control sign_up-input-field',
-                                   placeholder: 'Confirm New Password*',
+                                   placeholder: t('password.confirm_new'),
                                    required: true,
                                    data: {toggle: "tooltip", placement: "top"},
-                                   title: "Confirm New Password*" %>
+                                   title: t('password.confirm_new') %>
             </div>
 
             <div class="form-group">
               <div class="register-btn-section text-center">
-                <button type="submit" class="btn btn-sign_up form-control"> Change My Password</button>
+                <button type="submit" class="btn btn-sign_up form-control"> <%= t('password.change_mine') %></button>
               </div>
             </div>
 

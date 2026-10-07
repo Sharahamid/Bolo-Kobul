@@ -128,6 +128,7 @@ bn:
       physical_status:
         normal: স্বাভাবিক
         physically_challenged: শারীরিক প্রতিবন্ধিতা আছে
+        does_not_matter: যেকোনো
       complexion:
         very_fair: খুব ফর্সা
         fair: ফর্সা
@@ -139,6 +140,18 @@ bn:
         athletic: অ্যাথলেটিক
         moderate: মাঝারি
         heavy: ভারী
+      eye_wear:
+        'yes': হ্যাঁ
+        'no': না
+      body_art:
+        'yes': হ্যাঁ
+        'no': না
+      is_hijab:
+        'yes': হ্যাঁ
+        'no': না
+      is_niqab:
+        'yes': হ্যাঁ
+        'no': না
     yes_no:
       'yes': হ্যাঁ
       'no': না
@@ -162,6 +175,12 @@ bn:
       residence_type:
         rented: ভাড়া বাসা
         owned: নিজস্ব বাসা
+      marital_status:
+        unmarried: অবিবাহিত
+        widow/Widower: বিধবা / বিপত্নীক
+        divorced: তালাকপ্রাপ্ত
+        separated: আলাদা থাকেন
+        married: বিবাহিত
     occupation:
       employment_status:
         full_time: পূর্ণকালীন
@@ -169,6 +188,10 @@ bn:
         freelance: ফ্রিল্যান্স
         contract: চুক্তিভিত্তিক
         temporary: অস্থায়ী
+    looking_for:
+      female: কনে
+      male: বর
+      other: অন্যান্য
   landing:
     campaign_title: ভালোবাসার অপেক্ষায় বসে থাকবেন না!
     campaign_text: বিনামূল্যে নিবন্ধনসহ একটি বিশ্বস্ত ম্যাচমেকিং প্ল্যাটফর্ম—গোপনীয়তা ও নিরাপত্তা বজায় রেখে সঠিক জীবনসঙ্গী খুঁজে পেতে সাহায্য করে! - বলো কবুল
@@ -288,6 +311,8 @@ bn:
       cancel_kobul_1: আপনার কবুলের অনুরোধ বাতিল করবেন?
       cancel_kobul_2: আপনার ২য় কবুলের অনুরোধ বাতিল করবেন?
       reject_1: এই ১ম কবুলের অনুরোধ প্রত্যাখ্যান করবেন?
+      cancel_kobul_2_req: এই ২য় কবুলের অনুরোধ বাতিল করবেন?
+      remove_favourite: ফেভারিট থেকে সরাবেন?
   profile:
     edit_information: তথ্য সম্পাদনা
     remove_information: তথ্য মুছুন
@@ -399,6 +424,7 @@ bn:
       sub: ব্যক্তিগত বর্ণনা
       special_circumstances: বিশেষ পরিস্থিতি
       family_lines: আমার পরিবার সম্পর্কে কিছু কথা
+      about_myself: আমার সম্পর্কে
   occupations:
     government_official: সরকারি কর্মকর্তা
     defence: প্রতিরক্ষা / সশস্ত্র বাহিনী
@@ -481,3 +507,722 @@ bn:
     sylhet: সিলেট
     tangail: টাঙ্গাইল
     thakurgaon: ঠাকুরগাঁও
+  verify:
+    title_phone: মোবাইল নম্বর যাচাই
+    title_account: অ্যাকাউন্ট যাচাই
+    sent_phone_html: আপনার মোবাইল নম্বরে (%{number}) একটি যাচাই কোড পাঠানো হয়েছে। অ্যাকাউন্ট চালু করতে নিচে কোডটি লিখুন।
+    sent_email_html: আপনার ইমেইলে (%{email}) একটি যাচাই কোড পাঠানো হয়েছে। ইনবক্স ও স্প্যাম ফোল্ডার দেখে নিচে কোডটি লিখুন।
+    code_label: 'যাচাই কোড:'
+    code_placeholder: আপনার যাচাই কোড লিখুন
+    verify: যাচাই করুন
+    resend: আবার কোড পাঠান
+    help_html: 'কোড পাননি? স্প্যাম ফোল্ডার দেখুন অথবা ওপরের %{resend} চাপুন। আরও সাহায্যের জন্য যোগাযোগ করুন: %{email}'
+  password:
+    forgot_title: পাসওয়ার্ড ভুলে গেছেন?
+    forgot_text: পাসওয়ার্ড নতুন করে সেট করতে আপনার ইমেইল লিখুন
+    email: ইমেইল*
+    submit: পাঠান
+    change_title: পাসওয়ার্ড পরিবর্তন করুন
+    new: নতুন পাসওয়ার্ড*
+    confirm_new: নতুন পাসওয়ার্ড আবার লিখুন*
+    minimum: (কমপক্ষে %{count} অক্ষর)
+    change_mine: পাসওয়ার্ড পরিবর্তন করুন
+    change: পাসওয়ার্ড পরিবর্তন
+    current: বর্তমান পাসওয়ার্ড*
+    current_hint: পরিবর্তন নিশ্চিত করতে আপনার বর্তমান পাসওয়ার্ড প্রয়োজন
+  social_signup:
+    title: প্রায় শেষ
+    lead_html: আপনি %{provider} দিয়ে %{email} হিসেবে নিবন্ধন করছেন।
+    lead2: আপনার মোবাইল নম্বর দিন—যাচাইয়ের জন্য একটি কোড পাঠানো হবে।
+    full_name: পূর্ণ নাম
+    mobile: মোবাইল নম্বর
+    created_for: প্রোফাইল কার জন্য
+    choose: বেছে নিন
+    continue: এগিয়ে যান
+    terms_html: আমি বলো কবুলের %{terms} ও %{privacy} পড়েছি
+    note: আপনার ইমেইল ও মোবাইল নম্বর অন্য সদস্যরা কখনো দেখতে পাবেন না।
+  chat:
+    type_message: বার্তা লিখুন...
+    view_profile: প্রোফাইল দেখুন
+    inactive: নিষ্ক্রিয়
+    active_today: আজ সক্রিয়
+    active_days_ago: '%{days} দিন আগে সক্রিয়'
+    chat_requests_sent: পাঠানো চ্যাট অনুরোধ
+    send_message: বার্তা লিখুন...
+    connecting: সংযোগ হচ্ছে...
+  thanks:
+    contacted: নিবন্ধন সম্পন্ন করতে শিগগিরই আপনার সঙ্গে যোগাযোগ করা হবে!
+    choosing: বলো কবুল বেছে নেওয়ার জন্য ধন্যবাদ
+    back_home: হোমে ফিরে যান
+  settings:
+    account_settings: অ্যাকাউন্ট সেটিংস
+    email: ইমেইল
+    phone: ফোন
+    password: পাসওয়ার্ড
+    change: পরিবর্তন
+    text_alert: এসএমএস নোটিফিকেশন
+    cost: '🦋 খরচ: %{cost}'
+    butterflies:
+      one: '%{count}টি প্রজাপতি'
+      other: '%{count}টি প্রজাপতি'
+    'on': চালু
+    'off': বন্ধ
+    advanced_search: অ্যাডভান্সড সার্চ
+    enabled: চালু
+    disabled: বন্ধ
+    account_status: অ্যাকাউন্টের অবস্থা
+    deactivated: নিষ্ক্রিয়
+    active: সক্রিয়
+    activate: চালু করুন
+    deactivate: নিষ্ক্রিয় করুন
+    confirm_activate: আপনার অ্যাকাউন্ট চালু করবেন?
+    confirm_deactivate: আপনার অ্যাকাউন্ট নিষ্ক্রিয় করবেন?
+    delete_account: অ্যাকাউন্ট মুছে ফেলুন
+    will_be_deleted: '%{date} তারিখে মুছে ফেলা হবে'
+    delete_permanently: আমার অ্যাকাউন্ট স্থায়ীভাবে মুছে ফেলুন
+    deletion_hidden: আপনার অ্যাকাউন্ট এখন সব সদস্যের কাছে লুকানো। সবকিছু আগের মতো রাখতে চাইলে ওপরের তারিখের আগে বাতিল করুন।
+    cancel_deletion: মুছে ফেলা বাতিল করুন
+    deletion_explain: 'আপনার অ্যাকাউন্ট সঙ্গে সঙ্গে লুকানো হবে এবং ৩০ দিন পর স্থায়ীভাবে মুছে যাবে: প্রোফাইল, ছবি, চ্যাট ও কবুল সংযোগ সব। অব্যবহৃত প্রজাপতি আর ফেরত পাওয়া যাবে না। ৩০ দিনের মধ্যে লগইন করে
+      বাতিল করতে পারবেন।'
+    social_password_html: '%{provider} দিয়ে নিবন্ধন করেছেন? আগে %{link} থেকে একটি পাসওয়ার্ড সেট করুন, তারপর এখানে লিখুন।'
+    forgot_password: পাসওয়ার্ড ভুলে গেছেন
+    enter_password: আপনার পাসওয়ার্ড লিখুন
+    deletion_understand: আমি বুঝেছি, ৩০ দিন পর আমার অ্যাকাউন্ট ও সব তথ্য স্থায়ীভাবে মুছে যাবে।
+    deletion_confirm: আপনার বলো কবুল অ্যাকাউন্ট মুছে ফেলবেন? ৩০ দিন পর এটি স্থায়ীভাবে মুছে যাবে।
+    delete_my_account: আমার অ্যাকাউন্ট মুছে ফেলুন
+    refer_friend: বন্ধুকে আমন্ত্রণ জানান
+    privacy: গোপনীয়তা
+    block_list: ব্লক তালিকা
+    privacy_information: গোপনীয়তার তথ্য
+    public: সবার জন্য
+    private: গোপন
+    set_private: গোপন করুন
+    set_public: সবার জন্য খুলে দিন
+  deletion_banner:
+    text_html: আপনার অ্যাকাউন্ট %{date} তারিখে স্থায়ীভাবে মুছে ফেলা হবে।
+  push:
+    prompt_title: কোনো কবুল মিস করবেন না
+    prompt_body: কেউ কবুল পাঠালে, আপনার কবুল গ্রহণ করলে বা বার্তা পাঠালে নোটিফিকেশন পান।
+    not_now: এখন না
+    turn_on: চালু করুন
+    settings_title: ফোন নোটিফিকেশন
+    checking: এই ডিভাইস দেখা হচ্ছে…
+    send_test: টেস্ট নোটিফিকেশন পাঠান
+    unsupported: এই ব্রাউজারে নোটিফিকেশন দেখানো যায় না। আইফোনে আগে বলো কবুলকে হোম স্ক্রিনে যোগ করুন, তারপর সেখান থেকে খুলুন।
+    'on': এই ডিভাইসে চালু আছে। নতুন কবুল ও বার্তা ফোনের নোটিফিকেশন সাউন্ড ও ভাইব্রেশনসহ আসবে।
+    blocked: এই ডিভাইসে বন্ধ করা আছে। চালু করতে ফোনের সেটিংস → অ্যাপস → (Chrome বা বলো কবুল) → নোটিফিকেশন খুলে চালু করুন। তারপর পেজটি আবার লোড করুন।
+    'off': এই ডিভাইসে বন্ধ আছে। বলো কবুল বন্ধ থাকলেও নতুন কবুল ও বার্তার খবর পেতে চালু করুন।
+    test_sent: টেস্ট পাঠানো হয়েছে। কয়েক সেকেন্ডের মধ্যে সাউন্ড ও ভাইব্রেশনসহ আসার কথা। না এলে ফোনের সেটিংসে Chrome/বলো কবুলের নোটিফিকেশন চালু ও সাউন্ড অন আছে কিনা দেখুন।
+    not_registered: এই ডিভাইসটি এখনো যুক্ত হয়নি। আবার "চালু করুন" চাপুন অথবা পেজটি আবার লোড করুন।
+  form:
+    basics: মৌলিক তথ্য
+    privacy_note: আপনার ব্যক্তিগত তথ্য আমাদের কাছে নিরাপদ — নাম ও এনআইডি অন্য কাউকে দেখানো হবে না
+    full_name: পূর্ণ নাম
+    registered_name: নিবন্ধনের সময় যে নাম দিয়েছেন
+    nid: এনআইডি বা পাসপোর্ট নম্বর
+    nid_title: এনআইডি বা পাসপোর্ট নম্বর* 🔐 (জমা দেওয়ার পর আর বদলানো যাবে না)
+    upload_id: পরিচয়পত্রের একটি স্পষ্ট ছবি আপলোড করুন
+    id_types: এনআইডি, পাসপোর্ট, জন্মনিবন্ধন সনদ, ড্রাইভিং লাইসেন্স, অফিস আইডি
+    id_document: পরিচয়পত্র
+    gender_req: লিঙ্গ*
+    gender_lock: লিঙ্গ* 🔐
+    specify_gender: আপনার লিঙ্গ লিখুন*
+    date_of_birth: জন্মতারিখ
+    dob_title: জন্মতারিখ* 🔐 (জমা দেওয়ার পর আর বদলানো যাবে না)
+    dob_placeholder: জন্মতারিখ (দিন/মাস/বছর)
+    marital_status_req: বৈবাহিক অবস্থা*
+    marital_status: বৈবাহিক অবস্থা
+    religion_req: ধর্ম*
+    religion: ধর্ম
+    specify_religion: আপনার ধর্ম লিখুন*
+    hometown_req: নিজ জেলা*
+    hometown_title: নিজ জেলা* 🔐 (জমা দেওয়ার পর আর বদলানো যাবে না)
+    country_req: দেশ*
+    city_req: শহর*
+    present_location_req: বর্তমান অবস্থান*
+    present_location_title: বর্তমান অবস্থান*
+    present_address_req: বর্তমান ঠিকানা (বিস্তারিত)*
+    height_ft_req: উচ্চতা (ফুট)*
+    height_ft: উচ্চতা (ফুট)
+    height_inch_req: উচ্চতা (ইঞ্চি)*
+    height_inch: উচ্চতা (ইঞ্চি)
+    height_inch_req2: উচ্চতা (ইঞ্চি)*
+    education_req: সর্বোচ্চ শিক্ষাগত যোগ্যতা*
+    education_title: সর্বোচ্চ শিক্ষাগত যোগ্যতা
+    specify_education: আপনার শিক্ষাগত যোগ্যতা লিখুন*
+    family_type_req: পরিবারের ধরন*
+    family_type: পরিবারের ধরন
+    family_status_req: পারিবারিক অবস্থা*
+    family_status: পারিবারিক অবস্থা
+    family_values_req: পারিবারিক মূল্যবোধ*
+    family_values: পারিবারিক মূল্যবোধ
+    family_value: পারিবারিক মূল্যবোধ
+    blood_group_req: রক্তের গ্রুপ*
+    blood_group_lock: রক্তের গ্রুপ* 🔐
+    next: পরবর্তী
+    name: নাম
+    name_req: নাম*
+    basic_information: মৌলিক তথ্য
+    willing_to_relocate: অন্যত্র যেতে আগ্রহী?
+    about_yourself: আপনার সম্পর্কে
+    about_placeholder: নিজের সম্পর্কে লিখুন
+    about_myself: আমার সম্পর্কে
+    special_circumstances: বিশেষ পরিস্থিতি
+    about_family: আপনার পরিবার সম্পর্কে কিছু কথা
+    cancel: বাতিল
+  search:
+    looking_for: আমি খুঁজছি...
+    age_from: বয়স (থেকে)
+    age_to: বয়স (পর্যন্ত)
+    religion: ধর্ম
+    hometown: নিজ জেলা
+    search: 🔍 খুঁজুন
+    height: উচ্চতা
+    education: শিক্ষা
+    occupation: পেশা
+    blood_group: রক্তের গ্রুপ
+    reset: ✕ মুছে ফেলুন
+    no_results: কোনো প্রোফাইল পাওয়া যায়নি
+    adjust_filters: ফিল্টার বদলে আবার চেষ্টা করুন
+    find_match: আপনার উপযুক্ত জীবনসঙ্গী খুঁজুন
+    use_filters: ওপরের ফিল্টার ব্যবহার করে প্রোফাইল খুঁজুন
+    found: '%{count}টি প্রোফাইল পাওয়া গেছে'
+  referral:
+    title: রেফারেল কোড
+    sub: শেয়ার করুন, প্রতিটি নিবন্ধনে একটি ফ্রি বাটারফ্লাই পান!
+    your_code: আপনার কোড
+    copy: কপি
+    note: জীবনসঙ্গী খুঁজছেন এমন বন্ধু বা আত্মীয়দের সঙ্গে কোডটি শেয়ার করুন। তারা আপনার কোড দিয়ে নিবন্ধন করলে আপনি একটি ফ্রি বাটারফ্লাই পাবেন!
+    copied: কপি হয়েছে!
+  blocked:
+    title: ব্লক করা প্রোফাইল
+    unblock: আনব্লক
+    none: কোনো প্রোফাইল ব্লক করা নেই
+    confirm: '%{id} আনব্লক করবেন?'
+  pending:
+    title: পাঠানো অনুরোধ
+    kobul1: 🦋 ১ম কবুল অপেক্ষমাণ
+    cancel_confirm: এই ১ম কবুলের অনুরোধ বাতিল করবেন?
+    remove_favourite: ফেভারিট থেকে সরাবেন?
+  contact:
+    title: যোগাযোগ করুন
+    sub: আপনার কথা শুনতে চাই — যেকোনো সময় যোগাযোগ করুন
+    email: ইমেইল ঠিকানা
+    concern: নির্দিষ্ট কোনো সমস্যা আছে?
+    concern_sub: সহায়তার অনুরোধ পাঠান, আমরা শিগগিরই উত্তর দেব।
+    write: আমাদের লিখুন
+  about_page:
+    previous: ← আগের
+    next: 'পরবর্তী: %{title} →'
+    end: আমাদের সম্পর্কে — শেষ
+  crop:
+    title: ছবির মাপ ঠিক করুন
+    close: বন্ধ করুন
+  no_data: কোনো তথ্য নেই
+  preference:
+    title: জীবনসঙ্গীর পছন্দ
+    edit: সম্পাদনা
+    edit_title: পছন্দ সম্পাদনা
+    looking_for: যাকে খুঁজছেন
+    min_age: সর্বনিম্ন বয়স
+    max_age: সর্বোচ্চ বয়স
+    min_height: সর্বনিম্ন উচ্চতা
+    max_height: সর্বোচ্চ উচ্চতা
+    physical_status: শারীরিক অবস্থা
+    religion: ধর্ম
+    hometown: নিজ জেলা
+    except_hometown: যে জেলা বাদে
+    present_location: বর্তমান অবস্থান
+    marital_status: বৈবাহিক অবস্থা
+    education: শিক্ষাগত যোগ্যতা
+    family_status: পারিবারিক অবস্থা
+    family_values: পারিবারিক মূল্যবোধ
+    family_type: পরিবারের ধরন
+    blood_group: রক্তের গ্রুপ
+    short_title: পছন্দ
+    looking_for_req: যাকে খুঁজছেন*
+    age_min_18: বয়স (সর্বনিম্ন ১৮)
+    age_min: বয়স (সর্বনিম্ন)
+    age_max: বয়স (সর্বোচ্চ)
+    age_error: সর্বনিম্ন বয়সের চেয়ে বেশি হতে হবে।
+    height_error: সর্বনিম্ন উচ্চতার চেয়ে বেশি হতে হবে।
+    inch_error: সর্বনিম্ন ইঞ্চির চেয়ে বেশি হতে হবে।
+    feet_min: ফুট (সর্বনিম্ন)
+    inch_min: ইঞ্চি (সর্বনিম্ন)
+    feet_max: ফুট (সর্বোচ্চ)
+    inch_max: ইঞ্চি (সর্বোচ্চ)
+    education_req: সর্বোচ্চ শিক্ষাগত যোগ্যতা
+    family_value: পারিবারিক মূল্যবোধ
+    nothing_selected: কিছু বেছে নেওয়া হয়নি
+  activerecord:
+    attributes:
+      partner_preference:
+        religion: ধর্ম
+        hometown: নিজ জেলা
+        present_location: বর্তমান অবস্থান
+        min_age: সর্বনিম্ন বয়স
+        max_age: সর্বোচ্চ বয়স
+        min_height: সর্বনিম্ন উচ্চতা (ফুট)
+        min_inch: ইঞ্চি
+        max_height: সর্বোচ্চ উচ্চতা (ফুট)
+        max_inch: ইঞ্চি
+        marital_status: বৈবাহিক অবস্থা
+        highest_education_level: সর্বোচ্চ শিক্ষাগত যোগ্যতা
+        physical_status: শারীরিক অবস্থা
+        family_type: পরিবারের ধরন
+        family_status: পারিবারিক অবস্থা
+        family_values: পারিবারিক মূল্যবোধ
+        blood_group: রক্তের গ্রুপ
+      cultural_value:
+        religion: ধর্ম
+      occupation:
+        working_currently: বর্তমানে কর্মরত
+      user:
+        email: ইমেইল
+        mobile: মোবাইল নম্বর
+        password: পাসওয়ার্ড
+        password_confirmation: পাসওয়ার্ড নিশ্চিতকরণ
+        current_password: বর্তমান পাসওয়ার্ড
+        name: নাম
+        login: ইমেইল/মোবাইল
+        created_for: প্রোফাইলটি কার জন্য
+        phone_number: মোবাইল নম্বর
+      marriage_profile:
+        name: নাম
+        nid_or_passport: এনআইডি বা পাসপোর্ট নম্বর
+        identification_document: পরিচয়পত্র
+        gender: লিঙ্গ
+        date_of_birth: জন্মতারিখ
+        marital_status: বৈবাহিক অবস্থা
+        religion: ধর্ম
+        hometown: নিজ জেলা
+        present_location: বর্তমান অবস্থান
+        present_address: বর্তমান ঠিকানা
+        height_ft: উচ্চতা (ফুট)
+        height_inch: উচ্চতা (ইঞ্চি)
+        highest_education_level: সর্বোচ্চ শিক্ষাগত যোগ্যতা
+        family_type: পরিবারের ধরন
+        family_status: পারিবারিক অবস্থা
+        family_values: পারিবারিক মূল্যবোধ
+        blood_group: রক্তের গ্রুপ
+        about_my_self: আমার সম্পর্কে
+        profile_image: প্রোফাইল ছবি
+      customer_support:
+        issue_type: সমস্যার ধরন
+        description: বিবরণ
+  choices:
+    drink_smoke_data:
+      'yes': হ্যাঁ
+      'no': না
+      used_to: আগে করতাম
+      occasionally: মাঝে মাঝে
+    food_habits:
+      vegetarian: নিরামিষভোজী
+      non_vegetarian: আমিষভোজী
+      halal_food_always: সবসময় হালাল খাবার
+      halal_food_when_i_can: সম্ভব হলে হালাল খাবার
+      non_halal: হালাল-অহালাল দুটোই
+    dress_style:
+      jeans_t_shirt: জিন্স - টি-শার্ট
+      suit: স্যুট
+      shirt_pant: শার্ট - প্যান্ট
+      panjabi: পাঞ্জাবি
+      saree: শাড়ি
+      salwar_kamij: সালোয়ার-কামিজ
+      other: অন্যান্য
+    living_with:
+      alone: একা
+      kids: সন্তানদের সঙ্গে
+      parents: মা-বাবার সঙ্গে
+      pets: পোষা প্রাণীর সঙ্গে
+      roommate_s: রুমমেটের সঙ্গে
+      brother_sister: ভাই/বোনের সঙ্গে
+      uncle_aunt: চাচা/মামা/খালা/ফুফুর সঙ্গে
+      others: অন্যান্য
+    hobbies:
+      acting: অভিনয়
+      astronomy: জ্যোতির্বিজ্ঞান
+      astrology: জ্যোতিষশাস্ত্র
+      art_handicraft: শিল্পকলা / হস্তশিল্প
+      collectibles: সংগ্রহ
+      cooking: রান্না
+      crosswords: শব্দজট
+      dancing: নাচ
+      film_making: চলচ্চিত্র নির্মাণ
+      fishing: মাছ ধরা
+      gardening: বাগান করা
+      landscaping: ল্যান্ডস্কেপিং
+      graphology: হস্তলিপি বিশ্লেষণ
+      nature: প্রকৃতি
+      numerology: সংখ্যাতত্ত্ব
+      painting: ছবি আঁকা (রং)
+      palmistry: হস্তরেখা
+      pets: পোষা প্রাণী
+      photography: ফটোগ্রাফি
+      playing_musical_instruments: বাদ্যযন্ত্র বাজানো
+      puzzles: ধাঁধা
+      sports: খেলাধুলা
+      antiques: প্রাচীন জিনিস
+      banknote_collecting: নোট সংগ্রহ
+      coins_collecting: মুদ্রা সংগ্রহ
+      drawing: ছবি আঁকা
+      hunting: শিকার
+      newspaper_collecting: পত্রিকা সংগ্রহ
+      postcards_collecting: পোস্টকার্ড সংগ্রহ
+      other: অন্যান্য
+    interest:
+      adventure_sports: অ্যাডভেঞ্চার স্পোর্টস
+      book_clubs: বুক ক্লাব
+      computer_games: কম্পিউটার গেম
+      health_fitness: স্বাস্থ্য ও ফিটনেস
+      internet: ইন্টারনেট
+      autograph_collecting: অটোগ্রাফ সংগ্রহ
+      learning_new_languages: নতুন ভাষা শেখা
+      movies: সিনেমা
+      music: সংগীত
+      politics: রাজনীতি
+      reading: বই পড়া
+      social_service: সমাজসেবা
+      sports: খেলাধুলা
+      television: টেলিভিশন
+      theatre: থিয়েটার
+      travel: ভ্রমণ
+      writing: লেখালেখি
+      yoga: যোগব্যায়াম
+      alternative_healing_medicine: বিকল্প চিকিৎসা
+      astronomy: জ্যোতির্বিজ্ঞান
+      shopping: কেনাকাটা
+      other: অন্যান্য
+    favourite_music:
+      blues: ব্লুজ
+      devotional: ভক্তিমূলক
+      disco: ডিস্কো
+      ghazals: গজল
+      hip_hop: হিপ-হপ
+      heavy_metal: হেভি মেটাল
+      house_music: হাউস মিউজিক
+      indian_classical: ভারতীয় শাস্ত্রীয় সংগীত
+      indipop: ইন্ডিপপ
+      jazzpop: জ্যাজ-পপ
+      qawalis: কাওয়ালি
+      rap: র‍্যাপ
+      film_songs: সিনেমার গান
+      reggae: রেগে
+      sufi: সুফি
+      western_classical: পাশ্চাত্য শাস্ত্রীয় সংগীত
+      country_music: কান্ট্রি মিউজিক
+      band: ব্যান্ড
+      classic: ক্লাসিক
+      rock: রক
+      other: অন্যান্য
+      i_m_not_a_music_fan: গান তেমন শুনি না
+    favourite_book:
+      detective: গোয়েন্দা
+      fiction: কথাসাহিত্য
+      thriller: থ্রিলার
+      literature: সাহিত্য
+      other: অন্যান্য
+    favourite_movie:
+      action: অ্যাকশন
+      adventure: অ্যাডভেঞ্চার
+      documentary: প্রামাণ্যচিত্র
+      romantic: রোমান্টিক
+      other: অন্যান্য
+    favourite_tv_show:
+      comedy_show: কমেডি শো
+      family_drama: পারিবারিক নাটক
+      magazine_show: ম্যাগাজিন অনুষ্ঠান
+      news: সংবাদ
+      documentary: প্রামাণ্যচিত্র
+      other: অন্যান্য
+    favourite_sports:
+      athletics: অ্যাথলেটিক্স
+      basketball: বাস্কেটবল
+      cricket: ক্রিকেট
+      football: ফুটবল
+      hockey: হকি
+      wrestling: কুস্তি
+      racing: রেসিং
+      other: অন্যান্য
+    fitness_activities:
+      adventure_sports: অ্যাডভেঞ্চার স্পোর্টস
+      aerobics: অ্যারোবিকস
+      basketball: বাস্কেটবল
+      badminton: ব্যাডমিন্টন
+      bowling: বোলিং
+      billiards_snooker_pool: বিলিয়ার্ড / স্নুকার / পুল
+      cricket: ক্রিকেট
+      cycling: সাইকেল চালানো
+      card_games: তাস খেলা
+      carrom: ক্যারম
+      chess: দাবা
+      football: ফুটবল
+      golf: গলফ
+      hockey: হকি
+      jogging_walking: জগিং / হাঁটা
+      martial_arts: মার্শাল আর্ট
+      scrabble: স্ক্র্যাবল
+      squash: স্কোয়াশ
+      swimming_water_sports: সাঁতার / জলক্রীড়া
+      table_tennis: টেবিল টেনিস
+      tennis: টেনিস
+      volleyball: ভলিবল
+      weight_lifting: ভারোত্তোলন
+      yoga: যোগব্যায়াম
+      meditation: ধ্যান
+      other: অন্যান্য
+    favourite_cuisine:
+      i_m_a_foodie: আমি ভোজনরসিক
+      arabic: আরবি
+      bengali: বাঙালি
+      chinese: চাইনিজ
+      continental: কন্টিনেন্টাল
+      gujarati: গুজরাটি
+      indian: ভারতীয়
+      italian: ইতালিয়ান
+      konkan: কোঙ্কন
+      mexican: মেক্সিকান
+      moghlai: মোগলাই
+      punjabi: পাঞ্জাবি
+      rajasthani: রাজস্থানি
+      south_indian: দক্ষিণ ভারতীয়
+      sushi: সুশি
+      thai: থাই
+      not_a_foodie: ভোজনরসিক নই!
+      other: অন্যান্য
+    travel:
+      once_a_year: বছরে একবার
+      once_a_month: মাসে একবার
+      every_weekend: প্রতি সপ্তাহান্তে
+      making_every_long_weekend_count: প্রতিটি লম্বা ছুটিতে
+      rarely: কদাচিৎ
+      not_a_fan_love_being_home: তেমন না (বাড়িতে থাকতেই ভালো লাগে)
+      other: অন্যান্য
+    languages:
+      bengali: বাংলা
+      urdu: উর্দু
+      english: ইংরেজি
+      hindi: হিন্দি
+      french: ফরাসি
+      spanish: স্প্যানিশ
+      arabic: আরবি
+      chinese: চীনা
+      german: জার্মান
+      others: অন্যান্য
+    born_or_reverted:
+      born: জন্মগত
+      reverted: ধর্মান্তরিত
+    hair_color:
+      black: কালো
+      brown: বাদামি
+      yellow: সোনালি
+      white: সাদা
+    hair_type:
+      plain: সোজা
+      curly: কোঁকড়া
+      other: অন্যান্য
+    issue_types:
+      registration_and_login: নিবন্ধন ও লগইন
+      profile_photo: প্রোফাইল ও ছবি
+      partner_searching_and_contacting: জীবনসঙ্গী খোঁজা ও যোগাযোগ
+      finding_matches: ম্যাচ খোঁজা
+      hide_delete_profile: প্রোফাইল লুকানো / মুছে ফেলা
+      payments: পেমেন্ট
+      services: সেবা
+      refund: টাকা ফেরত
+      privacy_and_confidentiality: গোপনীয়তা
+      report_a_member: সদস্যের বিরুদ্ধে অভিযোগ
+      feedback: মতামত
+      queries: জিজ্ঞাসা
+      others: অন্যান্য
+      payment: পেমেন্ট
+    mother_tongue:
+      bengali: বাংলা
+      urdu: উর্দু
+      english: ইংরেজি
+      hindi: হিন্দি
+      french: ফরাসি
+      spanish: স্প্যানিশ
+      arabic: আরবি
+      chinese: চীনা
+      german: জার্মান
+      others: অন্যান্য
+    boolean_data:
+      'yes': হ্যাঁ
+      'no': না
+  section_form:
+    occupation_req: পেশা*
+    occupation: পেশা
+    start_date_req: শুরুর তারিখ*
+    start_date: শুরুর তারিখ
+    end_date_req: শেষের তারিখ*
+    end_date: শেষের তারিখ
+    organization_req: প্রতিষ্ঠান*
+    organization: প্রতিষ্ঠান
+    monthly_income_req: মাসিক আয়*
+    employment_status_req: চাকরির ধরন*
+    designation_req: পদবি*
+    designation: পদবি
+    company_name_req: প্রতিষ্ঠানের নাম*
+    company_name: প্রতিষ্ঠানের নাম
+    please_specify_your_organization_req: আপনার প্রতিষ্ঠানের নাম লিখুন*
+    please_specify_organization: প্রতিষ্ঠানের নাম লিখুন
+    birth_place: জন্মস্থান
+    complexion_lc: গায়ের রং
+    complexion: গায়ের রং
+    what_do_you_do_the_most_for_entertainment: বিনোদনের জন্য সবচেয়ে বেশি কী করেন?
+    residence_type_req: বাসস্থানের ধরন*
+    relation_req: সম্পর্ক*
+    political_view: রাজনৈতিক মত
+    physical_status: শারীরিক অবস্থা
+    permanent_address: স্থায়ী ঠিকানা
+    passing_year: পাসের বছর
+    nationality: জাতীয়তা
+    mother_tongue: মাতৃভাষা
+    marital_status_req: বৈবাহিক অবস্থা*
+    marital_status: বৈবাহিক অবস্থা
+    location: স্থান
+    location_city_country: স্থান (শহর/দেশ)
+    life_style: জীবনযাপন
+    institution: শিক্ষাপ্রতিষ্ঠান
+    hobbies_and_interest: শখ ও আগ্রহ
+    hair_type: চুলের ধরন
+    hair_length: চুলের দৈর্ঘ্য
+    hair_color: চুলের রং
+    food_habits: খাদ্যাভ্যাস
+    favourite_song: প্রিয় গান?
+    favourite_book: প্রিয় বই?
+    eye_wear: চশমা
+    eye_color: চোখের রং
+    do_you_smoke: ধূমপান করেন?
+    do_you_drink: মদ্যপান করেন?
+    degree: ডিগ্রি
+    cultural_value: সাংস্কৃতিক মূল্যবোধ
+    born_or_reverted: জন্মগত না ধর্মান্তরিত
+    body_type: শারীরিক গঠন
+    body_art: ট্যাটু / বডি আর্ট
+    attend_religious_events_lc: ধর্মীয় অনুষ্ঠানে অংশ নেন
+    attend_religious_events: ধর্মীয় অনুষ্ঠানে অংশ নেন
+    appearance: চেহারা
+    any_specific_habits_you_want_to_share: বিশেষ কোনো অভ্যাসের কথা জানাতে চান?
+    niqab: নিকাব
+    hijab: হিজাব
+    country_req: দেশ*
+    city_req: শহর*
+    weight_in_kg: ওজন (কেজি)
+    no_of_children_req: সন্তানের সংখ্যা*
+    name_req: নাম*
+    want_child: সন্তান চান?
+    travel: 'ভ্রমণ:'
+    read: 'বই পড়া:'
+    music: 'সংগীত:'
+    living_with: 'যাদের সঙ্গে থাকেন:'
+    languages_spoken: 'যেসব ভাষায় কথা বলেন:'
+    interest: 'আগ্রহ:'
+    hobby: 'শখ:'
+    have_children: সন্তান আছে?
+    fitness_activity: 'শরীরচর্চা:'
+    tv_show: 'টিভি অনুষ্ঠান:'
+    sports_show: 'খেলা দেখা:'
+    movie: 'সিনেমা:'
+    dress_style: 'পোশাকের ধরন:'
+    cuisine: 'প্রিয় খাবার:'
+    add_occupation: পেশা যোগ করুন
+    edit_occupation: পেশা সম্পাদনা
+    add_academic_information: শিক্ষাগত তথ্য যোগ করুন
+    edit_academic_information: শিক্ষাগত তথ্য সম্পাদনা
+    add_family_member: পরিবারের সদস্য যোগ করুন
+    edit_family_member: পরিবারের সদস্যের তথ্য সম্পাদনা
+    add_marriage_info: বিয়ে-সংক্রান্ত তথ্য যোগ করুন
+    edit_marriage_info: বিয়ে-সংক্রান্ত তথ্য সম্পাদনা
+  buy:
+    title: বাটারফ্লাই কিনুন
+    sub: পছন্দের মানুষদের আরও কবুল অনুরোধ পাঠান
+    unit_price: প্রতিটি বাটারফ্লাইয়ের দাম
+    quantity: বাটারফ্লাইয়ের সংখ্যা*
+    enter_quantity: সংখ্যা লিখুন
+    estimated_total: আনুমানিক মোট
+    your_name: আপনার নাম*
+    your_phone: আপনার ফোন নম্বর*
+    your_email: আপনার ইমেইল ঠিকানা
+    login: লগইন
+    secure: নিরাপদ পেমেন্ট · বাটারফ্লাই সঙ্গে সঙ্গে যোগ হবে
+    purchase_now: 🦋 এখনই কিনুন
+    share_details: আপনার তথ্য দিন অথবা
+  orders:
+    product: পণ্য
+    date: তারিখ
+    quantity: পরিমাণ
+    price: দাম
+    total: মোট
+    status: অবস্থা
+    none: এখনো কোনো অর্ডার নেই।
+    butterfly: বাটারফ্লাই
+    statuses:
+      pending: অপেক্ষমাণ
+      success: সফল
+      failed: ব্যর্থ
+  support:
+    description: বিবরণ
+    attachment: সংযুক্তি
+    you: আপনি
+    admin: অ্যাডমিন
+    type_message: আপনার বার্তা লিখুন...
+    send: পাঠান
+    admin_replies: অ্যাডমিনের উত্তর
+    view_attachment: সংযুক্তি দেখুন
+    attach: সংযুক্ত করুন
+    add_reply: উত্তর দিন
+    statuses:
+      in_queue: অপেক্ষমাণ
+      processing: প্রক্রিয়াধীন
+      resolved: সমাধান হয়েছে
+    issue_type: সমস্যার ধরন*
+    description_req: বিবরণ*
+    attach_image: একটি ছবি সংযুক্ত করুন (ঐচ্ছিক)
+    upload_hint: JPG বা PNG আপলোড করতে ক্লিক করুন
+    submit: অনুরোধ পাঠান
+    select_issue: সমস্যা বেছে নিন
+    describe: আপনার সমস্যাটি বিস্তারিত লিখুন...
+    requests_title: সহায়তার অনুরোধ
+    track: আপনার পাঠানো অনুরোধের অবস্থা দেখুন
+    new_request: নতুন অনুরোধ
+    none: এখনো কোনো অনুরোধ নেই
+    none_sub: কোনো বিষয়ে সাহায্য লাগলে অনুরোধ পাঠান
+    submit_a_request: অনুরোধ পাঠান
+    count: '%{count}টি অনুরোধ'
+    title: গ্রাহক সহায়তা
+    title_sub: আপনার অনুরোধ পাঠান, আমরা শিগগিরই উত্তর দেব
+  errors:
+    messages:
+      blank: দিতে হবে
+      present: খালি রাখতে হবে
+      taken: আগে থেকেই ব্যবহৃত হচ্ছে
+      invalid: সঠিক নয়
+      confirmation: '%{attribute}-এর সঙ্গে মিলছে না'
+      too_short: খুব ছোট (কমপক্ষে %{count} অক্ষর)
+      too_long: খুব বড় (সর্বোচ্চ %{count} অক্ষর)
+      wrong_length: দৈর্ঘ্য সঠিক নয় (%{count} অক্ষর হতে হবে)
+      not_a_number: সংখ্যা হতে হবে
+      not_an_integer: পূর্ণসংখ্যা হতে হবে
+      greater_than: '%{count}-এর বেশি হতে হবে'
+      greater_than_or_equal_to: '%{count} বা তার বেশি হতে হবে'
+      less_than: '%{count}-এর কম হতে হবে'
+      less_than_or_equal_to: '%{count} বা তার কম হতে হবে'
+      inclusion: তালিকায় নেই
+      exclusion: সংরক্ষিত
+      empty: খালি রাখা যাবে না
+      accepted: গ্রহণ করতে হবে
+      required: থাকতে হবে
+    format: '%{attribute} %{message}'
+  helpers:
+    submit:
+      create: সংরক্ষণ করুন
+      update: সংরক্ষণ করুন
+      submit: জমা দিন
+    select:
+      prompt: বেছে নিন
+  will_paginate:
+    previous_label: '&#8592; আগের'
+    next_label: পরের &#8594;
+    page_gap: '&hellip;'

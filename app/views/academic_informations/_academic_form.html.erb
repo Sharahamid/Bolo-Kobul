@@ -1,30 +1,30 @@
 <%= form_for academic_info, remote:true do |f| %>
   <!-- Modal Header -->
-  <%= render 'shared/modal_header', title: "#{academic_info.new_record? ? 'Add Academic Information' : 'Edit Academic Information'}" %>
+  <%= render 'shared/modal_header', title: (academic_info.new_record? ? t('section_form.add_academic_information') : t('section_form.edit_academic_information')) %>
 
   <!-- Modal body -->
   <div class="modal-body">
     <div class="form_input_fields pl-2 pr-2">
 
       <div class="form-group">
-        <%= f.text_field :degree, class: 'form-control sign_up-input-field', placeholder:'Degree', data: {toggle: 'tooltip', placement: 'top'}, title: 'Degree' %>
+        <%= f.text_field :degree, class: 'form-control sign_up-input-field', placeholder:t('section_form.degree'), data: {toggle: 'tooltip', placement: 'top'}, title: t('section_form.degree') %>
       </div>
 
       <div class="form-group">
-        <%= f.text_field :institution, class: 'form-control sign_up-input-field', placeholder:'Institution', data: {toggle: 'tooltip', placement: 'top'}, title: 'Institution' %>
+        <%= f.text_field :institution, class: 'form-control sign_up-input-field', placeholder:t('section_form.institution'), data: {toggle: 'tooltip', placement: 'top'}, title: t('section_form.institution') %>
       </div>
 
       <div class="form-group">
-        <%= f.text_field :location, class: 'form-control sign_up-input-field', placeholder:'Location (City/Country)', data: {toggle: 'tooltip', placement: 'top'}, title: 'Location' %>
+        <%= f.text_field :location, class: 'form-control sign_up-input-field', placeholder:t('section_form.location_city_country'), data: {toggle: 'tooltip', placement: 'top'}, title: t('section_form.location') %>
       </div>
 
       <div class="form-group">
         <%= f.number_field :passing_year, min: 1900,
                            max: Date.today.year + 8,
                            class: 'form-control sign_up-input-field',
-                           placeholder:'Passing Year',
+                           placeholder:t('section_form.passing_year'),
                            data: {toggle: 'tooltip', placement: 'top'},
-                           title: 'Passing Year' %>
+                           title: t('section_form.passing_year') %>
       </div>
     </div>
   </div>

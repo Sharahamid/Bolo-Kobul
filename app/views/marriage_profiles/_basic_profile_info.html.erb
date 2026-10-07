@@ -94,7 +94,7 @@
               <tr>
                 <td> <%= t('profile.basic.willing_to_relocate') %></td>
                 <td>:</td>
-                <td><%= marriage_profile.cultural_value&.willing_to_relocate.present? ? User::BOOLEAN_DATA.keys[marriage_profile.cultural_value.willing_to_relocate] : '' %></td>
+                <td><%= marriage_profile.cultural_value&.willing_to_relocate.present? ? choice_label(:boolean_data, User::BOOLEAN_DATA.keys[marriage_profile.cultural_value.willing_to_relocate]) : '' %></td>
               </tr>
             <% end %>
             <% if marriage_profile&.marital_status.present? || current_active_profile.id == marriage_profile.id %>

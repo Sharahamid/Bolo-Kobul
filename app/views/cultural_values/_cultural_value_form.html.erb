@@ -1,6 +1,6 @@
 <%= form_for cultural_value, remote: true do |f| %>
   <!-- Modal Header -->
-  <%= render 'shared/modal_header', title: 'Cultural Value' %>
+  <%= render 'shared/modal_header', title: t('section_form.cultural_value') %>
 
   <!-- Modal body -->
   <div class="modal-body">
@@ -9,53 +9,53 @@
       <div class="form-group">
 
         <%= f.text_field :nationality,
-                         placeholder: 'Nationality',
+                         placeholder: t('section_form.nationality'),
                          class: 'form-control sign_up-input-field',
-                         title: 'Nationality',
+                         title: t('section_form.nationality'),
                          data: {toggle: 'tooltip', placement: 'top'} %>
-        <small class="text-danger"> <%= f.object.errors[:nationality].present? ? "Nationality #{f.object.errors[:nationality]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:nationality].present? ? f.object.errors.full_messages_for(:nationality).first : '' %> </small>
       </div>
 
       <div class="form-group">
-        <%= f.select :birth_place, District.order(:name).pluck(:name, :id),
-                     {prompt: 'Birth Place'},
+        <%= f.select :birth_place, District.order(:name).pluck(:name, :id).map { |name, id| [I18n.locale == :bn ? district_label(name) : name, id] },
+                     {prompt: t('section_form.birth_place')},
                      class: 'form-control sign_up-input-field',
                      data: {toggle: "tooltip", placement: "top" },
-                     title:'Birth Place' %>
-        <small class="text-danger"> <%= f.object.errors[:birth_place].present? ? "Birth Place #{f.object.errors[:birth_place]&.first}" : '' %> </small>
+                     title:t('section_form.birth_place') %>
+        <small class="text-danger"> <%= f.object.errors[:birth_place].present? ? f.object.errors.full_messages_for(:birth_place).first : '' %> </small>
       </div>
       <div id="birth_place_abroad_fields" class="mb-3" style="display:none;">
         <div class="row mt-2">
           <div class="col-6">
-	    <%= f.select :birth_place_country, options_for_select(Country.order(:name).pluck(:name), f.object.birth_place_country), {prompt: 'Country*'}, class: 'form-control sign_up-input-field', id: 'birth_place_country_input' %>
+	    <%= f.select :birth_place_country, options_for_select(Country.order(:name).pluck(:name), f.object.birth_place_country), {prompt: t('section_form.country_req')}, class: 'form-control sign_up-input-field', id: 'birth_place_country_input' %>
           </div>
           <div class="col-6">
-            <%= f.text_field :birth_place_city, placeholder: 'City*', class: 'form-control sign_up-input-field', id: 'birth_place_city_input' %>
+            <%= f.text_field :birth_place_city, placeholder: t('section_form.city_req'), class: 'form-control sign_up-input-field', id: 'birth_place_city_input' %>
           </div>
         </div>
       </div>
 
 
       <div class="form-group">
-        <%= f.select :mother_tongue, User::LANGUAGES,
-                     {prompt: 'Mother Tongue'},
+        <%= f.select :mother_tongue, choice_options(:languages),
+                     {prompt: t('section_form.mother_tongue')},
                      class: 'form-control sign_up-input-field',
-                     title: 'Mother Tongue',
+                     title: t('section_form.mother_tongue'),
                      data: {toggle: 'tooltip', placement:'top'}
         %>
-        <small class="text-danger"> <%= f.object.errors[:mother_tongue].present? ? "Mother Tongue #{f.object.errors[:mother_tongue]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:mother_tongue].present? ? f.object.errors.full_messages_for(:mother_tongue).first : '' %> </small>
       </div>
 
       <div class="form-group">
-        <%= f.label :languages_spoken, 'Languages Spoken :' %><br/>
+        <%= f.label :languages_spoken, t('section_form.languages_spoken') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::LANGUAGES.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "cultural_value[languages_spoken][]",
                                 id,
                                 checked_languages_spoken(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:languages, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:languages, value) %>
               </span>
             </label>
           <% end %>
@@ -74,33 +74,33 @@
       </div>
 
       <div class="form-group">
-        <%= f.select :born_or_reverted, User::BORN_OR_REVERTED,
-                     {prompt: 'Born Or Reverted'},
+        <%= f.select :born_or_reverted, choice_options(:born_or_reverted),
+                     {prompt: t('section_form.born_or_reverted')},
                      class: 'form-control sign_up-input-field',
-                     title: 'Born Or Reverted',
+                     title: t('section_form.born_or_reverted'),
                      data: {toggle: 'tooltip', placement:'top'}
         %>
-        <small class="text-danger"> <%= f.object.errors[:born_or_reverted].present? ? "Born or Reverted #{f.object.errors[:born_or_reverted]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:born_or_reverted].present? ? f.object.errors.full_messages_for(:born_or_reverted).first : '' %> </small>
       </div>
 
       <div class="form-group">
-        <%= f.select :attend_religious_event, User::BOOLEAN_DATA,
-                     {prompt: 'Attend Religious Events'},
+        <%= f.select :attend_religious_event, choice_options(:boolean_data),
+                     {prompt: t('section_form.attend_religious_events')},
                      class: 'form-control sign_up-input-field',
-                     title: 'Attend religious events',
+                     title: t('section_form.attend_religious_events_lc'),
                      data: {toggle: 'tooltip', placement:'top'}
         %>
-        <small class="text-danger"> <%= f.object.errors[:attend_religious_event].present? ? "Attend religious events #{f.object.errors[:attend_religious_event]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:attend_religious_event].present? ? f.object.errors.full_messages_for(:attend_religious_event).first : '' %> </small>
       </div>
 
       <div class="form-group">
         <%= f.text_area :political_view,
-                        placeholder: 'Political View',
+                        placeholder: t('section_form.political_view'),
                      class: 'form-control sign_up-input-field',
-                     title: 'Political View',
+                     title: t('section_form.political_view'),
                      data: {toggle: 'tooltip', placement:'top'}
         %>
-        <small class="text-danger"> <%= f.object.errors[:political_view].present? ? "Mother Tongue #{f.object.errors[:political_view]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:political_view].present? ? f.object.errors.full_messages_for(:political_view).first : '' %> </small>
       </div>
 
 

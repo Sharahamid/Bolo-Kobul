@@ -29,7 +29,7 @@
             <tbody>
               <% if marriage_profile.about_my_self? || marriage_profile.id == current_active_profile.id %>
                 <tr class="p-2">
-                  <td class="special-td"> About Myself</td>
+                  <td class="special-td"> <%= t('profile.about.about_myself') %></td>
                   <td>:</td>
                   <td class=" text-justify pr-5">
                     <%= marriage_profile.about_my_self? ? marriage_profile.about_my_self : '' %>

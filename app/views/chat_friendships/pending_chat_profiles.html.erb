@@ -8,7 +8,7 @@
           <div class="partner-requests pb-4">
             <div style="background:#fff; border-radius:12px; border:0.5px solid #eee; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); margin:16px 12px 0;">
               <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:12px 18px; display:flex; align-items:center; justify-content:space-between;">
-                <span style="font-size:14px; font-weight:700; color:#633806;">Chat Requests Sent</span>
+                <span style="font-size:14px; font-weight:700; color:#633806;"><%= t('chat.chat_requests_sent') %></span>
                 <% if @pending_chat_profiles.present? %>
                   <span style="background:#633806; color:#FAC775; font-size:11px; padding:2px 10px; border-radius:20px; font-weight:600;"><%= @pending_chat_profiles.count %></span>
                 <% end %>
@@ -47,14 +47,14 @@
                       <div style="padding:0 14px 12px; display:flex; gap:8px;">
                         <%= link_to reject_request_chat_friendship_path(profile),
                                     method: :patch,
-                                    data: { confirm: "Cancel this Kobul 2 request?" },
+                                    data: { confirm: t('kobul.confirm.cancel_kobul_2_req') },
                                     style: "flex:1; text-align:center; font-size:12px; background:#FFF3CC; color:#854F0B; padding:6px; border-radius:8px; text-decoration:none; border:0.5px solid #FFB627; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
                           <%= t('kobul.kobul_2_pending') %>
                         <% end %>
                         <% if current_active_profile.favourite_profile_ids.include?(profile.id) %>
                           <%= link_to remove_favourites_path(favourite_profile_id: profile.id),
                                       method: :delete,
-                                      data: { confirm: "Remove from favourites?" },
+                                      data: { confirm: t('kobul.confirm.remove_favourite') },
                                       style: "flex:1; text-align:center; font-size:12px; background:#FCEBEB; color:#A32D2D; padding:6px; border-radius:8px; text-decoration:none; border:0.5px solid #F09595; display:flex; align-items:center; justify-content:center; gap:4px;" do %>
                             <i class="fa fa-heart"></i> <%= t('kobul.remove') %>
                           <% end %>

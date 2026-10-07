@@ -1,65 +1,65 @@
 <%= form_for occupation, remote:true do |f| %>
   <!-- Modal Header -->
-  <%= render 'shared/modal_header', title: "#{occupation.new_record? ? 'Add Occupation' : 'Edit Occupation'}" %>
+  <%= render 'shared/modal_header', title: (occupation.new_record? ? t('section_form.add_occupation') : t('section_form.edit_occupation')) %>
 
   <!-- Modal body -->
   <div class="modal-body">
     <div class="form_input_fields pl-2 pr-2">
 
       <div class="form-group">
-        <%= f.select :name, Occupation::names.map { |k, v| [Occupation::OCCUPATION_LABELS[k] || k.humanize, k] }, {prompt: 'Occupation*'}, required: true, class: 'form-control sign_up-input-field',
-                     data: {toggle:'tooltip', placement:'top'}, title:'Occupation', id: 'occupation_name' %>
-        <small class="text-danger"> <%= f.object.errors[:occupation_name].present? ? "Occupation* #{f.object.errors[:occupation_name]&.first}" : '' %> </small>
+        <%= f.select :name, Occupation::names.map { |k, v| [occupation_label(k), k] }, {prompt: t('section_form.occupation_req')}, required: true, class: 'form-control sign_up-input-field',
+                     data: {toggle:'tooltip', placement:'top'}, title:t('section_form.occupation'), id: 'occupation_name' %>
+        <small class="text-danger"> <%= f.object.errors[:occupation_name].present? ? f.object.errors.full_messages_for(:occupation_name).first : '' %> </small>
       </div>
 
       <div class="form-group required_for_working">
         <%= f.select :organization, options_for_select(Organization.order(:name).pluck(:name, :id), selected: Organization.get_organization(occupation.organization)&.id),
-                     {prompt: 'Organization*'}, required: true, class: 'form-control sign_up-input-field', data: {toggle:'tooltip', placement:'top'}, title:'Organization' %>
-        <small class="text-danger"> <%= f.object.errors[:designation].present? ? "Organization #{f.object.errors[:designation]&.first}" : '' %> </small>
+                     {prompt: t('section_form.organization_req')}, required: true, class: 'form-control sign_up-input-field', data: {toggle:'tooltip', placement:'top'}, title:t('section_form.organization') %>
+        <small class="text-danger"> <%= f.object.errors[:designation].present? ? f.object.errors.full_messages_for(:designation).first : '' %> </small>
       </div>
       <div class="form-group" id="other_organization_field" style="display:none;">
-        <%= f.text_field :other_organization, placeholder: 'Please specify your organization*', class: 'form-control sign_up-input-field', id: 'other_organization_input' %>
+        <%= f.text_field :other_organization, placeholder: t('section_form.please_specify_your_organization_req'), class: 'form-control sign_up-input-field', id: 'other_organization_input' %>
       </div>
 
       <div class="form-group required_for_working">
-        <%= f.select :employment_status, Occupation::employment_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
-                     {prompt: 'Employment Status*'}, required: true, class: 'form-control sign_up-input-field', data: {toggle:'tooltip', placement:'top'}, title:'Employment Status*' %>
-        <small class="text-danger"> <%= f.object.errors[:employment_status].present? ? "Employment Status* #{f.object.errors[:employment_status]&.first}" : '' %> </small>
+        <%= f.select :employment_status, enum_options(:occupation, :employment_status, Occupation::employment_statuses.sort_by { |k, v| k }.to_h.keys),
+                     {prompt: t('section_form.employment_status_req')}, required: true, class: 'form-control sign_up-input-field', data: {toggle:'tooltip', placement:'top'}, title:t('section_form.employment_status_req') %>
+        <small class="text-danger"> <%= f.object.errors[:employment_status].present? ? f.object.errors.full_messages_for(:employment_status).first : '' %> </small>
       </div>
 
       <div class="form-group required_for_working">
         <%= f.text_field :company_name,
                          required: true,
-                         placeholder: 'Company Name*',
+                         placeholder: t('section_form.company_name_req'),
                          class: 'form-control sign_up-input-field',
-                         data: {toggle:'tooltip', placement:'top'}, title:'Company Name*' %>
-        <small class="text-danger"> <%= f.object.errors[:company_name].present? ? "Company Name #{f.object.errors[:company_name]&.first}" : '' %> </small>
+                         data: {toggle:'tooltip', placement:'top'}, title:t('section_form.company_name_req') %>
+        <small class="text-danger"> <%= f.object.errors[:company_name].present? ? f.object.errors.full_messages_for(:company_name).first : '' %> </small>
       </div>
 
       <div class="form-group required_for_working">
         <%= f.text_field :designation,
                          required: true,
-                         placeholder: 'Designation*',
+                         placeholder: t('section_form.designation_req'),
                          class: 'form-control sign_up-input-field',
-                     data: {toggle:'tooltip', placement:'top'}, title:'Designation*' %>
-        <small class="text-danger"> <%= f.object.errors[:designation].present? ? "Designation #{f.object.errors[:designation]&.first}" : '' %> </small>
+                     data: {toggle:'tooltip', placement:'top'}, title:t('section_form.designation_req') %>
+        <small class="text-danger"> <%= f.object.errors[:designation].present? ? f.object.errors.full_messages_for(:designation).first : '' %> </small>
       </div>
 
       <div class="form-group required_for_working">
         <%= f.select :monthly_income, Occupation::monthly_incomes.reject { |k, v| k == "above_tk._150,000" }.map { |k, v| [k.gsub("_", " ").gsub("tk.", "Tk."), k] },
-                     {prompt: 'Monthly Income*'},
+                     {prompt: t('section_form.monthly_income_req')},
                      required: true, class: 'form-control sign_up-input-field',
-                     data: {toggle:'tooltip', placement:'top'}, title:'Monthly Income*' %>
-        <small class="text-danger"> <%= f.object.errors[:monthly_income].present? ? "Monthly Income* #{f.object.errors[:monthly_income]&.first}" : '' %> </small>
+                     data: {toggle:'tooltip', placement:'top'}, title:t('section_form.monthly_income_req') %>
+        <small class="text-danger"> <%= f.object.errors[:monthly_income].present? ? f.object.errors.full_messages_for(:monthly_income).first : '' %> </small>
       </div>
 
       <div class="form-group required_for_working"> 
 	<div class="d-flex flex-row mb-1">
           <div class="flex-fill pr-1">
-            <small><strong>Start Date</strong></small>
+            <small><strong><%= t('section_form.start_date') %></strong></small>
           </div>
           <div class="flex-fill pl-1">
-            <small><strong>End Date</strong></small>
+            <small><strong><%= t('section_form.end_date') %></strong></small>
           </div>
         </div>
         <div class=" d-flex flex-row">
@@ -68,17 +68,17 @@
                              autofocus: true,
                              autocomplete: "start_date",
                              class: 'form-control sign_up-input-field',
-                             placeholder: 'Start Date*', required: true,
-                             data: {toggle:'tooltip', placement:'top'}, title:'Start Date*' %>
-            <small class="text-danger"> <%= f.object.errors[:start_date].present? ? "Start Date #{f.object.errors[:start_date]&.first}" : '' %> </small>
+                             placeholder: t('section_form.start_date_req'), required: true,
+                             data: {toggle:'tooltip', placement:'top'}, title:t('section_form.start_date_req') %>
+            <small class="text-danger"> <%= f.object.errors[:start_date].present? ? f.object.errors.full_messages_for(:start_date).first : '' %> </small>
           </div>
           <div class="flex-fill pl-1" id="occupation_end_date">
             <%= f.date_field :end_date, max: Date.today,
                              autofocus: true,
                              autocomplete: "end_date",
                              class: 'form-control sign_up-input-field',
-                             data: {toggle:'tooltip', placement:'top'}, title:'End Date*' %>
-            <small class="text-danger"> <%= f.object.errors[:end_date].present? ? "End Date #{f.object.errors[:end_date]&.first}" : '' %> </small>
+                             data: {toggle:'tooltip', placement:'top'}, title:t('section_form.end_date_req') %>
+            <small class="text-danger"> <%= f.object.errors[:end_date].present? ? f.object.errors.full_messages_for(:end_date).first : '' %> </small>
           </div>
         </div>
       </div>

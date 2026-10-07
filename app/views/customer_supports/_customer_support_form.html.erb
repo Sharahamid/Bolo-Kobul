@@ -2,48 +2,48 @@
 
   <!-- Issue type -->
   <div style="margin-bottom:14px;">
-    <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;">Issue Type*</label>
+    <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;"><%= t('support.issue_type') %></label>
     <%= f.select :issue_type,
-                 IssueType.order(:name).pluck(:name),
-                 { prompt: 'Select An Issue' },
+                 IssueType.order(:name).pluck(:name).map { |name| [choice_label(:issue_types, name), name] },
+                 { prompt: t('support.select_issue') },
                  required: true,
                  style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:10px 14px; font-size:13px; color:#555; box-sizing:border-box;" %>
     <small style="color:#e53e3e; font-size:11px;">
-      <%= f.object.errors[:issue_type].present? ? "Issue type #{f.object.errors[:issue_type]&.first}" : '' %>
+      <%= f.object.errors[:issue_type].present? ? f.object.errors.full_messages_for(:issue_type).first : '' %>
     </small>
   </div>
 
   <!-- Description -->
   <div style="margin-bottom:14px;">
-    <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;">Description*</label>
+    <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;"><%= t('support.description_req') %></label>
     <%= f.text_area :description,
                     required: true,
-                    placeholder: 'Describe your issue in detail...',
+                    placeholder: t('support.describe'),
                     style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:10px 14px; font-size:13px; color:#555; min-height:110px; resize:vertical; box-sizing:border-box;" %>
     <small style="color:#e53e3e; font-size:11px;">
-      <%= f.object.errors[:description].present? ? "Description #{f.object.errors[:description]&.first}" : '' %>
+      <%= f.object.errors[:description].present? ? f.object.errors.full_messages_for(:description).first : '' %>
     </small>
   </div>
 
   <!-- File upload -->
   <div style="margin-bottom:20px;">
-    <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;">Attach an Image (optional)</label>
+    <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;"><%= t('support.attach_image') %></label>
     <div style="background:#fafaf8; border:0.5px dashed #FAC775; border-radius:8px; padding:14px; text-align:center;">
       <i class="fas fa-paperclip" style="color:#EF9F27; font-size:20px; margin-bottom:6px; display:block;"></i>
-      <p style="font-size:12px; color:#aaa; margin:0 0 8px;">Click to upload JPG or PNG</p>
+      <p style="font-size:12px; color:#aaa; margin:0 0 8px;"><%= t('support.upload_hint') %></p>
       <%= f.file_field :customer_attachment,
                        accept: 'application/jpg, application/jpeg, application/png',
                        style: "font-size:12px;" %>
       <div id="customer-uploaded-filename" style="font-size:12px; color:#633806; margin-top:6px;"></div>
     </div>
     <small style="color:#e53e3e; font-size:11px;">
-      <%= f.object.errors[:customer_attachment].present? ? "Attachment #{f.object.errors[:customer_attachment]&.first}" : '' %>
+      <%= f.object.errors[:customer_attachment].present? ? f.object.errors.full_messages_for(:customer_attachment).first : '' %>
     </small>
   </div>
 
   <!-- Submit -->
   <button type="submit" style="width:100%; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#412402; border:none; border-radius:8px; padding:12px; font-size:14px; font-weight:700; cursor:pointer;">
-    Submit Request
+    <%= t('support.submit') %>
   </button>
 
 <% end %>

@@ -2,9 +2,9 @@
 <div class="float-right ">
   <%= link_to toggle_update_privacy_setting_path(privacy_setting.id, privacy_column: field_name), method: :put, class:'btn btn-sm btn-warning text-white' do %>
     <% if privacy_setting.send "#{field_name}_public?" %>
-      <i class="fas fa-user-lock" title="Set As Private" data-toggle="tooltip" data-placement="top"></i>Change
+      <i class="fas fa-user-lock" title="<%= t('settings.set_private') %>" data-toggle="tooltip" data-placement="top"></i><%= t('settings.change') %>
     <% else %>
-      <i class="fas fa-users" title="Set As Public" data-toggle="tooltip" data-placement="top"></i>Change
+      <i class="fas fa-users" title="<%= t('settings.set_public') %>" data-toggle="tooltip" data-placement="top"></i><%= t('settings.change') %>
     <% end %>
   <% end %>
 </div>

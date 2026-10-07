@@ -16,11 +16,15 @@ module ApplicationHelper
 
   def get_date_format(date)
     date = date.localtime
+    return local_date(date) if I18n.locale == :bn
+
     date.strftime("%b %d, %Y")
   end
 
   def get_datetime_format(datetime)
     date = datetime.localtime
+    return "#{local_date(date)}, #{local_digits(date.strftime('%-l:%M'))} #{date.hour < 12 ? 'এএম' : 'পিএম'}" if I18n.locale == :bn
+
     date.strftime("%d %b %Y %l:%M %p")
   end
 
@@ -78,12 +82,13 @@ module ApplicationHelper
   # (Google Play's payments policy): "...left. Get more ...! <a href='/orders/new'>...</a>"
   # becomes "...left."
   def notification_text(content)
-    return content unless play_store_app?
-
-    content.to_s
-           .gsub(%r{\s*<a [^>]*href=['"]/orders/new['"][^>]*>.*?</a>}im, '')
-           .gsub(/\s*(Purchase|Get) more\b[^.!<]*[.!]/i, '')
-           .strip
+    if play_store_app?
+      content = content.to_s
+                       .gsub(%r{\s*<a [^>]*href=['"]/orders/new['"][^>]*>.*?</a>}im, '')
+                       .gsub(/\s*(Purchase|Get) more\b[^.!<]*[.!]/i, '')
+                       .strip
+    end
+    I18n.locale == :bn ? bangla_notification(content) : content
   end
 
   # A time shown in the viewer's own time zone: public/local-times.js rewrites it in the

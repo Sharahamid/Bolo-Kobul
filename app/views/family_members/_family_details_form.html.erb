@@ -1,62 +1,62 @@
 <%= form_for family_member, remote: true do |f| %>
-  <%= render 'shared/modal_header', title: family_member.new_record? ? 'Add Family Member' : 'Edit Family Member', f: f %>
+  <%= render 'shared/modal_header', title: family_member.new_record? ? t('section_form.add_family_member') : t('section_form.edit_family_member'), f: f %>
   <div class="modal-body">
     <div class="form_input_fields pl-2 pr-2">
       <div class="form-group">
-        <%= f.text_field :name, placeholder: 'Name*', required: true, class: 'form-control sign_up-input-field' %>
-        <small class="text-danger"> <%= f.object.errors[:name].present? ? "Name* #{f.object.errors[:name]&.first}" : '' %> </small>
+        <%= f.text_field :name, placeholder: t('section_form.name_req'), required: true, class: 'form-control sign_up-input-field' %>
+        <small class="text-danger"> <%= f.object.errors[:name].present? ? f.object.errors.full_messages_for(:name).first : '' %> </small>
       </div>
       <div class="form-group">
-        <%= f.select :occupation, FamilyMember::occupations.map { |k, v| [FamilyMember::FAMILY_OCCUPATION_LABELS[k] || k.humanize, k] },
-                     {prompt: 'Occupation*'},
+        <%= f.select :occupation, FamilyMember::occupations.map { |k, v| [I18n.t("occupations.#{k}", default: FamilyMember::FAMILY_OCCUPATION_LABELS[k] || k.humanize), k] },
+                     {prompt: t('section_form.occupation_req')},
                      class: 'form-control sign_up-input-field js-family-occupation',
-                     title: 'Occupation*', required: true,
+                     title: t('section_form.occupation_req'), required: true,
                      data: {toggle: 'tooltip', placement: 'top'} %>
-        <small class="text-danger"> <%= f.object.errors[:occupation].present? ? "Occupation* #{f.object.errors[:occupation]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:occupation].present? ? f.object.errors.full_messages_for(:occupation).first : '' %> </small>
       </div>
       <div class="form-group required_for_family_working">
         <%= f.select :organization, options_for_select(Organization.order(:name).pluck(:name, :id), selected: f.object.organization),
-                     {prompt: 'Organization'},
+                     {prompt: t('section_form.organization')},
                      class: 'form-control sign_up-input-field js-family-org' %>
       </div>
       <div class="form-group required_for_family_working" id="family_other_org_field" style="display:none;">
-        <%= f.text_field :other_organization, placeholder: 'Please specify organization', class: 'form-control sign_up-input-field', id: 'family_other_org_input' %>
+        <%= f.text_field :other_organization, placeholder: t('section_form.please_specify_organization'), class: 'form-control sign_up-input-field', id: 'family_other_org_input' %>
       </div>
       <div class="form-group required_for_family_working">
-        <%= f.text_field :company_name, placeholder: 'Company Name', class: 'form-control sign_up-input-field' %>
+        <%= f.text_field :company_name, placeholder: t('section_form.company_name'), class: 'form-control sign_up-input-field' %>
       </div>
       <div class="form-group required_for_family_working">
-        <%= f.text_field :designation, placeholder: 'Designation', class: 'form-control sign_up-input-field' %>
+        <%= f.text_field :designation, placeholder: t('section_form.designation'), class: 'form-control sign_up-input-field' %>
       </div>
       <div class="form-group">
         <%= f.select :relation, FamilyMember::relations.to_h.map { |k, v| [k.titleize, k] },
-                     {prompt: 'Relation*'},
+                     {prompt: t('section_form.relation_req')},
                      class: 'form-control sign_up-input-field js-relation',
-                     title: 'Relation*', required: true,
+                     title: t('section_form.relation_req'), required: true,
                      data: {toggle: 'tooltip', placement: 'top'} %>
-        <small class="text-danger"> <%= f.object.errors[:relation].present? ? "Relation* #{f.object.errors[:relation]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:relation].present? ? f.object.errors.full_messages_for(:relation).first : '' %> </small>
       </div>
       <div class="form-group">
-        <%= f.select :marital_status, FamilyMember::marital_statuses.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
-                     {prompt: 'Marital Status'},
+        <%= f.select :marital_status, enum_options(:family_member, :marital_status, FamilyMember::marital_statuses.sort_by { |k, v| k }.to_h.keys),
+                     {prompt: t('section_form.marital_status')},
                      class: 'form-control sign_up-input-field js-marital-status',
-                     title: 'Marital Status*',
+                     title: t('section_form.marital_status_req'),
                      data: {toggle: 'tooltip', placement: 'top'} %>
-        <small class="text-danger"> <%= f.object.errors[:marital_status].present? ? "Relation* #{f.object.errors[:marital_status]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:marital_status].present? ? f.object.errors.full_messages_for(:marital_status).first : '' %> </small>
       </div>
       <div class="form-group">
-        <%= f.select :residence_type, FamilyMember::residence_types.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] },
-                     {prompt: 'Residence Type*'},
+        <%= f.select :residence_type, enum_options(:family_member, :residence_type, FamilyMember::residence_types.sort_by { |k, v| k }.to_h.keys),
+                     {prompt: t('section_form.residence_type_req')},
                      class: 'form-control sign_up-input-field',
-                     title: 'Residence Type*', required: true,
+                     title: t('section_form.residence_type_req'), required: true,
                      data: {toggle: 'tooltip', placement: 'top'} %>
-        <small class="text-danger"> <%= f.object.errors[:residence_type].present? ? "Residence Type* #{f.object.errors[:residence_type]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:residence_type].present? ? f.object.errors.full_messages_for(:residence_type).first : '' %> </small>
       </div>
       <div class="form-group">
-        <%= f.text_field :permanent_address, placeholder: 'Permanent Address',
-                        title: 'Permanent Address', data: {toggle: 'tooltip', placement: 'top'},
+        <%= f.text_field :permanent_address, placeholder: t('section_form.permanent_address'),
+                        title: t('section_form.permanent_address'), data: {toggle: 'tooltip', placement: 'top'},
                         class: 'form-control sign_up-input-field' %>
-        <small class="text-danger"> <%= f.object.errors[:permanent_address].present? ? "Description #{f.object.errors[:permanent_address]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:permanent_address].present? ? f.object.errors.full_messages_for(:permanent_address).first : '' %> </small>
       </div>
     </div>
   </div>

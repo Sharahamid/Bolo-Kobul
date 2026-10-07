@@ -3,7 +3,7 @@
 
     <!-- Header -->
     <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
-      <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0;">About Us</h2>
+      <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0;"><%= t('nav.about_us') %></h2>
     </div>
 
     <!-- Two column body -->
@@ -29,14 +29,14 @@
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:14px; border-top:0.5px solid #eee;">
               <% if index > 0 %>
-                <button onclick="bkShowAbout(<%= index - 1 %>)" style="background:#FFF3CC; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; cursor:pointer;">← Previous</button>
+                <button onclick="bkShowAbout(<%= index - 1 %>)" style="background:#FFF3CC; color:#854F0B; border:0.5px solid #FFB627; border-radius:8px; padding:8px 16px; font-size:12px; font-weight:600; cursor:pointer;"><%= t('about_page.previous') %></button>
               <% else %>
                 <span></span>
               <% end %>
               <% if index < about_content.count - 1 %>
-                <button onclick="bkShowAbout(<%= index + 1 %>)" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:8px 20px; font-size:12px; font-weight:600; cursor:pointer;">Next: <%= about_content[index + 1]&.content_type %> →</button>
+                <button onclick="bkShowAbout(<%= index + 1 %>)" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:8px 20px; font-size:12px; font-weight:600; cursor:pointer;"><%= t('about_page.next', title: about_content[index + 1]&.content_type) %></button>
               <% else %>
-                <span style="font-size:12px; color:#aaa;">End of About Us</span>
+                <span style="font-size:12px; color:#aaa;"><%= t('about_page.end') %></span>
               <% end %>
             </div>
           </div>

@@ -97,11 +97,11 @@ $(function () {
         },
         {
             connected() {
-                box.setAttribute('placeholder', 'Send message...');
+                box.setAttribute('placeholder', box.getAttribute('data-placeholder-connected') || 'Send message...');
             },
 
             disconnected() {
-                box.setAttribute('placeholder', 'Connecting...');
+                box.setAttribute('placeholder', box.getAttribute('data-placeholder-connecting') || 'Connecting...');
             },
 
             received(data) {

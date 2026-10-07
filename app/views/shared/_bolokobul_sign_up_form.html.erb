@@ -17,7 +17,7 @@
                          class: 'form-control sign_up-input-field',
                          placeholder: t('signup.full_name') %>
         <small class="text-danger">
-          <%= f.object.errors[:name].present? ? "Name #{f.object.errors[:name]&.first}" : '' %>
+          <%= f.object.errors[:name].present? ? f.object.errors.full_messages_for(:name).first : '' %>
         </small>
       </div>
       <div class="<%= f.object.errors[:email].present? ? '' : 'custom-form-group' %>">
@@ -28,7 +28,7 @@
                           placeholder: t('signup.email'),
                           required: true %>
         <small class="text-danger">
-          <%= f.object.errors[:email].present? ? "Email #{f.object.errors[:email]&.first}" : '' %>
+          <%= f.object.errors[:email].present? ? f.object.errors.full_messages_for(:email).first : '' %>
         </small>
       </div>
 
@@ -40,7 +40,7 @@
                           placeholder: t('signup.mobile'),
                           required: true %>
         <small class="text-danger">
-          <%= f.object.errors[:phone_number].present? ? "Mobile #{f.object.errors[:phone_number]&.first}" : '' %>
+          <%= f.object.errors[:phone_number].present? ? f.object.errors.full_messages_for(:phone_number).first : '' %>
         </small>
       </div>
 
@@ -62,7 +62,7 @@
           </button>
         </div>
         <small class="text-danger">
-          <%= f.object.errors[:password].present? ? "Password #{f.object.errors[:password]&.first}" : '' %>
+          <%= f.object.errors[:password].present? ? f.object.errors.full_messages_for(:password).first : '' %>
         </small>
       </div>
 
@@ -90,7 +90,7 @@
                                             .map { |k, v| [enum_label(:user, :created_for, k), k] }),
                      {prompt: t('signup.created_for')}, class: 'form-control sign_up-input-field', required: true %>
         <small class="text-danger">
-          <%= f.object.errors[:created_for].present? ? "Created For #{f.object.errors[:created_for]&.first}" : '' %>
+          <%= f.object.errors[:created_for].present? ? f.object.errors.full_messages_for(:created_for).first : '' %>
         </small>
       </div>
 

@@ -51,7 +51,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.cultural_value&.birth_place.present? ?
-                          District.get_district(marriage_profile&.cultural_value.birth_place).name : '' %>
+                          district_label(District.get_district(marriage_profile&.cultural_value.birth_place)&.name) : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -62,7 +62,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.mother_tongue.present? ?
-                          User::MOTHER_TONGUE.keys[marriage_profile&.cultural_value&.mother_tongue] : '' %>
+                          choice_label(:mother_tongue, User::MOTHER_TONGUE.keys[marriage_profile&.cultural_value&.mother_tongue]) : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -73,7 +73,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.cultural_value&.languages_spoken.present? ?
-                          marriage_profile.cultural_value.languages_spoken.map{|ds| User::LANGUAGES.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.cultural_value.languages_spoken.map{|ds| choice_label(:languages, User::LANGUAGES.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -88,7 +88,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.religion.present? ?
-                        religion_label(User::RELIGION.keys[marriage_profile.cultural_value.religion]) : '' %>
+                        religion_label(choice_label(:religion, User::RELIGION.keys[marriage_profile.cultural_value.religion])) : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -99,7 +99,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.born_or_reverted.present? ?
-                          User::BORN_OR_REVERTED.keys[marriage_profile&.cultural_value&.born_or_reverted] : '' %>
+                          choice_label(:born_or_reverted, User::BORN_OR_REVERTED.keys[marriage_profile&.cultural_value&.born_or_reverted]) : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -110,7 +110,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.attend_religious_event.present? ?
-                          User::BOOLEAN_DATA.keys[marriage_profile&.cultural_value&.attend_religious_event] : '' %>
+                          choice_label(:boolean_data, User::BOOLEAN_DATA.keys[marriage_profile&.cultural_value&.attend_religious_event]) : '' %>
                   </td>
                 </tr>
               <% end %>

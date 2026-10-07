@@ -38,7 +38,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.hobby.present? ?
-                          marriage_profile.hobbies_and_interest.hobby.map{|ds| User::HOBBIES.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.hobby.map{|ds| choice_label(:hobbies, User::HOBBIES.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -49,7 +49,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.interest.present? ?
-                          marriage_profile.hobbies_and_interest.interest.map{|ds| User::INTEREST.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.interest.map{|ds| choice_label(:interest, User::INTEREST.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -60,7 +60,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.music.present? ?
-                          marriage_profile.hobbies_and_interest.music.map{|ds| User::FAVOURITE_MUSIC.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.music.map{|ds| choice_label(:favourite_music, User::FAVOURITE_MUSIC.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -82,7 +82,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.read.present? ?
-                          marriage_profile.hobbies_and_interest.read.map{|ds| User::FAVOURITE_BOOK.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.read.map{|ds| choice_label(:favourite_book, User::FAVOURITE_BOOK.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -104,7 +104,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.favourite_movie? ?
-                          marriage_profile.hobbies_and_interest.favourite_movie.map{|ds| User::FAVOURITE_MOVIE.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.favourite_movie.map{|ds| choice_label(:favourite_movie, User::FAVOURITE_MOVIE.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -119,7 +119,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.favourite_tv_show? ?
-                          marriage_profile.hobbies_and_interest.favourite_tv_show.map{|ds| User::FAVOURITE_TV_SHOW.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.favourite_tv_show.map{|ds| choice_label(:favourite_tv_show, User::FAVOURITE_TV_SHOW.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -130,7 +130,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.favourite_sports_show? ?
-                          marriage_profile.hobbies_and_interest.favourite_sports_show.map{|ds| User::FAVOURITE_SPORTS.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.favourite_sports_show.map{|ds| choice_label(:favourite_sports, User::FAVOURITE_SPORTS.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -141,7 +141,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.fitness_activity? ?
-                          marriage_profile.hobbies_and_interest.fitness_activity.map{|ds| User::FITNESS_ACTIVITIES.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.fitness_activity.map{|ds| choice_label(:fitness_activities, User::FITNESS_ACTIVITIES.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -152,7 +152,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.cuisine.present? ?
-                          marriage_profile.hobbies_and_interest.cuisine.map{|ds| User::FAVOURITE_CUISINE.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.cuisine.map{|ds| choice_label(:favourite_cuisine, User::FAVOURITE_CUISINE.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
               <% end %>
@@ -163,7 +163,7 @@
                   <td>:</td>
                   <td>
                     <%= marriage_profile.hobbies_and_interest&.travel.present? ?
-                          marriage_profile.hobbies_and_interest.travel.map{|ds| User::TRAVEL.keys[ds.to_i]}.join(', ') : '' %>
+                          marriage_profile.hobbies_and_interest.travel.map{|ds| choice_label(:travel, User::TRAVEL.keys[ds.to_i])}.join(', ') : '' %>
                   </td>
                 </tr>
                <% end %>

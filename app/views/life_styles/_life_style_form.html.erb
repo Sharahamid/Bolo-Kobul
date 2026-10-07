@@ -1,6 +1,6 @@
 <%= form_for life_style, remote: true do |f| %>
   <!-- Modal Header -->
-  <%= render 'shared/modal_header', title: 'Life Style' %>
+  <%= render 'shared/modal_header', title: t('section_form.life_style') %>
 
   <!-- Modal body -->
   <div class="modal-body">
@@ -8,48 +8,48 @@
 
       <div class="form-group">
         <%= f.select :drinker,
-                     User::DRINK_SMOKE_DATA,
-                     {prompt: 'Do you drink?'},
-                     title: 'Do you drink?',
+                     choice_options(:drink_smoke_data),
+                     {prompt: t('section_form.do_you_drink')},
+                     title: t('section_form.do_you_drink'),
                      data: {toggle: 'tooltip', placement: 'top'},
                      class: 'form-control sign_up-input-field' %>
         <small class="text-danger">
-          <%= f.object.errors[:drinker].present? ? "Food Habits #{f.object.errors[:drinker]&.first}" : '' %>
+          <%= f.object.errors[:drinker].present? ? f.object.errors.full_messages_for(:drinker).first : '' %>
         </small>
       </div>
 
       <div class="form-group">
-        <%= f.select :smoker, User::DRINK_SMOKE_DATA, {prompt: 'Do you smoke?'},
-                     title: 'Do you smoke?',
+        <%= f.select :smoker, choice_options(:drink_smoke_data), {prompt: t('section_form.do_you_smoke')},
+                     title: t('section_form.do_you_smoke'),
                      data: {toggle: 'tooltip', placement: 'top'},
                      class: 'form-control sign_up-input-field' %>
         <small class="text-danger">
-          <%= f.object.errors[:smoker].present? ? "Food Habits #{f.object.errors[:smoker]&.first}" : '' %>
+          <%= f.object.errors[:smoker].present? ? f.object.errors.full_messages_for(:smoker).first : '' %>
         </small>
       </div>
 
       <div class="form-group">
         <%= f.select :food_habits,
-                     User::FOOD_HABITS,
-                     {prompt: 'Food Habits'},
-                     title: 'Food Habits',
+                     choice_options(:food_habits),
+                     {prompt: t('section_form.food_habits')},
+                     title: t('section_form.food_habits'),
                      data: {toggle: 'tooltip', placement: 'top'},
                      class: 'form-control sign_up-input-field' %>
         <small class="text-danger">
-          <%= f.object.errors[:food_habits].present? ? "Food Habits #{f.object.errors[:food_habits]&.first}" : '' %>
+          <%= f.object.errors[:food_habits].present? ? f.object.errors.full_messages_for(:food_habits).first : '' %>
         </small>
       </div>
 
       <div class="form-group">
-        <%= f.label :dress_style, 'Dress Style :' %><br/>
+        <%= f.label :dress_style, t('section_form.dress_style') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::DRESS_STYLE.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "life_style[dress_style][]",
                                 id ,
                                 checked_dress_style(id)%>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:dress_style, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:dress_style, value) %>
               </span>
             </label>
           <% end %>
@@ -58,15 +58,15 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :living_with, 'Living With : ' %><br/>
+        <%= f.label :living_with, t('section_form.living_with') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::LIVING_WITH.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "life_style[living_with][]",
                                 id,
                                 checked_living_with(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:living_with, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:living_with, value) %>
               </span>
             </label>
           <% end %>
@@ -76,8 +76,8 @@
       <div>
         <%= f.text_area :specific_habits,
                         class: 'form-control',
-                        placeholder: 'Any Specific Habits You want to share?',
-                        title: 'Any Specific Habits You want to share?',
+                        placeholder: t('section_form.any_specific_habits_you_want_to_share'),
+                        title: t('section_form.any_specific_habits_you_want_to_share'),
                         data: {toggle: 'tooltip', placement: 'top'}
         %>
       </div>
