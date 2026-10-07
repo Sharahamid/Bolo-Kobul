@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">🕌</span><strong>Cultural Values</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Religion · Traditions</span>
+          <span style="font-size:18px;margin-right:8px;">🕌</span><strong><%= t('profile.cultural.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.cultural.sub') %></span>
         </div>
         <div class="align-self-end pr-2">
           <a data-toggle="collapse" href="#collapse_cultural_values" class="align-self-end text-white">
@@ -36,7 +36,7 @@
             <tbody>
               <% if marriage_profile.cultural_value&.nationality.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td>Nationality</td>
+                  <td><%= t('profile.cultural.nationality') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile.cultural_value&.nationality.present? ?
@@ -47,7 +47,7 @@
 
               <% if marriage_profile.cultural_value&.birth_place.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td> Birth Place</td>
+                  <td> <%= t('profile.cultural.birth_place') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile.cultural_value&.birth_place.present? ?
@@ -58,7 +58,7 @@
 
               <% if marriage_profile.cultural_value&.mother_tongue.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td> Mother Tongue</td>
+                  <td> <%= t('profile.cultural.mother_tongue') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.mother_tongue.present? ?
@@ -69,7 +69,7 @@
 
               <% if marriage_profile.cultural_value&.languages_spoken.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td> Languages Spoken</td>
+                  <td> <%= t('profile.cultural.languages') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile.cultural_value&.languages_spoken.present? ?
@@ -84,18 +84,18 @@
             <tbody>
               <% if marriage_profile.cultural_value&.languages_spoken.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td> Religion</td>
+                  <td> <%= t('profile.cultural.religion') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.religion.present? ?
-                        User::RELIGION.keys[marriage_profile&.cultural_value&.religion] : '' %>
+                        religion_label(User::RELIGION.keys[marriage_profile.cultural_value.religion]) : '' %>
                   </td>
                 </tr>
               <% end %>
 
               <% if marriage_profile.cultural_value&.born_or_reverted.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td> Born/Reverted</td>
+                  <td> <%= t('profile.cultural.born_reverted') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.born_or_reverted.present? ?
@@ -106,7 +106,7 @@
 
               <% if marriage_profile.cultural_value&.attend_religious_event.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td> Attend Religious Events</td>
+                  <td> <%= t('profile.cultural.religious_events') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.attend_religious_event.present? ?
@@ -117,7 +117,7 @@
 
               <% if marriage_profile.cultural_value&.political_view.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
-                  <td> Political View</td>
+                  <td> <%= t('profile.cultural.political_view') %></td>
                   <td>:</td>
                   <td>
                     <%= marriage_profile&.cultural_value&.political_view || '' %>

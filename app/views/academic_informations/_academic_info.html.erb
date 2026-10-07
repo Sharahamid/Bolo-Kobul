@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">🎓</span><strong>Academic Information</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Education · Degree</span>
+          <span style="font-size:18px;margin-right:8px;">🎓</span><strong><%= t('profile.academic.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.academic.sub') %></span>
         </div>
         <div class="align-self-end pr-2">
           <a data-toggle="collapse" href="#collapse_academic_info" class="align-self-end text-white">
@@ -17,7 +17,7 @@
     <div id="collapse_academic_info" class="panel-collapse collapse p-2 detail-info">
       <% if marriage_profile.id == current_active_profile.id %>
         <div class="pr-2 new-info-btn">
-          <a href="<%= new_academic_information_path %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="New Academic Information" class="btn btn-sm btn-edit text-white">
+          <a href="<%= new_academic_information_path %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="<%= t('profile.academic.new') %>" class="btn btn-sm btn-edit text-white">
             <i class="fa fa-plus-circle"></i>
           </a>
         </div>
@@ -27,13 +27,13 @@
           <div class="detail-info ">
             <% if marriage_profile.id == current_active_profile.id %>
               <div class="edit-info-btn">
-                <a href="<%= edit_academic_information_path(academic_info) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white">
+                <a href="<%= edit_academic_information_path(academic_info) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="<%= t('profile.edit_information') %>" class="btn btn-sm btn-edit text-white">
                   <i class="fa fa-pencil"></i>
                 </a>
               </div>
               <div class="delete-info-btn">
                 <a href="<%= academic_information_path(academic_info) %>" data-method="delete" data-remote="true"
-                   data-toggle="tooltip" data-placement="top" title="Remove information" class="btn btn-sm btn-delete text-white"
+                   data-toggle="tooltip" data-placement="top" title="<%= t('profile.remove_information') %>" class="btn btn-sm btn-delete text-white"
                    data-confirm="Are you confirm?">
                   <i class="fa fa-trash-alt"></i>
                 </a>
@@ -44,23 +44,23 @@
                 <table class=" flex-fill pr-3 table table-borderless table-responsive ">
                   <tbody>
                   <tr>
-                    <td> Institution</td>
+                    <td> <%= t('profile.academic.institution') %></td>
                     <td>:</td>
                     <td><%= academic_info.institution.present? ? academic_info.institution : '' %></td>
                   </tr>
                   <tr>
-                    <td>Location</td>
+                    <td><%= t('profile.academic.location') %></td>
                     <td>:</td>
                     <td><%= academic_info.location.present? ? academic_info.location : '' %></td>
                   </tr>
                   <tr>
-                    <td> Degree</td>
+                    <td> <%= t('profile.academic.degree') %></td>
                     <td>:</td>
                     <td><%= academic_info.degree.present? ? academic_info.degree : '' %></td>
                   </tr>
                   <% if marriage_profile.id == current_active_profile.id || current_active_profile.chat_view?(marriage_profile) %>
                     <tr>
-                      <td> Passing Year</td>
+                      <td> <%= t('profile.academic.passing_year') %></td>
                       <td>:</td>
                       <td><%= academic_info.passing_year.present? ? academic_info.passing_year : '' %> </td>
                     </tr>

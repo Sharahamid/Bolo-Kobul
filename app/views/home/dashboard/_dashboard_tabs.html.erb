@@ -8,21 +8,21 @@
       <li class="nav-item <%= params[:action] == 'dashboard' ? 'font-weight-bold' : '' %>">
         <a class="nav-link text-white" href="<%= current_active_profile.present? ? dashboard_marriage_profile_path(current_active_profile) : root_path %>">
           <i class="fa fa-tachometer"></i>
-          Dashboard
+          <%= t('dashboard.tabs.dashboard') %>
         </a>
       </li>
       <li class="nav-item ">
         <a class="nav-link text-white <%= params[:action] == 'profile_info' ? 'font-weight-bold' : '' %>"
            href="<%= current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : root_path %>">
           <i class="fa fa-user"></i>
-          Profile
+          <%= t('dashboard.tabs.profile') %>
         </a>
       </li>
       <li class="nav-item">
         <%= link_to messages_path,
                     class: "nav-link text-white #{ params[:action] == 'index' ? 'font-weight-bold' : '' }" do %>
           <i class="fa fa-envelope"></i>
-          Messages
+          <%= t('dashboard.tabs.messages') %>
         <% end %>
       </li>
       <li class="nav-item">
@@ -30,19 +30,19 @@
                         partner_preference_path(current_active_profile.partner_preference) : new_partner_preference_path,
                     class: "nav-link text-white #{ params[:action] == 'show' ? 'font-weight-bold' : '' }" do %>
           <i class="fas fa-user-shield"></i>
-          Preference
+          <%= t('dashboard.tabs.preference') %>
         <% end %>
       </li>
       <li class="nav-item">
         <%= link_to orders_path,
                     class: "nav-link text-white #{ params[:action] == 'show' ? 'font-weight-bold' : '' }" do %>
           <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-          Orders
+          <%= t('dashboard.tabs.orders') %>
         <% end %>
       </li>
     <% else %>
       <li class="nav-item">
-        <span class="nav-link text-white font-weight-bold" style="cursor:default;">Profile Details</span>
+        <span class="nav-link text-white font-weight-bold" style="cursor:default;"><%= t('dashboard.tabs.profile_details') %></span>
       </li>
     <% end %>
   </ul>
