@@ -1,0 +1,52 @@
+// About, FAQ, Terms, Privacy Policy and Safety tips: a section menu beside the text.
+// Lists in the admin-written text keep their bullets and numbers.
+// On phones the menu becomes a row of chips above the text, so the text keeps the
+// full width.
+.bk-doc-main {
+  ul { list-style: disc; padding-left: 22px; margin-bottom: 12px; }
+  ol { list-style: decimal; padding-left: 22px; margin-bottom: 12px; }
+  li { margin-bottom: 4px; }
+}
+
+@media (max-width: 767px) {
+  .bk-doc-body {
+    flex-direction: column;
+  }
+
+  .bk-doc-nav {
+    width: auto !important;
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border-right: 0 !important;
+    border-bottom: 0.5px solid #eee;
+    padding: 10px 12px !important;
+
+    > p { display: none; }
+
+    > div {
+      flex-shrink: 0;
+      max-width: 220px;
+      margin-bottom: 0 !important;
+      border-left: 0 !important;
+      border: 0.5px solid #f0e6d2;
+      white-space: nowrap;
+      align-items: center !important;
+    }
+
+    > div span:last-child {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .bk-doc-main {
+    padding: 18px 16px !important;
+    min-width: 0;
+
+    // Long tables (e.g. "Why us") scroll sideways instead of being cut off
+    table { display: block; overflow-x: auto; }
+    img { max-width: 100%; height: auto; }
+  }
+}
