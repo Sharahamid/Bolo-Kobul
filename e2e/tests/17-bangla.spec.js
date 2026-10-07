@@ -22,8 +22,11 @@ test.describe('Bangla version', () => {
   test("a member's language is saved on their account", async ({ browser }) => {
     const first = await (await browser.newContext()).newPage();
     await login(first, 'carol@example.com');
-    await first.goto('/?locale=bn');
+    // The switch is in the menu after login too, and keeps the same page
+    const page = new URL(first.url()).pathname;
+    await first.locator('.navbar .bk-lang-switch').getByText('বাংলা').click();
     await expect(first.locator('html')).toHaveAttribute('lang', 'bn');
+    expect(new URL(first.url()).pathname).toBe(page);
 
     // A new device: Bangla again after logging in, without choosing it
     const second = await (await browser.newContext()).newPage();

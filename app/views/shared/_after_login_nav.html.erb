@@ -16,6 +16,7 @@
 </ul>
 
 <ul class="navbar-nav d-flex flex-row align-items-center">
+  <li class="nav-item p-2"><%= render 'shared/language_switch' %></li>
 
   <% unless current_user.self? || current_user.other_as_matchmaker? %>
     <li class="nav-item dropdown p-2 flex-fill">
