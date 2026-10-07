@@ -25,4 +25,11 @@ class WeeklyReportMailer < ApplicationMailer
 
     mail(to: "shara@bolokobul.com", subject: "Bolo Kobul Registration Report - #{Date.today.strftime('%B %d, %Y')}")
   end
+
+  private
+
+  # Emails to the Bolo Kobul team are always in English
+  def locale_recipient
+    nil
+  end
 end

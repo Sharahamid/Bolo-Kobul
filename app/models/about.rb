@@ -11,6 +11,9 @@
 #
 
 class About < ApplicationRecord
+  include BanglaContent
+  bangla_fields :content_type, :content
+
   #
   # validations
   #

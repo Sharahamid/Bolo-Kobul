@@ -78,6 +78,15 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :omniauthable, :validatable, omniauth_providers: %i[facebook google_oauth2], authentication_keys: [:login]
 
+  # A member who signs up on the Bangla site gets Bangla emails from the start
+  before_create { self.locale ||= 'bn' if I18n.locale.to_s == 'bn' }
+
+  # Devise emails (password reset) in the member's chosen language
+  def send_devise_notification(notification, *args)
+    language = I18n.available_locales.map(&:to_s).include?(locale.to_s) ? locale : I18n.default_locale
+    I18n.with_locale(language) { super }
+  end
+
   # TODO: need to add all the remaining associations
   #
   # Associations

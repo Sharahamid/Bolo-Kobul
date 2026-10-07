@@ -64,3 +64,28 @@ test.describe('Bangla version', () => {
     await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   });
 });
+
+test.describe('Bangla content written by the admin', () => {
+  test('a Bangla FAQ title shows on the Bangla site; the English site keeps the English one', async ({ page }) => {
+    const stamp = Date.now();
+    await page.goto('/shefali007/login');
+    await page.locator('#admin_user_email').fill(seed().admin);
+    await page.locator('#admin_user_password').fill(seed().password);
+    await Promise.all([page.waitForNavigation(), page.locator('input[type="submit"]').click()]);
+
+    await page.goto('/shefali007/faqs/new');
+    await page.locator('#faq_title').fill(`How do Kobuls work? ${stamp}`);
+    await page.locator('#faq_title_bn').fill(`কবুল কীভাবে কাজ করে? ${stamp}`);
+    await page.locator('#faq_display_order').fill('999');
+    await Promise.all([page.waitForNavigation(), page.locator('input[type="submit"]').click()]);
+    await expect(page.locator('.attributes_table')).toContainText(`কবুল কীভাবে কাজ করে? ${stamp}`);
+
+    await page.context().clearCookies();
+    await page.goto('/faqs?locale=bn');
+    await expect(page.getByText(`কবুল কীভাবে কাজ করে? ${stamp}`).first()).toBeAttached();
+    await expect(page.getByText(`How do Kobuls work? ${stamp}`)).toHaveCount(0);
+    await page.goto('/faqs?locale=en');
+    await expect(page.getByText(`How do Kobuls work? ${stamp}`).first()).toBeAttached();
+    await expect(page.getByText(`কবুল কীভাবে কাজ করে? ${stamp}`)).toHaveCount(0);
+  });
+});

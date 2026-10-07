@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_10_09_090000) do
+ActiveRecord::Schema.define(version: 2026_10_10_090000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2026_10_09_090000) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "display_order", default: 0
+    t.string "content_type_bn"
+    t.text "content_bn"
   end
 
   create_table "academic_informations", force: :cascade do |t|
@@ -238,6 +240,8 @@ ActiveRecord::Schema.define(version: 2026_10_09_090000) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "heading"
     t.string "contact"
+    t.string "heading_bn"
+    t.text "content_bn"
   end
 
   create_table "countries", force: :cascade do |t|
@@ -326,6 +330,8 @@ ActiveRecord::Schema.define(version: 2026_10_09_090000) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "display_order", default: 0
+    t.string "title_bn"
+    t.text "content_bn"
   end
 
   create_table "favourites", force: :cascade do |t|
@@ -599,6 +605,8 @@ ActiveRecord::Schema.define(version: 2026_10_09_090000) do
     t.integer "display_order", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "title_bn"
+    t.text "content_bn"
   end
 
   create_table "present_addresses", force: :cascade do |t|
@@ -619,6 +627,8 @@ ActiveRecord::Schema.define(version: 2026_10_09_090000) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "display_order", default: 0
+    t.string "title_bn"
+    t.text "content_bn"
   end
 
   create_table "privacy_settings", force: :cascade do |t|
@@ -642,6 +652,7 @@ ActiveRecord::Schema.define(version: 2026_10_09_090000) do
     t.integer "display_order", default: 0
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "title_bn"
   end
 
   create_table "profile_reports", force: :cascade do |t|
@@ -691,6 +702,8 @@ ActiveRecord::Schema.define(version: 2026_10_09_090000) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "display_order", default: 0
+    t.string "title_bn"
+    t.text "content_bn"
   end
 
   create_table "thanas", force: :cascade do |t|

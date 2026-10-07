@@ -7,46 +7,43 @@
 
   <tr><td style="background:#ffffff; border-radius:8px 8px 0 0; text-align:center; padding: 2rem 2rem 1rem;">
     <img src="https://www.bolokobul.com/assets/bk_logo-d410475b2bfdeb425af379c0193908b7a02336b47f98b379e58edd6ba21c8435.png" width="80" style="margin-bottom:10px;" alt="Bolo Kobul" />
-    <div style="font-size:11px; color:#888; letter-spacing:2px; text-transform:uppercase;">Marriages are made in heaven</div>
+    <div style="font-size:11px; color:#888;<%= ' letter-spacing:2px; text-transform:uppercase;' unless I18n.locale == :bn %>"><%= t('email.tagline') %></div>
     <div style="width:40px; height:2px; background:#FFB627; margin:12px auto 0;"></div>
   </td></tr>
 
   <tr><td style="background:#FFB627; padding: 2rem; text-align:center;">
     <div style="font-size:22px; font-weight:bold; color:#ffffff; line-height:1.3;">
-      Your account will be deleted on <%= @date.strftime('%-d %B %Y') %>
+      <%= t('email.deletion.title', date: email_date(@date)) %>
     </div>
-    <div style="font-size:14px; color:#fff3cc; margin-top:8px;">Dear <%= @receiver.name.present? ? @receiver.name : 'there' %>,</div>
+    <div style="font-size:14px; color:#fff3cc; margin-top:8px;"><%= t('email.dear', name: @receiver.name.presence || t('email.member')) %></div>
   </td></tr>
 
   <tr><td style="background:#ffffff; padding: 2rem;">
     <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1rem;">
-      We received your request to delete your Bolo Kobul account. Your profile is now hidden from all members.
+      <%= t('email.deletion.p1') %>
     </p>
     <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1.5rem;">
-      On <strong><%= @date.strftime('%-d %B %Y') %></strong> your account, profiles, photos, chats and Kobul connections
-      will be erased permanently. This cannot be undone, and any unused butterflies will be lost.
+      <%= t('email.deletion.p2_html', date: email_date(@date)) %>
     </p>
 
     <div style="background:#FFF8E7; border-left:3px solid #FFB627; padding:14px 16px; margin-bottom:1.5rem;">
       <div style="font-size:13px; color:#555555; line-height:1.7;">
-        <strong style="color:#333333;">Changed your mind?</strong> Log in before <%= @date.strftime('%-d %B %Y') %>
-        and tap <strong>Cancel deletion</strong>. Everything will be just as you left it.
+        <%= t('email.deletion.changed_mind_html', date: email_date(@date)) %>
       </div>
     </div>
 
     <div style="text-align:center; margin: 1.5rem 0;">
-      <a href="https://www.bolokobul.com/" style="background:#FFB627; color:#ffffff; text-decoration:none; padding:14px 36px; border-radius:6px; font-size:15px; font-weight:bold; display:inline-block;">Log in to Bolo Kobul</a>
+      <a href="https://www.bolokobul.com/" style="background:#FFB627; color:#ffffff; text-decoration:none; padding:14px 36px; border-radius:6px; font-size:15px; font-weight:bold; display:inline-block;"><%= t('email.deletion.button') %></a>
     </div>
 
     <p style="font-size:13px; color:#888888; line-height:1.7; margin:0;">
-      Didn't ask for this? Log in and cancel the deletion, then change your password, or contact
-      <a href="mailto:support@bolokobul.com" style="color:#FFB627;">support@bolokobul.com</a>.
+      <%= t('email.deletion.not_you_html', email: mail_to('support@bolokobul.com', 'support@bolokobul.com', style: 'color:#FFB627;')) %>
     </p>
   </td></tr>
 
   <tr><td style="background:#FFF8E7; padding:1.5rem 2rem; text-align:center; border-top:1px solid #FFE082;">
-    <div style="font-size:14px; color:#888888; line-height:1.8;">With warm wishes,</div>
-    <div style="font-size:15px; font-weight:bold; color:#FFB627; margin-top:4px;">The Bolo Kobul Team</div>
+    <div style="font-size:14px; color:#888888; line-height:1.8;"><%= t('email.warm_wishes') %></div>
+    <div style="font-size:15px; font-weight:bold; color:#FFB627; margin-top:4px;"><%= t('email.team') %></div>
     <div style="margin-top:16px;">
       <a href="https://www.facebook.com/BoloKobulLtd" target="_blank"
          style="display:inline-block; background:#1877F2; color:#ffffff; text-decoration:none;
@@ -66,7 +63,7 @@
                 font-weight:bold; margin:0 4px; text-align:center;">W</a>
     </div>
     <div style="font-size:10px; color:#cccccc; margin-top:10px;">
-      Follow us &nbsp;&middot;&nbsp; Connect with us &nbsp;&middot;&nbsp; We are here for you
+      <%= t('email.follow_html') %>
     </div>
     <div style="font-size:11px; color:#aaaaaa; margin-top:12px;">
       <a href="https://www.bolokobul.com" style="color:#FFB627; text-decoration:none;">bolokobul.com</a> &nbsp;|&nbsp;

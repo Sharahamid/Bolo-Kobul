@@ -5,6 +5,6 @@ class ChatMessageMailer < ApplicationMailer
     @sender_profile = params[:sender_profile]
     @chat_url = params[:chat_url]
     mail(to: @receiver.email,
-         subject: "💬 New message from #{@sender_profile.unique_id}")
+         subject: t('email.subject.chat', id: @sender_profile.unique_id))
   end
 end

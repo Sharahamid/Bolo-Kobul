@@ -81,8 +81,15 @@ class Notification < ApplicationRecord
     Rails.logger.warn("[WebPush] could not queue notification #{id}: #{e.message}")
   end
 
+  # The notification in the recipient's language (saved in English; see NotificationBanglaHelper)
+  def localized_content
+    return content.to_s unless recipient&.locale.to_s == 'bn'
+
+    I18n.with_locale(:bn) { Object.new.extend(LocaleHelper, NotificationBanglaHelper).bangla_notification(content) }
+  end
+
   def push_payload
-    text = CGI.unescapeHTML(ActionController::Base.helpers.strip_tags(content.to_s)).squish
+    text = CGI.unescapeHTML(ActionController::Base.helpers.strip_tags(localized_content)).squish
     link = content.to_s[/href=['"]([^'"]+)['"]/, 1]
     {
       'title' => 'Bolo Kobul',

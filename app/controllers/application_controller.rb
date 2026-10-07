@@ -110,7 +110,10 @@ class ApplicationController < ActionController::Base
       current_user.update_column(:locale, chosen) if current_user && current_user.locale != chosen
       return chosen
     end
-    cookies[:bk_locale].presence_in(LOCALES) || current_user&.locale.presence_in(LOCALES) || :en
+    from_cookie = cookies[:bk_locale].presence_in(LOCALES)
+    # Remember it on the account too, so emails come in the same language
+    current_user.update_column(:locale, from_cookie) if from_cookie && current_user && current_user.locale.blank?
+    from_cookie || current_user&.locale.presence_in(LOCALES) || :en
   end
 
   def user_homepage(resource)

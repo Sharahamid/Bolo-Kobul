@@ -4,7 +4,7 @@ class KobulTwoMailer < ApplicationMailer
     @sender_profile = params[:current_profile]
     @receiver = params[:profile].user
     mail(to: @receiver.email,
-         subject: "🦋 Kobul 2 Request Received!")
+         subject: t('email.subject.kobul2_received'))
   end
 
   # After B Accept the Request, B gets this message
@@ -12,7 +12,7 @@ class KobulTwoMailer < ApplicationMailer
     @current_user = params[:current_user]
     @profile = params[:profile]
     mail(to: @current_user.email,
-         subject: "🦋 Kobul 2 Accepted - Start Chatting!")
+         subject: t('email.subject.kobul2_you_accepted'))
   end
 
   # After B Accept the Request, A gets this message
@@ -20,7 +20,7 @@ class KobulTwoMailer < ApplicationMailer
     @sender_profile = params[:current_profile]
     @receiver = params[:profile].user
     mail(to: @receiver.email,
-         subject: "🦋 Kobul 2 Accepted!")
+         subject: t('email.subject.kobul2_accepted'))
   end
 
   # After B Reject the Request, A gets this message
@@ -28,12 +28,12 @@ class KobulTwoMailer < ApplicationMailer
     @sender_profile = params[:current_profile]
     @receiver = params[:profile].user
     mail(to: @receiver.email,
-         subject: "🦋 Kobul 2 Not Accepted")
+         subject: t('email.subject.kobul2_declined'))
   end
 
   def request_expired
     @sender_profile = params[:sender_profile]
     mail(to: @sender_profile.user.email,
-         subject: "🦋 Kobul 2 Expired")
+         subject: t('email.subject.kobul2_expired'))
   end
 end

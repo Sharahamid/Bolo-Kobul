@@ -11,4 +11,7 @@
 #
 
 class PrecautionaryMeasure < ApplicationRecord
+  include BanglaContent
+  bangla_fields :title, :content
+
 end

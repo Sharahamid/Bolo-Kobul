@@ -7,6 +7,8 @@
 # - no matches and profile under 80%: finish the profile
 # Members can turn the email off with the unsubscribe link in it.
 class WeeklyReminderService
+  include LocaleHelper
+
   HOST = 'www.bolokobul.com'.freeze
   MATCHES_PER_EMAIL = 5
   INACTIVE_FOR = 14.days
@@ -58,7 +60,19 @@ class WeeklyReminderService
     @user = user
   end
 
+  # Written in the member's chosen language (English unless they picked Bangla)
   def reminder
+    language = I18n.available_locales.map(&:to_s).include?(@user.locale.to_s) ? @user.locale : I18n.default_locale
+    I18n.with_locale(language) { build_reminder }
+  end
+
+  private
+
+  def t(key, **options)
+    I18n.t(key, **options)
+  end
+
+  def build_reminder
     profile = @user.marriage_profiles.order(:id).first
     return no_profile unless profile
 
@@ -69,8 +83,6 @@ class WeeklyReminderService
     nil
   end
 
-  private
-
   def urls
     Rails.application.routes.url_helpers
   end
@@ -79,56 +91,55 @@ class WeeklyReminderService
     link = urls.new_marriage_profile_url(host: HOST, protocol: 'https')
     {
       kind: :no_profile,
-      subject: '💛 Your life partner could be waiting on Bolo Kobul',
-      title: 'Start your search today',
-      lines: ['You have joined Bolo Kobul, but your marriage profile is not set up yet.',
-              'Create your profile so we can recommend people who match what you are looking for.'],
-      button: 'Create My Profile', link: link,
-      push: push_payload('Create your profile so we can find your matches.', link)
+      subject: t('reminder.no_profile.subject'),
+      title: t('reminder.no_profile.title'),
+      lines: [t('reminder.no_profile.line1'), t('reminder.no_profile.line2')],
+      button: t('reminder.no_profile.button'), link: link,
+      push: push_payload(t('reminder.no_profile.push'), link)
     }
   end
 
   def incomplete_profile(profile)
-    percent = profile.profile_completeness.to_i
+    percent = local_digits(profile.profile_completeness.to_i)
+    minimum = local_digits(MarriageProfile::KOBUL_MIN_COMPLETENESS)
     link = urls.profile_info_marriage_profile_url(profile, host: HOST, protocol: 'https')
     {
       kind: :incomplete,
-      subject: "✨ Your profile is #{percent}% complete. Finish it to get noticed",
-      title: "Your profile is #{percent}% complete",
-      lines: ["Complete profiles get up to 5x more attention, and you can send Kobuls once your profile is at least #{MarriageProfile::KOBUL_MIN_COMPLETENESS}% complete.",
-              'Add your photos, family, education and occupation. It only takes a few minutes.'],
-      button: 'Complete My Profile', link: link,
-      push: push_payload("Your profile is #{percent}% complete. Finish it to start sending Kobuls.", link)
+      subject: t('reminder.incomplete.subject', percent: percent),
+      title: t('reminder.incomplete.title', percent: percent),
+      lines: [t('reminder.incomplete.line1', minimum: minimum), t('reminder.incomplete.line2')],
+      button: t('reminder.incomplete.button'), link: link,
+      push: push_payload(t('reminder.incomplete.push', percent: percent), link)
     }
   end
 
   def matches_found(profile, matches)
     count = matches.size
-    noun = count == 1 ? 'match' : 'matches'
+    shown = local_digits(count)
     link = urls.dashboard_marriage_profile_url(profile, host: HOST, protocol: 'https')
-    percent = profile.profile_completeness.to_i
+    percent = local_digits(profile.profile_completeness.to_i)
     {
       kind: :matches,
-      subject: "🦋 #{count} new #{noun} picked for you",
-      title: "#{count} new #{noun} picked for you",
-      lines: ['We have picked these profiles from your preferences. Send a Kobul to someone you like. Your next chapter could start today!'],
+      subject: t('reminder.matches.subject', count: count, shown: shown),
+      title: t('reminder.matches.title', count: count, shown: shown),
+      lines: [t('reminder.matches.line1')],
       matches: matches.map { |m| m.calculate_matching_percentage!(profile); match_card(m) },
       complete_nudge: (profile.ready_for_kobul? ? nil : {
-        text: "Your profile is #{percent}% complete. Reach #{MarriageProfile::KOBUL_MIN_COMPLETENESS}% to send Kobuls.",
+        text: t('reminder.matches.nudge', percent: percent, minimum: local_digits(MarriageProfile::KOBUL_MIN_COMPLETENESS)),
         link: urls.profile_info_marriage_profile_url(profile, host: HOST, protocol: 'https')
       }),
-      button: 'See All My Matches', link: link,
-      push: push_payload("#{count} new #{noun} picked for you. Tap to see them.", link)
+      button: t('reminder.matches.button'), link: link,
+      push: push_payload(t('reminder.matches.push', count: count, shown: shown), link)
     }
   end
 
   def match_card(match)
     photo = match.profile_image.present? ? match.profile_image.url(:large_profile_thumb) : nil
     photo = "https://#{HOST}#{photo}" if photo&.start_with?('/')
-    details = [("#{match.age} years" if match.age.present?),
-               ("#{match.height_ft}'#{match.height_inch}\"" if match.height_ft.present?),
-               match.hometown&.humanize,
-               match.highest_education_level&.humanize].compact
+    details = [(years_label(match.age) if match.age.present?),
+               ("#{local_digits(match.height_ft)}'#{local_digits(match.height_inch)}\"" if match.height_ft.present?),
+               (district_label(match.hometown) if match.hometown.present?),
+               (enum_label(:marriage_profile, :highest_education_level, match.highest_education_level) if match.highest_education_level.present?)].compact
     {
       id: match.unique_id,
       verified: match.verified,

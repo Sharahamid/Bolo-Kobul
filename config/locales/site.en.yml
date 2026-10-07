@@ -422,6 +422,8 @@ en:
     'off': Off for this device. Turn them on to hear about new Kobuls and messages even when Bolo Kobul is closed.
     test_sent: Test sent. It should appear in a few seconds with sound and vibration. If it does not, check that notifications for Chrome/Bolo Kobul are allowed and not silent in your phone's Settings.
     not_registered: This device is not registered yet. Tap Turn on again, or reload the page.
+    new_message: You have a new message. Tap to read it.
+    test: Notifications are working! You will hear about new Kobuls and messages like this.
   form:
     basics: Basics
     privacy_note: Your personal info is safe with us — Name and NID will not be shown to others
@@ -697,3 +699,240 @@ en:
     count: '%{count} requests'
     title: Customer Support
     title_sub: Submit your request and we'll get back to you shortly
+  email:
+    dear: Dear %{name},
+    member: there
+    tagline: Marriages are made in heaven
+    warm_wishes: With warm wishes,
+    team: The Bolo Kobul Team
+    kobul1_sent:
+      title: Your butterfly is on its way!
+      p1: Your butterfly has been sent successfully! The other person will now have the opportunity to view your profile and respond.
+      p2: We will notify you as soon as they respond. Keep your fingers crossed!
+      tip: While you wait, why not explore more profiles and send more butterflies to increase your chances of finding the right match?
+      button: Browse More Profiles
+    tip: 'Tip:'
+    kobul1_received:
+      title: Someone sent you a butterfly!
+      p1: Exciting news! Someone on Bolo Kobul has noticed your profile and sent you a butterfly — a sign that they are interested in getting to know you better.
+      p2: Log in to your account to view their profile and decide if you would like to accept or decline. Take your time — there is no rush!
+      tip: Your privacy is always protected. No personal contact details are shared until both of you are ready.
+    remember: 'Remember:'
+    view_profile: View Their Profile
+    kobul1_you_accepted:
+      title: You accepted a butterfly!
+      p1: You have accepted the butterfly! This is a wonderful first step. You can now learn more about this person by visiting their full profile on Bolo Kobul.
+      p2: Take your time to get to know them better. We hope this connection brings you closer to finding your perfect match!
+      tip: The other person will be notified that you have accepted their butterfly. You can both now view each other's full profiles. If you like what you see, send them another butterfly — that is how
+        you unlock the ability to chat and get to know each other better!
+    next: What happens next?
+    kobul1_accepted:
+      title: Great news — your butterfly was accepted!
+      p1: Wonderful news! The person you sent a butterfly to has accepted it. This means they are interested in getting to know you better too!
+      special: This is a special moment.
+      tip: A mutual acceptance on Bolo Kobul is the beginning of something meaningful. Take your time and enjoy getting to know each other.
+      p2: Log in now to view their full profile. If you feel a connection, send them another butterfly — that unlocks the chat feature so you can start talking and get to know each other better. Your love
+        story could be just one conversation away!
+    kobul1_declined:
+      title: Your butterfly was not accepted this time
+      p1: We understand this is disappointing, but please do not lose heart. Finding the right match takes time, and the perfect person for you is still out there.
+      p2: Your butterfly has been returned to you. Use it to explore more profiles and keep sending — every butterfly brings you one step closer to finding your soulmate!
+      tip: Completing your profile with a photo and detailed information significantly increases your chances of getting accepted. Make sure your profile shows the best version of you!
+    did_you_know: Did you know?
+    explore_more: Explore More Profiles
+    kobul1_expired:
+      title: Your butterfly has expired
+      p1: Your butterfly did not receive a response within the allowed time and has now expired. Do not be discouraged — this happens and it is simply part of the journey.
+      p2: Your butterfly has been returned to you. Use it to explore new profiles and try again — your perfect match is waiting to be found!
+      button: Find New Profiles
+    keep_going: Keep going!
+    keep_going_tip: The most successful members on Bolo Kobul are those who stay active, keep their profiles updated, and never give up on finding the right person.
+    kobul2_received:
+      title: Someone wants to chat with you!
+      p1: Great news! Someone on Bolo Kobul is interested in getting to know you better and has requested to start a conversation with you.
+      p2: Log in to view their profile and decide if you would like to accept and begin chatting. This could be the beginning of something truly special!
+      tip: No personal contact details are ever shared. All conversations happen safely within the Bolo Kobul platform.
+    privacy: Your privacy is protected.
+    kobul2_you_accepted:
+      title: You are now connected — start chatting!
+      p1: You have accepted the chat request — wonderful decision! You can now start a conversation and get to know each other better within the Bolo Kobul platform.
+      p2: Take your time, be yourself, and enjoy the conversation. This is your moment to let your personality shine!
+      tip: A good first message goes a long way. Ask about their interests, share something about yourself, and keep the conversation warm and genuine.
+    start_chatting: Start Chatting Now
+    kobul2_accepted:
+      title: Your chat request was accepted!
+      p1: Exciting news! The person you wanted to connect with has accepted your chat request. You can now start a conversation directly within the Bolo Kobul platform.
+      p2: Log in now and send your first message. This is your chance to make a great first impression — be warm, genuine, and enjoy the conversation!
+      big_step: This is a big step!
+      tip: A mutual willingness to chat means you both see potential. Take your time, be yourself, and let the conversation flow naturally.
+    kobul2_declined:
+      title: Your chat request was not accepted this time
+      p1: We understand this may be disappointing, but please do not lose heart. Not every connection is meant to be, and that is perfectly okay.
+      p2: The right person for you is still out there. Keep exploring profiles on Bolo Kobul — your soulmate could be just around the corner!
+      positive: Stay positive!
+      tip: Every step of this journey brings you closer to finding the right match. Make sure your profile is complete and up to date — it makes a big difference!
+    kobul2_expired:
+      title: Your chat request has expired
+      p1: Your chat request did not receive a response within 7 days and has now expired. Please do not be discouraged — this is simply part of the journey and happens to everyone.
+      p2: The right person for you is still out there. Keep exploring profiles and sending connections — your perfect match could be just around the corner!
+    chat:
+      title: You have a new message!
+      p2: Log in to read it and reply. A quick reply keeps the conversation going!
+      tip: Messages are never shown in emails or text messages, and no personal contact details are ever shared.
+      button: Read and Reply
+      p1_html: <strong>%{id}</strong> has sent you a message on Bolo Kobul.
+    subject:
+      kobul1_sent: 🦋 Kobul 1 Sent!
+      kobul1_received: 🦋 You received a Kobul 1!
+      kobul1_you_accepted: 🦋 Kobul 1 Accepted!
+      kobul1_accepted: 🦋 Great News - Kobul 1 Accepted!
+      kobul1_declined: 🦋 Kobul 1 Not Accepted
+      kobul1_expired: 🦋 Kobul 1 Expired
+      kobul2_received: 🦋 Kobul 2 Request Received!
+      kobul2_you_accepted: 🦋 Kobul 2 Accepted - Start Chatting!
+      kobul2_accepted: 🦋 Kobul 2 Accepted!
+      kobul2_declined: 🦋 Kobul 2 Not Accepted
+      kobul2_expired: 🦋 Kobul 2 Expired
+      chat: 💬 New message from %{id}
+      receipt: Your purchase was successful — here is your receipt
+      otp: Your Bolo Kobul Verification Code
+      deletion: Your Bolo Kobul account will be deleted on %{date}
+      welcome: Welcome to Bolo Kobul! Find Your Soulmate
+    notification:
+      support_title: Your support request has been updated
+      title: You have a new update from Bolo Kobul
+    help_html: <strong style="color:#333333;">Need help?</strong> Our support team is always here for you. Simply reply to this email or reach us at %{email}
+    visit: Visit Bolo Kobul
+    receipt:
+      title: Your purchase was successful!
+      p1: Thank you for your purchase on Bolo Kobul! Please find your receipt below for your records.
+      date: Date
+      receipt_no: Receipt No.
+      customer: Customer Details
+      profile_ids: Profile ID(s)
+      name: Name
+      email: Email
+      contact: Contact
+      items: Items Purchased
+      description: Description
+      qty: Qty
+      price: Price (৳)
+      amount: Amount (৳)
+      subtotal: Subtotal
+      discount: Discount
+      grand_total: Grand Total
+      transaction: Transaction Details
+      payment_method: Payment Method
+      bank_id: Bank Transaction ID
+      tx_amount: Transaction Amount
+      tx_time: Transaction Time
+      online_payment: Online Payment
+      butterfly_pack: Butterfly Pack
+      questions_html: If you have any questions about your purchase, please contact us at %{email} or WhatsApp us at %{whatsapp}.
+      disclaimer_html: <strong style="color:#666666;">Disclaimer:</strong> This email is confidential and may also be legally privileged. If you are not the intended recipient you must not copy, forward,
+        disclose or use any part of it. If you have received this email in error, please notify us immediately at %{email} and delete it from your system.
+    otp:
+      title: Your verification code
+      p1: Thank you for registering with Bolo Kobul! Please use the verification code below to complete your registration.
+      valid: Valid for 10 minutes
+      p2: Enter this code on the verification page to activate your account and begin your journey on Bolo Kobul.
+      button: Verify My Account
+      not_you_html: <strong style="color:#333333;">Did not request this?</strong> If you did not register on Bolo Kobul, please ignore this email or contact us at %{email}
+    deletion:
+      title: Your account will be deleted on %{date}
+      p2_html: On <strong>%{date}</strong> your account, profiles, photos, chats and Kobul connections will be erased permanently. This cannot be undone, and any unused butterflies will be lost.
+      changed_mind_html: <strong style="color:#333333;">Changed your mind?</strong> Log in before %{date} and tap <strong>Cancel deletion</strong>. Everything will be just as you left it.
+      not_you_html: Didn't ask for this? Log in and cancel the deletion, then change your password, or contact %{email}.
+      p1: We received your request to delete your Bolo Kobul account. Your profile is now hidden from all members.
+      button: Log in to Bolo Kobul
+    welcome:
+      title: Welcome to Bolo Kobul!
+      why_html: You received this email because you registered at Bolo Kobul.<br>If this was not you, please %{contact} immediately.
+      contact_us: contact us
+      sub: Your path to finding your soulmate starts today.
+      p1: Thank you for registering with Bolo Kobul — your trusted matrimonial platform connecting hearts across the world. We are honoured to be part of your journey.
+      p2: 'Your account has been created successfully. Here is what to do next:'
+      s1: Complete your profile
+      s1_text: Add your photo, family details, and personal preferences. A complete profile gets 5x more attention.
+      s2: Set your partner preferences
+      s2_text: Tell us what you are looking for — age, location, values, lifestyle — and we will match you better.
+      s3: Browse and send a butterfly
+      s3_text: Found someone special? Send them a butterfly to express your interest — it is our way of saying "I noticed you."
+      button: Start Your Journey
+      privacy: Your privacy is our priority.
+      privacy_text: Your personal information is never shared with anyone without your permission. You are always in control.
+      help: If you have any questions or need help getting started, simply email to support@bolokobul.com. We are always here for you.
+      friend: Friend
+    reset:
+      title: Reset your password
+      p1: We received a request to reset the password for your Bolo Kobul account. Click the button below to set a new password.
+      button: Reset My Password
+      expires_html: This link will expire in <strong>2 hours</strong> for your security.
+      not_you_html: <strong style="color:#333333;">Did not request this?</strong> If you did not ask to reset your password, please ignore this email. Your password will remain unchanged. If you are concerned,
+        contact us at %{email}
+    weekly:
+      complete: Complete my profile
+      privacy_html: <strong style="color:#333333;">Your privacy is protected.</strong> Your name and contact details are never shown to other members.
+      footer_html: You get this email every other week while you're away. %{unsubscribe}
+      unsubscribe: Unsubscribe
+    follow_html: Follow us &nbsp;&middot;&nbsp; Connect with us &nbsp;&middot;&nbsp; We are here for you
+    dear_welcome: Dear %{name}!
+  reminder:
+    no_profile:
+      subject: 💛 Your life partner could be waiting on Bolo Kobul
+      title: Start your search today
+      line1: You have joined Bolo Kobul, but your marriage profile is not set up yet.
+      line2: Create your profile so we can recommend people who match what you are looking for.
+      button: Create My Profile
+      push: Create your profile so we can find your matches.
+    incomplete:
+      subject: ✨ Your profile is %{percent}% complete. Finish it to get noticed
+      title: Your profile is %{percent}% complete
+      line1: Complete profiles get up to 5x more attention, and you can send Kobuls once your profile is at least %{minimum}% complete.
+      line2: Add your photos, family, education and occupation. It only takes a few minutes.
+      button: Complete My Profile
+      push: Your profile is %{percent}% complete. Finish it to start sending Kobuls.
+    matches:
+      line1: We have picked these profiles from your preferences. Send a Kobul to someone you like. Your next chapter could start today!
+      nudge: Your profile is %{percent}% complete. Reach %{minimum}% to send Kobuls.
+      button: See All My Matches
+      subject:
+        one: 🦋 %{shown} new match picked for you
+        other: 🦋 %{shown} new matches picked for you
+      title:
+        one: '%{shown} new match picked for you'
+        other: '%{shown} new matches picked for you'
+      push:
+        one: '%{shown} new match picked for you. Tap to see them.'
+        other: '%{shown} new matches picked for you. Tap to see them.'
+  pages:
+    previous: ← Previous
+    next_title: 'Next: %{title} →'
+    sections: Sections
+    contents: Contents
+    faq:
+      title: Frequently Asked Questions
+      sub: Everything you need to know about BoloKobul.com
+      next: Next Question →
+      end: End of FAQs
+    terms:
+      title: Terms of Use
+      sub: Please read carefully before registering on BoloKobul.com
+      end: End of Terms
+    privacy:
+      title: Privacy Policy
+      sub: How BoloKobul.com collects, uses and protects your information
+      intro: BoloKobul.com is an online matrimonial portal committed to your right to privacy. This policy covers what information we collect from you when you visit our website, how we use it, and under
+        what circumstances we disclose it. By using our website, you agree with the terms and conditions of this privacy statement.
+      end: End of Privacy Policy
+    safety:
+      title: Precautionary Measures
+      sub: Stay safe while finding your ideal match on BoloKobul.com
+      intro: Bolo Kobul is committed to a safer internet and goes to great lengths to ensure you get the best possible experience. Every profile is screened for inappropriate content. While we do our part,
+        we want you to play yours too.
+      end: End of Precautionary Measures
+      notice: Important Notice
+      never_html: Bolo Kobul will <strong>NEVER</strong> ask you for money outside of the platform. If someone claims to be from Bolo Kobul and asks you to send money via any mobile finance service or in
+        person, please know it is not us. We accept debit/credit card and MFS payments made through the platform only.
+      suspicious_html: If you observe anything suspicious, %{link}.
+      write_to_us: write to us
