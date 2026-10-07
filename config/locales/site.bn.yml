@@ -82,6 +82,93 @@ bn:
         colleague: সহকর্মী
         children: সন্তান
         other_as_matchmaker: ঘটক / অন্যান্য
+    marriage_profile:
+      gender:
+        male: পুরুষ
+        female: নারী
+        other: অন্যান্য
+      marital_status:
+        unmarried: অবিবাহিত
+        widow_or_widower: বিধবা / বিপত্নীক
+        divorced: তালাকপ্রাপ্ত
+        separated: আলাদা থাকেন
+        married: বিবাহিত
+      highest_education_level:
+        doctorate: ডক্টরেট
+        graduate: স্নাতক
+        post_graduate: স্নাতকোত্তর
+        undergraduate: স্নাতক অধ্যয়নরত
+        intermediate: উচ্চ মাধ্যমিক
+        school: মাধ্যমিক / স্কুল
+        non_traditional_education: প্রথাবহির্ভূত শিক্ষা
+        diploma: ডিপ্লোমা
+        other: অন্যান্য
+      family_type:
+        joint_family: যৌথ পরিবার
+        nuclear_family: একক পরিবার
+        does_not_matter: যেকোনো
+      family_values:
+        orthodox: রক্ষণশীল
+        traditional: ঐতিহ্যবাহী
+        moderate: মধ্যপন্থী
+        liberal: উদার
+        does_not_matter: যেকোনো
+      family_status:
+        middle_Class: মধ্যবিত্ত
+        upper_middle_class: উচ্চ-মধ্যবিত্ত
+        rich/affluent: সচ্ছল / ধনী
+        does_not_matter: যেকোনো
+      religion:
+        islam: ইসলাম
+        hinduism: হিন্দু
+        christianity: খ্রিস্টান
+        buddhism: বৌদ্ধ
+        other: অন্যান্য
+    appearance:
+      physical_status:
+        normal: স্বাভাবিক
+        physically_challenged: শারীরিক প্রতিবন্ধিতা আছে
+      complexion:
+        very_fair: খুব ফর্সা
+        fair: ফর্সা
+        wheatish: উজ্জ্বল শ্যামলা
+        wheatish_brown: শ্যামলা
+        dark: কালো
+      body_type:
+        slim: ছিপছিপে
+        athletic: অ্যাথলেটিক
+        moderate: মাঝারি
+        heavy: ভারী
+    yes_no:
+      'yes': হ্যাঁ
+      'no': না
+    family_member:
+      relation:
+        father: বাবা
+        mother: মা
+        brother: ভাই
+        sister: বোন
+        brother_in_law: ভগ্নিপতি / শ্যালক
+        sister_in_law: ভাবি / শ্যালিকা
+        maternal_aunt: খালা
+        paternal_aunt: ফুফু
+        maternal_uncle: মামা
+        paternal_uncle: চাচা
+        maternal_grandfather: নানা
+        paternal_grandfather: দাদা
+        maternal_grandmother: নানি
+        paternal_grandmother: দাদি
+        cousin: কাজিন
+      residence_type:
+        rented: ভাড়া বাসা
+        owned: নিজস্ব বাসা
+    occupation:
+      employment_status:
+        full_time: পূর্ণকালীন
+        part_time: খণ্ডকালীন
+        freelance: ফ্রিল্যান্স
+        contract: চুক্তিভিত্তিক
+        temporary: অস্থায়ী
   landing:
     campaign_title: ভালোবাসার অপেক্ষায় বসে থাকবেন না!
     campaign_text: বিনামূল্যে নিবন্ধনসহ একটি বিশ্বস্ত ম্যাচমেকিং প্ল্যাটফর্ম—গোপনীয়তা ও নিরাপত্তা বজায় রেখে সঠিক জীবনসঙ্গী খুঁজে পেতে সাহায্য করে! - বলো কবুল
@@ -127,3 +214,270 @@ bn:
       received: ধন্যবাদ। %{id} সম্পর্কে আপনার রিপোর্ট পেয়েছি। আমাদের টিম ২৪ ঘণ্টার মধ্যে বিষয়টি দেখবে।
       too_many: অল্প সময়ে অনেকগুলো রিপোর্ট পাঠানো হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।
       own: নিজের প্রোফাইল রিপোর্ট করা যায় না।
+  profile_card:
+    years: '%{age} বছর'
+    match: '%{percent}% মিল'
+    verified: যাচাইকৃত
+  dashboard:
+    recommendations: আপনার জন্য প্রস্তাবিত
+    first_kobul_received: ১ম কবুলের অনুরোধ এসেছে
+    second_kobul_received: ২য় কবুলের অনুরোধ এসেছে
+    no_request: এখনো কোনো অনুরোধ নেই
+    no_data: কিছু পাওয়া যায়নি
+    chats: চ্যাট
+    favourite_profiles: ফেভারিট প্রোফাইল
+    no_favourites: এখনো কোনো ফেভারিট প্রোফাইল নেই।
+    unlock_title: আপনার প্রোফাইল %{percent}% সম্পূর্ণ
+    unlock_text: কবুল পাঠাতে %{min}% পূরণ করুন।
+    complete_profile: প্রোফাইল সম্পূর্ণ করুন
+    profile_complete: প্রোফাইল সম্পূর্ণ
+    edit_profile: প্রোফাইল সম্পাদনা
+    add_profile: প্রোফাইল যোগ করুন
+    request: অনুরোধ
+    requests: অনুরোধ
+    chat_request: চ্যাট অনুরোধ
+    chat_requests: চ্যাট অনুরোধ
+    sent: পাঠানো
+    favourite: ফেভারিট
+    profile_word: প্রোফাইল
+    profiles_word: প্রোফাইল
+    butterflies: প্রজাপতি
+    balance: ব্যালেন্স
+    in_process: প্রক্রিয়াধীন
+    get_more: আরও কিনুন
+    tap_to_close: বন্ধ করতে ট্যাপ করুন
+    tabs:
+      dashboard: ড্যাশবোর্ড
+      profile: প্রোফাইল
+      messages: বার্তা
+      preference: পছন্দের সঙ্গী
+      orders: অর্ডার
+      profile_details: প্রোফাইলের বিস্তারিত
+    photos_tip_title: ছবিসহ প্রোফাইল ৩ গুণ বেশি সাড়া পায়।
+    photos_tip_text: ভালো ম্যাচ পেতে একটি পরিষ্কার, সাম্প্রতিক ছবি যোগ করুন।
+  kobul:
+    kobul_1: 🦋 কবুল (১)
+    kobul_2: 🦋 কবুল (২)
+    pending: 🦋 অপেক্ষমাণ
+    kobul_2_pending: 🦋 ২য় কবুল অপেক্ষমাণ
+    accept_kobul_2: 🦋 ২য় কবুল গ্রহণ করুন
+    chat_butterfly: 🦋 চ্যাট
+    chat_bubble: 💬 চ্যাট
+    chat: চ্যাট
+    reject: প্রত্যাখ্যান
+    remove: সরান
+    favourite: ফেভারিট
+    block: ব্লক
+    tip:
+      send_kobul_1: আরও তথ্য দেখতে কবুল পাঠান
+      sent_kobul_1: আপনি এই সদস্যকে কবুল পাঠিয়েছেন
+      send_kobul_2: চ্যাট শুরু করতে ২য় কবুল পাঠান
+      kobul_2_pending: ২য় কবুলের অনুরোধ অপেক্ষমাণ
+      accept_kobul_2: চ্যাট শুরু করতে তাঁর ২য় কবুল গ্রহণ করুন
+      cancel_kobul_1: আপনার কবুলের অনুরোধ বাতিল করতে চাপুন
+      cancel_kobul_2: ২য় কবুলের অনুরোধ বাতিল করতে চাপুন
+      reject_1: ১ম কবুল প্রত্যাখ্যান
+      reject_2: ২য় কবুল প্রত্যাখ্যান
+      save_favourite: ফেভারিটে রাখুন
+      remove_favourite: ফেভারিট থেকে সরান
+      send_chat: এই প্রোফাইলের সঙ্গে চ্যাট করতে কবুল পাঠান।
+      send_view: প্রোফাইল দেখতে কবুল পাঠান।
+      remove_chat_request: এই চ্যাট অনুরোধ সরান
+      block: এই প্রোফাইলটি ব্লক করুন
+    confirm:
+      cancel_kobul_1: আপনার কবুলের অনুরোধ বাতিল করবেন?
+      cancel_kobul_2: আপনার ২য় কবুলের অনুরোধ বাতিল করবেন?
+      reject_1: এই ১ম কবুলের অনুরোধ প্রত্যাখ্যান করবেন?
+  profile:
+    edit_information: তথ্য সম্পাদনা
+    remove_information: তথ্য মুছুন
+    basic:
+      title: মৌলিক তথ্য
+      sub: বয়স · উচ্চতা · শিক্ষা
+      name: নাম
+      date_of_birth: জন্মতারিখ
+      gender: লিঙ্গ
+      height: উচ্চতা
+      hometown: নিজ জেলা
+      present_location: বর্তমান অবস্থান
+      present_address: বর্তমান ঠিকানা
+      willing_to_relocate: অন্যত্র যেতে আগ্রহী
+      marital_status: বৈবাহিক অবস্থা
+      highest_education_level: সর্বোচ্চ শিক্ষাগত যোগ্যতা
+      blood_group: রক্তের গ্রুপ
+      family_type: পরিবারের ধরন
+      family_status: পারিবারিক অবস্থা
+      family_values: পারিবারিক মূল্যবোধ
+    academic:
+      title: শিক্ষাগত তথ্য
+      sub: শিক্ষা · ডিগ্রি
+      institution: শিক্ষাপ্রতিষ্ঠান
+      location: স্থান
+      degree: ডিগ্রি
+      passing_year: পাসের বছর
+      new: নতুন শিক্ষাগত তথ্য
+    occupation:
+      title: পেশা
+      sub: কাজ · ক্যারিয়ার
+      organization: প্রতিষ্ঠান
+      company_name: প্রতিষ্ঠানের নাম
+      designation: পদবি
+      employment_status: চাকরির ধরন
+      monthly_income: মাসিক আয়
+      start_date: শুরুর তারিখ
+      end_date: শেষের তারিখ
+      currently_working: বর্তমানে কর্মরত
+      new: নতুন পেশা যোগ করুন
+    appearance:
+      title: চেহারা
+      sub: শারীরিক বৈশিষ্ট্য
+      hair_color: চুলের রং
+      hair_length: চুলের দৈর্ঘ্য
+      hair_type: চুলের ধরন
+      eye_color: চোখের রং
+      eye_wear: চশমা
+      physical_status: শারীরিক অবস্থা
+      weight: ওজন
+      body_type: শারীরিক গঠন
+      body_art: ট্যাটু / বডি আর্ট
+      hijab: হিজাব
+      niqab: নিকাব
+      complexion: গায়ের রং
+    family:
+      title: পরিবারের তথ্য
+      sub: মা-বাবা · ভাই-বোন
+      name: নাম
+      relation: সম্পর্ক
+      occupation: পেশা
+      residence: পারিবারিক বাসস্থান
+      permanent_address: স্থায়ী ঠিকানা
+      new: নতুন সদস্য যোগ করুন
+    marriage:
+      title: বিয়ে-সংক্রান্ত তথ্য
+      sub: অবস্থা · প্রত্যাশা
+      have_children: আপনার কি সন্তান আছে?
+      no_of_children: সন্তানের সংখ্যা
+      want_children: আপনি কি (আরও) সন্তান চান?
+    life_style:
+      title: জীবনযাপন
+      sub: অভ্যাস · পছন্দ
+      drink: মদ্যপান করেন?
+      smoke: ধূমপান করেন?
+      food_habits: খাদ্যাভ্যাস
+      dress_style: পোশাকের ধরন
+      living_with: যাদের সঙ্গে থাকেন
+      specific_habits: বিশেষ অভ্যাস
+    hobbies:
+      title: শখ ও আগ্রহ
+      sub: কাজকর্ম · ভালোলাগা
+      hobby: শখ
+      interest: আগ্রহ
+      music: সংগীত
+      favourite_song: প্রিয় গান
+      read: বই পড়া
+      favourite_book: প্রিয় বই
+      movie: সিনেমা
+      tv_show: টিভি অনুষ্ঠান
+      sports_show: খেলা দেখা
+      fitness: শরীরচর্চা
+      cuisine: প্রিয় খাবার
+      travel: ভ্রমণ
+      entertainment: বিশেষ বিনোদন
+    cultural:
+      title: সাংস্কৃতিক মূল্যবোধ
+      sub: ধর্ম · ঐতিহ্য
+      nationality: জাতীয়তা
+      birth_place: জন্মস্থান
+      mother_tongue: মাতৃভাষা
+      languages: যেসব ভাষায় কথা বলেন
+      religion: ধর্ম
+      born_reverted: জন্মগত / ধর্মান্তরিত
+      religious_events: ধর্মীয় অনুষ্ঠানে অংশ নেন
+      political_view: রাজনৈতিক মত
+    about:
+      title: আমার সম্পর্কে
+      sub: ব্যক্তিগত বর্ণনা
+      special_circumstances: বিশেষ পরিস্থিতি
+      family_lines: আমার পরিবার সম্পর্কে কিছু কথা
+  occupations:
+    government_official: সরকারি কর্মকর্তা
+    defence: প্রতিরক্ষা / সশস্ত্র বাহিনী
+    private_service: বেসরকারি চাকরি / কর্পোরেট
+    business: ব্যবসা / উদ্যোক্তা
+    self_employed: স্বনিযুক্ত / পরামর্শক
+    unemployed: কর্মহীন / চাকরি খুঁজছেন
+    student: শিক্ষার্থী
+    freelancer: ফ্রিল্যান্সার
+    doctor: চিকিৎসক
+    engineer: প্রকৌশলী
+    teacher: শিক্ষক / শিক্ষাবিদ
+    landlord: বাড়ির মালিক
+    retired: অবসরপ্রাপ্ত
+    not_working: কর্মরত নন
+    homemaker: গৃহিণী / গৃহকর্তা
+  districts:
+    bagerhat: বাগেরহাট
+    bandarban: বান্দরবান
+    barguna: বরগুনা
+    barishal: বরিশাল
+    bhola: ভোলা
+    bogura: বগুড়া
+    brahmanbaria: ব্রাহ্মণবাড়িয়া
+    chandpur: চাঁদপুর
+    chapainawabganj: চাঁপাইনবাবগঞ্জ
+    chattogram: চট্টগ্রাম
+    chuadanga: চুয়াডাঙ্গা
+    coxsbazar: কক্সবাজার
+    cumilla: কুমিল্লা
+    dhaka: ঢাকা
+    dinajpur: দিনাজপুর
+    faridpur: ফরিদপুর
+    feni: ফেনী
+    gaibandha: গাইবান্ধা
+    gazipur: গাজীপুর
+    gopalganj: গোপালগঞ্জ
+    habiganj: হবিগঞ্জ
+    jamalpur: জামালপুর
+    jashore: যশোর
+    jhalakathi: ঝালকাঠি
+    jhenaidah: ঝিনাইদহ
+    joypurhat: জয়পুরহাট
+    khagrachhari: খাগড়াছড়ি
+    khulna: খুলনা
+    kishoreganj: কিশোরগঞ্জ
+    kurigram: কুড়িগ্রাম
+    kushtia: কুষ্টিয়া
+    lakshmipur: লক্ষ্মীপুর
+    lalmonirhat: লালমনিরহাট
+    madaripur: মাদারীপুর
+    magura: মাগুরা
+    manikganj: মানিকগঞ্জ
+    meherpur: মেহেরপুর
+    moulvibazar: মৌলভীবাজার
+    munshiganj: মুন্সিগঞ্জ
+    mymensingh: ময়মনসিংহ
+    naogaon: নওগাঁ
+    narail: নড়াইল
+    narayanganj: নারায়ণগঞ্জ
+    narsingdi: নরসিংদী
+    natore: নাটোর
+    netrokona: নেত্রকোনা
+    nilphamari: নীলফামারী
+    noakhali: নোয়াখালী
+    outside_bangladesh: বাংলাদেশের বাইরে
+    pabna: পাবনা
+    panchagarh: পঞ্চগড়
+    patuakhali: পটুয়াখালী
+    pirojpur: পিরোজপুর
+    rajbari: রাজবাড়ী
+    rajshahi: রাজশাহী
+    rangamati: রাঙামাটি
+    rangpur: রংপুর
+    satkhira: সাতক্ষীরা
+    shariatpur: শরীয়তপুর
+    sherpur: শেরপুর
+    sirajganj: সিরাজগঞ্জ
+    sunamganj: সুনামগঞ্জ
+    sylhet: সিলেট
+    tangail: টাঙ্গাইল
+    thakurgaon: ঠাকুরগাঁও

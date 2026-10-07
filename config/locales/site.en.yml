@@ -127,3 +127,188 @@ en:
       received: Thank you. We've received your report about %{id}. Our team will review it within 24 hours.
       too_many: Too many reports in a short time. Please try again later.
       own: You can't report your own profile.
+  profile_card:
+    years: '%{age} years'
+    match: '%{percent}% Match'
+    verified: Verified
+  dashboard:
+    recommendations: Recommendations
+    first_kobul_received: 1st Kobul Request Received
+    second_kobul_received: 2nd Kobul Request Received
+    no_request: No Request Yet
+    no_data: No Data Found
+    chats: Chats
+    favourite_profiles: Favourite Profiles
+    no_favourites: No favourite profiles yet.
+    unlock_title: Your profile is %{percent}% complete
+    unlock_text: Reach %{min}% to send Kobuls.
+    complete_profile: Complete profile
+    profile_complete: Profile complete
+    edit_profile: Edit Profile
+    add_profile: Add Profile
+    request: Request
+    requests: Requests
+    chat_request: Chat Request
+    chat_requests: Chat Requests
+    sent: Sent
+    favourite: Favourite
+    profile_word: Profile
+    profiles_word: Profiles
+    butterflies: Butterflies
+    balance: Balance
+    in_process: In Process
+    get_more: Get More
+    tap_to_close: Tap to close
+    tabs:
+      dashboard: Dashboard
+      profile: Profile
+      messages: Messages
+      preference: Preference
+      orders: Orders
+      profile_details: Profile Details
+    photos_tip_title: Profiles with photos get 3x more responses.
+    photos_tip_text: Add a clear, recent photo to attract better matches.
+  kobul:
+    kobul_1: 🦋 Kobul (1)
+    kobul_2: 🦋 Kobul (2)
+    pending: 🦋 Pending
+    kobul_2_pending: 🦋 Kobul 2 Pending
+    accept_kobul_2: 🦋 Accept Kobul (2)
+    chat_butterfly: 🦋 Chat
+    chat_bubble: 💬 Chat
+    chat: Chat
+    reject: Reject
+    remove: Remove
+    favourite: Favourite
+    block: Block
+    tip:
+      send_kobul_1: Send butterfly to request more details
+      sent_kobul_1: You Have Sent Butterfly Request To This User
+      send_kobul_2: Send Kobul 2 to start chatting
+      kobul_2_pending: Kobul 2 request pending
+      accept_kobul_2: Accept their 2nd Kobul to start chatting
+      cancel_kobul_1: Click to cancel your Kobul request
+      cancel_kobul_2: Click to cancel Kobul 2 request
+      reject_1: Reject 1st Kobul
+      reject_2: Reject 2nd Kobul
+      save_favourite: Save to favourites
+      remove_favourite: Remove from favourites
+      send_chat: Send butterfly to chat with this profile.
+      send_view: Send butterfly to view profile.
+      remove_chat_request: Remove this chat request
+      block: Block this profile
+    confirm:
+      cancel_kobul_1: Cancel your Kobul request?
+      cancel_kobul_2: Cancel your Kobul 2 request?
+      reject_1: Reject this Kobul 1 request?
+  profile:
+    edit_information: Edit information
+    remove_information: Remove information
+    basic:
+      title: Basic Info
+      sub: Age · Height · Education
+      name: Name
+      date_of_birth: Date of Birth
+      gender: Gender
+      height: Height
+      hometown: Hometown
+      present_location: Present Location
+      present_address: Present Address
+      willing_to_relocate: Willing To Relocate
+      marital_status: Marital Status
+      highest_education_level: Highest Education Level
+      blood_group: Blood Group
+      family_type: Family Type
+      family_status: Family Status
+      family_values: Family Values
+    academic:
+      title: Academic Information
+      sub: Education · Degree
+      institution: Institution
+      location: Location
+      degree: Degree
+      passing_year: Passing Year
+      new: New Academic Information
+    occupation:
+      title: Occupation
+      sub: Work · Career
+      organization: Organization
+      company_name: Company Name
+      designation: Designation
+      employment_status: Employment Status
+      monthly_income: Monthly Income
+      start_date: Start Date
+      end_date: End Date
+      currently_working: Currently Working
+      new: Add New Occupation
+    appearance:
+      title: Appearance
+      sub: Physical features
+      hair_color: Hair Color
+      hair_length: Hair Length
+      hair_type: Hair Type
+      eye_color: Eye Color
+      eye_wear: Eye Wear
+      physical_status: Physical Status
+      weight: Weight
+      body_type: Body Type
+      body_art: Body Art
+      hijab: Hijab
+      niqab: Niqab
+      complexion: Complexion
+    family:
+      title: Family Details
+      sub: Parents · Siblings
+      name: Name
+      relation: Relation
+      occupation: Occupation
+      residence: Family Residence
+      permanent_address: Permanent Address
+      new: Add New Family Member
+    marriage:
+      title: Marriage Information
+      sub: Status · Expectations
+      have_children: Do You Have Children ?
+      no_of_children: No Of Children
+      want_children: Do You Want (more) Children?
+    life_style:
+      title: Life Style
+      sub: Habits · Preferences
+      drink: Do You Drink?
+      smoke: Do You Smoke?
+      food_habits: Food Habits
+      dress_style: Dress Style
+      living_with: Living With
+      specific_habits: Specific Habits
+    hobbies:
+      title: Hobbies and Interests
+      sub: Activities · Passions
+      hobby: Hobby
+      interest: Interest
+      music: Music
+      favourite_song: Favourite Song
+      read: Read
+      favourite_book: Favourite Book
+      movie: Movie
+      tv_show: TV Show
+      sports_show: Sports Show
+      fitness: Fitness Activity
+      cuisine: Cuisine
+      travel: Travel
+      entertainment: Specific Entertainment
+    cultural:
+      title: Cultural Values
+      sub: Religion · Traditions
+      nationality: Nationality
+      birth_place: Birth Place
+      mother_tongue: Mother Tongue
+      languages: Languages Spoken
+      religion: Religion
+      born_reverted: Born/Reverted
+      religious_events: Attend Religious Events
+      political_view: Political View
+    about:
+      title: About Myself
+      sub: Personal description
+      special_circumstances: Special Circumstances
+      family_lines: Few Line About My family

@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">🪞</span><strong>Appearance</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Physical features</span>
+          <span style="font-size:18px;margin-right:8px;">🪞</span><strong><%= t('profile.appearance.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.appearance.sub') %></span>
         </div>
         <div class="align-self-end pr-2">
           <a data-toggle="collapse" href="#collapse_appearance" class="align-self-end text-white">
@@ -22,7 +22,7 @@
              data-remote="true"
              data-toggle="tooltip"
              data-placement="top"
-             title="Edit information"
+             title="<%= t('profile.edit_information') %>"
              class="btn btn-sm btn-edit text-white mr-2">
             <i class="fa fa-pencil"></i>
           </a>
@@ -35,7 +35,7 @@
               <tbody>
                 <% if marriage_profile.appearance&.hair_color.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Hair Color</td>
+                    <td><%= t('profile.appearance.hair_color') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.appearance&.hair_color.present? ? marriage_profile&.appearance.hair_color.humanize : '' %></td>
                   </tr>
@@ -43,7 +43,7 @@
 
                 <% if marriage_profile.appearance&.hair_length.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Hair Length</td>
+                    <td><%= t('profile.appearance.hair_length') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.appearance&.hair_length.present? ? marriage_profile.appearance.hair_length : '' %></td>
                   </tr>
@@ -51,7 +51,7 @@
 
                 <% if marriage_profile.appearance&.hair_type.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Hair Type</td>
+                    <td><%= t('profile.appearance.hair_type') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.appearance&.hair_type.present? ? marriage_profile.appearance.hair_type : '' %></td>
                   </tr>
@@ -59,7 +59,7 @@
 
                 <% if marriage_profile.appearance&.eye_color.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Eye Color</td>
+                    <td><%= t('profile.appearance.eye_color') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.appearance&.eye_color.present? ? marriage_profile.appearance.eye_color : '' %></td>
                   </tr>
@@ -67,17 +67,17 @@
 
                 <% if marriage_profile.appearance&.eye_wear.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Eye Wear</td>
+                    <td><%= t('profile.appearance.eye_wear') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.appearance&.eye_wear.present? ? marriage_profile.appearance.eye_wear.humanize : '' %></td>
+                    <td><%= marriage_profile.appearance&.eye_wear.present? ? yes_no_label(marriage_profile.appearance.eye_wear) : '' %></td>
                   </tr>
                 <% end %>
 
                 <% if marriage_profile.appearance&.physical_status.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Physical Status</td>
+                    <td><%= t('profile.appearance.physical_status') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.appearance&.physical_status.present? ? marriage_profile.appearance.physical_status.humanize : '' %></td>
+                    <td><%= marriage_profile.appearance&.physical_status.present? ? enum_label(:appearance, :physical_status, marriage_profile.appearance.physical_status) : '' %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -89,7 +89,7 @@
               <tbody>
                 <% if marriage_profile.appearance&.weight.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td> Weight</td>
+                    <td> <%= t('profile.appearance.weight') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.appearance&.weight.present? ? marriage_profile.appearance.weight : '' %></td>
                   </tr>
@@ -97,41 +97,41 @@
 
                 <% if marriage_profile.appearance&.body_type.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td> Body Type</td>
+                    <td> <%= t('profile.appearance.body_type') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.appearance&.body_type.present? ? marriage_profile.appearance.body_type.humanize : '' %></td>
+                    <td><%= marriage_profile.appearance&.body_type.present? ? enum_label(:appearance, :body_type, marriage_profile.appearance.body_type) : '' %></td>
                   </tr>
                 <% end %>
 
                 <% if marriage_profile.appearance&.body_art.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td> Body Art</td>
+                    <td> <%= t('profile.appearance.body_art') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.appearance&.body_art.present? ? marriage_profile.appearance.body_art.humanize : '' %></td>
+                    <td><%= marriage_profile.appearance&.body_art.present? ? yes_no_label(marriage_profile.appearance.body_art) : '' %></td>
                   </tr>
                 <% end %>
 
                 <% if marriage_profile&.female? && (marriage_profile.appearance&.is_hijab.present? || marriage_profile.id == current_active_profile.id) %>
                   <tr>
-                    <td> Hijab</td>
+                    <td> <%= t('profile.appearance.hijab') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.appearance&.is_hijab.present? ? marriage_profile.appearance.is_hijab.humanize : '' %></td>
+                    <td><%= marriage_profile.appearance&.is_hijab.present? ? yes_no_label(marriage_profile.appearance.is_hijab) : '' %></td>
                   </tr>
                 <% end %>
 
                 <% if marriage_profile&.female? && (marriage_profile.appearance&.is_niqab.present? || marriage_profile.id == current_active_profile.id) %>
                   <tr>
-                    <td> Niqab</td>
+                    <td> <%= t('profile.appearance.niqab') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.appearance&.is_niqab.present? ? marriage_profile.appearance.is_niqab&.humanize : '' %></td>
+                    <td><%= marriage_profile.appearance&.is_niqab.present? ? yes_no_label(marriage_profile.appearance.is_niqab) : '' %></td>
                   </tr>
                 <% end %>
 
                 <% if marriage_profile.appearance&.complexion.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td> Complexion</td>
+                    <td> <%= t('profile.appearance.complexion') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.appearance&.complexion.present? ? marriage_profile.appearance.complexion.humanize : '' %></td>
+                    <td><%= marriage_profile.appearance&.complexion.present? ? enum_label(:appearance, :complexion, marriage_profile.appearance.complexion) : '' %></td>
                   </tr>
                 <% end %>
               </tbody>

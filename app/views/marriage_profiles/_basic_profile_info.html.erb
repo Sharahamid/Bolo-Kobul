@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">👤</span><strong>Basic Info</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Age · Height · Education</span>
+          <span style="font-size:18px;margin-right:8px;">👤</span><strong><%= t('profile.basic.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.basic.sub') %></span>
         </div>
 
         <div class="align-self-end pr-2 js-plus-minus">
@@ -17,7 +17,7 @@
     <div id="collapse_basic_profile_info" class="panel-collapse collapse p-2 detail-info">
       <% if marriage_profile.id == current_active_profile.id %>
         <div class="edit-info-btn">
-          <a href="<%= edit_marriage_profile_path(marriage_profile) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white mr-2">
+          <a href="<%= edit_marriage_profile_path(marriage_profile) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="<%= t('profile.edit_information') %>" class="btn btn-sm btn-edit text-white mr-2">
             <i class="fa fa-pencil"></i>
           </a>
         </div>
@@ -28,12 +28,12 @@
             <tbody>
             <% if marriage_profile.id == current_active_profile.id %>
               <tr>
-                <td> Name</td>
+                <td> <%= t('profile.basic.name') %></td>
                 <td>:</td>
                 <td><%= marriage_profile&.name %></td>
               </tr>
               <tr>
-                <td> Date of Birth</td>
+                <td> <%= t('profile.basic.date_of_birth') %></td>
                 <td>:</td>
                 <td><%= marriage_profile.date_of_birth? ? get_date_format(marriage_profile.date_of_birth) : '' %></td>
               </tr>
@@ -41,9 +41,9 @@
 
             <% if (marriage_profile.gender.present? && marriage_profile.privacy_setting.gender_public?) || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Gender</td>
+                <td> <%= t('profile.basic.gender') %></td>
                 <td>:</td>
-                <td><%= marriage_profile.gender.present? ? marriage_profile&.gender.humanize : '' %></td>
+                <td><%= marriage_profile.gender.present? ? enum_label(:marriage_profile, :gender, marriage_profile.gender) : '' %></td>
               </tr>
             <% end %>
 
@@ -51,34 +51,34 @@
               marriage_profile.privacy_setting.height_ft_public?) ||
               current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Height</td>
+                <td> <%= t('profile.basic.height') %></td>
                 <td>:</td>
                 <td>
-                  <%= marriage_profile.height_ft.present? ? marriage_profile&.height_ft : '--' %> '
-                  <%= marriage_profile.height_inch.present? ? marriage_profile.height_inch : '--' %> "
+                  <%= marriage_profile.height_ft.present? ? local_digits(marriage_profile.height_ft) : '--' %> '
+                  <%= marriage_profile.height_inch.present? ? local_digits(marriage_profile.height_inch) : '--' %> "
                 </td>
               </tr>
             <% end %>
 
             <% if marriage_profile&.hometown.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Hometown</td>
+                <td> <%= t('profile.basic.hometown') %></td>
                 <td>:</td>
-                <td> <%= marriage_profile.hometown.present? ? marriage_profile.hometown&.humanize : '' %></td>
+                <td> <%= marriage_profile.hometown.present? ? district_label(marriage_profile&.hometown) : '' %></td>
               </tr>
             <% end %>
 
             <% if marriage_profile&.present_location.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Present Location</td>
+                <td> <%= t('profile.basic.present_location') %></td>
                 <td>:</td>
-                <td><%= marriage_profile.present_location.present? ? marriage_profile.present_location&.humanize : '' %></td>
+                <td><%= marriage_profile.present_location.present? ? district_label(marriage_profile&.present_location) : '' %></td>
               </tr>
             <% end %>
 
             <% if current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Present Address</td>
+                <td> <%= t('profile.basic.present_address') %></td>
                 <td>:</td>
                 <td><%= marriage_profile.present_address.present? ? marriage_profile.present_address : '' %></td>
               </tr>
@@ -92,53 +92,53 @@
             <tbody>
             <% if marriage_profile.cultural_value&.willing_to_relocate.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Willing To Relocate</td>
+                <td> <%= t('profile.basic.willing_to_relocate') %></td>
                 <td>:</td>
                 <td><%= marriage_profile.cultural_value&.willing_to_relocate.present? ? User::BOOLEAN_DATA.keys[marriage_profile.cultural_value.willing_to_relocate] : '' %></td>
               </tr>
             <% end %>
             <% if marriage_profile&.marital_status.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Marital Status</td>
+                <td> <%= t('profile.basic.marital_status') %></td>
                 <td>:</td>
-                <td><%= marriage_profile.marital_status.present? ? marriage_profile&.marital_status.humanize : '' %></td>
+                <td><%= marriage_profile.marital_status.present? ? enum_label(:marriage_profile, :marital_status, marriage_profile.marital_status) : '' %></td>
               </tr>
             <% end %>
             <% if (marriage_profile.highest_education_level.present? && marriage_profile.privacy_setting.highest_education_level_public?) ||
               current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Highest Education Level</td>
+                <td> <%= t('profile.basic.highest_education_level') %></td>
                 <td>:</td>
-                <td><%= marriage_profile.highest_education_level.present? ? marriage_profile&.highest_education_level&.humanize : '' %> </td>
+                <td><%= marriage_profile.highest_education_level.present? ? enum_label(:marriage_profile, :highest_education_level, marriage_profile&.highest_education_level) : '' %> </td>
               </tr>
             <% end %>
 
             <% if marriage_profile.blood_group.present? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Blood Group</td>
+                <td> <%= t('profile.basic.blood_group') %></td>
                 <td>:</td>
                 <td><%= marriage_profile.blood_group.present? ? marriage_profile&.blood_group : '' %>  </td>
               </tr>
             <% end %>
             <% if marriage_profile.privacy_setting.family_type_public? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Family Type</td>
+                <td> <%= t('profile.basic.family_type') %></td>
                 <td>:</td>
-                <td> <%= marriage_profile.family_type? ? marriage_profile&.family_type&.humanize : '' %> </td>
+                <td> <%= marriage_profile.family_type? ? enum_label(:marriage_profile, :family_type, marriage_profile.family_type) : '' %> </td>
               </tr>
             <% end %>
             <% if marriage_profile.privacy_setting.family_status_public? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Family Status</td>
+                <td> <%= t('profile.basic.family_status') %></td>
                 <td>:</td>
-                <td><%= marriage_profile.family_status? ? marriage_profile&.family_status&.humanize : '' %> </td>
+                <td><%= marriage_profile.family_status? ? enum_label(:marriage_profile, :family_status, marriage_profile.family_status) : '' %> </td>
               </tr>
             <% end %>
             <% if marriage_profile.privacy_setting.family_values_public? || current_active_profile.id == marriage_profile.id %>
               <tr>
-                <td> Family Values</td>
+                <td> <%= t('profile.basic.family_values') %></td>
                 <td>:</td>
-                <td><%= marriage_profile.family_values? ? marriage_profile&.family_values&.humanize : '' %> </td>
+                <td><%= marriage_profile.family_values? ? enum_label(:marriage_profile, :family_values, marriage_profile.family_values) : '' %> </td>
               </tr>
             <% end %>
 

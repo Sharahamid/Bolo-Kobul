@@ -9,7 +9,7 @@
 </style>
 <div id="bk-recommendations" class="request-card flex-sm-fill" style="scroll-margin-top:90px; border-radius:10px; overflow:hidden; border:0.5px solid #eee;">
   <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:10px 14px; display:flex; align-items:center; justify-content:space-between;">
-    <span style="font-size:13px; font-weight:700; color:#633806;">Recommendations</span>
+    <span style="font-size:13px; font-weight:700; color:#633806;"><%= t('dashboard.recommendations') %></span>
     <% if get_recommended_profiles.present? %>
       <span style="background:#633806; color:#FAC775; font-size:10px; padding:1px 8px; border-radius:20px;"><%= get_recommended_profiles.count %></span>
     <% end %>
@@ -19,11 +19,11 @@
       <% pct = current_active_profile.profile_completeness.to_i %>
       <div class="bk-kobul-unlock">
         <div class="bk-kobul-unlock-text">
-          <strong>Your profile is <%= pct %>% complete</strong>
-          <span>Reach <%= MarriageProfile::KOBUL_MIN_COMPLETENESS %>% to send Kobuls.</span>
+          <strong><%= t('dashboard.unlock_title', percent: local_digits(pct)) %></strong>
+          <span><%= t('dashboard.unlock_text', min: local_digits(MarriageProfile::KOBUL_MIN_COMPLETENESS)) %></span>
         </div>
         <div class="bk-kobul-unlock-bar"><div style="width:<%= [pct, 100].min %>%;"></div></div>
-        <%= link_to 'Complete profile', profile_info_marriage_profile_path(current_active_profile), class: 'bk-kobul-unlock-btn' %>
+        <%= link_to t('dashboard.complete_profile'), profile_info_marriage_profile_path(current_active_profile), class: 'bk-kobul-unlock-btn' %>
       </div>
     <% end %>
     <% if get_recommended_profiles.present? %>
@@ -42,12 +42,12 @@
                 <% end %>
               </div>
               <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px; align-items:center;">
-                <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= p.age %> years</span>
-                <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= p.height_ft %>'<%= p.height_inch %>''</span>
-                <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><i class="fas fa-map-marker-alt" style="color:#854F0B; font-size:9px; margin-right:2px;"></i><%= p&.hometown&.humanize %></span>
+                <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= years_label(p.age) %></span>
+                <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= local_digits(p.height_ft) %>'<%= local_digits(p.height_inch) %>''</span>
+                <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><i class="fas fa-map-marker-alt" style="color:#854F0B; font-size:9px; margin-right:2px;"></i><%= district_label(p&.hometown) %></span>
               </div>
               <div style="font-size:10px; color:#999; display:flex; align-items:center; flex-wrap:wrap; gap:3px;">
-                <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= p.highest_education_level? ? p.highest_education_level.humanize : '' %></span><% if p.current_occupation.present? %><span>&middot;</span><span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= Occupation::OCCUPATION_LABELS[p.current_occupation] || p.current_occupation.humanize %></span><% end %>
+                <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= p.highest_education_level? ? enum_label(:marriage_profile, :highest_education_level, p&.highest_education_level) : '' %></span><% if p.current_occupation.present? %><span>&middot;</span><span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= occupation_label(p.current_occupation) %></span><% end %>
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">📝</span><strong>About Myself</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Personal description</span>
+          <span style="font-size:18px;margin-right:8px;">📝</span><strong><%= t('profile.about.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.about.sub') %></span>
         </div>
         <div class="align-self-end pr-2">
           <a data-toggle="collapse" href="#collapse_about" class="align-self-end text-white">
@@ -16,7 +16,7 @@
     <div id="collapse_about" class="panel-collapse  collapse p-2 detail-info ">
       <% if marriage_profile.id == current_active_profile.id %>
         <div class="edit-info-btn">
-          <a href="<%= edit_about_marriage_profile_path(marriage_profile) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white mr-2">
+          <a href="<%= edit_about_marriage_profile_path(marriage_profile) %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="<%= t('profile.edit_information') %>" class="btn btn-sm btn-edit text-white mr-2">
             <i class="fa fa-pencil"></i>
           </a>
         </div>
@@ -39,7 +39,7 @@
 
               <% if marriage_profile.special_circumstances? || marriage_profile.id == current_active_profile.id %>
                 <tr class="p-2">
-                  <td class="special-td"> Special Circumstances</td>
+                  <td class="special-td"> <%= t('profile.about.special_circumstances') %></td>
                   <td>:</td>
                   <td class=" text-justify pr-5">
                     <%= marriage_profile.special_circumstances? ? marriage_profile.special_circumstances : '' %>
@@ -49,7 +49,7 @@
 
               <% if marriage_profile.description? || marriage_profile.id == current_active_profile.id %>
                 <tr class="p-2">
-                  <td class="special-td"> Few Line About My family</td>
+                  <td class="special-td"> <%= t('profile.about.family_lines') %></td>
                   <td>:</td>
                   <td class=" text-justify pr-5">
                     <%= marriage_profile.description? ? marriage_profile.description : '' %>

@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">🌿</span><strong>Life Style</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Habits · Preferences</span>
+          <span style="font-size:18px;margin-right:8px;">🌿</span><strong><%= t('profile.life_style.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.life_style.sub') %></span>
         </div>
         <div class="align-self-end pr-2">
           <a data-toggle="collapse" href="#collapse_life_style" class="align-self-end text-white">
@@ -35,7 +35,7 @@
               <tbody>
                 <% if marriage_profile.life_style&.drinker.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Do You Drink?</td>
+                    <td><%= t('profile.life_style.drink') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.life_style&.drinker.present? ? User::DRINK_SMOKE_DATA.keys[marriage_profile.life_style.drinker] : '' %></td>
                   </tr>
@@ -43,7 +43,7 @@
 
                 <% if marriage_profile.life_style&.smoker.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Do You Smoke?</td>
+                    <td><%= t('profile.life_style.smoke') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.life_style&.smoker.present? ? User::DRINK_SMOKE_DATA.keys[marriage_profile&.life_style.smoker] : '' %></td>
                   </tr>
@@ -51,7 +51,7 @@
 
                 <% if marriage_profile.life_style&.food_habits.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Food Habits</td>
+                    <td><%= t('profile.life_style.food_habits') %></td>
                     <td>:</td>
                     <td><%= marriage_profile.life_style&.food_habits.present? ? User::FOOD_HABITS.keys[marriage_profile&.life_style&.food_habits] : '' %></td>
                   </tr>
@@ -63,7 +63,7 @@
               <tbody>
                 <% if marriage_profile.life_style&.dress_style.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Dress Style</td>
+                    <td><%= t('profile.life_style.dress_style') %></td>
                     <td>:</td>
                     <td>
                       <%= marriage_profile.life_style&.dress_style.present? ?
@@ -74,7 +74,7 @@
 
                 <% if marriage_profile.life_style&.living_with.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Living With</td>
+                    <td><%= t('profile.life_style.living_with') %></td>
                     <td>:</td>
                     <td>
                       <%= marriage_profile.life_style&.living_with.present? ?
@@ -85,7 +85,7 @@
 
                 <% if marriage_profile.life_style&.specific_habits.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td>Specific Habits</td>
+                    <td><%= t('profile.life_style.specific_habits') %></td>
                     <td>:</td>
                     <td><%= marriage_profile&.life_style&.specific_habits || '' %></td>
                   </tr>

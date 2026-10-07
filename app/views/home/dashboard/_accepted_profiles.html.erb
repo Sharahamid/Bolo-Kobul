@@ -1,6 +1,6 @@
 <div class="request-card flex-sm-fill" style="border-radius:10px; overflow:hidden; border:0.5px solid #eee;">
   <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:10px 14px; display:flex; align-items:center; justify-content:space-between;">
-    <span style="font-size:13px; font-weight:700; color:#633806;">2nd Kobul Request Received</span>
+    <span style="font-size:13px; font-weight:700; color:#633806;"><%= t('dashboard.second_kobul_received') %></span>
     <% if get_accepted_profiles.present? %>
       <span style="background:#633806; color:#FAC775; font-size:10px; padding:1px 8px; border-radius:20px;"><%= get_accepted_profiles.count %></span>
     <% end %>
@@ -22,7 +22,7 @@
       <% end %>
     <% else %>
       <div class="alert text-center text-gray" style="padding:40px 16px; min-height:110px; display:flex; align-items:center; justify-content:center;">
-        <p style="margin:0;">No Request Yet</p>
+        <p style="margin:0;"><%= t('dashboard.no_request') %></p>
       </div>
     <% end %>
   </div>

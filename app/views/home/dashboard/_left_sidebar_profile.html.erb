@@ -41,14 +41,14 @@
         <span style="background:#FFF3CC; color:#854F0B; font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px;"><%= marriage_profile&.unique_id %></span>
         <strong style="font-size:13px; color:#222;"><%= marriage_profile&.name&.split&.first %></strong>
         <% if marriage_profile&.verified %>
-          <i title="Verified" class="fas fa-check-circle" style="color:#FFB627; font-size:13px;"></i>
+          <i title="<%= t('profile_card.verified') %>" class="fas fa-check-circle" style="color:#FFB627; font-size:13px;"></i>
         <% end %>
       </div>
 
       <% pct = current_active_profile.profile_completeness.to_i %>
       <div style="display:flex; justify-content:space-between; font-size:10px; color:#888; margin-bottom:3px;">
-        <span>Profile complete</span>
-        <span style="color:#FFB627; font-weight:700;"><%= pct %>%</span>
+        <span><%= t('dashboard.profile_complete') %></span>
+        <span style="color:#FFB627; font-weight:700;"><%= local_digits(pct) %>%</span>
       </div>
       <div style="height:5px; background:#f0f0f0; border-radius:4px; overflow:hidden; margin-bottom:8px;">
         <div style="width:<%= pct %>%; height:100%; background:linear-gradient(90deg,#FFB627,#ffca5e); border-radius:4px;"></div>
@@ -59,24 +59,24 @@
       <div style="border-top:0.5px solid #f0f0f0; padding-top:8px; margin-top:8px; display:flex; justify-content:space-around;">
         <a id="bk-target-requests-sent" href="<%= pending_profiles_marriage_profiles_path %>" style="flex:1; text-align:center; text-decoration:none;">
           <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= get_pending_profiles.present? ? get_pending_profiles.count : 0 %></div>
-          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;"><%= get_pending_profiles.count == 1 ? 'Request' : 'Requests' %><br>Sent</div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;"><%= get_pending_profiles.count == 1 ? t('dashboard.request') : t('dashboard.requests') %><br><%= t('dashboard.sent') %></div>
         </a>
         <a id="bk-target-chat-requests" href="<%= pending_chat_profiles_chat_friendships_path %>" style="flex:1; text-align:center; text-decoration:none;">
           <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= get_pending_chat_profiles.present? ? get_pending_chat_profiles.count : 0 %></div>
-          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;"><%= get_pending_chat_profiles.to_a.count == 1 ? 'Chat Request' : 'Chat Requests' %><br>Sent</div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;"><%= get_pending_chat_profiles.to_a.count == 1 ? t('dashboard.chat_request') : t('dashboard.chat_requests') %><br><%= t('dashboard.sent') %></div>
         </a>
         <a href="<%= favourites_path %>" style="flex:1; text-align:center; text-decoration:none;">
           <% fav_count = current_active_profile.favourites.joins("INNER JOIN marriage_profiles ON marriage_profiles.id = favourites.favourite_profile_id").count %>
           <div style="font-size:16px; font-weight:700; color:#FFB627; line-height:1;"><%= fav_count %></div>
-          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;">Favourite<br><%= fav_count == 1 ? 'Profile' : 'Profiles' %></div>
+          <div style="font-size:9px; color:#999; margin-top:2px; line-height:1.3;"><%= t('dashboard.favourite') %><br><%= fav_count == 1 ? t('dashboard.profile_word') : t('dashboard.profiles_word') %></div>
         </a>
       </div>
       <div style="border-top:0.5px solid #eee; margin:10px 0 0;"></div>
       <div style="background:#FF596C; border-radius:10px; padding:12px 14px; margin-top:10px;">
-        <div style="font-size:12px; font-weight:700; color:#fff; text-align:center; margin-bottom:8px;">🦋 Butterflies</div>
-        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:4px;"><span>Balance</span><span><%= current_user.butterfly_number.to_i %></span></div>
-        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:10px;"><span>In Process</span><span><%= current_user.block_butterfly_number.to_i %></span></div>
-        <%= link_to 'Get More', new_order_path, class: 'btn btn-sm btn-default white-background bk-purchase', style: 'width:100%; font-size:11px;' %>
+        <div style="font-size:12px; font-weight:700; color:#fff; text-align:center; margin-bottom:8px;">🦋 <%= t('dashboard.butterflies') %></div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:4px;"><span><%= t('dashboard.balance') %></span><span><%= local_digits(current_user.butterfly_number.to_i) %></span></div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:10px;"><span><%= t('dashboard.in_process') %></span><span><%= local_digits(current_user.block_butterfly_number.to_i) %></span></div>
+        <%= link_to t('dashboard.get_more'), new_order_path, class: 'btn btn-sm btn-default white-background bk-purchase', style: 'width:100%; font-size:11px;' %>
       </div>
     </div>
 
@@ -96,23 +96,23 @@
       <div style="height:0.5px; background:#eee; margin:0 0 10px;"></div>
 
       <div class="bk-top-row">
-        <div class="bk-top-pill"><%= marriage_profile.age %>  years</div>
-        <div class="bk-top-pill"><%= marriage_profile.height_ft %>'<%= marriage_profile.height_inch %>"</div>
+        <div class="bk-top-pill"><%= years_label(marriage_profile.age) %></div>
+        <div class="bk-top-pill"><%= local_digits(marriage_profile.height_ft) %>'<%= local_digits(marriage_profile.height_inch) %>"</div>
         <div class="bk-top-pill">
           <i class="fas fa-map-marker-alt bk-info-icon"></i>
-          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= marriage_profile&.hometown&.humanize %></span>
+          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= district_label(marriage_profile&.hometown) %></span>
         </div>
       </div>
 
       <div class="bk-info-row">
         <i class="fas fa-graduation-cap bk-info-icon"></i>
-        <span><%= marriage_profile&.highest_education_level&.humanize %></span>
+        <span><%= enum_label(:marriage_profile, :highest_education_level, marriage_profile&.highest_education_level) %></span>
       </div>
 
       <% if marriage_profile&.current_occupation.present? %>
         <div class="bk-info-row">
           <i class="fas fa-briefcase bk-info-icon"></i>
-          <span><%= Occupation::OCCUPATION_LABELS[marriage_profile&.current_occupation] || marriage_profile&.current_occupation&.humanize %></span>
+          <span><%= occupation_label(marriage_profile&.current_occupation) %></span>
         </div>
       <% end %>
 
@@ -121,19 +121,19 @@
           <div class="bk-action-row">
             <%= link_to profile_message_path(marriage_profile), class: 'kobul_btn kobul_2',
                         style: 'background:#FFB627; border-color:#FFB627; color:#412402; font-weight:600;' do %>
-              <i class="fas fa-comment"></i> Chat
+              <i class="fas fa-comment"></i> <%= t('kobul.chat') %>
             <% end %>
           </div>
         <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(marriage_profile.id) %>
           <div class="bk-action-row">
-            <a href="<%= reject_request_chat_friendship_path(marriage_profile) %>" data-method="patch" class="kobul_btn kobul_2" style="font-size:11px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel Kobul 2 request" data-confirm="Cancel your Kobul 2 request?">🦋 Kobul 2 Pending</a>
+            <a href="<%= reject_request_chat_friendship_path(marriage_profile) %>" data-method="patch" class="kobul_btn kobul_2" style="font-size:11px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= t('kobul.tip.cancel_kobul_2') %>" data-confirm="<%= t('kobul.confirm.cancel_kobul_2') %>"><%= t('kobul.kobul_2_pending') %></a>
             <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
               <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
-                <i class="fa fa-close"></i> Remove
+                <i class="fa fa-close"></i> <%= t('kobul.remove') %>
               <% end %>
             <% else %>
               <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn' do %>
-                <i class="far fa-heart"></i> Favourite
+                <i class="far fa-heart"></i> <%= t('kobul.favourite') %>
               <% end %>
             <% end %>
           </div>
@@ -143,14 +143,14 @@
           <%= render 'home/dashboard/accept_and_cancel_btns', profile: marriage_profile %>
         <% elsif current_active_profile.pending_friends.include?(marriage_profile) %>
           <div class="bk-action-row">
-            <a href="<%= cancel_request_marriage_profile_path(marriage_profile) %>" data-method="patch" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Click to cancel your Kobul request" data-confirm="Cancel your Kobul request?">🦋 Pending</a>
+            <a href="<%= cancel_request_marriage_profile_path(marriage_profile) %>" data-method="patch" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= t('kobul.tip.cancel_kobul_1') %>" data-confirm="<%= t('kobul.confirm.cancel_kobul_1') %>"><%= t('kobul.pending') %></a>
             <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
               <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
-                <i class="fa fa-close"></i> Remove
+                <i class="fa fa-close"></i> <%= t('kobul.remove') %>
               <% end %>
             <% else %>
               <%= link_to favourites_path(favourite_profile_id: marriage_profile.id), method: :post, class: 'bk_favourite-btn' do %>
-                <i class="far fa-heart"></i> Favourite
+                <i class="far fa-heart"></i> <%= t('kobul.favourite') %>
               <% end %>
             <% end %>
           </div>
@@ -168,10 +168,10 @@
       <% end %>
       <div style="border-top:0.5px solid #eee; margin:10px 0 0;"></div>
       <div style="background:#FF596C; border-radius:10px; padding:12px 14px; margin-top:10px;">
-        <div style="font-size:12px; font-weight:700; color:#fff; text-align:center; margin-bottom:8px;">🦋 Butterflies</div>
-        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:4px;"><span>Balance</span><span><%= current_user.butterfly_number.to_i %></span></div>
-        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:10px;"><span>In Process</span><span><%= current_user.block_butterfly_number.to_i %></span></div>
-        <%= link_to 'Get More', new_order_path, class: 'btn btn-sm btn-default white-background bk-purchase', style: 'width:100%; font-size:11px;' %>
+        <div style="font-size:12px; font-weight:700; color:#fff; text-align:center; margin-bottom:8px;">🦋 <%= t('dashboard.butterflies') %></div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:4px;"><span><%= t('dashboard.balance') %></span><span><%= local_digits(current_user.butterfly_number.to_i) %></span></div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:10px;"><span><%= t('dashboard.in_process') %></span><span><%= local_digits(current_user.block_butterfly_number.to_i) %></span></div>
+        <%= link_to t('dashboard.get_more'), new_order_path, class: 'btn btn-sm btn-default white-background bk-purchase', style: 'width:100%; font-size:11px;' %>
       </div>
     </div>
   <% end %>
@@ -179,7 +179,7 @@
 
 <div id="bk-photo-modal" onclick="bkClosePhoto()">
   <span class="bk-wm" style="border-radius:50%;"><img id="bk-photo-modal-img" src="" alt=""></span>
-  <p>Tap to close</p>
+  <p><%= t('dashboard.tap_to_close') %></p>
 </div>
 <script>
   function bkOpenPhoto(src) {

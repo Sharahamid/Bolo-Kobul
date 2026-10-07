@@ -1,11 +1,11 @@
 <div style="display:flex; gap:8px; margin-top:2px;">
   <% if current_active_profile.pending_friends.include?(marriage_profile) %>
-    <span class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; border-color:#FFB627 !important; color:#854F0B !important; display:flex; align-items:center; justify-content:center; gap:4px; cursor:default;" data-toggle="tooltip" title="You Have Sent Butterfly Request To This User">
-      🦋 Pending
+    <span class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; border-color:#FFB627 !important; color:#854F0B !important; display:flex; align-items:center; justify-content:center; gap:4px; cursor:default;" data-toggle="tooltip" title="<%= t('kobul.tip.sent_kobul_1') %>">
+      <%= t('kobul.pending') %>
     </span>
   <% else %>
-    <a href="<%= send_request_marriage_profile_path(marriage_profile) %>" data-method="post" class="kobul_btn" data-butterfly-target="bk-target-requests-sent" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; border-color:#FFB627 !important; color:#854F0B !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="Send butterfly to request more details">
-      🦋 Kobul (1)
+    <a href="<%= send_request_marriage_profile_path(marriage_profile) %>" data-method="post" class="kobul_btn" data-butterfly-target="bk-target-requests-sent" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; border-color:#FFB627 !important; color:#854F0B !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= t('kobul.tip.send_kobul_1') %>">
+      <%= t('kobul.kobul_1') %>
     </a>
   <% end %>
   <% if @marriage_profile.favourite_profile_ids.include?(marriage_profile.id) %>
@@ -15,8 +15,8 @@
                 class: 'kobul_cancel-btn',
                 style: 'flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;',
                 data: {toggle: 'tooltip', placement: 'top'},
-                title: "Remove from favourites" do %>
-      <i class="fa fa-close"></i> Remove
+                title: t('kobul.tip.remove_favourite') do %>
+      <i class="fa fa-close"></i> <%= t('kobul.remove') %>
     <% end %>
   <% else %>
     <%= link_to favourites_path(favourite_profile_id: marriage_profile.id),
@@ -25,8 +25,8 @@
                 class: 'bk_favourite-btn',
                 style: 'flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;',
                 data: {toggle: 'tooltip', placement: 'top'},
-                title: "Save to favourites" do %>
-      <i class="far fa-heart"></i> Favourite
+                title: t('kobul.tip.save_favourite') do %>
+      <i class="far fa-heart"></i> <%= t('kobul.favourite') %>
     <% end %>
   <% end %>
 </div>

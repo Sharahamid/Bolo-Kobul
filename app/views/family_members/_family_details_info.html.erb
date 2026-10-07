@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">👨‍👩‍👧‍👦</span><strong>Family Details</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Parents · Siblings</span>
+          <span style="font-size:18px;margin-right:8px;">👨‍👩‍👧‍👦</span><strong><%= t('profile.family.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.family.sub') %></span>
         </div>
         <div class="align-self-end pr-2">
           <a data-toggle="collapse" href="#collapse_family_details" class="align-self-end text-white">
@@ -19,7 +19,7 @@
           <a href="<%= new_family_member_path %>"
              data-remote="true" data-toggle="tooltip"
              data-placement="top"
-             title="Add New Family Member"
+             title="<%= t('profile.family.new') %>"
              class="btn btn-sm btn-edit text-white">
             <i class="fa fa-plus-circle"></i>
           </a>
@@ -35,7 +35,7 @@
                    data-remote="true"
                    data-toggle="tooltip"
                    data-placement="top"
-                   title="Edit information"
+                   title="<%= t('profile.edit_information') %>"
                    class="btn btn-sm btn-edit text-white">
                   <i class="fa fa-pencil"></i>
                 </a>
@@ -48,7 +48,7 @@
                    data-remote="true"
                    data-toggle="tooltip"
                    data-placement="top"
-                   title="Remove information"
+                   title="<%= t('profile.remove_information') %>"
                    class="btn btn-sm btn-delete text-white">
                   <i class="far fa-trash-alt"></i>
                 </a>
@@ -59,19 +59,19 @@
                 <table class=" flex-fill pr-3 table table-borderless table-responsive">
                   <tbody>
                   <tr>
-                    <td> Name</td>
+                    <td> <%= t('profile.family.name') %></td>
                     <td>:</td>
                     <td><%= family_member.name.present? ? family_member.name : '' %> </td>
                   </tr>
                   <tr>
-                    <td> Relation</td>
+                    <td> <%= t('profile.family.relation') %></td>
                     <td>:</td>
-                    <td><%= family_member.relation.present? ? family_member.relation&.humanize : '' %></td>
+                    <td><%= family_member.relation.present? ? enum_label(:family_member, :relation, family_member.relation) : '' %></td>
                   </tr>
                   <tr>
-                    <td> Occupation</td>
+                    <td> <%= t('profile.family.occupation') %></td>
                     <td>:</td>
-                    <td><%= family_member.occupation.present? ? family_member.occupation_display : '' %> </td>
+                    <td><%= family_member.occupation.present? ? I18n.t("occupations.#{family_member.occupation}", default: family_member.occupation_display) : '' %> </td>
                   </tr>
 
 
@@ -81,13 +81,13 @@
                 <table class=" flex-fill pr-3 table table-borderless table-responsive">
                   <tbody>
                   <tr>
-                    <td> Family Residence</td>
+                    <td> <%= t('profile.family.residence') %></td>
                     <td>:</td>
-                    <td><%= family_member.residence_type.present? ? family_member.residence_type&.humanize : '' %> </td>
+                    <td><%= family_member.residence_type.present? ? enum_label(:family_member, :residence_type, family_member.residence_type) : '' %> </td>
                   </tr>
 
                   <tr>
-                    <td> Permanent Address</td>
+                    <td> <%= t('profile.family.permanent_address') %></td>
                     <td>:</td>
                     <td>
                       <%= family_member.permanent_address.present? ? family_member.permanent_address : '' %>

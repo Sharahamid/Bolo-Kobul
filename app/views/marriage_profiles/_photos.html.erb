@@ -1,6 +1,6 @@
 <% if marriage_profile.id == current_active_profile.id && !marriage_profile.photo_1.present? %>
 <div style="background:#fffbea; border:1px solid #FFB627; border-radius:8px; padding:10px 14px; font-size:12px; color:#412402; margin-bottom:12px;">
-  📸 <strong>Profiles with photos get 3x more responses.</strong> Add a clear, recent photo to attract better matches.
+  📸 <strong><%= t('dashboard.photos_tip_title') %></strong> <%= t('dashboard.photos_tip_text') %>
 </div>
 <% end %>
 <div class="d-sm-flex flex-sm-column pt-1">

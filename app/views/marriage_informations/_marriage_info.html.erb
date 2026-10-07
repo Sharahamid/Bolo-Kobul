@@ -4,7 +4,7 @@
     <div class="panel-heading">
       <div class="d-flex flex-row">
         <div class=" flex-fill pl-2 pt-1">
-          <span style="font-size:18px;margin-right:8px;">💍</span><strong>Marriage Information</strong><span style="font-size:11px;color:#aaa;margin-left:8px;">Status · Expectations</span>
+          <span style="font-size:18px;margin-right:8px;">💍</span><strong><%= t('profile.marriage.title') %></strong><span style="font-size:11px;color:#aaa;margin-left:8px;"><%= t('profile.marriage.sub') %></span>
         </div>
         <div class="align-self-end pr-2">
           <a data-toggle="collapse" href="#collapse_marriage_information" class="align-self-end text-white">
@@ -16,7 +16,7 @@
     <div id="collapse_marriage_information" class="panel-collapse collapse p-2 detail-info">
       <% if marriage_profile.id == current_active_profile.id %>
         <div class="edit-info-btn">
-          <a href="<%= marriage_profile.marriage_information.present? ? edit_marriage_information_path(marriage_profile.marriage_information) : new_marriage_information_path %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="Edit information" class="btn btn-sm btn-edit text-white mr-2 js-mi-edit">
+          <a href="<%= marriage_profile.marriage_information.present? ? edit_marriage_information_path(marriage_profile.marriage_information) : new_marriage_information_path %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="<%= t('profile.edit_information') %>" class="btn btn-sm btn-edit text-white mr-2 js-mi-edit">
             <i class="fa fa-pencil"></i>
           </a>
         </div>
@@ -28,7 +28,7 @@
               <tbody>
                 <% if !marriage_profile.marriage_information&.have_children.nil? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td> Do You Have Children ?</td>
+                    <td> <%= t('profile.marriage.have_children') %></td>
                     <td> :</td>
                     <td>
                       <% if marriage_profile.marriage_information&.have_children.nil? %>
@@ -42,7 +42,7 @@
 
                 <% if marriage_profile.marriage_information&.no_of_childrens.present? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td> No Of Children</td>
+                    <td> <%= t('profile.marriage.no_of_children') %></td>
                     <td> :</td>
                     <td><%= marriage_profile&.marriage_information&.no_of_childrens || '' %></td>
                   </tr>
@@ -50,7 +50,7 @@
 
                 <% if !marriage_profile.marriage_information&.want_more_child.nil? || marriage_profile.id == current_active_profile.id %>
                   <tr>
-                    <td> Do You Want (more) Children?</td>
+                    <td> <%= t('profile.marriage.want_children') %></td>
                     <td> :</td>
                     <td>
                       <% if marriage_profile.marriage_information&.want_more_child.nil? %>

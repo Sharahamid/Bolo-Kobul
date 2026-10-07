@@ -16,15 +16,15 @@
         <% end %>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px; align-items:center;">
-        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= profile.age %> years</span>
-        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= profile.height_ft %>'<%= profile.height_inch %>''</span>
-        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><i class="fas fa-map-marker-alt" style="color:#854F0B; font-size:9px; margin-right:2px;"></i><%= profile&.hometown&.humanize %></span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= years_label(profile.age) %></span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= local_digits(profile.height_ft) %>'<%= local_digits(profile.height_inch) %>''</span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><i class="fas fa-map-marker-alt" style="color:#854F0B; font-size:9px; margin-right:2px;"></i><%= district_label(profile&.hometown) %></span>
       </div>
       <div style="font-size:10px; color:#999; display:flex; align-items:center; flex-wrap:wrap; gap:3px;">
-        <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= profile.highest_education_level? ? profile.highest_education_level.humanize : '' %></span>
+        <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= profile.highest_education_level? ? enum_label(:marriage_profile, :highest_education_level, profile&.highest_education_level) : '' %></span>
         <% if profile.current_occupation.present? %>
           <span>&middot;</span>
-          <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= Occupation::OCCUPATION_LABELS[profile.current_occupation] || profile.current_occupation.humanize %></span>
+          <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= occupation_label(profile.current_occupation) %></span>
         <% end %>
       </div>
     </div>
