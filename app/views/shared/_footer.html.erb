@@ -4,34 +4,34 @@
 
       <div class="d-sm-flex flex-sm-row" style="gap:24px; margin-bottom:16px;">
         <div class="flex-fill">
-          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;">Need Help?</strong>
+          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;"><%= t('footer.need_help') %></strong>
           <ul style="list-style:none; padding:0; margin:6px 0 0;">
-            <li style="margin-bottom:3px;"><%= link_to 'Wedding Shopping', market_places_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'FAQ', faqs_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'Contact Us', contact_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'Customer Support', new_customer_support_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.wedding_shopping'), market_places_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.faq'), faqs_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.contact_us'), contact_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('footer.customer_support'), new_customer_support_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
           </ul>
         </div>
         <div class="flex-fill">
-          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;">Company</strong>
+          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;"><%= t('footer.company') %></strong>
           <ul style="list-style:none; padding:0; margin:6px 0 0;">
-            <li style="margin-bottom:3px;"><%= link_to 'About Us', about_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'How It Works', how_it_works_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'Blogs', blogs_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'Success Stories', blogs_path(type: 'success_story'), style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.about_us'), about_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.how_it_works'), how_it_works_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.blogs'), blogs_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.success_stories'), blogs_path(type: 'success_story'), style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
           </ul>
         </div>
         <div class="flex-fill">
-          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;">Privacy & You</strong>
+          <strong style="font-size:11px; color:#D6AA00; text-transform:uppercase; letter-spacing:0.5px;"><%= t('footer.privacy_and_you') %></strong>
           <ul style="list-style:none; padding:0; margin:6px 0 0;">
-            <li style="margin-bottom:3px;"><%= link_to 'Terms of Use', terms_of_uses_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'Privacy Policy', privacy_policies_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
-            <li style="margin-bottom:3px;"><%= link_to 'Precautionary Measures', precautionary_measures_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('footer.terms_of_use'), terms_of_uses_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('footer.privacy_policy'), privacy_policies_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('nav.precautionary_measures'), precautionary_measures_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
             <li style="margin-bottom:3px;">
               <% if user_signed_in? && current_active_profile.present? %>
-                <%= link_to 'Use Referral', refferel_code_marriage_profiles_path, style: 'font-size:12px; color:gray; text-decoration:none;' %>
+                <%= link_to t('footer.use_referral'), refferel_code_marriage_profiles_path, style: 'font-size:12px; color:gray; text-decoration:none;' %>
               <% else %>
-                <%= link_to 'Use Referral', reference_path, style: 'font-size:12px; color:gray; text-decoration:none;' %>
+                <%= link_to t('footer.use_referral'), reference_path, style: 'font-size:12px; color:gray; text-decoration:none;' %>
               <% end %>
             </li>
           </ul>
@@ -39,7 +39,8 @@
       </div>
 
       <div style="border-top:1px solid #f0f0f0; padding:10px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;">
-        <span style="font-size:11px; color:gray;">© <%= Time.now.year %> Bolo Kobul &middot; Marriages are made in heaven</span>
+        <span style="font-size:11px; color:gray;">© <%= Time.now.year %> Bolo Kobul &middot; <%= t('footer.tagline') %></span>
+        <%= render 'shared/language_switch' %>
         <%= image_tag 'aamarpay.png', alt: 'Payment methods', style: 'height:auto; max-height:32px; max-width:100%;' %>
         <div style="display:flex; align-items:center; gap:4px;">
           <%= render 'shared/social_media_link', text_color: 'text-warning' %>

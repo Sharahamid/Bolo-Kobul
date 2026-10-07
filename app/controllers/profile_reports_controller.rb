@@ -5,12 +5,12 @@ class ProfileReportsController < ApplicationController
   before_action :check_current_active_profile
   # Counted per member: many mobile users in Bangladesh share one internet address
   rate_limit to: 10, within: 1.hour, only: :create, by: -> { current_user.id },
-             with: -> { redirect_back fallback_location: root_path, warning: 'Too many reports in a short time. Please try again later.' }
+             with: -> { redirect_back fallback_location: root_path, warning: I18n.t('report.flash.too_many') }
 
   def create
     reported = MarriageProfile.friendly.find(params[:profile_id])
     if current_user.marriage_profiles.exists?(reported.id)
-      return redirect_back(fallback_location: root_path, warning: "You can't report your own profile.")
+      return redirect_back(fallback_location: root_path, warning: I18n.t('report.flash.own'))
     end
 
     report = ProfileReport.new(reporter_profile: current_active_profile, reported_profile: reported,
@@ -27,10 +27,10 @@ class ProfileReportsController < ApplicationController
 
     if params[:block] == '1'
       current_active_profile.block_profile!(reported)
-      flash[:notice] = "Thank you. We've received your report and blocked #{reported.unique_id}. Our team will review it within 24 hours."
+      flash[:notice] = I18n.t('report.flash.blocked', id: reported.unique_id)
       redirect_to user_homepage(current_user)
     else
-      flash[:notice] = "Thank you. We've received your report about #{reported.unique_id}. Our team will review it within 24 hours."
+      flash[:notice] = I18n.t('report.flash.received', id: reported.unique_id)
       redirect_back fallback_location: user_homepage(current_user)
     end
   end

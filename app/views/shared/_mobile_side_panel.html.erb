@@ -6,6 +6,8 @@
 
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
 
+    <div class="bk-side-panel-lang"><%= render 'shared/language_switch' %></div>
+
     <% if current_user.present? %>
       <div class="mobile-site-bar-menu">
         <a href="<%=
@@ -14,7 +16,7 @@
            class="bk-active">
           <div class="">
             <i class="fa fa-tachometer"></i>
-            <span class="pl-1">Dashboard</span>
+            <span class="pl-1"><%= t('nav.dashboard') %></span>
           </div>
         </a>
         <a href="<%=
@@ -23,7 +25,7 @@
            class="bk-active">
           <div class="">
             <i class="fa fa-user"></i>
-            <span class="pl-1">Profile</span>
+            <span class="pl-1"><%= t('nav.profile') %></span>
           </div>
         </a>
         <a href="<%=
@@ -32,7 +34,7 @@
            class="bk-active">
           <div class="">
             <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
-            <span class="pl-1">Orders</span>
+            <span class="pl-1"><%= t('nav.orders') %></span>
           </div>
         </a>
         <a href="<%=
@@ -42,19 +44,19 @@
            class="bk-active">
           <div class="">
             <i class="fas fa-user-shield"></i>
-            <span class="pl-1">Preference</span>
+            <span class="pl-1"><%= t('nav.preference') %></span>
           </div>
         </a>
         <a href="<%= customer_supports_path  %>" class="bk-active">
           <div class="">
             <i class="fas fa-headset"></i>
-            Reported Issues
+            <%= t('nav.reported_issues') %>
           </div>
         </a>
         <a href="<%= privacy_settings_path  %>" class="bk-active">
           <div class="">
             <i class="fa fa-user-cog"></i>
-             Privacy Settings
+             <%= t('nav.privacy_settings') %>
           </div>
         </a>
         <a href="<%=
@@ -63,26 +65,26 @@
            class="bk-active">
           <div class="">
             <i class="far fa-address-card"></i>
-            <span class="pl-1">Search</span>
+            <span class="pl-1"><%= t('nav.search') %></span>
           </div>
         </a>
         <a href="<%= how_it_works_path %>" class="bk-active">
           <div class="">
             <i class="fas fa-cogs"></i>
-            How It Works
+            <%= t('nav.how_it_works') %>
           </div>
         </a>
         <a href="<%= market_places_path %>" class="bk-active">
           <div class="">
             <i class="fas fa-store"></i>
-            Wedding Shopping
+            <%= t('nav.wedding_shopping') %>
           </div>
         </a>
         <div class="dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="menu-title">
               <i class="fas fa-hands-helping"></i>
-              Assisted Services
+              <%= t('nav.assisted_services') %>
             </div>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -96,13 +98,13 @@
         <a href="<%= precautionary_measures_path %>" class="bk-active">
           <div class="">
             <i class="fas fa-exclamation-circle"></i>
-            Precautionary Measures
+            <%= t('nav.precautionary_measures') %>
           </div>
         </a>
         <a href="<%= notifications_users_path %>" class="bk-active notification-section">
           <div class="">
             <i class="fas fa-hand-holding-heart"></i>
-            Notifications
+            <%= t('nav.notifications') %>
             <% mob_unread = current_user&.notifications&.unread&.count || 0 %>
             <span class="notification-counter"><%= mob_unread.zero? ? '' : (mob_unread > 99 ? '99+' : mob_unread) %></span>
           </div>
@@ -110,7 +112,7 @@
         <% unless current_user.self? || current_user.other_as_matchmaker? %>
           <div class="nav-item dropup text-center">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Switch Profile
+              <%= t('nav.switch_profile') %>
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <% if current_user.marriage_profiles.present? %>
@@ -131,49 +133,49 @@
         <a class="bk-active" href="<%= about_path %>">
           <div class="">
             <i class="fas fa-hand-holding-heart"></i>
-            About Us
+            <%= t('nav.about_us') %>
           </div>
         </a>
 
         <a href="<%= how_it_works_path %>" class="bk-active">
           <div class="">
             <i class="fas fa-cogs"></i>
-            How It Works
+            <%= t('nav.how_it_works') %>
           </div>
         </a>
 
         <a href="<%= faqs_path %>" class="bk-active">
           <div class="">
             <i class="far fa-question-circle"></i>
-            <span class="pl-1">FAQ</span>
+            <span class="pl-1"><%= t('nav.faq') %></span>
           </div>
         </a>
 
         <a href="<%= precautionary_measures_path %>" class="bk-active">
           <div class="">
             <i class="fas fa-exclamation-circle"></i>
-            <span class="pl-1">Precautionary Measures</span>
+            <span class="pl-1"><%= t('nav.precautionary_measures') %></span>
           </div>
         </a>
 
         <a href="<%= blogs_path type: "success_story" %>" class="bk-active">
           <div class="">
             <i class="fas fa-hand-holding-heart"></i>
-            Success Stories
+            <%= t('nav.success_stories') %>
           </div>
         </a>
 
         <a href="<%= blogs_path %>" class="bk-active">
           <div class="">
             <i class="far fa-newspaper"></i>
-            Blogs
+            <%= t('nav.blogs') %>
           </div>
         </a>
 
         <a href="<%= market_places_path %>" class="bk-active">
           <div class="">
             <i class="fas fa-store"></i>
-            Wedding Shopping
+            <%= t('nav.wedding_shopping') %>
           </div>
         </a>
 
@@ -181,7 +183,7 @@
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <div class="menu-title">
               <i class="fas fa-hands-helping"></i>
-              Assisted Services
+              <%= t('nav.assisted_services') %>
             </div>
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -196,7 +198,7 @@
         <a href="<%= contact_path %>" class="bk-active">
           <div class="">
             <i class="far fa-address-card"></i>
-            Contact Us
+            <%= t('nav.contact_us') %>
           </div>
         </a>
       </div>

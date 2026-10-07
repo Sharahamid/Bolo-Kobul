@@ -28,39 +28,39 @@
     <div class="bk-report-head">
       <div class="bk-report-icon"><i class="fas fa-flag" style="color:#FF596C; font-size:18px;"></i></div>
       <div>
-        <h5 id="bk-report-title">Report &amp; Block</h5>
-        <p class="bk-report-sub">Profile <strong id="bk-report-profile-id"></strong></p>
+        <h5 id="bk-report-title"><%= t('report.title') %></h5>
+        <p class="bk-report-sub"><%= t('report.profile') %> <strong id="bk-report-profile-id"></strong></p>
       </div>
     </div>
 
     <%= form_with url: profile_reports_path, method: :post, local: true, id: 'bk-report-form' do %>
       <%= hidden_field_tag :profile_id, '', id: 'bk-report-profile' %>
-      <p class="bk-report-label">Why are you reporting this profile?</p>
-      <% ProfileReport::REASONS.each do |key, label| %>
+      <p class="bk-report-label"><%= t('report.why') %></p>
+      <% ProfileReport::REASONS.each_key do |key| %>
         <label class="bk-reason">
           <input type="radio" name="reason" value="<%= key %>" required onchange="bkReportChanged()">
-          <span><%= label %></span>
+          <span><%= t("report.reasons.#{key}") %></span>
         </label>
       <% end %>
 
-      <textarea name="details" id="bk-report-details" maxlength="1000" placeholder="Tell us more (optional)" oninput="bkReportChanged()"></textarea>
+      <textarea name="details" id="bk-report-details" maxlength="1000" placeholder="<%= t('report.details_optional') %>" oninput="bkReportChanged()"></textarea>
 
       <label class="bk-report-block">
         <input type="hidden" name="block" value="0">
         <input type="checkbox" name="block" value="1" id="bk-report-also-block" checked onchange="bkReportChanged()">
-        <span><strong>Also block this profile</strong><br><span style="color:#854F0B; font-size:12px;">You won't see each other, and any chat between you closes.</span></span>
+        <span><strong><%= t('report.also_block') %></strong><br><span style="color:#854F0B; font-size:12px;"><%= t('report.also_block_note') %></span></span>
       </label>
 
-      <p class="bk-report-note"><i class="fas fa-lock" style="margin-top:2px;"></i><span>Your report is confidential. The member won't know who reported them. Our team reviews every report within 24 hours.</span></p>
+      <p class="bk-report-note"><i class="fas fa-lock" style="margin-top:2px;"></i><span><%= t('report.confidential') %></span></p>
 
       <div class="bk-report-actions">
-        <button type="submit" class="bk-report-submit" id="bk-report-submit" disabled>Report &amp; Block</button>
-        <button type="button" class="bk-report-cancel" onclick="bkCloseReport()">Cancel</button>
+        <button type="submit" class="bk-report-submit" id="bk-report-submit" disabled><%= t('report.submit_block') %></button>
+        <button type="button" class="bk-report-cancel" onclick="bkCloseReport()"><%= t('report.cancel') %></button>
       </div>
     <% end %>
 
     <%= form_with url: '#', method: :patch, local: true, id: 'bk-block-only-form' do %>
-      <button type="submit" class="bk-report-only-block" data-confirm="Block this profile without reporting it?">Just block, don't report</button>
+      <button type="submit" class="bk-report-only-block" data-confirm="<%= t('report.just_block_confirm') %>"><%= t('report.just_block') %></button>
     <% end %>
   </div>
 </div>
@@ -84,10 +84,10 @@
     var details = document.getElementById('bk-report-details');
     var block = document.getElementById('bk-report-also-block').checked;
     var needsDetails = reason && reason.value === 'other';
-    details.placeholder = needsDetails ? 'Please tell us what happened' : 'Tell us more (optional)';
+    details.placeholder = needsDetails ? <%= raw t('report.details_required').to_json %> : <%= raw t('report.details_optional').to_json %>;
     details.required = !!needsDetails;
     document.getElementById('bk-report-submit').disabled = !reason || (needsDetails && !details.value.trim());
-    document.getElementById('bk-report-submit').textContent = block ? 'Report & Block' : 'Send Report';
+    document.getElementById('bk-report-submit').textContent = block ? <%= raw t('report.submit_block').to_json %> : <%= raw t('report.submit_report').to_json %>;
   }
   if (!window.bkReportKeys) {
     window.bkReportKeys = true;

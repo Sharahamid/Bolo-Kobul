@@ -6,15 +6,14 @@
 
         <div class="container business-content flex-shrink-1xx">
           <div class="title text-white">
-            <h4> Do you have Wedding Related Business? </h4>
+            <h4> <%= t('landing.business_title') %> </h4>
           </div>
           <div class="wedding-content text-white">
-            <span> We have the customers who need your services.
-                  Wait no more, reach your potential clients </span>
+            <span> <%= t('landing.business_text') %> </span>
           </div>
 
           <div class="join-us pt-2">
-            <%= link_to 'Join Us', contact_url, class:'btn btn-sm btn-default join-btn text-black' unless user_signed_in? %>
+            <%= link_to t('landing.join_us'), contact_url, class:'btn btn-sm btn-default join-btn text-black' unless user_signed_in? %>
           </div>
         </div>
 

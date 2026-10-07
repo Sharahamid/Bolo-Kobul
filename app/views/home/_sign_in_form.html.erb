@@ -3,8 +3,8 @@
   <div class="text-center">
     <%= image_tag 'bk_logo.webp', width: '85', height: '85' %>
     <div class="text-center pb-4">
-     <span class="text-gray"> Don't wait for love to find you. </span> <br>
-      <strong> Login Now! </strong>
+     <span class="text-gray"> <%= t('login.tagline') %> </span> <br>
+      <strong> <%= t('login.login_now') %> </strong>
     </div>
   </div>
 
@@ -12,7 +12,7 @@
     <%= f.text_field :login,
                      type: 'phone',
                      class: 'form-control',
-                     placeholder: 'Email / Mobile (+8801xxxxxxxx)',
+                     placeholder: t('login.login_field'),
                      required: true  %>
   </div>
 
@@ -21,7 +21,7 @@
       <%= f.text_field :password, type: 'password',
                        class: 'form-control',
                        id: 'login_password',
-                       placeholder: 'Password',
+                       placeholder: t('login.password'),
                        style: 'border: none; box-shadow: none; flex: 1;',
                        required: true %>
       <button type="button" onclick="togglePassword('login_password', this)"
@@ -41,13 +41,13 @@
 
 
     <div class="forget-password">
-      <%= link_to 'Forgot Password?', new_user_password_path, class: ''%>
+      <%= link_to t('login.forgot_password'), new_user_password_path, class: ''%>
     </div>
   </div>
 
 
   <div class="bk-login-btn">
-    <%= f.submit 'LOGIN', class: 'form-control btn btn-warning text-white' %>
+    <%= f.submit t('login.submit'), class: 'form-control btn btn-warning text-white' %>
   </div>
 
 </div>

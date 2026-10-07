@@ -12,6 +12,11 @@ module Bolokobul
     config.load_defaults 6.0
     config.active_record.default_timezone = :local
     config.time_zone = 'Asia/Dhaka'
+
+    # English and Bangla. Anything not yet translated falls back to English.
+    config.i18n.available_locales = [:en, :bn]
+    config.i18n.default_locale = :en
+    config.i18n.fallbacks = [:en]
     config.active_record.time_zone_aware_attributes = false
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

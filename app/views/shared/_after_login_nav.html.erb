@@ -10,7 +10,7 @@
   </li>
   <li class="nav-item p-2 flex-fill">
     <a class="nav-link" href="<%= how_it_works_path %>">
-      How It Works
+      <%= t('nav.how_it_works') %>
     </a>
   </li>
 </ul>
@@ -20,7 +20,7 @@
   <% unless current_user.self? || current_user.other_as_matchmaker? %>
     <li class="nav-item dropdown p-2 flex-fill">
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Switch Profile
+        <%= t('nav.switch_profile') %>
       </a>
       <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
         <% if current_user.marriage_profiles.present? %>
@@ -109,7 +109,7 @@
                                pinned: (oldest_unread.present? && i == notif_collection.length - 1) } %>
         <% end %>
       <% else %>
-        <p class="text-center">No notification</p>
+        <p class="text-center"><%= t('nav.no_notification') %></p>
       <% end %>
     </div>
   </li>
@@ -129,7 +129,7 @@
               <i class="fa fa-home"></i>
             </div>
             <div class="col-10 p-0">
-              Home
+              <%= t('nav.home') %>
             </div>
           </div>
         </div>
@@ -142,7 +142,7 @@
               <i class="fa fa-tachometer"></i>
             </div>
             <div class="col-10 p-0">
-              Dashboard
+              <%= t('nav.dashboard') %>
             </div>
           </div>
         </div>
@@ -154,7 +154,7 @@
               <i class="fa fa-user"></i>
             </div>
             <div class="col-10 p-0">
-              Profile
+              <%= t('nav.profile') %>
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@
               <i class="fa fa-user-cog"></i>
             </div>
             <div class="col-10 p-0">
-              Privacy Settings
+              <%= t('nav.privacy_settings') %>
             </div>
           </div>
         </div>
@@ -178,7 +178,7 @@
               <i class="fas fa-headset"></i>
             </div>
             <div class="col-10 p-0">
-              Reported Issues
+              <%= t('nav.reported_issues') %>
             </div>
           </div>
         </div>
@@ -190,7 +190,7 @@
               <i class="fa fa-question-circle"></i>
             </div>
             <div class="col-10 p-0">
-              FAQ
+              <%= t('nav.faq') %>
             </div>
           </div>
         </div>
@@ -202,7 +202,7 @@
               <i class="fas fa-exclamation-circle"></i>
             </div>
             <div class="col-10 p-0">
-              Precautionary Measures
+              <%= t('nav.precautionary_measures') %>
             </div>
           </div>
         </div>
@@ -214,7 +214,7 @@
               <i class="fas fa-sign-out-alt"></i>
             </div>
             <div class="col-10 p-0">
-              Log Out
+              <%= t('nav.log_out') %>
             </div>
           </div>
         </div>
