@@ -1,0 +1,18 @@
+<%# English / বাংলা switch. Full page load so every part of the page changes language. %>
+<% variant = local_assigns.fetch(:variant, 'pill') %>
+<% if variant == 'compact' %>
+  <%# Small top-bar button: just the other language %>
+  <% other = I18n.locale == :bn ? :en : :bn %>
+  <a class="bk-lang-toggle" href="<%= locale_switch_url(other) %>" lang="<%= other %>" hreflang="<%= other %>" data-turbolinks="false"
+     aria-label="<%= t('language.label') %>: <%= other == :bn ? t('language.bangla') : t('language.english') %>"><%= other == :bn ? 'বাংলা' : 'EN' %></a>
+<% else %>
+<div class="bk-lang-switch bk-lang-switch--<%= variant %>" role="group" aria-label="<%= t('language.label') %>">
+  <% [[:en, t('language.english')], [:bn, t('language.bangla')]].each do |locale, label| %>
+    <% if I18n.locale == locale %>
+      <span class="bk-lang-switch__item is-active" lang="<%= locale %>" aria-current="true"><%= label %></span>
+    <% else %>
+      <a class="bk-lang-switch__item" href="<%= locale_switch_url(locale) %>" lang="<%= locale %>" data-turbolinks="false" hreflang="<%= locale %>"><%= label %></a>
+    <% end %>
+  <% end %>
+</div>
+<% end %>

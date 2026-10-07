@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  around_action :switch_locale
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action { Current.user = current_user }
   before_action :track_last_seen
@@ -89,6 +90,27 @@ class ApplicationController < ActionController::Base
     flash[:warning] = "Complete at least #{MarriageProfile::KOBUL_MIN_COMPLETENESS}% of your profile to send a Kobul. " \
                       "Yours is #{current_active_profile.profile_completeness.to_i}% now: add your education, occupation, family and photos."
     redirect_to profile_info_marriage_profile_path(current_active_profile)
+  end
+
+  # The member's language: ?locale=bn|en (from the language switch) is remembered in a
+  # cookie and on their account; otherwise the cookie, then the account, then English.
+  # The admin panel always stays in English.
+  LOCALES = %w[en bn].freeze
+
+  def switch_locale(&action)
+    I18n.with_locale(request_locale, &action)
+  end
+
+  def request_locale
+    return :en if request.path.start_with?('/shefali007')
+
+    chosen = params[:locale].to_s
+    if LOCALES.include?(chosen)
+      cookies.permanent[:bk_locale] = chosen
+      current_user.update_column(:locale, chosen) if current_user && current_user.locale != chosen
+      return chosen
+    end
+    cookies[:bk_locale].presence_in(LOCALES) || current_user&.locale.presence_in(LOCALES) || :en
   end
 
   def user_homepage(resource)

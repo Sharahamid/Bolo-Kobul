@@ -2,7 +2,7 @@
     <div class="success-stories ">
       <div class="container text-center">
         <div class="heading">
-          <h4 class=""> Success Stories </h4>
+          <h4 class=""> <%= t('landing.success_stories') %> </h4>
           <div class="">
             <%= image_tag 'red_line.svg' %>
           </div>
@@ -11,7 +11,7 @@
           <%= render partial: "home/landing/success_story", collection: @success_stories %>
         </div>
         <div class="pt-5">
-          <%= link_to 'SEE MORE', blogs_path(type: 'success_story'), class:'text-white btn btn-sm text-center btn-warning merriweather' %>
+          <%= link_to t('landing.see_more_button'), blogs_path(type: 'success_story'), class:'text-white btn btn-sm text-center btn-warning merriweather' %>
         </div>
       </div>
     </div>

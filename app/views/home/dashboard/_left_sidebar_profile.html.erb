@@ -163,7 +163,7 @@
       <% unless marriage_profile.user_id == current_user.id %>
         <button type="button" class="bk-report-link"
                 onclick="bkOpenReport('<%= marriage_profile.id %>', '<%= j marriage_profile.unique_id %>', '<%= block_profile_marriage_profile_path(marriage_profile) %>')">
-          <i class="fas fa-flag"></i> Report &amp; Block
+          <i class="fas fa-flag"></i> <%= t('report.menu') %>
         </button>
       <% end %>
       <div style="border-top:0.5px solid #eee; margin:10px 0 0;"></div>

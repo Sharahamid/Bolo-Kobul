@@ -7,9 +7,9 @@
       <% providers.each do |provider| %>
         <%= render 'shared/social_login_button', provider: provider %>
       <% end %>
-      <div class="bk-social-or"><span>or register with your email</span></div>
+      <div class="bk-social-or"><span><%= t('social.or_register_email') %></span></div>
     <% else %>
-      <div class="bk-social-or"><span>or</span></div>
+      <div class="bk-social-or"><span><%= t('social.or') %></span></div>
       <% providers.each do |provider| %>
         <%= render 'shared/social_login_button', provider: provider %>
       <% end %>

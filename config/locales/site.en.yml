@@ -1,0 +1,129 @@
+# Bolo Kobul website text (English). Keep both files in step.
+en:
+  language:
+    english: English
+    bangla: বাংলা
+    label: Language
+  nav:
+    about_us: About Us
+    wedding_shopping: Wedding Shopping
+    assisted_services: Assisted Services
+    blogs: Blogs
+    success_stories: Success Stories
+    all_blogs: All Blogs
+    login: LOGIN
+    logout: Logout
+    log_out: Log Out
+    help: Help
+    faq: FAQ
+    precautionary_measures: Precautionary Measures
+    how_it_works: How It Works
+    switch_profile: Switch Profile
+    no_notification: No notification
+    home: Home
+    dashboard: Dashboard
+    profile: Profile
+    privacy_settings: Privacy Settings
+    reported_issues: Reported Issues
+    orders: Orders
+    preference: Preference
+    search: Search
+    notifications: Notifications
+    contact_us: Contact Us
+  footer:
+    need_help: Need Help?
+    customer_support: Customer Support
+    company: Company
+    privacy_and_you: Privacy & You
+    terms_of_use: Terms of Use
+    privacy_policy: Privacy Policy
+    use_referral: Use Referral
+    tagline: Marriages are made in heaven
+  bottom_nav:
+    home: Home
+    matches: Matches
+    kobuls: Kobuls
+    chats: Chats
+    profile: Profile
+  login:
+    tagline: Don't wait for love to find you.
+    login_now: Login Now!
+    login_field: Email / Mobile (+8801xxxxxxxx)
+    password: Password
+    forgot_password: Forgot Password?
+    submit: LOGIN
+  social:
+    or: or
+    or_register_email: or register with your email
+    continue_with: Continue with %{provider}
+  signup:
+    register_now: Register Now
+    private_note: These information will not be displayed to other users
+    full_name: Full Name*
+    email: Email*
+    mobile: Mobile* (+8801XXXXXXXXX)
+    password: Password* (8+ characters, letters and numbers)
+    password_rule: At least 8 characters, including a letter and a number.
+    confirm_password: Confirm Password*
+    created_for: Created For*
+    terms_html: Have you read the %{terms} & %{privacy} of Bolo Kobul?
+    terms_of_use: Terms of Use
+    privacy_policy: Privacy Policy
+    register_free: Register Free
+    passwords_mismatch: Passwords do not match
+  enums:
+    user:
+      created_for:
+        self: Self
+        parents: Parents
+        sibling: Sibling
+        relative: Relative
+        friend: Friend
+        colleague: Colleague
+        children: Children
+        other_as_matchmaker: Other As Matchmaker
+  landing:
+    campaign_title: Don't wait for love to find you!
+    campaign_text: A trusted matchmaking platform with FREE Registration to connect you with the right life partner, maintaining privacy and security! - Bolo Kobul
+    find_special: Find Your Special Someone
+    connect: Connect
+    connect_text: Register for free and complete your profile
+    choose: Choose
+    choose_text: Filter, view, and select matches that you like
+    communicate: Communicate
+    communicate_text: Start a Conversation and Get to Know Each Other
+    cherish: Cherish
+    cherish_text: Find all wedding vendors and special offers!
+    success_stories: Success Stories
+    see_more_button: SEE MORE
+    see_more: See More
+    business_title: Do you have Wedding Related Business?
+    business_text: We have the customers who need your services. Wait no more, reach your potential clients
+    join_us: Join Us
+  report:
+    menu: Report & Block
+    title: Report & Block
+    profile: Profile
+    why: Why are you reporting this profile?
+    reasons:
+      fake_profile: Fake profile or false information
+      inappropriate: Inappropriate photos or content
+      harassment: Harassment or abusive messages
+      money: Asking for money or a scam
+      already_married: Already married or not serious
+      other: Something else
+    details_optional: Tell us more (optional)
+    details_required: Please tell us what happened
+    also_block: Also block this profile
+    also_block_note: You won't see each other, and any chat between you closes.
+    confidential: Your report is confidential. The member won't know who reported them. Our team reviews every report within 24 hours.
+    submit_block: Report & Block
+    submit_report: Send Report
+    cancel: Cancel
+    just_block: Just block, don't report
+    just_block_confirm: Block this profile without reporting it?
+    flash:
+      blocked: Thank you. We've received your report and blocked %{id}. Our team will review it within 24 hours.
+      received: Thank you. We've received your report about %{id}. Our team will review it within 24 hours.
+      too_many: Too many reports in a short time. Please try again later.
+      own: You can't report your own profile.

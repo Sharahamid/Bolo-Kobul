@@ -1,0 +1,26 @@
+// English / বাংলা switch
+.bk-lang-switch {
+  display: inline-flex; align-items: center; gap: 2px; padding: 2px; border-radius: 999px;
+  background: #FFF6DD; border: 1px solid #FAC775; white-space: nowrap;
+  &__item {
+    display: inline-block; padding: 3px 10px; border-radius: 999px; font-size: 12px; line-height: 1.4;
+    color: #854F0B !important; text-decoration: none !important; font-weight: 500;
+    &.is-active { background: #FFB627; color: #412402 !important; font-weight: 600; }
+    &:not(.is-active):hover { background: #FFE9B0; }
+  }
+}
+.bk-side-panel-lang { padding: 4px 16px 12px; }
+
+// Top bar on phones: one small button with the other language
+.mobile-nav-login-btn .bk-lang-toggle { margin-right: 8px; vertical-align: middle; }
+.bk-lang-toggle {
+  display: inline-block; padding: 4px 10px; border-radius: 999px; border: 1px solid #FAC775; background: #FFF6DD;
+  color: #854F0B !important; font-size: 12px; font-weight: 600; line-height: 1.3; text-decoration: none !important; white-space: nowrap;
+}
+// The side menu styles its links large; keep the switch small there
+.sidebar .bk-lang-switch .bk-lang-switch__item { font-size: 13px !important; padding: 4px 14px !important; display: inline-block !important; width: auto !important; }
+// Phones: language button and Login/Logout side by side at the right of the top bar
+.bk-header .mobile-nav-login-btn { left: auto !important; right: 12px; transform: none !important; white-space: nowrap; }
+.bk-header .mobile-nav-login-btn .nav-login-btn { display: inline-block !important; vertical-align: middle; }
+// Very small phones: no room beside the logo (the switch is still in the side menu and footer)
+@media (max-width: 349px) { .mobile-nav-login-btn .bk-lang-toggle { display: none; } }

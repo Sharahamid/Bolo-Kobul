@@ -1,0 +1,129 @@
+# Bolo Kobul website text (Bangla). Keep both files in step.
+bn:
+  language:
+    english: English
+    bangla: বাংলা
+    label: ভাষা
+  nav:
+    about_us: আমাদের কথা
+    wedding_shopping: বিয়ের কেনাকাটা
+    assisted_services: সহায়ক সেবা
+    blogs: ব্লগ
+    success_stories: সফল জুটির গল্প
+    all_blogs: সব ব্লগ
+    login: লগইন
+    logout: লগআউট
+    log_out: লগআউট
+    help: সাহায্য
+    faq: সাধারণ প্রশ্ন
+    precautionary_measures: সতর্কতামূলক পরামর্শ
+    how_it_works: যেভাবে কাজ করে
+    switch_profile: প্রোফাইল বদলান
+    no_notification: কোনো নোটিফিকেশন নেই
+    home: হোম
+    dashboard: ড্যাশবোর্ড
+    profile: প্রোফাইল
+    privacy_settings: গোপনীয়তা সেটিংস
+    reported_issues: জানানো সমস্যা
+    orders: অর্ডার
+    preference: পছন্দের সঙ্গী
+    search: খুঁজুন
+    notifications: নোটিফিকেশন
+    contact_us: যোগাযোগ
+  footer:
+    need_help: সাহায্য প্রয়োজন?
+    customer_support: গ্রাহকসেবা
+    company: প্রতিষ্ঠান
+    privacy_and_you: গোপনীয়তা ও আপনি
+    terms_of_use: ব্যবহারের শর্তাবলি
+    privacy_policy: গোপনীয়তা নীতি
+    use_referral: রেফারেল কোড
+    tagline: জুটি বাঁধা হয় স্বর্গে
+  bottom_nav:
+    home: হোম
+    matches: ম্যাচ
+    kobuls: কবুল
+    chats: চ্যাট
+    profile: প্রোফাইল
+  login:
+    tagline: ভালোবাসার অপেক্ষায় বসে থাকবেন না।
+    login_now: এখনই লগইন করুন!
+    login_field: ইমেইল / মোবাইল (+8801xxxxxxxx)
+    password: পাসওয়ার্ড
+    forgot_password: পাসওয়ার্ড ভুলে গেছেন?
+    submit: লগইন
+  social:
+    or: অথবা
+    or_register_email: অথবা ইমেইল দিয়ে নিবন্ধন করুন
+    continue_with: '%{provider} দিয়ে চালিয়ে যান'
+  signup:
+    register_now: এখনই নিবন্ধন করুন
+    private_note: এই তথ্য অন্য সদস্যরা দেখতে পাবেন না
+    full_name: পূর্ণ নাম*
+    email: ইমেইল*
+    mobile: মোবাইল* (+8801XXXXXXXXX)
+    password: পাসওয়ার্ড* (কমপক্ষে ৮ অক্ষর, অক্ষর ও সংখ্যা মিলিয়ে)
+    password_rule: কমপক্ষে ৮ অক্ষর, অন্তত একটি অক্ষর ও একটি সংখ্যা।
+    confirm_password: পাসওয়ার্ড আবার লিখুন*
+    created_for: প্রোফাইল কার জন্য*
+    terms_html: আপনি কি বলো কবুলের %{terms} ও %{privacy} পড়েছেন?
+    terms_of_use: ব্যবহারের শর্তাবলি
+    privacy_policy: গোপনীয়তা নীতি
+    register_free: বিনামূল্যে নিবন্ধন
+    passwords_mismatch: পাসওয়ার্ড মিলছে না
+  enums:
+    user:
+      created_for:
+        self: নিজের জন্য
+        parents: মা-বাবা
+        sibling: ভাই-বোন
+        relative: আত্মীয়
+        friend: বন্ধু
+        colleague: সহকর্মী
+        children: সন্তান
+        other_as_matchmaker: ঘটক / অন্যান্য
+  landing:
+    campaign_title: ভালোবাসার অপেক্ষায় বসে থাকবেন না!
+    campaign_text: বিনামূল্যে নিবন্ধনসহ একটি বিশ্বস্ত ম্যাচমেকিং প্ল্যাটফর্ম—গোপনীয়তা ও নিরাপত্তা বজায় রেখে সঠিক জীবনসঙ্গী খুঁজে পেতে সাহায্য করে! - বলো কবুল
+    find_special: খুঁজে নিন আপনার বিশেষ মানুষটিকে
+    connect: যুক্ত হোন
+    connect_text: বিনামূল্যে নিবন্ধন করে প্রোফাইল সম্পূর্ণ করুন
+    choose: বেছে নিন
+    choose_text: ফিল্টার করুন, দেখুন, আর পছন্দের ম্যাচ বেছে নিন
+    communicate: কথা বলুন
+    communicate_text: কথা শুরু করুন, একে অপরকে জানুন
+    cherish: উদযাপন করুন
+    cherish_text: বিয়ের সব আয়োজন ও বিশেষ অফার এক জায়গায়!
+    success_stories: সফল জুটির গল্প
+    see_more_button: আরও দেখুন
+    see_more: আরও দেখুন
+    business_title: আপনার কি বিয়ে-সংক্রান্ত ব্যবসা আছে?
+    business_text: আপনার সেবার প্রয়োজন এমন গ্রাহক আমাদের কাছে আছে। আর দেরি নয়—সম্ভাব্য গ্রাহকদের কাছে পৌঁছে যান
+    join_us: যুক্ত হোন
+  report:
+    menu: রিপোর্ট ও ব্লক
+    title: রিপোর্ট ও ব্লক
+    profile: প্রোফাইল
+    why: কেন এই প্রোফাইলটি রিপোর্ট করছেন?
+    reasons:
+      fake_profile: ভুয়া প্রোফাইল বা ভুল তথ্য
+      inappropriate: আপত্তিকর ছবি বা লেখা
+      harassment: হয়রানি বা অশালীন বার্তা
+      money: টাকা চাওয়া বা প্রতারণা
+      already_married: ইতিমধ্যে বিবাহিত বা আন্তরিক নন
+      other: অন্য কিছু
+    details_optional: আরও কিছু জানাতে চাইলে লিখুন (ঐচ্ছিক)
+    details_required: কী ঘটেছে অনুগ্রহ করে লিখুন
+    also_block: এই প্রোফাইলটি ব্লকও করুন
+    also_block_note: আপনারা কেউ কাউকে আর দেখতে পাবেন না, এবং আপনাদের চ্যাট বন্ধ হয়ে যাবে।
+    confidential: আপনার রিপোর্ট গোপন থাকবে। কে রিপোর্ট করেছেন, সেই সদস্য জানতে পারবেন না। আমাদের টিম ২৪ ঘণ্টার মধ্যে প্রতিটি রিপোর্ট দেখে।
+    submit_block: রিপোর্ট ও ব্লক
+    submit_report: রিপোর্ট পাঠান
+    cancel: বাতিল
+    just_block: শুধু ব্লক করুন, রিপোর্ট নয়
+    just_block_confirm: রিপোর্ট না করে শুধু এই প্রোফাইলটি ব্লক করবেন?
+    flash:
+      blocked: ধন্যবাদ। আপনার রিপোর্ট পেয়েছি এবং %{id} ব্লক করা হয়েছে। আমাদের টিম ২৪ ঘণ্টার মধ্যে বিষয়টি দেখবে।
+      received: ধন্যবাদ। %{id} সম্পর্কে আপনার রিপোর্ট পেয়েছি। আমাদের টিম ২৪ ঘণ্টার মধ্যে বিষয়টি দেখবে।
+      too_many: অল্প সময়ে অনেকগুলো রিপোর্ট পাঠানো হয়েছে। কিছুক্ষণ পরে আবার চেষ্টা করুন।
+      own: নিজের প্রোফাইল রিপোর্ট করা যায় না।

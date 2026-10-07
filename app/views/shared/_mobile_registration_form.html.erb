@@ -4,12 +4,12 @@
       <div class="container text-center">
         <div class="mobile-reg-form">
           <div class="register text-center">
-            <strong>Register Now</strong>
+            <strong><%= t('signup.register_now') %></strong>
             <div class="reg_underline text-center">
               <%= image_tag 'white_reg_line.svg' %>
             </div>
           </div>
-          <p class="note">These information will not be displayed to other users</p>
+          <p class="note"><%= t('signup.private_note') %></p>
           <div class="bk-input-feilds">
             <%= render 'shared/social_login_buttons', placement: 'signup' %>
             <%= form_for @user, url: user_registration_path do |f| %>
@@ -20,7 +20,7 @@
                                  autocomplete: "full_name",
                                  required: true,
                                  class: 'form-control sign_up-input-field',
-                                 placeholder: 'Full Name*'
+                                 placeholder: t('signup.full_name')
                 %>
                 <small class="text-danger error-text">
                   <%= f.object.errors[:name].present? ? "Name #{f.object.errors[:name]&.first}" : '' %>
@@ -32,7 +32,7 @@
                                   autofocus: true,
                                   autocomplete: "email",
                                   class: 'form-control sign_up-input-field',
-                                  placeholder: 'Email*' %>
+                                  placeholder: t('signup.email') %>
                 <small class="text-danger error-text">
                   <%= f.object.errors[:email].present? ? "Email #{f.object.errors[:email]&.first}" : '' %>
                 </small>
@@ -43,7 +43,7 @@
                                   autofocus: true,
                                   autocomplete: "phone_number",
                                   required: true, class: 'form-control sign_up-input-field',
-                                  placeholder: 'Mobile* (+8801XXXXXXXXX)' %>
+                                  placeholder: t('signup.mobile') %>
                 <small class="text-danger error-text">
                   <%= f.object.errors[:phone_number].present? ? "Mobile #{f.object.errors[:phone_number]&.first}" : '' %>
                 </small>
@@ -54,11 +54,11 @@
                   <%= f.password_field :password,
                                        autocomplete: "password",
                                        class: 'form-control sign_up-input-field',
-                                       placeholder: 'Password* (8+ characters, letters and numbers)',
+                                       placeholder: t('signup.password'),
                                        minlength: '8',
                                        maxlength: '128',
                                        pattern: "(?=.*[A-Za-z])(?=.*\\d).{8,}",
-                                       title: "At least 8 characters, including a letter and a number.",
+                                       title: t('signup.password_rule'),
                                        data: {toggle: 'tooltip', placement: 'top'},
                                        id: 'mobile_password',
                                        required: true, 
@@ -77,7 +77,7 @@
                   <%= f.password_field :password_confirmation,
                                        autocomplete: "new-password",
                                        class: 'form-control sign_up-input-field',
-                                       placeholder: 'Confirm Password*',
+                                       placeholder: t('signup.confirm_password'),
                                        id: 'mobile_password_confirmation',
                                        required: true, 
                                        oninput: "mobileCheckPwd()" %>
@@ -86,7 +86,7 @@
                   </button>
                 </div>
                 <small class="text-danger error-text" id="mobile_password_match_error">
-                  <%= f.object.errors[:password_confirmation].present? ? "Passwords do not match" : '' %>
+                  <%= f.object.errors[:password_confirmation].present? ? t('signup.passwords_mismatch') : '' %>
                 </small>
               </div>
 
@@ -94,9 +94,9 @@
                 <%= f.select :created_for,
                              options_for_select(User::created_fors.to_h
                                                     .map {
-                                                        |k, v| [k.titleize, k]
+                                                        |k, v| [enum_label(:user, :created_for, k), k]
                                                     }),
-                             {prompt: 'Created For*'},
+                             {prompt: t('signup.created_for')},
                              required: true,
                              class: 'form-control sign_up-input-field' %>
                 <small class="text-danger error-text">
@@ -110,9 +110,7 @@
 
               <div class="form-group form-check terms_and_condition">
                 <label class="form-check-label">
-                  <input class="form-check-input" type="checkbox" required> Have you read the
-                  <a href="<%= terms_of_uses_path %>" target="_blank"> Terms of Use </a> &
-                  <a href="<%= privacy_policies_path %>" target="_blank"> Privacy Policy </a> of Bolo Kobul?
+                  <input class="form-check-input" type="checkbox" required> <%= t('signup.terms_html', terms: link_to(t('signup.terms_of_use'), terms_of_uses_path, target: '_blank'), privacy: link_to(t('signup.privacy_policy'), privacy_policies_path, target: '_blank')) %>
                 </label>
               </div>
 
@@ -121,7 +119,7 @@
         <input type="text" name="user[website]" tabindex="-1" autocomplete="off" placeholder="Leave this empty">
       </div>
       <div class="register-btn-section text-center merriweather">
-                <button type="submit" class="btn btn-sign_up form-control">Register Free</button>
+                <button type="submit" class="btn btn-sign_up form-control"><%= t('signup.register_free') %></button>
               </div>
              
 	      <script>
@@ -135,7 +133,7 @@
                   } else if (pwd.value.startsWith(conf.value)) {
                     err.textContent = '';
                   } else {
-                    err.textContent = 'Passwords do not match';
+                    err.textContent = <%= raw t('signup.passwords_mismatch').to_json %>;
                   }
                 }
 
