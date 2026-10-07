@@ -1,0 +1,46 @@
+# Corrections to the English text of the site pages (October 2026).
+# Applied with: RAILS_ENV=production bin/rails site_content:update
+# "set" replaces a field; "replace" swaps one piece of text for another. Safe to run
+# more than once. The Bangla text of the same sections is refreshed from
+# db/data/bangla_content at the same time.
+
+# FAQ: Report & Block, rewritten for how it works now
+- model: Faq
+  id: 22
+  set:
+    title: Report & Block
+    content: |
+      <p><strong>What is Report &amp; Block? When should I use it?</strong></p>
+      <p>Every profile has a "Report &amp; Block" option. Use it whenever someone makes you uncomfortable or breaks the rules, for example a fake profile or false information, inappropriate photos or content, harassment or abusive messages, asking for money or a scam, or someone who is already married or not serious.</p>
+      <p><strong>How do I report or block someone?</strong></p>
+      <ol>
+        <li>Tap the three-dot menu (⋮) on the profile or the profile card and choose "Report &amp; Block".</li>
+        <li>Choose a reason. If you pick "Something else", add a few words.</li>
+        <li>"Also block this profile" is already ticked. Untick it if you only want to report.</li>
+        <li>Tap "Report &amp; Block" (or "Send Report").</li>
+      </ol>
+      <p>To block without reporting, tap "Just block, don't report" at the bottom of the same window.</p>
+      <p><strong>What happens when I block someone?</strong></p>
+      <p>You stop seeing each other. They can no longer view your profile, send you a Kobul or message you, and any chat between you closes. They are not told that you blocked them.</p>
+      <p><strong>Is my report confidential?</strong></p>
+      <p>Yes. The member will never know who reported them. The Bolo Kobul safety team reviews every report within 24 hours and takes action where needed, which can include removing the profile.</p>
+      <p><strong>How do I unblock someone?</strong></p>
+      <p>Log in and go to <a href="https://www.bolokobul.com/marriage_profiles/blocked_profiles" target="_blank">Privacy Settings → Block List</a>, then tap "Unblock" next to the profile. Only the member who blocked can unblock.</p>
+
+# Terms 3.3 Payment: the payment gateway is AamarPay
+- model: TermsOfUse
+  id: 13
+  replace:
+    - ["SSLCommerz", "AamarPay"]
+
+# Privacy Policy: payment partners
+- model: PrivacyPolicy
+  id: 1
+  replace:
+    - ["including bKash, Nagad, and SSL.", "including AamarPay, bKash and Nagad."]
+
+# Terms 12.1: last revised date
+- model: TermsOfUse
+  id: 38
+  replace:
+    - ["June 30, 2021", "October 01, 2026"]
