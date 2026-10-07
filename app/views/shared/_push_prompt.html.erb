@@ -30,11 +30,11 @@
     </svg>
   </div>
   <div class="bk-push__text">
-    <p class="bk-push__title">Never miss a Kobul</p>
-    <p class="bk-push__body">Get a notification when someone sends you a Kobul, accepts yours or messages you.</p>
+    <p class="bk-push__title"><%= t('push.prompt_title') %></p>
+    <p class="bk-push__body"><%= t('push.prompt_body') %></p>
   </div>
   <div class="bk-push__actions">
-    <button type="button" class="bk-push__btn bk-push__btn--ghost" data-push-dismiss>Not now</button>
-    <button type="button" class="bk-push__btn bk-push__btn--primary" data-push-enable>Turn on</button>
+    <button type="button" class="bk-push__btn bk-push__btn--ghost" data-push-dismiss><%= t('push.not_now') %></button>
+    <button type="button" class="bk-push__btn bk-push__btn--primary" data-push-enable><%= t('push.turn_on') %></button>
   </div>
 </div>

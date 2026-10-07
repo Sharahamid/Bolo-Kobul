@@ -17,7 +17,7 @@
             <%# unless profile.class == 'PartnerPreference' %>
               <div class="form-group">
                 <%= f.text_field :gender, autofocus: true, autocomplete: "national_id", class: 'form-control sign_up-input-field', placeholder: profile.class.to_s %>
-                <small class="text-danger"> <%= f.object.errors[:national_id].present? ? "Email #{f.object.errors[:national_id]&.first}" : '' %> </small>
+                <small class="text-danger"> <%= f.object.errors[:national_id].present? ? f.object.errors.full_messages_for(:national_id).first : '' %> </small>
               </div>
             <%# end %>
             <div class="form-group">
@@ -30,7 +30,7 @@
               <%= f.select :present_location, District.order_by_name.collect { |d| [d.name, d.id] }, {prompt: 'Present Location'}, class: 'form-control sign_up-input-field', required: true %>
             </div>
             <div class="form-group">
-              <%= f.select :marital_status, MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.map { |k, v| [k.humanize, k] }, {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field', required: true %>
+              <%= f.select :marital_status, enum_options(:marriage_profile, :marital_status, MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.keys), {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field', required: true %>
             </div>
             <div class="form-group">
               <%= f.select :height, User::HEIGHT, {prompt: 'Height'}, class: 'form-control sign_up-input-field', required: true %>

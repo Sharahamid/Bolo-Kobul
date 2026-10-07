@@ -2,8 +2,8 @@
 
   <!-- Header -->
   <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
-    <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;">Contact Us</h2>
-    <p style="font-size:13px; color:#633806; margin:0;">We'd love to hear from you — reach out anytime</p>
+    <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;"><%= t('contact.title') %></h2>
+    <p style="font-size:13px; color:#633806; margin:0;"><%= t('contact.sub') %></p>
   </div>
 
   <!-- Body -->
@@ -26,7 +26,7 @@
         <i class="fas fa-envelope" style="color:#412402; font-size:18px;"></i>
       </div>
       <div>
-        <p style="font-size:11px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 4px;">Email Address</p>
+        <p style="font-size:11px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 4px;"><%= t('contact.email') %></p>
         <a href="mailto:<%= contact&.contact %>" style="font-size:15px; color:#633806; font-weight:700; text-decoration:none;">
           <%= contact&.contact %>
         </a>
@@ -36,11 +36,11 @@
     <!-- Write to us CTA -->
     <div style="background:#FAEEDA; border-radius:12px; padding:18px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
       <div>
-        <p style="font-size:14px; font-weight:700; color:#633806; margin:0 0 4px;">Have a specific concern?</p>
-        <p style="font-size:12px; color:#854F0B; margin:0;">Submit a support request and we'll get back to you shortly.</p>
+        <p style="font-size:14px; font-weight:700; color:#633806; margin:0 0 4px;"><%= t('contact.concern') %></p>
+        <p style="font-size:12px; color:#854F0B; margin:0;"><%= t('contact.concern_sub') %></p>
       </div>
       <a href="/customer_supports/new" style="background:#FFB627; color:#412402; border-radius:8px; padding:10px 22px; font-size:13px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
-        <i class="fas fa-paper-plane"></i> Write to Us
+        <i class="fas fa-paper-plane"></i> <%= t('contact.write') %>
       </a>
     </div>
 

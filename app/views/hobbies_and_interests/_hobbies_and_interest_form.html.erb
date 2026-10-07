@@ -1,21 +1,21 @@
 <%= form_for hobbies_and_interest, remote: true do |f| %>
   <!-- Modal Header -->
-  <%= render 'shared/modal_header', title: 'Hobbies And Interest' %>
+  <%= render 'shared/modal_header', title: t('section_form.hobbies_and_interest') %>
 
   <!-- Modal body -->
   <div class="modal-body">
     <div class="form_input_fields pl-2 pr-2">
 
       <div class="form-group">
-        <%= f.label :hobby, 'Hobby:' %><br/>
+        <%= f.label :hobby, t('section_form.hobby') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::HOBBIES.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[hobby][]",
                                 id,
                                 checked_hobby(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:hobbies, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:hobbies, value) %>
               </span>
             </label>
           <% end %>
@@ -23,15 +23,15 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :interest, 'Interest:' %><br/>
+        <%= f.label :interest, t('section_form.interest') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::INTEREST.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[interest][]",
                                 id,
                                 checked_interest(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:interest, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:interest, value) %>
               </span>
             </label>
 
@@ -40,15 +40,15 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :music, 'Music :' %><br/>
+        <%= f.label :music, t('section_form.music') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::FAVOURITE_MUSIC.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[music][]",
                                 id,
                                 checked_music(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:favourite_music, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:favourite_music, value) %>
               </span>
             </label>
           <% end %>
@@ -57,22 +57,22 @@
 
       <div class="form-group">
         <%= f.text_field :favourite_song,
-                         placeholder: 'Favourite Song?',
+                         placeholder: t('section_form.favourite_song'),
                          class: 'form-control',
-                         title: 'Favourite Song?',
+                         title: t('section_form.favourite_song'),
                          data: {toggle: 'tooltip', placement: 'top'} %>
       </div>
 
       <div class="form-group">
-        <%= f.label :read, 'Read :' %><br/>
+        <%= f.label :read, t('section_form.read') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::FAVOURITE_BOOK.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[read][]",
                                 id,
                                 checked_read(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:favourite_book, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:favourite_book, value) %>
               </span>
             </label>
           <% end %>
@@ -81,22 +81,22 @@
 
       <div class="form-group">
         <%= f.text_field :favourite_book,
-                         placeholder: 'Favourite Book?',
+                         placeholder: t('section_form.favourite_book'),
                          class: 'form-control',
-                         title: 'Favourite Book?',
+                         title: t('section_form.favourite_book'),
                          data: {toggle: 'tooltip', placement: 'top'} %>
       </div>
 
       <div class="form-group">
-        <%= f.label :favourite_movie, 'Movie : ' %><br/>
+        <%= f.label :favourite_movie, t('section_form.movie') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::FAVOURITE_MOVIE.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[favourite_movie][]",
                                 id,
                                 checked_favourite_movie(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:favourite_movie, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:favourite_movie, value) %>
               </span>
             </label>
           <% end %>
@@ -104,15 +104,15 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :favourite_tv_show, 'TV Show :' %><br/>
+        <%= f.label :favourite_tv_show, t('section_form.tv_show') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::FAVOURITE_TV_SHOW.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[favourite_tv_show][]",
                                 id,
                                 checked_favourite_tv_show(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:favourite_tv_show, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:favourite_tv_show, value) %>
               </span>
             </label>
           <% end %>
@@ -120,15 +120,15 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :favourite_sports_show, 'Sports Show:' %><br/>
+        <%= f.label :favourite_sports_show, t('section_form.sports_show') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::FAVOURITE_SPORTS.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[favourite_sports_show][]",
                                 id,
                                 checked_favourite_sports_show(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:favourite_sports, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:favourite_sports, value) %>
               </span>
             </label>
           <% end %>
@@ -137,15 +137,15 @@
 
 
       <div class="form-group">
-        <%= f.label :fitness_activity, 'Fitness Activity:' %><br/>
+        <%= f.label :fitness_activity, t('section_form.fitness_activity') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::FITNESS_ACTIVITIES.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[fitness_activity][]",
                                 id,
                                 checked_fitness_activity(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:fitness_activities, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:fitness_activities, value) %>
               </span>
             </label>
           <% end %>
@@ -153,15 +153,15 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :cuisine, 'Cuisine:' %><br/>
+        <%= f.label :cuisine, t('section_form.cuisine') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::FAVOURITE_CUISINE.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[cuisine][]",
                                 id,
                                 checked_cuisine(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:favourite_cuisine, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:favourite_cuisine, value) %>
               </span>
             </label>
           <% end %>
@@ -169,15 +169,15 @@
       </div>
 
       <div class="form-group">
-        <%= f.label :travel, 'Travel : ' %><br/>
+        <%= f.label :travel, t('section_form.travel') %><br/>
         <div class="d-sm-flex flex-sm-row flex-wrap">
           <% User::TRAVEL.each do |value, id| %>
             <label class="check-box-lbl-item">
               <%= check_box_tag "hobbies_and_interest[travel][]",
                                 id,
                                 checked_travel(id) %>
-              <span class="ck-box-lbl" title="<%= value %>" data-toggle='tooltip' data-placement="top">
-              <%= value.to_s %>
+              <span class="ck-box-lbl" title="<%= choice_label(:travel, value) %>" data-toggle='tooltip' data-placement="top">
+              <%= choice_label(:travel, value) %>
               </span>
             </label>
           <% end %>
@@ -186,9 +186,9 @@
 
       <div class="">
         <%= f.text_field :specific_entertainment,
-                         placeholder: 'What do you do the most for entertainment?',
+                         placeholder: t('section_form.what_do_you_do_the_most_for_entertainment'),
                          class: 'form-control',
-                         title: 'What do you do the most for entertainment?',
+                         title: t('section_form.what_do_you_do_the_most_for_entertainment'),
                          data: {toggle: 'tooltip', placement: 'top'} %>
       </div>
     </div>

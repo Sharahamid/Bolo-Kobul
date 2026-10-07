@@ -6,9 +6,9 @@
     <div class="d-flex flex-column align-items-center">
       <div class="form_title align-self-start pt-3 pl-2 pr-2">
         <% if @user.phone_number.to_s.start_with?('+880', '01', '008801') %>
-          <strong>Phone number verification</strong>
+          <strong><%= t('verify.title_phone') %></strong>
         <% else %>
-          <strong>Account verification</strong>
+          <strong><%= t('verify.title_account') %></strong>
         <% end %>
         <br>
         <%= image_tag 'yellow_line.svg', width: '51.59', height: '17' %>
@@ -16,30 +16,24 @@
       <div class="form_input_fields pt-4 pl-2 pr-2">
         <% if @user.phone_number.to_s.start_with?('+880', '01', '008801') %>
           <p>
-            A verification code has been sent to your mobile number
-            <strong><%= "#{@user.phone_number.to_s[0...3]}.....#{@user.phone_number.to_s[-2..-1]}" %></strong>.
-            Please enter it below to activate your account.
+            <%= t('verify.sent_phone_html', number: content_tag(:strong, "#{@user.phone_number.to_s[0...3]}.....#{@user.phone_number.to_s[-2..-1]}")) %>
           </p>
         <% else %>
           <p>
-            A verification code has been sent to your email address
-            <strong><%= @user.email.to_s.gsub(/(?<=.{2})[^@](?=.*@)/, '*') %></strong>.
-            Please check your inbox and spam folder, then enter the code below to activate your account.
+            <%= t('verify.sent_email_html', email: content_tag(:strong, @user.email.to_s.gsub(/(?<=.{2})[^@](?=.*@)/, '*'))) %>
           </p>
         <% end %>
         <%= form_tag verify_user_path(@user) do %>
           <div class="form-group">
-            <%= label_tag :token, "Verification Code:" %>
-            <%= text_field_tag :token, '', class: "form-control", placeholder: 'Enter your verification code' %>
+            <%= label_tag :token, t('verify.code_label') %>
+            <%= text_field_tag :token, '', class: "form-control", placeholder: t('verify.code_placeholder') %>
           </div>
-          <button type="submit" class="btn btn-primary">Verify</button>
+          <button type="submit" class="btn btn-primary"><%= t('verify.verify') %></button>
           &nbsp;
-          <%= link_to 'Resend Code', resend_user_path(@user), method: :post %>
+          <%= link_to t('verify.resend'), resend_user_path(@user), method: :post %>
         <% end -%>
         <p class="mt-3" style="font-size:13px; color:#888;">
-          Did not receive the code? Check your spam folder or click <strong>Resend Code</strong> above.
-          For further help contact us at
-          <a href="mailto:support@bolokobul.com">support@bolokobul.com</a>
+          <%= t('verify.help_html', resend: content_tag(:strong, t('verify.resend')), email: mail_to('support@bolokobul.com')) %>
         </p>
       </div>
     </div>

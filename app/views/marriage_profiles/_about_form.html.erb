@@ -1,6 +1,6 @@
 <%= form_for @marriage_profile, url: update_about_marriage_profile_path(@marriage_profile), method: :patch, remote: true do |f| %>
   <!-- Modal Header -->
-  <%= render 'shared/modal_header', title: 'About Yourself' %>
+  <%= render 'shared/modal_header', title: t('form.about_yourself') %>
 
   <!-- Modal body -->
   <div class="modal-body">
@@ -10,8 +10,8 @@
                         autofocus: true,
                         autocomplete: "about_my_self",
                         class: 'form-control sign_up-input-field',
-                        placeholder: 'Type About Myself',
-                        title: 'About myself',
+                        placeholder: t('form.about_placeholder'),
+                        title: t('form.about_myself'),
                         data: {toggle: 'tooltip', placement:'top'},
                         required: true %>
       </div>
@@ -19,22 +19,22 @@
 
       <div class="form-group">
         <%= f.text_area :special_circumstances,
-                        placeholder: 'Special Circumstances',
-                        title: 'Special Circumstances',
+                        placeholder: t('form.special_circumstances'),
+                        title: t('form.special_circumstances'),
                         data: {toggle: 'tooltip',
                                placement: 'top'},
                         class: 'form-control sign_up-input-field' %>
-        <small class="text-danger"> <%= f.object.errors[:special_circumstances].present? ? "Description #{f.object.errors[:special_circumstances]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:special_circumstances].present? ? f.object.errors.full_messages_for(:special_circumstances).first : '' %> </small>
       </div>
 
       <div class="">
         <%= f.text_area :description,
-                        placeholder: 'Few Line About Your Family',
-                        title: 'Few Line About Your Family',
+                        placeholder: t('form.about_family'),
+                        title: t('form.about_family'),
                         data: {toggle: 'tooltip',
                                placement: 'top'},
                         class: 'form-control sign_up-input-field' %>
-        <small class="text-danger"> <%= f.object.errors[:description].present? ? "Description #{f.object.errors[:description]&.first}" : '' %> </small>
+        <small class="text-danger"> <%= f.object.errors[:description].present? ? f.object.errors.full_messages_for(:description).first : '' %> </small>
       </div>
 
     </div>

@@ -3,9 +3,9 @@
     <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
       <span style="font-size:13px; color:#A32D2D; line-height:1.5;">
         <i class="fas fa-exclamation-triangle"></i>
-        Your account will be deleted permanently on <strong><%= current_user.deletion_date.strftime('%-d %B %Y') %></strong>.
+        <%= t('deletion_banner.text_html', date: content_tag(:strong, local_date(current_user.deletion_date))) %>
       </span>
-      <%= link_to 'Cancel deletion', cancel_deletion_user_path(current_user), method: :patch,
+      <%= link_to t('settings.cancel_deletion'), cancel_deletion_user_path(current_user), method: :patch,
                   style: 'background:#FFB627; color:#412402; border-radius:8px; padding:6px 14px; font-size:12px; font-weight:600; text-decoration:none; white-space:nowrap;' %>
     </div>
   </div>

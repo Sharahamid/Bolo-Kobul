@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test');
-const { login } = require('../support/helpers');
+const { login, seed } = require('../support/helpers');
 
 // English / বাংলা: the switch changes the language, and the choice is remembered
 test.describe('Bangla version', () => {
@@ -33,5 +33,34 @@ test.describe('Bangla version', () => {
     await login(second, 'carol@example.com');
     await expect(second.locator('html')).toHaveAttribute('lang', 'bn');
     await second.goto('/?locale=en');
+  });
+
+  test('in Bangla, search, forms and messages are in Bangla but save the same values', async ({ page }) => {
+    const { members } = seed();
+    await login(page, 'carol@example.com');
+
+    // Search: Bangla labels and options; the search sends the usual English values
+    await page.goto(`/marriage_profiles/${members.carol}/search_page?locale=bn`);
+    await expect(page.getByText('আমি খুঁজছি...')).toBeVisible();
+    await page.locator('#bk-search-form select[name="religion"]').selectOption({ label: 'ইসলাম' });
+    await page.locator('#bk-search-form select[name="hometown"]').selectOption({ label: 'ঢাকা' });
+    await Promise.all([page.waitForNavigation(), page.getByRole('button', { name: '🔍 খুঁজুন' }).click()]);
+    expect(new URL(page.url()).searchParams.get('religion')).toBe('Islam');
+    expect(new URL(page.url()).searchParams.get('hometown')).toBe('Dhaka');
+
+    // The basic information form opens in Bangla with the saved answers still selected
+    await page.goto(`/marriage_profiles/${members.carol}/profile_info`);
+    const form = await page.evaluate(async (url) => (await fetch(url, { headers: { Accept: 'text/javascript', 'X-Requested-With': 'XMLHttpRequest' } })).text(),
+      `/marriage_profiles/${members.carol}/edit`);
+    expect(form).toContain('মৌলিক তথ্য');
+    expect(form).toMatch(/selected=\\?"selected\\?" value=\\?"Dhaka\\?">ঢাকা</);
+    expect(form).not.toContain('translation missing');
+
+    // On-screen messages are shown in Bangla (chat is not open with Alice yet)
+    await page.goto(`/messages/${members.alice}/profile`);
+    await expect(page.getByText('পছন্দের প্রোফাইলে ২টি কবুল পাঠানোর পর তারা গ্রহণ করলেই চ্যাট চালু হবে')).toBeVisible();
+
+    await page.goto('/?locale=en');
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
   });
 });

@@ -37,7 +37,7 @@
                   <tr>
                     <td><%= t('profile.life_style.drink') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.life_style&.drinker.present? ? User::DRINK_SMOKE_DATA.keys[marriage_profile.life_style.drinker] : '' %></td>
+                    <td><%= marriage_profile.life_style&.drinker.present? ? choice_label(:drink_smoke_data, User::DRINK_SMOKE_DATA.keys[marriage_profile.life_style.drinker]) : '' %></td>
                   </tr>
                 <% end %>
 
@@ -45,7 +45,7 @@
                   <tr>
                     <td><%= t('profile.life_style.smoke') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.life_style&.smoker.present? ? User::DRINK_SMOKE_DATA.keys[marriage_profile&.life_style.smoker] : '' %></td>
+                    <td><%= marriage_profile.life_style&.smoker.present? ? choice_label(:drink_smoke_data, User::DRINK_SMOKE_DATA.keys[marriage_profile&.life_style.smoker]) : '' %></td>
                   </tr>
                 <% end %>
 
@@ -53,7 +53,7 @@
                   <tr>
                     <td><%= t('profile.life_style.food_habits') %></td>
                     <td>:</td>
-                    <td><%= marriage_profile.life_style&.food_habits.present? ? User::FOOD_HABITS.keys[marriage_profile&.life_style&.food_habits] : '' %></td>
+                    <td><%= marriage_profile.life_style&.food_habits.present? ? choice_label(:food_habits, User::FOOD_HABITS.keys[marriage_profile&.life_style&.food_habits]) : '' %></td>
                   </tr>
                 <% end %>
               </tbody>
@@ -67,7 +67,7 @@
                     <td>:</td>
                     <td>
                       <%= marriage_profile.life_style&.dress_style.present? ?
-                        marriage_profile.life_style.dress_style.map{|ds| User::DRESS_STYLE.keys[ds.to_i]}.join(', ') : '' %>
+                        marriage_profile.life_style.dress_style.map{|ds| choice_label(:dress_style, User::DRESS_STYLE.keys[ds.to_i])}.join(', ') : '' %>
                     </td>
                   </tr>
                 <% end %>
@@ -78,7 +78,7 @@
                     <td>:</td>
                     <td>
                       <%= marriage_profile.life_style&.living_with.present? ?
-                        marriage_profile.life_style.living_with.map{|lw| User::LIVING_WITH.keys[lw.to_i]}.join(', ') : '' %>
+                        marriage_profile.life_style.living_with.map{|lw| choice_label(:living_with, User::LIVING_WITH.keys[lw.to_i])}.join(', ') : '' %>
                     </td>
                   </tr>
                 <% end %>

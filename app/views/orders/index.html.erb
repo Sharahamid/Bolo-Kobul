@@ -2,19 +2,19 @@
   <% if @orders.present? %>
     <div style="background:#fff; border-radius:10px; border:0.5px solid #eee; overflow:hidden;">
       <div style="display:grid; grid-template-columns:2fr 1.2fr 0.4fr 1fr 1fr 1fr; gap:12px; background:linear-gradient(135deg,#FFB627,#ffca5e); padding:10px 16px;">
-        <span style="font-size:12px; font-weight:700; color:#633806;">Product</span>
-        <span style="font-size:12px; font-weight:700; color:#633806;">Date</span>
-        <span style="font-size:12px; font-weight:700; color:#633806; text-align:center;">Quantity</span>
-        <span style="font-size:12px; font-weight:700; color:#633806; text-align:right;">Price</span>
-        <span style="font-size:12px; font-weight:700; color:#633806; text-align:right;">Total</span>
-        <span style="font-size:12px; font-weight:700; color:#633806; text-align:center;">Status</span>
+        <span style="font-size:12px; font-weight:700; color:#633806;"><%= t('orders.product') %></span>
+        <span style="font-size:12px; font-weight:700; color:#633806;"><%= t('orders.date') %></span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:center;"><%= t('orders.quantity') %></span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:right;"><%= t('orders.price') %></span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:right;"><%= t('orders.total') %></span>
+        <span style="font-size:12px; font-weight:700; color:#633806; text-align:center;"><%= t('orders.status') %></span>
       </div>
       <%= render partial: 'order', collection: @orders %>
     </div>
   <% else %>
     <div class="text-center text-gray p-4">
       <i class="fa fa-shopping-cart" style="font-size:32px; color:#ddd; display:block; margin-bottom:8px;"></i>
-      <p>No orders yet.</p>
+      <p><%= t('orders.none') %></p>
     </div>
   <% end %>
 </section>

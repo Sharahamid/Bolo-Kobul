@@ -201,6 +201,8 @@ en:
       cancel_kobul_1: Cancel your Kobul request?
       cancel_kobul_2: Cancel your Kobul 2 request?
       reject_1: Reject this Kobul 1 request?
+      cancel_kobul_2_req: Cancel this Kobul 2 request?
+      remove_favourite: Remove from favourites?
   profile:
     edit_information: Edit information
     remove_information: Remove information
@@ -312,3 +314,386 @@ en:
       sub: Personal description
       special_circumstances: Special Circumstances
       family_lines: Few Line About My family
+      about_myself: About Myself
+  verify:
+    title_phone: Phone number verification
+    title_account: Account verification
+    sent_phone_html: A verification code has been sent to your mobile number %{number}. Please enter it below to activate your account.
+    sent_email_html: A verification code has been sent to your email address %{email}. Please check your inbox and spam folder, then enter the code below to activate your account.
+    code_label: 'Verification Code:'
+    code_placeholder: Enter your verification code
+    verify: Verify
+    resend: Resend Code
+    help_html: Did not receive the code? Check your spam folder or click %{resend} above. For further help contact us at %{email}
+  password:
+    forgot_title: Forgot Password?
+    forgot_text: Enter your email address to reset your password
+    email: Email*
+    submit: Submit
+    change_title: Change Your Password
+    new: New Password*
+    confirm_new: Confirm New Password*
+    minimum: (%{count} characters minimum)
+    change_mine: Change My Password
+    change: Change Password
+    current: Current Password*
+    current_hint: We need your current password to confirm your changes
+  social_signup:
+    title: Almost there
+    lead_html: You're signing up with %{provider} as %{email}.
+    lead2: 'Add your mobile number: we''ll send a code to verify it.'
+    full_name: Full name
+    mobile: Mobile number
+    created_for: Profile created for
+    choose: Choose one
+    continue: Continue
+    terms_html: I have read the %{terms} and %{privacy} of Bolo Kobul
+    note: Your email and mobile number are never shown to other members.
+  chat:
+    type_message: Type a message...
+    view_profile: View Profile
+    inactive: Inactive
+    active_today: Active today
+    active_days_ago: Active %{days}d ago
+    chat_requests_sent: Chat Requests Sent
+    send_message: Send message...
+    connecting: Connecting...
+  thanks:
+    contacted: You will be contacted soon for completing the registration!
+    choosing: Thank you for choosing Bolo Kobul
+    back_home: Back To Home
+  settings:
+    account_settings: Account Settings
+    email: Email
+    phone: Phone
+    password: Password
+    change: Change
+    text_alert: Text Alert
+    cost: '🦋 Cost: %{cost}'
+    butterflies:
+      one: '%{count} Butterfly'
+      other: '%{count} Butterflies'
+    'on': 'On'
+    'off': 'Off'
+    advanced_search: Advanced Search
+    enabled: Enabled
+    disabled: Disabled
+    account_status: Account Status
+    deactivated: Deactivated
+    active: Active
+    activate: Activate
+    deactivate: Deactivate
+    confirm_activate: Activate your account?
+    confirm_deactivate: Deactivate your account?
+    delete_account: Delete Account
+    will_be_deleted: Will be deleted on %{date}
+    delete_permanently: Delete my account permanently
+    deletion_hidden: Your account is hidden from all members. Cancel before the date above to keep everything as it is.
+    cancel_deletion: Cancel deletion
+    deletion_explain: 'Your account is hidden at once and erased for good after 30 days: profiles, photos, chats and Kobul connections. Unused butterflies are lost. You can cancel within the 30 days by
+      logging in.'
+    social_password_html: Signed up with %{provider}? Set a password first with %{link}, then enter it here.
+    forgot_password: Forgot Password
+    enter_password: Enter your password
+    deletion_understand: I understand my account and data will be deleted permanently after 30 days.
+    deletion_confirm: Delete your Bolo Kobul account? It will be erased permanently after 30 days.
+    delete_my_account: Delete my account
+    refer_friend: Refer a Friend
+    privacy: Privacy
+    block_list: Block List
+    privacy_information: Privacy Information
+    public: Public
+    private: Private
+    set_private: Set As Private
+    set_public: Set As Public
+  deletion_banner:
+    text_html: Your account will be deleted permanently on %{date}.
+  push:
+    prompt_title: Never miss a Kobul
+    prompt_body: Get a notification when someone sends you a Kobul, accepts yours or messages you.
+    not_now: Not now
+    turn_on: Turn on
+    settings_title: Phone notifications
+    checking: Checking this device…
+    send_test: Send test notification
+    unsupported: This browser cannot show notifications. On iPhone, add Bolo Kobul to your Home Screen first, then open it from there.
+    'on': On for this device. New Kobuls and messages arrive with your phone's notification sound and vibration.
+    blocked: 'Blocked for this device. To allow them: open your phone''s Settings → Apps → (Chrome or Bolo Kobul) → Notifications, and turn them on. Then reload this page.'
+    'off': Off for this device. Turn them on to hear about new Kobuls and messages even when Bolo Kobul is closed.
+    test_sent: Test sent. It should appear in a few seconds with sound and vibration. If it does not, check that notifications for Chrome/Bolo Kobul are allowed and not silent in your phone's Settings.
+    not_registered: This device is not registered yet. Tap Turn on again, or reload the page.
+  form:
+    basics: Basics
+    privacy_note: Your personal info is safe with us — Name and NID will not be shown to others
+    full_name: Full Name
+    registered_name: The name you registered with
+    nid: NID or Passport No.
+    nid_title: NID or Passport No.* 🔐 (information cannot be edited once submitted)
+    upload_id: Upload A Clear Identification Document
+    id_types: NID, passport, birth certificate, driving license, office ID
+    id_document: Identification Document
+    gender_req: Gender*
+    gender_lock: Gender* 🔐
+    specify_gender: Please specify your gender*
+    date_of_birth: Date of Birth
+    dob_title: Date of Birth* 🔐 (information cannot be edited once submitted)
+    dob_placeholder: Date of Birth (dd/mm/yyyy)
+    marital_status_req: Marital Status*
+    marital_status: Marital Status
+    religion_req: Religion*
+    religion: Religion
+    specify_religion: Please specify your religion*
+    hometown_req: Hometown*
+    hometown_title: Hometown* 🔐 (information cannot be edited once submitted)
+    country_req: Country*
+    city_req: City*
+    present_location_req: Present Location*
+    present_location_title: Present location*
+    present_address_req: Detailed Present Address*
+    height_ft_req: Height(ft)*
+    height_ft: Height (ft)
+    height_inch_req: Height(inch)*
+    height_inch: Height (inch)
+    height_inch_req2: Height (inch*)
+    education_req: Highest Education Level*
+    education_title: Height Education Level
+    specify_education: Please specify your education*
+    family_type_req: Family Type*
+    family_type: Family Type
+    family_status_req: Family Status*
+    family_status: Family Status
+    family_values_req: Family Values*
+    family_values: Family Values
+    family_value: Family Value
+    blood_group_req: Blood Group*
+    blood_group_lock: Blood Group* 🔐
+    next: Next
+    name: Name
+    name_req: Name*
+    basic_information: Basic Information
+    willing_to_relocate: Willing to relocate ?
+    about_yourself: About Yourself
+    about_placeholder: Type About Myself
+    about_myself: About myself
+    special_circumstances: Special Circumstances
+    about_family: Few Line About Your Family
+    cancel: Cancel
+  search:
+    looking_for: I am looking for...
+    age_from: Age (from)
+    age_to: Age (to)
+    religion: Religion
+    hometown: Hometown
+    search: 🔍 Search
+    height: Height
+    education: Education
+    occupation: Occupation
+    blood_group: Blood Group
+    reset: ✕ Reset
+    no_results: No profiles found
+    adjust_filters: Try adjusting your filters
+    find_match: Find your ideal match
+    use_filters: Use the search filters above to discover profiles
+    found: '%{count} profiles found'
+  referral:
+    title: Referral Code
+    sub: Share and earn a free butterfly for each signup!
+    your_code: Your Code
+    copy: Copy
+    note: Share this code with friends or family who are looking for a soulmate. When they register using your code, you earn one free butterfly!
+    copied: Copied!
+  blocked:
+    title: Blocked Profiles
+    unblock: Unblock
+    none: No blocked profiles
+    confirm: Unblock %{id}?
+  pending:
+    title: Requests Sent
+    kobul1: 🦋 Kobul 1 Pending
+    cancel_confirm: Cancel this Kobul 1 request?
+    remove_favourite: Remove from favourites?
+  contact:
+    title: Contact Us
+    sub: We'd love to hear from you — reach out anytime
+    email: Email Address
+    concern: Have a specific concern?
+    concern_sub: Submit a support request and we'll get back to you shortly.
+    write: Write to Us
+  about_page:
+    previous: ← Previous
+    next: 'Next: %{title} →'
+    end: End of About Us
+  crop:
+    title: Resize image
+    close: Close
+  no_data: No Data Found
+  preference:
+    title: Partner Preferences
+    edit: Edit
+    edit_title: Edit Preference
+    looking_for: Looking For
+    min_age: Min Age
+    max_age: Max Age
+    min_height: Min Height
+    max_height: Max Height
+    physical_status: Physical Status
+    religion: Religion
+    hometown: Hometown
+    except_hometown: Except (Hometown)
+    present_location: Present Location
+    marital_status: Marital Status
+    education: Education Level
+    family_status: Family Status
+    family_values: Family Values
+    family_type: Family Type
+    blood_group: Blood Group
+    short_title: Preference
+    looking_for_req: Looking For*
+    age_min_18: Age(min-18)
+    age_min: Age(min)
+    age_max: Age(max)
+    age_error: Should be greater than min age.
+    height_error: Should be greater than min height.
+    inch_error: Should be greater than min inch.
+    feet_min: Feet (min)
+    inch_min: Inch (min)
+    feet_max: Feet (max)
+    inch_max: Inch (max)
+    education_req: Highest Education Level
+    family_value: Family Value
+    nothing_selected: Nothing selected
+  section_form:
+    occupation_req: Occupation*
+    occupation: Occupation
+    start_date_req: Start Date*
+    start_date: Start Date
+    end_date_req: End Date*
+    end_date: End Date
+    organization_req: Organization*
+    organization: Organization
+    monthly_income_req: Monthly Income*
+    employment_status_req: Employment Status*
+    designation_req: Designation*
+    designation: Designation
+    company_name_req: Company Name*
+    company_name: Company Name
+    please_specify_your_organization_req: Please specify your organization*
+    please_specify_organization: Please specify organization
+    birth_place: Birth Place
+    complexion_lc: complexion
+    complexion: Complexion
+    what_do_you_do_the_most_for_entertainment: What do you do the most for entertainment?
+    residence_type_req: Residence Type*
+    relation_req: Relation*
+    political_view: Political View
+    physical_status: Physical Status
+    permanent_address: Permanent Address
+    passing_year: Passing Year
+    nationality: Nationality
+    mother_tongue: Mother Tongue
+    marital_status_req: Marital Status*
+    marital_status: Marital Status
+    location: Location
+    location_city_country: Location (City/Country)
+    life_style: Life Style
+    institution: Institution
+    hobbies_and_interest: Hobbies And Interest
+    hair_type: Hair Type
+    hair_length: Hair Length
+    hair_color: Hair Color
+    food_habits: Food Habits
+    favourite_song: Favourite Song?
+    favourite_book: Favourite Book?
+    eye_wear: Eye Wear
+    eye_color: Eye Color
+    do_you_smoke: Do you smoke?
+    do_you_drink: Do you drink?
+    degree: Degree
+    cultural_value: Cultural Value
+    born_or_reverted: Born Or Reverted
+    body_type: Body Type
+    body_art: Body Art
+    attend_religious_events_lc: Attend religious events
+    attend_religious_events: Attend Religious Events
+    appearance: Appearance
+    any_specific_habits_you_want_to_share: Any Specific Habits You want to share?
+    niqab: Niqab
+    hijab: Hijab
+    country_req: Country*
+    city_req: City*
+    weight_in_kg: Weight(in kg)
+    no_of_children_req: No of Children*
+    name_req: Name*
+    want_child: Want Child?
+    travel: 'Travel : '
+    read: 'Read :'
+    music: 'Music :'
+    living_with: 'Living With : '
+    languages_spoken: 'Languages Spoken :'
+    interest: 'Interest:'
+    hobby: 'Hobby:'
+    have_children: Have Children?
+    fitness_activity: 'Fitness Activity:'
+    tv_show: 'TV Show :'
+    sports_show: 'Sports Show:'
+    movie: 'Movie : '
+    dress_style: 'Dress Style :'
+    cuisine: 'Cuisine:'
+    add_occupation: Add Occupation
+    edit_occupation: Edit Occupation
+    add_academic_information: Add Academic Information
+    edit_academic_information: Edit Academic Information
+    add_family_member: Add Family Member
+    edit_family_member: Edit Family Member
+    add_marriage_info: Add Marriage Info
+    edit_marriage_info: Edit Marriage Info
+  buy:
+    title: Buy Butterflies
+    sub: Send more Kobul requests to potential matches
+    unit_price: Price per butterfly
+    quantity: Number of Butterflies*
+    enter_quantity: Enter quantity
+    estimated_total: Estimated Total
+    your_name: Your Name*
+    your_phone: Your Phone Number*
+    your_email: Your Email Address
+    login: Login
+    secure: Secure payment · Butterflies added instantly
+    purchase_now: 🦋 Purchase Now
+    share_details: Please share your details or
+  orders:
+    product: Product
+    date: Date
+    quantity: Quantity
+    price: Price
+    total: Total
+    status: Status
+    none: No orders yet.
+    butterfly: Butterfly
+  support:
+    description: Description
+    attachment: Attachment
+    you: You
+    admin: Admin
+    type_message: Type your message...
+    send: Send
+    admin_replies: Admin Replies
+    view_attachment: View Attachment
+    attach: Attach
+    add_reply: Add a Reply
+    issue_type: Issue Type*
+    description_req: Description*
+    attach_image: Attach an Image (optional)
+    upload_hint: Click to upload JPG or PNG
+    submit: Submit Request
+    select_issue: Select An Issue
+    describe: Describe your issue in detail...
+    requests_title: Support Requests
+    track: Track the status of your submitted requests
+    new_request: New Request
+    none: No support requests yet
+    none_sub: Submit a request if you need help with anything
+    submit_a_request: Submit a Request
+    count: '%{count} requests'
+    title: Customer Support
+    title_sub: Submit your request and we'll get back to you shortly

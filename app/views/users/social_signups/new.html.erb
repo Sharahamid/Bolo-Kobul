@@ -1,8 +1,8 @@
 <div class="bk-social-signup">
   <div class="bk-social-signup__card">
     <div class="bk-social-signup__icon">🦋</div>
-    <h4>Almost there</h4>
-    <p class="bk-social-signup__lead">You're signing up with <strong><%= SocialLogin.label(@data['provider']) %></strong> as <strong><%= @data['email'] %></strong>.<br>Add your mobile number: we'll send a code to verify it.</p>
+    <h4><%= t('social_signup.title') %></h4>
+    <p class="bk-social-signup__lead"><%= t('social_signup.lead_html', provider: content_tag(:strong, SocialLogin.label(@data['provider'])), email: content_tag(:strong, @data['email'])) %><br><%= t('social_signup.lead2') %></p>
 
     <%= form_for @user, url: social_signup_path, method: :post, html: { 'data-turbolinks' => 'false' } do |f| %>
       <% if @user.errors.any? %>
@@ -13,23 +13,23 @@
         </div>
       <% end %>
 
-      <label for="user_name">Full name</label>
+      <label for="user_name"><%= t('social_signup.full_name') %></label>
       <%= f.text_field :name, required: true, autocomplete: 'name', class: 'form-control' %>
 
-      <label for="user_phone_number">Mobile number</label>
+      <label for="user_phone_number"><%= t('social_signup.mobile') %></label>
       <%= f.phone_field :phone_number, required: true, autocomplete: 'tel', class: 'form-control', placeholder: '+8801XXXXXXXXX', autofocus: true %>
 
-      <label for="user_created_for">Profile created for</label>
-      <%= f.select :created_for, options_for_select(User.created_fors.keys.map { |k| [k.titleize, k] }, @user.created_for),
-                   { prompt: 'Choose one' }, class: 'form-control', required: true %>
+      <label for="user_created_for"><%= t('social_signup.created_for') %></label>
+      <%= f.select :created_for, options_for_select(User.created_fors.keys.map { |k| [enum_label(:user, :created_for, k), k] }, @user.created_for),
+                   { prompt: t('social_signup.choose') }, class: 'form-control', required: true %>
 
       <label class="bk-social-signup__terms">
         <input type="checkbox" required>
-        <span>I have read the <a href="<%= terms_of_uses_path %>" target="_blank">Terms of Use</a> and <a href="<%= privacy_policies_path %>" target="_blank">Privacy Policy</a> of Bolo Kobul</span>
+        <span><%= t('social_signup.terms_html', terms: link_to(t('signup.terms_of_use'), terms_of_uses_path, target: '_blank'), privacy: link_to(t('signup.privacy_policy'), privacy_policies_path, target: '_blank')) %></span>
       </label>
 
-      <%= f.submit 'Continue', class: 'bk-social-signup__submit' %>
+      <%= f.submit t('social_signup.continue'), class: 'bk-social-signup__submit' %>
     <% end %>
-    <p class="bk-social-signup__note"><i class="fas fa-lock"></i> Your email and mobile number are never shown to other members.</p>
+    <p class="bk-social-signup__note"><i class="fas fa-lock"></i> <%= t('social_signup.note') %></p>
   </div>
 </div>

@@ -5,14 +5,14 @@
       <!-- Header -->
       <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:24px; text-align:center;">
         <div style="font-size:36px; margin-bottom:8px;">🦋</div>
-        <h2 style="font-size:20px; font-weight:700; color:#412402; margin:0 0 4px;">Buy Butterflies</h2>
-        <p style="font-size:13px; color:#633806; margin:0;">Send more Kobul requests to potential matches</p>
+        <h2 style="font-size:20px; font-weight:700; color:#412402; margin:0 0 4px;"><%= t('buy.title') %></h2>
+        <p style="font-size:13px; color:#633806; margin:0;"><%= t('buy.sub') %></p>
       </div>
 
       <!-- Price per unit -->
       <div style="background:#FAEEDA; padding:14px 20px; display:flex; align-items:center; justify-content:space-between; border-bottom:0.5px solid #FAC775;">
-        <span style="font-size:13px; color:#633806; font-weight:600;">Price per butterfly</span>
-        <span style="font-size:18px; font-weight:700; color:#412402;">৳ <%= @butterfly_unit_price %></span>
+        <span style="font-size:13px; color:#633806; font-weight:600;"><%= t('buy.unit_price') %></span>
+        <span style="font-size:18px; font-weight:700; color:#412402;">৳ <%= local_digits(@butterfly_unit_price) %></span>
       </div>
 
       <!-- Form -->
@@ -22,11 +22,11 @@
           <%= f.hidden_field :product, value: "butterfly" %>
 
           <div style="margin-bottom:16px;">
-            <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;">Number of Butterflies*</label>
+            <label style="font-size:12px; font-weight:600; color:#633806; display:block; margin-bottom:6px;"><%= t('buy.quantity') %></label>
             <%= f.number_field :quantity,
                                required: true,
                                min: 1,
-                               placeholder: "Enter quantity",
+                               placeholder: t('buy.enter_quantity'),
                                id: "bk-qty-input",
                                oninput: "bkUpdateTotal(this.value)",
                                style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:10px 14px; font-size:13px; color:#555; box-sizing:border-box;" %>
@@ -34,31 +34,31 @@
 
           <!-- Estimated total -->
           <div style="background:#FFF3CC; border-radius:8px; padding:12px 14px; margin-bottom:18px; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:13px; color:#854F0B; font-weight:600;">Estimated Total</span>
+            <span style="font-size:13px; color:#854F0B; font-weight:600;"><%= t('buy.estimated_total') %></span>
             <span style="font-size:16px; font-weight:700; color:#412402;" id="bk-total">৳ 0</span>
           </div>
 
           <% unless current_user %>
             <div style="margin-bottom:16px;">
-              <p style="font-size:12px; color:#854F0B; font-weight:600; margin:0 0 10px;">Please share your details or
-                <a href="#" data-toggle="modal" data-target="#loginModal" style="color:#412402; font-weight:700;">Login</a>
+              <p style="font-size:12px; color:#854F0B; font-weight:600; margin:0 0 10px;"><%= t('buy.share_details') %>
+                <a href="#" data-toggle="modal" data-target="#loginModal" style="color:#412402; font-weight:700;"><%= t('buy.login') %></a>
               </p>
-              <%= f.text_field :customer_name, required: true, placeholder: 'Your Name*',
+              <%= f.text_field :customer_name, required: true, placeholder: t('buy.your_name'),
                                style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:9px 12px; font-size:13px; margin-bottom:8px; box-sizing:border-box;" %>
-              <%= f.text_field :customer_phone, required: true, placeholder: 'Your Phone Number*',
+              <%= f.text_field :customer_phone, required: true, placeholder: t('buy.your_phone'),
                                style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:9px 12px; font-size:13px; margin-bottom:8px; box-sizing:border-box;" %>
-              <%= f.text_field :customer_email, placeholder: 'Your Email Address',
+              <%= f.text_field :customer_email, placeholder: t('buy.your_email'),
                                style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:9px 12px; font-size:13px; margin-bottom:8px; box-sizing:border-box;" %>
             </div>
           <% end %>
 
           <div style="background:#FAEEDA; border-radius:8px; padding:10px 14px; margin-bottom:16px; font-size:12px; color:#633806; display:flex; align-items:center; gap:8px;">
             <i class="fas fa-shield-alt" style="font-size:15px;"></i>
-            Secure payment · Butterflies added instantly
+            <%= t('buy.secure') %>
           </div>
 
           <button type="submit" style="width:100%; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#412402; border:none; border-radius:8px; padding:12px; font-size:14px; font-weight:700; cursor:pointer;">
-            🦋 Purchase Now
+            <%= t('buy.purchase_now') %>
           </button>
         <% end %>
       </div>

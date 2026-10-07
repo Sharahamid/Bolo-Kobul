@@ -2,8 +2,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalLabel">Resize image</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="modalLabel"><%= t('crop.title') %></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="<%= t('crop.close') %>">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
@@ -16,7 +16,7 @@
       <div class="modal-footer">
         <input type="button" class="btn btn-invite mb5 p5 " id="skip-cropping" value="Skip Cropping" data-dismiss="modal"></button>
         <input type="button" id="page-pic-save" class="btn btn-invite mb5 " value="Save" />
-        <button type="button" class="btn btn-invite mb5" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-invite mb5" data-dismiss="modal"><%= t('crop.close') %></button>
       </div>
     </div>
   </div>

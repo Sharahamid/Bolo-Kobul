@@ -5,7 +5,7 @@
     <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
       <div style="display:flex; align-items:center; gap:8px;">
         <i class="fas fa-ban" style="color:#412402; font-size:16px;"></i>
-        <span style="font-size:15px; font-weight:700; color:#412402;">Blocked Profiles</span>
+        <span style="font-size:15px; font-weight:700; color:#412402;"><%= t('blocked.title') %></span>
       </div>
       <% if blocked_profiles.present? %>
         <span style="background:#633806; color:#FAC775; font-size:11px; padding:2px 10px; border-radius:20px; font-weight:600;"><%= blocked_profiles.count %></span>
@@ -23,15 +23,15 @@
             </div>
             <%= link_to unblock_profile_marriage_profile_path(profile),
                         method: :patch,
-                        data: { confirm: "Unblock #{profile&.unique_id}?" },
+                        data: { confirm: t('blocked.confirm', id: profile&.unique_id) },
                         style: "background:#FAEEDA; color:#854F0B; border:0.5px solid #FFB627; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:600; text-decoration:none; white-space:nowrap; flex-shrink:0;" do %>
-              Unblock
+              <%= t('blocked.unblock') %>
             <% end %>
           </div>
         <% end %>
       <% else %>
         <div style="grid-column:1/-1; text-align:center; padding:30px; color:#aaa; font-size:13px;">
-          No blocked profiles
+          <%= t('blocked.none') %>
         </div>
       <% end %>
     </div>

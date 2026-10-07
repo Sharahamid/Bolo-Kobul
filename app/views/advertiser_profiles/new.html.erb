@@ -16,7 +16,7 @@
           <%= form_for @advertiser_profile do |f| %>
             <div class="form-group">
               <%= f.text_field :company_name, autofocus: true, autocomplete: "company_name", required: true, class: 'form-control sign_up-input-field', placeholder: 'Company Name' %>
-              <small class="text-danger"> <%= f.object.errors[:company_name].present? ? "Company Name #{f.object.errors[:company_name]&.first}" : '' %> </small>
+              <small class="text-danger"> <%= f.object.errors[:company_name].present? ? f.object.errors.full_messages_for(:company_name).first : '' %> </small>
             </div>
             <div class="register-btn-section text-center">
               <button type="submit" class="btn btn-sign_up form-control"> Next</button>

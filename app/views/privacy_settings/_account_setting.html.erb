@@ -4,7 +4,7 @@
     <!-- Header -->
     <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:14px 18px; display:flex; align-items:center; gap:8px;">
       <i class="fas fa-cog" style="color:#412402; font-size:16px;"></i>
-      <span style="font-size:15px; font-weight:700; color:#412402;">Account Settings</span>
+      <span style="font-size:15px; font-weight:700; color:#412402;"><%= t('settings.account_settings') %></span>
     </div>
 
     <!-- Cards -->
@@ -17,7 +17,7 @@
             <i class="fas fa-envelope" style="color:#854F0B; font-size:14px;"></i>
           </div>
           <div style="min-width:0;">
-            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Email</p>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.email') %></p>
             <p style="font-size:13px; color:#412402; font-weight:600; margin:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"><%= current_user&.email %></p>
           </div>
         </div>
@@ -33,7 +33,7 @@
             <i class="fas fa-phone" style="color:#854F0B; font-size:14px;"></i>
           </div>
           <div>
-            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Phone</p>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.phone') %></p>
             <p style="font-size:13px; color:#412402; font-weight:600; margin:0;"><%= current_user&.phone_number %></p>
           </div>
         </div>
@@ -49,13 +49,13 @@
             <i class="fas fa-key" style="color:#854F0B; font-size:14px;"></i>
           </div>
           <div>
-            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Password</p>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.password') %></p>
             <p style="font-size:13px; color:#412402; font-weight:600; margin:0; letter-spacing:3px;">••••••••</p>
           </div>
         </div>
         <%= link_to change_password_user_path(current_user), remote: true,
                     style: "background:#FFB627; color:#412402; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
-          <i class="fas fa-pencil-alt"></i> Change
+          <i class="fas fa-pencil-alt"></i> <%= t('settings.change') %>
         <% end %>
       </div>
 
@@ -66,15 +66,15 @@
             <i class="fas fa-bell" style="color:#854F0B; font-size:14px;"></i>
           </div>
           <div>
-            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Text Alert</p>
-            <p style="font-size:13px; color:#412402; font-weight:600; margin:0 0 2px;"><%= current_user.text_alert.titleize %></p>
-            <p style="font-size:11px; color:#aaa; margin:0;">🦋 Cost: <%= pluralize(@text_alert_butterflies, "Butterfly") %></p>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.text_alert') %></p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0 0 2px;"><%= current_user.text_alert == 'on' ? t('settings.on') : t('settings.off') %></p>
+            <p style="font-size:11px; color:#aaa; margin:0;"><%= t('settings.cost', cost: t('settings.butterflies', count: @text_alert_butterflies.to_i).sub(@text_alert_butterflies.to_i.to_s, local_digits(@text_alert_butterflies.to_i))) %></p>
           </div>
         </div>
         <%= link_to toggle_text_alert_user_path(current_user), method: :patch,
                     style: "background:#{current_user.text_alert == 'on' ? '#FFB627' : '#f5f5f5'}; color:#{current_user.text_alert == 'on' ? '#412402' : '#aaa'}; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
           <i class="fas fa-toggle-<%= current_user.text_alert == 'on' ? 'on' : 'off' %>"></i>
-          <%= current_user.text_alert == 'on' ? 'On' : 'Off' %>
+          <%= current_user.text_alert == 'on' ? t('settings.on') : t('settings.off') %>
         <% end %>
       </div>
 
@@ -85,15 +85,15 @@
             <i class="fas fa-search" style="color:#854F0B; font-size:14px;"></i>
           </div>
           <div>
-            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Advanced Search</p>
-            <p style="font-size:13px; color:#412402; font-weight:600; margin:0 0 2px;"><%= current_user.advanced_search.titleize %></p>
-            <p style="font-size:11px; color:#aaa; margin:0;">🦋 Cost: <%= pluralize(@adv_search_butterflies, "Butterfly") %></p>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.advanced_search') %></p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0 0 2px;"><%= current_user.advanced_search == 'enabled' ? t('settings.enabled') : t('settings.disabled') %></p>
+            <p style="font-size:11px; color:#aaa; margin:0;"><%= t('settings.cost', cost: t('settings.butterflies', count: @adv_search_butterflies.to_i).sub(@adv_search_butterflies.to_i.to_s, local_digits(@adv_search_butterflies.to_i))) %></p>
           </div>
         </div>
         <%= link_to toggle_advanced_search_user_path(current_user), method: :patch,
                     style: "background:#{current_user.advanced_search == 'enabled' ? '#FFB627' : '#f5f5f5'}; color:#{current_user.advanced_search == 'enabled' ? '#412402' : '#aaa'}; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
           <i class="fas fa-toggle-<%= current_user.advanced_search == 'enabled' ? 'on' : 'off' %>"></i>
-          <%= current_user.advanced_search == 'enabled' ? 'Enabled' : 'Disabled' %>
+          <%= current_user.advanced_search == 'enabled' ? t('settings.enabled') : t('settings.disabled') %>
         <% end %>
       </div>
 
@@ -104,17 +104,17 @@
             <i class="fas fa-<%= current_user.deactivated.present? ? 'ban' : 'check-circle' %>" style="color:#<%= current_user.deactivated.present? ? 'e53e3e' : '854F0B' %>; font-size:14px;"></i>
           </div>
           <div>
-            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Account Status</p>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.account_status') %></p>
             <p style="font-size:13px; color:#<%= current_user.deactivated.present? ? 'e53e3e' : '412402' %>; font-weight:600; margin:0;">
-              <%= current_user.deactivated.present? ? 'Deactivated' : 'Active' %>
+              <%= current_user.deactivated.present? ? t('settings.deactivated') : t('settings.active') %>
             </p>
           </div>
         </div>
         <%= link_to current_user.deactivated.present? ? activate_account_user_path(current_user) : deactivate_account_user_path(current_user),
                     method: :patch,
-                    data: { confirm: current_user.deactivated.present? ? "Activate your account?" : "Deactivate your account?" },
+                    data: { confirm: current_user.deactivated.present? ? t('settings.confirm_activate') : t('settings.confirm_deactivate') },
                     style: "background:#{current_user.deactivated.present? ? '#FFB627' : '#FCEBEB'}; color:#{current_user.deactivated.present? ? '#412402' : '#A32D2D'}; border:0.5px solid #{current_user.deactivated.present? ? '#FFB627' : '#F09595'}; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; flex-shrink:0;" do %>
-          <%= current_user.deactivated.present? ? 'Activate' : 'Deactivate' %>
+          <%= current_user.deactivated.present? ? t('settings.activate') : t('settings.deactivate') %>
         <% end %>
       </div>
 
@@ -125,39 +125,37 @@
             <i class="fas fa-trash-alt" style="color:#e53e3e; font-size:14px;"></i>
           </div>
           <div>
-            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Delete Account</p>
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.delete_account') %></p>
             <p style="font-size:13px; color:#A32D2D; font-weight:600; margin:0;">
-              <%= current_user.deletion_scheduled? ? "Will be deleted on #{current_user.deletion_date.strftime('%-d %B %Y')}" : 'Delete my account permanently' %>
+              <%= current_user.deletion_scheduled? ? t('settings.will_be_deleted', date: local_date(current_user.deletion_date)) : t('settings.delete_permanently') %>
             </p>
           </div>
         </div>
         <% if current_user.deletion_scheduled? %>
           <p style="font-size:12px; color:#555; line-height:1.6; margin:0 0 10px;">
-            Your account is hidden from all members. Cancel before the date above to keep everything as it is.
+            <%= t('settings.deletion_hidden') %>
           </p>
-          <%= link_to 'Cancel deletion', cancel_deletion_user_path(current_user), method: :patch,
+          <%= link_to t('settings.cancel_deletion'), cancel_deletion_user_path(current_user), method: :patch,
                       style: 'background:#FFB627; color:#412402; border:0.5px solid #FFB627; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; text-decoration:none; display:inline-block;' %>
         <% else %>
           <p style="font-size:12px; color:#555; line-height:1.6; margin:0 0 10px;">
-            Your account is hidden at once and erased for good after 30 days: profiles, photos, chats and Kobul
-            connections. Unused butterflies are lost. You can cancel within the 30 days by logging in.
+            <%= t('settings.deletion_explain') %>
           </p>
           <% if current_user.provider.present? %>
             <p style="font-size:12px; color:#854F0B; background:#FFF8E6; border-radius:8px; padding:8px 10px; line-height:1.6; margin:0 0 10px;">
-              Signed up with <%= SocialLogin.label(current_user.provider) %>? Set a password first with
-              <%= link_to 'Forgot Password', new_user_password_path, style: 'color:#C77C00; font-weight:600;' %>, then enter it here.
+              <%= t('settings.social_password_html', provider: SocialLogin.label(current_user.provider), link: link_to(t('settings.forgot_password'), new_user_password_path, style: 'color:#C77C00; font-weight:600;')) %>
             </p>
           <% end %>
           <%= form_tag request_deletion_user_path(current_user), method: :post, style: 'margin:0;' do %>
-            <input type="password" name="password" required autocomplete="current-password" placeholder="Enter your password"
+            <input type="password" name="password" required autocomplete="current-password" placeholder="<%= t('settings.enter_password') %>"
                    style="width:100%; max-width:320px; border:0.5px solid #F09595; border-radius:8px; padding:7px 10px; font-size:13px; margin-bottom:8px; display:block;">
             <label style="display:flex; align-items:flex-start; gap:8px; font-size:12px; color:#555; margin:0 0 10px; cursor:pointer;">
               <input type="checkbox" name="confirm_deletion" value="1" required style="margin-top:2px;">
-              <span>I understand my account and data will be deleted permanently after 30 days.</span>
+              <span><%= t('settings.deletion_understand') %></span>
             </label>
-            <button type="submit" data-confirm="Delete your Bolo Kobul account? It will be erased permanently after 30 days."
+            <button type="submit" data-confirm="<%= t('settings.deletion_confirm') %>"
                     style="background:#FCEBEB; color:#A32D2D; border:0.5px solid #F09595; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600;">
-              Delete my account
+              <%= t('settings.delete_my_account') %>
             </button>
           <% end %>
         <% end %>

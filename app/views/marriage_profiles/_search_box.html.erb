@@ -6,44 +6,44 @@
 
     <!-- Gold header: basic search -->
     <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:16px 20px;">
-      <p style="font-size:15px; font-weight:700; color:#633806; margin:0 0 12px;">I am looking for...</p>
+      <p style="font-size:15px; font-weight:700; color:#633806; margin:0 0 12px;"><%= t('search.looking_for') %></p>
       <%= form_tag search_marriage_profile_path, method: :get, id: "bk-search-form" do %>
         <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
-          <input type="number" name="age_from" value="<%= params[:age_from] %>" placeholder="Age (from)"
+          <input type="number" name="age_from" value="<%= params[:age_from] %>" placeholder="<%= t('search.age_from') %>"
                  min="18" max="80"
                  style="flex:1; min-width:100px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;" />
-          <input type="number" name="age_to" value="<%= params[:age_to] %>" placeholder="Age (to)"
+          <input type="number" name="age_to" value="<%= params[:age_to] %>" placeholder="<%= t('search.age_to') %>"
                  min="18" max="80"
                  style="flex:1; min-width:100px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;" />
           <select name="religion"
                   style="flex:1; min-width:120px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;">
-            <option value="">Religion</option>
+            <option value=""><%= t('search.religion') %></option>
             <% MarriageProfile.religions.each do |k, v| %>
-              <option value="<%= k.titleize %>" <%= 'selected' if params[:religion] == k.titleize %>><%= k.titleize %></option>
+              <option value="<%= k.titleize %>" <%= 'selected' if params[:religion] == k.titleize %>><%= I18n.locale == :bn ? religion_label(k) : k.titleize %></option>
             <% end %>
           </select>
           <select name="hometown" id="search_hometown_select"
                   style="flex:1; min-width:130px; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;">
-            <option value="">Hometown</option>
+            <option value=""><%= t('search.hometown') %></option>
             <% District.order(:name).pluck(:name).each do |d| %>
-              <option value="<%= d %>" <%= 'selected' if params[:hometown] == d %>><%= d %></option>
+              <option value="<%= d %>" <%= 'selected' if params[:hometown] == d %>><%= I18n.locale == :bn ? district_label(d) : d %></option>
             <% end %>
           </select>
           <button type="submit"
                   style="background:#633806; color:#FAC775; border:none; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:700; cursor:pointer;">
-            🔍 Search
+            <%= t('search.search') %>
           </button>
         </div>
         <div id="search_hometown_abroad" style="display:none; gap:8px; margin-top:8px;">
           <select name="hometown_country"
                   style="flex:1; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;">
-            <option value="">Country*</option>
+            <option value=""><%= t('form.country_req') %></option>
             <% Country.order(:name).pluck(:name).each do |c| %>
               <option value="<%= c %>" <%= 'selected' if params[:hometown_country] == c %>><%= c %></option>
             <% end %>
           </select>
           <input type="text" name="hometown_city" value="<%= params[:hometown_city] %>"
-                 placeholder="City*"
+                 placeholder="<%= t('form.city_req') %>"
                  style="flex:1; background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:13px; color:#633806;" />
         </div>
         <script>
@@ -67,19 +67,19 @@
             <!-- Height multi-select -->
             <div class="bk-dropdown" style="position:relative; flex:1; min-width:120px;">
               <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
-                <span class="bk-dropdown-label">Height</span> ▾
+                <span class="bk-dropdown-label"><%= t('search.height') %></span> ▾
               </div>
               <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:120px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
                 <% (1..11).each do |inch| %>
                   <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
                     <input type="checkbox" name="height[]" value="5-<%= inch %>" <%= 'checked' if Array(params[:height]).include?("5-#{inch}") %> style="accent-color:#EF9F27;" />
-                    5'<%= inch %>"
+                    <%= local_digits(5) %>'<%= local_digits(inch) %>"
                   </label>
                 <% end %>
                 <% (0..5).each do |inch| %>
                   <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
                     <input type="checkbox" name="height[]" value="6-<%= inch %>" <%= 'checked' if Array(params[:height]).include?("6-#{inch}") %> style="accent-color:#EF9F27;" />
-                    6'<%= inch %>"
+                    <%= local_digits(6) %>'<%= local_digits(inch) %>"
                   </label>
                 <% end %>
               </div>
@@ -88,13 +88,13 @@
             <!-- Education multi-select -->
             <div class="bk-dropdown" style="position:relative; flex:1; min-width:130px;">
               <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
-                <span class="bk-dropdown-label">Education</span> ▾
+                <span class="bk-dropdown-label"><%= t('search.education') %></span> ▾
               </div>
               <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:150px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
                 <% MarriageProfile.highest_education_levels.each do |type, v| %>
                   <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
                     <input type="checkbox" name="highest_education_level[]" value="<%= type %>" <%= 'checked' if Array(params[:highest_education_level]).include?(type) %> style="accent-color:#EF9F27;" />
-                    <%= type.titleize %>
+                    <%= I18n.locale == :bn ? enum_label(:marriage_profile, :highest_education_level, type) : type.titleize %>
                   </label>
                 <% end %>
               </div>
@@ -103,13 +103,13 @@
             <!-- Occupation multi-select -->
             <div class="bk-dropdown" style="position:relative; flex:1; min-width:130px;">
               <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
-                <span class="bk-dropdown-label">Occupation</span> ▾
+                <span class="bk-dropdown-label"><%= t('search.occupation') %></span> ▾
               </div>
               <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:180px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:200px; overflow-y:auto;">
                 <% Occupation.names.each do |type, v| %>
                   <label style="display:flex; align-items:center; gap:8px; padding:5px 8px; border-radius:6px; font-size:12px; color:#633806; cursor:pointer;">
                     <input type="checkbox" name="occupation[]" value="<%= type %>" <%= 'checked' if Array(params[:occupation]).include?(type) %> style="accent-color:#EF9F27;" />
-                    <%= type.titleize %>
+                    <%= I18n.locale == :bn ? occupation_label(type) : type.titleize %>
                   </label>
                 <% end %>
               </div>
@@ -118,7 +118,7 @@
             <!-- Blood group multi-select -->
             <div class="bk-dropdown" style="position:relative; flex:1; min-width:120px;">
               <div class="bk-dropdown-btn" style="background:#fff8ee; border:0.5px solid #EF9F27; border-radius:8px; padding:8px 12px; font-size:12px; color:#633806; cursor:pointer; display:flex; justify-content:space-between; align-items:center; white-space:nowrap;">
-                <span class="bk-dropdown-label">Blood Group</span> ▾
+                <span class="bk-dropdown-label"><%= t('search.blood_group') %></span> ▾
               </div>
               <div class="bk-dropdown-menu" style="display:none; position:absolute; top:100%; left:0; z-index:999; background:#fff; border:0.5px solid #EF9F27; border-radius:8px; padding:6px; min-width:130px; margin-top:3px; box-shadow:0 4px 12px rgba(0,0,0,0.1); max-height:220px; overflow-y:auto;">
                 <% MarriageProfile.blood_groups.each do |type, v| %>
@@ -133,7 +133,7 @@
             <!-- Reset -->
             <%= link_to search_page_marriage_profile_path,
                         style: "background:rgba(99,56,6,0.15); color:#633806; border:0.5px solid rgba(99,56,6,0.3); border-radius:8px; padding:8px 14px; font-size:12px; font-weight:600; text-decoration:none; white-space:nowrap; display:flex; align-items:center;" do %>
-              ✕ Reset
+              <%= t('search.reset') %>
             <% end %>
 
           </div>
@@ -146,7 +146,7 @@
     <div style="padding:14px;">
       <% if @matches.present? %>
         <p style="font-size:12px; color:#999; margin:0 0 12px;">
-          <%= @matches.total_entries rescue @matches.count %> profiles found
+          <%= t('search.found', count: local_digits((@matches.total_entries rescue @matches.count))) %>
         </p>
         <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:10px;">
           <% @matches.each do |match| %>
@@ -162,7 +162,7 @@
                       <i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i>
                     <% end %>
                     <% if match.matching_percentage.present? %>
-                      <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= "%02d" % match.matching_percentage %>%</span>
+                      <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= local_digits("%02d" % match.matching_percentage) %>%</span>
                     <% end %>
                   </div>
                   <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px;">
@@ -193,16 +193,16 @@
           <div style="width:56px; height:56px; background:#FFF3CC; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
             <i class="fas fa-search" style="color:#FFB627; font-size:22px;"></i>
           </div>
-          <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;">No profiles found</p>
-          <p style="font-size:12px; color:#999; margin:0;">Try adjusting your filters</p>
+          <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;"><%= t('search.no_results') %></p>
+          <p style="font-size:12px; color:#999; margin:0;"><%= t('search.adjust_filters') %></p>
         </div>
       <% else %>
         <div style="text-align:center; padding:40px 20px;">
           <div style="width:56px; height:56px; background:#FFF3CC; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
             <i class="fas fa-heart" style="color:#FFB627; font-size:22px;"></i>
           </div>
-          <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;">Find your ideal match</p>
-          <p style="font-size:12px; color:#999; margin:0;">Use the search filters above to discover profiles</p>
+          <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;"><%= t('search.find_match') %></p>
+          <p style="font-size:12px; color:#999; margin:0;"><%= t('search.use_filters') %></p>
         </div>
       <% end %>
     </div>
