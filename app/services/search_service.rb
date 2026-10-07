@@ -77,6 +77,11 @@ class SearchService
       end
     end
 
+    # Saved searches: only profiles that joined after the search was last run
+    if params[:created_after].present?
+      @matches = @matches.where('marriage_profiles.created_at > ?', Time.zone.parse(params[:created_after].to_s))
+    end
+
     # Bride must not be older than groom
     if @marriage_profile&.date_of_birth.present?
       if @marriage_profile.male?
@@ -89,7 +94,7 @@ class SearchService
     # Bi-directional marital status filter
     if @marriage_profile&.marital_status.present?
       seeker_marital = @marriage_profile.marital_status.to_s
-      @matches = @matches.to_a.select do |candidate|
+      @matches = @matches.includes(:partner_preference).to_a.select do |candidate|
         candidate_pref = candidate.partner_preference
         candidate_pref&.marital_status.blank? ||
           candidate_pref.marital_status.to_a.map(&:to_s).include?(seeker_marital)

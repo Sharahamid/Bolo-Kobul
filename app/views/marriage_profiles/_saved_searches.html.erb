@@ -1,0 +1,62 @@
+<%# Saved searches on the search page: one tap runs a saved search again; the badge
+    counts profiles that joined since it was last run. Below, the current search can
+    be saved. %>
+<% saved_searches = @marriage_profile.saved_searches.to_a %>
+<% criteria = SavedSearch.criteria_from(params) %>
+<style>
+  .bk-saved { margin:14px 12px 0; }
+  .bk-saved-title { font-size:12px; font-weight:700; color:#854F0B; margin:0 0 8px; display:flex; align-items:center; gap:6px; }
+  .bk-saved-list { display:flex; flex-wrap:wrap; gap:8px; }
+  .bk-saved-chip { display:inline-flex; align-items:center; background:#fff; border:0.5px solid #FAC775; border-radius:20px; box-shadow:0 1px 3px rgba(0,0,0,0.05); max-width:100%; }
+  .bk-saved-chip a.bk-saved-run { display:inline-flex; align-items:center; gap:6px; padding:6px 4px 6px 12px; font-size:12px; color:#633806; text-decoration:none; font-weight:600; min-width:0; }
+  .bk-saved-chip a.bk-saved-run span.bk-saved-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:220px; }
+  .bk-saved-new { background:#FF596C; color:#fff; font-size:10px; font-weight:700; padding:1px 7px; border-radius:10px; white-space:nowrap; }
+  .bk-saved-chip form { margin:0; }
+  .bk-saved-del { background:none; border:none; color:#c9a46a; font-size:14px; line-height:1; padding:6px 10px 6px 6px; cursor:pointer; }
+  .bk-saved-del:hover { color:#FF596C; }
+  .bk-save-box { display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:#FFF8E7; border:0.5px dashed #EF9F27; border-radius:10px; padding:10px 12px; margin:0 0 12px; }
+  .bk-save-box label { font-size:12px; font-weight:700; color:#633806; margin:0; white-space:nowrap; }
+  .bk-save-box input[type=text] { flex:1; min-width:160px; border:0.5px solid #EF9F27; border-radius:8px; padding:7px 10px; font-size:13px; color:#633806; background:#fff; }
+  .bk-save-box button { background:#633806; color:#FAC775; border:none; border-radius:8px; padding:8px 14px; font-size:12px; font-weight:700; cursor:pointer; white-space:nowrap; }
+  .bk-save-note { font-size:12px; color:#854F0B; margin:0 0 12px; }
+</style>
+
+<% if saved_searches.any? %>
+  <div class="bk-saved">
+    <p class="bk-saved-title"><i class="fas fa-star" style="color:#FFB627;"></i> <%= t('saved_search.title') %></p>
+    <div class="bk-saved-list">
+      <% saved_searches.each do |saved| %>
+        <% fresh = saved.new_matches_count %>
+        <span class="bk-saved-chip">
+          <%= link_to run_saved_search_path(saved), class: 'bk-saved-run', title: t('saved_search.run') do %>
+            <span class="bk-saved-name"><%= saved.name %></span>
+            <% if fresh.positive? %><span class="bk-saved-new"><%= t('saved_search.new', count: local_digits(fresh)) %></span><% end %>
+          <% end %>
+          <%= button_to '×', saved_search_path(saved), method: :delete, class: 'bk-saved-del',
+                        data: { confirm: t('saved_search.delete_confirm', name: saved.name) },
+                        'aria-label': t('saved_search.delete') %>
+        </span>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
+<% content_for :bk_save_search do %>
+  <% if criteria.present? && saved_searches.none? { |saved| saved.criteria == criteria } %>
+    <% if saved_searches.size >= SavedSearch::MAX_PER_PROFILE %>
+      <p class="bk-save-note"><i class="fas fa-info-circle"></i> <%= t('saved_search.limit', count: local_digits(SavedSearch::MAX_PER_PROFILE)) %></p>
+    <% else %>
+      <%= form_tag saved_searches_path, class: 'bk-save-box' do %>
+        <%= hidden_field_tag :marriage_profile_id, @marriage_profile.to_param %>
+        <% criteria.each do |key, value| %>
+          <% Array(value).each do |item| %>
+            <%= hidden_field_tag(value.is_a?(Array) ? "#{key}[]" : key, item, id: nil) %>
+          <% end %>
+        <% end %>
+        <label for="bk-save-name"><i class="far fa-star"></i> <%= t('saved_search.save_label') %></label>
+        <%= text_field_tag :name, saved_search_default_name(criteria), id: 'bk-save-name', maxlength: 60, required: true %>
+        <button type="submit"><%= t('saved_search.save') %></button>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
