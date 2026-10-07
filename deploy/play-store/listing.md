@@ -37,7 +37,6 @@ YOU ARE IN CONTROL
 
 Bolo Kobul – Marriages are made in heaven.
 
-Bolo Kobul is published by Soubenco.
 Website: https://www.bolokobul.com · Support: support@bolokobul.com
 ```
 
@@ -73,7 +72,6 @@ Website: https://www.bolokobul.com · Support: support@bolokobul.com
 
 বলো কবুল – বিয়ে হয় আসমানে।
 
-বলো কবুল প্রকাশ করেছে Soubenco।
 ওয়েবসাইট: https://www.bolokobul.com · সাপোর্ট: support@bolokobul.com
 ```
 
