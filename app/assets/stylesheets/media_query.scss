@@ -234,6 +234,8 @@
 
 }
 @media all and (device-width: 1024px) and (device-height: 768px) and (orientation:landscape) {
+  // The full desktop menu shows at this size, so the logo and login button keep their normal places
+
   .nav-link {
     font-size: 13px;
     padding: 0 !important;
@@ -245,11 +247,6 @@
   .ads-right-sidebar{
     display: none;
   }
-  .navbar-brand {
-    position: absolute;
-    left: 47%;
-    transform: translateX(-50%);
-  }
   .bk-full-header {
     min-height: 3.5rem;
   }
@@ -258,12 +255,6 @@
   }
   .desktop-sign_up_form .sign-up-form{
     right: 2rem !important;
-  }
-  .mobile-nav-login-btn {
-    display: block;
-    position: absolute;
-    left: 87.5%;
-    transform: translateX(-50%);
   }
   .dashboard .right-section .dashboard-tab .dashboard-header{
     font-size: 13px;

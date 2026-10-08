@@ -1,19 +1,27 @@
+<%# Desktop home banner: photo on the left, registration in its own panel on the right,
+    so the box never covers the couple in the photo. Signed-in visitors see the photo full width. %>
 <div class="desktop-sign_up_form">
-  <div class="bk-home-slider">
-    <div class="bk-slider">
-      <%= image_tag 'slider/slider_image_1.webp', class: 'img-responsive bk-mobile-bg-image' %>
+  <div class="<%= 'bk-hero-split' unless user_signed_in? %>">
+    <div class="bk-hero-photo">
+      <div class="bk-home-slider">
+        <div class="bk-slider">
+          <%= image_tag 'slider/slider_image_1.webp', class: 'img-responsive bk-mobile-bg-image' %>
+        </div>
+        <div class="bk-slider">
+          <%= image_tag 'slider/slider_image_2.webp', class: 'img-responsive bk-mobile-bg-image' %>
+        </div>
+      </div>
     </div>
-    <div class="bk-slider">
-      <%= image_tag 'slider/slider_image_2.webp', class: 'img-responsive bk-mobile-bg-image' %>
-    </div>
-  </div>
-  <div class="container">
-    <%= render 'shared/bolokobul_sign_up_form' unless user_signed_in? %>
+    <% unless user_signed_in? %>
+      <div class="bk-hero-panel">
+        <%= render 'shared/bolokobul_sign_up_form' %>
+      </div>
+    <% end %>
   </div>
 </div>
 <script>
-  // Keep the registration box inside the photo banner: the banner is at least as tall as the box
-  // plus 32px above and below (the box can grow with error messages or extra sign-in buttons).
+  // The photo is as tall as the registration panel (the box plus 32px above and below), so it
+  // grows with the box (error messages, extra sign-in buttons).
   (function () {
     function fit() {
       var hero = document.querySelector('.desktop-sign_up_form');
