@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   # Public page explaining how to delete an account (linked from the Google Play listing)
   get '/delete-account', to: 'home#delete_account', as: 'delete_account_info'
   get '/.well-known/assetlinks.json', to: 'asset_links#show', format: false
+  get '/sitemap.xml', to: 'sitemaps#show', format: false, defaults: { format: :xml }
   match '/use_reference', to: 'home#use_reference', as: 'reference', via: [:get, :patch]
   
   resources :push_subscriptions, only: [:create] do
@@ -55,6 +56,9 @@ Rails.application.routes.draw do
       get :show_verify
       post :verify
       post :resend
+      # Opening the resend address as a page (e.g. a link that lost its script) goes back to
+      # the code page instead of "not found"; only the button sends a new code
+      get :resend, to: redirect(status: 302) { |params, _| "/users/#{params[:id]}/show_verify" }
       get :change_password
       patch :update_password
       patch :deactivate_account

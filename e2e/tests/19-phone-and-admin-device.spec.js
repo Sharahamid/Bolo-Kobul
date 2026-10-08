@@ -37,6 +37,20 @@ test.describe('Phone numbers in any format', () => {
   });
 });
 
+test.describe('Resend code', () => {
+  test('the Resend button reaches the server without scripts, and the old link address leads back to the code page', async ({ page }) => {
+    const member = await registerNewMember(page, { name: 'Resend Member' });
+    // Opening the resend address as a page goes back to the code page, not "not found"
+    const visit = await page.request.get(member.verifyUrl.replace(/\/show_verify.*/, '/resend'));
+    expect(visit.status()).toBe(200);
+    expect(visit.url()).toMatch(/show_verify/);
+    // The button posts the form itself; a code was just sent, so the site asks to wait a minute
+    await Promise.all([page.waitForNavigation(), page.locator('button[formaction$="/resend"]').click()]);
+    await expect(page).toHaveURL(/show_verify/);
+    await expect(page.locator('body')).toContainText(/wait a minute/i);
+  });
+});
+
 test.describe('Admin new-device email', () => {
   const mailFile = () => path.join(__dirname, '..', '..', 'tmp', 'mails', seed().admin);
   const sentCount = () => {

@@ -30,7 +30,8 @@
           </div>
           <button type="submit" class="btn btn-primary"><%= t('verify.verify') %></button>
           &nbsp;
-          <%= link_to t('verify.resend'), resend_user_path(@user), method: :post %>
+          <%# A real button (not a scripted link), so it works on every phone even if JavaScript fails %>
+          <button type="submit" class="btn btn-link px-1" formaction="<%= resend_user_path(@user) %>" formmethod="post" formnovalidate><%= t('verify.resend') %></button>
         <% end -%>
         <p class="mt-3" style="font-size:13px; color:#888;">
           <%= t('verify.help_html', resend: content_tag(:strong, t('verify.resend')), email: mail_to('support@bolokobul.com')) %>

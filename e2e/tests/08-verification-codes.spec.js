@@ -31,7 +31,7 @@ test.describe('Sign-up verification codes', () => {
 
   test('a new code can be requested at most once a minute', async ({ page }) => {
     await registerNewMember(page); // the first code was just sent
-    await Promise.all([page.waitForNavigation(), page.getByRole('link', { name: 'Resend Code' }).click()]);
+    await Promise.all([page.waitForNavigation(), page.getByRole('button', { name: 'Resend Code' }).click()]);
     await expect(page.getByText(/Please wait a minute before requesting another code/).first()).toBeVisible();
   });
 
