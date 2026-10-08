@@ -1,7 +1,8 @@
 # Google Play listing: Bolo Kobul
 
 Everything to paste into **Play Console → Grow → Store presence → Main store listing**.
-Images are in this folder. All members shown in the screenshots are made-up demo profiles.
+Images are in this folder. The members in screenshots 1–5 are made-up demo profiles; screenshot 6 shows
+real success stories that couples shared on the site.
 
 ## App details
 

@@ -1,6 +1,6 @@
 class BlogsController < ApplicationController
   def index
-    @blogs = Blog.approved
+    @blogs = Blog.approved.order(created_at: :desc)
     @blogs = @blogs.where(story_type: params[:type]) if params[:type].present?
     @blogs = @blogs.paginate(page: params[:page], per_page: 10)
     @blog = Blog.new
