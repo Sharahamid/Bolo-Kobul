@@ -1,28 +1,15 @@
-# Known advisories checked on 8 October 2026 and found not to put the site at risk.
+# Known advisories checked and found not to put the site at risk.
 # The weekly security scan (.github/workflows/security.yml) skips these and fails only
-# on anything new. Remove an entry once its gem is upgraded.
+# on anything new. Remove an entry once it no longer applies.
+#
+# devise, puma: upgraded to fixed versions (October 2026), nothing to ignore.
+#
+# ckeditor 5.1.3 / CKEditor 4.22.1 (the last open-source CKEditor 4): the page-content
+# editor, used only inside the admin panel by signed-in admins. These have no free fix,
+# and each depends on something the site does not use:
 ignore:
-  # devise 4.9.4: both need Devise features the site does not use
-  # (:confirmable email change, :timeoutable). Upgrade to devise 5 when convenient.
-  - CVE-2026-32700
-  - CVE-2026-40295
-  # puma 6.6.1: only affects servers that read PROXY protocol headers. Puma here sits
-  # behind nginx on a unix socket and does not. Upgrade to puma 7.2.1+ when convenient.
-  - CVE-2026-47736
-  - CVE-2026-47737
-  # ckeditor 4.3.0 (CKEditor 4): the page-content editor, used only inside the admin
-  # panel by signed-in admins; members never see it. Replacing it is a larger job.
-  - CVE-2020-27193
-  - CVE-2020-9281
-  - CVE-2021-26271
-  - CVE-2021-26272
-  - CVE-2021-32809
-  - CVE-2021-37695
-  - CVE-2021-41164
-  - CVE-2021-41165
-  - CVE-2022-24728
-  - CVE-2023-4771
-  - CVE-2024-24815
-  - CVE-2024-24816
-  - CVE-2024-43407
-  - CVE-2024-43411
+  - CVE-2023-4771   # AJAX sample page: samples are not hosted (editor loads from CKEditor's CDN)
+  - CVE-2024-24816  # samples with the preview feature: same, no samples hosted
+  - CVE-2024-43407  # Code Snippet GeSHi plugin: not enabled
+  - CVE-2024-43411  # version-check notification: turned off (versionCheck = false in ckeditor/config.js)
+  - CVE-2024-24815  # crafted CDATA content: only admins can type into the editor

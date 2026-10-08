@@ -11,11 +11,11 @@ gem 'benchmark' # no longer built into Ruby 3.5; mini_magick needs it
 gem 'bootsnap', require: false
 gem 'bitmask_attributes', require: false # loaded in config/initializers/bitmask_attributes.rb
 gem 'carrierwave', '~> 3.1'
-gem 'ckeditor', '~> 4.3'
+gem 'ckeditor', '~> 5.1'
 gem 'cropper-rails'
 # Stylesheets are compiled with Dart Sass (the old libsass/sassc is no longer maintained)
 gem 'dartsass-sprockets', '~> 3.2'
-gem 'devise', '~> 4.9'
+gem 'devise', '~> 5.0', '>= 5.0.4'
 gem 'exception_handler', '~> 0.8.0'
 gem 'figaro'
 gem 'friendly_id', '~> 5.5'
@@ -26,7 +26,7 @@ gem 'omniauth-facebook', '~> 10.0'
 gem 'omniauth-google-oauth2', '~> 1.2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
 gem 'pg', '~> 1.5'
-gem 'puma', '~> 6.6'
+gem 'puma', '~> 7.2', '>= 7.2.1'
 gem 'redis', '~> 5.4'
 gem 'sidekiq', '~> 7.3'
 # connection_pool 3 changed an API that Sidekiq 7 still uses
