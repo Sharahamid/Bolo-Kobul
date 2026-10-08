@@ -34,7 +34,7 @@ module FlashBanglaHelper
     'Verification code re-sent' => 'যাচাই কোড আবার পাঠানো হয়েছে',
     "We couldn't send the code just now. Please try again in a minute." => 'এই মুহূর্তে কোড পাঠানো যায়নি। এক মিনিট পর আবার চেষ্টা করুন।',
     'Please wait a minute before requesting another code.' => 'আরেকটি কোড চাওয়ার আগে এক মিনিট অপেক্ষা করুন।',
-    'Password Changed Successfully' => 'পাসওয়ার্ড বদলানো হয়েছে',
+    'Password Changed Successfully' => 'পাসওয়ার্ড বদলানো সফল হয়েছে',
     'Deactivated Successfully' => 'অ্যাকাউন্ট নিষ্ক্রিয় করা হয়েছে',
     'Activated Successfully' => 'অ্যাকাউন্ট সক্রিয় করা হয়েছে',
     'Please enter your correct password and tick the box to confirm.' => 'সঠিক পাসওয়ার্ড দিন এবং নিশ্চিত করতে বক্সে টিক দিন।',
