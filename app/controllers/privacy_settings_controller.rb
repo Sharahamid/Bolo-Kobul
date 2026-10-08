@@ -14,10 +14,14 @@ class PrivacySettingsController < ApplicationController
   end
 
   def toggle_update
-    if @privacy_setting.send "#{params[:privacy_column]}_public?"
-      @privacy_setting.send "#{params[:privacy_column]}_private!"
+    # Only the privacy columns can be switched, never any other method named in the request
+    column = PrivacySetting.defined_enums.keys.find { |name| name == params[:privacy_column].to_s }
+    return head(:bad_request) unless column
+
+    if @privacy_setting.public_send("#{column}_public?")
+      @privacy_setting.public_send("#{column}_private!")
     else
-      @privacy_setting.send "#{params[:privacy_column]}_public!"
+      @privacy_setting.public_send("#{column}_public!")
     end
     redirect_back fallback_location: root_path, notice: 'Privacy Updated Successfully.'
   end

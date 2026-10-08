@@ -20,12 +20,15 @@ class SmsService
       userName: SECRETES.dig('sms', 'username'),
       password: SECRETES.dig('sms', 'password'),
       MsgType: 'TEXT',
-      receiver: msisdn,
+      receiver: PhoneNumber.for_sms(msisdn),
       message: msg
     }
 
     uri.query = URI.encode_www_form( params )
     response = uri.open(open_timeout: 5, read_timeout: 15).read
+    # The gateway's reply says whether the text went out (or e.g. "low balance");
+    # see it with: grep "\[sms\]" log/production.log | tail -20
+    Rails.logger.info("[sms] to #{params[:receiver].to_s[0, 6]}…: #{response.to_s.squish[0, 300]}")
     JSON.parse(response)&.first
   rescue *SEND_ERRORS => e
     Rails.logger.error("[sms] could not send to #{msisdn.to_s[0, 6]}…: #{e.class}: #{e.message}")

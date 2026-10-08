@@ -139,8 +139,18 @@ class User < ApplicationRecord
       errors.add(:name, 'please enter your full name')
     end
   end
-  validates_uniqueness_of :email, :phone_number
+  validates_uniqueness_of :email
+  validate :phone_number_not_taken
+  before_validation { self.phone_number = PhoneNumber.normalize(phone_number) if phone_number_changed? && phone_number.present? }
   validate :phone_number_not_spam
+
+  # One account per phone number, however it was typed (017…, +880 17…, 8801 7…)
+  def phone_number_not_taken
+    return if phone_number.blank?
+    return unless PhoneNumber.matching(User.where.not(id: id), phone_number).exists?
+
+    errors.add(:phone_number, :taken)
+  end
 
   def phone_number_not_spam
     return unless phone_number.present?
@@ -240,12 +250,13 @@ class User < ApplicationRecord
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
-      where(conditions).where(["lower(phone_number) = :value OR lower(email) = :value", {:value => login.downcase}]).first
+      by_email = where(conditions).where(['lower(email) = ?', login.downcase]).first
+      by_email || PhoneNumber.matching(where(conditions), login).first
     else
       if conditions[:phone_number].nil?
         where(conditions).first
       else
-        where(phone_number: conditions[:phone_number]).first
+        PhoneNumber.matching(where(conditions.except(:phone_number)), conditions[:phone_number]).first
       end
     end
   end

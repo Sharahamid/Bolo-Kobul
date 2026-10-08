@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_10_11_090000) do
+ActiveRecord::Schema.define(version: 2026_10_12_090000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -102,6 +102,18 @@ ActiveRecord::Schema.define(version: 2026_10_11_090000) do
     t.integer "location"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "admin_known_devices", force: :cascade do |t|
+    t.bigint "admin_user_id", null: false
+    t.string "token_digest", null: false
+    t.string "user_agent"
+    t.string "ip"
+    t.datetime "last_seen_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["admin_user_id"], name: "index_admin_known_devices_on_admin_user_id"
+    t.index ["token_digest"], name: "index_admin_known_devices_on_token_digest", unique: true
   end
 
   create_table "admin_users", force: :cascade do |t|
@@ -803,6 +815,7 @@ ActiveRecord::Schema.define(version: 2026_10_11_090000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "admin_known_devices", "admin_users"
   add_foreign_key "customer_support_replies", "customer_supports"
   add_foreign_key "push_subscriptions", "users"
   add_foreign_key "profile_reports", "marriage_profiles", column: "reported_profile_id", on_delete: :cascade

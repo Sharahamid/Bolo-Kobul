@@ -19,6 +19,7 @@
 #
 
 class AdminUser < ApplicationRecord
+  has_many :admin_known_devices, dependent: :delete_all
   role_based_authorizable
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
