@@ -119,13 +119,46 @@
   }
 }
 
-// The registration box sits on the photo banner. Keep it inside the banner at every screen
-// size: centre it vertically and make the banner at least as tall as the box plus a margin
-// (the script in shared/_desktop_registration grows the banner further if the box gets taller).
-.section_2 .desktop-sign_up_form .sign-up-form {
-  top: 50% !important;
-  transform: translateY(-50%);
-}
-.desktop-sign_up_form .bk-slider img {
-  min-height: 41rem;
+// Desktop home banner, side by side: photo on the left, registration panel on the right
+// (shared/_desktop_registration). The photo is cropped from the centre, where the couple is.
+.section_2 .bk-hero-split {
+  display: flex;
+  align-items: stretch;
+
+  .bk-hero-photo {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .bk-home-slider {
+    margin-bottom: 0 !important; // the slider's dots sit on the photo, not below it
+  }
+  .bk-slider {
+    vertical-align: top; // the slider shows each slide inline; this removes the gap under the photo
+  }
+  .bk-slider img {
+    display: block;
+    min-height: 41rem;
+    object-fit: cover;
+    object-position: center;
+  }
+  .bk-hero-panel {
+    flex: 0 0 30rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: linear-gradient(160deg, #FFF8EE 0%, #FFEBC7 100%);
+  }
+  .sign-up-form {
+    position: static !important;
+    top: auto !important;
+    right: auto !important;
+    transform: none;
+    width: 100%;
+    min-width: 0;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(65, 36, 2, 0.12);
+    padding-bottom: 1rem;
+  }
 }
