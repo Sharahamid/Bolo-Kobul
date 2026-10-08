@@ -103,6 +103,7 @@ class MarriageProfile < ApplicationRecord
   # From Devise module Validatable
   # TODO ADD VALIDATION; Currently not working
   validate :validate_other_supporting_doc
+  validate :at_least_18, if: :date_of_birth_changed?
   validates_presence_of :gender,
                         :height_ft,
                         :height_inch,
@@ -614,5 +615,11 @@ class MarriageProfile < ApplicationRecord
     end
 
     score
+  end
+
+  # Bolo Kobul is for adults only: no profile for anyone under 18
+  def at_least_18
+    return if date_of_birth.blank?
+    errors.add(:date_of_birth, I18n.t('form.under_18')) if date_of_birth.to_date > Date.current.years_ago(18)
   end
 end

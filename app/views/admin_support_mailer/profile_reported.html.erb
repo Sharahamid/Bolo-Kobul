@@ -4,6 +4,10 @@
 
 <p><strong>Reason:</strong> <%= @report.reason_label %></p>
 
+<% if @report.reason == 'underage' %>
+<p style="color:#b00020;"><strong>Child safety report: review it today.</strong> If the member may be under 18, deactivate the account straight away. If there is any sign of child sexual abuse or exploitation, keep the evidence and report it to the authorities as set out in the Child Safety Standards (bolokobul.com/child-safety).</p>
+<% end %>
+
 <% if @report.details.present? %>
 <p><strong>What happened:</strong><br><%= simple_format(@report.details) %></p>
 <% end %>

@@ -15,7 +15,8 @@ class SitemapsController < ActionController::Base
     [['/', 'daily', '1.0'], ['/about', 'monthly', '0.6'], ['/how_it_works', 'monthly', '0.6'],
      ['/blogs', 'daily', '0.8'], ['/market_places', 'weekly', '0.5'], ['/faqs', 'monthly', '0.5'],
      ['/precautionary_measures', 'monthly', '0.4'], ['/contact', 'yearly', '0.4'],
-     ['/terms_of_uses', 'yearly', '0.2'], ['/privacy_policies', 'yearly', '0.2']].map do |path, freq, priority|
+     ['/terms_of_uses', 'yearly', '0.2'], ['/privacy_policies', 'yearly', '0.2'],
+     ['/child-safety', 'yearly', '0.2']].map do |path, freq, priority|
       { path: path, changefreq: freq, priority: priority }
     end
   end

@@ -13,7 +13,7 @@ class AdminSupportMailer < ApplicationMailer
   end
   def profile_reported(report)
     @report = report
-    urgent = report.reporter_count >= 3 ? 'URGENT - ' : ''
+    urgent = report.reason == 'underage' || report.reporter_count >= 3 ? 'URGENT - ' : ''
     mail(to: "support@bolokobul.com", subject: "#{urgent}Profile reported - #{report.reported_profile.unique_id} (#{report.reason_label})")
   end
   def new_payment(order)

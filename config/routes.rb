@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get '/contact', to: 'home#contact', as: 'contact'
   # Public page explaining how to delete an account (linked from the Google Play listing)
   get '/delete-account', to: 'home#delete_account', as: 'delete_account_info'
+  get '/child-safety', to: 'home#child_safety', as: 'child_safety'
   get '/.well-known/assetlinks.json', to: 'asset_links#show', format: false
   get '/sitemap.xml', to: 'sitemaps#show', format: false, defaults: { format: :xml }
   match '/use_reference', to: 'home#use_reference', as: 'reference', via: [:get, :patch]

@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   before_action :authenticate_user!, 
   :check_current_active_profile, 
-  :check_preference, except: [:landing, :about, :contact, :use_reference, :delete_account]
+  :check_preference, except: [:landing, :about, :contact, :use_reference, :delete_account, :child_safety]
 
   def landing
     # Signed-in members (opening the app, or tapping the logo) go straight to their
@@ -21,6 +21,10 @@ class HomeController < ApplicationController
   end
 
   def delete_account
+  end
+
+  # Child Safety Standards (required by Google Play for dating and social apps)
+  def child_safety
   end
 
   def contact
