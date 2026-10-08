@@ -1,0 +1,28 @@
+# Known advisories checked on 8 October 2026 and found not to put the site at risk.
+# The weekly security scan (.github/workflows/security.yml) skips these and fails only
+# on anything new. Remove an entry once its gem is upgraded.
+ignore:
+  # devise 4.9.4: both need Devise features the site does not use
+  # (:confirmable email change, :timeoutable). Upgrade to devise 5 when convenient.
+  - CVE-2026-32700
+  - CVE-2026-40295
+  # puma 6.6.1: only affects servers that read PROXY protocol headers. Puma here sits
+  # behind nginx on a unix socket and does not. Upgrade to puma 7.2.1+ when convenient.
+  - CVE-2026-47736
+  - CVE-2026-47737
+  # ckeditor 4.3.0 (CKEditor 4): the page-content editor, used only inside the admin
+  # panel by signed-in admins; members never see it. Replacing it is a larger job.
+  - CVE-2020-27193
+  - CVE-2020-9281
+  - CVE-2021-26271
+  - CVE-2021-26272
+  - CVE-2021-32809
+  - CVE-2021-37695
+  - CVE-2021-41164
+  - CVE-2021-41165
+  - CVE-2022-24728
+  - CVE-2023-4771
+  - CVE-2024-24815
+  - CVE-2024-24816
+  - CVE-2024-43407
+  - CVE-2024-43411

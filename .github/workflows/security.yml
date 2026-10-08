@@ -1,0 +1,47 @@
+# Weekly security check of the site's code and the libraries it uses.
+# - Brakeman looks for security mistakes in the Rails code.
+# - bundler-audit checks every gem in Gemfile.lock against the list of known security holes.
+# Runs every Monday morning (Bangladesh time), on every pull request to main, and on demand
+# from the Actions tab. GitHub emails the repository owner when a run fails.
+name: Security scan
+
+on:
+  schedule:
+    - cron: '17 1 * * 1'   # Mondays 01:17 UTC = 07:17 Bangladesh time
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.6'
+
+      - name: Install scanners
+        run: gem install --no-document brakeman bundler-audit
+
+      - name: Brakeman (code check)
+        # Fails on high-confidence warnings; the full report is kept with the run
+        run: brakeman --no-pager --quiet --confidence-level 3 -o /dev/stdout -o brakeman-report.txt
+
+      - name: bundler-audit (library check)
+        if: always()
+        # Known advisories that do not affect the site are listed in .bundler-audit.yml
+        run: bundle-audit check --update
+
+      - name: Keep the Brakeman report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brakeman-report
+          path: brakeman-report.txt
+          if-no-files-found: ignore
