@@ -39,8 +39,10 @@ ActiveAdmin.setup do |config|
   #
   config.site_title = "Bolokobul(Admin)"
 
-  # HTML Editor
-  config.register_javascript 'ckeditor/init.js'
+  # HTML Editor: CKEditor 4.22.1 (the last open-source CKEditor 4), loaded from
+  # CKEditor's CDN. Its settings and toolbar come from the ckeditor gem's ckeditor/config.js.
+  Ckeditor.cdn_url = 'https://cdn.ckeditor.com/4.22.1/full/ckeditor.js'
+  config.register_javascript Ckeditor.cdn_url
 
   # Set the link url for the title. For example, to take
   # users to your main site. Defaults to no link.

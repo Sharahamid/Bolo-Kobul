@@ -68,7 +68,7 @@ class UsersController < ApplicationController
   def update_password
     @user = User.find_by(id: current_user.id)
     if @user.update_with_password(password_params)
-      sign_in @user, :bypass => true
+      bypass_sign_in @user
       redirect_back fallback_location: root_path, notice: 'Password Changed Successfully'
     else
       redirect_back fallback_location: root_path, notice: "#{@user.errors.full_messages.first}"
