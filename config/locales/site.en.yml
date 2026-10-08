@@ -59,7 +59,7 @@ en:
     continue_with: Continue with %{provider}
   signup:
     register_now: Register Now
-    private_note: These information will not be displayed to other users
+    private_note: This information will not be shown to other members
     full_name: Full Name*
     email: Email*
     mobile: Mobile* (+8801XXXXXXXXX)
