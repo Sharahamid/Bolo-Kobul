@@ -11,3 +11,19 @@
     <%= render 'shared/bolokobul_sign_up_form' unless user_signed_in? %>
   </div>
 </div>
+<script>
+  // Keep the registration box inside the photo banner: the banner is at least as tall as the box
+  // plus 32px above and below (the box can grow with error messages or extra sign-in buttons).
+  (function () {
+    function fit() {
+      var hero = document.querySelector('.desktop-sign_up_form');
+      var form = hero && hero.querySelector('.sign-up-form');
+      if (!form || !form.offsetParent) return;
+      var needed = form.offsetHeight + 64;
+      hero.querySelectorAll('.bk-slider img').forEach(function (img) { img.style.minHeight = needed + 'px'; });
+    }
+    window.addEventListener('load', fit);
+    window.addEventListener('resize', fit);
+    document.addEventListener('DOMContentLoaded', fit);
+  })();
+</script>

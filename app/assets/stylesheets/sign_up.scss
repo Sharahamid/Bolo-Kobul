@@ -21,6 +21,7 @@
       font-size: 12px;
       text-align: center;
       color: #FFB627;
+      padding: 0 1rem;
     }
 
     .register {
@@ -116,4 +117,15 @@
     justify-content: center;
     z-index: 999;
   }
+}
+
+// The registration box sits on the photo banner. Keep it inside the banner at every screen
+// size: centre it vertically and make the banner at least as tall as the box plus a margin
+// (the script in shared/_desktop_registration grows the banner further if the box gets taller).
+.section_2 .desktop-sign_up_form .sign-up-form {
+  top: 50% !important;
+  transform: translateY(-50%);
+}
+.desktop-sign_up_form .bk-slider img {
+  min-height: 41rem;
 }
