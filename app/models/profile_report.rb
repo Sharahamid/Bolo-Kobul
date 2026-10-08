@@ -4,6 +4,7 @@ class ProfileReport < ApplicationRecord
   REASONS = {
     'fake_profile'      => 'Fake profile or false information',
     'inappropriate'     => 'Inappropriate photos or content',
+    'underage'          => 'Under 18 or child safety concern',
     'harassment'        => 'Harassment or abusive messages',
     'money'             => 'Asking for money or a scam',
     'already_married'   => 'Already married or not serious',

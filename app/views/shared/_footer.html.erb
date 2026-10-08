@@ -26,6 +26,7 @@
           <ul style="list-style:none; padding:0; margin:6px 0 0;">
             <li style="margin-bottom:3px;"><%= link_to t('footer.terms_of_use'), terms_of_uses_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
             <li style="margin-bottom:3px;"><%= link_to t('footer.privacy_policy'), privacy_policies_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
+            <li style="margin-bottom:3px;"><%= link_to t('footer.child_safety'), child_safety_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
             <li style="margin-bottom:3px;"><%= link_to t('nav.precautionary_measures'), precautionary_measures_path, style: 'font-size:12px; color:gray; text-decoration:none;' %></li>
             <li style="margin-bottom:3px;">
               <% if user_signed_in? && current_active_profile.present? %>
