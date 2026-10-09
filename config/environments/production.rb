@@ -119,14 +119,17 @@ config.action_mailer.default_url_options = { host: 'www.bolokobul.com', protocol
 # for mailer delivery errors
 config.action_mailer.raise_delivery_errors = true
 
-# for smtp (reads credentials from environment variables)
+# for smtp (reads credentials from environment variables, set in the server's
+# config/application.yml). Mailgun by default; to send through another mail server
+# (e.g. Google Workspace while Mailgun is unavailable) set SMTP_ADDRESS, SMTP_USERNAME
+# and SMTP_PASSWORD there (and MAIL_FROM, see ApplicationMailer), then restart.
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = {
-  address:              'smtp.mailgun.org',
-  port:                 587,
-  domain:               ENV['MAILGUN_DOMAIN'],
-  user_name:            ENV['MAILGUN_USERNAME'],
-  password:             ENV['MAILGUN_PASSWORD'],
+  address:              ENV['SMTP_ADDRESS'].presence || 'smtp.mailgun.org',
+  port:                 (ENV['SMTP_PORT'].presence || 587).to_i,
+  domain:               ENV['SMTP_DOMAIN'].presence || ENV['MAILGUN_DOMAIN'],
+  user_name:            ENV['SMTP_USERNAME'].presence || ENV['MAILGUN_USERNAME'],
+  password:             ENV['SMTP_PASSWORD'].presence || ENV['MAILGUN_PASSWORD'],
   authentication:       'plain',
   enable_starttls_auto: true
 }

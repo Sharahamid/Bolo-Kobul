@@ -1,5 +1,8 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'BoloKobul <noreply@bolokobul.com>'
+  # The sender of every email. MAIL_FROM (server's config/application.yml) changes it, e.g. to
+  # the Google Workspace mailbox that sends while Mailgun is unavailable
+  SENDER = ENV['MAIL_FROM'].presence || 'BoloKobul <noreply@bolokobul.com>'
+  default from: SENDER
   layout 'mailer'
   helper EmailHelper
   helper LocaleHelper
