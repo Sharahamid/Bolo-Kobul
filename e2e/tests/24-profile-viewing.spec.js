@@ -49,4 +49,16 @@ test.describe('Viewing a profile', () => {
       await expect(modal.locator('.bk-auto-label', { hasText: question })).toBeVisible();
     }
   });
+
+  test('only the tab of the section being viewed is bold', async ({ page }) => {
+    await login(page, 'bob@example.com');
+    const tabs = page.locator('.dashboard-header .nav-link');
+    for (const name of ['Dashboard', 'Profile', 'Messages', 'Preference', 'Orders']) {
+      await Promise.all([page.waitForNavigation(), tabs.filter({ hasText: name }).first().click()]);
+      // Without any chats, Messages sends the member back to their profile page
+      const expected = name === 'Messages' && !page.url().includes('/messages') ? 'Profile' : name;
+      const bold = await page.locator('.dashboard-header .nav-link.font-weight-bold').allTextContents();
+      expect(bold.map((t) => t.trim()), `on the ${name} page`).toEqual([expected]);
+    }
+  });
 });
