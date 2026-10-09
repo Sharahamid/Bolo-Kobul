@@ -129,8 +129,9 @@ class User < ApplicationRecord
       errors.add(:name, 'does not appear to be a real name')
       return
     end
-    # A long English word with no vowel at all (e.g. "Yybnzlx")
-    if name.split.any? { |word| word.match?(/\A[a-zA-Z]{6,}\z/) && word !~ /[aeiouAEIOU]/ }
+    # A long English word with no vowel at all (e.g. "Yybnzlx"); one y can be the vowel,
+    # as in "Rhythm"
+    if name.split.any? { |word| word.match?(/\A[a-zA-Z]{6,}\z/) && word !~ /[aeiouAEIOU]/ && word.count('yY') != 1 }
       errors.add(:name, 'does not appear to be a real name')
       return
     end
