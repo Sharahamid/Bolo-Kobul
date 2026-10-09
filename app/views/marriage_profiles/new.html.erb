@@ -87,7 +87,7 @@
 
 	    <div class="form-group">
               <%= f.select :marital_status,
-                           enum_options(:marriage_profile, :marital_status, MarriageProfile::SELECTABLE_MARITAL_STATUSES),
+                           marital_status_options(@marriage_profile.gender),
                            {prompt: profile_t('marital_status_req', @marriage_profile)},
                            class: 'form-control sign_up-input-field',
                            required: true,
@@ -269,6 +269,18 @@ document.addEventListener('DOMContentLoaded', function() {
     toggle();
   }
   setupOtherField('gender', 'other_gender_field', 'other_gender_input');
+  // "Widow" for women, "Widower" for men, "Widow or widower" until the gender is chosen
+  (function() {
+    var gender = document.querySelector('select[name="marriage_profile[gender]"]');
+    var widow = document.querySelector('select[name="marriage_profile[marital_status]"] option[value="widow_or_widower"]');
+    if (!gender || !widow) return;
+    function relabel() {
+      widow.textContent = gender.value === 'female' ? widow.dataset.widow :
+                          gender.value === 'male' ? widow.dataset.widower : widow.dataset.both;
+    }
+    gender.addEventListener('change', relabel);
+    relabel();
+  })();
   setupOtherField('religion', 'other_religion_field', 'other_religion_input');
   setupOtherField('highest_education_level', 'other_education_field', 'other_education_input');
   setupOtherField('hometown', 'hometown_abroad_fields', 'hometown_country_input', 'Outside Bangladesh');

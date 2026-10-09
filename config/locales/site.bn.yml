@@ -73,6 +73,9 @@ bn:
     register_free: বিনামূল্যে নিবন্ধন
     passwords_mismatch: পাসওয়ার্ড মিলছে না
   enums:
+    marital_gendered:
+      widow: "বিধবা"
+      widower: "বিপত্নীক"
     user:
       created_for:
         self: নিজের জন্য

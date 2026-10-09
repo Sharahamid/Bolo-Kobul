@@ -73,6 +73,9 @@ en:
     register_free: Register Free
     passwords_mismatch: Passwords do not match
   enums:
+    marital_gendered:
+      widow: "Widow"
+      widower: "Widower"
     user:
       created_for:
         self: Self

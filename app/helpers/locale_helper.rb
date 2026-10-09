@@ -86,6 +86,19 @@ module LocaleHelper
     end
   end
 
+  # Marital status choices for a profile. "Widow or widower" shows as "Widow" for women and
+  # "Widower" for men; the form switches it when the gender is chosen (data-widow / data-widower).
+  def marital_status_options(gender)
+    widow = I18n.t('enums.marital_gendered.widow')
+    widower = I18n.t('enums.marital_gendered.widower')
+    enum_options(:marriage_profile, :marital_status, MarriageProfile::SELECTABLE_MARITAL_STATUSES).map do |label, value|
+      next [label, value] unless value.to_s == 'widow_or_widower'
+
+      shown = { 'female' => widow, 'male' => widower }.fetch(gender.to_s, label)
+      [shown, value, { data: { both: label, widow: widow, widower: widower } }]
+    end
+  end
+
   # District dropdown options; English names stay exactly as stored
   def district_options(names)
     names.map { |name| [I18n.locale == :bn ? district_label(name) : name, name] }
