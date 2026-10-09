@@ -8,7 +8,7 @@
 
       <% unless @marriage_profile.identification_document.present? %>
         <div class="form-group nid-input-field file-input-field">
-          <div><%= t('form.upload_id') %></div>
+          <div><%= profile_t('upload_id', @marriage_profile) %></div>
           <%= f.file_field :identification_document,
                            class: 'form-control sign_up-input-field',
                            data: {toggle: "tooltip", placement: "top"},
@@ -20,8 +20,8 @@
       <div class="form-group">
         <%= f.text_field :name,
                          class: 'form-control sign_up-input-field',
-                         placeholder:t('form.name'),
-                         title: t('form.name_req'),
+                         placeholder:profile_t('name', @marriage_profile),
+                         title: profile_t('name_req', @marriage_profile),
                          data: {toggle:'tooltip', placement:'top'},
                          readonly: f.object.own_name_locked?,
                          required: true %>
@@ -32,7 +32,7 @@
         <%= f.select :present_location,
                      options_for_select(district_options(District.order_by_name.pluck(:name)),
                       selected: @marriage_profile&.present_location),
-                     {prompt: t('form.present_location_req')},
+                     {prompt: profile_t('present_location_req', @marriage_profile)},
                      class: 'form-control sign_up-input-field',
                      title: t('form.present_location_title'),
                      data: {toggle:'tooltip', placement:'top'},
@@ -86,7 +86,7 @@
       <div class="form-group">
         <%= f.select :highest_education_level,
                      enum_options(:marriage_profile, :highest_education_level, MarriageProfile::highest_education_levels.sort_by { |k, v| k == 'other' ? 'zzz' : k }.to_h.keys),
-                     {prompt: t('form.education_req')},
+                     {prompt: profile_t('education_req', @marriage_profile)},
                      class: 'form-control sign_up-input-field',
                      required: true,
                      data: {toggle: "tooltip", placement: "top" },
@@ -94,7 +94,7 @@
         <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? f.object.errors.full_messages_for(:highest_education_level).first : '' %> </small>
       </div>
       <div class="form-group" id="other_education_field" style="display:none;">
-        <%= f.text_field :other_education, placeholder: t('form.specify_education'), class: 'form-control sign_up-input-field', id: 'other_education_input' %>
+        <%= f.text_field :other_education, placeholder: profile_t('specify_education', @marriage_profile), class: 'form-control sign_up-input-field', id: 'other_education_input' %>
       </div>
 
       <div class="form-group">

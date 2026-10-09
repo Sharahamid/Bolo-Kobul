@@ -1,10 +1,15 @@
 module ApplicationHelper
   # Form wording for a marriage profile: "Full Name" on the member's own profile,
   # "Candidate's Full Name" when a parent, relative or friend creates it (form.candidate.*).
+  # A key without a dot is a form.* key ("heading" -> form.heading / form.candidate.heading);
+  # a full key such as "section_form.do_you_smoke" uses for_candidate.section_form.do_you_smoke.
   def profile_t(key, profile)
-    return t("form.#{key}") if profile.nil? || profile.own_profile?
+    key = key.to_s
+    own_key = key.include?('.') ? key : "form.#{key}"
+    return t(own_key) if profile.nil? || profile.own_profile?
 
-    t("form.candidate.#{key}", default: t("form.#{key}"))
+    candidate_key = key.include?('.') ? "for_candidate.#{key}" : "form.candidate.#{key}"
+    t(candidate_key, default: t(own_key))
   end
 
   # Ads that sell butterflies (they link to the purchase page) are hidden inside the

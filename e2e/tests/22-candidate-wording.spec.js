@@ -25,3 +25,17 @@ test.describe('Profile form wording', () => {
     await expect(page.locator('input[name="marriage_profile[name]"]')).toHaveAttribute('placeholder', 'Full Name');
   });
 });
+
+test.describe('Partner preference wording', () => {
+  test('preferences say Preferred Hometown / Present Location, Minimum Education Level and Doesn\'t Matter', async ({ page }) => {
+    const { login } = require('../support/helpers');
+    await login(page, 'alice@example.com');
+    await page.goto('/partner_preferences?locale=en');
+    const form = page.locator('form');
+    for (const text of ['Preferred Hometown', 'Preferred Present Location', 'Minimum Education Level']) {
+      await expect(form.locator('label', { hasText: text }).first()).toBeVisible();
+    }
+    await expect(page.locator('.filter-option-inner-inner', { hasText: "Doesn't Matter" }).first()).toBeVisible();
+    await expect(page.getByText('Nothing selected')).toHaveCount(0);
+  });
+});

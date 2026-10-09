@@ -382,14 +382,14 @@ bn:
     marriage:
       title: বিয়ে-সংক্রান্ত তথ্য
       sub: অবস্থা · প্রত্যাশা
-      have_children: আপনার কি সন্তান আছে?
+      have_children: "সন্তান আছে?"
       no_of_children: সন্তানের সংখ্যা
-      want_children: আপনি কি (আরও) সন্তান চান?
+      want_children: "(আরও) সন্তান চান?"
     life_style:
       title: জীবনযাপন
       sub: অভ্যাস · পছন্দ
-      drink: মদ্যপান করেন?
-      smoke: ধূমপান করেন?
+      drink: "মদ্যপান করেন?"
+      smoke: "ধূমপান করেন?"
       food_habits: খাদ্যাভ্যাস
       dress_style: পোশাকের ধরন
       living_with: যাদের সঙ্গে থাকেন
@@ -619,8 +619,16 @@ bn:
     new_message: আপনার একটি নতুন বার্তা এসেছে। পড়তে চাপুন।
     test: নোটিফিকেশন চালু আছে! নতুন কবুল ও বার্তার খবর এভাবেই পাবেন।
   form:
+    pref_heading: "আপনি কেমন জীবনসঙ্গী খুঁজছেন?"
     heading: "চলুন, আপনার প্রোফাইল তৈরি করি"
     candidate:
+      pref_heading: "পাত্র/পাত্রী কেমন জীবনসঙ্গী খুঁজছেন?"
+      about_yourself: "পাত্র/পাত্রী সম্পর্কে"
+      about_myself: "পাত্র/পাত্রী সম্পর্কে"
+      about_placeholder: "পাত্র/পাত্রী সম্পর্কে লিখুন"
+      about_family: "পাত্র/পাত্রীর পরিবার সম্পর্কে কিছু কথা"
+      name: "পাত্র/পাত্রীর নাম"
+      name_req: "পাত্র/পাত্রীর নাম*"
       heading: "চলুন, পাত্র/পাত্রীর প্রোফাইল তৈরি করি"
       privacy_note: "পাত্র/পাত্রীর ব্যক্তিগত তথ্য আমাদের কাছে নিরাপদ — নাম ও এনআইডি অন্য কাউকে দেখানো হবে না"
       full_name: "পাত্র/পাত্রীর পূর্ণ নাম"
@@ -760,11 +768,11 @@ bn:
     max_height: সর্বোচ্চ উচ্চতা
     physical_status: শারীরিক অবস্থা
     religion: ধর্ম
-    hometown: নিজ জেলা
+    hometown: পছন্দের নিজ জেলা
     except_hometown: যে জেলা বাদে
-    present_location: বর্তমান অবস্থান
+    present_location: পছন্দের বর্তমান অবস্থান
     marital_status: বৈবাহিক অবস্থা
-    education: শিক্ষাগত যোগ্যতা
+    education: ন্যূনতম শিক্ষাগত যোগ্যতা
     family_status: পারিবারিক অবস্থা
     family_values: পারিবারিক মূল্যবোধ
     family_type: পরিবারের ধরন
@@ -781,9 +789,9 @@ bn:
     inch_min: ইঞ্চি (সর্বনিম্ন)
     feet_max: ফুট (সর্বোচ্চ)
     inch_max: ইঞ্চি (সর্বোচ্চ)
-    education_req: সর্বোচ্চ শিক্ষাগত যোগ্যতা
+    education_req: ন্যূনতম শিক্ষাগত যোগ্যতা
     family_value: পারিবারিক মূল্যবোধ
-    nothing_selected: কিছু বেছে নেওয়া হয়নি
+    nothing_selected: যেকোনো হলেই চলবে
   activerecord:
     attributes:
       partner_preference:
@@ -1510,3 +1518,10 @@ bn:
   confirm:
     'yes': হ্যাঁ, নিশ্চিত
     'no': না
+  for_candidate:
+    section_form:
+      please_specify_your_organization_req: "পাত্র/পাত্রীর প্রতিষ্ঠানের নাম লিখুন*"
+      what_do_you_do_the_most_for_entertainment: "পাত্র/পাত্রী বিনোদনের জন্য সবচেয়ে বেশি কী করেন?"
+      do_you_smoke: "পাত্র/পাত্রী কি ধূমপান করেন?"
+      do_you_drink: "পাত্র/পাত্রী কি মদ্যপান করেন?"
+      any_specific_habits_you_want_to_share: "পাত্র/পাত্রীর বিশেষ কোনো অভ্যাসের কথা জানাতে চান?"

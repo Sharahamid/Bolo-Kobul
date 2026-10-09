@@ -545,6 +545,19 @@ class MarriageProfile < ApplicationRecord
     self.matching_percentage = [raw_score.round, 100].min
   end
 
+  # Education levels from lowest to highest, for "Minimum Education Level" in preferences.
+  # Levels outside this ladder (non-traditional, other) only match themselves.
+  EDUCATION_RANK = %w[school intermediate diploma undergraduate graduate post_graduate doctorate]
+                   .each_with_index.to_h.freeze
+
+  def education_at_least?(level, minimum)
+    rank = EDUCATION_RANK[level.to_s]
+    min_rank = EDUCATION_RANK[minimum.to_s]
+    return level.to_s == minimum.to_s if rank.nil? || min_rank.nil?
+
+    rank >= min_rank
+  end
+
   def calculate_one_way_score(seeker, candidate)
     score = 0
     preference = seeker.partner_preference
@@ -564,9 +577,9 @@ class MarriageProfile < ApplicationRecord
       end
     end
 
-    # Education — 10pts
+    # Education — 10pts. The preference is a minimum: that level or higher counts
     if preference.highest_education_level.present? && candidate.highest_education_level.present? &&
-       preference.highest_education_level == candidate.highest_education_level
+       education_at_least?(candidate.highest_education_level, preference.highest_education_level)
       score += 10
     end
 
