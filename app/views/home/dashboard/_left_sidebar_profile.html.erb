@@ -11,6 +11,8 @@
   .left-sidebar-card .bk-photo-wrap { cursor:pointer; position:absolute; bottom:-43px; left:50%; transform:translateX(-50%); width:86px; height:86px; border-radius:50%; border:4px solid #fff; overflow:hidden; box-shadow:0 2px 8px rgba(0,0,0,0.15); box-sizing:border-box; }
   .left-sidebar-card .bk-photo-wrap img { width:100% !important; height:100% !important; object-fit:cover !important; border-radius:50% !important; border:none !important; }
   .left-sidebar-card .bk-photo-wrap:hover .bk-photo-overlay { opacity:1; }
+  /* The "Add photo" placeholder is shown whole inside the circle, not cropped */
+  .left-sidebar-card .bk-own-photo-wrap img.bk-photo-placeholder, .left-sidebar-card .bk-photo-wrap img.bk-photo-placeholder { object-fit:contain !important; padding:8px; background:#fff; }
   .left-sidebar-card .bk-photo-overlay { position:absolute; inset:0; border-radius:50%; background:rgba(0,0,0,0.35); opacity:0; transition:opacity .2s; display:flex; align-items:center; justify-content:center; }
   .left-sidebar-card .bk-own-photo-wrap .camera-icon-area { position:absolute; bottom:2px; right:2px; z-index:10; }
   .left-sidebar-card .bk-own-photo-wrap .camera-icon-area i { background:rgba(0,0,0,0.55); color:#fff; border-radius:50%; padding:3px; font-size:10px; cursor:pointer; }
@@ -47,7 +49,7 @@
 
       <% pct = current_active_profile.profile_completeness.to_i %>
       <div style="display:flex; justify-content:space-between; font-size:10px; color:#888; margin-bottom:3px;">
-        <span><%= t('dashboard.profile_complete') %></span>
+        <span><%= profile_t('dashboard.profile_complete', current_active_profile) %></span>
         <span style="color:#FFB627; font-weight:700;"><%= local_digits(pct) %>%</span>
       </div>
       <div style="height:5px; background:#f0f0f0; border-radius:4px; overflow:hidden; margin-bottom:8px;">
@@ -91,7 +93,12 @@
     </div>
 
     <div style="padding:50px 14px 16px; text-align:center;">
-      <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; display:inline-block; margin-bottom:12px;"><%= marriage_profile&.unique_id %></span>
+      <div style="display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+        <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px;"><%= marriage_profile&.unique_id %></span>
+        <% if marriage_profile&.matching_percentage.to_i > 0 %>
+          <span class="bk-match-badge" style="background:#e8f5e9; color:#2e7d32; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; white-space:nowrap;">⭐ <%= t('profile_card.match', percent: local_digits(marriage_profile.matching_percentage)) %></span>
+        <% end %>
+      </div>
 
       <div style="height:0.5px; background:#eee; margin:0 0 10px;"></div>
 
@@ -182,12 +189,24 @@
   <p><%= t('dashboard.tap_to_close') %></p>
 </div>
 <script>
+  // Full-size photo on a profile page. While it is open the page behind does not scroll, and
+  // the phone's Back button closes the photo instead of leaving the profile.
   function bkOpenPhoto(src) {
     if (!src) return;
     document.getElementById('bk-photo-modal-img').src = src;
     document.getElementById('bk-photo-modal').style.display = 'flex';
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+    if (!(history.state && history.state.bkPhoto)) history.pushState({ bkPhoto: true }, '');
+  }
+  function bkHidePhoto() {
+    document.getElementById('bk-photo-modal').style.display = 'none';
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
   }
   function bkClosePhoto() {
-    document.getElementById('bk-photo-modal').style.display = 'none';
+    if (history.state && history.state.bkPhoto) { history.back(); } else { bkHidePhoto(); }
   }
+  window.addEventListener('popstate', bkHidePhoto);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.getElementById('bk-photo-modal').style.display === 'flex') bkClosePhoto(); });
 </script>

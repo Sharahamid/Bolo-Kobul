@@ -19,7 +19,7 @@
       <% pct = current_active_profile.profile_completeness.to_i %>
       <div class="bk-kobul-unlock">
         <div class="bk-kobul-unlock-text">
-          <strong><%= t('dashboard.unlock_title', percent: local_digits(pct)) %></strong>
+          <strong><%= profile_t('dashboard.unlock_title', current_active_profile, percent: local_digits(pct)) %></strong>
           <span><%= t('dashboard.unlock_text', min: local_digits(MarriageProfile::KOBUL_MIN_COMPLETENESS)) %></span>
         </div>
         <div class="bk-kobul-unlock-bar"><div style="width:<%= [pct, 100].min %>%;"></div></div>
@@ -30,7 +30,7 @@
       <% get_recommended_profiles.each do |p| %>
         <div style="padding:10px 12px; border-bottom:0.5px solid #f5f5f5;">
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-            <div onclick="bkOpenPhoto('<%= p.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
+            <div style="flex-shrink:0;">
               <%= render 'shared/profile_photo', profile: p %>
             </div>
             <div style="flex:1; min-width:0;">

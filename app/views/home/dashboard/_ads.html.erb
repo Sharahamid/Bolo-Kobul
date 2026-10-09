@@ -6,7 +6,7 @@
       <% ads.each_with_index do |ad, i| %>
         <div class="<%= i.zero? ? 'pb-2' : 'pt-2' %> <%= ad_class(ad) %>">
           <%= link_to ad.url.presence || '#', target: '_blank', rel: 'noopener' do %>
-            <%= image_tag ad.image_url, width: '240', class: 'img-responsive', alt: ad.title.to_s %>
+            <%= image_tag ad.image_url, width: '240', class: 'img-responsive', alt: ad.title.to_s, loading: 'lazy' %>
           <% end %>
         </div>
       <% end %>

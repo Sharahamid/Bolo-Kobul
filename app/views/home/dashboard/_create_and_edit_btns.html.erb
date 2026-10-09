@@ -1,6 +1,6 @@
 <div class="d-flex justify-content-center <%= current_user.self? ? 'flex-sm-column' : 'flex-row' %>">
   <div class="profile-bk-edit-btn p-2">
-    <%= link_to current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : root_path,
+    <%= link_to current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile, anchor: 'profile-details') : root_path,
                 class: 'btn btn-sm btn-warning text-white' do %>
       <i class="fas fa-edit"></i> <%= t('dashboard.edit_profile') %>
   <% end %>

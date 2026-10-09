@@ -3,13 +3,13 @@ module ApplicationHelper
   # "Candidate's Full Name" when a parent, relative or friend creates it (form.candidate.*).
   # A key without a dot is a form.* key ("heading" -> form.heading / form.candidate.heading);
   # a full key such as "section_form.do_you_smoke" uses for_candidate.section_form.do_you_smoke.
-  def profile_t(key, profile)
+  def profile_t(key, profile, **options)
     key = key.to_s
     own_key = key.include?('.') ? key : "form.#{key}"
-    return t(own_key) if profile.nil? || profile.own_profile?
+    return t(own_key, **options) if profile.nil? || profile.own_profile?
 
     candidate_key = key.include?('.') ? "for_candidate.#{key}" : "form.candidate.#{key}"
-    t(candidate_key, default: t(own_key))
+    t(candidate_key, **options, default: t(own_key, **options))
   end
 
   # Ads that sell butterflies (they link to the purchase page) are hidden inside the

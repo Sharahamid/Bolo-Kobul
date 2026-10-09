@@ -154,7 +154,7 @@
           <% @matches.each do |match| %>
             <div style="border:0.5px solid #f0e8d0; border-radius:10px; overflow:hidden; background:#fffaf5;">
               <div style="padding:12px; display:flex; align-items:center; gap:10px;">
-                <div onclick="bkOpenPhoto('<%= match.profile_image.large_profile_thumb.url rescue '' %>')" style="cursor:pointer; flex-shrink:0;">
+                <div style="flex-shrink:0;">
                   <%= render 'shared/profile_photo', profile: match %>
                 </div>
                 <div style="flex:1; min-width:0;">
