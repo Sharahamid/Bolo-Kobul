@@ -50,6 +50,8 @@ class MarriageProfile < ApplicationRecord
 
   enum :gender, %i[male female other]
   enum :marital_status, %i[unmarried widow_or_widower divorced separated married]
+  # Statuses members can choose ("married" and "separated" are kept only for older data)
+  SELECTABLE_MARITAL_STATUSES = %w[divorced unmarried widow_or_widower].freeze
   enum :family_type, %i[joint_family nuclear_family does_not_matter]
   enum :family_values, %i[orthodox traditional moderate liberal does_not_matter], prefix: :mfv
   enum :family_status, %i[middle_Class upper_middle_class rich/affluent does_not_matter], prefix: :mfs

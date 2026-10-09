@@ -30,7 +30,7 @@
               <%= f.select :present_location, District.order_by_name.collect { |d| [d.name, d.id] }, {prompt: 'Present Location'}, class: 'form-control sign_up-input-field', required: true %>
             </div>
             <div class="form-group">
-              <%= f.select :marital_status, enum_options(:marriage_profile, :marital_status, MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.keys), {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field', required: true %>
+              <%= f.select :marital_status, enum_options(:marriage_profile, :marital_status, MarriageProfile::SELECTABLE_MARITAL_STATUSES), {prompt: 'Marital Status'}, class: 'form-control sign_up-input-field', required: true %>
             </div>
             <div class="form-group">
               <%= f.select :height, User::HEIGHT, {prompt: 'Height'}, class: 'form-control sign_up-input-field', required: true %>

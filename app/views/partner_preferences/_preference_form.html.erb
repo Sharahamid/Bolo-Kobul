@@ -147,7 +147,7 @@
     <div class="form-group">
       <%= f.label :marital_status %>
       <%= f.select :marital_status,
-                   enum_options(:marriage_profile, :marital_status, PartnerPreference.values_for_marital_status.sort),
+                   enum_options(:marriage_profile, :marital_status, (PartnerPreference.values_for_marital_status - [:separated]).sort),
                    {},
                    multiple: true,
                    class: 'form-control sign_up-input-field selectpicker',

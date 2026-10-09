@@ -135,7 +135,7 @@
         <div class="d-flex flex-row">
           <div class="flex-fill pr-1">
             <%= f.select :marital_status,
-                         enum_options(:marriage_profile, :marital_status, MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.keys),
+                         enum_options(:marriage_profile, :marital_status, MarriageProfile::SELECTABLE_MARITAL_STATUSES),
                          {prompt: t('form.marital_status')}, class: 'form-control sign_up-input-field',
                          data: {toggle: "tooltip", placement: "top"},
                          title: t('form.marital_status') %>
