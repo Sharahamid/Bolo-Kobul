@@ -492,6 +492,10 @@ en:
     date_of_birth: Date of Birth
     dob_title: Date of Birth* 🔐 (information cannot be edited once submitted)
     dob_placeholder: Date of Birth (dd/mm/yyyy)
+    dob_day: Day
+    dob_month: Month
+    dob_year: Year
+    dob_months: [January, February, March, April, May, June, July, August, September, October, November, December]
     marital_status_req: Marital Status*
     marital_status: Marital Status
     religion_req: Religion*

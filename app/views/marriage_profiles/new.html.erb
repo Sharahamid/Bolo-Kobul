@@ -78,15 +78,43 @@
             </div>
 
             <div class="form-group">
-	      <%= f.label :date_of_birth, profile_t('date_of_birth', @marriage_profile), class: "form-label" %>
-              <%= f.date_field :date_of_birth,
-                               max: Date.today.years_ago(18),
-                               autofocus: true,
-                               class: 'form-control sign_up-input-field',
-                               title:profile_t('dob_title', @marriage_profile),
-                               required: true,
-			       placeholder: profile_t('dob_placeholder', @marriage_profile),   # behaves like prompt
-                               data: {toggle: "tooltip", placement: "top" } %>
+	      <%= f.label :date_of_birth, profile_t('date_of_birth', @marriage_profile), class: "form-label", for: 'bk-dob-day' %>
+              <%# Day / Month / Year lists instead of the phone's calendar, which opens on today
+                  and makes going back 20+ years hard. The years start at the youngest allowed
+                  age (18). They fill in the hidden date_of_birth field. %>
+              <% dob = f.object.date_of_birth&.to_date
+                 latest = Date.today.years_ago(18) %>
+              <%= f.hidden_field :date_of_birth, value: dob&.iso8601, id: 'bk-dob' %>
+              <div class="d-flex bk-dob-row" style="gap:6px;" title="<%= profile_t('dob_title', @marriage_profile) %>">
+                <select id="bk-dob-day" class="form-control sign_up-input-field" required style="flex:0 0 26%;" aria-label="<%= t('form.dob_day') %>">
+                  <option value=""><%= t('form.dob_day') %></option>
+                  <% (1..31).each do |d| %><option value="<%= d %>" <%= 'selected' if dob&.day == d %>><%= local_digits(d) %></option><% end %>
+                </select>
+                <select id="bk-dob-month" class="form-control sign_up-input-field" required style="flex:1 1 auto;" aria-label="<%= t('form.dob_month') %>">
+                  <option value=""><%= t('form.dob_month') %></option>
+                  <% t('form.dob_months').each_with_index do |m, i| %><option value="<%= i + 1 %>" <%= 'selected' if dob&.month == i + 1 %>><%= m %></option><% end %>
+                </select>
+                <select id="bk-dob-year" class="form-control sign_up-input-field" required style="flex:0 0 30%;" aria-label="<%= t('form.dob_year') %>">
+                  <option value=""><%= t('form.dob_year') %></option>
+                  <% latest.year.downto(latest.year - 62).each do |y| %><option value="<%= y %>" <%= 'selected' if dob&.year == y %>><%= local_digits(y) %></option><% end %>
+                </select>
+              </div>
+              <script>
+                (function () {
+                  var day = document.getElementById('bk-dob-day'), month = document.getElementById('bk-dob-month'),
+                      year = document.getElementById('bk-dob-year'), field = document.getElementById('bk-dob');
+                  function update() {
+                    // Only offer days the chosen month has (28/29/30/31)
+                    var last = new Date(year.value || 2000, month.value || 1, 0).getDate();
+                    Array.prototype.forEach.call(day.options, function (o) { if (o.value) o.hidden = o.disabled = +o.value > last; });
+                    if (+day.value > last) day.value = '';
+                    var pad = function (n) { return ('0' + n).slice(-2); };
+                    field.value = (day.value && month.value && year.value) ? year.value + '-' + pad(month.value) + '-' + pad(day.value) : '';
+                  }
+                  [day, month, year].forEach(function (s) { s.addEventListener('change', update); });
+                  update();
+                })();
+              </script>
               <small class="text-danger"> <%= f.object.errors[:date_of_birth].present? ? f.object.errors[:date_of_birth]&.first : '' %> </small>
             </div>
 
