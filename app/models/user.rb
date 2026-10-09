@@ -129,6 +129,11 @@ class User < ApplicationRecord
       errors.add(:name, 'does not appear to be a real name')
       return
     end
+    # A long English word with no vowel at all (e.g. "Yybnzlx")
+    if name.split.any? { |word| word.match?(/\A[a-zA-Z]{6,}\z/) && word !~ /[aeiouAEIOU]/ }
+      errors.add(:name, 'does not appear to be a real name')
+      return
+    end
     # No random mixed case (e.g. sUlIYyFQLU) - check for 3+ alternating cases
     if name.match?(/[a-z][A-Z][a-z][A-Z][a-z][A-Z]/) || name.match?(/[A-Z][a-z][A-Z][a-z][A-Z][a-z]/)
       errors.add(:name, 'does not appear to be a real name')
