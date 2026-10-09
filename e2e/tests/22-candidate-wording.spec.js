@@ -11,6 +11,10 @@ test.describe('Profile form wording', () => {
     await expect(page.locator('.internal_form_heading')).toHaveText("Great! Let's create the candidate's profile");
     await expect(page.locator('input[name="marriage_profile[name]"]')).toHaveAttribute('placeholder', "Candidate's Full Name");
     await expect(page.locator('input[name="marriage_profile[nid_or_passport]"]')).toHaveAttribute('placeholder', "Candidate's NID or Passport No.");
+    // "Separated" is not offered as a marital status
+    const marital = await page.locator('select[name="marriage_profile[marital_status]"] option').allTextContents();
+    expect(marital.map((t) => t.trim())).toEqual(expect.arrayContaining(['Divorced', 'Unmarried', 'Widow or widower']));
+    expect(marital.join(' ')).not.toMatch(/Separated|Married\b/);
 
     await page.goto('/marriage_profiles/new?locale=bn');
     await expect(page.locator('.internal_form_heading')).toHaveText('চলুন, পাত্র/পাত্রীর প্রোফাইল তৈরি করি');
@@ -37,5 +41,7 @@ test.describe('Partner preference wording', () => {
     }
     await expect(page.locator('.filter-option-inner-inner', { hasText: "Doesn't Matter" }).first()).toBeVisible();
     await expect(page.getByText('Nothing selected')).toHaveCount(0);
+    const marital = await page.locator('select[name="partner_preference[marital_status][]"] option').allTextContents();
+    expect(marital.join(' ')).not.toContain('Separated');
   });
 });

@@ -87,7 +87,7 @@
 
 	    <div class="form-group">
               <%= f.select :marital_status,
-                           enum_options(:marriage_profile, :marital_status, MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.keys),
+                           enum_options(:marriage_profile, :marital_status, MarriageProfile::SELECTABLE_MARITAL_STATUSES),
                            {prompt: profile_t('marital_status_req', @marriage_profile)},
                            class: 'form-control sign_up-input-field',
                            required: true,
