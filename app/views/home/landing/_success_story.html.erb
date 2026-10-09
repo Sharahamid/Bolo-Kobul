@@ -2,12 +2,13 @@
   <div class="story-photo text-center">
     <%= image_tag "#{
     if success_story.image_url.present?
-      success_story.image_url
+      success_story.image_url(:thumb)
     else
       "story/story_#{success_story_counter.even? ?
                          "1" : "2"}.png"
     end}",
                   class: "img-thumbnail rounded-circle", style: "object-fit:cover; width:174px; height:174px;",
+                  loading: "lazy", width: 174, height: 174,
                   alt: success_story.title
     %>
   </div>

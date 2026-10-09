@@ -48,12 +48,23 @@ class Blog < ApplicationRecord
 
   # before_save :set_title
 
+  # Photos are shown at these sizes (twice the size on screen, for sharp phone screens).
+  # Members often upload 5-8 MB camera photos; the site makes a small copy for each size
+  # once, and serves that instead of the original.
+  IMAGE_SIZES = {
+    thumb:  { resize_to_fill: [360, 360] },    # round photo on the home page (174px)
+    card:   { resize_to_fill: [300, 300] },    # story cards on the blog pages (140px)
+    normal: { resize_to_limit: [1200, 1200] }  # the full story page
+  }.freeze
+
   def image_url(size = :normal)
-    if image.attached?
-      Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
-    else
-      ''
-    end
+    return '' unless image.attached?
+
+    helpers = Rails.application.routes.url_helpers
+    return helpers.rails_blob_path(image, only_path: true) unless image.variable?
+
+    variant = image.variant(IMAGE_SIZES.fetch(size, IMAGE_SIZES[:normal]).merge(quality: 82, strip: true))
+    helpers.rails_representation_path(variant, only_path: true)
   end
 
   private
