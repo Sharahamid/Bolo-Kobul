@@ -1,6 +1,6 @@
 <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fffaf0; overflow:hidden; margin-bottom:10px; display:flex; align-items:center;">
   <div style="position:relative; width:140px; align-self:stretch; min-height:140px; flex-shrink:0; overflow:hidden; background:#fff8ee;">
-    <%= image_tag "#{blog.image_url.present? ? blog.image_url : 'bg01.jpg'}",
+    <%= image_tag "#{blog.image_url.present? ? blog.image_url(:card) : 'bg01.jpg'}", loading: 'lazy',
                   style: "position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%; display:block;",
                   class: "img-responsive" %>
   </div>

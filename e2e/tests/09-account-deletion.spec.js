@@ -29,6 +29,8 @@ test.describe('Account deletion', () => {
     await expect(box).toContainText(`Will be deleted on ${date}`);
     await page.goto('/blogs');
     await expect(page.getByText('Your account will be deleted permanently on')).toBeVisible();
+    // Let the page's photos finish loading first, so no late response sets the sign-in cookie again
+    await page.waitForLoadState('networkidle');
 
     // Logging in again still works, and Cancel deletion restores the account
     await page.context().clearCookies();
