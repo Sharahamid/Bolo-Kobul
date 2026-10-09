@@ -1,5 +1,5 @@
 namespace :reminders do
-  desc 'Every other Friday: matches email and push for members away for 14 days (see WeeklyReminderService)'
+  desc 'Every other Friday: matches email and push for members away for 14 days (see WeeklyReminderService). Emails go out one a minute.'
   task weekly: :environment do
     if WeeklyReminderService.sending_week? || ENV['FORCE'] == '1'
       puts "Match reminders sent to #{WeeklyReminderService.call} members"

@@ -12,6 +12,9 @@ class WeeklyReminderService
   HOST = 'www.bolokobul.com'.freeze
   MATCHES_PER_EMAIL = 5
   INACTIVE_FOR = 14.days
+  # Mailgun allows our account 100 emails an hour, shared with sign-up codes and other
+  # emails. One reminder a minute (60 an hour) leaves room for those.
+  EMAIL_GAP = 60.seconds
   # Sent on alternate Fridays, counted from this one
   FIRST_FRIDAY = Date.new(2026, 10, 9)
 
@@ -27,8 +30,9 @@ class WeeklyReminderService
   end
 
   # Returns how many members were sent the email or the push notification
-  def self.call(logger: Rails.logger)
+  def self.call(logger: Rails.logger, email_gap: EMAIL_GAP)
     sent = 0
+    emailed = false
     recipients.find_each do |user|
       email = user.weekly_matches_email && user.email.present?
       push = WebPushService.configured? && user.push_subscriptions.exists?
@@ -37,7 +41,11 @@ class WeeklyReminderService
       reminder = new(user).reminder
       next unless reminder
 
-      ReminderMailer.with(user: user, reminder: reminder).weekly.deliver_now if email
+      if email
+        sleep(email_gap) if emailed
+        ReminderMailer.with(user: user, reminder: reminder).weekly.deliver_now
+        emailed = true
+      end
       WebPushJob.perform_later(user.id, reminder[:push]) if push
       sent += 1
     rescue StandardError => e

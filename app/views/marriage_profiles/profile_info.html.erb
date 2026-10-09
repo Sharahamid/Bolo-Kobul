@@ -18,3 +18,37 @@
     </div>
   </div>
 </div>
+
+<% if current_active_profile&.id == @marriage_profile.id %>
+<script>
+  // "Update Your Occupation" and the other prompts link here with #update-<section>:
+  // open that section, scroll to it and open its add/edit form
+  (function () {
+    var sections = {
+      'update-id-document': 'collapse_basic_profile_info', 'update-education': 'collapse_academic_info',
+      'update-occupation': 'collapse_occupation', 'update-appearance': 'collapse_appearance',
+      'update-family': 'collapse_family_details', 'update-life-style': 'collapse_life_style',
+      'update-hobbies': 'collapse_hobbies_interest', 'update-cultural': 'collapse_cultural_values',
+      'update-about': 'collapse_about'
+    };
+    function openSection() {
+      var key = window.location.hash.replace('#', '');
+      if (key === 'update-photo') {
+        var photos = document.getElementById('marriage_profile_photos');
+        if (photos) photos.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      var panel = document.getElementById(sections[key]);
+      if (!panel) return;
+      $(panel).collapse('show');
+      var box = panel.closest('.profile-info-item') || panel;
+      box.style.scrollMarginTop = '80px';
+      box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      var form = panel.querySelector('a[data-remote="true"]');
+      if (form) form.click();
+    }
+    $(openSection);
+    window.addEventListener('hashchange', openSection);
+  })();
+</script>
+<% end %>

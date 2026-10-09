@@ -149,6 +149,18 @@ en:
     unlock_text: Reach %{min}% to send Kobuls.
     complete_profile: Complete profile
     profile_complete: Profile complete
+    todo_title: Complete your profile
+    todo:
+      id_document: "NID / Passport"
+      education: "Education"
+      occupation: "Occupation"
+      appearance: "Appearance"
+      family: "Family Details"
+      life_style: "Lifestyle"
+      hobbies: "Hobbies & Interests"
+      cultural: "Cultural Values"
+      about: "About"
+      photo: "Photo"
     edit_profile: Edit Profile
     add_profile: Add Profile
     request: Request
@@ -1001,6 +1013,7 @@ en:
     dashboard:
       unlock_title: "Candidate's profile is %{percent}% complete"
       profile_complete: "Candidate's profile complete"
+      todo_title: "Complete the candidate's profile"
     section_form:
       please_specify_your_organization_req: "Please specify the candidate's organization*"
       what_do_you_do_the_most_for_entertainment: "What does the candidate do most for entertainment?"

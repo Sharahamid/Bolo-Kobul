@@ -259,6 +259,18 @@ bn:
     unlock_text: কবুল পাঠাতে %{min}% পূরণ করুন।
     complete_profile: প্রোফাইল সম্পূর্ণ করুন
     profile_complete: প্রোফাইল সম্পূর্ণ
+    todo_title: আপনার প্রোফাইল সম্পূর্ণ করুন
+    todo:
+      id_document: "এনআইডি / পাসপোর্ট"
+      education: "শিক্ষা"
+      occupation: "পেশা"
+      appearance: "চেহারা"
+      family: "পারিবারিক তথ্য"
+      life_style: "জীবনযাপন"
+      hobbies: "শখ ও আগ্রহ"
+      cultural: "সাংস্কৃতিক মূল্যবোধ"
+      about: "নিজের সম্পর্কে"
+      photo: "ছবি"
     edit_profile: প্রোফাইল সম্পাদনা
     add_profile: প্রোফাইল যোগ করুন
     request: অনুরোধ
@@ -1530,6 +1542,7 @@ bn:
     dashboard:
       unlock_title: "পাত্র/পাত্রীর প্রোফাইল %{percent}% সম্পূর্ণ"
       profile_complete: "পাত্র/পাত্রীর প্রোফাইল সম্পূর্ণ"
+      todo_title: "পাত্র/পাত্রীর প্রোফাইল সম্পূর্ণ করুন"
     section_form:
       please_specify_your_organization_req: "পাত্র/পাত্রীর প্রতিষ্ঠানের নাম লিখুন*"
       what_do_you_do_the_most_for_entertainment: "পাত্র/পাত্রী বিনোদনের জন্য সবচেয়ে বেশি কী করেন?"
