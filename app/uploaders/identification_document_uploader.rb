@@ -7,10 +7,23 @@ class IdentificationDocumentUploader < CarrierWave::Uploader::Base
   storage :file
   # storage :fog
 
-  # Override the directory where uploaded files will be stored.
-  # This is a sensible default for uploaders that are meant to be mounted:
+  # ID documents (NID, passport) are private: they are kept in storage/id_documents, outside the
+  # public folder, so the web server never serves them. Only admins can open them, through
+  # /shefali007/marriage_profiles/:id/id_document. (Documents uploaded before this were moved
+  # with: bin/rails id_documents:make_private)
+  def root
+    Rails.root.join('storage').to_s
+  end
+
   def store_dir
-    "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    "id_documents/#{model.class.to_s.underscore}/#{model.id}"
+  end
+
+  # The admin-only address that shows the document
+  def url(*)
+    return nil if file.blank? || model&.id.blank?
+
+    Rails.application.routes.url_helpers.id_document_shefali007_marriage_profile_path(model)
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

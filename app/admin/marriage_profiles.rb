@@ -6,6 +6,17 @@ ActiveAdmin.register MarriageProfile do
 
   menu parent: 'User'
 
+  # Shows the member's ID document (NID or passport). The file is stored outside the public
+  # folder, so this admin-only page is the only way to open it.
+  member_action :id_document, method: :get do
+    file = resource.identification_document.file
+    return head(:not_found) unless file&.exists?
+
+    response.headers['Cache-Control'] = 'private, no-store'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    send_file file.path, disposition: 'inline', type: Marcel::MimeType.for(Pathname.new(file.path), name: file.filename)
+  end
+
   member_action :print_profile, method: :get do
     @profile = MarriageProfile.friendly.find(params[:id])
     render 'admin/marriage_profiles/print_profile', layout: false

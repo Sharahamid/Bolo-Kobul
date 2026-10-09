@@ -12,8 +12,8 @@ class DocumentVerificationService
   def verify
     return :no_document unless @profile.identification_document.present?
 
-    doc_path = Rails.root.join('public', @profile.identification_document.to_s.gsub(/^\//, ''))
-    return :file_not_found unless File.exist?(doc_path)
+    doc_path = @profile.identification_document.path
+    return :file_not_found unless doc_path && File.exist?(doc_path)
 
     text = extract_text(doc_path)
     return :extraction_failed if text.blank?
