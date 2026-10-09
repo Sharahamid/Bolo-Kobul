@@ -33,12 +33,13 @@ class AcademicInformation < ApplicationRecord
   # callbacks
   #
 
-  after_create :profile_progress_recalculate
+  after_save :profile_progress_recalculate
   after_destroy :profile_progress_recalculate
 
   private
 
+  # A fresh copy, so a section that was just removed is not still counted
   def profile_progress_recalculate
-    marriage_profile.progress_recalculate
+    MarriageProfile.find_by(id: marriage_profile_id)&.progress_recalculate
   end
 end

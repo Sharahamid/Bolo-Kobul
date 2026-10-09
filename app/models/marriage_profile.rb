@@ -286,21 +286,32 @@ class MarriageProfile < ApplicationRecord
     profile_completeness.to_i >= KOBUL_MIN_COMPLETENESS
   end
 
-  def progress_recalculate
-    percentage = identification_document.present? ? 40 : 20
-    percentage += 10 if academic_informations.count > 0
-    percentage += 5 if academic_informations.count > 1
-    percentage += 10 if occupations.present?
-    percentage += 3 if appearance&.present_any?
-    percentage += 10 if family_members.count > 0
-    percentage += 5 if family_members.count > 1
-    percentage += 3 if life_style.present?
-    percentage += 4 if hobbies_and_interest.present?
-    percentage += 3 if cultural_value.present?
-    percentage += 2 if about_my_self?
-    percentage += 5 if photo_1.present? || photo_2.present? || photo_3.present?
+  # Each part of the profile and the percentage it adds. The ID document counts 40 (20 is
+  # given for the Basic form either way, so it adds 20 more). The total is 100.
+  def completeness_items
+    [
+      [:id_document,  20, identification_document.present?],
+      [:education,    10, academic_informations.count > 0],
+      [:education_2,   5, academic_informations.count > 1],
+      [:occupation,   10, occupations.present?],
+      [:appearance,    3, appearance&.present_any? || false],
+      [:family,       10, family_members.count > 0],
+      [:family_2,      5, family_members.count > 1],
+      [:life_style,    3, life_style.present?],
+      [:hobbies,       4, hobbies_and_interest.present?],
+      [:cultural,      3, cultural_value.present?],
+      [:about,         2, about_my_self?],
+      [:photo,         5, photo_1.present? || photo_2.present? || photo_3.present?]
+    ].map { |key, points, done| { key: key, points: points, done: done } }
+  end
 
-    update(profile_completeness: percentage)
+  def missing_completeness_items
+    completeness_items.reject { |item| item[:done] }
+  end
+
+  def progress_recalculate
+    percentage = 20 + completeness_items.select { |item| item[:done] }.sum { |item| item[:points] }
+    update_column(:profile_completeness, percentage) if persisted? && profile_completeness != percentage
   end
 
   # A member who registered for themself: their first profile always carries the

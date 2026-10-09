@@ -149,6 +149,20 @@ en:
     unlock_text: Reach %{min}% to send Kobuls.
     complete_profile: Complete profile
     profile_complete: Profile complete
+    still_to_add: "Still to add:"
+    todo:
+      id_document: NID or passport document
+      education: Education
+      education_2: A second education
+      occupation: Occupation
+      appearance: Appearance
+      family: A family member
+      family_2: A second family member
+      life_style: Lifestyle
+      hobbies: Hobbies & interests
+      cultural: Cultural values
+      about: About section
+      photo: A photo
     edit_profile: Edit Profile
     add_profile: Add Profile
     request: Request

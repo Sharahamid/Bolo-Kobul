@@ -9,6 +9,11 @@ test.describe('Profile completeness and Kobuls', () => {
     await page.goto(`/marriage_profiles/${members.dave}/dashboard`);
     await expect(page.locator('.bk-kobul-unlock')).toContainText('Reach 80% to send Kobuls.');
     await expect(page.getByText('to get recommendations')).toHaveCount(0);
+    // The sidebar lists what is still missing and how much each part adds
+    const todo = page.locator('.bk-todo');
+    await expect(todo).toContainText('Still to add:');
+    await expect(todo).toContainText('Education');
+    await expect(todo).toContainText('+10%');
 
     const token = await csrfToken(page);
     const response = await page.request.post(`/marriage_profiles/${members.carol}/send_request`, { headers: { 'X-CSRF-Token': token } });

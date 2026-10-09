@@ -259,6 +259,20 @@ bn:
     unlock_text: কবুল পাঠাতে %{min}% পূরণ করুন।
     complete_profile: প্রোফাইল সম্পূর্ণ করুন
     profile_complete: প্রোফাইল সম্পূর্ণ
+    still_to_add: "যা বাকি আছে:"
+    todo:
+      id_document: এনআইডি বা পাসপোর্টের ডকুমেন্ট
+      education: শিক্ষা
+      education_2: আরেকটি শিক্ষাগত তথ্য
+      occupation: পেশা
+      appearance: চেহারা
+      family: পরিবারের একজন সদস্য
+      family_2: পরিবারের আরেকজন সদস্য
+      life_style: জীবনযাপন
+      hobbies: শখ ও আগ্রহ
+      cultural: সাংস্কৃতিক মূল্যবোধ
+      about: নিজের সম্পর্কে অংশ
+      photo: একটি ছবি
     edit_profile: প্রোফাইল সম্পাদনা
     add_profile: প্রোফাইল যোগ করুন
     request: অনুরোধ
