@@ -78,22 +78,7 @@
     <div style="font-size:14px; color:#888888; line-height:1.8;"><%= t('email.warm_wishes') %></div>
     <div style="font-size:15px; font-weight:bold; color:#FFB627; margin-top:4px;"><%= t('email.team') %></div>
     <div style="margin-top:16px;">
-      <a href="https://www.facebook.com/BoloKobulLtd" target="_blank"
-         style="display:inline-block; background:#1877F2; color:#ffffff; text-decoration:none;
-                width:32px; height:32px; border-radius:50%; line-height:32px; font-size:15px;
-                font-weight:bold; margin:0 4px; text-align:center;">f</a>
-      <a href="https://www.instagram.com/bolokobul/" target="_blank"
-         style="display:inline-block; background:#E4405F; color:#ffffff; text-decoration:none;
-                width:32px; height:32px; border-radius:50%; line-height:32px; font-size:14px;
-                font-weight:bold; margin:0 4px; text-align:center;">in</a>
-      <a href="https://x.com/BoloKobul" target="_blank"
-         style="display:inline-block; background:#000000; color:#ffffff; text-decoration:none;
-                width:32px; height:32px; border-radius:50%; line-height:32px; font-size:14px;
-                font-weight:bold; margin:0 4px; text-align:center;">&#120143;</a>
-      <a href="https://wa.me/8801611820410" target="_blank"
-         style="display:inline-block; background:#25D366; color:#ffffff; text-decoration:none;
-                width:32px; height:32px; border-radius:50%; line-height:32px; font-size:14px;
-                font-weight:bold; margin:0 4px; text-align:center;">W</a>
+      <%= render 'shared/email_social_icons' %>
     </div>
     <div style="font-size:10px; color:#cccccc; margin-top:10px;">
       <%= t('email.follow_html') %>
