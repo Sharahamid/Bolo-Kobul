@@ -6,6 +6,9 @@ test.describe('Profile completeness and Kobuls', () => {
   test('recommendations show below 80%, but sending a Kobul asks to complete the profile', async ({ page }) => {
     const { members } = seed();
     await login(page, 'dave@example.com');
+    // Dave has a chat whose other member was deleted: the dashboard and messages still open
+    expect((await page.goto(`/marriage_profiles/${members.dave}/dashboard`)).status()).toBe(200);
+    expect((await page.goto('/messages')).status()).toBe(200);
     await page.goto(`/marriage_profiles/${members.dave}/dashboard`);
     await expect(page.locator('.bk-kobul-unlock')).toContainText('Reach 80% to send Kobuls.');
     await expect(page.getByText('to get recommendations')).toHaveCount(0);

@@ -109,7 +109,7 @@ class MessagesController < ApplicationController
   def take_chat_rooms
     blocked_ids = HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', friendable_id: current_active_profile.id, status: 3).select(:friend_id)
     blocked_room_ids = ChatRoomUser.where(marriage_profile_id: blocked_ids).select(:chat_room_id)
-    @chat_rooms = current_active_profile.chat_rooms.where.not(id: blocked_room_ids).includes(:messages)
+    @chat_rooms = current_active_profile.active_chat_rooms.where.not(id: blocked_room_ids).includes(:messages)
   end
 
   def message_params

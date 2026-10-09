@@ -11,6 +11,8 @@ module ExceptionHandler
     # => Devise
     # => http://stackoverflow.com/a/38531245/1143732
     skip_before_action :authenticate_user!, raise: false
+    # Nothing extra on an error page: it must work even when the database or a member's data is the problem
+    skip_before_action :track_last_seen, raise: false
 
     ##################################
     ##################################
@@ -42,13 +44,26 @@ module ExceptionHandler
     # => General Show Functionality
     # => Introduced new "action" config option in 0.8.0.0
     def show
+      # Server errors get a small page of their own: the normal layout (menus, the member's
+      # profile ...) may be what failed, and then even the error page would fail and the
+      # member would see a bare "500 Internal Server Error" with no way out
+      return render_safe_error_page if @exception.status.to_i >= 500
+
       respond_with @exception, status: @exception.status
+    rescue StandardError
+      render_safe_error_page
     end
 
     ##################################
     ##################################
 
     private
+
+    def render_safe_error_page
+      @signed_in = (user_signed_in? rescue false)
+      @logout_token = (form_authenticity_token rescue '')
+      render 'exception_handler/safe_error', layout: false, status: @exception&.status.to_i.positive? ? @exception.status : 500, formats: [:html]
+    end
 
     # => Pulls from Exception class
     # => Spanner in the works is nil
