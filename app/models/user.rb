@@ -129,11 +129,17 @@ class User < ApplicationRecord
       errors.add(:name, 'does not appear to be a real name')
       return
     end
-    # A long English word with no vowel at all (e.g. "Yybnzlx"); one y can be the vowel,
-    # as in "Rhythm"
-    if name.split.any? { |word| word.match?(/\A[a-zA-Z]{6,}\z/) && word !~ /[aeiouAEIOU]/ && word.count('yY') != 1 }
-      errors.add(:name, 'does not appear to be a real name')
-      return
+    # Random letters have almost no vowels ("Ywdlbvm Yydzr", "Atxhzm Yybnzlx"); real names,
+    # even with short forms like "Md", have far more. A y counts as a vowel except at the
+    # start of a word, so "Rhythm Khan" is fine.
+    english = name.scan(/[a-zA-Z]+/)
+    letters = english.sum(&:length)
+    if letters >= 10 && (new_record? || will_save_change_to_name?)
+      vowels = english.sum { |word| word[0].to_s.count('aeiouAEIOU') + word[1..].to_s.count('aeiouyAEIOUY') }
+      if vowels.to_f / letters < 0.16
+        errors.add(:name, 'does not appear to be a real name')
+        return
+      end
     end
     # No random mixed case (e.g. sUlIYyFQLU) - check for 3+ alternating cases
     if name.match?(/[a-z][A-Z][a-z][A-Z][a-z][A-Z]/) || name.match?(/[A-Z][a-z][A-Z][a-z][A-Z][a-z]/)
@@ -161,6 +167,19 @@ class User < ApplicationRecord
   def phone_number_not_spam
     return unless phone_number.present?
     digits = phone_number.to_s.gsub(/[^0-9]/, '')
+    # Numbers outside Bangladesh need their country code (+1, +44 …): codes for them go by
+    # email, and bots send bare 10-digit numbers like 9803722736
+    if (new_record? || will_save_change_to_phone_number?) &&
+       !(PhoneNumber.bd_local(phone_number) || phone_number.to_s.strip.start_with?('+', '00'))
+      errors.add(:phone_number, 'must be a Bangladeshi mobile number (01…), or start with + and the country code')
+      return
+    end
+    # Bangladesh chosen in the country list, but not a Bangladeshi mobile number
+    if (new_record? || will_save_change_to_phone_number?) &&
+       PhoneNumber.clean(phone_number).start_with?('+880') && !PhoneNumber.bd_local(phone_number)
+      errors.add(:phone_number, 'is not a valid Bangladeshi mobile number (01XXXXXXXXX)')
+      return
+    end
     # Must have between 7 and 15 digits
     if digits.length < 7 || digits.length > 15
       errors.add(:phone_number, "is invalid")

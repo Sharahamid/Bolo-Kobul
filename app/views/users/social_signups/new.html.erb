@@ -17,7 +17,8 @@
       <%= f.text_field :name, required: true, autocomplete: 'name', class: 'form-control' %>
 
       <label for="user_phone_number"><%= t('social_signup.mobile') %></label>
-      <%= f.phone_field :phone_number, required: true, autocomplete: 'tel', class: 'form-control', placeholder: '+8801XXXXXXXXX', autofocus: true %>
+      <%= f.phone_field :phone_number, required: true, autocomplete: 'tel-national', class: 'form-control bk-intl-phone', placeholder: t('signup.mobile'), autofocus: true %>
+      <%= render 'shared/intl_phone' %>
 
       <label for="user_created_for"><%= t('social_signup.created_for') %></label>
       <%= f.select :created_for, options_for_select(User.created_fors.keys.map { |k| [enum_label(:user, :created_for, k), k] }, @user.created_for),

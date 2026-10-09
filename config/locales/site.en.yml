@@ -62,7 +62,7 @@ en:
     private_note: This information will not be shown to other members
     full_name: Full Name*
     email: Email*
-    mobile: Mobile* (+8801XXXXXXXXX)
+    mobile: Mobile number*
     password: Password* (8+ characters, letters and numbers)
     password_rule: At least 8 characters, including a letter and a number.
     confirm_password: Confirm Password*

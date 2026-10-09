@@ -35,13 +35,14 @@
       <div class="<%= f.object.errors[:phone_number].present? ? '' : 'custom-form-group' %>">
         <%= f.phone_field :phone_number,
                           autofocus: true,
-                          autocomplete: true,
-                          class: 'form-control sign_up-input-field',
+                          autocomplete: 'tel-national',
+                          class: 'form-control sign_up-input-field bk-intl-phone',
                           placeholder: t('signup.mobile'),
                           required: true %>
         <small class="text-danger">
           <%= f.object.errors[:phone_number].present? ? f.object.errors.full_messages_for(:phone_number).first : '' %>
         </small>
+        <%= render 'shared/intl_phone' %>
       </div>
 
      <div class="<%= f.object.errors[:password].present? ? '' : 'custom-form-group' %>">
