@@ -168,7 +168,7 @@
       <div class="row">
         <div class="col-6 pr-1">
           <%= f.label :min_height %>
-          <%= f.number_field :min_height, min: 1, max: 10,
+          <%= f.number_field :min_height, min: 3, max: 6,
                              autocomplete: 'min_height', class: 'form-control sign_up-input-field',
                              placeholder: t('preference.feet_min'), data: {toggle: 'tooltip', placement: 'top'},
                              title: t('preference.feet_min') %>
@@ -193,7 +193,7 @@
       <div class="row">
         <div class="col-6 pr-1">
           <%= f.label :max_height %>
-          <%= f.number_field :max_height, min: 1, max: 11, autocomplete: 'max_height',
+          <%= f.number_field :max_height, min: 3, max: 9, autocomplete: 'max_height',
                              class: 'form-control sign_up-input-field',
                              placeholder: t('preference.feet_max'), data: {toggle: 'tooltip', placement: 'top'},
                              title: t('preference.feet_max') %>

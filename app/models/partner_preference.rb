@@ -56,4 +56,8 @@ class PartnerPreference < ApplicationRecord
   validates_presence_of :religion, :gender
   validates_presence_of :max_inch, if: :max_height?
   validates_presence_of :min_inch, if: :min_height?
+  # Heights in feet and inches: minimum 3–6 ft, maximum 3–9 ft, inches 0–11 (checked when changed)
+  validates :min_height, numericality: { only_integer: true, in: 3..6 }, allow_nil: true, if: :will_save_change_to_min_height?
+  validates :max_height, numericality: { only_integer: true, in: 3..9 }, allow_nil: true, if: :will_save_change_to_max_height?
+  validates :min_inch, :max_inch, numericality: { only_integer: true, in: 0..11 }, allow_nil: true
 end

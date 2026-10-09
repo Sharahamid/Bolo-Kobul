@@ -1,0 +1,43 @@
+<%# Puts each question above its field, for forms whose questions are only grey text inside
+    the boxes (it disappears once a box is filled in: "No", "13", "Dhaka" ...). Uses the
+    field's tooltip, placeholder or empty first option. container: where the form is;
+    watch: true for pop-ups whose form arrives later. %>
+<% unless @bk_auto_labels_css %>
+  <% @bk_auto_labels_css = true %>
+  <style>
+    .bk-auto-label { display: block; font-size: 12px; font-weight: 600; color: #854F0B; margin: 0 0 3px 2px; line-height: 1.3; }
+  </style>
+<% end %>
+<script>
+  (function () {
+    var box = document.querySelector(<%= raw container.to_json %>);
+    if (!box) return;
+    function question(el) {
+      var text = el.getAttribute('data-original-title') || el.getAttribute('title') || el.getAttribute('placeholder');
+      if (!text && el.tagName === 'SELECT' && el.options.length && el.options[0].value === '') text = el.options[0].text;
+      text = (text || '').replace(/\s*\*\s*$/, '').trim();
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+    function label() {
+      box.querySelectorAll('input, select, textarea').forEach(function (el) {
+        if (el.dataset.bkLabelled || /^(hidden|submit|button|checkbox|radio|file)$/.test(el.type) || el.closest('.bk-no-auto-label')) return;
+        el.dataset.bkLabelled = '1';
+        var target = el.closest('.bootstrap-select, .iti') || el;
+        var prev = target.previousElementSibling;
+        if ((el.id && box.querySelector('label[for="' + el.id + '"]')) || (prev && prev.tagName === 'LABEL')) return;
+        var text = question(el);
+        if (!text) return;
+        var tag = document.createElement('label');
+        tag.className = 'bk-auto-label';
+        if (el.id) tag.setAttribute('for', el.id);
+        tag.textContent = text;
+        target.parentNode.insertBefore(tag, target);
+        // The question is now shown above, so no pop-up tooltip covering it
+        el.removeAttribute('data-toggle');
+        if (window.jQuery && jQuery.fn.tooltip) { try { jQuery(el).tooltip('dispose'); } catch (e) {} }
+      });
+    }
+    label();
+    <% if local_assigns[:watch] %>new MutationObserver(label).observe(box, { childList: true, subtree: true });<% end %>
+  })();
+</script>
