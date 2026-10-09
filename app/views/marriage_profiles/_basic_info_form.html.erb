@@ -135,7 +135,7 @@
         <div class="d-flex flex-row">
           <div class="flex-fill pr-1">
             <%= f.select :marital_status,
-                         enum_options(:marriage_profile, :marital_status, MarriageProfile::SELECTABLE_MARITAL_STATUSES),
+                         marital_status_options(@marriage_profile.gender),
                          {prompt: t('form.marital_status')}, class: 'form-control sign_up-input-field',
                          data: {toggle: "tooltip", placement: "top"},
                          title: t('form.marital_status') %>

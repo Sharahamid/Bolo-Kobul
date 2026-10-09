@@ -16,9 +16,20 @@ test.describe('Profile form wording', () => {
     expect(marital.map((t) => t.trim())).toEqual(expect.arrayContaining(['Divorced', 'Unmarried', 'Widow or widower']));
     expect(marital.join(' ')).not.toMatch(/Separated|Married\b/);
 
+    // Widow for women, Widower for men
+    const gender = page.locator('select[name="marriage_profile[gender]"]');
+    const widowed = page.locator('select[name="marriage_profile[marital_status]"] option[value="widow_or_widower"]');
+    await expect(widowed).toHaveText('Widow or widower');
+    await gender.selectOption('female');
+    await expect(widowed).toHaveText('Widow');
+    await gender.selectOption('male');
+    await expect(widowed).toHaveText('Widower');
+
     await page.goto('/marriage_profiles/new?locale=bn');
     await expect(page.locator('.internal_form_heading')).toHaveText('চলুন, পাত্র/পাত্রীর প্রোফাইল তৈরি করি');
     await expect(page.locator('input[name="marriage_profile[name]"]')).toHaveAttribute('placeholder', 'পাত্র/পাত্রীর পূর্ণ নাম');
+    await page.locator('select[name="marriage_profile[gender]"]').selectOption('female');
+    await expect(page.locator('select[name="marriage_profile[marital_status]"] option[value="widow_or_widower"]')).toHaveText('বিধবা');
   });
 
   test('a member creating their own profile still sees "your profile"', async ({ page, request }) => {
