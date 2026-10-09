@@ -1,5 +1,7 @@
 const { test, expect } = require('@playwright/test');
-const { registerNewMember, latestCode, submitCode } = require('../support/helpers');
+const fs = require('fs');
+const path = require('path');
+const { registerNewMember, latestCode, submitCode, smsLog } = require('../support/helpers');
 
 async function fillSignUp(page, { name, email, phone, password = 'dhaka2024' }) {
   await page.goto('/?locale=en');
@@ -33,5 +35,20 @@ test.describe('Signing up again', () => {
     await fillSignUp(page, { name: 'Copy Cat', email: 'alice@example.com', phone: '+8801711000001' });
     await expect(page).not.toHaveURL(/show_verify/);
     await expect(page.getByText('has already been taken').first()).toBeVisible();
+  });
+
+  test('a number from outside Bangladesh typed without + gets the code by email, not SMS', async ({ page, request }) => {
+    const unique = `${Date.now()}`.slice(-7);
+    const email = `abroad${unique}@example.com`;
+    const phone = `647${unique}`; // e.g. a Canadian number without +1
+    const mailFile = path.join(__dirname, '../../tmp/mails', email);
+    await fillSignUp(page, { name: 'Abroad Tester', email, phone });
+    await expect(page).toHaveURL(/show_verify/);
+
+    expect((await smsLog(request)).some((entry) => entry.to && entry.to.includes(unique))).toBe(false);
+    await expect.poll(() => fs.existsSync(mailFile)).toBe(true);
+    const code = fs.readFileSync(mailFile, 'utf8').match(/>\s*(\d{6})\s*</)[1];
+    await submitCode(page, code);
+    await expect(page).not.toHaveURL(/show_verify/);
   });
 });

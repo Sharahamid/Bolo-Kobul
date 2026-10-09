@@ -328,9 +328,11 @@ class User < ApplicationRecord
   def send_otp
     update_columns(otp: User.generate_otp, otp_sent_at: Time.current, otp_attempts: 0)
     message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 10 minutes. Not you? Please contact support@bolokobul.com"
-    if phone_number.to_s.start_with?('+880', '01', '008801')
+    # Only Bangladeshi mobile numbers can get a text; any other number (with or without
+    # a + and country code) gets the code by email
+    if PhoneNumber.bd_local(phone_number)
       SmsService.call(phone_number.to_s, message).present?
-    elsif phone_number.to_s.start_with?('+')
+    else
       begin
         UserAccountMailer.with(user: self).otp_verification.deliver_now
         true
@@ -338,8 +340,6 @@ class User < ApplicationRecord
         Rails.logger.error "OTP email failed for #{email}: #{e.message}"
         false
       end
-    else
-      SmsService.call(phone_number.to_s, message).present?
     end
   end
 
