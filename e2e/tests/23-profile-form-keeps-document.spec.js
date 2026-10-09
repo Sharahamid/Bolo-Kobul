@@ -14,7 +14,9 @@ test('the ID document is kept when the profile form comes back with an error', a
   await form.locator('input[name="marriage_profile[identification_document]"]').setInputFiles(path.join(__dirname, '..', 'fixtures', 'test-id-card.png'));
   await form.locator('input[name="marriage_profile[nid_or_passport]"]').fill('TESTNID0003'); // already used by a seeded member
   await pick('gender', 'female');
-  await form.locator('input[name="marriage_profile[date_of_birth]"]').fill('1996-04-12');
+  await form.locator('#bk-dob-day').selectOption('12');
+  await form.locator('#bk-dob-month').selectOption('4');
+  await form.locator('#bk-dob-year').selectOption('1996');
   await pick('marital_status', 'unmarried');
   await pick('religion', 'islam');
   await pick('hometown', 'Dhaka');
@@ -31,6 +33,13 @@ test('the ID document is kept when the profile form comes back with an error', a
   await expect(page.locator('body')).toContainText(/already been taken/i);
   await expect(page.getByText(/Document uploaded: test-id-card\.png/)).toBeVisible();
   await expect(page.locator('input[name="marriage_profile[identification_document]"]')).not.toHaveAttribute('required', /.*/);
+
+  // The date of birth chosen is kept too; the year list starts at 18 years ago
+  await expect(page.locator('#bk-dob-year')).toHaveValue('1996');
+  await expect(page.locator('#bk-dob-month')).toHaveValue('4');
+  await expect(page.locator('#bk-dob-day')).toHaveValue('12');
+  const firstYear = await page.locator('#bk-dob-year option').nth(1).getAttribute('value');
+  expect(Number(firstYear)).toBe(new Date().getFullYear() - 18);
 
   // Fix only the NID and send again: the profile is created with the kept document
   await page.locator('input[name="marriage_profile[nid_or_passport]"]').fill(`DOC${member.unique}`);
@@ -59,7 +68,9 @@ async function fillBasics(page, nid) {
   await form.locator('input[name="marriage_profile[identification_document]"]').setInputFiles(path.join(__dirname, '..', 'fixtures', 'test-id-card.png'));
   await form.locator('input[name="marriage_profile[nid_or_passport]"]').fill(nid);
   await pick('gender', 'female');
-  await form.locator('input[name="marriage_profile[date_of_birth]"]').fill('1996-04-12');
+  await form.locator('#bk-dob-day').selectOption('12');
+  await form.locator('#bk-dob-month').selectOption('4');
+  await form.locator('#bk-dob-year').selectOption('1996');
   await pick('marital_status', 'unmarried');
   await pick('religion', 'islam');
   await pick('hometown', 'Dhaka');
