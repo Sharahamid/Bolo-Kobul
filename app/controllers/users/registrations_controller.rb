@@ -18,6 +18,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       redirect_to root_path, notice: "Registration successful."
       return
     end
+    remove_abandoned_sign_ups
     build_resource(sign_up_params)
 
     if resource.save
@@ -91,6 +92,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up for inactive accounts.
+  # A sign-up that never got as far as entering the code (no code arrived, the page was
+  # closed, or the form was sent twice) would otherwise block the same email or number
+  # with "has already been taken". Starting again replaces it, as long as it was never
+  # verified and has nothing in it.
+  def remove_abandoned_sign_ups
+    email = params.dig(:user, :email).to_s.strip.downcase
+    phone = params.dig(:user, :phone_number).to_s.strip
+    unverified = User.where(verified: [false, nil])
+    ids = []
+    ids += unverified.where('LOWER(email) = ?', email).pluck(:id) if email.present?
+    ids += PhoneNumber.matching(unverified, phone).pluck(:id) if phone.present?
+    User.where(id: ids.uniq).find_each do |user|
+      next if user.marriage_profiles.exists? || user.orders.exists?
+
+      Rails.logger.info("[sign-up] replacing unverified sign-up #{user.id} (created #{user.created_at})")
+      user.destroy
+    end
+  end
+
   def after_inactive_sign_up_path_for(resource)
     show_verify_user_path(resource)
   end
