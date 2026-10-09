@@ -12,9 +12,18 @@ class WeeklyReminderService
   HOST = 'www.bolokobul.com'.freeze
   MATCHES_PER_EMAIL = 5
   INACTIVE_FOR = 14.days
-  # Mailgun allows our account 100 emails an hour, shared with sign-up codes and other
-  # emails. One reminder a minute (60 an hour) leaves room for those.
-  EMAIL_GAP = 60.seconds
+  # The emails are spread evenly over SEND_OVER (10 am to 4 pm in Bangladesh), and never
+  # more than one a minute: Mailgun allows our account 100 emails an hour, shared with
+  # sign-up codes and other emails.
+  SEND_OVER = 6.hours
+  MIN_EMAIL_GAP = 60.seconds
+
+  def self.email_gap
+    emails = recipients.where(weekly_matches_email: true).where.not(email: [nil, '']).count
+    return MIN_EMAIL_GAP if emails.zero?
+
+    [SEND_OVER / emails, MIN_EMAIL_GAP].max
+  end
   # Sent on alternate Fridays, counted from this one
   FIRST_FRIDAY = Date.new(2026, 10, 9)
 
@@ -30,7 +39,7 @@ class WeeklyReminderService
   end
 
   # Returns how many members were sent the email or the push notification
-  def self.call(logger: Rails.logger, email_gap: EMAIL_GAP)
+  def self.call(logger: Rails.logger, email_gap: self.email_gap)
     sent = 0
     emailed = false
     recipients.find_each do |user|
