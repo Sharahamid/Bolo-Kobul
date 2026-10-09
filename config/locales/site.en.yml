@@ -427,6 +427,31 @@ en:
     new_message: You have a new message. Tap to read it.
     test: Notifications are working! You will hear about new Kobuls and messages like this.
   form:
+    heading: "Great! Let's create your profile"
+    candidate:
+      heading: "Great! Let's create the candidate's profile"
+      privacy_note: "The candidate's personal info is safe with us — their name and NID will not be shown to others"
+      full_name: "Candidate's Full Name"
+      nid: "Candidate's NID or Passport No."
+      nid_title: "Candidate's NID or Passport No.* 🔐 (information cannot be edited once submitted)"
+      upload_id: "Upload A Clear Identification Document Of The Candidate"
+      gender_req: "Candidate's Gender*"
+      gender_lock: "Candidate's Gender* 🔐"
+      specify_gender: "Please specify the candidate's gender*"
+      date_of_birth: "Candidate's Date of Birth"
+      dob_title: "Candidate's Date of Birth* 🔐 (information cannot be edited once submitted)"
+      dob_placeholder: "Candidate's Date of Birth (dd/mm/yyyy)"
+      marital_status_req: "Candidate's Marital Status*"
+      religion_req: "Candidate's Religion*"
+      specify_religion: "Please specify the candidate's religion*"
+      hometown_req: "Candidate's Hometown*"
+      hometown_title: "Candidate's Hometown* 🔐 (information cannot be edited once submitted)"
+      present_location_req: "Candidate's Present Location*"
+      education_req: "Candidate's Education Level*"
+      specify_education: "Please specify the candidate's education*"
+      blood_group_req: "Candidate's Blood Group*"
+      blood_group_lock: "Candidate's Blood Group* 🔐"
+      under_18: "The candidate must be at least 18 years old"
     under_18: You must be at least 18 years old to create a profile
     basics: Basics
     privacy_note: Your personal info is safe with us — Name and NID will not be shown to others

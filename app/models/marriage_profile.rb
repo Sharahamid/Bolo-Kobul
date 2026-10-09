@@ -303,6 +303,12 @@ class MarriageProfile < ApplicationRecord
 
   # A member who registered for themself: their first profile always carries the
   # name they registered with, and it can't be changed on the profile
+  # The member's own profile (registered "for myself" and their first profile). Any other
+  # profile is for someone else, so forms talk about "the candidate" instead of "you".
+  def own_profile?
+    own_name_locked?
+  end
+
   def own_name_locked?
     return false unless user&.created_for == "self"
     first_id = user.marriage_profiles.minimum(:id)
@@ -620,6 +626,6 @@ class MarriageProfile < ApplicationRecord
   # Bolo Kobul is for adults only: no profile for anyone under 18
   def at_least_18
     return if date_of_birth.blank?
-    errors.add(:date_of_birth, I18n.t('form.under_18')) if date_of_birth.to_date > Date.current.years_ago(18)
+    errors.add(:date_of_birth, I18n.t(own_profile? ? 'form.under_18' : 'form.candidate.under_18')) if date_of_birth.to_date > Date.current.years_ago(18)
   end
 end

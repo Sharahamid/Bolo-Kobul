@@ -1,4 +1,12 @@
 module ApplicationHelper
+  # Form wording for a marriage profile: "Full Name" on the member's own profile,
+  # "Candidate's Full Name" when a parent, relative or friend creates it (form.candidate.*).
+  def profile_t(key, profile)
+    return t("form.#{key}") if profile.nil? || profile.own_profile?
+
+    t("form.candidate.#{key}", default: t("form.#{key}"))
+  end
+
   # Ads that sell butterflies (they link to the purchase page) are hidden inside the
   # Play Store app; partner ads still show there
   def ad_class(ad)
