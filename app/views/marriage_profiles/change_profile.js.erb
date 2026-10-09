@@ -1,2 +1,6 @@
 $('.profile-photo').html("<%= escape_javascript(render 'home/dashboard/profile_photo', marriage_profile: @marriage_profile) %>");
 $(".flash-msg-profile-change").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');
+<% if @photo_saved %>
+// Show the success message for a moment, then reload so the new photo shows everywhere
+setTimeout(function () { window.location.reload(); }, 1200);
+<% end %>

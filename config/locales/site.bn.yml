@@ -622,10 +622,11 @@ bn:
     new_message: আপনার একটি নতুন বার্তা এসেছে। পড়তে চাপুন।
     test: নোটিফিকেশন চালু আছে! নতুন কবুল ও বার্তার খবর এভাবেই পাবেন।
   form:
+    document_kept: "ডকুমেন্ট আপলোড হয়েছে: %{name}। বদলাতে চাইলে আবার ফাইল বেছে নিন।"
     pref_heading: "আপনি কেমন জীবনসঙ্গী খুঁজছেন?"
     heading: "চলুন, আপনার প্রোফাইল তৈরি করি"
     candidate:
-      pref_heading: "পাত্র/পাত্রী কেমন জীবনসঙ্গী খুঁজছেন?"
+      pref_heading: "পাত্র/পাত্রীর পছন্দ"
       about_yourself: "পাত্র/পাত্রী সম্পর্কে"
       about_myself: "পাত্র/পাত্রী সম্পর্কে"
       about_placeholder: "পাত্র/পাত্রী সম্পর্কে লিখুন"
@@ -761,6 +762,10 @@ bn:
     close: বন্ধ করুন
   no_data: কোনো তথ্য নেই
   preference:
+    choose_many: "একাধিক বেছে নিতে পারেন"
+    done: "ঠিক আছে"
+    search: "খুঁজুন"
+    select: "নির্বাচন করুন"
     title: জীবনসঙ্গীর পছন্দ
     edit: সম্পাদনা
     edit_title: পছন্দ সম্পাদনা
@@ -1522,6 +1527,9 @@ bn:
     'yes': হ্যাঁ, নিশ্চিত
     'no': না
   for_candidate:
+    dashboard:
+      unlock_title: "পাত্র/পাত্রীর প্রোফাইল %{percent}% সম্পূর্ণ"
+      profile_complete: "পাত্র/পাত্রীর প্রোফাইল সম্পূর্ণ"
     section_form:
       please_specify_your_organization_req: "পাত্র/পাত্রীর প্রতিষ্ঠানের নাম লিখুন*"
       what_do_you_do_the_most_for_entertainment: "পাত্র/পাত্রী বিনোদনের জন্য সবচেয়ে বেশি কী করেন?"

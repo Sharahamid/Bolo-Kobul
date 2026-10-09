@@ -430,10 +430,11 @@ en:
     new_message: You have a new message. Tap to read it.
     test: Notifications are working! You will hear about new Kobuls and messages like this.
   form:
+    document_kept: "Document uploaded: %{name}. Choose a file again only to replace it."
     pref_heading: "Who are you looking for?"
     heading: "Great! Let's create your profile"
     candidate:
-      pref_heading: "Who is the candidate looking for?"
+      pref_heading: "Preferences of Candidate"
       about_yourself: "About the Candidate"
       about_myself: "About the candidate"
       about_placeholder: "Write about the candidate"
@@ -569,6 +570,10 @@ en:
     close: Close
   no_data: No Data Found
   preference:
+    choose_many: "You can choose more than one"
+    done: "Done"
+    search: "Search"
+    select: "Select"
     title: Partner Preferences
     edit: Edit
     edit_title: Edit Preference
@@ -993,6 +998,9 @@ en:
     'yes': Yes, Confirm
     'no': 'No'
   for_candidate:
+    dashboard:
+      unlock_title: "Candidate's profile is %{percent}% complete"
+      profile_complete: "Candidate's profile complete"
     section_form:
       please_specify_your_organization_req: "Please specify the candidate's organization*"
       what_do_you_do_the_most_for_entertainment: "What does the candidate do most for entertainment?"

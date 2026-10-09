@@ -48,7 +48,12 @@
 
             <div class="form-group">
               <div><%= profile_t('upload_id', @marriage_profile) %></div>
-              <%= f.file_field :identification_document, required: true,
+              <%# Keeps an already chosen document if the form comes back with an error %>
+              <%= f.hidden_field :identification_document_cache %>
+              <% if f.object.identification_document_cache.present? %>
+                <small class="d-block mb-1" style="color:#2e7d32;">✓ <%= t('form.document_kept', name: f.object.identification_document.file&.original_filename || f.object.identification_document.file&.filename) %></small>
+              <% end %>
+              <%= f.file_field :identification_document, required: f.object.identification_document_cache.blank?,
                                class: 'form-control sign_up-input-field',
                                style: 'padding: 3px',
                                data: {toggle: "tooltip", placement: "top" },

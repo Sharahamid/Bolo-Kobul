@@ -1,4 +1,6 @@
 <div class="left-sidebar-section">
   <%= render 'home/dashboard/left_sidebar_profile', marriage_profile: marriage_profile %>
+  <%# Computers: ads under the profile card. Phones: moved to the bottom of the page (layout script) %>
   <%= render 'home/dashboard/ads' %>
+  <% content_for :mobile_ads, 'yes' %>
 </div>

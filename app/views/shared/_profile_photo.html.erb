@@ -3,5 +3,5 @@
                     profile.profile_image.url(:profile_thumb) :
                     (profile&.id == current_active_profile&.id ? 'bk-upload-photo.png' : 'bk.png'),
                 width: '74', height:'74',
-                class: 'img-thumbnail rounded-circle' %>
+                class: "img-thumbnail rounded-circle#{' bk-photo-placeholder' unless profile&.profile_image.present?}" %>
 <% end %>

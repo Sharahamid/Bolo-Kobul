@@ -120,6 +120,18 @@
 <%= render 'shared/modal' %>
 <%= render 'shared/report_block_modal' if user_signed_in? && current_active_profile %>
 <%= render 'shared/photo_protection' if user_signed_in? && current_active_profile %>
+<% if content_for?(:mobile_ads) %>
+  <%# Phones: the side-column ads move here, below the page content, so they do not come between
+      the profile card and the profile itself %>
+  <div class="d-sm-none container text-center py-3 bk-mobile-ads" id="bk-mobile-ads"></div>
+  <script>
+    (function () {
+      if (!window.matchMedia('(max-width: 575.98px)').matches) return;
+      var target = document.getElementById('bk-mobile-ads');
+      document.querySelectorAll('.left-sidebar-section .ads-right-sidebar').forEach(function (ads) { target.appendChild(ads); });
+    })();
+  </script>
+<% end %>
 <%= render 'shared/footer' %>
 <%= render 'shared/bottom_nav' if user_signed_in? && current_active_profile && !(controller_name == 'messages' && action_name == 'profile') %>
 

@@ -92,7 +92,7 @@ class MarriageProfilesController < ApplicationController
   def change_profile
     respond_to do |format|
       if @marriage_profile.update(marriage_profile_params)
-        format.js { flash[:notice] = "Photo uploaded successfully!" }
+        format.js { @photo_saved = true; flash.now[:notice] = "Photo uploaded successfully!" }
       else
         format.js { flash[:notice] = "#{@marriage_profile.errors.full_messages.first}" }
       end
@@ -104,7 +104,7 @@ class MarriageProfilesController < ApplicationController
       if @marriage_profile != current_active_profile
         format.js { flash[:notice] = "Permission denied!" }
       elsif @marriage_profile.update(params.require(:marriage_profile).permit(:photo_1, :photo_2, :photo_3, :profile_image))
-        format.js { flash[:notice] = "Photo uploaded successfully!" }
+        format.js { @photo_saved = true; flash.now[:notice] = "Photo uploaded successfully!" }
       else
         format.js { flash[:notice] = "#{@marriage_profile.errors.full_messages.first}" }
       end
@@ -117,7 +117,7 @@ class MarriageProfilesController < ApplicationController
   #       @marriage_profile.update(profile_image: params[:profile_image], crop_x: params[:crop_x], crop_y: params[:crop_y], crop_w: params[:crop_w], crop_h: params[:crop_h])
   #       p 'controller'
   #       p @marriage_profile.crop_x
-  #       format.js { flash[:notice] = "Photo uploaded successfully!" }
+  #       format.js { @photo_saved = true; flash.now[:notice] = "Photo uploaded successfully!" }
   #     else
   #       format.js { flash[:notice] = "#{@marriage_profile.errors.full_messages.first}" }
   #     end
@@ -319,7 +319,7 @@ class MarriageProfilesController < ApplicationController
   end
 
   def marriage_profile_params
-    params.require(:marriage_profile).permit(:name, :identification_document, :nid_or_passport, :gender,
+    params.require(:marriage_profile).permit(:name, :identification_document, :identification_document_cache, :nid_or_passport, :gender,
                                              :date_of_birth, :religion, :hometown, :present_location, :present_address,
                                              :height_ft, :height_inch, :highest_education_level, :family_type, :blood_group,
                                              :photo_1, :photo_2, :photo_3, :family_values, :marital_status, :family_status,

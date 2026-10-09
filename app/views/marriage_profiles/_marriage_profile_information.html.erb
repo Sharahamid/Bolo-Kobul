@@ -16,11 +16,6 @@
 </style>
 
 <div class="marriage_information pt-3">
-  <% if @marriage_profile.matching_percentage.present? && @marriage_profile.matching_percentage > 0 %>
-    <div style="text-align:right; margin-bottom:8px;">
-      <span style="background:#FFF3CC; color:#854F0B; font-size:13px; font-weight:700; padding:5px 14px; border-radius:20px;">⭐ <%= t('profile_card.match', percent: local_digits(@marriage_profile.matching_percentage)) %></span>
-    </div>
-  <% end %>
   <div class="bk-photos-ad-row">
     <div id="marriage_profile_photos" class="bk-photos-ad-row__photos">
       <%= render 'marriage_profiles/photos',
