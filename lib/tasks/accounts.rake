@@ -19,5 +19,9 @@ namespace :accounts do
       Rails.logger.error("[accounts] could not remove unverified sign-up #{user.id}: #{e.class}: #{e.message}")
     end
     Rails.logger.info("[accounts] removed #{removed} unverified sign-ups older than 7 days")
+
+    # Chats whose other member's profile no longer exists
+    lonely = ChatRoom.where.not(id: ChatRoomUser.group(:chat_room_id).having('COUNT(*) >= 2').select(:chat_room_id))
+    Rails.logger.info("[accounts] removed #{lonely.destroy_all.size} chats with a deleted member")
   end
 end

@@ -28,7 +28,7 @@ module MarriageProfilesHelper
   end
 
   def chat_channels
-    current_active_profile.chat_rooms
+    current_active_profile.active_chat_rooms
   end
 
 end

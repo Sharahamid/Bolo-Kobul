@@ -54,6 +54,11 @@ ChatFriendship.where(marriage_profile_id: [alice_profile.id, bob_profile.id]).de
 ChatFriendship.create!(marriage_profile_id: alice_profile.id, chat_friend_id: bob_profile.id, status: :accepted)
 ChatFriendship.create!(marriage_profile_id: bob_profile.id, chat_friend_id: alice_profile.id, status: :accepted)
 
+# A chat whose other member's profile was deleted (left with only Dave in it): Dave's
+# dashboard and messages must still open (this once gave a 500 error)
+ChatRoom.where(id: dave_profile.chat_room_users.select(:chat_room_id)).destroy_all
+ChatRoomUser.create!(chat_room: ChatRoom.create!(is_private: true), marriage_profile: dave_profile)
+
 # Two dashboard ads: a partner ad, and a butterfly offer that links to the purchase page
 Ad.where("title LIKE 'E2E %'").destroy_all
 [['E2E Partner ad', :home_page_bottom, 'https://example.com/photographer'],

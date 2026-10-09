@@ -6,6 +6,7 @@
   <div style="max-height:200px; overflow-y:auto;">
     <% chat_rooms&.each do |chat_room| %>
       <% profile = chat_room.connected_profile(current_active_profile) %>
+      <% next unless profile %>
       <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
     <% end %>
   </div>

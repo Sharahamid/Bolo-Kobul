@@ -6,6 +6,7 @@
   <div style="display:flex; flex-wrap:wrap; gap:8px; padding:10px;">
     <% chat_channels&.each do |chat_room| %>
       <% profile = chat_room.connected_profile(current_active_profile) %>
+      <% next unless profile %>
       <div style="border:0.5px solid #eee; border-radius:8px; background:#fffaf0; min-width:160px; flex:1;">
         <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
       </div>

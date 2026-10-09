@@ -90,6 +90,13 @@ class MarriageProfile < ApplicationRecord
   has_many :messages, dependent: :destroy, foreign_key: :sender_id
   has_many :chat_room_users, dependent: :destroy
   has_many :chat_rooms, through: :chat_room_users
+  # A private chat dies with either member: remove it before this profile's links to it go
+  before_destroy :remove_private_chat_rooms, prepend: true
+
+  # Chats that still have another member (the other profile may have been deleted)
+  def active_chat_rooms
+    chat_rooms.where(id: ChatRoomUser.where.not(marriage_profile_id: id).select(:chat_room_id))
+  end
   has_many :favourites, dependent: :destroy
   # favourites profile for this profile
   has_many :favourite_profiles, through: :favourites, dependent: :destroy
@@ -657,4 +664,9 @@ class MarriageProfile < ApplicationRecord
     return if date_of_birth.blank?
     errors.add(:date_of_birth, I18n.t(own_profile? ? 'form.under_18' : 'form.candidate.under_18')) if date_of_birth.to_date > Date.current.years_ago(18)
   end
+
+  def remove_private_chat_rooms
+    ChatRoom.where(id: chat_room_users.select(:chat_room_id), is_private: true).destroy_all
+  end
+
 end
