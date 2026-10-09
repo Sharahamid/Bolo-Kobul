@@ -67,7 +67,11 @@ class MarriageProfilesController < ApplicationController
   end
 
   def create
-    @marriage_profile = current_user.marriage_profiles.build(marriage_profile_params)
+    # Going Back from the Preference step and pressing Next again sends this form a second
+    # time: update the profile made a moment ago instead of creating another one (which
+    # would fail with "NID or passport has already been taken")
+    @marriage_profile = profile_awaiting_preferences || current_user.marriage_profiles.build
+    @marriage_profile.assign_attributes(marriage_profile_params)
     if @marriage_profile.save
       session[:marriage_profile_id] = @marriage_profile.id
       redirect_to new_partner_preference_path
@@ -308,6 +312,18 @@ class MarriageProfilesController < ApplicationController
   end
 
   private
+
+  # The profile just created in this session that has not got its preferences yet
+  def profile_awaiting_preferences
+    return if session[:marriage_profile_id].blank?
+
+    profile = current_user.marriage_profiles.find_by(id: session[:marriage_profile_id])
+    return unless profile && profile.partner_preference.nil? && profile.created_at > 1.day.ago
+
+    # Only the same person again (same NID or passport), never a different profile
+    submitted = params.dig(:marriage_profile, :nid_or_passport).to_s.strip
+    profile if submitted.present? && submitted.casecmp?(profile.nid_or_passport.to_s.strip)
+  end
 
   # Editing, switching to or viewing the dashboard of a profile is only allowed for its owner
   def require_own_profile
