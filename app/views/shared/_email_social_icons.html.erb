@@ -1,0 +1,6 @@
+<%# Social links at the foot of every email. Email apps cannot use the website's icon font,
+    so these are small round images kept in public/email-icons (64px, shown at 32px). %>
+<% [['https://www.facebook.com/BoloKobulLtd', 'facebook', 'Facebook'],
+    ['https://www.instagram.com/bolokobul/', 'instagram', 'Instagram'],
+    ['https://x.com/BoloKobul', 'x', 'X'],
+    ['https://wa.me/8801611820410', 'whatsapp', 'WhatsApp']].each do |url, icon, name| %><a href="<%= url %>" target="_blank" rel="noopener" style="display:inline-block; margin:0 4px; text-decoration:none;"><img src="https://www.bolokobul.com/email-icons/<%= icon %>.png" width="32" height="32" alt="<%= name %>" title="<%= name %>" style="display:inline-block; width:32px; height:32px; border:0;"></a><% end %>

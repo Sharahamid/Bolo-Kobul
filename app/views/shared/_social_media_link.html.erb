@@ -1,9 +1,15 @@
-<%= link_to 'https://x.com/BoloKobul', target: '_blank', class: "#{text_color}", style: 'display:inline-flex; align-items:center;' do %>
-  <%= image_tag 'exception_handler/connect/x.png', style: 'width:20px; height:20px; object-fit:contain;' %>
+<%# Bolo Kobul on social media. All three icons take the colour of the place they are in
+    (text_color: gold in the footer, white in the side menu). %>
+<% icon_style = 'width:20px; height:20px; font-size:20px; line-height:20px; text-align:center; display:block;' %>
+<%= link_to 'https://x.com/BoloKobul', target: '_blank', rel: 'noopener', 'aria-label': 'Bolo Kobul on X', title: 'X',
+            class: text_color, style: 'display:inline-flex; align-items:center; vertical-align:middle;' do %>
+  <svg viewBox="0 0 24 24" aria-hidden="true" style="<%= icon_style %> fill:currentColor;"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
 <% end %>
-<%= link_to 'https://www.facebook.com/BoloKobulLtd', target: '_blank', class: "#{text_color}", style: 'display:inline-flex; align-items:center;' do %>
-  <i class="fab fa-facebook-f" style="font-size:20px; width:20px; text-align:center;"></i>
+<%= link_to 'https://www.facebook.com/BoloKobulLtd', target: '_blank', rel: 'noopener', 'aria-label': 'Bolo Kobul on Facebook', title: 'Facebook',
+            class: text_color, style: 'display:inline-flex; align-items:center; vertical-align:middle;' do %>
+  <i class="fab fa-facebook-f" aria-hidden="true" style="<%= icon_style %>"></i>
 <% end %>
-<%= link_to 'https://www.instagram.com/bolokobul', target: '_blank', class: "#{text_color}", style: 'display:inline-flex; align-items:center;' do %>
-  <i class="fab fa-instagram" style="font-size:20px; width:20px; text-align:center;"></i>
+<%= link_to 'https://www.instagram.com/bolokobul/', target: '_blank', rel: 'noopener', 'aria-label': 'Bolo Kobul on Instagram', title: 'Instagram',
+            class: text_color, style: 'display:inline-flex; align-items:center; vertical-align:middle;' do %>
+  <i class="fab fa-instagram" aria-hidden="true" style="<%= icon_style %>"></i>
 <% end %>
