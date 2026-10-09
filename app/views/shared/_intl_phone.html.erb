@@ -1,0 +1,53 @@
+<%# Country code picker with flags for phone fields with the class "bk-intl-phone".
+    Bangladesh (+880) is chosen until the member picks another country. The number is sent
+    as one full international number (e.g. +8801712345678), so the server sees what it did
+    before. Uses intl-tel-input 25.15.1 (MIT), kept in public/vendor. Safe to render more
+    than once on a page. %>
+<% unless @bk_intl_phone_loaded %>
+  <% @bk_intl_phone_loaded = true %>
+  <% iti = '/vendor/intl-tel-input/25.15.1' %>
+  <link rel="stylesheet" href="<%= iti %>/css/intlTelInput.min.css">
+  <style>
+    .iti { width: 100%; display: block; }
+    .iti .iti__country-container { color: #222; }
+    .iti__dropdown-content, .iti--fullscreen-popup .iti__dropdown-content { color: #222; text-align: left; }
+    .iti__selected-dial-code { color: #444; font-size: 15px; }
+    .iti__search-input { font-size: 15px; }
+    .iti--container { z-index: 1060; }
+  </style>
+  <script src="<%= iti %>/js/intlTelInput.min.js"></script>
+  <% if I18n.locale.to_s == 'bn' %><script src="<%= iti %>/js/i18n-bn.js"></script><% end %>
+  <script>
+    (function () {
+      function setUp(input) {
+        if (input.dataset.itiReady || !window.intlTelInput) return;
+        input.dataset.itiReady = '1';
+        var start = input.value.trim();
+        var iti = window.intlTelInput(input, {
+          initialCountry: 'bd',
+          separateDialCode: true,
+          countryOrder: ['bd', 'in', 'pk', 'np', 'gb', 'us', 'ca', 'au', 'ae', 'sa', 'qa', 'kw', 'om', 'bh', 'my', 'sg', 'it', 'de', 'jp'],
+          i18n: window.bkItiBangla || {},
+          // The open list is attached to the page, above everything else on the form
+          dropdownContainer: document.body
+        });
+        // The form came back (e.g. with an error): show the number under its country
+        if (start.charAt(0) === '+') iti.setNumber(start);
+
+        // Send one full international number: +<country code><number>, without the
+        // leading 0 used inside a country (01712345678 -> +8801712345678)
+        input.form && input.form.addEventListener('submit', function () {
+          var typed = input.value.trim();
+          if (!typed || typed.charAt(0) === '+') return;
+          var digits = typed.replace(/\D/g, '');
+          var code = (iti.getSelectedCountryData() || {}).dialCode || '880';
+          if (digits.indexOf('00') === 0) { input.value = '+' + digits.slice(2); return; }
+          if (digits.indexOf(code) === 0 && digits.length > code.length + 7) { input.value = '+' + digits; return; }
+          input.value = '+' + code + digits.replace(/^0/, '');
+        });
+      }
+      function setUpAll() { document.querySelectorAll('input.bk-intl-phone').forEach(setUp); }
+      if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setUpAll); else setUpAll();
+    })();
+  </script>
+<% end %>

@@ -174,6 +174,12 @@ class User < ApplicationRecord
       errors.add(:phone_number, 'must be a Bangladeshi mobile number (01…), or start with + and the country code')
       return
     end
+    # Bangladesh chosen in the country list, but not a Bangladeshi mobile number
+    if (new_record? || will_save_change_to_phone_number?) &&
+       PhoneNumber.clean(phone_number).start_with?('+880') && !PhoneNumber.bd_local(phone_number)
+      errors.add(:phone_number, 'is not a valid Bangladeshi mobile number (01XXXXXXXXX)')
+      return
+    end
     # Must have between 7 and 15 digits
     if digits.length < 7 || digits.length > 15
       errors.add(:phone_number, "is invalid")

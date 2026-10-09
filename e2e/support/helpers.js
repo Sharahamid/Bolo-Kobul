@@ -47,7 +47,8 @@ async function registerNewMember(page, { name = 'Test Member', createdFor = 'sel
   const form = page.locator('form#new_user').first();
   await form.locator('input[name="user[name]"]').fill(member.name);
   await form.locator('input[name="user[email]"]').fill(member.email);
-  await form.locator('input[name="user[phone_number]"]').fill(member.phone);
+  // Bangladesh (+880) is already chosen in the country list, so the number is typed the local way
+  await form.locator('input[name="user[phone_number]"]').fill(`0171${unique}`);
   await form.locator('input[name="user[password]"]').fill(member.password);
   await form.locator('input[name="user[password_confirmation]"]').fill(member.password);
   await form.locator('select[name="user[created_for]"]').selectOption(createdFor);
