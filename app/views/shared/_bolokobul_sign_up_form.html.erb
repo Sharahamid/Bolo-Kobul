@@ -99,11 +99,7 @@
           <input class="form-check-input" type="checkbox" required> <%= t('signup.terms_html', terms: link_to(t('signup.terms_of_use'), terms_of_uses_path, target: '_blank'), privacy: link_to(t('signup.privacy_policy'), privacy_policies_path, target: '_blank')) %>
         </label>
       </div>
-
-      <%# Honeypot field - hidden from humans, bots will fill this %>
-      <div style="display:none !important; visibility:hidden; position:absolute; left:-9999px;">
-        <input type="text" name="user[website]" tabindex="-1" autocomplete="off" placeholder="Leave this empty">
-      </div>
+      <%= render 'shared/signup_guard' %>
 
       <div class="register-btn-section text-center">
         <%= f.submit t('signup.register_free'), class: 'btn btn-sign_up text-white', style: 'background:#FFB627' %>

@@ -1,6 +1,21 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  # Bots: at most SIGNUP_LIMIT_PER_HOUR sign-ups an hour from one internet address, and a
+  # form sent sooner than SIGNUP_MIN_SECONDS after it was shown is treated as a bot
+  SIGNUP_LIMIT_PER_HOUR = ENV.fetch('SIGNUP_LIMIT_PER_HOUR', 10).to_i
+  SIGNUP_MIN_SECONDS = ENV.fetch('SIGNUP_MIN_SECONDS', 3).to_i
+
+  rate_limit to: SIGNUP_LIMIT_PER_HOUR, within: 1.hour, only: :create, with: lambda {
+    Rails.logger.warn("[BOT BLOCKED - Rate limit] #{request.remote_ip}")
+    flash[:danger] = 'Too many sign-ups from this connection. Please try again in an hour.'
+    redirect_to root_path
+  }
+
+  def self.form_shown_token
+    Rails.application.message_verifier(:signup_form).generate(Time.current.to_i)
+  end
+
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
@@ -18,6 +33,20 @@ class Users::RegistrationsController < Devise::RegistrationsController
       redirect_to root_path, notice: "Registration successful."
       return
     end
+    shown_at = Rails.application.message_verifier(:signup_form).verified(params.dig(:user, :form_shown).to_s) rescue nil
+    if shown_at.nil?
+      # A page loaded before this check existed, or a script posting directly
+      flash[:warning] = 'Please fill in the form again.'
+      redirect_to root_path
+      return
+    end
+    if Time.current.to_i - shown_at.to_i < SIGNUP_MIN_SECONDS
+      Rails.logger.warn("[BOT BLOCKED - Too fast] #{Time.current} | IP: #{request.remote_ip} | Name: #{params.dig(:user, :name)} | Email: #{params.dig(:user, :email)}")
+      BlockedRegistrationAttempt.create(name: params.dig(:user, :name), email: params.dig(:user, :email), phone: params.dig(:user, :phone_number), attempt_type: 'too_fast', ip_address: request.remote_ip)
+      redirect_to root_path, notice: 'Registration successful.'
+      return
+    end
+
     remove_abandoned_sign_ups
     build_resource(sign_up_params)
 
