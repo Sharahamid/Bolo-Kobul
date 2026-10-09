@@ -9,11 +9,12 @@
       <div class="row">
         <div class="col-6 pr-1">
           <%= f.label :gender, t('preference.looking_for') %>
-          <%= f.select :gender,
-                       options_for_select(PartnerPreference::genders.filter { |k, _| k != current_active_profile.gender }.map { |k, _| [I18n.t("enums.looking_for.#{k}", default: current_active_profile.gender_translate(k)), k] },
-                                          selected: current_active_profile.preferred_gender),
-                       {include_blank: false}, class: 'form-control sign_up-input-field selectpicker',
-                       data: {toggle: "tooltip", placement: "top"}, title: t('preference.looking_for_req') %>
+          <%# Always the opposite gender, so it is shown rather than offered as a choice %>
+          <% looking_for = current_active_profile.preferred_gender %>
+          <%= f.hidden_field :gender, value: looking_for %>
+          <div class="form-control sign_up-input-field bk-fixed-choice" style="background:#f7f5f0; color:#412402; font-weight:600;">
+            <%= I18n.t("enums.looking_for.#{looking_for}", default: current_active_profile.gender_translate(looking_for)) %>
+          </div>
           <small class="text-danger"> <%= f.object.errors[:gender].present? ? f.object.errors.full_messages_for(:gender).first : '' %> </small>
         </div>
         <div class="col-6 pl-1">
@@ -225,7 +226,7 @@
     <div class="form-group">
       <%= f.label :physical_status %>
       <%= f.select :physical_status,
-                   enum_options(:appearance, :physical_status, PartnerPreference::physical_statuses.sort_by { |k, v| k }.to_h.keys),
+                   enum_options(:appearance, :physical_status, (PartnerPreference::physical_statuses.keys - ['does_not_matter']).sort),
                    {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:physical_status].present? ? f.object.errors.full_messages_for(:physical_status).first : '' %>
@@ -235,7 +236,7 @@
     <div class="form-group">
       <%= f.label :family_type %>
       <%= f.select :family_type,
-                   enum_options(:marriage_profile, :family_type, PartnerPreference::family_types.map.sort_by { |k, v| k }.to_h.keys),
+                   enum_options(:marriage_profile, :family_type, (PartnerPreference::family_types.keys - ['does_not_matter']).sort),
                    {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:family_type].present? ? f.object.errors.full_messages_for(:family_type).first : '' %>
@@ -245,7 +246,7 @@
     <div class="form-group">
       <%= f.label :family_status %>
       <%= f.select :family_status,
-                   enum_options(:marriage_profile, :family_status, PartnerPreference::family_statuses.map.sort_by { |k, v| k }.to_h.keys),
+                   enum_options(:marriage_profile, :family_status, (PartnerPreference::family_statuses.keys - ['does_not_matter']).sort),
                    {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:family_status].present? ? f.object.errors.full_messages_for(:family_status).first : '' %>
@@ -255,7 +256,7 @@
     <div class="form-group">
       <%= f.label :family_values %>
       <%= f.select :family_values,
-                   enum_options(:marriage_profile, :family_values, PartnerPreference::family_values.map.sort_by { |k, v| k }.to_h.keys),
+                   enum_options(:marriage_profile, :family_values, (PartnerPreference::family_values.keys - ['does_not_matter']).sort),
                    {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:family_values].present? ? f.object.errors.full_messages_for(:family_values).first : '' %>
