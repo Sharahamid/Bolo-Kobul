@@ -9,11 +9,18 @@ test.describe('Profile completeness and Kobuls', () => {
     await page.goto(`/marriage_profiles/${members.dave}/dashboard`);
     await expect(page.locator('.bk-kobul-unlock')).toContainText('Reach 80% to send Kobuls.');
     await expect(page.getByText('to get recommendations')).toHaveCount(0);
-    // The sidebar lists what is still missing and how much each part adds
+    // The sidebar prompts for the sections still to fill in (no percentages)
     const todo = page.locator('.bk-todo');
-    await expect(todo).toContainText('Still to add:');
-    await expect(todo).toContainText('Education');
-    await expect(todo).toContainText('+10%');
+    await expect(todo).toContainText('Complete your profile');
+    await expect(todo).toContainText('Update Your Education');
+    await expect(todo).toContainText('Update Your Family Details');
+    await expect(todo).not.toContainText('%');
+    expect(await todo.getByText('Update Your Education').count()).toBe(1);
+    // A prompt opens that section's form on the profile page
+    await todo.getByText('Update Your Occupation').click();
+    await expect(page).toHaveURL(/profile_info#update-occupation$/);
+    await expect(page.locator('#global_update_modal_sm')).toBeVisible();
+    await page.goto(`/marriage_profiles/${members.dave}/dashboard`);
 
     const token = await csrfToken(page);
     const response = await page.request.post(`/marriage_profiles/${members.carol}/send_request`, { headers: { 'X-CSRF-Token': token } });

@@ -305,8 +305,11 @@ class MarriageProfile < ApplicationRecord
     ].map { |key, points, done| { key: key, points: points, done: done } }
   end
 
-  def missing_completeness_items
+  # The profile sections still to fill in, in the order they appear on the profile.
+  # A second education or family member counts as the same section as the first.
+  def sections_to_update
     completeness_items.reject { |item| item[:done] }
+                      .map { |item| item[:key].to_s.delete_suffix('_2').to_sym }.uniq
   end
 
   def progress_recalculate
