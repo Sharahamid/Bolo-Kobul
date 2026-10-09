@@ -151,16 +151,16 @@ en:
     profile_complete: Profile complete
     todo_title: Complete your profile
     todo:
-      id_document: Upload Your NID or Passport
-      education: Update Your Education
-      occupation: Update Your Occupation
-      appearance: Update Your Appearance
-      family: Update Your Family Details
-      life_style: Update Your Lifestyle
-      hobbies: Update Your Hobbies & Interests
-      cultural: Update Your Cultural Values
-      about: Write About Yourself
-      photo: Add Your Photo
+      id_document: "NID / Passport"
+      education: "Education"
+      occupation: "Occupation"
+      appearance: "Appearance"
+      family: "Family Details"
+      life_style: "Lifestyle"
+      hobbies: "Hobbies & Interests"
+      cultural: "Cultural Values"
+      about: "About"
+      photo: "Photo"
     edit_profile: Edit Profile
     add_profile: Add Profile
     request: Request
@@ -1014,17 +1014,6 @@ en:
       unlock_title: "Candidate's profile is %{percent}% complete"
       profile_complete: "Candidate's profile complete"
       todo_title: "Complete the candidate's profile"
-      todo:
-        id_document: "Upload Candidate's NID or Passport"
-        education: "Update Candidate's Education"
-        occupation: "Update Candidate's Occupation"
-        appearance: "Update Candidate's Appearance"
-        family: "Update Candidate's Family Details"
-        life_style: "Update Candidate's Lifestyle"
-        hobbies: "Update Candidate's Hobbies & Interests"
-        cultural: "Update Candidate's Cultural Values"
-        about: "Write About the Candidate"
-        photo: "Add Candidate's Photo"
     section_form:
       please_specify_your_organization_req: "Please specify the candidate's organization*"
       what_do_you_do_the_most_for_entertainment: "What does the candidate do most for entertainment?"
