@@ -43,7 +43,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if Time.current.to_i - shown_at.to_i < SIGNUP_MIN_SECONDS
       Rails.logger.warn("[BOT BLOCKED - Too fast] #{Time.current} | IP: #{request.remote_ip} | Name: #{params.dig(:user, :name)} | Email: #{params.dig(:user, :email)}")
       BlockedRegistrationAttempt.create(name: params.dig(:user, :name), email: params.dig(:user, :email), phone: params.dig(:user, :phone_number), attempt_type: 'too_fast', ip_address: request.remote_ip)
-      redirect_to root_path, notice: 'Registration successful.'
+      # Nothing is sent. A person (e.g. using autofill) just presses Register again;
+      # the form comes back filled in, with a fresh time
+      build_resource(sign_up_params)
+      clean_up_passwords(resource)
+      @user = resource
+      flash.now[:warning] = 'Please check your details and press Register again.'
+      render 'home/landing'
       return
     end
 
