@@ -36,7 +36,7 @@ namespace :butterfly do
   desc "Remind users with incomplete profiles"
   task profile_incomplete_reminder: :environment do
     MarriageProfile.all.each do |profile|
-      progress = profile.progress.to_i
+      progress = profile.profile_completeness.to_i
       next if progress >= 80
       next if profile.user.nil?
       profile.user.notifications.create(

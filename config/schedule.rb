@@ -35,9 +35,10 @@ every :week do
 end
 
 # Learn more: http://github.com/javan/whenever
-# The server clock is UTC: 10:00 am UTC is 4:00 pm in Bangladesh
-# Matches email and push: the task itself only sends every other Friday
-every :friday, at: '10:00 am' do
+# The server clock is UTC: 4:00 am UTC is 10:00 am in Bangladesh
+# Matches email and push: the task itself only sends every other Friday, spreading the
+# emails until about 4 pm
+every :friday, at: '4:00 am' do
   rake 'reminders:weekly'
 end
 
