@@ -11,14 +11,16 @@
 <div class="dashboard-tab" style="border-radius:10px; overflow:hidden; margin-bottom:0;">
   <ul class="nav nav-tabs nav-justified dashboard-header p-2">
     <% if current_active_profile&.id == marriage_profile.id %>
-      <li class="nav-item <%= params[:action] == 'dashboard' ? 'font-weight-bold' : '' %>">
-        <a class="nav-link text-white" href="<%= current_active_profile.present? ? dashboard_marriage_profile_path(current_active_profile) : root_path %>">
+      <%# The tab for the section being viewed is bold (by section, not by page type) %>
+      <% on = ->(controller, action = nil) { controller_name == controller && (action.nil? || action_name == action) ? 'font-weight-bold' : '' } %>
+      <li class="nav-item">
+        <a class="nav-link text-white <%= on.call('marriage_profiles', 'dashboard') %>" href="<%= current_active_profile.present? ? dashboard_marriage_profile_path(current_active_profile) : root_path %>">
           <i class="fa fa-tachometer"></i>
           <%= t('dashboard.tabs.dashboard') %>
         </a>
       </li>
       <li class="nav-item ">
-        <a class="nav-link text-white <%= params[:action] == 'profile_info' ? 'font-weight-bold' : '' %>"
+        <a class="nav-link text-white <%= on.call('marriage_profiles', 'profile_info') %>"
            href="<%= current_active_profile.present? ? profile_info_marriage_profile_path(current_active_profile) : root_path %>">
           <i class="fa fa-user"></i>
           <%= t('dashboard.tabs.profile') %>
@@ -26,7 +28,7 @@
       </li>
       <li class="nav-item">
         <%= link_to messages_path,
-                    class: "nav-link text-white #{ params[:action] == 'index' ? 'font-weight-bold' : '' }" do %>
+                    class: "nav-link text-white #{on.call('messages')}" do %>
           <i class="fa fa-envelope"></i>
           <%= t('dashboard.tabs.messages') %>
         <% end %>
@@ -34,14 +36,14 @@
       <li class="nav-item">
         <%= link_to current_active_profile&.partner_preference.present? ?
                         partner_preference_path(current_active_profile.partner_preference) : new_partner_preference_path,
-                    class: "nav-link text-white #{ params[:action] == 'show' ? 'font-weight-bold' : '' }" do %>
+                    class: "nav-link text-white #{on.call('partner_preferences')}" do %>
           <i class="fas fa-user-shield"></i>
           <%= t('dashboard.tabs.preference') %>
         <% end %>
       </li>
       <li class="nav-item">
         <%= link_to orders_path,
-                    class: "nav-link text-white #{ params[:action] == 'show' ? 'font-weight-bold' : '' }" do %>
+                    class: "nav-link text-white #{on.call('orders')}" do %>
           <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
           <%= t('dashboard.tabs.orders') %>
         <% end %>
