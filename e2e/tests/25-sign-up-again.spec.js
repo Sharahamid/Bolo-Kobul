@@ -31,16 +31,33 @@ test.describe('Signing up again', () => {
     await expect(page).not.toHaveURL(/show_verify/);
   });
 
+  test('random-letter names from bots are refused, real names are not', async ({ page }) => {
+    for (const name of ['Ywdlbvm Yydzr', 'Atxhzm Yybnzlx']) {
+      const unique = `${Date.now()}`.slice(-7);
+      await fillSignUp(page, { name, email: `bot${unique}@example.com`, phone: `+880171${unique}` });
+      await expect(page.getByText('does not appear to be a real name').first()).toBeVisible();
+    }
+    const unique = `${Date.now()}`.slice(-7);
+    await fillSignUp(page, { name: 'Rhythm Khan', email: `rhythm${unique}@example.com`, phone: `+880171${unique}` });
+    await expect(page).toHaveURL(/show_verify/);
+  });
+
   test('a verified member\'s email and number still cannot be used again', async ({ page }) => {
     await fillSignUp(page, { name: 'Copy Cat', email: 'alice@example.com', phone: '+8801711000001' });
     await expect(page).not.toHaveURL(/show_verify/);
     await expect(page.getByText('has already been taken').first()).toBeVisible();
   });
 
-  test('a number from outside Bangladesh typed without + gets the code by email, not SMS', async ({ page, request }) => {
+  test('a number from outside Bangladesh needs its country code, and gets the code by email', async ({ page, request }) => {
     const unique = `${Date.now()}`.slice(-7);
     const email = `abroad${unique}@example.com`;
-    const phone = `647${unique}`; // e.g. a Canadian number without +1
+
+    // Without + and the country code it is refused with a clear message (bots send these)
+    await fillSignUp(page, { name: 'Abroad Tester', email, phone: `647${unique}` });
+    await expect(page).not.toHaveURL(/show_verify/);
+    await expect(page.getByText(/start with \+ and the country code/).first()).toBeVisible();
+
+    const phone = `+1 647${unique}`; // a Canadian number
     const mailFile = path.join(__dirname, '../../tmp/mails', email);
     await fillSignUp(page, { name: 'Abroad Tester', email, phone });
     await expect(page).toHaveURL(/show_verify/);
