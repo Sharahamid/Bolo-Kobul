@@ -57,7 +57,7 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :hometown %>
+      <%= f.label :hometown, t('preference.hometown') %>
       <%= f.select :hometown,
                    district_options(District.order_by_name.pluck(:name)),
                    {include_blank: false},
@@ -100,16 +100,14 @@
       </div>
     </div>
     <div class="form-group">
-      <%= f.label :present_location %>
+      <%= f.label :present_location, t('preference.present_location') %>
       <%= f.select :present_location,
                    district_options(District.order_by_name.pluck(:name)),
                    {include_blank: false},
                    multiple: true,
                    class: 'form-control sign_up-input-field selectpicker',
                    id: 'pref_present_location_select',
-                   placeholder: t('preference.present_location'),
-                   data: {toggle: 'tooltip', placement: 'top'},
-                   title: t('preference.present_location') %>
+                   title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:present_location].present? ? f.object.errors.full_messages_for(:present_location).first : '' %>
       </small>
@@ -153,8 +151,7 @@
                    {},
                    multiple: true,
                    class: 'form-control sign_up-input-field selectpicker',
-                   data: {toggle: 'tooltip', placement: 'top'},
-                   title: t('preference.marital_status') %>
+                   title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:marital_status].present? ? f.object.errors.full_messages_for(:marital_status).first : '' %>
       </small>
@@ -210,13 +207,12 @@
     </div>
 
     <div class="form-group">
-      <%= f.label :highest_education_level %>
+      <%= f.label :highest_education_level, t('preference.education') %>
       <%= f.select :highest_education_level,
                    enum_options(:marriage_profile, :highest_education_level, PartnerPreference::highest_education_levels.sort_by { |k, v| k }.to_h.keys),
-                   {prompt: t('preference.education_req')},
+                   {prompt: t('preference.nothing_selected')},
                    class: 'form-control sign_up-input-field selectpicker',
-                   data: {toggle: "tooltip", placement: "top"},
-                   title: t('preference.education_req') %>
+                   title: t('preference.nothing_selected') %>
       <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? f.object.errors.full_messages_for(:highest_education_level).first : '' %> </small>
     </div>
 
@@ -224,8 +220,7 @@
       <%= f.label :physical_status %>
       <%= f.select :physical_status,
                    enum_options(:appearance, :physical_status, PartnerPreference::physical_statuses.sort_by { |k, v| k }.to_h.keys),
-                   {prompt: t('preference.physical_status')}, class: 'form-control sign_up-input-field selectpicker',
-                   data: {toggle: 'tooltip', placement: 'top'}, title: t('preference.physical_status') %>
+                   {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:physical_status].present? ? f.object.errors.full_messages_for(:physical_status).first : '' %>
       </small>
@@ -235,8 +230,7 @@
       <%= f.label :family_type %>
       <%= f.select :family_type,
                    enum_options(:marriage_profile, :family_type, PartnerPreference::family_types.map.sort_by { |k, v| k }.to_h.keys),
-                   {prompt: t('preference.family_type')}, class: 'form-control sign_up-input-field selectpicker',
-                   data: {toggle: 'tooltip', placement: 'top'}, title: t('preference.family_type') %>
+                   {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:family_type].present? ? f.object.errors.full_messages_for(:family_type).first : '' %>
       </small>
@@ -246,8 +240,7 @@
       <%= f.label :family_status %>
       <%= f.select :family_status,
                    enum_options(:marriage_profile, :family_status, PartnerPreference::family_statuses.map.sort_by { |k, v| k }.to_h.keys),
-                   {prompt: t('preference.family_status')}, class: 'form-control sign_up-input-field selectpicker',
-                   data: {toggle: 'tooltip', placement: 'top'}, title: t('preference.family_status') %>
+                   {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:family_status].present? ? f.object.errors.full_messages_for(:family_status).first : '' %>
       </small>
@@ -257,8 +250,7 @@
       <%= f.label :family_values %>
       <%= f.select :family_values,
                    enum_options(:marriage_profile, :family_values, PartnerPreference::family_values.map.sort_by { |k, v| k }.to_h.keys),
-                   {prompt: t('preference.family_value')}, class: 'form-control sign_up-input-field selectpicker',
-                   data: {toggle: 'tooltip', placement: 'top'}, title: t('preference.family_value') %>
+                   {prompt: t('preference.nothing_selected')}, class: 'form-control sign_up-input-field selectpicker', title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:family_values].present? ? f.object.errors.full_messages_for(:family_values).first : '' %>
       </small>
@@ -271,8 +263,7 @@
                    {include_blank: false},
                    multiple: true,
                    class: 'form-control sign_up-input-field selectpicker',
-                   data: {toggle: 'tooltip', placement: 'top'},
-                   title: t('preference.blood_group') %>
+                   title: t('preference.nothing_selected') %>
       <small class="text-danger">
         <%= f.object.errors[:blood_group].present? ? f.object.errors.full_messages_for(:blood_group).first : '' %>
       </small>

@@ -186,9 +186,9 @@
 
       <div class="">
         <%= f.text_field :specific_entertainment,
-                         placeholder: t('section_form.what_do_you_do_the_most_for_entertainment'),
+                         placeholder: profile_t('section_form.what_do_you_do_the_most_for_entertainment', current_active_profile),
                          class: 'form-control',
-                         title: t('section_form.what_do_you_do_the_most_for_entertainment'),
+                         title: profile_t('section_form.what_do_you_do_the_most_for_entertainment', current_active_profile),
                          data: {toggle: 'tooltip', placement: 'top'} %>
       </div>
     </div>

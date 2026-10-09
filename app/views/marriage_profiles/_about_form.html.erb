@@ -1,6 +1,6 @@
 <%= form_for @marriage_profile, url: update_about_marriage_profile_path(@marriage_profile), method: :patch, remote: true do |f| %>
   <!-- Modal Header -->
-  <%= render 'shared/modal_header', title: t('form.about_yourself') %>
+  <%= render 'shared/modal_header', title: profile_t('about_yourself', @marriage_profile) %>
 
   <!-- Modal body -->
   <div class="modal-body">
@@ -10,8 +10,8 @@
                         autofocus: true,
                         autocomplete: "about_my_self",
                         class: 'form-control sign_up-input-field',
-                        placeholder: t('form.about_placeholder'),
-                        title: t('form.about_myself'),
+                        placeholder: profile_t('about_placeholder', @marriage_profile),
+                        title: profile_t('about_myself', @marriage_profile),
                         data: {toggle: 'tooltip', placement:'top'},
                         required: true %>
       </div>
@@ -29,8 +29,8 @@
 
       <div class="">
         <%= f.text_area :description,
-                        placeholder: t('form.about_family'),
-                        title: t('form.about_family'),
+                        placeholder: profile_t('about_family', @marriage_profile),
+                        title: profile_t('about_family', @marriage_profile),
                         data: {toggle: 'tooltip',
                                placement: 'top'},
                         class: 'form-control sign_up-input-field' %>

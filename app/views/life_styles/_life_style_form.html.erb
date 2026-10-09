@@ -9,8 +9,8 @@
       <div class="form-group">
         <%= f.select :drinker,
                      choice_options(:drink_smoke_data),
-                     {prompt: t('section_form.do_you_drink')},
-                     title: t('section_form.do_you_drink'),
+                     {prompt: profile_t('section_form.do_you_drink', current_active_profile)},
+                     title: profile_t('section_form.do_you_drink', current_active_profile),
                      data: {toggle: 'tooltip', placement: 'top'},
                      class: 'form-control sign_up-input-field' %>
         <small class="text-danger">
@@ -19,8 +19,8 @@
       </div>
 
       <div class="form-group">
-        <%= f.select :smoker, choice_options(:drink_smoke_data), {prompt: t('section_form.do_you_smoke')},
-                     title: t('section_form.do_you_smoke'),
+        <%= f.select :smoker, choice_options(:drink_smoke_data), {prompt: profile_t('section_form.do_you_smoke', current_active_profile)},
+                     title: profile_t('section_form.do_you_smoke', current_active_profile),
                      data: {toggle: 'tooltip', placement: 'top'},
                      class: 'form-control sign_up-input-field' %>
         <small class="text-danger">
@@ -76,8 +76,8 @@
       <div>
         <%= f.text_area :specific_habits,
                         class: 'form-control',
-                        placeholder: t('section_form.any_specific_habits_you_want_to_share'),
-                        title: t('section_form.any_specific_habits_you_want_to_share'),
+                        placeholder: profile_t('section_form.any_specific_habits_you_want_to_share', current_active_profile),
+                        title: profile_t('section_form.any_specific_habits_you_want_to_share', current_active_profile),
                         data: {toggle: 'tooltip', placement: 'top'}
         %>
       </div>

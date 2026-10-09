@@ -272,14 +272,14 @@ en:
     marriage:
       title: Marriage Information
       sub: Status · Expectations
-      have_children: Do You Have Children ?
+      have_children: "Has Children?"
       no_of_children: No Of Children
-      want_children: Do You Want (more) Children?
+      want_children: "Wants (More) Children?"
     life_style:
       title: Life Style
       sub: Habits · Preferences
-      drink: Do You Drink?
-      smoke: Do You Smoke?
+      drink: "Drinks?"
+      smoke: "Smokes?"
       food_habits: Food Habits
       dress_style: Dress Style
       living_with: Living With
@@ -427,8 +427,16 @@ en:
     new_message: You have a new message. Tap to read it.
     test: Notifications are working! You will hear about new Kobuls and messages like this.
   form:
+    pref_heading: "Who are you looking for?"
     heading: "Great! Let's create your profile"
     candidate:
+      pref_heading: "Who is the candidate looking for?"
+      about_yourself: "About the Candidate"
+      about_myself: "About the candidate"
+      about_placeholder: "Write about the candidate"
+      about_family: "A Few Lines About the Candidate's Family"
+      name: "Candidate's Name"
+      name_req: "Candidate's Name*"
       heading: "Great! Let's create the candidate's profile"
       privacy_note: "The candidate's personal info is safe with us — their name and NID will not be shown to others"
       full_name: "Candidate's Full Name"
@@ -506,7 +514,7 @@ en:
     about_placeholder: Type About Myself
     about_myself: About myself
     special_circumstances: Special Circumstances
-    about_family: Few Line About Your Family
+    about_family: A Few Lines About Your Family
     cancel: Cancel
   search:
     looking_for: I am looking for...
@@ -568,11 +576,11 @@ en:
     max_height: Max Height
     physical_status: Physical Status
     religion: Religion
-    hometown: Hometown
+    hometown: Preferred Hometown
     except_hometown: Except (Hometown)
-    present_location: Present Location
+    present_location: Preferred Present Location
     marital_status: Marital Status
-    education: Education Level
+    education: Minimum Education Level
     family_status: Family Status
     family_values: Family Values
     family_type: Family Type
@@ -589,9 +597,9 @@ en:
     inch_min: Inch (min)
     feet_max: Feet (max)
     inch_max: Inch (max)
-    education_req: Highest Education Level
+    education_req: Minimum Education Level
     family_value: Family Value
-    nothing_selected: Nothing selected
+    nothing_selected: "Doesn't Matter"
   section_form:
     occupation_req: Occupation*
     occupation: Occupation
@@ -981,3 +989,10 @@ en:
   confirm:
     'yes': Yes, Confirm
     'no': 'No'
+  for_candidate:
+    section_form:
+      please_specify_your_organization_req: "Please specify the candidate's organization*"
+      what_do_you_do_the_most_for_entertainment: "What does the candidate do most for entertainment?"
+      do_you_smoke: "Does the candidate smoke?"
+      do_you_drink: "Does the candidate drink?"
+      any_specific_habits_you_want_to_share: "Any specific habits of the candidate to share?"
