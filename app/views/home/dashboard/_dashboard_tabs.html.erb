@@ -1,6 +1,12 @@
 <style>
 .dashboard-header .nav-link { display:flex !important; flex-direction:column !important; align-items:center !important; justify-content:center !important; gap:3px !important; font-size:13px !important; }
 .dashboard-header .nav-link i { font-size:18px !important; }
+/* Phones: an even grid of two lines (3 + 2, centred), each icon above its label */
+@media (max-width: 575.98px) {
+  .dashboard-header { display:flex !important; flex-wrap:wrap !important; justify-content:center !important; row-gap:4px; }
+  .dashboard-header .nav-item { flex:0 0 33.333% !important; max-width:33.333% !important; text-align:center; }
+  .dashboard-header .nav-link { padding:8px 2px !important; font-size:12.5px !important; white-space:nowrap; }
+}
 </style>
 <div class="dashboard-tab" style="border-radius:10px; overflow:hidden; margin-bottom:0;">
   <ul class="nav nav-tabs nav-justified dashboard-header p-2">
