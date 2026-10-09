@@ -17,7 +17,15 @@
           <%= profile_t('privacy_note', @marriage_profile) %>
 	</div>
         <div class="form_input_fields pt-4 pl-2 pr-2">
-          <%= form_for @marriage_profile do |f| %>
+          <%# Always creates (or, coming back from Preferences, updates) through the same address %>
+          <%= form_for @marriage_profile, url: marriage_profiles_path, method: :post, html: { id: 'new_marriage_profile' } do |f| %>
+            <% if @resuming %>
+              <%= hidden_field_tag :resume_profile_id, @resuming.id %>
+              <div class="bk-resume-note" style="background:#FFF8E6; border:0.5px solid #FAC775; border-radius:8px; padding:10px 12px; font-size:13px; color:#633806; margin-bottom:14px;">
+                <%= t('form.resume_note') %>
+                <%= link_to t('form.start_new_profile'), new_marriage_profile_path(fresh: 1), style: 'color:#B97A00; font-weight:600; white-space:nowrap;' %>
+              </div>
+            <% end %>
 
             <div class="form-group">
               <%= f.text_field :name,
@@ -50,10 +58,12 @@
               <div><%= profile_t('upload_id', @marriage_profile) %></div>
               <%# Keeps an already chosen document if the form comes back with an error %>
               <%= f.hidden_field :identification_document_cache %>
-              <% if f.object.identification_document_cache.present? %>
-                <small class="d-block mb-1" style="color:#2e7d32;">✓ <%= t('form.document_kept', name: f.object.identification_document.file&.original_filename || f.object.identification_document.file&.filename) %></small>
+              <% doc_kept = f.object.identification_document_cache.present? || (f.object.persisted? && f.object.identification_document.present?) %>
+              <% if doc_kept %>
+                <% doc_name = f.object.identification_document.file.try(:original_filename).presence || File.basename(f.object.identification_document.path.to_s) %>
+                <small class="d-block mb-1" style="color:#2e7d32;">✓ <%= t('form.document_kept', name: doc_name) %></small>
               <% end %>
-              <%= f.file_field :identification_document, required: f.object.identification_document_cache.blank?,
+              <%= f.file_field :identification_document, required: !doc_kept,
                                class: 'form-control sign_up-input-field',
                                style: 'padding: 3px',
                                data: {toggle: "tooltip", placement: "top" },
@@ -85,7 +95,7 @@
               <% dob = f.object.date_of_birth&.to_date
                  latest = Date.today.years_ago(18) %>
               <%= f.hidden_field :date_of_birth, value: dob&.iso8601, id: 'bk-dob' %>
-              <div class="d-flex bk-dob-row" style="gap:6px;" title="<%= profile_t('dob_title', @marriage_profile) %>">
+              <div class="d-flex bk-dob-row bk-no-auto-label" style="gap:6px;" title="<%= profile_t('dob_title', @marriage_profile) %>">
                 <select id="bk-dob-day" class="form-control sign_up-input-field" required style="flex:0 0 26%;" aria-label="<%= t('form.dob_day') %>">
                   <option value=""><%= t('form.dob_day') %></option>
                   <% (1..31).each do |d| %><option value="<%= d %>" <%= 'selected' if dob&.day == d %>><%= local_digits(d) %></option><% end %>
@@ -334,3 +344,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 </div>
+
+<%# Coming back from Preferences the boxes are filled in, so show each question above its answer %>
+<% if @resuming %>
+  <%= render 'shared/auto_labels', container: 'form#new_marriage_profile' %>
+<% end %>

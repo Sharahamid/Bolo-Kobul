@@ -61,8 +61,13 @@ class MarriageProfilesController < ApplicationController
                     notice: 'You have already reached the maximum number of
                             profiles one can create for others!'
     else
-      @marriage_profile = MarriageProfile.new(user: current_user)
-      @marriage_profile.name = current_user.name if @marriage_profile.own_name_locked?
+      # Back from the Preference step: show the Basics already saved (with the document)
+      # instead of an empty form. "Start a new profile" (?fresh=1) gives an empty form.
+      @resuming = (pending_profile unless params[:fresh].present?)
+      @marriage_profile = @resuming || MarriageProfile.new(user: current_user)
+      @marriage_profile.name = current_user.name if @resuming.nil? && @marriage_profile.own_name_locked?
+      # Always ask the server again on Back, so the saved details show
+      response.headers['Cache-Control'] = 'no-store'
     end
   end
 
@@ -70,7 +75,8 @@ class MarriageProfilesController < ApplicationController
     # Going Back from the Preference step and pressing Next again sends this form a second
     # time: update the profile made a moment ago instead of creating another one (which
     # would fail with "NID or passport has already been taken")
-    @marriage_profile = profile_awaiting_preferences || current_user.marriage_profiles.build
+    resumed = pending_profile if params[:resume_profile_id].present? && params[:resume_profile_id].to_s == pending_profile&.id.to_s
+    @marriage_profile = resumed || profile_awaiting_preferences || current_user.marriage_profiles.build
     @marriage_profile.assign_attributes(marriage_profile_params)
     if @marriage_profile.save
       session[:marriage_profile_id] = @marriage_profile.id
@@ -314,11 +320,16 @@ class MarriageProfilesController < ApplicationController
   private
 
   # The profile just created in this session that has not got its preferences yet
-  def profile_awaiting_preferences
+  def pending_profile
     return if session[:marriage_profile_id].blank?
 
-    profile = current_user.marriage_profiles.find_by(id: session[:marriage_profile_id])
-    return unless profile && profile.partner_preference.nil? && profile.created_at > 1.day.ago
+    @pending_profile ||= current_user.marriage_profiles.find_by(id: session[:marriage_profile_id])
+    @pending_profile if @pending_profile && @pending_profile.partner_preference.nil? && @pending_profile.created_at > 1.day.ago
+  end
+
+  def profile_awaiting_preferences
+    profile = pending_profile
+    return unless profile
 
     # Only the same person again (same NID or passport), never a different profile
     submitted = params.dig(:marriage_profile, :nid_or_passport).to_s.strip

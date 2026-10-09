@@ -38,4 +38,15 @@ test.describe('Viewing a profile', () => {
     await expect(modal).toBeHidden();
     await expect(page).toHaveURL(new RegExp(`/marriage_profiles/${members.carol}/profile_info`));
   });
+
+  test('edit forms show each question above its answer', async ({ page }) => {
+    const { members } = seed();
+    await login(page, 'bob@example.com');
+    await page.goto(`/marriage_profiles/${members.bob}/profile_info?locale=en#update-appearance`);
+    const modal = page.locator('#global_update_modal_sm');
+    await expect(modal).toBeVisible();
+    for (const question of ['Body Type', 'Complexion', 'Eye Wear']) {
+      await expect(modal.locator('.bk-auto-label', { hasText: question })).toBeVisible();
+    }
+  });
 });

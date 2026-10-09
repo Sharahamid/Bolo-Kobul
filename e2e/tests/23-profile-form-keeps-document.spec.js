@@ -102,3 +102,37 @@ test('going Back from Preferences and pressing Next again does not say the NID i
   await expect(page.locator('body')).not.toContainText(/already been taken/i);
   await expect(page).toHaveURL(/partner_preferences\/new/);
 });
+
+test('going back from Preferences to Basics keeps both steps: details, document and what was typed', async ({ page, request }) => {
+  const member = await registerNewMember(page, { name: 'Resume Tester', createdFor: 'parents' });
+  await submitCode(page, await latestCode(request, member));
+  await fillBasics(page, `RES${member.unique}`);
+  await expect(page).toHaveURL(/partner_preferences\/new/);
+
+  // Something typed on the Preferences step, and the height limits
+  await page.locator('input[name="partner_preference[min_age]"]').fill('23');
+  await page.locator('input[name="partner_preference[max_age]"]').fill('31');
+  await expect(page.locator('input[name="partner_preference[min_height]"]')).toHaveAttribute('max', '6');
+  await expect(page.locator('input[name="partner_preference[max_height]"]')).toHaveAttribute('max', '9');
+
+  // Back to Basics: everything saved is shown, including the document
+  await page.locator('.bk-back-basics').click();
+  await expect(page.locator('.bk-resume-note')).toBeVisible();
+  await expect(page.locator('input[name="marriage_profile[nid_or_passport]"]')).toHaveValue(`RES${member.unique}`);
+  await expect(page.getByText(/Document uploaded:/)).toBeVisible();
+  await expect(page.locator('#bk-dob-year')).toHaveValue('1996');
+  await expect(page.locator('select[name="marriage_profile[hometown]"]')).toHaveValue('Dhaka');
+
+  // Change one thing and go on: no "already taken", and the Preferences typed are still there
+  await page.locator('select[name="marriage_profile[height_inch]"]').selectOption('6');
+  await Promise.all([page.waitForNavigation(), page.locator('form#new_marriage_profile button[type="submit"]').click()]);
+  await expect(page).toHaveURL(/partner_preferences\/new/);
+  await expect(page.locator('input[name="partner_preference[min_age]"]')).toHaveValue('23');
+  await expect(page.locator('input[name="partner_preference[max_age]"]')).toHaveValue('31');
+
+  // A completely new profile can still be started
+  await page.goto('/marriage_profiles/new?locale=en');
+  await page.getByText('Start a new profile instead').click();
+  await expect(page.locator('.bk-resume-note')).toHaveCount(0);
+  await expect(page.locator('input[name="marriage_profile[nid_or_passport]"]')).toHaveValue('');
+});

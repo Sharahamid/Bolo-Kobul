@@ -443,6 +443,8 @@ en:
     test: Notifications are working! You will hear about new Kobuls and messages like this.
   form:
     document_kept: "Document uploaded: %{name}. Choose a file again only to replace it."
+    resume_note: "Your details from this step are saved. Change anything you like and press Next."
+    start_new_profile: Start a new profile instead
     pref_heading: "Who are you looking for?"
     heading: "Great! Let's create your profile"
     candidate:
@@ -586,6 +588,7 @@ en:
     close: Close
   no_data: No Data Found
   preference:
+    back_to_basics: Back to Basics
     choose_many: "You can choose more than one"
     done: "Done"
     search: "Search"
