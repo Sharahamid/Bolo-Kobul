@@ -214,14 +214,17 @@
 
 </div>
 
+<%# While the menu is open the Home/Matches/... bar is hidden, so the menu's last rows
+    (e.g. the social links) are not covered by it %>
+<style>body.bk-menu-open .bk-bottom-nav { display: none !important; }</style>
 <script>
     function openNav() {
         document.getElementById("mySidebar").style.width = "265px";
-        $("body").css("overflow", "hidden");
+        $("body").css("overflow", "hidden").addClass("bk-menu-open");
     }
 
     function closeNav() {
         document.getElementById("mySidebar").style.width = "0";
-        $("body").css("overflow", "visible");
+        $("body").css("overflow", "visible").removeClass("bk-menu-open");
     }
 </script>

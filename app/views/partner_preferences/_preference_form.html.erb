@@ -301,4 +301,17 @@
       $('.selectpicker[multiple]').not(districts).selectpicker(multi);
     })();
     $('.selectpicker:not([multiple])').selectpicker({ noneSelectedText: <%= raw t('preference.nothing_selected').to_json %> });
+
+    // Phones: keep an open list (and its Done button) clear of the fixed top bar and the
+    // Home/Matches/... bar at the bottom of the screen
+    $(function () {
+      var bar = document.querySelector('.bk-bottom-nav');
+      var bottom = bar && getComputedStyle(bar).display !== 'none' ? bar.offsetHeight : 0;
+      var header = document.querySelector('.bk-header');
+      var top = header && getComputedStyle(header).position === 'fixed' ? header.offsetHeight : 0;
+      $('.selectpicker').each(function () {
+        var picker = $(this).data('selectpicker');
+        if (picker) picker.options.windowPadding = [top + 8, 0, bottom + 8, 0];
+      });
+    });
 </script>
