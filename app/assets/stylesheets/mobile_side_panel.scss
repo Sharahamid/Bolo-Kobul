@@ -12,10 +12,13 @@
   overflow-x: hidden;
   overflow-y: hidden;
   transition: 0.5s;
-  padding-top: 60px;
+  padding-top: 0;
   .site-bar-header{
     background-color: $guest-color;
     height: 88%;
+    // Small phones: the menu (logo included) scrolls instead of hiding its last rows
+    overflow-y: auto;
+    position: relative;
     .mobile-site-bar-menu{
       padding: 40px 0 0;
       div {
