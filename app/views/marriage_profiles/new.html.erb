@@ -5,15 +5,16 @@
         <%= image_tag 'mandala.svg', class: 'img-responsive' %>
       </div>
       <div class="d-flex flex-column align-items-center">
-        <div class="internal_form_heading align-self-center">
-          <%= image_tag 'basic_info_form_title.svg', width: '100%', class: "img-responsive" %>
+        <div class="internal_form_heading align-self-center text-center">
+          <span style="display:block; width:41px; height:4px; background:#FFB627; margin:0 auto 6px;"></span>
+          <h1 style="font-size:20px; font-weight:700; color:#1a1a1a; margin:0;"><%= profile_t('heading', @marriage_profile) %></h1>
         </div>
         <div class="form_title align-self-start pt-3 pl-2 pr-2">
           <strong> <%= t('form.basics') %> </strong> <br>
           <%= image_tag 'yellow_line.svg', width: '51.59', height: '17' %>
         </div>
 	<div class="alert mt-2 mb-3" role="alert" style="font-size:0.95rem; background-color: rgb(255,182,39); color:white; border:none;">
-          <%= t('form.privacy_note') %>
+          <%= profile_t('privacy_note', @marriage_profile) %>
 	</div>
         <div class="form_input_fields pt-4 pl-2 pr-2">
           <%= form_for @marriage_profile do |f| %>
@@ -23,11 +24,11 @@
                                autofocus: true,
                                autocomplete: f.object.own_name_locked? ? "name" : "off",
                                class: 'form-control sign_up-input-field',
-                               placeholder: t('form.full_name'),
+                               placeholder: profile_t('full_name', @marriage_profile),
                                required: true,
                                readonly: f.object.own_name_locked?,
                                data: {toggle: "tooltip", placement: "top" },
-                               title: t('form.full_name') %>
+                               title: profile_t('full_name', @marriage_profile) %>
               <% if f.object.own_name_locked? %>
                 <small class="form-text text-muted"><%= t('form.registered_name') %></small>
               <% end %>
@@ -38,15 +39,15 @@
               <%= f.text_field :nid_or_passport,
                                autocomplete: "nid_or_passport",
                                class: 'form-control sign_up-input-field',
-                               placeholder: t('form.nid'),
+                               placeholder: profile_t('nid', @marriage_profile),
                                minlength: '6',
                                data: {toggle: "tooltip", placement: "top" },
-                               title: t('form.nid_title') %>
+                               title: profile_t('nid_title', @marriage_profile) %>
               <small class="text-danger"> <%= f.object.errors[:nid_or_passport].present? ? f.object.errors[:nid_or_passport]&.first : '' %> </small>
             </div>
 
             <div class="form-group">
-              <div><%= t('form.upload_id') %></div>
+              <div><%= profile_t('upload_id', @marriage_profile) %></div>
               <%= f.file_field :identification_document, required: true,
                                class: 'form-control sign_up-input-field',
                                style: 'padding: 3px',
@@ -60,26 +61,26 @@
             <div class="form-group">
               <%= f.select :gender,
                            enum_options(:marriage_profile, :gender, MarriageProfile::genders.sort_by { |k, v| k }.to_h.keys),
-                           {prompt: t('form.gender_req')},
+                           {prompt: profile_t('gender_req', @marriage_profile)},
                            required: true,
                            class: 'form-control sign_up-input-field',
                            data: {toggle: "tooltip", placement: "top" },
-                           title: t('form.gender_lock') %>
+                           title: profile_t('gender_lock', @marriage_profile) %>
               <small class="text-danger"> <%= f.object.errors[:gender].present? ? f.object.errors[:gender]&.first : '' %> </small>
             </div>
             <div class="form-group" id="other_gender_field" style="display:none;">
-              <%= f.text_field :other_gender, placeholder: t('form.specify_gender'), class: 'form-control sign_up-input-field', id: 'other_gender_input' %>
+              <%= f.text_field :other_gender, placeholder: profile_t('specify_gender', @marriage_profile), class: 'form-control sign_up-input-field', id: 'other_gender_input' %>
             </div>
 
             <div class="form-group">
-	      <%= f.label :date_of_birth, t('form.date_of_birth'), class: "form-label" %>
+	      <%= f.label :date_of_birth, profile_t('date_of_birth', @marriage_profile), class: "form-label" %>
               <%= f.date_field :date_of_birth,
                                max: Date.today.years_ago(18),
                                autofocus: true,
                                class: 'form-control sign_up-input-field',
-                               title:t('form.dob_title'),
+                               title:profile_t('dob_title', @marriage_profile),
                                required: true,
-			       placeholder: t('form.dob_placeholder'),   # behaves like prompt
+			       placeholder: profile_t('dob_placeholder', @marriage_profile),   # behaves like prompt
                                data: {toggle: "tooltip", placement: "top" } %>
               <small class="text-danger"> <%= f.object.errors[:date_of_birth].present? ? f.object.errors[:date_of_birth]&.first : '' %> </small>
             </div>
@@ -87,7 +88,7 @@
 	    <div class="form-group">
               <%= f.select :marital_status,
                            enum_options(:marriage_profile, :marital_status, MarriageProfile::marital_statuses.reject { |k, v| k == "married" }.sort_by { |k, v| k }.to_h.keys),
-                           {prompt: t('form.marital_status_req')},
+                           {prompt: profile_t('marital_status_req', @marriage_profile)},
                            class: 'form-control sign_up-input-field',
                            required: true,
                            data: {toggle: "tooltip", placement: "top"},
@@ -98,7 +99,7 @@
             <div class="form-group">
               <%= f.select :religion,
                            enum_options(:marriage_profile, :religion, MarriageProfile::religions.sort_by { |k, v| k }.to_h.keys),
-                           {prompt: t('form.religion_req')},
+                           {prompt: profile_t('religion_req', @marriage_profile)},
                            required: true,
                            class: 'form-control sign_up-input-field',
                            data: {toggle: "tooltip", placement: "top" },
@@ -106,18 +107,18 @@
               <small class="text-danger"> <%= f.object.errors[:religion].present? ? f.object.errors[:religion]&.first : '' %> </small>
             </div>
             <div class="form-group" id="other_religion_field" style="display:none;">
-              <%= f.text_field :other_religion, placeholder: t('form.specify_religion'), class: 'form-control sign_up-input-field', id: 'other_religion_input' %>
+              <%= f.text_field :other_religion, placeholder: profile_t('specify_religion', @marriage_profile), class: 'form-control sign_up-input-field', id: 'other_religion_input' %>
             </div>
 
             <div class="form-group">
               <%= f.select :hometown,
                            district_options(District.order_by_name.pluck(:name)),
-                           {prompt: t('form.hometown_req')},
+                           {prompt: profile_t('hometown_req', @marriage_profile)},
                            class: 'form-control sign_up-input-field',
                            required: true,
-			   placeholder: t('form.dob_placeholder'),   # behaves like prompt
+			   placeholder: profile_t('dob_placeholder', @marriage_profile),   # behaves like prompt
                            data: {toggle: "tooltip", placement: "top" },
-                           title:t('form.hometown_title') %>
+                           title:profile_t('hometown_title', @marriage_profile) %>
               <small class="text-danger"> <%= f.object.errors[:hometown].present? ? f.object.errors[:hometown]&.first : '' %> </small>
             </div>
 	    <div id="hometown_abroad_fields" class="mb-3" style="display:none;">
@@ -133,11 +134,11 @@
 
             <div class="form-group">
               <%= f.select :present_location,
-                           district_options(District.order_by_name.pluck(:name)), {prompt: t('form.present_location_req')},
+                           district_options(District.order_by_name.pluck(:name)), {prompt: profile_t('present_location_req', @marriage_profile)},
                            class: 'form-control sign_up-input-field',
                            required: true,
                            data: {toggle: "tooltip", placement: "top" },
-                           title:t('form.present_location_req') %>
+                           title:profile_t('present_location_req', @marriage_profile) %>
               <small class="text-danger"> <%= f.object.errors[:present_location].present? ? f.object.errors[:present_location]&.first : '' %> </small>
             </div>
 	    <div id="present_location_abroad_fields" class="mb-3" style="display:none;">
@@ -156,11 +157,11 @@
                 <div class="flex-fill pr-1">
                   <%= f.select :height_ft,
                                number_options(MarriageProfile::height_fts.filter { |k, v| k != '0' }),
-                               {prompt: t('form.height_ft_req')},
+                               {prompt: profile_t('height_ft_req', @marriage_profile)},
                                autofocus: true,
                                autocomplete: "height",
                                class: 'form-control sign_up-input-field',
-                               placeholder: t('form.height_ft_req'),
+                               placeholder: profile_t('height_ft_req', @marriage_profile),
                                required: true,
                                data: {toggle: "tooltip", placement: "top" },
                                title:t('form.height_ft') %>
@@ -169,7 +170,7 @@
                 <div class="flex-fill pl-1">
                   <%= f.select :height_inch,
                                number_options(MarriageProfile::height_inches),
-                               {prompt: t('form.height_inch_req')},
+                               {prompt: profile_t('height_inch_req', @marriage_profile)},
                                autofocus: true,
                                autocomplete: "height_inch",
                                class: 'form-control sign_up-input-field',
@@ -184,7 +185,7 @@
             <div class="form-group">
               <%= f.select :highest_education_level,
                            enum_options(:marriage_profile, :highest_education_level, MarriageProfile::highest_education_levels.sort_by { |k, v| k == 'other' ? 'zzz' : k }.to_h.keys),
-                           {prompt: t('form.education_req')},
+                           {prompt: profile_t('education_req', @marriage_profile)},
                            class: 'form-control sign_up-input-field',
                            required: true,
                            data: {toggle: "tooltip", placement: "top" },
@@ -192,7 +193,7 @@
               <small class="text-danger"> <%= f.object.errors[:highest_education_level].present? ? f.object.errors[:highest_education_level]&.first : '' %> </small>
             </div>
             <div class="form-group" id="other_education_field" style="display:none;">
-              <%= f.text_field :other_education, placeholder: t('form.specify_education'), class: 'form-control sign_up-input-field', id: 'other_education_input' %>
+              <%= f.text_field :other_education, placeholder: profile_t('specify_education', @marriage_profile), class: 'form-control sign_up-input-field', id: 'other_education_input' %>
             </div>
 
             <div class="form-group">
@@ -230,12 +231,12 @@
             <div class="form-group">
               <%= f.select :blood_group,
                            MarriageProfile::blood_groups.sort_by { |k, v| k }.to_h.map { |k, v| [k, k] },
-                           {prompt: t('form.blood_group_req')},
+                           {prompt: profile_t('blood_group_req', @marriage_profile)},
                            autofocus: true,
                            class: 'form-control sign_up-input-field',
                            required: true,
                            data: {toggle: "tooltip", placement: "top" },
-                           title:t('form.blood_group_lock') %>
+                           title:profile_t('blood_group_lock', @marriage_profile) %>
               <small class="text-danger"> <%= f.object.errors[:blood_group].present? ? f.object.errors[:blood_group]&.first : '' %> </small>
             </div>
 

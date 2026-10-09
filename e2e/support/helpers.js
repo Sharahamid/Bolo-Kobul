@@ -40,7 +40,7 @@ async function smsLog(request) {
 
 // Fills in the sign-up form on the home page and returns the new member's details.
 // Ends on the "enter your verification code" page.
-async function registerNewMember(page, { name = 'Test Member' } = {}) {
+async function registerNewMember(page, { name = 'Test Member', createdFor = 'self' } = {}) {
   const unique = `${Date.now()}`.slice(-7);
   const member = { name, unique, email: `new${unique}@example.com`, phone: `+880171${unique}`, password: 'dhaka2024' };
   await page.goto('/');
@@ -50,7 +50,7 @@ async function registerNewMember(page, { name = 'Test Member' } = {}) {
   await form.locator('input[name="user[phone_number]"]').fill(member.phone);
   await form.locator('input[name="user[password]"]').fill(member.password);
   await form.locator('input[name="user[password_confirmation]"]').fill(member.password);
-  await form.locator('select[name="user[created_for]"]').selectOption('self');
+  await form.locator('select[name="user[created_for]"]').selectOption(createdFor);
   await form.locator('input[type="checkbox"][required]').check();
   await Promise.all([page.waitForNavigation(), form.locator('input[type="submit"]').click()]);
   await expect(page).toHaveURL(/show_verify/);
