@@ -13,6 +13,8 @@ namespace :accounts do
     User.where(verified: [false, nil]).where('created_at < ?', 7.days.ago).find_each do |user|
       next if user.marriage_profiles.exists? || user.orders.exists?
 
+      # Kept for the registration report: a real person may have missed their code
+      BlockedRegistrationAttempt.record('never_verified', name: user.name, email: user.email, phone: user.phone_number)
       user.destroy
       removed += 1
     rescue StandardError => e

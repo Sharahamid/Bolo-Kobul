@@ -1,38 +1,51 @@
-<h2>Registration Report</h2>
-<p><%= @start_date.strftime('%B %d, %Y') %> to <%= @end_date.strftime('%B %d, %Y') %></p>
+<% cell = 'padding:6px 8px; border:1px solid #e6e0d0; font-size:13px; vertical-align:top;' %>
+<% head = cell + ' background:#FFF3CC; color:#633806; text-align:left;' %>
+<h2 style="color:#412402;">Registration Report</h2>
+<p><%= @period %></p>
 
-<h3>Successful Registrations (<%= @successful_users.count %>)</h3>
+<h3 style="color:#412402;">Registrations (<%= @successful_users.count %>)</h3>
 <% if @successful_users.any? %>
-  <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
-    <tr style="background:#f0f0f0;"><th>Name</th><th>Email</th><th>Phone</th><th>Date</th></tr>
+  <p style="font-size:13px; color:#666;">"Not yet" means they signed up but have not entered their code; they can still do so.</p>
+  <table cellspacing="0" style="width:100%; border-collapse:collapse;">
+    <tr><th style="<%= head %>">Name</th><th style="<%= head %>">Email</th><th style="<%= head %>">Phone</th><th style="<%= head %>">Verified?</th><th style="<%= head %>">Date</th></tr>
     <% @successful_users.each do |user| %>
-      <tr><td><%= user.name %></td><td><%= user.email %></td><td><%= user.phone_number %></td><td><%= user.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
+      <tr>
+        <td style="<%= cell %>"><%= user.name %></td><td style="<%= cell %>"><%= user.email %></td><td style="<%= cell %>"><%= user.phone_number %></td>
+        <td style="<%= cell %> color:<%= user.verified? ? '#2e7d32' : '#B97A00' %>; font-weight:bold;"><%= user.verified? ? 'Yes' : 'Not yet' %></td>
+        <td style="<%= cell %> white-space:nowrap;"><%= user.created_at.strftime('%b %d, %I:%M %p') %></td>
+      </tr>
     <% end %>
   </table>
 <% else %>
-  <p>No successful registrations in this period.</p>
+  <p>No registrations in this period.</p>
 <% end %>
 
-<h3>Blocked by Hidden Bot Trap (<%= @honeypot_blocks.count %>)</h3>
-<% if @honeypot_blocks.any? %>
-  <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
-    <tr style="background:#f0f0f0;"><th>Name</th><th>Email</th><th>Phone</th><th>IP Address</th><th>Date</th></tr>
-    <% @honeypot_blocks.each do |b| %>
-      <tr><td><%= b.name %></td><td><%= b.email %></td><td><%= b.phone %></td><td><%= b.ip_address %></td><td><%= b.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
-    <% end %>
-  </table>
+<h3 style="color:#412402;">Stopped sign-ups (<%= @to_check.size + @bots.size %>)</h3>
+<% if @counts.any? %>
+  <ul style="font-size:13px; margin-top:0;">
+    <% @counts.sort_by { |_, n| -n }.each do |reason, n| %><li><%= reason %>: <strong><%= n %></strong></li><% end %>
+  </ul>
 <% else %>
-  <p>No bot trap blocks in this period.</p>
+  <p>None in this period.</p>
 <% end %>
 
-<h3>Blocked by Suspicious Name Filter (<%= @name_filter_blocks.count %>)</h3>
-<% if @name_filter_blocks.any? %>
-  <table border="1" cellpadding="6" cellspacing="0" style="width:100%; border-collapse: collapse;">
-    <tr style="background:#f0f0f0;"><th>Name</th><th>Email</th><th>Phone</th><th>Date</th></tr>
-    <% @name_filter_blocks.each do |b| %>
-      <tr><td><%= b.name %></td><td><%= b.email %></td><td><%= b.phone %></td><td><%= b.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
+<% if @to_check.any? %>
+  <h4 style="color:#B97A00; margin-bottom:4px;">Could be a real person: please check (<%= @to_check.size %>)</h4>
+  <p style="font-size:13px; color:#666; margin-top:0;">If any of these look genuine, contact them by email or phone and help them sign up.</p>
+  <table cellspacing="0" style="width:100%; border-collapse:collapse;">
+    <tr><th style="<%= head %>">Name</th><th style="<%= head %>">Email</th><th style="<%= head %>">Phone</th><th style="<%= head %>">Why stopped</th><th style="<%= head %>">Date</th></tr>
+    <% @to_check.each do |b| %>
+      <tr><td style="<%= cell %>"><%= b.name %></td><td style="<%= cell %>"><%= b.email %></td><td style="<%= cell %>"><%= b.phone %></td><td style="<%= cell %>"><%= b.reason %></td><td style="<%= cell %> white-space:nowrap;"><%= b.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
     <% end %>
   </table>
-<% else %>
-  <p>No name-filter blocks in this period.</p>
+<% end %>
+
+<% if @bots.any? %>
+  <h4 style="color:#666; margin-bottom:4px;">Almost certainly bots (<%= @bots.size %>)</h4>
+  <table cellspacing="0" style="width:100%; border-collapse:collapse;">
+    <tr><th style="<%= head %>">Name</th><th style="<%= head %>">Email</th><th style="<%= head %>">Phone</th><th style="<%= head %>">Why stopped</th><th style="<%= head %>">IP address</th><th style="<%= head %>">Date</th></tr>
+    <% @bots.each do |b| %>
+      <tr><td style="<%= cell %>"><%= b.name %></td><td style="<%= cell %>"><%= b.email %></td><td style="<%= cell %>"><%= b.phone %></td><td style="<%= cell %>"><%= b.reason %></td><td style="<%= cell %>"><%= b.ip_address %></td><td style="<%= cell %> white-space:nowrap;"><%= b.created_at.strftime('%b %d, %I:%M %p') %></td></tr>
+    <% end %>
+  </table>
 <% end %>
