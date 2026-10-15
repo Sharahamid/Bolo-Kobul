@@ -8,6 +8,8 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.friendly.find(params[:id])
+    # An old link by number (/blogs/12) moves to the story's named address
+    redirect_to blog_path(@blog.slug, locale: params[:locale].presence), status: :moved_permanently if @blog.slug.present? && params[:id] != @blog.slug
   end
 
   def create
