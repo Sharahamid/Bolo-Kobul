@@ -8,6 +8,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   rate_limit to: SIGNUP_LIMIT_PER_HOUR, within: 1.hour, only: :create, with: lambda {
     Rails.logger.warn("[BOT BLOCKED - Rate limit] #{request.remote_ip}")
+    BlockedRegistrationAttempt.record('rate_limit', name: params.dig(:user, :name), email: params.dig(:user, :email),
+                                                    phone: params.dig(:user, :phone_number), ip: request.remote_ip)
     flash[:danger] = 'Too many sign-ups from this connection. Please try again in an hour.'
     redirect_to root_path
   }
@@ -78,6 +80,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         respond_with resource, :location => after_inactive_sign_up_path_for(resource)
       end
     else
+      record_refused_sign_up
       clean_up_passwords(resource)
       #flash[:danger] = resource.errors.full_messages.first
       #redirect_to root_path(errors: resource.errors.messages, user: resource.attributes) # HERE IS THE PATH YOU WANT TO CHANGE
@@ -143,6 +146,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
       Rails.logger.info("[sign-up] replacing unverified sign-up #{user.id} (created #{user.created_at})")
       user.destroy
+    end
+  end
+
+  # Sign-ups turned away by the name or phone checks go in the registration report, so a
+  # real person who was refused can be spotted (other mistakes, e.g. a short password, do not)
+  def record_refused_sign_up
+    details = { name: resource.name, email: resource.email, phone: params.dig(:user, :phone_number), ip: request.remote_ip }
+    if resource.errors[:name].any? { |m| m.include?('real name') }
+      BlockedRegistrationAttempt.record('name_check', **details)
+    elsif resource.errors[:phone_number].any? { |m| m != I18n.t('errors.messages.taken') }
+      BlockedRegistrationAttempt.record('phone_check', **details)
     end
   end
 
