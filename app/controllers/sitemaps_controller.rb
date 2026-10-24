@@ -1,7 +1,7 @@
 # /sitemap.xml: the public pages, so Google and other search engines find them all.
 # Each page is listed in English with its Bangla version (?locale=bn) as an alternate.
 class SitemapsController < ActionController::Base
-  SITE = 'https://www.bolokobul.com'.freeze
+  SITE = 'https://bolokobul.com'.freeze
 
   def show
     @pages = static_pages + blog_pages + assisted_service_pages

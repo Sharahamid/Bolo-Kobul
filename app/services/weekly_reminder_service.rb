@@ -9,7 +9,7 @@
 class WeeklyReminderService
   include LocaleHelper
 
-  HOST = 'www.bolokobul.com'.freeze
+  HOST = 'bolokobul.com'.freeze
   MATCHES_PER_EMAIL = 5
   INACTIVE_FOR = 14.days
   # The emails are spread evenly over SEND_OVER (10 am to 4 pm in Bangladesh), and never

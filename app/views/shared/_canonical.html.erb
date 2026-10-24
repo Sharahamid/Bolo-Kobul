@@ -1,2 +1,2 @@
-<% canonical_query = request.query_parameters.slice("type", "page") %>
+<% canonical_query = request.query_parameters.slice("type", "page", "locale") %>
 <link rel="canonical" href="https://bolokobul.com<%= request.path %><%= "?#{canonical_query.to_query}" if canonical_query.present? %>">

@@ -114,7 +114,7 @@ Rails.application.configure do
 
 # for mailer root url
 # Same address as the installed app, so links in emails can open in it
-config.action_mailer.default_url_options = { host: 'www.bolokobul.com', protocol: 'https' }
+config.action_mailer.default_url_options = { host: 'bolokobul.com', protocol: 'https' }
 
 # for mailer delivery errors
 config.action_mailer.raise_delivery_errors = true
