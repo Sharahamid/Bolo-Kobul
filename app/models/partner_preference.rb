@@ -60,6 +60,7 @@ class PartnerPreference < ApplicationRecord
     pp.max_inch = pp.max_height.present? ? (pp.max_inch || 0) : nil
   end
   validate :max_height_not_below_min_height
+  validate :max_age_not_below_min_age
   # Heights in feet and inches: minimum 3–6 ft, maximum 3–9 ft, inches 0–11 (checked when changed)
   validates :min_height, numericality: { only_integer: true, in: 3..6 }, allow_nil: true, if: :will_save_change_to_min_height?
   validates :max_height, numericality: { only_integer: true, in: 3..9 }, allow_nil: true, if: :will_save_change_to_max_height?
@@ -73,5 +74,11 @@ class PartnerPreference < ApplicationRecord
     min_total = min_height.to_i * 12 + min_inch.to_i
     max_total = max_height.to_i * 12 + max_inch.to_i
     errors.add(:base, I18n.t('preference.height_range_error')) if max_total < min_total
+  end
+
+  # A blank min or max age means no limit on that side
+  def max_age_not_below_min_age
+    return if min_age.blank? || max_age.blank?
+    errors.add(:max_age, I18n.t('preference.age_range_error')) if max_age.to_i < min_age.to_i
   end
 end

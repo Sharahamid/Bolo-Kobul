@@ -618,6 +618,7 @@ en:
     age_min: Age(min)
     age_max: Age(max)
     age_error: Should be greater than min age.
+    age_range_error: Max age should be the same as or more than min age.
     height_error: Should be greater than min height.
     inch_error: Should be greater than min inch.
     height_range_error: Max height should be the same as or more than min height.
