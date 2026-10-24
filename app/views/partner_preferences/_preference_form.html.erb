@@ -47,8 +47,8 @@
           </small>
         </div>
         <div class="col-6 pl-1">
-          <%= f.label :max_age %>
-          <%= f.number_field :max_age, autocomplete: 'max_age', min: 18, class: 'form-control sign_up-input-field',
+          <%= f.label :max_age, for: 'pp_max_age' %>
+          <%= f.number_field :max_age, id: 'pp_max_age', autocomplete: 'max_age', min: 18, class: 'form-control sign_up-input-field',
                              placeholder: t('preference.age_max'), data: {toggle: 'tooltip', placement: 'top'},
                              title: t('preference.age_max') %>
           <small class="pp-age-error" style="display:none; color:#730E15;"><%= t('preference.age_range_error') %></small>
@@ -334,17 +334,17 @@
       var badHeight = min !== null && max !== null && max < min;
       $('.pp-height-error').toggle(badHeight);
       // Age: same rule; a blank max age means no upper limit
-      var minAge = $('#partner_preference_min_age').val(), maxAge = $('#partner_preference_max_age').val();
+      var minAge = $('#partner_preference_min_age').val(), maxAge = $('#pp_max_age').val();
       var badAge = minAge !== '' && maxAge !== '' && minAge !== undefined && maxAge !== undefined &&
                    parseInt(maxAge, 10) < parseInt(minAge, 10);
       $('.pp-age-error').toggle(badAge);
       return !badHeight && !badAge;
     }
-    $(document).on('input change', '#partner_preference_min_age, #partner_preference_max_age, #partner_preference_max_height, #partner_preference_min_height, #partner_preference_max_inch, #partner_preference_min_inch', check);
+    $(document).on('input change', '#partner_preference_min_age, #pp_max_age, #partner_preference_max_height, #partner_preference_min_height, #partner_preference_max_inch, #partner_preference_min_inch', check);
     $(document).on('submit', 'form', function (e) {
       if ($(this).find('#partner_preference_min_height').length && !check()) {
         e.preventDefault(); e.stopImmediatePropagation();
-        ($('.pp-age-error').is(':visible') ? $('#partner_preference_max_age') : $('#partner_preference_max_height')).focus();
+        ($('.pp-age-error').is(':visible') ? $('#pp_max_age') : $('#partner_preference_max_height')).focus();
         return false;
       }
     });
