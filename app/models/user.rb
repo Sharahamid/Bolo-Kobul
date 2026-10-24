@@ -352,7 +352,7 @@ class User < ApplicationRecord
   # countries). Returns true when it was sent.
   def send_otp
     update_columns(otp: User.generate_otp, otp_sent_at: Time.current, otp_attempts: 0)
-    message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 10 minutes. Not you? Please contact support@bolokobul.com"
+    message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 10 minutes. Not you? Please contact support@bolokobul.com\n\n@bolokobul.com ##{otp}"
     # Only Bangladeshi mobile numbers can get a text; any other number (with or without
     # a + and country code) gets the code by email
     if PhoneNumber.bd_local(phone_number)
