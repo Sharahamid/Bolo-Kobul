@@ -620,6 +620,7 @@ en:
     age_error: Should be greater than min age.
     height_error: Should be greater than min height.
     inch_error: Should be greater than min inch.
+    height_range_error: Max height should be the same as or more than min height.
     feet_min: Feet (min)
     inch_min: Inch (min)
     feet_max: Feet (max)

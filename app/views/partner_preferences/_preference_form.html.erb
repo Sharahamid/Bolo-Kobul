@@ -197,7 +197,6 @@
                              class: 'form-control sign_up-input-field',
                              placeholder: t('preference.feet_max'), data: {toggle: 'tooltip', placement: 'top'},
                              title: t('preference.feet_max') %>
-          <small class="text-max-height"><%= t('preference.height_error') %></small>
           <small class="text-danger"> <%= f.object.errors[:max_height].present? ? f.object.errors.full_messages_for(:max_height).first : '' %> </small>
         </div>
         <div class="col-6 pl-1">
@@ -207,10 +206,11 @@
                              class: 'form-control sign_up-input-field',
                              placeholder: t('preference.inch_max'), data: {toggle: 'tooltip', placement: 'top'},
                              title: t('preference.inch_max') %>
-          <small class="text-max-inch"><%= t('preference.inch_error') %></small>
           <small class="text-danger"> <%= f.object.errors[:max_inch].present? ? f.object.errors.full_messages_for(:max_inch).first : '' %> </small>
         </div>
       </div>
+      <small class="pp-height-error" style="display:none; color:#730E15;"><%= t('preference.height_range_error') %></small>
+      <small class="text-danger"> <%= f.object.errors[:base].present? ? f.object.errors[:base].first : '' %> </small>
     </div>
 
     <div class="form-group">
@@ -314,4 +314,34 @@
         if (picker) picker.options.windowPadding = [top + 8, 0, bottom + 8, 0];
       });
     });
+</script>
+
+<script>
+  // Partner height check: compares whole heights (feet + inches), so 5'4" to 6'0" or 5'4" to 5'4" is fine.
+  // A blank inch counts as 0; a blank max (or min) height means no limit on that side.
+  (function () {
+    if (window.ppHeightCheckBound) return;
+    window.ppHeightCheckBound = true;
+    function totalInches(feetSel, inchSel) {
+      var ft = $(feetSel).val();
+      if (ft === undefined || ft === '') return null;
+      var inch = $(inchSel).val();
+      return parseInt(ft, 10) * 12 + (inch === '' || inch === undefined ? 0 : parseInt(inch, 10));
+    }
+    function check() {
+      var min = totalInches('#partner_preference_min_height', '#partner_preference_min_inch');
+      var max = totalInches('#partner_preference_max_height', '#partner_preference_max_inch');
+      var bad = min !== null && max !== null && max < min;
+      $('.pp-height-error').toggle(bad);
+      return !bad;
+    }
+    $(document).on('input change', '#partner_preference_max_height, #partner_preference_min_height, #partner_preference_max_inch, #partner_preference_min_inch', check);
+    $(document).on('submit', 'form', function (e) {
+      if ($(this).find('#partner_preference_min_height').length && !check()) {
+        e.preventDefault(); e.stopImmediatePropagation();
+        $('#partner_preference_max_height').focus();
+        return false;
+      }
+    });
+  })();
 </script>

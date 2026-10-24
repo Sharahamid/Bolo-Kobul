@@ -54,10 +54,24 @@ class PartnerPreference < ApplicationRecord
   end
 
   validates_presence_of :religion, :gender
-  validates_presence_of :max_inch, if: :max_height?
-  validates_presence_of :min_inch, if: :min_height?
+  # A blank inch means 0 (5 ft = 5'0"); with no feet, the inch is cleared
+  before_validation do |pp|
+    pp.min_inch = pp.min_height.present? ? (pp.min_inch || 0) : nil
+    pp.max_inch = pp.max_height.present? ? (pp.max_inch || 0) : nil
+  end
+  validate :max_height_not_below_min_height
   # Heights in feet and inches: minimum 3–6 ft, maximum 3–9 ft, inches 0–11 (checked when changed)
   validates :min_height, numericality: { only_integer: true, in: 3..6 }, allow_nil: true, if: :will_save_change_to_min_height?
   validates :max_height, numericality: { only_integer: true, in: 3..9 }, allow_nil: true, if: :will_save_change_to_max_height?
   validates :min_inch, :max_inch, numericality: { only_integer: true, in: 0..11 }, allow_nil: true
+
+  private
+
+  # Compares whole heights (5'4" = 64 inches); a blank min or max height means no limit
+  def max_height_not_below_min_height
+    return if min_height.blank? || max_height.blank?
+    min_total = min_height.to_i * 12 + min_inch.to_i
+    max_total = max_height.to_i * 12 + max_inch.to_i
+    errors.add(:base, I18n.t('preference.height_range_error')) if max_total < min_total
+  end
 end
