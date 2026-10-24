@@ -81,7 +81,15 @@
     subscribe().catch(function () {});
     return;
   }
-  if (Notification.permission === 'denied' || !prompt || !firstVisitToday()) return;
+  if (Notification.permission === 'denied' || !prompt) return;
+
+  // On chat pages the prompt shows on every visit (once per browsing session after
+  // "Not now"), since that's where members miss replies; elsewhere once a day.
+  var onChatPage = !!document.getElementById('message_text') || /\/messages?(\/|$|\?)/.test(location.pathname);
+  function chatPromptDismissed() {
+    try { return sessionStorage.getItem('bkPushChatDismissed') === '1'; } catch (e) { return false; }
+  }
+  if (onChatPage ? chatPromptDismissed() : !firstVisitToday()) return;
 
   prompt.hidden = false;
 
@@ -94,5 +102,8 @@
       .catch(function () {});
   });
 
-  prompt.querySelector('[data-push-dismiss]').addEventListener('click', hidePrompt);
+  prompt.querySelector('[data-push-dismiss]').addEventListener('click', function () {
+    hidePrompt();
+    if (onChatPage) { try { sessionStorage.setItem('bkPushChatDismissed', '1'); } catch (e) {} }
+  });
 })();
