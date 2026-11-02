@@ -24,7 +24,7 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.4.6'
+          ruby-version: '3.4'   # latest 3.4.x; the scanners don't need the server's exact version
 
       - name: Install scanners
         run: gem install --no-document brakeman bundler-audit
