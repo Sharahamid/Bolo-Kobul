@@ -46,6 +46,11 @@
       box.scrollIntoView({ behavior: 'smooth', block: 'start' });
       var form = panel.querySelector('a[data-remote="true"]');
       if (form) form.click();
+      // Forget the #update-… link once the form is open, so refreshing the page after
+      // saving shows the saved details instead of an empty form again
+      if (window.history && history.replaceState) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
     }
     $(openSection);
     window.addEventListener('hashchange', openSection);

@@ -156,6 +156,8 @@ en:
       occupation: "Occupation"
       appearance: "Appearance"
       family: "Family Details"
+      education_more: "Another Degree"
+      family_more: "Another Family Member"
       life_style: "Lifestyle"
       hobbies: "Hobbies & Interests"
       cultural: "Cultural Values"

@@ -5,8 +5,10 @@ class WebPushJob < ApplicationJob
   def perform(user_id, payload)
     return unless WebPushService.configured?
 
-    PushSubscription.where(user_id: user_id).find_each do |subscription|
-      WebPushService.deliver(subscription, payload)
-    end
+    # One notification per device: if a browser holds more than one sign-up (an old one
+    # from www.bolokobul.com, say), only the newest is used
+    PushSubscription.where(user_id: user_id).order(updated_at: :desc).to_a
+                    .uniq { |subscription| subscription.user_agent.presence || subscription.id }
+                    .each { |subscription| WebPushService.deliver(subscription, payload) }
   end
 end

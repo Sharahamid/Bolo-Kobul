@@ -266,6 +266,8 @@ bn:
       occupation: "পেশা"
       appearance: "চেহারা"
       family: "পারিবারিক তথ্য"
+      education_more: "আরেকটি ডিগ্রি"
+      family_more: "পরিবারের আরেকজন সদস্য"
       life_style: "জীবনযাপন"
       hobbies: "শখ ও আগ্রহ"
       cultural: "সাংস্কৃতিক মূল্যবোধ"

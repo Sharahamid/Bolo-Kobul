@@ -70,7 +70,9 @@
           <div class="bk-todo-chips">
             <% todo.each do |section| %>
               <%= link_to profile_info_marriage_profile_path(current_active_profile, anchor: "update-#{section.to_s.dasherize}"), class: 'bk-todo-link' do %>
-                <i class="fas fa-plus"></i><span><%= t("dashboard.todo.#{section}") %></span>
+                <% label_key = { education: current_active_profile.academic_informations.exists? ? :education_more : :education,
+                                family: current_active_profile.family_members.exists? ? :family_more : :family }[section] || section %>
+                <i class="fas fa-plus"></i><span><%= t("dashboard.todo.#{label_key}") %></span>
               <% end %>
             <% end %>
           </div>

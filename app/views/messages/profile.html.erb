@@ -11,6 +11,11 @@
   .bk-chat-container .message-page,
   .bk-chat-container .message-right-sidebar { height: auto !important; overflow: visible; }
   .bk-chat-container .conversation-list.chat_screen { max-height: 55vh !important; min-height: 160px; }
+  /* The message box could be cut off by the chat window's fixed size, leaving nowhere
+     to type. Let the window grow, and keep the box pinned just above the bottom bar. */
+  .bk-chat-container .profile-chat-window { flex: none; overflow: visible; }
+  .bk-chat-container .bk-chat-compose { position: sticky; bottom: var(--bk-bottom-nav-h, 0px); z-index: 20;
+                                         box-shadow: 0 -4px 10px rgba(65, 36, 2, 0.06); }
 }
 </style>
 <div class="container-fluid p-0">

@@ -12,6 +12,11 @@ class PushSubscriptionsController < ApplicationController
       user_agent: request.user_agent.to_s[0, 255]
     )
     if subscription.save
+      # The same browser on the same phone can hold an older sign-up (for example one
+      # made on www.bolokobul.com before it redirected), which doubled every notification.
+      # Keep only the newest one per browser.
+      current_user.push_subscriptions.where(user_agent: subscription.user_agent)
+                  .where.not(id: subscription.id).delete_all
       head :created
     else
       head :unprocessable_entity
