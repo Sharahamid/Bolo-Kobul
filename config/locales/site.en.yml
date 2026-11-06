@@ -1031,3 +1031,5 @@ en:
       do_you_smoke: "Does the candidate smoke?"
       do_you_drink: "Does the candidate drink?"
       any_specific_habits_you_want_to_share: "Any specific habits of the candidate to share?"
+  errors:
+    page_expired: "This page had expired, so nothing was sent. Please try again."

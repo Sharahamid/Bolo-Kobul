@@ -7,6 +7,19 @@ class ApplicationController < ActionController::Base
   add_flash_types :info, :success, :danger, :warning
   helper_method :current_active_profile, :check_current_active_profile, :play_store_app?
 
+  # A form left open for a long time (or reopened in the app after the phone cleared its
+  # cookies) carries an out-of-date security token. Instead of a "500 Internal Server
+  # Error" page, send the person back to the form with a short message to try again.
+  rescue_from ActionController::InvalidAuthenticityToken do
+    respond_to do |format|
+      format.html do
+        redirect_back fallback_location: root_path,
+                      alert: I18n.t('errors.page_expired', default: 'This page had expired, so nothing was sent. Please try again.')
+      end
+      format.any { head :unprocessable_entity }
+    end
+  end
+
   def current_active_profile
     marriage_profile_id = 0
     if session[:marriage_profile_id].present?
