@@ -1,23 +1,4 @@
-<style>
-.bk-chat-container { margin-bottom: 20px; }
-.bk-chat-container .message-page { height: 460px !important; position: relative !important; }
-.bk-chat-container .message-right-sidebar { height: 460px !important; overflow: hidden; display: flex; flex-direction: column; }
-.bk-chat-container .profile-chat-window { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
-.bk-chat-container .conversation-list.chat_screen { overflow-y: auto; max-height: 400px !important; }
-.bk-chat-container .chat-list-window { max-height: 400px !important; min-height: 0 !important; overflow-y: auto; }
-/* Phones: the chat list, menu and conversation are stacked, so let the page grow
-   instead of cutting off the message box below a fixed height */
-@media (max-width: 575.98px) {
-  .bk-chat-container .message-page,
-  .bk-chat-container .message-right-sidebar { height: auto !important; overflow: visible; }
-  .bk-chat-container .conversation-list.chat_screen { max-height: 55vh !important; min-height: 160px; }
-  /* The message box could be cut off by the chat window's fixed size, leaving nowhere
-     to type. Let the window grow, and keep the box pinned just above the bottom bar. */
-  .bk-chat-container .profile-chat-window { flex: none; overflow: visible; }
-  .bk-chat-container .bk-chat-compose { position: sticky; bottom: var(--bk-bottom-nav-h, 0px); z-index: 20;
-                                         box-shadow: 0 -4px 10px rgba(65, 36, 2, 0.06); }
-}
-</style>
+<%= render 'messages/chat_page_styles' %>
 <div class="container-fluid p-0">
   <div class="dashboard p-0">
     <div class="containerx">
