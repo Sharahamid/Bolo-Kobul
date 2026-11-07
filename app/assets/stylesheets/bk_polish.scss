@@ -227,3 +227,68 @@ div.pagination,
     .notification-counter { margin-left: auto; font-weight: 700; }
   }
 }
+
+// ---- Profile details (Appearance, Family, Education, ...) -------------------
+// Every section lines its labels, colons and answers up in the same columns,
+// labels are softer than answers, and empty answers show a dash
+.detail-info .info-alignment table {
+  td {
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  td:first-child { color: #8a7a66; }
+  td:last-child { color: #412402; font-weight: 500; overflow-wrap: anywhere; }
+  td:last-child:empty::after { content: '—'; color: #d8ccb6; font-weight: 400; }
+}
+
+// Room for the edit / delete buttons so they never sit on top of an answer
+.detail-info:has(.edit-info-btn) .info-alignment { padding-right: 46px; }
+
+// Edit, delete and add buttons in brand colours instead of plain grey
+.detail-info, .new-info-add, .panel-heading, .new-info-btn {
+  .btn-edit,
+  .btn-delete {
+    width: 36px;
+    height: 36px;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px !important;
+    box-shadow: none !important;
+  }
+  .btn-edit {
+    background: #FFF3CC !important;
+    border: 1px solid #FAC775 !important;
+    color: #854F0B !important;
+    i { color: #854F0B !important; }
+  }
+  .btn-delete {
+    background: #fff !important;
+    border: 1px solid #F3C4C7 !important;
+    color: #D9485F !important;
+    i { color: #D9485F !important; }
+  }
+}
+
+@media (max-width: 575.98px) {
+  .detail-info .info-alignment {
+    display: block !important;
+
+    table {
+      display: table !important;
+      width: 100% !important;
+      table-layout: fixed;
+      margin: 0 !important;
+      padding: 0 !important;
+
+      td {
+        max-width: none !important;
+        padding: 7px 4px !important;
+        font-size: 14px;
+      }
+      td:first-child { width: 42%; padding-left: 0 !important; }
+      td:nth-child(2) { width: 14px; text-align: center; color: #c9b896; }
+    }
+  }
+}
