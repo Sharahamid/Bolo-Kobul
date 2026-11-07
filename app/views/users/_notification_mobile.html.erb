@@ -1,12 +1,13 @@
-<div class="notification-box m-2 p-1 pb-3 <%= 'notification-unread' unless notification.is_read? %>"
+<div class="notification-box bk-notif <%= 'notification-unread' unless notification.is_read? %>"
      data-mark-url="<%= mark_notification_read_users_path(notification_id: notification.id) %>"
      data-notification-id="<%= notification.id %>"
      data-pinned="<%= local_assigns[:pinned] ? 'true' : 'false' %>"
      onclick="markNotificationRead(this)">
-  <div class="content d-flex align-items-start p-2">
+  <div class="content d-flex align-items-start">
     <span class="notification-bullet"></span>
     <div class="flex-fill">
-      <%= safe_html(notification_text(notification.content)) %>
+      <div class="bk-notif-text"><%= safe_html(notification_text(notification.content).to_s.gsub(/\s*&lt;3|\s*<3(?![\w\/])/, ' ♥')) %></div>
+      <div class="bk-notif-time"><%= local_time_tag(notification.created_at, :full) %></div>
     </div>
   </div>
 </div>

@@ -163,7 +163,7 @@
                     <% if match.verified %>
                       <i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i>
                     <% end %>
-                    <% if match.matching_percentage.present? %>
+                    <% if match.matching_percentage.to_i > 0 %>
                       <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= local_digits("%02d" % match.matching_percentage) %>%</span>
                     <% end %>
                   </div>

@@ -46,10 +46,12 @@ class MarriageProfilesController < ApplicationController
 
   def search_page
     @matches = SearchService.with_params(params, @marriage_profile.id)
+    add_match_percentages(@matches)
   end
 
   def search
     @matches = SearchService.with_params(params, @marriage_profile.id)
+    add_match_percentages(@matches)
   end
 
   def new
@@ -318,6 +320,15 @@ class MarriageProfilesController < ApplicationController
   end
 
   private
+
+  # Match % on each search result (only the profiles on the page being shown)
+  def add_match_percentages(matches)
+    return unless current_active_profile
+
+    matches.each { |match| match.calculate_matching_percentage!(current_active_profile) }
+  rescue StandardError => e
+    Rails.logger.warn("[Search] match % failed: #{e.class}: #{e.message}")
+  end
 
   # The profile just created in this session that has not got its preferences yet
   def pending_profile
