@@ -9,7 +9,8 @@ class AssetLinksController < ActionController::Base
     package = ENV['ANDROID_PACKAGE_NAME'].to_s.strip
     fingerprints = ENV['ANDROID_SHA256_FINGERPRINTS'].to_s.split(',').map(&:strip).reject(&:blank?)
     statements = if package.present? && fingerprints.any?
-                   [{ relation: ['delegate_permission/common.handle_all_urls'],
+                   [{ relation: ['delegate_permission/common.handle_all_urls',
+                                'delegate_permission/common.get_login_creds'],
                       target: { namespace: 'android_app', package_name: package,
                                 sha256_cert_fingerprints: fingerprints } }]
                  else
