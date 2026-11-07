@@ -158,3 +158,72 @@ div.pagination,
   // Assisted service: price card no longer "sticks" over the text
   .bk-as-buy { position: static !important; }
 }
+
+// ---- Phone side menu ---------------------------------------------------------
+// Icons in one straight column, one text size, even spacing, and the gold
+// footer sits below the menu instead of covering its last item
+.sidebar {
+  display: flex;
+  flex-direction: column;
+
+  .site-bar-header {
+    flex: 1 1 auto;
+    height: auto !important;
+    min-height: 0;
+  }
+
+  .site-bar-footer {
+    flex: 0 0 auto;
+    height: auto !important;
+    padding: 12px 0;
+  }
+
+  .mobile-site-bar-menu {
+    padding: 28px 0 12px !important;
+
+    > a,
+    > .dropdown > a {
+      padding: 11px 24px 11px 28px !important;
+      font-size: 15px !important;
+    }
+
+    > a > div,
+    > .dropdown .menu-title {
+      display: flex !important;
+      align-items: center;
+      gap: 14px;
+      font-size: 15px !important;
+      font-weight: 500;
+      color: #412402 !important;
+      line-height: 1.3;
+    }
+
+    > a > div i,
+    > .dropdown .menu-title i {
+      flex: 0 0 22px;
+      width: 22px;
+      text-align: center;
+      font-size: 16px;
+      color: #C99A16;
+    }
+
+    .pl-1 { padding-left: 0 !important; }
+
+    > .dropdown > a.dropdown-toggle {
+      display: flex !important;
+      align-items: center;
+      justify-content: space-between;
+    }
+    > .dropdown > a.dropdown-toggle::after { margin-left: 10px; color: #C99A16; }
+
+    .dropdown-menu {
+      margin-left: 64px !important;
+      border: 0.5px solid #F1E6C8;
+      border-radius: 10px;
+      box-shadow: 0 6px 16px rgba(65, 36, 2, 0.08);
+    }
+    .dropdown-item { font-size: 14px !important; padding: 8px 16px !important; color: #633806; }
+
+    .notification-counter { margin-left: auto; font-weight: 700; }
+  }
+}
