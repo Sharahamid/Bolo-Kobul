@@ -90,7 +90,15 @@ module ExceptionHandler
         # => Email
         # => after_initialize invoked after .new method called
         # => Should have been after_create but user may not save
-        after_initialize -> (e) { ExceptionHandler::ExceptionMailer.new_exception(e).deliver }, if: :email? # => see bottom of file
+        # Never let a failed alert email break the error page itself (that showed members a bare
+        # "500 Internal Server Error" page instead of the friendly one)
+        after_initialize -> (e) {
+          begin
+            ExceptionHandler::ExceptionMailer.new_exception(e).deliver
+          rescue StandardError => mail_error
+            Rails.logger.error("[ExceptionHandler] alert email not sent: #{mail_error.class}: #{mail_error.message}")
+          end
+        }, if: :email? # => see bottom of file
 
         # => Attributes
         attr_accessor :request, :klass, :exception, :description
