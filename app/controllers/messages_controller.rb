@@ -13,6 +13,11 @@ class MessagesController < ApplicationController
 
   def profile
     @marriage_profile = MarriageProfile.friendly.find(params[:id])
+    if current_active_profile&.blocked_with?(@marriage_profile)
+      flash[:warning] = current_active_profile.blocked_by_me?(@marriage_profile) ?
+        I18n.t('chat.closed_you_blocked', id: @marriage_profile.unique_id) : I18n.t('chat.closed_blocked')
+      return redirect_to(messages_path)
+    end
     # Chatting opens only after both 2nd Kobuls are accepted
     unless current_active_profile&.chat_friendships&.exists?(chat_friend_id: @marriage_profile.id, status: 2)
       flash[:warning] = "Your chatting option will be open after you send 2 Kobuls to a profile you like, and they accept it"

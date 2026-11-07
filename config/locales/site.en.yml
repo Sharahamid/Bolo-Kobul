@@ -24,6 +24,7 @@ en:
     dashboard: Dashboard
     profile: Profile
     privacy_settings: Privacy Settings
+    blocked_profiles: "Blocked Profiles"
     reported_issues: Reported Issues
     orders: Orders
     preference: Preference
@@ -369,6 +370,8 @@ en:
     terms_html: I have read the %{terms} and %{privacy} of Bolo Kobul
     note: Your email and mobile number are never shown to other members.
   chat:
+    closed_you_blocked: "This chat is closed because you blocked %{id}. You can unblock them under Profile › Blocked Profiles."
+    closed_blocked: "This chat is no longer available."
     type_message: Type a message...
     view_profile: View Profile
     inactive: Inactive

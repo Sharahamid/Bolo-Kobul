@@ -59,6 +59,14 @@
              <%= t('nav.privacy_settings') %>
           </div>
         </a>
+        <% if current_active_profile %>
+        <a href="<%= blocked_profiles_marriage_profile_path(current_active_profile) %>" class="bk-active">
+          <div class="">
+            <i class="fa fa-ban"></i>
+            <%= t('nav.blocked_profiles') %>
+          </div>
+        </a>
+        <% end %>
         <a href="<%=
           (current_user.present? && current_active_profile.present?) ?
               search_page_marriage_profile_path(current_active_profile) : '#' %>"

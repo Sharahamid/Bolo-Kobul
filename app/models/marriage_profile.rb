@@ -95,7 +95,10 @@ class MarriageProfile < ApplicationRecord
 
   # Chats that still have another member (the other profile may have been deleted)
   def active_chat_rooms
+    # Chats with someone either side has blocked are hidden everywhere
+    blocked_ids = HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', friendable_id: id, status: 3).select(:friend_id)
     chat_rooms.where(id: ChatRoomUser.where.not(marriage_profile_id: id).select(:chat_room_id))
+              .where.not(id: ChatRoomUser.where(marriage_profile_id: blocked_ids).select(:chat_room_id))
   end
   has_many :favourites, dependent: :destroy
   # favourites profile for this profile
@@ -245,8 +248,18 @@ class MarriageProfile < ApplicationRecord
       HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', status: 3)
                                .where('(friendable_id = :a AND friend_id = :b) OR (friendable_id = :b AND friend_id = :a)', a: id, b: other.id)
                                .delete_all
-      ChatFriendship.where(marriage_profile_id: id, chat_friend_id: other.id, status: :blocked)
-                    .or(ChatFriendship.where(marriage_profile_id: other.id, chat_friend_id: id, status: :blocked)).delete_all
+      blocked_chat = ChatFriendship.where(marriage_profile_id: id, chat_friend_id: other.id, status: :blocked)
+                                   .or(ChatFriendship.where(marriage_profile_id: other.id, chat_friend_id: id, status: :blocked))
+      # If the two were already chatting before the block, reopen that chat (no need to
+      # send 2nd Kobuls again); otherwise start over
+      already_chatting = ChatRoomUser.where(marriage_profile_id: id).where(
+        chat_room_id: ChatRoomUser.where(marriage_profile_id: other.id).select(:chat_room_id)
+      ).exists?
+      if already_chatting
+        blocked_chat.update_all(status: ChatFriendship.statuses[:accepted], updated_at: Time.current)
+      else
+        blocked_chat.delete_all
+      end
     end
     true
   end
