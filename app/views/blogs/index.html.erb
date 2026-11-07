@@ -22,7 +22,7 @@
           <%= link_to "Horoscope Compatibility", blogs_path(type: 'horoscope_compatibility'), style: "padding:6px 16px; border-radius:20px; background:#{params[:type]=='horoscope_compatibility' ? '#FFB627' : '#fff'}; color:#{params[:type]=='horoscope_compatibility' ? '#fff' : '#FFB627'}; border:1px solid #FFB627; font-size:12px; text-decoration:none;" %>
         </div>
         <%= render partial: 'blog', collection: @blogs %>
-        <div style="text-align:center; margin-top:16px;">
+        <div class="bk-pager">
           <%= will_paginate @blogs, container: false %>
         </div>
       </div>

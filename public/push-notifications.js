@@ -22,12 +22,24 @@
     return meta ? meta.content : '';
   }
 
+  // Remembers this device's last saved address, so the server can drop it if the
+  // phone hands out a new one (instead of guessing by browser name)
+  var ENDPOINT_KEY = 'bkPushEndpoint';
+
   function saveSubscription(subscription) {
+    var body = subscription.toJSON();
+    try {
+      var previous = localStorage.getItem(ENDPOINT_KEY);
+      if (previous && previous !== body.endpoint) body.previous_endpoint = previous;
+    } catch (e) {}
     return fetch('/push_subscriptions', {
       method: 'POST',
       credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken() },
-      body: JSON.stringify(subscription.toJSON())
+      body: JSON.stringify(body)
+    }).then(function (response) {
+      try { if (response.ok) localStorage.setItem(ENDPOINT_KEY, body.endpoint); } catch (e) {}
+      return response;
     });
   }
 

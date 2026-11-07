@@ -12,3 +12,8 @@ ActiveSupport.on_load(:active_record) do
     alias_method :total_count, :count
   end
 end
+
+# Fewer page numbers so the row fits on a phone: 1 … 4 5 6 … 20
+require 'will_paginate/view_helpers'
+WillPaginate::ViewHelpers.pagination_options[:inner_window] = 1
+WillPaginate::ViewHelpers.pagination_options[:outer_window] = 0

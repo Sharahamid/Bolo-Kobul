@@ -1,0 +1,160 @@
+// Page-numbers, admin-written text, and phone layouts for the marketplace and
+// assisted-service pages.
+
+// ---- Page numbers (will_paginate) -------------------------------------------
+// Rounded buttons with even spacing instead of "← Previous12345Next →" run together
+div.pagination,
+.bk-pager {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+
+  > a,
+  > span,
+  > em {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid #F1E6C8;
+    background: #fff;
+    color: #854F0B;
+    font-size: 13px;
+    font-weight: 600;
+    font-style: normal;
+    line-height: 1;
+    text-decoration: none !important;
+    transition: background 0.15s, border-color 0.15s;
+  }
+
+  > a:hover,
+  > a:focus {
+    background: #FFF3CC;
+    border-color: #FFB627;
+    color: #412402;
+  }
+
+  > em.current {
+    background: #FFB627;
+    border-color: #FFB627;
+    color: #412402;
+    box-shadow: 0 2px 6px rgba(201, 154, 22, 0.3);
+  }
+
+  > .disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  > .gap {
+    border: 0;
+    background: transparent;
+    min-width: 20px;
+    padding: 0;
+  }
+
+  > .previous_page,
+  > .next_page {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  div.pagination,
+  .bk-pager {
+    gap: 6px;
+
+    > a,
+    > span,
+    > em {
+      min-width: 34px;
+      height: 34px;
+      padding: 0 10px;
+    }
+
+    // Just the arrows on a phone, so everything fits on one tidy row
+    > .previous_page,
+    > .next_page {
+      font-size: 0;
+      padding: 0;
+    }
+    > .previous_page::before,
+    > .next_page::before {
+      font-size: 20px;
+      line-height: 1;
+    }
+    > .previous_page::before { content: '\2039'; }
+    > .next_page::before { content: '\203A'; }
+  }
+}
+
+// ---- Admin-written text (FAQ answers, service pages) ------------------------
+// Text pasted into the admin editor brings its own fonts, sizes, line heights and
+// justified alignment, which leaves uneven gaps on phones. Make it all match.
+.bk-rich-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #555;
+  text-align: left;
+  overflow-wrap: break-word;
+
+  * {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: normal !important;
+    word-spacing: normal !important;
+    text-align: left !important;
+    background-color: transparent !important;
+  }
+
+  p, div { margin: 0 0 12px; }
+  > :last-child { margin-bottom: 0; }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+    font-weight: 700;
+    color: #412402;
+    margin: 22px 0 6px;
+  }
+  > h1:first-child, > h2:first-child, > h3:first-child,
+  > h4:first-child, > h5:first-child, > h6:first-child { margin-top: 0; }
+
+  strong, b { color: #412402; font-weight: 700; }
+  a { color: #854F0B; text-decoration: underline; }
+  br + br { display: none; }
+  img { max-width: 100%; height: auto; }
+}
+
+// FAQ: on phones the answer uses the full width instead of sitting under the number
+@media (max-width: 575.98px) {
+  .bk-faq-body { padding-left: 0 !important; }
+  .bk-faq-content h3 { font-size: 17px !important; }
+}
+
+// ---- Marketplace listing and assisted-service pages on phones ---------------
+// Two columns side by side on a computer; one column on a phone, so nothing is cut off
+@media (max-width: 767.98px) {
+  .bk-split {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 14px !important;
+  }
+  .bk-split > * { min-width: 0; }
+
+  // Marketplace: photos first, then the details
+  .bk-mp-gallery { order: -1; }
+  .bk-mp-gallery > div:first-child { min-height: 200px !important; }
+
+  // Assisted service: price card no longer "sticks" over the text
+  .bk-as-buy { position: static !important; }
+}

@@ -9,14 +9,18 @@ class PushSubscriptionsController < ApplicationController
       user: current_user,
       p256dh: keys.require(:p256dh),
       auth: keys.require(:auth),
-      user_agent: request.user_agent.to_s[0, 255]
+      user_agent: request.user_agent.to_s[0, 255],
+      updated_at: Time.current
     )
     if subscription.save
-      # The same browser on the same phone can hold an older sign-up (for example one
-      # made on www.bolokobul.com before it redirected), which doubled every notification.
-      # Keep only the newest one per browser.
-      current_user.push_subscriptions.where(user_agent: subscription.user_agent)
-                  .where.not(id: subscription.id).delete_all
+      # When the phone replaces its notification address, forget the old one.
+      # (Previously every other sign-up with the same browser name was removed, but
+      # all Android phones on the same Chrome version report the same name, so a
+      # second phone, or the app and the browser, could silently knock each other out.)
+      previous = params[:previous_endpoint].to_s
+      if previous.present? && previous != subscription.endpoint
+        current_user.push_subscriptions.where(endpoint: previous).delete_all
+      end
       head :created
     else
       head :unprocessable_entity
