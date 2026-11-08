@@ -93,6 +93,16 @@ class User < ApplicationRecord
   #
 
   has_many :marriage_profiles, dependent: :destroy
+
+  # The profile to open after signing in: the oldest one that has finished setup
+  # (has partner preferences), otherwise the oldest one. Without an order the
+  # database may return any profile, so members with a second, unfinished
+  # profile were sometimes sent to an empty Preference page.
+  def main_marriage_profile
+    marriage_profiles.left_joins(:partner_preference)
+                     .order(Arel.sql('CASE WHEN partner_preferences.id IS NULL THEN 1 ELSE 0 END'), :id)
+                     .first
+  end
   has_many :customer_supports, dependent: :destroy
   has_one :advertiser_profile, dependent: :destroy
   has_many :notifications, foreign_key: 'recipient_id', dependent: :destroy

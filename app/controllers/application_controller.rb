@@ -25,12 +25,12 @@ class ApplicationController < ActionController::Base
     if session[:marriage_profile_id].present?
       marriage_profile_id = session[:marriage_profile_id]
     elsif current_user&.marriage_profiles.present?
-      marriage_profile_id = current_user.marriage_profiles.first.id
+      marriage_profile_id = current_user.main_marriage_profile.id
     end
     # Only ever pick one of the signed-in user's own profiles
     @current_active_profile = current_user&.marriage_profiles&.find_by(id: marriage_profile_id)
     if @current_active_profile.nil? && current_user&.marriage_profiles.present?
-      @current_active_profile = current_user.marriage_profiles.first
+      @current_active_profile = current_user.main_marriage_profile
       session[:marriage_profile_id] = @current_active_profile.id
     end
     @current_active_profile
@@ -44,10 +44,21 @@ class ApplicationController < ActionController::Base
   end
 
   def check_preference
-    if current_active_profile.partner_preference.blank?
-      flash[:notice] = 'Please set preference'
-      redirect_to new_partner_preference_path
+    return if current_active_profile.partner_preference.present?
+
+    # A profile that was started but never finished (no preferences), while another
+    # of the member's profiles is complete: open the complete one instead of an
+    # empty Preference page. A profile made in the last day is still being set up.
+    finished = current_user.main_marriage_profile
+    if finished&.partner_preference.present? && current_active_profile.created_at < 1.day.ago
+      session[:marriage_profile_id] = finished.id
+      @current_active_profile = finished
+      redirect_to dashboard_marriage_profile_path(finished)
+      return
     end
+
+    flash[:notice] = 'Please set preference'
+    redirect_to new_partner_preference_path
   end
 
   protected
@@ -131,9 +142,15 @@ class ApplicationController < ActionController::Base
 
   def user_homepage(resource)
     if resource.created_for.present? && resource.other_as_matchmaker?
-      resource.marriage_profiles.present? ? dashboard_marriage_profile_path(resource.marriage_profiles.first) : new_marriage_profile_path
+      resource.marriage_profiles.present? ? dashboard_marriage_profile_path(resource.main_marriage_profile) : new_marriage_profile_path
     elsif resource.marriage_profiles.present?
-      current_active_profile.present? && current_active_profile.partner_preference.present? ? dashboard_marriage_profile_path(resource.marriage_profiles.first) : new_partner_preference_path
+      main = resource.main_marriage_profile
+      if main.partner_preference.present?
+        session[:marriage_profile_id] = main.id
+        dashboard_marriage_profile_path(main)
+      else
+        new_partner_preference_path
+      end
     else
       new_marriage_profile_path
     end
