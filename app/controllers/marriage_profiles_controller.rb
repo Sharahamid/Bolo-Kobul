@@ -149,7 +149,13 @@ class MarriageProfilesController < ApplicationController
     end
   end
 
+  # The edit form opens inside the profile page. Opening /edit directly (for example
+  # from the weekly "Your profile was viewed" notification) goes to the profile page.
   def edit
+    respond_to do |format|
+      format.js
+      format.html { redirect_to profile_info_marriage_profile_path(@marriage_profile) }
+    end
   end
 
   def send_request

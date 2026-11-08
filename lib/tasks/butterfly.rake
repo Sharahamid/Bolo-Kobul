@@ -40,7 +40,7 @@ namespace :butterfly do
       next if progress >= 80
       next if profile.user.nil?
       profile.user.notifications.create(
-        content: "Your profile is #{progress}% complete. A complete profile gets 5x more attention! <a href='/marriage_profiles/#{profile.slug}/edit' style='color:#FFB627;font-weight:600;'>Complete Profile</a>",
+        content: "Your profile is #{progress}% complete. A complete profile gets 5x more attention! <a href='/marriage_profiles/#{profile.slug}/profile_info' style='color:#FFB627;font-weight:600;'>Complete Profile</a>",
         notifiable: profile,
         will_email: false,
         will_sms: false
@@ -58,7 +58,7 @@ namespace :butterfly do
       Rails.cache.delete(key)
       next if view_count == 0
       profile.user.notifications.create(
-        content: "Your profile was viewed #{view_count} #{view_count == 1 ? 'time' : 'times'} this week! A complete profile attracts more attention. <a href='/marriage_profiles/#{profile.slug}/edit' style='color:#FFB627;font-weight:600;'>Complete Profile</a>",
+        content: "Your profile was viewed #{view_count} #{view_count == 1 ? 'time' : 'times'} this week! A complete profile attracts more attention. <a href='/marriage_profiles/#{profile.slug}/profile_info' style='color:#FFB627;font-weight:600;'>Complete Profile</a>",
         notifiable: profile,
         will_email: false,
         will_sms: false
