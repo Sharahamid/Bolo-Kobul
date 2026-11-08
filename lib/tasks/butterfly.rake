@@ -40,7 +40,7 @@ namespace :butterfly do
       next if progress >= 80
       next if profile.user.nil?
       profile.user.notifications.create(
-        content: "Your profile is #{progress}% complete. A complete profile gets 5x more attention! <a href='/marriage_profiles/#{profile.slug}/profile_info' style='color:#FFB627;font-weight:600;'>Complete Profile</a>",
+        content: "Your profile is #{progress}% complete. A complete profile gets much more attention! <a href='/marriage_profiles/#{profile.slug}/profile_info' style='color:#FFB627;font-weight:600;'>Complete Profile</a>",
         notifiable: profile,
         will_email: false,
         will_sms: false
