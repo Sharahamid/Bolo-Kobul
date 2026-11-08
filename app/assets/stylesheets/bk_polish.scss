@@ -324,3 +324,38 @@ div.pagination,
   background: #FFFBF0 !important;
   border-left: 4px solid #FFB627 !important;
 }
+
+// ---- Top menu on computers -----------------------------------------------------
+// Every menu item on one line and on the same middle line ("About Us" no longer
+// breaks onto two lines); Login as a tidy rounded button
+@media (min-width: 992px) {
+  .bk-header .navbar-nav { align-items: center; }
+  .bk-header .custom-navbar-nav {
+    padding-left: 2.5rem !important;
+    gap: 6px;
+  }
+  .bk-header .navbar-nav .nav-item { display: flex; align-items: center; }
+  .bk-header .navbar-nav .nav-link {
+    white-space: nowrap;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    line-height: 1.4;
+  }
+  .bk-header .help-dropdown,
+  .bk-header .navbar-nav .nav-item.p-2 { padding-top: 0 !important; padding-bottom: 0 !important; }
+  .bk-header .nav-login-btn {
+    display: inline-flex !important;
+    align-items: center;
+    border-radius: 999px !important;
+    padding: 7px 22px !important;
+    font-size: 14px !important;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    box-shadow: 0 2px 6px rgba(201, 154, 22, 0.3) !important;
+    white-space: nowrap;
+  }
+}
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .bk-header .custom-navbar-nav { padding-left: 1rem !important; gap: 0; }
+  .bk-header .navbar-nav .nav-link { padding-left: 10px !important; padding-right: 10px !important; font-size: 15px; }
+}
