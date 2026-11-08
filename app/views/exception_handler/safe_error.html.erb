@@ -40,7 +40,8 @@
         </form>
       <% end %>
     </div>
-    <div class="help">Still not working? Write to <a href="mailto:support@bolokobul.com?subject=Page%20error">support@bolokobul.com</a></div>
+    <div class="help">Still not working? Write to <a href="mailto:support@bolokobul.com?subject=Page%20error%20<%= request.request_id.to_s.first(8) %>">support@bolokobul.com</a> and mention this code:</div>
+    <div class="help" style="margin-top:6px;"><span style="display:inline-block; font-family:monospace; font-size:14px; letter-spacing:1px; background:#FFF3CC; color:#633806; border-radius:8px; padding:4px 12px;"><%= request.request_id.to_s.first(8) %></span></div>
   </div>
 </body>
 </html>
