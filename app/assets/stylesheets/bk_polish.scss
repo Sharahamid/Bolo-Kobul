@@ -834,3 +834,8 @@ body.bk-menu-open .sidebar {
   box-shadow: 0 2px 8px rgba(65, 36, 2, 0.12);
   i { font-size: 14px; color: #A4262C; }
 }
+
+// Narrow profile cards: the Mutual pill shows only its handshake icon so it never
+// runs past the card edge (the profile page shows the full word)
+.bk-mini-badges .bk-mutual-pill { padding: 1px 5px; }
+.bk-mini-badges .bk-mutual-text { display: none; }

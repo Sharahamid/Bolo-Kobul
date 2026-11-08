@@ -30,7 +30,7 @@ class RecommendationService
 
   # Recalculated daily, and also as soon as a new member joins or this member changes their preferences
   def self.cache_key(profile)
-    "recommendations_v2_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
+    "recommendations_v3_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
       "#{profile.partner_preference&.updated_at.to_i}"
   end
 
@@ -194,14 +194,14 @@ class RecommendationService
       min_age, max_age = range
     end
 
-    if min_age && max_level >= 3
-      buffer = max_level >= 4 ? 0 : 2
-      matches = matches.where('extract(year from date_of_birth) <= ?', Time.now.year - min_age + buffer)
+    # The age range is never relaxed: nobody outside it is recommended, even if that
+    # means fewer than 10 suggestions (exact age by date of birth)
+    if min_age
+      matches = matches.where('date_of_birth <= ?', Date.current.years_ago(min_age).end_of_day)
     end
 
-    if max_age && max_level >= 3
-      buffer = max_level >= 4 ? 0 : 2
-      matches = matches.where('extract(year from date_of_birth) >= ?', Time.now.year - max_age - buffer)
+    if max_age
+      matches = matches.where('date_of_birth > ?', Date.current.years_ago(max_age + 1).end_of_day)
     end
 
     if preference.min_height.present? && max_level >= 2
