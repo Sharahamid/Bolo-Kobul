@@ -21,18 +21,15 @@ class ApplicationController < ActionController::Base
   end
 
   def current_active_profile
-    marriage_profile_id = 0
-    if session[:marriage_profile_id].present?
-      marriage_profile_id = session[:marriage_profile_id]
-    elsif current_user&.marriage_profiles.present?
-      marriage_profile_id = current_user.main_marriage_profile.id
-    end
-    # Only ever pick one of the signed-in user's own profiles
-    @current_active_profile = current_user&.marriage_profiles&.find_by(id: marriage_profile_id)
-    if @current_active_profile.nil? && current_user&.marriage_profiles.present?
-      @current_active_profile = current_user.main_marriage_profile
-      session[:marriage_profile_id] = @current_active_profile.id
-    end
+    return nil unless current_user
+
+    # Only ever pick one of the signed-in user's own, saved profiles. (A profile being
+    # created can sit unsaved on the account while its form shows an error, so this
+    # always asks the database rather than the in-memory list.)
+    saved = current_user.marriage_profiles.where.not(id: nil)
+    @current_active_profile = saved.find_by(id: session[:marriage_profile_id]) if session[:marriage_profile_id].present?
+    @current_active_profile ||= current_user.main_marriage_profile
+    session[:marriage_profile_id] = @current_active_profile.id if @current_active_profile
     @current_active_profile
   end
 
@@ -141,18 +138,17 @@ class ApplicationController < ActionController::Base
   end
 
   def user_homepage(resource)
+    main = resource.main_marriage_profile # saved profiles only
     if resource.created_for.present? && resource.other_as_matchmaker?
-      resource.marriage_profiles.present? ? dashboard_marriage_profile_path(resource.main_marriage_profile) : new_marriage_profile_path
-    elsif resource.marriage_profiles.present?
-      main = resource.main_marriage_profile
-      if main.partner_preference.present?
-        session[:marriage_profile_id] = main.id
-        dashboard_marriage_profile_path(main)
-      else
-        new_partner_preference_path
-      end
-    else
+      main ? dashboard_marriage_profile_path(main) : new_marriage_profile_path
+    elsif main.nil?
       new_marriage_profile_path
+    elsif main.partner_preference.present?
+      session[:marriage_profile_id] = main.id
+      dashboard_marriage_profile_path(main)
+    else
+      session[:marriage_profile_id] = main.id
+      new_partner_preference_path
     end
   end
 
