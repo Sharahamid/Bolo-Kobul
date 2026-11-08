@@ -1,13 +1,14 @@
+<%# Kobul boxes that have someone waiting come first (right under Chats, above
+    Recommendations); empty Kobul boxes move to the end %>
+<% boxes = [['home/dashboard/partner_requests', get_requested_profiles.present?],
+            ['home/dashboard/accepted_profiles', get_accepted_profiles.present?]] %>
+<% order = boxes.select(&:last).map(&:first) + ['home/dashboard/recommended_profiles'] + boxes.reject(&:last).map(&:first) %>
 <div class="partner-requests pb-4">
   <div class="d-sm-flex flex-sm-row pt-4" style="align-items:flex-start; gap:12px;">
-    <div style="flex:1; min-width:0;">
-      <%= render 'home/dashboard/recommended_profiles' %>
-    </div>
-    <div style="flex:1; min-width:0;">
-      <%= render 'home/dashboard/partner_requests' %>
-    </div>
-    <div style="flex:1; min-width:0;">
-      <%= render 'home/dashboard/accepted_profiles' %>
-    </div>
+    <% order.each do |box| %>
+      <div style="flex:1; min-width:0;">
+        <%= render box %>
+      </div>
+    <% end %>
   </div>
 </div>
