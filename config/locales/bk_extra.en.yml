@@ -149,7 +149,7 @@ en:
       must_title: "Must-haves"
       must_hint: "Tick only what you won't compromise on. Profiles that don't meet these are shown last, with a lower match %."
       none: "None"
-      age_auto: "%{age} (around your age)"
+      age_auto: "%{age} (suggested)"
       mutual: "Mutual"
       mutual_tip: "A strong match both ways: you fit what each other is looking for"
       fails_must: "Doesn't meet your must-have: %{items}"

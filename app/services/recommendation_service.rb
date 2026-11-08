@@ -187,12 +187,11 @@ class RecommendationService
       matches = matches.where("present_location IN (?)", preference.present_location)
     end
 
-    # Age range; when the member left both ages blank, a range around their own age
+    # Age range; when the member left both ages blank, the suggested range (see MarriageProfile#default_age_range)
     min_age = preference.min_age.presence&.to_i
     max_age = preference.max_age.presence&.to_i
-    if min_age.nil? && max_age.nil? && (own_age = preference.marriage_profile&.age_in_years)
-      min_age = [own_age - MarriageProfile::DEFAULT_AGE_GAP, 18].max
-      max_age = own_age + MarriageProfile::DEFAULT_AGE_GAP
+    if min_age.nil? && max_age.nil? && (range = preference.marriage_profile&.default_age_range)
+      min_age, max_age = range
     end
 
     if min_age && max_level >= 3

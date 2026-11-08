@@ -630,8 +630,22 @@ class MarriageProfile < ApplicationRecord
   # Points for a detail the other profile has not filled in yet
   UNKNOWN_FIT = 0.33
 
-  # Age range assumed when a member leaves both Min and Max Age blank
-  DEFAULT_AGE_GAP = 5
+  # Age range assumed when a member leaves both Min and Max Age blank ("Doesn't matter"):
+  #  - a woman: from her own age up to 14 years older (36 -> 36 to 50)
+  #  - a man: from 15 years younger up to his own age (36 -> 21 to 36)
+  DEFAULT_OLDER_GAP = 14
+  DEFAULT_YOUNGER_GAP = 15
+
+  def default_age_range
+    own = age_in_years
+    return nil if own.nil?
+
+    if gender.to_s == 'male'
+      [[own - DEFAULT_YOUNGER_GAP, 18].max, own]
+    else
+      [own, own + DEFAULT_OLDER_GAP]
+    end
+  end
 
   def age_in_years
     return nil if date_of_birth.blank?
@@ -657,14 +671,11 @@ class MarriageProfile < ApplicationRecord
     wanted = Array(preference.religion).map(&:to_s).reject(&:blank?)
     fit[:religion] = list_fit(wanted, candidate.religion) if wanted.any?
 
-    # Age (either limit may be left open). If both are blank, assume the member wants
-    # someone within DEFAULT_AGE_GAP years of their own age, rather than every age.
+    # Age (either limit may be left open). If both are blank, use #default_age_range
+    # rather than every age.
     min_age = preference.min_age.presence&.to_i
     max_age = preference.max_age.presence&.to_i
-    if min_age.nil? && max_age.nil? && (own_age = seeker.age_in_years)
-      min_age = [own_age - DEFAULT_AGE_GAP, 18].max
-      max_age = own_age + DEFAULT_AGE_GAP
-    end
+    min_age, max_age = seeker.default_age_range if min_age.nil? && max_age.nil? && seeker.default_age_range
     if min_age || max_age
       fit[:age] =
         if candidate.date_of_birth.blank? then UNKNOWN_FIT
