@@ -11,9 +11,9 @@ ActiveAdmin.setup do |config|
   end
 
   # For downloadable links
-  config.namespace :shefali007 do |admin| # the real admin area (an :admin one made a broken /admin page)
-    admin.download_links = [:csv, :xml, :json, :csv_email]
-  end
+  # (A "config.namespace :admin" block used to be here. It created a second, empty
+  # admin area at /admin with no dashboard, so every visit there raised an error.
+  # The real admin area keeps its normal CSV / XML / JSON download links.)
   module ActiveAdmin::ViewHelpers::DownloadFormatLinksHelper
     def build_download_format_links(formats = self.class.formats)
       params = request.query_parameters.except :format, :commit
