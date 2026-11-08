@@ -11,7 +11,7 @@ ActiveAdmin.setup do |config|
   end
 
   # For downloadable links
-  config.namespace :admin do |admin|
+  config.namespace :shefali007 do |admin| # the real admin area (an :admin one made a broken /admin page)
     admin.download_links = [:csv, :xml, :json, :csv_email]
   end
   module ActiveAdmin::ViewHelpers::DownloadFormatLinksHelper
