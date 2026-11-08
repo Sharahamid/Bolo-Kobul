@@ -5,7 +5,7 @@
       <span style="background:#633806; color:#FAC775; font-size:10px; padding:1px 8px; border-radius:20px;"><%= get_accepted_profiles.count %></span>
     <% end %>
   </div>
-  <div class="recommended_profiles">
+  <div class="recommended_profiles mb-2">
     <% if get_accepted_profiles.present? %>
       <% get_accepted_profiles.each do |accepted_profile| %>
         <div class="flex-fill border-bottom">
