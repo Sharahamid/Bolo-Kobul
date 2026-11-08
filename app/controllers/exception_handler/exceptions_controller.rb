@@ -63,6 +63,10 @@ module ExceptionHandler
       @signed_in = (user_signed_in? rescue false)
       @logout_token = (form_authenticity_token rescue '')
       render 'exception_handler/safe_error', layout: false, status: @exception&.status.to_i.positive? ? @exception.status : 500, formats: [:html]
+    rescue StandardError => e
+      # Last resort: if even the friendly page fails, show the plain static one
+      Rails.logger.error("[ExceptionHandler] safe page failed: #{e.class}: #{e.message}")
+      render file: Rails.public_path.join('500.html'), layout: false, status: 500, content_type: 'text/html'
     end
 
     # => Pulls from Exception class
