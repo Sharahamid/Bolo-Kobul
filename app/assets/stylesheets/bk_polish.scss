@@ -698,6 +698,17 @@ div.pagination,
   }
 }
 
+// Looking at someone else's profile on a phone: their card (photo, match %, Mutual,
+// why this match, age/height/location) comes first, then the profile details
+@media (max-width: 575.98px) {
+  body.bk-viewing-other .dashboard > .container > .d-sm-flex > .left-sidebar-section:not(.message-left-sidebar):not(.mb-4),
+  body.bk-viewing-other .dashboard > .container > .d-sm-flex > .profiles-container:has(> .left-sidebar-section:not(.message-left-sidebar):not(.mb-4)) {
+    order: -1;
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+}
+
 .bk-no-data { margin: 6px 0; font-size: 13px; color: #a8977c; font-style: italic; text-align: left; }
 .detail-info .info-alignment table td.bk-blank::after { content: '—'; color: #d8ccb6; font-weight: 400; }
 
