@@ -21,9 +21,9 @@
         </div>
       <% end %>
     <% else %>
-      <div class="alert text-center text-gray" style="padding:40px 16px; min-height:110px; display:flex; align-items:center; justify-content:center;">
-        <p style="margin:0;"><%= t('dashboard.no_request') %></p>
-      </div>
+      <%= render 'shared/bk_empty_state', icon: 'fa-paper-plane', title: t('bkx.empty.requests_title'), text: t('bkx.empty.requests_text'),
+                 actions: [[t('bkx.empty.search'), search_page_marriage_profile_path(current_active_profile)],
+                           [t('bkx.empty.complete'), profile_info_marriage_profile_path(current_active_profile)]] %>
     <% end %>
   </div>
 </div>

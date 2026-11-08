@@ -1,0 +1,11 @@
+<div class="container" style="padding-top:20px; padding-bottom:32px; max-width:720px;">
+  <div style="border-radius:16px; overflow:hidden; background:#fff; border:0.5px solid #F1E6C8;">
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:14px 18px; display:flex; align-items:center; gap:8px;">
+      <i class="fas fa-comments" style="color:#412402;"></i>
+      <strong style="color:#412402; font-size:15px;"><%= t('dashboard.chats') %></strong>
+    </div>
+    <%= render 'shared/bk_empty_state', icon: 'fa-comment-dots', title: t('bkx.empty.chats_title'), text: t('bkx.empty.chats_text'),
+               actions: [[t('bkx.empty.search'), search_page_marriage_profile_path(current_active_profile)],
+                         [t('nav.how_it_works', default: 'How It Works'), how_it_works_path]] %>
+  </div>
+</div>

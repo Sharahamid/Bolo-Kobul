@@ -22,4 +22,8 @@ class MarketPlaceType < ApplicationRecord
 
   # Order of the Wedding Shopping menu (Admin > Market Place Types > Display order)
   scope :menu_order, -> { order(:display_order, :id) }
+
+  # Only categories that have at least one approved listing (empty ones are hidden
+  # from the Wedding Shopping menu and the filter until a listing is approved)
+  scope :with_listings, -> { where(id: MarketPlace.approved.select(:market_place_type_id)) }
 end

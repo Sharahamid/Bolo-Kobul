@@ -1,4 +1,5 @@
 <% flash.each do |type, msg| %>
+  <% next if type.to_s.start_with?("bk_") # internal markers, not messages %>
   <div class="container-fluid">
   <div class="container bk-flash-msg">
     <div class="alert yellow-background text-white alert-dismissible custom-alert" id="success-alert">

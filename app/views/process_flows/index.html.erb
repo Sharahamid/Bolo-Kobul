@@ -1,12 +1,38 @@
-<div class="wrapper">
-  <div class="container hiw-places-container">
-    <div class="row">
-      <div class="col-md-12">
-        <div id="accordion" role="tablist" aria-multiselectable="true" class="card-collapse">
-          <%= render partial: 'process_flow',
-                     collection: @process_flows %>
+<%# How It Works: real text steps (readable on phones, in English and Bangla).
+    The butterfly numbers come from Admin > Butterfly Config. %>
+<% c = bk_costs %>
+<% vars = { n1: local_digits(c[:n1]), n2: local_digits(c[:n2]),
+            b1: butterflies_label(c[:n1]), b2: butterflies_label(c[:n2]) } %>
+<% icons = %w[fa-user-plus fa-sliders-h fa-search fa-paper-plane fa-unlock-alt fa-comment-dots fa-shield-alt fa-ring] %>
+
+<div class="container bk-how" style="padding-top:20px; padding-bottom:36px;">
+  <div class="bk-how-head">
+    <h1><%= t('bkx.how.title') %></h1>
+    <p><%= t('bkx.how.subtitle') %></p>
+  </div>
+
+  <ol class="bk-how-steps">
+    <% (1..8).each do |n| %>
+      <li class="bk-how-step">
+        <div class="bk-how-icon"><i class="fas <%= icons[n - 1] %>"></i></div>
+        <div class="bk-how-body">
+          <div class="bk-how-num"><%= t('bkx.how.step', n: local_digits(n)) %></div>
+          <h2><%= t("bkx.how.steps.s#{n}_title") %></h2>
+          <p><%= t("bkx.how.steps.s#{n}_text", **vars) %></p>
         </div>
-      </div>
+      </li>
+    <% end %>
+  </ol>
+
+  <div class="bk-how-cta">
+    <div>
+      <strong><%= t('bkx.how.cta_title') %></strong>
+      <span><%= t('bkx.how.cta_text') %></span>
     </div>
+    <% if current_user && current_active_profile %>
+      <%= link_to t('bkx.how.cta_member'), search_page_marriage_profile_path(current_active_profile), class: 'bk-pill-btn' %>
+    <% else %>
+      <%= link_to t('bkx.how.cta'), root_path, class: 'bk-pill-btn' %>
+    <% end %>
   </div>
 </div>

@@ -1,0 +1,16 @@
+<%# Why families can trust Bolo Kobul - each line matches how the site works %>
+<section class="bk-trust">
+  <div class="container">
+    <div class="bk-trust-grid">
+      <% [['fa-mobile-alt', 'phone'], ['fa-comment-slash', 'strangers'], ['fa-eye-slash', 'photos'], ['fa-phone-slash', 'contact']].each do |icon, key| %>
+        <div class="bk-trust-item">
+          <div class="bk-trust-icon"><i class="fas <%= icon %>"></i></div>
+          <div>
+            <strong><%= t("bkx.trust.#{key}") %></strong>
+            <span><%= t("bkx.trust.#{key}_text") %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

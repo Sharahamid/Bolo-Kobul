@@ -3,14 +3,14 @@
     <div class="col-md-9 mb-3">
       <div style="border-radius:16px; overflow:hidden; background:#fff; border:0.5px solid #F1E6C8;">
         <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:24px; text-align:center;">
-          <h1 style="font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; color:#412402; margin:0;">Referral Code</h1>
-          <p style="font-size:13px; color:#633806; margin:6px 0 0;">Invited by a friend? Use their code when you join.</p>
+          <h1 style="font-family:'Plus Jakarta Sans',sans-serif; font-size:24px; font-weight:800; color:#412402; margin:0;"><%= t('bkx.referral.title') %></h1>
+          <p style="font-size:13px; color:#633806; margin:6px 0 0;"><%= t('bkx.referral.subtitle') %></p>
         </div>
 
         <div style="padding:24px;">
           <% if !@logged_in %>
             <p style="color:#555; font-size:14px; line-height:1.7; margin:0 0 16px;">
-              Enter the referral code shared with you, then tap <strong style="color:#412402;">Register Now</strong>.
+              <%= t('bkx.referral.intro_html') %>
             </p>
             <% if @referral_error %>
               <div class="alert alert-danger" style="border-radius:10px; font-size:13px;"><%= @referral_error %></div>
@@ -20,16 +20,16 @@
                 <%= text_field_tag :referral_code, '',
                                    autofocus: true,
                                    class: 'form-control',
-                                   placeholder: 'Type referral code here',
+                                   placeholder: t('bkx.referral.placeholder'),
                                    required: true,
                                    style: 'flex:1 1 220px; height:46px; border-radius:12px; border:1px solid #FAC775; background:#FFFBF0; font-size:15px; padding:0 14px;' %>
-                <%= submit_tag 'Register Now',
+                <%= submit_tag t('bkx.referral.button'),
                                style: 'flex:0 0 auto; height:46px; padding:0 26px; border:0; border-radius:999px; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#412402; font-weight:700; font-size:14px; cursor:pointer;' %>
               </div>
             <% end %>
           <% else %>
             <p style="color:#555; font-size:14px; line-height:1.7; margin:0;">
-              You're already a member, so there's nothing to enter here. Referral codes are for people joining Bolo Kobul for the first time.
+              <%= t('bkx.referral.member') %>
             </p>
           <% end %>
         </div>

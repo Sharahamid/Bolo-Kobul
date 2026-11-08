@@ -22,7 +22,8 @@
     .bk-push__actions { flex: 1 1 100%; justify-content: flex-end; }
   }
 </style>
-<div id="bk-push-prompt" class="bk-push" role="region" aria-label="Notifications" hidden>
+<% happy = flash[:bk_push_moment].present? %>
+<div id="bk-push-prompt" class="bk-push" role="region" aria-label="Notifications" hidden<%= ' data-happy' if happy %>>
   <div class="bk-push__icon" aria-hidden="true">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -30,8 +31,8 @@
     </svg>
   </div>
   <div class="bk-push__text">
-    <p class="bk-push__title"><%= t('push.prompt_title') %></p>
-    <p class="bk-push__body"><%= t('push.prompt_body') %></p>
+    <p class="bk-push__title"><%= happy ? t('bkx.alerts.title') : t('push.prompt_title') %></p>
+    <p class="bk-push__body"><%= happy ? t('bkx.alerts.text') : t('push.prompt_body') %></p>
   </div>
   <div class="bk-push__actions">
     <button type="button" class="bk-push__btn bk-push__btn--ghost" data-push-dismiss><%= t('push.not_now') %></button>

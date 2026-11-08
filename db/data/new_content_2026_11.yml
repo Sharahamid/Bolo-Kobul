@@ -1,0 +1,194 @@
+# New FAQ section and practical blog posts (November 2026).
+# Added by: RAILS_ENV=production bin/rails site_content:add_nov_2026
+# Safe to run more than once: entries are matched by title and only created if missing.
+
+faq:
+  title: "Kobuls, Butterflies & Privacy"
+  title_bn: "কবুল, প্রজাপতি ও গোপনীয়তা"
+  content: |
+    <h4>What is a Kobul?</h4>
+    <p>A Kobul is how you tell someone you're interested. There are two steps. A <strong>1st Kobul</strong> asks to see their full profile. A <strong>2nd Kobul</strong> asks to start chatting.</p>
+    <h4>What opens after a 1st Kobul is accepted?</h4>
+    <p>You both see each other's photos, education, work, family details and "About Me". Before that, only the basic details are shown.</p>
+    <h4>What opens after a 2nd Kobul is accepted?</h4>
+    <p>Chat opens, so you can message each other on Bolo Kobul. Phone numbers are never shown. Share yours in chat only when you are comfortable.</p>
+    <h4>What is a butterfly?</h4>
+    <p>Butterflies are what you use to send and accept Kobuls. New members get free butterflies when they join, and you can buy more from <strong>Orders</strong> at any time. The current prices are shown on the home page under "Simple, honest pricing".</p>
+    <h4>Do I get my butterflies back?</h4>
+    <p>For a <strong>1st Kobul</strong>, yes. Your butterfly is held while you wait for a reply, and it comes back if they decline or you cancel. For a <strong>2nd Kobul</strong>, the butterflies are not returned if it is declined or cancelled.</p>
+    <h4>Does accepting a Kobul use butterflies?</h4>
+    <p>Yes. When you accept a Kobul, the same number of butterflies is used from your balance as for sending one.</p>
+    <h4>What happens if my 2nd Kobul is declined?</h4>
+    <p>Chat does not open, and the 1st Kobul connection is removed too. You both stop seeing each other's photos and full details.</p>
+    <h4>Who can see my photos?</h4>
+    <p>Only members whose 1st Kobul you accept, or who accept yours. Everyone else sees your profile without photos.</p>
+    <h4>Can anyone message me?</h4>
+    <p>No. Chat only opens after you have both accepted a 1st and a 2nd Kobul. Strangers can't message you.</p>
+    <h4>How do I block someone?</h4>
+    <p>Use the <strong>Block</strong> button on their request or chat. You can see and unblock people later from <strong>Blocked Profiles</strong> in the menu.</p>
+    <h4>I have a question about a payment.</h4>
+    <p>Please write to <a href="mailto:support@bolokobul.com">support@bolokobul.com</a> or use <strong>Customer Support</strong> with your order details, and we'll help you.</p>
+  content_bn: |
+    <h4>কবুল কী?</h4>
+    <p>কবুল দিয়ে আপনি কাউকে জানান যে আপনি আগ্রহী। এর দুটি ধাপ। <strong>১ম কবুল</strong> দিয়ে তাঁর পূর্ণ প্রোফাইল দেখার অনুরোধ করেন। <strong>২য় কবুল</strong> দিয়ে চ্যাট শুরুর অনুরোধ করেন।</p>
+    <h4>১ম কবুল গৃহীত হলে কী খোলে?</h4>
+    <p>দুজনেই একে অপরের ছবি, শিক্ষা, পেশা, পরিবার ও "নিজের সম্পর্কে" দেখতে পান। এর আগে শুধু প্রাথমিক তথ্য দেখা যায়।</p>
+    <h4>২য় কবুল গৃহীত হলে কী খোলে?</h4>
+    <p>চ্যাট খোলে, তাই বলো কবুলে একে অপরকে মেসেজ করতে পারেন। ফোন নম্বর কখনো দেখানো হয় না। স্বস্তি বোধ করলে তবেই চ্যাটে নিজের নম্বর দিন।</p>
+    <h4>প্রজাপতি কী?</h4>
+    <p>কবুল পাঠাতে ও গ্রহণ করতে প্রজাপতি লাগে। নতুন সদস্যরা যোগ দিলেই ফ্রি প্রজাপতি পান, আর যেকোনো সময় <strong>অর্ডার</strong> থেকে আরও কিনতে পারেন। বর্তমান মূল্য হোম পেজের "সহজ ও স্বচ্ছ মূল্য" অংশে দেখানো আছে।</p>
+    <h4>প্রজাপতি কি ফেরত পাব?</h4>
+    <p><strong>১ম কবুলের</strong> ক্ষেত্রে হ্যাঁ। উত্তরের অপেক্ষায় থাকার সময় প্রজাপতি আটকে থাকে, আর প্রত্যাখ্যান বা বাতিল হলে ফেরত আসে। <strong>২য় কবুলের</strong> ক্ষেত্রে প্রত্যাখ্যান বা বাতিল হলে প্রজাপতি ফেরত হয় না।</p>
+    <h4>কবুল গ্রহণ করলে কি প্রজাপতি লাগে?</h4>
+    <p>হ্যাঁ। কবুল গ্রহণ করলে পাঠানোর সমান সংখ্যক প্রজাপতি আপনার ব্যালেন্স থেকে ব্যবহৃত হয়।</p>
+    <h4>আমার ২য় কবুল প্রত্যাখ্যাত হলে কী হয়?</h4>
+    <p>চ্যাট খোলে না, এবং ১ম কবুলের সংযোগও মুছে যায়। দুজনেই আর একে অপরের ছবি ও পূর্ণ তথ্য দেখতে পান না।</p>
+    <h4>আমার ছবি কে দেখতে পারে?</h4>
+    <p>শুধু সেই সদস্যরা, যাঁদের ১ম কবুল আপনি গ্রহণ করেছেন বা যাঁরা আপনারটা গ্রহণ করেছেন। বাকিরা আপনার প্রোফাইল ছবি ছাড়া দেখেন।</p>
+    <h4>যে কেউ কি আমাকে মেসেজ করতে পারে?</h4>
+    <p>না। দুজনে ১ম ও ২য় কবুল গ্রহণ করলে তবেই চ্যাট খোলে। অপরিচিত কেউ আপনাকে মেসেজ করতে পারে না।</p>
+    <h4>কাউকে কীভাবে ব্লক করব?</h4>
+    <p>তাঁর অনুরোধ বা চ্যাটে <strong>ব্লক</strong> বোতাম ব্যবহার করুন। পরে মেনুর <strong>ব্লক করা প্রোফাইল</strong> থেকে দেখতে ও আনব্লক করতে পারবেন।</p>
+    <h4>পেমেন্ট নিয়ে আমার প্রশ্ন আছে।</h4>
+    <p>অর্ডারের তথ্যসহ <a href="mailto:support@bolokobul.com">support@bolokobul.com</a>-এ লিখুন অথবা <strong>কাস্টমার সাপোর্ট</strong> ব্যবহার করুন, আমরা সাহায্য করব।</p>
+
+blogs:
+  - title: "How to Write a Marriage Biodata That Gets Noticed"
+    story_type: wedding_tips
+    cover: biodata
+    story: |
+      <p>Your biodata is the first conversation you have with a family you haven't met yet. It doesn't need fancy words. It needs to be clear, honest and complete enough for someone to feel they know you a little.</p>
+      <h3>1. Start with a clear, recent photo</h3>
+      <p>Choose a well-lit photo taken in the last year, facing the camera, with a plain background. Group photos and heavy filters make people hesitate. On Bolo Kobul your photos stay private until you accept a Kobul, so you can share a good one with confidence.</p>
+      <h3>2. Get the basics exactly right</h3>
+      <p>Age, height, education, occupation, home district and religion are what families check first. Make sure they match your documents. A small mistake, such as a height that doesn't match, can raise questions later.</p>
+      <h3>3. Describe your work simply</h3>
+      <p>Instead of only a job title, add one line about what you do and where. For example: "Senior Officer at a finance company in Khulna, working in client relations." It gives a real picture without sharing too much.</p>
+      <h3>4. Introduce your family warmly</h3>
+      <p>List parents and siblings with their occupations, and say a sentence about your family's values. Families are marrying families too, and this section is often read twice.</p>
+      <h3>5. Write "About Me" in your own voice</h3>
+      <p>Three or four sentences are enough: what matters to you, how you spend your free time, and what kind of home you hope to build. Avoid copying lines from the internet. People can tell, and your own words are always more convincing.</p>
+      <h3>6. Say what you're looking for, kindly</h3>
+      <p>Be honest about what matters most, such as values, education or location, but keep it short and respectful. A long list of demands can put good matches off.</p>
+      <h3>7. Check it once more</h3>
+      <p>Read it aloud or ask a sibling to read it. Fix spelling, remove repetition and make sure every section is filled in. On Bolo Kobul, your dashboard shows exactly which parts are still missing.</p>
+      <p><strong>Want help?</strong> Our team offers a guided biodata service under Assisted Services, if you'd like a professional to help you present yourself at your best.</p>
+
+  - title: "12 Questions to Ask Before Saying Kobul"
+    story_type: relationship_advice
+    cover: questions
+    story: |
+      <p>Chatting is where you find out whether the person behind the profile is someone you could build a life with. These twelve questions help you talk about what really matters, gently and without making it feel like an interview.</p>
+      <h3>About everyday life</h3>
+      <ol>
+        <li>What does a normal weekday look like for you?</li>
+        <li>Where would you like to live after marriage, and would you consider moving?</li>
+        <li>How do you like to spend your weekends and holidays?</li>
+      </ol>
+      <h3>About family</h3>
+      <ol start="4">
+        <li>How involved are your parents in your decisions today?</li>
+        <li>Would you like to live with or near your family after marriage?</li>
+        <li>What role do you see for each of us in looking after our parents?</li>
+      </ol>
+      <h3>About values and faith</h3>
+      <ol start="7">
+        <li>What part does faith play in your daily life?</li>
+        <li>What values would you want our home to be built on?</li>
+      </ol>
+      <h3>About work and money</h3>
+      <ol start="9">
+        <li>How do you see both of our careers after marriage?</li>
+        <li>How do you like to manage money: saving, spending and supporting family?</li>
+      </ol>
+      <h3>About the future</h3>
+      <ol start="11">
+        <li>How do you feel about children, and when?</li>
+        <li>When you disagree with someone close to you, how do you usually resolve it?</li>
+      </ol>
+      <h3>A few tips</h3>
+      <p>Ask one or two questions at a time, and share your own answers too. Listen for honesty more than "perfect" answers. If something important doesn't feel right, it's better to say so early and kindly than to discover it later.</p>
+      <p>On Bolo Kobul, chat opens once you've both accepted a 2nd Kobul, and your phone number stays private until you choose to share it.</p>
+
+  - title: "Meeting for the First Time: A Safety Checklist"
+    story_type: relationship_advice
+    cover: safety
+    story: |
+      <p>Meeting someone you've been chatting with is an exciting step. A little planning keeps it comfortable and safe for both of you and for your families.</p>
+      <h3>Before you meet</h3>
+      <ul>
+        <li><strong>Chat for a while first.</strong> Take time to get to know each other on Bolo Kobul before sharing your phone number or meeting.</li>
+        <li><strong>Check the details match.</strong> Name, work and family details should be consistent with the profile. If something keeps changing, pause.</li>
+        <li><strong>Tell your family or a friend.</strong> Share who you're meeting, where and when.</li>
+        <li><strong>Consider involving families early.</strong> Many families prefer that the first meeting happens with a parent or sibling present.</li>
+      </ul>
+      <h3>Choosing the place</h3>
+      <ul>
+        <li>Meet in a busy public place, such as a well-known restaurant or café, during the day.</li>
+        <li>Arrange your own transport there and back.</li>
+        <li>Avoid private homes, hotel rooms or isolated places for a first meeting.</li>
+      </ul>
+      <h3>During the meeting</h3>
+      <ul>
+        <li>Keep your phone charged and with you.</li>
+        <li>Don't share bank details, OTP codes, or copies of your NID or passport.</li>
+        <li>Trust your instincts. You can leave at any time, without explaining.</li>
+      </ul>
+      <h3>Warning signs</h3>
+      <ul>
+        <li>Asking for money, gifts or help with "emergencies".</li>
+        <li>Pushing to meet quickly or in private.</li>
+        <li>Refusing to involve families, or asking you to keep things secret.</li>
+      </ul>
+      <p>If anything worries you, use the <strong>Block</strong> button and report it to us through <strong>Customer Support</strong>. We take every report seriously. You can read more on our Precautionary Measures page.</p>
+
+  - title: "Marriage Registration in Bangladesh: What to Prepare"
+    story_type: wedding_tips
+    cover: registration
+    story: |
+      <p>Registering your marriage protects both of you and your future family. It gives you an official record you'll need for things like passports, visas, inheritance and children's documents. Here's a simple checklist to prepare.</p>
+      <p><em>Requirements can differ by religion, area and situation, so please confirm the details with your local marriage registrar (Kazi) or the relevant office before the day.</em></p>
+      <h3>Documents for the bride and groom</h3>
+      <ul>
+        <li>National ID card (NID) or birth registration certificate, with photocopies.</li>
+        <li>Recent passport-size photographs.</li>
+        <li>Proof of age. In Bangladesh the minimum legal age to marry is 18 for women and 21 for men.</li>
+        <li>If either of you was married before, the relevant divorce or death certificate.</li>
+      </ul>
+      <h3>Witnesses and guardians</h3>
+      <ul>
+        <li>Witnesses with their NID copies. Ask your registrar how many are needed.</li>
+        <li>Details of the guardians, where applicable.</li>
+      </ul>
+      <h3>For a Muslim marriage</h3>
+      <ul>
+        <li>The Kabinnama (Nikahnama) is completed and signed by the bride, groom, witnesses and the registrar.</li>
+        <li>Agree the dower (mohr) in advance and record it clearly, including how much is paid now and how much later.</li>
+        <li>Read every section of the Kabinnama before signing, including the clauses about the wife's rights.</li>
+      </ul>
+      <h3>After the ceremony</h3>
+      <ul>
+        <li>Collect the certified copy of your marriage registration and keep it safe.</li>
+        <li>Make a few photocopies and a scan for your records.</li>
+        <li>Update your NID or passport details if needed.</li>
+      </ul>
+      <p>Planning the wedding too? Browse trusted vendors under <strong>Wedding Shopping</strong> on Bolo Kobul.</p>
+
+  - title: "Talking to Your Parents About a Match You Found Online"
+    story_type: relationship_advice
+    cover: parents
+    story: |
+      <p>Many families still expect matches to come through relatives or a ghotok. When you find someone promising online, the way you bring it up can make all the difference.</p>
+      <h3>1. Choose the right moment</h3>
+      <p>Pick a calm time when your parents aren't rushed, not in the middle of a family event or a stressful day. Start with one parent if that feels easier.</p>
+      <h3>2. Explain how Bolo Kobul works</h3>
+      <p>Parents often worry about safety online. Tell them that members verify their phone numbers, that photos stay private until both sides accept, and that phone numbers are never shown. Chat only opens after both of you agree.</p>
+      <h3>3. Share the profile together</h3>
+      <p>Show them the full profile, including education, work and family details. Let them read the family section in particular. That's usually what they care about most.</p>
+      <h3>4. Listen to their questions</h3>
+      <p>Their questions come from care. Write them down and find the answers together, through chat or by suggesting the families speak. Don't take their first reaction as a final answer.</p>
+      <h3>5. Suggest the families connect</h3>
+      <p>Offer to arrange a phone call or a meeting between the families. Involving them early shows respect and helps everyone feel part of the decision.</p>
+      <h3>6. Be patient</h3>
+      <p>Give your parents time. Trust grows when they see you're thoughtful and honest about the process.</p>
+      <p>Many of our success stories began this way. Read a few under <strong>Success Stories</strong>; they might help your parents see what's possible.</p>

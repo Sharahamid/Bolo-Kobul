@@ -35,6 +35,8 @@
                   color:#854F0B !important; text-decoration:none !important; white-space:nowrap; transition:background .15s; }
   .bk-todo-link:hover { background:#FFEFC2; }
   .bk-todo-link i { font-size:8px; color:#FFB627; }
+  .bk-todo-reward { display:flex; gap:6px; align-items:flex-start; background:#FFFBF0; border:1px dashed #FAC775; border-radius:8px; padding:6px 8px; margin:0 0 8px; font-size:11px; line-height:1.4; color:#633806; }
+  .bk-todo-reward i { color:#FFB627; font-size:10px; margin-top:2px; }
   /* Edit Profile / Add Profile: brand pill instead of the plain yellow button */
   .left-sidebar-card .profile-bk-edit-btn .btn { background:linear-gradient(135deg,#FFB627,#ffca5e) !important; border:0 !important;
       color:#412402 !important; border-radius:999px !important; padding:8px 22px !important; font-size:13px !important;
@@ -80,7 +82,13 @@
       <% todo = current_active_profile.sections_to_update %>
       <% if todo.any? %>
         <div class="bk-todo">
-          <div class="bk-todo-title"><%= profile_t('dashboard.todo_title', current_active_profile) %></div>
+          <% items = current_active_profile.completeness_items %>
+          <div class="bk-todo-title" style="display:flex; justify-content:space-between; gap:8px;">
+            <span><%= profile_t('dashboard.todo_title', current_active_profile) %></span>
+            <span style="color:#C99A16; white-space:nowrap;"><%= t('bkx.todo.progress', done: local_digits(items.count { |i| i[:done] }), total: local_digits(items.size)) %></span>
+          </div>
+          <% reward_key = todo.include?(:photo) ? 'reward_photo' : (todo.include?(:id_document) ? 'reward_id' : 'reward_default') %>
+          <div class="bk-todo-reward"><i class="fas fa-star"></i><span><%= t("bkx.todo.#{reward_key}") %></span></div>
           <div class="bk-todo-chips">
             <% todo.each do |section| %>
               <%= link_to profile_info_marriage_profile_path(current_active_profile, anchor: "update-#{section.to_s.dasherize}"), class: 'bk-todo-link' do %>
@@ -172,7 +180,7 @@
           </div>
         <% elsif current_active_profile.chat_friendships.where(status: 0).map(&:chat_friend_id).include?(marriage_profile.id) %>
           <div class="bk-action-row">
-            <a href="<%= reject_request_chat_friendship_path(marriage_profile) %>" data-method="patch" class="kobul_btn kobul_2" style="font-size:11px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= t('kobul.tip.cancel_kobul_2') %>" data-confirm="<%= t('kobul.confirm.cancel_kobul_2') %>"><%= t('kobul.kobul_2_pending') %></a>
+            <a href="<%= reject_request_chat_friendship_path(marriage_profile) %>" data-method="patch" class="kobul_btn kobul_2" style="font-size:11px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= kobul_tip('cancel_kobul_2') %>" data-confirm="<%= t('kobul.confirm.cancel_kobul_2') %>"><%= t('kobul.kobul_2_pending') %></a>
             <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
               <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
                 <i class="fa fa-close"></i> <%= t('kobul.remove') %>
@@ -189,7 +197,7 @@
           <%= render 'home/dashboard/accept_and_cancel_btns', profile: marriage_profile %>
         <% elsif current_active_profile.pending_friends.include?(marriage_profile) %>
           <div class="bk-action-row">
-            <a href="<%= cancel_request_marriage_profile_path(marriage_profile) %>" data-method="patch" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= t('kobul.tip.cancel_kobul_1') %>" data-confirm="<%= t('kobul.confirm.cancel_kobul_1') %>"><%= t('kobul.pending') %></a>
+            <a href="<%= cancel_request_marriage_profile_path(marriage_profile) %>" data-method="patch" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= kobul_tip('cancel_kobul_1') %>" data-confirm="<%= t('kobul.confirm.cancel_kobul_1') %>"><%= t('kobul.pending') %></a>
             <% if current_active_profile.favourite_profile_ids.include?(marriage_profile.id) %>
               <%= link_to remove_favourites_path(favourite_profile_id: marriage_profile.id), method: :delete, class: 'kobul_cancel-btn' do %>
                 <i class="fa fa-close"></i> <%= t('kobul.remove') %>

@@ -21,9 +21,8 @@
         </div>
       <% end %>
     <% else %>
-      <div class="no-data-found alert text-center text-gray">
-        <h4> <%= t('dashboard.no_data') %></h4>
-      </div>
+      <%= render 'shared/bk_empty_state', icon: 'fa-heart', title: t('bkx.empty.matches_title'), text: t('bkx.empty.matches_text'),
+                 actions: [[t('bkx.empty.search'), search_page_marriage_profile_path(current_active_profile)], [t('bkx.empty.preferences'), (current_active_profile.partner_preference.present? ? partner_preference_path(current_active_profile.partner_preference) : new_partner_preference_path)]] %>
     <% end %>
   </div>
 </div>

@@ -9,13 +9,13 @@
     <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn kobul_2"
        data-butterfly-target="bk-target-chats"
        style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;"
-       data-toggle="tooltip" title="<%= t('kobul.tip.accept_kobul_2') %>">
+       data-toggle="tooltip" title="<%= kobul_tip('accept_kobul_2') %>">
       <%= t('kobul.accept_kobul_2') %>
     </a>
   <% elsif current_active_profile&.chat_friendships&.map(&:chat_friend_id)&.include?(profile.id) %>
     <span class="kobul_btn kobul_2"
        style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px; cursor:default;"
-       data-toggle="tooltip" title="<%= t('kobul.tip.kobul_2_pending') %>">
+       data-toggle="tooltip" title="<%= kobul_tip('kobul_2_pending') %>">
       <%= t('kobul.pending') %>
     </span>
   <% else %>
@@ -24,7 +24,7 @@
        data-method="post"
        data-butterfly-target="bk-target-chats"
        style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;"
-       data-toggle="tooltip" title="<%= t('kobul.tip.send_kobul_2') %>">
+       data-toggle="tooltip" title="<%= kobul_tip('send_kobul_2') %>">
       <%= t('kobul.kobul_2') %>
     </a>
   <% end %>

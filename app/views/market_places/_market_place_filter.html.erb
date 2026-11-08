@@ -3,24 +3,24 @@
     <div style="display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;">
 
       <div style="flex:1; min-width:130px;">
-        <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;">Type</label>
+        <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;"><%= t('bkx.market.type') %></label>
         <%= select_tag :market_place_type,
-                       options_for_select(MarketPlaceType.menu_order.pluck(:name), selected: params[:market_place_type]),
-                       prompt: 'All Types',
+                       options_for_select(MarketPlaceType.with_listings.menu_order.map { |type| [market_type_label(type.name), type.name] }, selected: params[:market_place_type]),
+                       prompt: t('bkx.market.all_types'),
                        style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:8px 12px; font-size:12px; color:#555; box-sizing:border-box;" %>
       </div>
 
       <div style="flex:1; min-width:130px;">
-        <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;">Location</label>
+        <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;"><%= t('bkx.market.location') %></label>
         <%= select_tag :location,
                        options_for_select(District.order(:name).pluck(:name), selected: params[:location]),
-                       prompt: 'All Locations',
+                       prompt: t('bkx.market.all_locations'),
                        style: "width:100%; background:#fafaf8; border:0.5px solid #FAC775; border-radius:8px; padding:8px 12px; font-size:12px; color:#555; box-sizing:border-box;" %>
       </div>
 
       <div style="flex:2; min-width:200px;">
         <label style="font-size:11px; font-weight:600; color:#633806; display:block; margin-bottom:5px;">
-          Price Range <span id="mp-price-display" style="display:none;"></span>
+          <%= t('bkx.market.price_range') %> <span id="mp-price-display" style="display:none;"></span>
         </label>
         <% max_cost = 5000000 %>
         <input type="hidden" name="price_range" id="mp-price-range-val" value="<%= params[:price_range] || "0,#{max_cost}" %>" />
@@ -43,7 +43,7 @@
 
       <div style="flex-shrink:0;">
         <button type="submit" style="background:#FFB627; color:#412402; border:none; border-radius:8px; padding:9px 20px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap;">
-          🔍 Search
+          🔍 <%= t('bkx.market.search') %>
         </button>
       </div>
 

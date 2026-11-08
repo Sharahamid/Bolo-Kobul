@@ -101,7 +101,9 @@
   function chatPromptDismissed() {
     try { return sessionStorage.getItem('bkPushChatDismissed') === '1'; } catch (e) { return false; }
   }
-  if (onChatPage ? chatPromptDismissed() : !firstVisitToday()) return;
+  // Right after a Kobul is sent or accepted (a happy moment) it always shows
+  var happyMoment = prompt.hasAttribute('data-happy');
+  if (!happyMoment && (onChatPage ? chatPromptDismissed() : !firstVisitToday())) return;
 
   prompt.hidden = false;
 

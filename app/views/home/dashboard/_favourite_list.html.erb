@@ -47,9 +47,8 @@
         <% end %>
       </div>
     <% else %>
-      <div class="alert text-center text-gray p-4">
-        <p><%= t('dashboard.no_favourites') %></p>
-      </div>
+      <%= render 'shared/bk_empty_state', icon: 'fa-bookmark', title: t('bkx.empty.favourites_title'), text: t('bkx.empty.favourites_text'),
+                 actions: [[t('bkx.empty.search'), search_page_marriage_profile_path(current_active_profile)]] %>
     <% end %>
   </div>
 

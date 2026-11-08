@@ -120,4 +120,39 @@ module LocaleHelper
 
     I18n.t("enums.#{model}.#{attribute}.#{value}", default: value.to_s.humanize)
   end
+
+  # Hover text on Kobul buttons, with the real butterfly costs from Admin > Butterfly Config
+  def kobul_tip(key)
+    config = ButterflyConfig.last
+    n1 = config&.profile_view_butterflies.to_i
+    n2 = config&.chat_butterflies.to_i
+    t("kobul.tip.#{key}",
+      n1: local_digits(n1), n2: local_digits(n2),
+      b1: "#{n1} #{n1 == 1 ? 'butterfly' : 'butterflies'}",
+      b2: "#{n2} #{n2 == 1 ? 'butterfly' : 'butterflies'}")
+  end
+
+  # Butterfly costs from Admin > Butterfly Config, for public pages
+  def bk_costs
+    @bk_costs ||= begin
+      config = ButterflyConfig.last
+      { n1: config&.profile_view_butterflies.to_i, n2: config&.chat_butterflies.to_i,
+        price: config&.butterfly_price.to_f, free: config&.num_of_free_butterfly.to_i }
+    end
+  end
+
+  # "1 butterfly" / "3 butterflies" / "৩টি প্রজাপতি"
+  def butterflies_label(count)
+    t(count == 1 ? 'bkx.pricing.butterfly' : 'bkx.pricing.butterflies', n: local_digits(count))
+  end
+
+  # Taka amounts without ".0": 1500.0 -> "1,500"
+  def taka(amount)
+    local_digits(number_with_delimiter(amount.to_f.round(0).to_i))
+  end
+
+  # Wedding Shopping category names in the current language
+  def market_type_label(name)
+    t("bkx.marketplace_types.#{name.to_s.parameterize(separator: '_')}", default: name.to_s.titleize)
+  end
 end

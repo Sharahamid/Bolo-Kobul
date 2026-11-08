@@ -28,6 +28,7 @@ class ChatFriendshipsController < ApplicationController
       end
       flash[:notice] = "Your 2nd Kobul has been sent successfully"
       session[:butterfly] = "animate"
+      flash[:bk_push_moment] = true # good moment to offer phone alerts
       redirect_back(fallback_location: "/")
     else
       redirect_for_more_butterflies("You don't have enough butterflies! You can purchase more.")
@@ -75,6 +76,7 @@ class ChatFriendshipsController < ApplicationController
         )
       end
       flash[:notice] = "Your 2nd Kobul has been accepted successfully"
+      flash[:bk_push_moment] = true
       redirect_to profile_message_path(@marriage_profile,
                                        butterfly: "animate")
     else

@@ -6,8 +6,8 @@ class MessagesController < ApplicationController
     if @chat_rooms.present?
       @message = Message.new
     else
-      flash[:warning] = "Your chatting option will be open after you send 2 Kobuls to a profile you like, and they accept it"
-      redirect_back fallback_location: root_path
+      # No chats yet: explain how chat opens and offer a next step
+      render :empty
     end
   end
 

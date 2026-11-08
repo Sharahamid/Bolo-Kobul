@@ -202,19 +202,19 @@ en:
     favourite: Favourite
     block: Block
     tip:
-      send_kobul_1: Send butterfly to request more details
-      sent_kobul_1: You Have Sent Butterfly Request To This User
-      send_kobul_2: Send Kobul 2 to start chatting
-      kobul_2_pending: Kobul 2 request pending
-      accept_kobul_2: Accept their 2nd Kobul to start chatting
-      cancel_kobul_1: Click to cancel your Kobul request
-      cancel_kobul_2: Click to cancel Kobul 2 request
-      reject_1: Reject 1st Kobul
-      reject_2: Reject 2nd Kobul
+      send_kobul_1: "1st Kobul · uses %{b1}, held until they reply and returned if they decline or you cancel. If they accept, you both see photos, education, work, family and About Me."
+      sent_kobul_1: "1st Kobul sent · your %{b1} is on hold until they reply"
+      send_kobul_2: "2nd Kobul · uses %{b2} to ask to chat. Chat opens when they accept. Not returned if declined or cancelled."
+      kobul_2_pending: "2nd Kobul sent · waiting for their reply. Chat opens when they accept."
+      accept_kobul_2: "Accept · uses %{b2} and opens chat. Phone numbers stay private."
+      cancel_kobul_1: "Cancel your 1st Kobul · your butterfly comes back"
+      cancel_kobul_2: "Cancel your 2nd Kobul · the butterflies used are not returned"
+      reject_1: "Decline · their butterfly goes back to them. They won't see your photos or details."
+      reject_2: "Decline · chat won't open, and the 1st Kobul connection is removed too"
       save_favourite: Save to favourites
       remove_favourite: Remove from favourites
-      send_chat: Send butterfly to chat with this profile.
-      send_view: Send butterfly to view profile.
+      send_chat: "Accept · uses %{b2} and opens chat. Phone numbers stay private."
+      send_view: "Accept · uses %{b1}. You both see photos, education, work, family and About Me."
       remove_chat_request: Remove this chat request
       block: Block this profile
     confirm:

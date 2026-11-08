@@ -1,0 +1,38 @@
+<%# Public prices, from Admin > Butterfly Config %>
+<% c = bk_costs %>
+<section class="bk-pricing" id="pricing">
+  <div class="container">
+    <div class="bk-pricing-head">
+      <h4><%= t('bkx.pricing.title') %></h4>
+      <p><%= t('bkx.pricing.subtitle') %></p>
+    </div>
+    <div class="bk-pricing-grid">
+      <div class="bk-price-card bk-price-card--free">
+        <div class="bk-price-name"><%= t('bkx.pricing.free_title') %></div>
+        <div class="bk-price-amount">৳<%= local_digits(0) %></div>
+        <p><%= t('bkx.pricing.free_items') %></p>
+        <% if c[:free] > 0 %>
+          <span class="bk-price-badge"><%= t('bkx.pricing.free_butterflies', n: local_digits(c[:free])) %></span>
+        <% end %>
+      </div>
+      <div class="bk-price-card">
+        <div class="bk-price-name"><%= t('bkx.pricing.kobul1_title') %></div>
+        <div class="bk-price-amount"><%= butterflies_label(c[:n1]) %></div>
+        <% if c[:price] > 0 %><div class="bk-price-sub"><%= t('bkx.pricing.about', amount: taka(c[:n1] * c[:price])) %></div><% end %>
+        <p><%= t('bkx.pricing.kobul1_text') %></p>
+      </div>
+      <div class="bk-price-card">
+        <div class="bk-price-name"><%= t('bkx.pricing.kobul2_title') %></div>
+        <div class="bk-price-amount"><%= butterflies_label(c[:n2]) %></div>
+        <% if c[:price] > 0 %><div class="bk-price-sub"><%= t('bkx.pricing.about', amount: taka(c[:n2] * c[:price])) %></div><% end %>
+        <p><%= t('bkx.pricing.kobul2_text') %></p>
+      </div>
+    </div>
+    <% if c[:price] > 0 %>
+      <p class="bk-pricing-note"><%= t('bkx.pricing.price_note', price: taka(c[:price])) %></p>
+    <% end %>
+    <% unless current_user %>
+      <div class="text-center"><a href="#" class="bk-pill-btn" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><%= t('bkx.pricing.cta') %></a></div>
+    <% end %>
+  </div>
+</section>

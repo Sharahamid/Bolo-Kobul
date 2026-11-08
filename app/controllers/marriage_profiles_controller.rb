@@ -201,6 +201,7 @@ class MarriageProfilesController < ApplicationController
       end
       flash[:notice] = "Your 1st Kobul has been sent successfully"
       session[:butterfly] = "animate"
+      flash[:bk_push_moment] = true # good moment to offer phone alerts
       redirect_back(fallback_location: "/")
     else
       redirect_for_more_butterflies("You don't have enough butterflies! You can purchase more.")
@@ -252,6 +253,7 @@ class MarriageProfilesController < ApplicationController
       )
      
       flash[:notice] = "Your 1st Kobul has been accepted successfully"
+      flash[:bk_push_moment] = true
       redirect_to dashboard_marriage_profile_path(current_active_profile, butterfly: "animate")
   end
 

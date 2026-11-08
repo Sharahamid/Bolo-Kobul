@@ -1,0 +1,127 @@
+# Text added in November 2026 (How It Works steps, trust row, pricing, empty pages,
+# profile checklist, alerts prompt). The Bangla version is bk_extra.bn.yml - keep both in step.
+en:
+  bkx:
+    hero_promise: "Find your life partner — free, private, verified."
+
+    trust:
+      phone: "Phone-verified members"
+      phone_text: "Every member confirms their number with a one-time code"
+      strangers: "No messages from strangers"
+      strangers_text: "Chat opens only after you both accept two Kobuls"
+      photos: "Photos stay private"
+      photos_text: "Only members whose Kobul you accept can see your photos"
+      contact: "Your number stays hidden"
+      contact_text: "Phone numbers are never shown — share yours only when you're ready"
+
+    pricing:
+      title: "Simple, honest pricing"
+      subtitle: "Joining is free. You only use butterflies when you send or accept a Kobul."
+      free_title: "Free"
+      free_items: "Create your profile · Search and see match % · Save favourites · Receive Kobuls"
+      free_butterflies: "%{n} free butterflies when you join"
+      kobul1_title: "1st Kobul"
+      kobul1_text: "See their photos, education, work and family"
+      kobul2_title: "2nd Kobul"
+      kobul2_text: "Start chatting safely on Bolo Kobul"
+      butterflies: "%{n} butterflies"
+      butterfly: "%{n} butterfly"
+      about: "about ৳%{amount}"
+      price_note: "1 butterfly = ৳%{price}. Buy as many as you need. The 1st Kobul butterfly comes back if they decline."
+      cta: "Join free"
+
+    how:
+      title: "How Bolo Kobul works"
+      subtitle: "From a free profile to meeting the family — in eight simple steps."
+      step: "Step %{n}"
+      steps:
+        s1_title: "Create your profile — free"
+        s1_text: "Sign up with your phone, Google or Facebook. Your phone number is checked with a one-time code and is never shown to other members."
+        s2_title: "Set your partner preferences"
+        s2_text: "Choose age, height, religion, education and more. Every profile then shows how well it matches you as a percentage."
+        s3_title: "Search and save favourites"
+        s3_text: "Browse matches and use the filters. Save the profiles you like to your favourites and come back to them anytime."
+        s4_title: "Send a 1st Kobul"
+        s4_text: "Like someone? Send a 1st Kobul. It uses %{b1}, held until they reply — and returned if they decline or you cancel."
+        s5_title: "1st Kobul accepted — profiles open"
+        s5_text: "When they accept, you both see each other's photos, education, work, family details and About Me."
+        s6_title: "Send a 2nd Kobul to chat"
+        s6_text: "Ready to talk? Send a 2nd Kobul (%{b2}). When they accept, chat opens. These butterflies are not returned if it's declined."
+        s7_title: "Chat safely on Bolo Kobul"
+        s7_text: "Get to know each other in chat. Phone numbers stay hidden — share yours only when you're comfortable."
+        s8_title: "Meet the families"
+        s8_text: "When it feels right, involve your families and take the next step together. We'd love to share your success story!"
+      cta_title: "Ready to begin?"
+      cta_text: "Creating a profile is free and takes a few minutes."
+      cta: "Create my free profile"
+      cta_member: "Find my matches"
+
+    todo:
+      progress: "%{done} of %{total} done"
+      reward_photo: "Add a photo — members are much more likely to send a Kobul to a profile with a photo."
+      reward_id: "Add your NID or passport to get your profile verified."
+      reward_default: "Every section you add helps families decide with confidence."
+
+    empty:
+      matches_title: "No matches to show yet"
+      matches_text: "Widen your partner preferences or search with different filters to see more profiles."
+      favourites_title: "No favourites yet"
+      favourites_text: "Tap Favourite on any profile you like, and it will wait for you here."
+      requests_title: "No Kobuls here yet"
+      requests_text: "Complete your profile so more members notice you, or send a 1st Kobul to someone you like."
+      chats_title: "Your chats will appear here"
+      chats_text: "Chat opens when you and another member have both accepted a 1st and a 2nd Kobul."
+      search: "Search profiles"
+      preferences: "Adjust preferences"
+      complete: "Complete my profile"
+
+    alerts:
+      title: "Get notified when they reply"
+      text: "Turn on alerts so you don't miss their next step."
+      button: "Turn on"
+      later: "Not now"
+
+    market:
+      visit: "Visit"
+      title: "Marketplace"
+      type: "Type"
+      location: "Location"
+      price_range: "Price Range"
+      all_types: "All Types"
+      all_locations: "All Locations"
+      search: "Search"
+      none: "No listings found"
+      none_text: "Try adjusting your filters"
+      view: "View"
+      subtitle: "Discover wedding services near you"
+      listing: "listing"
+      listings: "listings"
+
+    service:
+      by_team: "Professional assistance by the Bolo Kobul team"
+      price: "Service Price"
+      secure: "Secure payment · Instant activation"
+      share_details: "Please share your details or"
+      login: "Login"
+      name: "Your Name*"
+      phone: "Your Phone Number*"
+      email: "Your Email Address"
+      purchase: "Purchase Now"
+      agree: "By purchasing you agree to our terms of service"
+
+    marketplace_types:
+      honeymoon: "Honeymoon"
+      makeover: "Makeover"
+      wedding_attire: "Wedding Attire"
+      venues: "Venues"
+      caterers: "Caterers"
+      jewelry: "Jewelry"
+      photography_and_cinematography: "Photography & Cinematography"
+
+    referral:
+      title: "Referral Code"
+      subtitle: "Invited by a friend? Use their code when you join."
+      intro_html: "Enter the referral code shared with you, then tap <strong>Register Now</strong>."
+      placeholder: "Type referral code here"
+      button: "Register Now"
+      member: "You're already a member, so there's nothing to enter here. Referral codes are for people joining Bolo Kobul for the first time."

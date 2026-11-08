@@ -34,3 +34,38 @@ namespace :site_content do
     end
   end
 end
+
+# Adds the November 2026 FAQ section and practical blog posts from
+# db/data/new_content_2026_11.yml (with covers from db/data/blog_covers).
+# Safe to run more than once: anything already there (same title) is left alone.
+#
+#   RAILS_ENV=production bin/rails site_content:add_nov_2026
+namespace :site_content do
+  desc 'Add the Kobuls/Butterflies FAQ section and the practical blog posts'
+  task add_nov_2026: :environment do
+    data = YAML.load_file(Rails.root.join('db/data/new_content_2026_11.yml'))
+
+    faq = data.fetch('faq')
+    if Faq.exists?(title: faq['title'])
+      puts "  FAQ already there: #{faq['title']}"
+    else
+      Faq.create!(title: faq['title'], title_bn: faq['title_bn'],
+                  content: faq['content'].strip, content_bn: faq['content_bn'].strip,
+                  display_order: Faq.maximum(:display_order).to_i + 1)
+      puts "  FAQ added: #{faq['title']}"
+    end
+
+    data.fetch('blogs').each do |post|
+      if Blog.exists?(title: post['title'])
+        puts "  Blog already there: #{post['title']}"
+        next
+      end
+      blog = Blog.new(title: post['title'], story: post['story'].strip, story_type: post['story_type'],
+                      status: :approved, author: 'Bolo Kobul Team', email: 'support@bolokobul.com')
+      cover = Rails.root.join('db/data/blog_covers', "#{post['cover']}.jpg")
+      blog.image.attach(io: File.open(cover), filename: "#{post['cover']}.jpg", content_type: 'image/jpeg') if File.exist?(cover)
+      blog.save!
+      puts "  Blog added: #{post['title']} (/blogs/#{blog.slug})"
+    end
+  end
+end
