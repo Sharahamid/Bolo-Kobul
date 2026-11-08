@@ -689,3 +689,15 @@ div.pagination,
 
 .bk-no-data { margin: 6px 0; font-size: 13px; color: #a8977c; font-style: italic; text-align: left; }
 .detail-info .info-alignment table td.bk-blank::after { content: '—'; color: #d8ccb6; font-weight: 400; }
+
+// ---- Side menu: tap outside to close ---------------------------------------------
+.bk-menu-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(65, 36, 2, 0.28);
+  -webkit-tap-highlight-color: transparent;
+}
+body.bk-menu-open .bk-menu-backdrop { display: block; }
+body.bk-menu-open .sidebar { z-index: 2001 !important; }

@@ -225,7 +225,10 @@
 <%# While the menu is open the Home/Matches/... bar is hidden, so the menu's last rows
     (e.g. the social links) are not covered by it %>
 <style>body.bk-menu-open .bk-bottom-nav { display: none !important; }</style>
+<%# Tapping anywhere outside the open menu closes it %>
+<div class="bk-menu-backdrop" onclick="closeNav()" aria-hidden="true"></div>
 <script>
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && document.body.classList.contains('bk-menu-open')) closeNav(); });
     function openNav() {
         document.getElementById("mySidebar").style.width = "265px";
         $("body").css("overflow", "hidden").addClass("bk-menu-open");
