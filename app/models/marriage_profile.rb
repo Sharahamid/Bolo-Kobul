@@ -570,19 +570,26 @@ class MarriageProfile < ApplicationRecord
   # age_filter: in Recommendations and Search a bride older than the groom counts as 0%
   # (so those profiles are not suggested). On a profile someone is already looking at,
   # or already connected with, the real score is shown instead.
-  def calculate_matching_percentage!(current_profile, age_filter: true)
-    # Filter: never show bride older than groom
-    if age_filter && self.female? && current_profile.male?
-      return self.matching_percentage = 0 if self.date_of_birth.present? && current_profile.date_of_birth.present? && self.date_of_birth < current_profile.date_of_birth
-    end
-    if age_filter && self.male? && current_profile.female?
-      return self.matching_percentage = 0 if self.date_of_birth.present? && current_profile.date_of_birth.present? && current_profile.date_of_birth < self.date_of_birth
-    end
-
+  # Match % between this profile and the member looking at it (current_profile).
+  #  - 70% how well this profile fits what the member asked for, 30% how well the
+  #    member fits what this profile asked for
+  #  - anything left as "Doesn't matter" counts as a full match for that item
+  #  - near misses get half points (a year or two outside the age range, an inch or
+  #    two outside the height range, one education level below)
+  #  - age is judged only by the member's own age range (no separate bride/groom rule)
+  #  - photo, verified badge and recent activity are not part of the % (they only
+  #    decide the order among equal matches, see #match_quality)
+  # (age_filter is accepted for older callers and no longer used)
+  def calculate_matching_percentage!(current_profile, age_filter: nil)
     your_score  = calculate_one_way_score(current_profile, self)
     their_score = calculate_one_way_score(self, current_profile)
-    raw_score   = (your_score * 0.9) + (their_score * 0.1)
-    self.matching_percentage = [raw_score.round, 100].min
+    self.matching_percentage = [(your_score * 0.7 + their_score * 0.3).round, 100].min
+  end
+
+  # Tie-breaker for profiles with the same match %: photo, verified, recently active
+  def match_quality
+    (photo_1.present? ? 3 : 0) + (verified? ? 2 : 0) +
+      (user&.last_sign_in_at.present? && user.last_sign_in_at >= 7.days.ago ? 1 : 0)
   end
 
   # Education levels from lowest to highest, for "Minimum Education Level" in preferences.
@@ -598,82 +605,102 @@ class MarriageProfile < ApplicationRecord
     rank >= min_rank
   end
 
+  # Points for each item (they add up to 100)
+  MATCH_WEIGHTS = { religion: 20, age: 15, marital_status: 10, education: 10, location: 10,
+                    height: 8, hometown: 7, family_values: 5, family_type: 5, family_status: 5,
+                    blood_group: 5 }.freeze
+
+  # How well `candidate` fits what `seeker` asked for, 0-100.
+  # For each item: full points if it matches or the seeker doesn't mind, half points
+  # for a near miss or when the candidate hasn't filled that item in yet, none otherwise.
   def calculate_one_way_score(seeker, candidate)
-    score = 0
-    preference = seeker.partner_preference
-    return 0 unless preference
+    preference = seeker&.partner_preference
+    return 50 unless preference && candidate # no preferences saved yet: neutral
 
-    # Religion — 20pts
-    if preference.religion.present? && candidate.religion.present? &&
-       preference.religion.include?(candidate.religion.to_sym)
-      score += 20
-    end
+    fit = {}
+    w = MATCH_WEIGHTS
 
-    # Age — 15pts
-    if preference.min_age.present? && preference.max_age.present? && candidate.date_of_birth.present?
-      candidate_age = ((Time.zone.now - candidate.date_of_birth.to_time) / 1.year.seconds).floor
-      if candidate_age >= preference.min_age.to_i && candidate_age <= preference.max_age.to_i
-        score += 15
+    # Religion
+    wanted = Array(preference.religion).map(&:to_s).reject(&:blank?)
+    fit[:religion] = list_fit(wanted, candidate.religion)
+
+    # Age (either limit may be left open)
+    min_age = preference.min_age.presence&.to_i
+    max_age = preference.max_age.presence&.to_i
+    fit[:age] =
+      if min_age.nil? && max_age.nil? then 1.0
+      elsif candidate.date_of_birth.blank? then 0.5
+      else
+        age = ((Time.zone.now - candidate.date_of_birth.to_time) / 1.year.seconds).floor
+        below = min_age ? min_age - age : 0
+        above = max_age ? age - max_age : 0
+        miss = [below, above, 0].max
+        miss.zero? ? 1.0 : (miss <= 2 ? 0.5 : 0.0)
       end
-    end
 
-    # Education — 10pts. The preference is a minimum: that level or higher counts
-    if preference.highest_education_level.present? && candidate.highest_education_level.present? &&
-       education_at_least?(candidate.highest_education_level, preference.highest_education_level)
-      score += 10
-    end
+    # Marital status
+    wanted = Array(preference.marital_status).map(&:to_s).reject(&:blank?)
+    fit[:marital_status] = list_fit(wanted, candidate.marital_status)
 
-    # Hometown — 8pts
-    if preference.hometown.present? && candidate.hometown.present? &&
-       preference.hometown.include?(candidate.hometown)
-      score += 8
-    end
-
-    # Present location — 8pts
-    if preference.present_location.present? && candidate.present_location.present? &&
-       preference.present_location.include?(candidate.present_location)
-      score += 8
-    end
-
-    # Marital status — 7pts
-    if preference.marital_status.present? && candidate.marital_status.present? &&
-       preference.marital_status.include?(candidate.marital_status.to_sym)
-      score += 7
-    end
-
-    # Height — 5pts
-    if preference.min_height.present? && candidate.height_ft.present?
-      if (preference.min_height.to_i == candidate.height_ft.to_i && preference.min_inch.to_i <= candidate.height_inch.to_i) ||
-         preference.min_height.to_i < candidate.height_ft.to_i
-        score += 5
+    # Education (a minimum level; one level below gets half)
+    fit[:education] =
+      if preference.highest_education_level.blank? then 1.0
+      elsif candidate.highest_education_level.blank? then 0.5
+      elsif education_at_least?(candidate.highest_education_level, preference.highest_education_level) then 1.0
+      else
+        rank = EDUCATION_RANK[candidate.highest_education_level.to_s]
+        min_rank = EDUCATION_RANK[preference.highest_education_level.to_s]
+        rank && min_rank && min_rank - rank == 1 ? 0.5 : 0.0
       end
-    end
 
-    # Family status — 5pts
-    if preference.family_status.present? && candidate.family_status.present? &&
-       (preference.fs_does_not_matter? || preference.family_status == candidate.family_status)
-      score += 5
-    end
+    # Where they live now
+    fit[:location] = list_fit(Array(preference.present_location).reject(&:blank?), candidate.present_location)
 
-    # Blood group — 5pts
-    if preference.blood_group.present? && candidate.blood_group.present? &&
-       preference.blood_group.include?(candidate.blood_group)
-      score += 5
-    end
+    # Height (minimum and maximum; within 2 inches outside gets half)
+    min_h = preference.min_height.presence && (preference.min_height.to_i * 12 + preference.min_inch.to_i)
+    max_h = preference.max_height.presence && (preference.max_height.to_i * 12 + preference.max_inch.to_i)
+    fit[:height] =
+      if min_h.nil? && max_h.nil? then 1.0
+      elsif candidate.height_ft.blank? then 0.5
+      else
+        h = candidate.height_ft.to_i * 12 + candidate.height_inch.to_i
+        miss = [min_h ? min_h - h : 0, max_h ? h - max_h : 0, 0].max
+        miss.zero? ? 1.0 : (miss <= 2 ? 0.5 : 0.0)
+      end
 
-    # Has photo — 5pts
-    score += 5 if candidate.photo_1.present?
+    # Hometown (and hometowns the seeker excluded)
+    excluded = Array(preference.except_hometown).reject(&:blank?)
+    fit[:hometown] =
+      if candidate.hometown.present? && excluded.include?(candidate.hometown) then 0.0
+      else list_fit(Array(preference.hometown).reject(&:blank?), candidate.hometown)
+      end
 
-    # Verified profile — 3pts
-    score += 3 if candidate.verified?
+    # Family values / type / status ("does_not_matter" = full match)
+    fit[:family_values] = enum_fit(preference.family_values, candidate.family_values)
+    fit[:family_type]   = enum_fit(preference.family_type, candidate.family_type)
+    fit[:family_status] = enum_fit(preference.family_status, candidate.family_status)
 
-    # Recently active last 7 days — 4pts
-    if candidate.user.last_sign_in_at.present? &&
-       candidate.user.last_sign_in_at >= 7.days.ago
-      score += 4
-    end
+    # Blood group
+    fit[:blood_group] = list_fit(Array(preference.blood_group).reject(&:blank?), candidate.blood_group)
 
-    score
+    w.sum { |item, points| points * fit.fetch(item, 1.0) }.round
+  end
+
+  # Seeker chose from a list: nothing chosen = doesn't matter; candidate's value unknown = half
+  def list_fit(wanted, value)
+    wanted = Array(wanted).map(&:to_s)
+    return 1.0 if wanted.empty?
+    return 0.5 if value.blank?
+
+    wanted.include?(value.to_s) ? 1.0 : 0.0
+  end
+
+  # Seeker chose one option, or "does_not_matter"
+  def enum_fit(wanted, value)
+    return 1.0 if wanted.blank? || wanted.to_s == 'does_not_matter'
+    return 0.5 if value.blank?
+
+    wanted.to_s == value.to_s ? 1.0 : 0.0
   end
 
   # Bolo Kobul is for adults only: no profile for anyone under 18

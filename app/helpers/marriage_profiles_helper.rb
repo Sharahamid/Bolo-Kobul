@@ -12,7 +12,7 @@ module MarriageProfilesHelper
                    Friendship.where(friendable_id: current_active_profile.id, status: 1).map(&:friend_id)
     profiles = profiles.reject { |p| excluded_ids.include?(p.id) }
     profiles.each { |profile| profile.calculate_matching_percentage!(current_active_profile) }
-    profiles.sort_by { |profile| -profile.matching_percentage.to_i }
+    profiles.sort_by { |profile| [-profile.matching_percentage.to_i, -profile.match_quality] }
   end
 
   def get_accepted_profiles
@@ -38,7 +38,7 @@ module MarriageProfilesHelper
     return nil if profile.nil? || current_active_profile.nil? || profile.id == current_active_profile.id
 
     @bk_match_percent ||= {}
-    @bk_match_percent[profile.id] ||= profile.calculate_matching_percentage!(current_active_profile, age_filter: false).to_i
+    @bk_match_percent[profile.id] ||= profile.calculate_matching_percentage!(current_active_profile).to_i
   rescue StandardError
     nil
   end

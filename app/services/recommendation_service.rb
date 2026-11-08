@@ -45,7 +45,7 @@ class RecommendationService
       profile.calculate_matching_percentage!(current_profile)
       high_matches << profile if profile.matching_percentage.to_i >= HIGH_MATCH_THRESHOLD
     end
-    high_matches.sort_by! { |p| -p.matching_percentage }
+    high_matches.sort_by! { |p| [-p.matching_percentage.to_i, -p.match_quality] }
 
     # Fill remaining slots with the best matches, relaxing the preferences step by step
     # (equal matches are shuffled, so the list still varies from day to day)
@@ -57,7 +57,7 @@ class RecommendationService
     while other_profiles.count < remaining_count && preference_level >= 0
       pool = apply_filters(all_candidates.where.not(id: high_match_ids + other_profiles.map(&:id)), preference, preference_level).to_a
       pool.each { |profile| profile.calculate_matching_percentage!(current_profile) }
-      other_profiles += pool.shuffle.sort_by { |profile| -profile.matching_percentage.to_i }
+      other_profiles += pool.shuffle.sort_by { |profile| [-profile.matching_percentage.to_i, -profile.match_quality] }
                             .first(remaining_count - other_profiles.count)
       preference_level -= 1
     end
@@ -98,17 +98,9 @@ class RecommendationService
     true
   end
 
-  def self.apply_age_gender_filter(matches, current_profile)
-    return matches unless current_profile.date_of_birth.present?
-    if current_profile.male?
-      # Bride must not be older than groom — bride dob must be >= groom dob
-      matches = matches.where("gender = 1 AND date_of_birth >= ?", current_profile.date_of_birth)
-                       .or(matches.where("gender != 1"))
-    elsif current_profile.female?
-      # Groom must not be younger than bride — groom dob must be <= bride dob
-      matches = matches.where("gender = 0 AND date_of_birth <= ?", current_profile.date_of_birth)
-                       .or(matches.where("gender != 0"))
-    end
+  # No separate bride/groom age rule: age is judged only by the member's own age range
+  # (in their preferences and the match %)
+  def self.apply_age_gender_filter(matches, _current_profile)
     matches
   end
 
