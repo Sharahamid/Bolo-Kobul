@@ -19,10 +19,4 @@ class UserAccountMailer < ApplicationMailer
     @date = @receiver.deletion_date
     mail(to: @receiver.email, subject: t('email.subject.deletion', date: email_date(@date)))
   end
-
-  def forget_password
-    @notification = params[:notification]
-    mail(to: @notification.recipient.email,
-         subject: "Purchased notifications")
-  end
 end

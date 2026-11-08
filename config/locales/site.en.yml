@@ -192,7 +192,7 @@ en:
     kobul_1: 🦋 Kobul (1)
     kobul_2: 🦋 Kobul (2)
     pending: 🦋 Pending
-    kobul_2_pending: 🦋 Kobul 2 Pending
+    kobul_2_pending: 🦋 2nd Kobul Pending
     accept_kobul_2: 🦋 Accept Kobul (2)
     chat_butterfly: 🦋 Chat
     chat_bubble: 💬 Chat
@@ -219,9 +219,9 @@ en:
       block: Block this profile
     confirm:
       cancel_kobul_1: Cancel your Kobul request?
-      cancel_kobul_2: Cancel your Kobul 2 request?
-      reject_1: Reject this Kobul 1 request?
-      cancel_kobul_2_req: Cancel this Kobul 2 request?
+      cancel_kobul_2: Cancel your 2nd Kobul request?
+      reject_1: Reject this 1st Kobul request?
+      cancel_kobul_2_req: Cancel this 2nd Kobul request?
       remove_favourite: Remove from favourites?
   profile:
     edit_information: Edit information
@@ -574,8 +574,8 @@ en:
     confirm: Unblock %{id}?
   pending:
     title: Requests Sent
-    kobul1: 🦋 Kobul 1 Pending
-    cancel_confirm: Cancel this Kobul 1 request?
+    kobul1: 🦋 1st Kobul Pending
+    cancel_confirm: Cancel this 1st Kobul request?
     remove_favourite: Remove from favourites?
   contact:
     title: Contact Us
@@ -852,17 +852,17 @@ en:
       button: Read and Reply
       p1_html: <strong>%{id}</strong> has sent you a message on Bolo Kobul.
     subject:
-      kobul1_sent: 🦋 Kobul 1 Sent!
-      kobul1_received: 🦋 You received a Kobul 1!
-      kobul1_you_accepted: 🦋 Kobul 1 Accepted!
-      kobul1_accepted: 🦋 Great News - Kobul 1 Accepted!
-      kobul1_declined: 🦋 Kobul 1 Not Accepted
-      kobul1_expired: 🦋 Kobul 1 Expired
-      kobul2_received: 🦋 Kobul 2 Request Received!
-      kobul2_you_accepted: 🦋 Kobul 2 Accepted - Start Chatting!
-      kobul2_accepted: 🦋 Kobul 2 Accepted!
-      kobul2_declined: 🦋 Kobul 2 Not Accepted
-      kobul2_expired: 🦋 Kobul 2 Expired
+      kobul1_sent: 🦋 1st Kobul Sent!
+      kobul1_received: 🦋 You received a 1st Kobul!
+      kobul1_you_accepted: 🦋 1st Kobul Accepted!
+      kobul1_accepted: 🦋 Great News - 1st Kobul Accepted!
+      kobul1_declined: 🦋 1st Kobul Not Accepted
+      kobul1_expired: 🦋 1st Kobul Expired
+      kobul2_received: 🦋 You received a 2nd Kobul!
+      kobul2_you_accepted: 🦋 2nd Kobul Accepted - Start Chatting!
+      kobul2_accepted: 🦋 2nd Kobul Accepted!
+      kobul2_declined: 🦋 2nd Kobul Not Accepted
+      kobul2_expired: 🦋 2nd Kobul Expired
       chat: 💬 New message from %{id}
       receipt: Your purchase was successful — here is your receipt
       otp: Your Bolo Kobul Verification Code
@@ -923,7 +923,7 @@ en:
       p1: Thank you for registering with Bolo Kobul — your trusted matrimonial platform connecting hearts across the world. We are honoured to be part of your journey.
       p2: 'Your account has been created successfully. Here is what to do next:'
       s1: Complete your profile
-      s1_text: Add your photo, family details, and personal preferences. A complete profile gets 5x more attention.
+      s1_text: Add your photo, family details, and personal preferences. A complete profile gets much more attention.
       s2: Set your partner preferences
       s2_text: Tell us what you are looking for — age, location, values, lifestyle — and we will match you better.
       s3: Browse and send a butterfly
@@ -958,7 +958,7 @@ en:
     incomplete:
       subject: ✨ Your profile is %{percent}% complete. Finish it to get noticed
       title: Your profile is %{percent}% complete
-      line1: Complete profiles get up to 5x more attention, and you can send Kobuls once your profile is at least %{minimum}% complete.
+      line1: Complete profiles get much more attention, and you can send Kobuls once your profile is at least %{minimum}% complete.
       line2: Add your photos, family, education and occupation. It only takes a few minutes.
       button: Complete My Profile
       push: Your profile is %{percent}% complete. Finish it to start sending Kobuls.

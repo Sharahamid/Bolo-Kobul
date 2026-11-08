@@ -9,7 +9,7 @@ namespace :butterfly do
       marriage_profile = friendship.friendable
       marriage_profile.unblock_blocked_butterflies
       marriage_profile.user.notifications.create(
-        content: "Your Kobul 1 request expired without a response. Keep exploring — your soulmate is waiting!",
+        content: "Your 1st Kobul expired without a response. Keep exploring — your soulmate is waiting!",
         notifiable: marriage_profile,
         will_email: false,
         will_sms: false
@@ -17,7 +17,7 @@ namespace :butterfly do
       KobulOneMailer.with(sender_profile: marriage_profile, friend: friendship.friend).request_expired.deliver_later
       SmsService.call(
         marriage_profile.user.phone_number.to_s,
-        "Your Kobul 1 request has expired without a response. Keep going — your perfect match is out there! Visit bolokobul.com"
+        "Your 1st Kobul has expired without a response. Keep going — your perfect match is out there! Visit bolokobul.com"
       )
       puts "MarriageProfile-#{friendship.friendable_id} Kobul-1 request expired for MarriageProfile-#{friendship.friend_id}"
       friendship.destroy
