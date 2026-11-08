@@ -19,6 +19,14 @@
         <div class="form_input_fields pt-4 pl-2 pr-2">
           <%# Always creates (or, coming back from Preferences, updates) through the same address %>
           <%= form_for @marriage_profile, url: marriage_profiles_path, method: :post, html: { id: 'new_marriage_profile' } do |f| %>
+            <% if f.object.errors.any? %>
+              <div class="bk-form-error" role="alert" style="background:#FDECEC; border:1px solid #F3C4C7; color:#9B1C2C; border-radius:10px; padding:10px 14px; font-size:13.5px; margin-bottom:14px;">
+                <strong><%= t('bkx.form_errors.title', count: f.object.errors.count) %></strong>
+                <ul style="margin:6px 0 0 18px; padding:0;">
+                  <% f.object.errors.full_messages.uniq.first(6).each do |msg| %><li><%= msg %></li><% end %>
+                </ul>
+              </div>
+            <% end %>
             <% if @resuming %>
               <%= hidden_field_tag :resume_profile_id, @resuming.id %>
               <div class="bk-resume-note" style="background:#FFF8E6; border:0.5px solid #FAC775; border-radius:8px; padding:10px 12px; font-size:13px; color:#633806; margin-bottom:14px;">
@@ -121,7 +129,9 @@
                     var pad = function (n) { return ('0' + n).slice(-2); };
                     field.value = (day.value && month.value && year.value) ? year.value + '-' + pad(month.value) + '-' + pad(day.value) : '';
                   }
-                  [day, month, year].forEach(function (s) { s.addEventListener('change', update); });
+                  [day, month, year].forEach(function (s) { s.addEventListener('change', update); s.addEventListener('input', update); });
+                  // Some phones fill the boxes without a "change" event: read them again on Next
+                  var form = field.form; if (form) form.addEventListener('submit', update, true);
                   update();
                 })();
               </script>
@@ -349,3 +359,24 @@ document.addEventListener('DOMContentLoaded', function() {
 <% if @resuming %>
   <%= render 'shared/auto_labels', container: 'form#new_marriage_profile' %>
 <% end %>
+
+<script>
+  // After a failed Next: outline every field with a message and take the member to the first one
+  (function () {
+    var form = document.getElementById('new_marriage_profile');
+    if (!form || !form.querySelector('.bk-form-error')) return;
+    var first = null;
+    form.querySelectorAll('small.text-danger').forEach(function (msg) {
+      if (!msg.textContent.trim()) return;
+      var group = msg.parentElement;
+      var input = group && group.querySelector('input:not([type=hidden]), select, textarea');
+      if (input) { input.style.borderColor = '#D9485F'; input.style.boxShadow = '0 0 0 3px rgba(217,72,95,.15)'; }
+      if (!first) first = input || msg;
+    });
+    var target = first || form.querySelector('.bk-form-error');
+    setTimeout(function () {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (target.focus) try { target.focus({ preventScroll: true }); } catch (e) {}
+    }, 150);
+  })();
+</script>

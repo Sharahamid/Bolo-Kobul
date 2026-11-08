@@ -64,6 +64,11 @@ en:
 
     not_added: "Not added yet"
 
+    form_errors:
+      title:
+        one: "Please fix this before continuing:"
+        other: "Please fix these %{count} things before continuing:"
+
     empty:
       matches_title: "No matches to show yet"
       matches_text: "Widen your partner preferences or search with different filters to see more profiles."
