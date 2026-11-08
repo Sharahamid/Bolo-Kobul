@@ -850,3 +850,15 @@ body.bk-menu-open .sidebar {
 // runs past the card edge (the profile page shows the full word)
 .bk-mini-badges .bk-mutual-pill { padding: 1px 5px; }
 .bk-mini-badges .bk-mutual-text { display: none; }
+
+// Computers: the white content box on member pages stretches down to line up with the
+// bottom of the left column (profile card and ads), instead of stopping short
+@media (min-width: 576px) {
+  .dashboard > .container > .d-sm-flex > .right-section:not(.message-right-sidebar) {
+    display: flex;
+    flex-direction: column;
+  }
+  .dashboard > .container > .d-sm-flex > .right-section:not(.message-right-sidebar) > .dashboard-tab {
+    flex: 1 1 auto;
+  }
+}
