@@ -11,6 +11,11 @@ class OrdersController < ApplicationController
     @orders = @user.orders.order('created_at desc')
   end
 
+  # /orders/123 (old links, payment pages): the orders list shows every order
+  def show
+    redirect_to orders_path
+  end
+
   def new
   end
 

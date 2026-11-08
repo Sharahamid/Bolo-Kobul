@@ -97,7 +97,8 @@ class MarriageProfile < ApplicationRecord
   def active_chat_rooms
     # Chats with someone either side has blocked are hidden everywhere
     blocked_ids = HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', friendable_id: id, status: 3).select(:friend_id)
-    chat_rooms.where(id: ChatRoomUser.where.not(marriage_profile_id: id).select(:chat_room_id))
+    # ...and chats whose other member's profile has since been deleted are left out
+    chat_rooms.where(id: ChatRoomUser.where.not(marriage_profile_id: id).where(marriage_profile_id: MarriageProfile.select(:id)).select(:chat_room_id))
               .where.not(id: ChatRoomUser.where(marriage_profile_id: blocked_ids).select(:chat_room_id))
   end
   has_many :favourites, dependent: :destroy

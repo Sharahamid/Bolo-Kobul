@@ -69,6 +69,11 @@ en:
         one: "Please fix this before continuing:"
         other: "Please fix these %{count} things before continuing:"
 
+    gone:
+      listing: "That listing is no longer available. Here are the current ones."
+      article: "That article has moved or been removed. Here are our latest ones."
+      service: "That service is no longer available."
+
     empty:
       matches_title: "No matches to show yet"
       matches_text: "Widen your partner preferences or search with different filters to see more profiles."

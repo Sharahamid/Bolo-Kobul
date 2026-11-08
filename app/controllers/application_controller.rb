@@ -10,6 +10,10 @@ class ApplicationController < ActionController::Base
   # A form left open for a long time (or reopened in the app after the phone cleared its
   # cookies) carries an out-of-date security token. Instead of a "500 Internal Server
   # Error" page, send the person back to the form with a short message to try again.
+  rescue_from ActionController::UnknownFormat do
+    head :not_acceptable
+  end
+
   rescue_from ActionController::InvalidAuthenticityToken do
     respond_to do |format|
       format.html do

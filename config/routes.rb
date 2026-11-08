@@ -130,12 +130,14 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :blogs
-  resources :market_places
+  resources :blogs, only: %i[index show create]
+  get 'blogs/new', to: redirect('/blogs') # old links
+  resources :market_places, only: %i[index show]
   resources :terms_of_uses
   resources :privacy_policies
   resources :faqs
-  resources :assisted_services
+  resources :assisted_services, only: %i[show]
+  get 'assisted_services', to: redirect('/') # the list lives in the Assisted Services menu
   resources :precautionary_measures
   resources :process_flows, as: :how_it_works, path: :how_it_works
   resources :customer_supports do

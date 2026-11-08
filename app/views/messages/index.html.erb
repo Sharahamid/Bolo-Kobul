@@ -10,10 +10,13 @@
           <div class="right-section message-right-sidebar p-0">
             <%= render 'home/dashboard/dashboard_tabs', marriage_profile: current_active_profile %>
             <div class="profile-chat-window">
-              <%= render 'profile_chat_window',
-                         profile: @chat_rooms&.last&.connected_profile(current_active_profile),
-                         chat_room: @chat_rooms&.last,
-                         message: @message %>
+              <% open_room = @chat_rooms.to_a.reverse.find { |room| room.connected_profile(current_active_profile) } %>
+              <% if open_room %>
+                <%= render 'profile_chat_window',
+                           profile: open_room.connected_profile(current_active_profile),
+                           chat_room: open_room,
+                           message: @message %>
+              <% end %>
             </div>
           </div>
         </div>

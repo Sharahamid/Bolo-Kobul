@@ -11,7 +11,7 @@
 <%= render 'home/landing/success_stories' %>
 
 <!-- prices -->
-<%= render 'home/landing/pricing' %>
+<%= render 'home/landing/pricing' unless play_store_app? %>
 
 <!-- campaign section -->
 <%= render 'home/landing/campaign' %>

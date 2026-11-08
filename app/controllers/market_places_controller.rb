@@ -22,6 +22,7 @@ class MarketPlacesController < ApplicationController
   end
 
   def show
-    @market_place = MarketPlace.find(params[:id])
+    @market_place = MarketPlace.approved.find_by(id: params[:id])
+    return redirect_to(market_places_path, notice: t('bkx.gone.listing')) unless @market_place
   end
 end

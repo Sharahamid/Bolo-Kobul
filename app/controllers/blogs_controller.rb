@@ -7,7 +7,8 @@ class BlogsController < ApplicationController
   end
 
   def show
-    @blog = Blog.friendly.find(params[:id])
+    @blog = Blog.friendly.find(params[:id]) rescue nil
+    return redirect_to(blogs_path, notice: t('bkx.gone.article')) unless @blog
   end
 
   def create
