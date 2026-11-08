@@ -701,3 +701,18 @@ div.pagination,
 }
 body.bk-menu-open .bk-menu-backdrop { display: block; }
 body.bk-menu-open .sidebar { z-index: 2001 !important; }
+
+// Side menu opens with a quick slide instead of growing its width: growing the
+// width re-arranged every menu item on each frame, which felt slow on phones
+.sidebar {
+  width: 265px !important;
+  transform: translateX(-105%);
+  transition: transform 0.22s ease-out !important;
+  will-change: transform;
+  overflow-x: hidden;
+  box-shadow: none !important;
+}
+body.bk-menu-open .sidebar {
+  transform: translateX(0);
+  box-shadow: 4px 0 18px rgba(65, 36, 2, 0.18) !important;
+}
