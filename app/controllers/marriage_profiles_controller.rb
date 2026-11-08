@@ -190,7 +190,7 @@ class MarriageProfilesController < ApplicationController
           will_email: false,
           will_sms: false
         )
-        KobulOneMailer.with(user: @marriage_profile.user).receive_request.deliver_later
+        KobulOneMailer.with(user: @marriage_profile.user, profile: current_active_profile).receive_request.deliver_later
         SmsService.call(
           @marriage_profile.user.phone_number.to_s,
           "Good news! Someone has sent you a 1st Kobul. Log in to check their profile: #{profile_info_marriage_profile_url(current_active_profile)}"

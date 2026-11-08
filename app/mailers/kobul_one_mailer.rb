@@ -10,6 +10,7 @@ class KobulOneMailer < ApplicationMailer
   # When A Send request, B gets this message
   def receive_request
     @user = params[:user]
+    @profile = params[:profile] # who sent it: "View Their Profile" opens their profile
     mail(to: @user.email,
          subject: t('email.subject.kobul1_received'))
   end
