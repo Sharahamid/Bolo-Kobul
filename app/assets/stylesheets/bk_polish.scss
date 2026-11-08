@@ -727,3 +727,8 @@ body.bk-menu-open .sidebar {
   transform: translateX(0);
   box-shadow: 4px 0 18px rgba(65, 36, 2, 0.18) !important;
 }
+
+// Blog list: smaller square picture on narrow phones so the title has room
+@media (max-width: 400px) {
+  .bk-blog-card .bk-blog-thumb { width: 104px !important; }
+}
