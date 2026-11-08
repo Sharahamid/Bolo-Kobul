@@ -1,11 +1,8 @@
-<%# Match % pill (and a "Mutual" pill when both are 80%+ for each other).
+<%# Match % pill .
     locals: profile, percent (optional, already worked out) %>
 <% percent = local_assigns[:percent] || match_percent(profile) %>
 <% if percent.to_i > 0 %>
   <span class="bk-mini-badges">
-    <% if mutual_match?(profile) %>
-      <span class="bk-mutual-pill" title="<%= t('bkx.match.mutual') %>: <%= t('bkx.match.mutual_tip') %>" aria-label="<%= t('bkx.match.mutual') %>"><i class="fas fa-handshake"></i><span class="bk-mutual-text"> <%= t('bkx.match.mutual') %></span></span>
-    <% end %>
     <span class="bk-pct-pill"><%= local_digits("%02d" % percent.to_i) %>%</span>
   </span>
 <% end %>
