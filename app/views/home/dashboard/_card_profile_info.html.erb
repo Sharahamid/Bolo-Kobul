@@ -11,8 +11,8 @@
         <% if profile.verified %>
           <i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i>
         <% end %>
-        <% if profile.matching_percentage.present? %>
-          <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= "%02d" % profile.matching_percentage %>%</span>
+        <% if match_percent(profile).to_i > 0 %>
+          <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= "%02d" % match_percent(profile) %>%</span>
         <% end %>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px; align-items:center;">

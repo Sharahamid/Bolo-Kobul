@@ -20,8 +20,8 @@
                   <% if profile.verified %>
                     <i class="fas fa-check-circle" style="color:#FFB627; font-size:12px;"></i>
                   <% end %>
-                  <% if profile.matching_percentage.present? %>
-                    <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 6px; border-radius:20px; font-weight:700; margin-left:auto;"><%= local_digits("%02d" % profile.matching_percentage) %>%</span>
+                  <% if match_percent(profile).to_i > 0 %>
+                    <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 6px; border-radius:20px; font-weight:700; margin-left:auto;"><%= local_digits("%02d" % match_percent(profile)) %>%</span>
                   <% end %>
                 </div>
                 <div style="font-size:11px; color:#888; margin-bottom:2px;">

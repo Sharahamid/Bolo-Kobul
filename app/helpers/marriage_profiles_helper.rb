@@ -31,4 +31,15 @@ module MarriageProfilesHelper
     current_active_profile.active_chat_rooms
   end
 
+
+  # Match % between the signed-in member and another profile, for profile pages,
+  # Kobul lists, favourites and chats (worked out once per page)
+  def match_percent(profile)
+    return nil if profile.nil? || current_active_profile.nil? || profile.id == current_active_profile.id
+
+    @bk_match_percent ||= {}
+    @bk_match_percent[profile.id] ||= profile.calculate_matching_percentage!(current_active_profile, age_filter: false).to_i
+  rescue StandardError
+    nil
+  end
 end

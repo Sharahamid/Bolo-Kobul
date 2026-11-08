@@ -567,12 +567,15 @@ class MarriageProfile < ApplicationRecord
     end
   end
 
-  def calculate_matching_percentage!(current_profile)
+  # age_filter: in Recommendations and Search a bride older than the groom counts as 0%
+  # (so those profiles are not suggested). On a profile someone is already looking at,
+  # or already connected with, the real score is shown instead.
+  def calculate_matching_percentage!(current_profile, age_filter: true)
     # Filter: never show bride older than groom
-    if self.female? && current_profile.male?
+    if age_filter && self.female? && current_profile.male?
       return self.matching_percentage = 0 if self.date_of_birth.present? && current_profile.date_of_birth.present? && self.date_of_birth < current_profile.date_of_birth
     end
-    if self.male? && current_profile.female?
+    if age_filter && self.male? && current_profile.female?
       return self.matching_percentage = 0 if self.date_of_birth.present? && current_profile.date_of_birth.present? && current_profile.date_of_birth < self.date_of_birth
     end
 

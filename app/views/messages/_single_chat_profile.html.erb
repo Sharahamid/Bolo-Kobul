@@ -9,7 +9,7 @@
     </div>
     <div style="flex:1; min-width:0;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; margin-bottom:6px;">
-        <%= link_to profile_message_path(profile), style: "font-size:14px; font-weight:700; min-width:0; overflow-wrap:anywhere; color:#854F0B; text-decoration:none;" do %>
+        <%= link_to profile_info_marriage_profile_path(profile), title: t('chat.view_profile'), style: "font-size:14px; font-weight:700; min-width:0; overflow-wrap:anywhere; color:#854F0B; text-decoration:none;" do %>
           <%= profile&.unique_id %><%= " (#{profile.user.created_for})" unless profile.user.self? %>
           <% if profile.verified %>
             <i class="fas fa-check-circle" style="color:#FFB627; font-size:10px;"></i>
@@ -21,6 +21,9 @@
         </div>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;">
+        <% if match_percent(profile).to_i > 0 %>
+          <span style="background:#FFB627; color:#412402; font-size:11px; font-weight:700; padding:2px 7px; border-radius:5px; white-space:nowrap;"><%= local_digits(match_percent(profile)) %>%</span>
+        <% end %>
         <span style="background:#FFF3CC; color:#854F0B; font-size:11px; padding:2px 7px; border-radius:5px; white-space:nowrap;"><%= years_label(profile.age) %></span>
         <span style="background:#FFF3CC; color:#854F0B; font-size:11px; padding:2px 7px; border-radius:5px; white-space:nowrap;"><%= local_digits(profile.height_ft) %>'<%= local_digits(profile.height_inch) %>"</span>
         <span style="background:#FFF3CC; color:#854F0B; font-size:11px; padding:2px 7px; border-radius:5px; white-space:nowrap;"><i class="fas fa-map-marker-alt" style="font-size:9px;"></i> <%= district_label(profile&.hometown) %></span>

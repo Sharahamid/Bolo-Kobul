@@ -142,8 +142,8 @@
     <div style="padding:50px 14px 16px; text-align:center;">
       <div style="display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
         <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px;"><%= marriage_profile&.unique_id %></span>
-        <% if marriage_profile&.matching_percentage.to_i > 0 %>
-          <span class="bk-match-badge" style="background:#e8f5e9; color:#2e7d32; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; white-space:nowrap;">⭐ <%= t('profile_card.match', percent: local_digits(marriage_profile.matching_percentage)) %></span>
+        <% if match_percent(marriage_profile).to_i > 0 %>
+          <span class="bk-match-badge" style="background:#e8f5e9; color:#2e7d32; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; white-space:nowrap;">⭐ <%= t('profile_card.match', percent: local_digits(match_percent(marriage_profile))) %></span>
         <% end %>
       </div>
 
