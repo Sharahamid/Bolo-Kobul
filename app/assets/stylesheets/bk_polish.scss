@@ -824,3 +824,13 @@ body.bk-menu-open .sidebar {
   input { margin: 0; accent-color: #FFB627; }
   &:has(input:checked) { background: #FFB627; border-color: #FFB627; }
 }
+
+// Log out button pinned at the bottom of the side menu
+.sidebar .site-bar-footer .bk-side-logout {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  margin: 0 24px 10px; padding: 10px 16px;
+  border-radius: 999px; background: #fff; color: #412402 !important;
+  font-size: 14px; font-weight: 700; text-decoration: none !important;
+  box-shadow: 0 2px 8px rgba(65, 36, 2, 0.12);
+  i { font-size: 14px; color: #A4262C; }
+}
