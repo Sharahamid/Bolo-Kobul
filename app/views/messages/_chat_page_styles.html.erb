@@ -4,6 +4,10 @@
 .bk-chat-container .message-page { height: 460px !important; position: relative !important; }
 .bk-chat-container .message-right-sidebar { height: 460px !important; overflow: hidden; display: flex; flex-direction: column; }
 .bk-chat-container .profile-chat-window { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+/* The tab bar's box wraps the chat window, so it must share out the height too -
+   otherwise a tall message list pushes the typing box out of sight */
+.bk-chat-container .message-right-sidebar > .dashboard-tab { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.bk-chat-container .message-right-sidebar > .dashboard-tab > ul { flex-shrink: 0; }
 /* The chat window fills the space under the tabs: header on top, typing box pinned
    at the bottom, and only the messages in between scroll. */
 .bk-chat-container .profile-chat-window > div { flex: 1 1 auto; min-height: 0; }
@@ -19,6 +23,7 @@
   /* The message box could be cut off by the chat window's fixed size, leaving nowhere
      to type. Let the window grow so the box sits right under the messages. */
   .bk-chat-container .profile-chat-window,
-  .bk-chat-container .profile-chat-window > div { flex: none; overflow: visible; }
+  .bk-chat-container .profile-chat-window > div,
+  .bk-chat-container .message-right-sidebar > .dashboard-tab { flex: none; overflow: visible; display: block; }
 }
 </style>
