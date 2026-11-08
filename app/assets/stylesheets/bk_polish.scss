@@ -132,7 +132,6 @@ div.pagination,
 
   strong, b { color: #412402; font-weight: 700; }
   a { color: #854F0B; text-decoration: underline; }
-  br + br { display: none; }
   img { max-width: 100%; height: auto; }
 }
 
@@ -359,3 +358,74 @@ div.pagination,
   .bk-header .custom-navbar-nav { padding-left: 1rem !important; gap: 0; }
   .bk-header .navbar-nav .nav-link { padding-left: 10px !important; padding-right: 10px !important; font-size: 15px; }
 }
+
+// ---- Home page -------------------------------------------------------------------
+// Matching rounded buttons, a warmer cream behind success stories, no faint
+// butterfly drawn underneath the logo and text, steadier spacing on phones
+.success-stories,
+.success-stories .slick-initialized .slick-slide { background: #FFF8E6 !important; }
+
+.success-stories .btn-warning,
+.campaign .reg-btn .btn,
+.wedding-related-business .join-btn {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  width: auto !important;
+  border-radius: 999px !important;
+  padding: 9px 26px !important;
+  font-family: Poppins, 'Noto Serif Bengali', Arial, sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.2px;
+  text-transform: none;
+  border: 0 !important;
+  box-shadow: 0 2px 8px rgba(65, 36, 2, 0.12);
+}
+.success-stories .btn-warning {
+  background: linear-gradient(135deg, #FFB627, #ffca5e) !important;
+  color: #412402 !important;
+}
+.campaign .reg-btn .btn,
+.wedding-related-business .join-btn {
+  background: #fff !important;
+  color: #412402 !important;
+}
+
+.campaign .campaign-wrapper .campaign-bottom-part {
+  background-image: none !important;
+  padding: 24px 0 8px;
+}
+.campaign .campaign-wrapper .campaign-content {
+  color: #6b5b45;
+  line-height: 1.7;
+  justify-content: center;
+}
+
+.wedding-related-business { line-height: 1.6; }
+.wedding-related-business .title h4 { margin-bottom: 10px; }
+.wedding-related-business .join-us { padding-top: 16px !important; }
+
+.feature_packages .package-title { margin-top: 4px; color: #412402; }
+.feature_packages .package-content { font-size: 14px; line-height: 1.55; }
+
+@media (max-width: 575.98px) {
+  .feature_packages,
+  .success-stories { padding: 1rem 1rem 2rem; }
+
+  // Four steps as a 2 x 2 grid instead of one very long column
+  .feature_packages .d-sm-flex {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px 10px;
+  }
+  .feature_packages .package-icon img { width: 72px !important; height: 72px !important; }
+  .feature_packages .package-icon { padding-bottom: 8px !important; }
+  .feature_packages .package-content { font-size: 13px; }
+
+  .campaign .campaign-wrapper { padding: 1.5rem 1rem; }
+  .wedding-related-business .business-content { padding: 2rem 1.25rem; }
+  .wedding-related-business .wedding-content { font-size: 14px; }
+}
+
+.success-stories .bk-success-story-slider a { color: #C99A16 !important; font-weight: 600; }

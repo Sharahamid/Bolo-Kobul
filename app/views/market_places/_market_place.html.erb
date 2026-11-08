@@ -15,7 +15,7 @@
       <% end %>
       <div style="display:flex; align-items:center; justify-content:space-between;">
         <% if market_place.cost.present? %>
-          <span style="font-size:13px; font-weight:700; color:#854F0B;">৳ <%= number_with_delimiter(market_place.cost) %></span>
+          <span style="font-size:13px; font-weight:700; color:#854F0B;">৳ <%= number_with_delimiter(market_place.cost.round(0).to_i) %></span>
         <% else %>
           <span></span>
         <% end %>
