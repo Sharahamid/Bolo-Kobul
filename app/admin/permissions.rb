@@ -33,7 +33,7 @@ ActiveAdmin.register ::ActiveAdmin::Permission, as: "Permission" do
   end
 
   action_item :reload do
-    link_to t("views.permission.action_item.reload"), reload_shefali007_permissions_path, method: :post
+    link_to t("views.permission.action_item.reload"), reload_shaheer10inara20_permissions_path, method: :post
   end
 
   includes :managed_resource

@@ -9,7 +9,7 @@ class IdentificationDocumentUploader < CarrierWave::Uploader::Base
 
   # ID documents (NID, passport) are private: they are kept in storage/id_documents, outside the
   # public folder, so the web server never serves them. Only admins can open them, through
-  # /shefali007/marriage_profiles/:id/id_document. (Documents uploaded before this were moved
+  # /shaheer10inara20/marriage_profiles/:id/id_document. (Documents uploaded before this were moved
   # with: bin/rails id_documents:make_private)
   def root
     Rails.root.join('storage').to_s
@@ -23,7 +23,7 @@ class IdentificationDocumentUploader < CarrierWave::Uploader::Base
   def url(*)
     return nil if file.blank? || model&.id.blank?
 
-    Rails.application.routes.url_helpers.id_document_shefali007_marriage_profile_path(model)
+    Rails.application.routes.url_helpers.id_document_shaheer10inara20_marriage_profile_path(model)
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:

@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
-  post '/shefali007/send_admin_message', to: 'admin/messages#send_message'
+  post '/shaheer10inara20/send_admin_message', to: 'admin/messages#send_message'
 
   # Only allow authenticated users to get access
   # to the Sidekiq web interface

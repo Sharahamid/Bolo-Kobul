@@ -1,7 +1,7 @@
 task :active_admin_managed_resources => :environment do
   skip_resources = [ 'Dashboard' ]
 
-  namespace = ActiveAdmin.application.namespace(:shefali007)
+  namespace = ActiveAdmin.application.namespace(:shaheer10inara20)
 
   # pages     = namespace.resources.select { |r| r.is_a? ActiveAdmin::Page }
   resources = namespace.resources.select { |r| r.respond_to? :resource_class }

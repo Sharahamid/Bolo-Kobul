@@ -188,15 +188,15 @@ ActiveAdmin.register_page "Dashboard" do
           text_node raw(<<~HTML)
             <div class="bk-action-row">
               <span>Profile approvals</span>
-              <a href="/shefali007/marriage_profiles" class="bk-pill bk-pill-amber">#{pending_profiles} pending</a>
+              <a href="/shaheer10inara20/marriage_profiles" class="bk-pill bk-pill-amber">#{pending_profiles} pending</a>
             </div>
             <div class="bk-action-row">
               <span>Support tickets</span>
-              <a href="/shefali007/customer_supports" class="bk-pill bk-pill-red">#{open_tickets} open</a>
+              <a href="/shaheer10inara20/customer_supports" class="bk-pill bk-pill-red">#{open_tickets} open</a>
             </div>
             <div class="bk-action-row">
               <span>Blog approvals</span>
-              <a href="/shefali007/blogs" class="bk-pill bk-pill-amber">#{pending_blogs} pending</a>
+              <a href="/shaheer10inara20/blogs" class="bk-pill bk-pill-amber">#{pending_blogs} pending</a>
             </div>
           HTML
         end
@@ -224,7 +224,7 @@ ActiveAdmin.register_page "Dashboard" do
                 var email = document.getElementById('bk-user-email').value;
                 var msg = document.getElementById('bk-msg-content').value;
                 if (!email || !msg) { document.getElementById('bk-msg-status').innerHTML = '<span style="color:red">Please fill in both fields.</span>'; return; }
-                fetch('/shefali007/send_admin_message', {
+                fetch('/shaheer10inara20/send_admin_message', {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': document.querySelector('meta[name=csrf-token]').content },
                   body: JSON.stringify({ email: email, message: msg })
@@ -306,7 +306,7 @@ ActiveAdmin.register_page "Dashboard" do
         column(:quantity)
         column("Amount") { |o| "৳#{number_with_delimiter(o.total_amount.to_i)}" }
         column("Date") { |o| o.created_at.strftime("%d %b %Y %H:%M") }
-        column("Action") { |o| link_to "View", "/shefali007/orders/#{o.id}", class: "button" }
+        column("Action") { |o| link_to "View", "/shaheer10inara20/orders/#{o.id}", class: "button" }
       end
     end
 

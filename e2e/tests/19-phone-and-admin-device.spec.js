@@ -57,11 +57,11 @@ test.describe('Admin new-device email', () => {
     try { return (fs.readFileSync(mailFile(), 'utf8').match(/Subject: New sign-in to the Bolo Kobul admin panel/g) || []).length; } catch (e) { return 0; }
   };
   const adminLogin = async (page) => {
-    await page.goto('/shefali007/login');
+    await page.goto('/shaheer10inara20/login');
     await page.locator('#admin_user_email').fill(seed().admin);
     await page.locator('#admin_user_password').fill(seed().password);
     await Promise.all([page.waitForNavigation(), page.locator('input[type="submit"]').click()]);
-    await expect(page).toHaveURL(/\/shefali007\/?$/);
+    await expect(page).toHaveURL(/\/shaheer10inara20\/?$/);
   };
 
   test('signing in from a new browser emails the admin once', async ({ browser }) => {

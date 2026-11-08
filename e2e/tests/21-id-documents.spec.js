@@ -5,12 +5,12 @@ const { seed } = require('../support/helpers');
 test.describe('ID documents', () => {
   test('admins can open a member\'s ID document; nobody else can', async ({ page, browser }) => {
     const { members } = seed();
-    await page.goto('/shefali007/login');
+    await page.goto('/shaheer10inara20/login');
     await page.locator('#admin_user_email').fill(seed().admin);
     await page.locator('#admin_user_password').fill(seed().password);
     await Promise.all([page.waitForNavigation(), page.locator('input[type="submit"]').click()]);
 
-    await page.goto(`/shefali007/marriage_profiles/${members.alice}`);
+    await page.goto(`/shaheer10inara20/marriage_profiles/${members.alice}`);
     const link = page.locator('a[href$="/id_document"]').first();
     await expect(link).toBeAttached();
     const href = await link.getAttribute('href');
@@ -22,7 +22,7 @@ test.describe('ID documents', () => {
     // Signed out: no document, only the admin login page
     const stranger = await (await browser.newContext()).newPage();
     const response = await stranger.goto(href);
-    await expect(stranger).toHaveURL(/\/shefali007\/login/);
+    await expect(stranger).toHaveURL(/\/shaheer10inara20\/login/);
     expect(response.headers()['content-type']).toMatch(/text\/html/);
 
     // Nothing is served from the old public folder any more

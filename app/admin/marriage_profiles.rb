@@ -24,7 +24,7 @@ ActiveAdmin.register MarriageProfile do
 
   action_item :print_profile, only: :show do
     link_to 'Biodata',
-            print_profile_shefali007_marriage_profile_path(resource),
+            print_profile_shaheer10inara20_marriage_profile_path(resource),
             target: '_blank',
             class: 'button'
   end

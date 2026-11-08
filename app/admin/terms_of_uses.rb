@@ -4,7 +4,7 @@ ActiveAdmin.register TermsOfUse do
 
   # generate custom link
   action_item :remove_pdf, only: [:show, :edit] do
-    link_to "Remove PDF", remove_pdf_shefali007_terms_of_use_path
+    link_to "Remove PDF", remove_pdf_shaheer10inara20_terms_of_use_path
   end
 
   # define route
@@ -16,7 +16,7 @@ ActiveAdmin.register TermsOfUse do
       terms_of_use = TermsOfUse.find(params[:id])
       pdf_attachment = terms_of_use.pdf_content_attachment
       pdf_attachment.purge_later if pdf_attachment.present?
-      redirect_to shefali007_terms_of_use_path(terms_of_use)
+      redirect_to shaheer10inara20_terms_of_use_path(terms_of_use)
     end
   end
 

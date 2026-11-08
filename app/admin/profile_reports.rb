@@ -14,7 +14,7 @@ ActiveAdmin.register ProfileReport do
 
   index do
     id_column
-    column('Reported') { |r| link_to r.reported_profile.unique_id, shefali007_marriage_profile_path(r.reported_profile) rescue r.reported_profile_id }
+    column('Reported') { |r| link_to r.reported_profile.unique_id, shaheer10inara20_marriage_profile_path(r.reported_profile) rescue r.reported_profile_id }
     column('Reason', &:reason_label)
     column('Reports on this profile', &:reporter_count)
     column('By') { |r| r.reporter_profile&.unique_id || 'Deleted member' }
@@ -25,7 +25,7 @@ ActiveAdmin.register ProfileReport do
 
   show do
     attributes_table do
-      row('Reported profile') { |r| link_to r.reported_profile.unique_id, shefali007_marriage_profile_path(r.reported_profile) rescue r.reported_profile_id }
+      row('Reported profile') { |r| link_to r.reported_profile.unique_id, shaheer10inara20_marriage_profile_path(r.reported_profile) rescue r.reported_profile_id }
       row('Reported member') { |r| "#{r.reported_profile.user&.name} (#{r.reported_profile.user&.email}, #{r.reported_profile.user&.phone_number})" }
       row('Account deactivated') { |r| r.reported_profile.user&.deactivated ? 'Yes' : 'No' }
       row('Reason', &:reason_label)
@@ -47,7 +47,7 @@ ActiveAdmin.register ProfileReport do
   end
 
   action_item :deactivate, only: :show, if: proc { resource.reported_profile.user && !resource.reported_profile.user.deactivated } do
-    link_to 'Deactivate reported account', deactivate_account_shefali007_profile_report_path(resource), method: :patch,
+    link_to 'Deactivate reported account', deactivate_account_shaheer10inara20_profile_report_path(resource), method: :patch,
             data: { confirm: 'Hide this member from everyone and mark the report "action taken"?' }
   end
 

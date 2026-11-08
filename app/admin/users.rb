@@ -47,9 +47,9 @@ ActiveAdmin.register User do
                else "<span style='color:orange; font-size:16px;' title='Pending'>⚠️</span>"
                end
         links = "<br/>"
-        links += link_to("View", shefali007_marriage_profile_path(profile), style: "font-size:11px; margin-right:5px;")
-        links += link_to("✅", verify_doc_shefali007_user_path(user, status: 1), method: :patch, style: "margin-right:3px;", title: "Mark Verified")
-        links += link_to("❌", verify_doc_shefali007_user_path(user, status: 2), method: :patch, style: "margin-right:3px;", title: "Mark Unverified")
+        links += link_to("View", shaheer10inara20_marriage_profile_path(profile), style: "font-size:11px; margin-right:5px;")
+        links += link_to("✅", verify_doc_shaheer10inara20_user_path(user, status: 1), method: :patch, style: "margin-right:3px;", title: "Mark Verified")
+        links += link_to("❌", verify_doc_shaheer10inara20_user_path(user, status: 2), method: :patch, style: "margin-right:3px;", title: "Mark Unverified")
         raw(icon + links)
       else
         raw("<span style='color:#ccc;'>No Doc</span>")
@@ -125,7 +125,7 @@ ActiveAdmin.register User do
       profile.update_column(:doc_verification_status, params[:status].to_i)
       flash[:notice] = "Document verification status updated."
     end
-    redirect_to shefali007_users_path
+    redirect_to shaheer10inara20_users_path
   end
 
   form do |f|

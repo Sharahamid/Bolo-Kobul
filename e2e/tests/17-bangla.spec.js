@@ -68,12 +68,12 @@ test.describe('Bangla version', () => {
 test.describe('Bangla content written by the admin', () => {
   test('a Bangla FAQ title shows on the Bangla site; the English site keeps the English one', async ({ page }) => {
     const stamp = Date.now();
-    await page.goto('/shefali007/login');
+    await page.goto('/shaheer10inara20/login');
     await page.locator('#admin_user_email').fill(seed().admin);
     await page.locator('#admin_user_password').fill(seed().password);
     await Promise.all([page.waitForNavigation(), page.locator('input[type="submit"]').click()]);
 
-    await page.goto('/shefali007/faqs/new');
+    await page.goto('/shaheer10inara20/faqs/new');
     await page.locator('#faq_title').fill(`How do Kobuls work? ${stamp}`);
     await page.locator('#faq_title_bn').fill(`কবুল কীভাবে কাজ করে? ${stamp}`);
     await page.locator('#faq_display_order').fill('999');

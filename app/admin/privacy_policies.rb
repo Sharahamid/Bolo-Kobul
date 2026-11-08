@@ -4,7 +4,7 @@ ActiveAdmin.register PrivacyPolicy do
 
   # generate custom link
   action_item :remove_pdf, only: [:show, :edit] do
-    link_to "Remove PDF", remove_pdf_shefali007_privacy_policy_path
+    link_to "Remove PDF", remove_pdf_shaheer10inara20_privacy_policy_path
   end
 
   # define route
@@ -16,7 +16,7 @@ ActiveAdmin.register PrivacyPolicy do
       privacy_policy = PrivacyPolicy.find(params[:id])
       pdf_attachment = privacy_policy.pdf_content_attachment
       pdf_attachment.purge_later if pdf_attachment.present?
-      redirect_to shefali007_privacy_policy_path(privacy_policy)
+      redirect_to shaheer10inara20_privacy_policy_path(privacy_policy)
     end
   end
 

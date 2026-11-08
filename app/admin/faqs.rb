@@ -4,7 +4,7 @@ ActiveAdmin.register Faq do
 
   # generate custom link
   action_item :remove_pdf, only: [:show, :edit] do
-    link_to "Remove PDF", remove_pdf_shefali007_faq_path
+    link_to "Remove PDF", remove_pdf_shaheer10inara20_faq_path
   end
 
   # define route
@@ -16,7 +16,7 @@ ActiveAdmin.register Faq do
       faq = Faq.find(params[:id])
       pdf_attachment = faq.pdf_content_attachment
       pdf_attachment.purge_later if pdf_attachment.present?
-      redirect_to shefali007_faq_path(faq)
+      redirect_to shaheer10inara20_faq_path(faq)
     end
   end
 

@@ -73,11 +73,11 @@ test.describe('Report & Block', () => {
     await expect(page.getByRole('button', { name: 'Report & Block' })).toBeVisible();
 
     await page.context().clearCookies();
-    await page.goto('/shefali007/login');
+    await page.goto('/shaheer10inara20/login');
     await page.locator('#admin_user_email').fill(seed().admin);
     await page.locator('#admin_user_password').fill(seed().password);
     await Promise.all([page.waitForNavigation(), page.locator('input[type="submit"]').click()]);
-    await page.goto('/shefali007/profile_reports');
+    await page.goto('/shaheer10inara20/profile_reports');
     await expect(page.locator('table.index_table')).toContainText(unique_ids.carol);
     await expect(page.locator('table.index_table')).toContainText('Fake profile or false information');
     await expect(page.locator('table.index_table')).toContainText(unique_ids.erin);

@@ -45,7 +45,7 @@ ActiveAdmin.register CustomerSupport do
     end
 
     panel 'New Reply' do
-      active_admin_form_for resource.replies.build, url: reply_shefali007_customer_support_path, html: { multipart: true } do |f|
+      active_admin_form_for resource.replies.build, url: reply_shaheer10inara20_customer_support_path, html: { multipart: true } do |f|
         f.semantic_errors(*f.object.errors.attribute_names)
         f.inputs do
           f.input :message, as: :text
@@ -71,6 +71,6 @@ ActiveAdmin.register CustomerSupport do
       notifiable: resource
     )
 
-    redirect_to shefali007_customer_support_path(resource)
+    redirect_to shaheer10inara20_customer_support_path(resource)
   end
 end

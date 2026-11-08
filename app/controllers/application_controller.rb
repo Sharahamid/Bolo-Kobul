@@ -78,7 +78,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if resource.is_a?(AdminUser)
-      shefali007_root_path
+      shaheer10inara20_root_path
     else
       stored_location_for(resource) || resource.is_a?(User) ? user_homepage(resource) : root_path
     end
@@ -127,7 +127,7 @@ class ApplicationController < ActionController::Base
   end
 
   def request_locale
-    return :en if request.path.start_with?('/shefali007')
+    return :en if request.path.start_with?('/shaheer10inara20')
 
     chosen = params[:locale].to_s
     if LOCALES.include?(chosen)
