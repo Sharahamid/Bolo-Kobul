@@ -1,12 +1,13 @@
 <%# A friendly empty list with a next step.
     Locals: icon (Font Awesome name), title, text, actions: [[label, path], ...] %>
-<div class="bk-empty">
+<% compact = local_assigns[:compact] %>
+<div class="bk-empty<%= ' bk-empty--compact' if compact %>">
   <div class="bk-empty-icon"><i class="fas <%= icon %>"></i></div>
   <p class="bk-empty-title"><%= title %></p>
   <p class="bk-empty-text"><%= text %></p>
   <% if local_assigns[:actions].present? %>
     <div class="bk-empty-actions">
-      <% actions.each_with_index do |(label, path), i| %>
+      <% (compact ? actions.first(1) : actions).each_with_index do |(label, path), i| %>
         <%= link_to label, path, class: (i.zero? ? 'bk-pill-btn' : 'bk-pill-btn bk-pill-btn--light') %>
       <% end %>
     </div>

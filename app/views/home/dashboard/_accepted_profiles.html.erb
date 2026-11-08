@@ -21,7 +21,7 @@
         </div>
       <% end %>
     <% else %>
-      <%= render 'shared/bk_empty_state', icon: 'fa-paper-plane', title: t('bkx.empty.requests_title'), text: t('bkx.empty.requests_text'),
+      <%= render 'shared/bk_empty_state', compact: true, icon: 'fa-paper-plane', title: t('bkx.empty.requests_title'), text: t('bkx.empty.requests_text'),
                  actions: [[t('bkx.empty.search'), search_page_marriage_profile_path(current_active_profile)],
                            [t('bkx.empty.complete'), profile_info_marriage_profile_path(current_active_profile)]] %>
     <% end %>

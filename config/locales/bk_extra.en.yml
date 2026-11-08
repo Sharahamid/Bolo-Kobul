@@ -46,7 +46,7 @@ en:
         s5_title: "1st Kobul accepted — profiles open"
         s5_text: "When they accept, you both see each other's photos, education, work, family details and About Me."
         s6_title: "Send a 2nd Kobul to chat"
-        s6_text: "Ready to talk? Send a 2nd Kobul (%{b2}). When they accept, chat opens. These butterflies are not returned if it's declined."
+        s6_text: "Ready to talk? Send a 2nd Kobul (%{b2}). When they accept, chat opens. Butterflies used for a 2nd Kobul are not returned if it's declined."
         s7_title: "Chat safely on Bolo Kobul"
         s7_text: "Get to know each other in chat. Phone numbers stay hidden — share yours only when you're comfortable."
         s8_title: "Meet the families"
@@ -62,6 +62,8 @@ en:
       reward_id: "Add your NID or passport to get your profile verified."
       reward_default: "Every section you add helps families decide with confidence."
 
+    not_added: "Not added yet"
+
     empty:
       matches_title: "No matches to show yet"
       matches_text: "Widen your partner preferences or search with different filters to see more profiles."
@@ -71,6 +73,10 @@ en:
       requests_text: "Complete your profile so more members notice you, or send a 1st Kobul to someone you like."
       chats_title: "Your chats will appear here"
       chats_text: "Chat opens when you and another member have both accepted a 1st and a 2nd Kobul."
+      sent_title: "You haven't sent any Kobuls yet"
+      sent_text: "Find someone you like and send a 1st Kobul to see their full profile."
+      chat_requests_title: "No chat requests yet"
+      chat_requests_text: "When someone sends you a 2nd Kobul to chat, it will appear here."
       search: "Search profiles"
       preferences: "Adjust preferences"
       complete: "Complete my profile"

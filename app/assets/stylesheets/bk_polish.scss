@@ -662,3 +662,30 @@ div.pagination,
     object-fit: contain;
   }
 }
+
+.bk-empty--compact {
+  padding: 20px 12px;
+  .bk-empty-icon { width: 42px; height: 42px; margin-bottom: 8px; i { font-size: 17px; } }
+  .bk-empty-title { font-size: 14px; }
+  .bk-empty-text { font-size: 12px; margin-bottom: 12px; }
+  .bk-pill-btn { padding: 7px 18px; font-size: 13px; }
+}
+
+// ---- Member pages on phones: the page itself first ------------------------------
+// On every member page except the dashboard, the profile card (checklist and
+// butterflies) moves below the page content, so Preference, Orders, Profile etc.
+// open on what the member tapped instead of a full screen of the profile card.
+@media (max-width: 575.98px) {
+  body:not(.page-marriage_profiles-dashboard) .dashboard > .container > .d-sm-flex {
+    display: flex;
+    flex-direction: column;
+  }
+  body:not(.page-marriage_profiles-dashboard) .dashboard > .container > .d-sm-flex > .left-sidebar-section:not(.message-left-sidebar):not(.mb-4),
+  body:not(.page-marriage_profiles-dashboard) .dashboard > .container > .d-sm-flex > .profiles-container:has(> .left-sidebar-section:not(.message-left-sidebar):not(.mb-4)) {
+    order: 2;
+    margin-top: 16px;
+  }
+}
+
+.bk-no-data { margin: 6px 0; font-size: 13px; color: #a8977c; font-style: italic; text-align: left; }
+.detail-info .info-alignment table td.bk-blank::after { content: '—'; color: #d8ccb6; font-weight: 400; }

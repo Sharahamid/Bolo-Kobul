@@ -52,3 +52,12 @@
              marriage_profile: marriage_profile if current_active_profile.full_view?(marriage_profile) ||
       current_active_profile.more_view?(marriage_profile) %>
 </div>
+
+<script>
+  // Answers left blank show a soft dash, so empty rows don't look broken
+  (function () {
+    document.querySelectorAll('.detail-info .info-alignment table td:last-child').forEach(function (td) {
+      if (!td.textContent.trim() && !td.querySelector('img, a, button')) td.classList.add('bk-blank');
+    });
+  })();
+</script>

@@ -66,7 +66,8 @@
         <% end %>
       </div>
     <% else %>
-      <%= render 'shared/no_data_found' %>
+      <%= render 'shared/bk_empty_state', icon: 'fa-paper-plane', title: t('bkx.empty.sent_title'), text: t('bkx.empty.sent_text'),
+                 actions: [[t('bkx.empty.search'), search_page_marriage_profile_path(current_active_profile)]] %>
     <% end %>
   </div>
 </div>
