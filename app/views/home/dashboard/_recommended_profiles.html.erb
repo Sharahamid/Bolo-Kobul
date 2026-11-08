@@ -60,3 +60,29 @@
     <% end %>
   </div>
 </div>
+<script>
+  // Computers: when the page has empty space below, the scrolling Recommendations list
+  // grows into it, leaving a little white space at the bottom of the white box
+  (function () {
+    function fit() {
+      var list = document.querySelector('#bk-recommendations .recommended_profiles');
+      var box = list && list.closest('.dashboard-tab');
+      if (!list || !box) return;
+      list.style.maxHeight = '';
+      if (window.innerWidth < 576 || list.scrollHeight <= list.clientHeight + 2) return;
+      var lastBottom = 0;
+      Array.prototype.forEach.call(box.querySelectorAll('*'), function (el) {
+        if (el.offsetParent !== null && !list.contains(el)) {
+          var b = el.getBoundingClientRect().bottom;
+          if (b > lastBottom) lastBottom = b;
+        }
+      });
+      lastBottom = Math.max(lastBottom, list.getBoundingClientRect().bottom);
+      var space = box.getBoundingClientRect().bottom - lastBottom - 8;
+      if (space > 0) list.style.maxHeight = Math.min(list.clientHeight + space, list.scrollHeight) + 'px';
+    }
+    window.addEventListener('load', fit);
+    window.addEventListener('resize', function () { clearTimeout(window.bkRecFit); window.bkRecFit = setTimeout(fit, 150); });
+    setTimeout(fit, 300);
+  })();
+</script>
