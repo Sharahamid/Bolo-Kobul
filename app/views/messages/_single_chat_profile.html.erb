@@ -8,8 +8,8 @@
       <%= render 'shared/chat_profile_photo', profile: profile %>
     </div>
     <div style="flex:1; min-width:0;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-        <%= link_to profile_message_path(profile), style: "font-size:13px; font-weight:700; color:#854F0B; text-decoration:none;" do %>
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; margin-bottom:6px;">
+        <%= link_to profile_message_path(profile), style: "font-size:14px; font-weight:700; min-width:0; overflow-wrap:anywhere; color:#854F0B; text-decoration:none;" do %>
           <%= profile&.unique_id %><%= " (#{profile.user.created_for})" unless profile.user.self? %>
           <% if profile.verified %>
             <i class="fas fa-check-circle" style="color:#FFB627; font-size:10px;"></i>
@@ -17,17 +17,17 @@
         <% end %>
         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:2px;">
           <%= render 'shared/profile_actions', profile: profile %>
-          <small style="color:#ccc; font-size:9px; white-space:nowrap;"><%= message.present? ? format_date_chat(message.created_at) : '' %></small>
+          <small style="color:#b5a68f; font-size:10px; white-space:nowrap;"><%= message.present? ? format_date_chat(message.created_at) : '' %></small>
         </div>
       </div>
-      <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:5px;">
-        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= years_label(profile.age) %></span>
-        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><%= local_digits(profile.height_ft) %>'<%= local_digits(profile.height_inch) %>"</span>
-        <span style="background:#FFF3CC; color:#854F0B; font-size:9px; padding:1px 6px; border-radius:4px;"><i class="fas fa-map-marker-alt" style="font-size:8px;"></i> <%= district_label(profile&.hometown) %></span>
+      <div style="display:flex; flex-wrap:wrap; gap:4px; margin-bottom:6px;">
+        <span style="background:#FFF3CC; color:#854F0B; font-size:11px; padding:2px 7px; border-radius:5px; white-space:nowrap;"><%= years_label(profile.age) %></span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:11px; padding:2px 7px; border-radius:5px; white-space:nowrap;"><%= local_digits(profile.height_ft) %>'<%= local_digits(profile.height_inch) %>"</span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:11px; padding:2px 7px; border-radius:5px; white-space:nowrap;"><i class="fas fa-map-marker-alt" style="font-size:9px;"></i> <%= district_label(profile&.hometown) %></span>
       </div>
       <% if unread > 0 %>
       <div style="display:flex; align-items:center; gap:6px; margin-top:4px;">
-          <span class="bk-new-message" style="display:inline-flex; align-items:center; gap:5px; background:#FFB627; color:#412402; font-size:10px; font-weight:700; padding:2px 9px; border-radius:20px;">
+          <span class="bk-new-message" style="display:inline-flex; align-items:center; gap:5px; background:#FFB627; color:#412402; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; white-space:nowrap;">
             <i class="fas fa-envelope" style="font-size:9px;"></i>
             <%= unread == 1 ? 'New message' : "#{unread > 99 ? '99+' : unread} new messages" %>
           </span>
@@ -35,13 +35,13 @@
       <% end %>
       <div style="display:flex; align-items:center; justify-content:space-between; gap:6px; margin-top:4px;">
         <% last_seen = profile.user.last_seen_at || profile.user.last_sign_in_at; days_ago = last_seen ? ((Time.now - last_seen) / 86400).to_i : nil %>
-        <span style="display:inline-flex; align-items:center; gap:3px; font-size:9px; color:gray;">
+        <span style="display:inline-flex; align-items:center; gap:4px; font-size:11px; color:#8a7a66; white-space:nowrap;">
           <span style="width:7px; height:7px; border-radius:50%; background:<%= days_ago && days_ago < 1 ? '#21BA45' : (days_ago && days_ago < 7 ? '#FFB627' : '#ccc') %>; display:inline-block;"></span>
           <%= days_ago.nil? ? t('chat.inactive') : (days_ago < 1 ? t('chat.active_today') : (days_ago < 7 ? t('chat.active_days_ago', days: local_digits(days_ago)) : t('chat.inactive'))) %>
         </span>
         <%= link_to profile_info_marriage_profile_path(profile),
                     target: '_blank',
-                    style: "font-size:9px; background:#FFB627; color:#412402; border-radius:4px; padding:3px 7px; text-decoration:none; font-weight:700; white-space:nowrap; flex-shrink:0;" do %>
+                    style: "font-size:11px; background:#FFB627; color:#412402; border-radius:999px; padding:4px 12px; text-decoration:none; font-weight:700; white-space:nowrap; flex-shrink:0;" do %>
           <%= t('chat.view_profile') %>
         <% end %>
       </div>

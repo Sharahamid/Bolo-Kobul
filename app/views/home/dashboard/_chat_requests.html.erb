@@ -3,11 +3,11 @@
     <i class="fa fa-comments" style="color:#633806;"></i>
     <span id="bk-target-chats" style="font-size:13px; font-weight:700; color:#633806;"><%= t('dashboard.chats') %></span>
   </div>
-  <div style="display:flex; flex-wrap:wrap; gap:8px; padding:10px;">
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 260px), 1fr)); gap:10px; padding:10px;">
     <% chat_channels&.each do |chat_room| %>
       <% profile = chat_room.connected_profile(current_active_profile) %>
       <% next unless profile %>
-      <div style="border:0.5px solid #eee; border-radius:8px; background:#fffaf0; min-width:160px; flex:1;">
+      <div style="border:0.5px solid #F1E6C8; border-radius:10px; background:#fffaf0; overflow:hidden; min-width:0;">
         <%= render 'messages/single_chat_profile', profile: profile, chat_room: chat_room %>
       </div>
     <% end %>
