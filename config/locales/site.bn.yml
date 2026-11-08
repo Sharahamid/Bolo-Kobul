@@ -360,11 +360,11 @@ bn:
       location: স্থান
       degree: ডিগ্রি
       passing_year: পাসের বছর
-      new: নতুন শিক্ষাগত তথ্য
+      new: শিক্ষাগত তথ্য যোগ করুন
     occupation:
       title: পেশা
       sub: কাজ · ক্যারিয়ার
-      organization: প্রতিষ্ঠান
+      organization: খাত
       company_name: প্রতিষ্ঠানের নাম
       designation: পদবি
       employment_status: চাকরির ধরন
@@ -372,7 +372,7 @@ bn:
       start_date: শুরুর তারিখ
       end_date: শেষের তারিখ
       currently_working: বর্তমানে কর্মরত
-      new: নতুন পেশা যোগ করুন
+      new: পেশা যোগ করুন
     appearance:
       title: চেহারা
       sub: শারীরিক বৈশিষ্ট্য
@@ -396,7 +396,7 @@ bn:
       occupation: পেশা
       residence: পারিবারিক বাসস্থান
       permanent_address: স্থায়ী ঠিকানা
-      new: নতুন সদস্য যোগ করুন
+      new: পরিবারের সদস্য যোগ করুন
     marriage:
       title: বিয়ে-সংক্রান্ত তথ্য
       sub: অবস্থা · প্রত্যাশা
@@ -1129,16 +1129,16 @@ bn:
     start_date: শুরুর তারিখ
     end_date_req: শেষের তারিখ*
     end_date: শেষের তারিখ
-    organization_req: প্রতিষ্ঠান*
-    organization: প্রতিষ্ঠান
+    organization_req: খাত*
+    organization: খাত
     monthly_income_req: মাসিক আয়*
     employment_status_req: চাকরির ধরন*
     designation_req: পদবি*
     designation: পদবি
     company_name_req: প্রতিষ্ঠানের নাম*
     company_name: প্রতিষ্ঠানের নাম
-    please_specify_your_organization_req: আপনার প্রতিষ্ঠানের নাম লিখুন*
-    please_specify_organization: প্রতিষ্ঠানের নাম লিখুন
+    please_specify_your_organization_req: আপনার খাতের নাম লিখুন*
+    please_specify_organization: খাতের নাম লিখুন
     birth_place: জন্মস্থান
     complexion_lc: গায়ের রং
     complexion: গায়ের রং
@@ -1559,7 +1559,7 @@ bn:
       profile_complete: "পাত্র/পাত্রীর প্রোফাইল সম্পূর্ণ"
       todo_title: "পাত্র/পাত্রীর প্রোফাইল সম্পূর্ণ করুন"
     section_form:
-      please_specify_your_organization_req: "পাত্র/পাত্রীর প্রতিষ্ঠানের নাম লিখুন*"
+      please_specify_your_organization_req: "পাত্র/পাত্রীর খাতের নাম লিখুন*"
       what_do_you_do_the_most_for_entertainment: "পাত্র/পাত্রী বিনোদনের জন্য সবচেয়ে বেশি কী করেন?"
       do_you_smoke: "পাত্র/পাত্রী কি ধূমপান করেন?"
       do_you_drink: "পাত্র/পাত্রী কি মদ্যপান করেন?"

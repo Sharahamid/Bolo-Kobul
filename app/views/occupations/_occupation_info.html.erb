@@ -18,7 +18,7 @@
       <% if marriage_profile.id == current_active_profile.id %>
         <div class="pr-2 new-info-btn">
           <a href="<%= new_occupation_path %>" data-remote="true" data-toggle="tooltip" data-placement="top" title="<%= t('profile.occupation.new') %>" class="btn btn-sm btn-edit text-white">
-            <i class="fa fa-plus-circle"></i>
+            <i class="fa fa-plus-circle"></i><span class="bk-add-label"><%= t('profile.occupation.new') %></span>
           </a>
         </div>
       <% end %>

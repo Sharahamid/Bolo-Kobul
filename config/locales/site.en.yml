@@ -250,11 +250,11 @@ en:
       location: Location
       degree: Degree
       passing_year: Passing Year
-      new: New Academic Information
+      new: Add Education
     occupation:
       title: Occupation
       sub: Work · Career
-      organization: Organization
+      organization: Industry
       company_name: Company Name
       designation: Designation
       employment_status: Employment Status
@@ -262,7 +262,7 @@ en:
       start_date: Start Date
       end_date: End Date
       currently_working: Currently Working
-      new: Add New Occupation
+      new: Add Occupation
     appearance:
       title: Appearance
       sub: Physical features
@@ -286,7 +286,7 @@ en:
       occupation: Occupation
       residence: Family Residence
       permanent_address: Permanent Address
-      new: Add New Family Member
+      new: Add Family Member
     marriage:
       title: Marriage Information
       sub: Status · Expectations
@@ -641,16 +641,16 @@ en:
     start_date: Start Date
     end_date_req: End Date*
     end_date: End Date
-    organization_req: Organization*
-    organization: Organization
+    organization_req: Industry*
+    organization: Industry
     monthly_income_req: Monthly Income*
     employment_status_req: Employment Status*
     designation_req: Designation*
     designation: Designation
     company_name_req: Company Name*
     company_name: Company Name
-    please_specify_your_organization_req: Please specify your organization*
-    please_specify_organization: Please specify organization
+    please_specify_your_organization_req: Please specify your industry*
+    please_specify_organization: Please specify industry
     birth_place: Birth Place
     complexion_lc: complexion
     complexion: Complexion
@@ -1029,7 +1029,7 @@ en:
       profile_complete: "Candidate's profile complete"
       todo_title: "Complete the candidate's profile"
     section_form:
-      please_specify_your_organization_req: "Please specify the candidate's organization*"
+      please_specify_your_organization_req: "Please specify the candidate's industry*"
       what_do_you_do_the_most_for_entertainment: "What does the candidate do most for entertainment?"
       do_you_smoke: "Does the candidate smoke?"
       do_you_drink: "Does the candidate drink?"
