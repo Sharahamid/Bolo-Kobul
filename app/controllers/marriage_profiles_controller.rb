@@ -196,9 +196,7 @@ class MarriageProfilesController < ApplicationController
           "Good news! Someone has sent you a 1st Kobul. Log in to check their profile: #{profile_info_marriage_profile_url(current_active_profile)}"
         )
       end
-      if current_active_profile.favourite_profile_ids.include?(@marriage_profile.id)
-        Favourite.remove_from_favourite(@marriage_profile.id)
-      end
+      # Favourites stay put after a Kobul - only the member removes them
       flash[:notice] = "Your 1st Kobul has been sent successfully"
       session[:butterfly] = "animate"
       flash[:bk_push_moment] = true # good moment to offer phone alerts

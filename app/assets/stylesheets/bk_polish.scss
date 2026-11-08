@@ -788,3 +788,6 @@ body.bk-menu-open .sidebar {
   text-align: center;
   border: 2px solid #fff;
 }
+
+// Whole profile-section title bar is tappable
+.panel-group .panel-heading { cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }

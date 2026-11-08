@@ -310,5 +310,15 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <% end %>
 
+<script>
+  // Profile sections: tapping anywhere on a section's title bar opens or closes it,
+  // not only the small arrow
+  document.addEventListener('click', function (e) {
+    var head = e.target.closest && e.target.closest('.panel-group .panel-heading');
+    if (!head || e.target.closest('a, button, input, select, textarea, label')) return;
+    var toggle = head.querySelector('[data-toggle="collapse"]');
+    if (toggle) { e.preventDefault(); toggle.click(); }
+  });
+</script>
 </body>
 </html>

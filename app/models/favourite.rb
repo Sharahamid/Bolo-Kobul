@@ -23,8 +23,8 @@ class Favourite < ApplicationRecord
   # class methods
   #
 
-  def self.remove_from_favourite(favourite_profile_id)
-    favourite_profile = self.find_by(favourite_profile_id: favourite_profile_id)
-    favourite_profile.destroy if favourite_profile.present?
+  # Removes one member's favourite (never another member's)
+  def self.remove_from_favourite(owner_profile_id, favourite_profile_id)
+    where(marriage_profile_id: owner_profile_id, favourite_profile_id: favourite_profile_id).destroy_all
   end
 end

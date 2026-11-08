@@ -2,7 +2,7 @@ class FavouritesController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @favourites = current_active_profile.favourite_profiles
+    @favourites = current_active_profile.favourite_profiles.merge(Favourite.order(created_at: :desc))
   end
 
   def create
@@ -21,7 +21,9 @@ class FavouritesController < ApplicationController
     @from_id = current_active_profile.id
     @to_id = params[:favourite_profile_id].to_i
     if params[:favourite_profile_id].present?
-      Favourite.remove_from_favourite(params[:favourite_profile_id])
+      # Only this member's own favourite - never someone else's
+      current_active_profile.favourites
+        .where(favourite_profile_id: params[:favourite_profile_id].to_i).destroy_all
     end
     flash[:notice] = "Removed from your favourite list."
     redirect_back(fallback_location: "/")
