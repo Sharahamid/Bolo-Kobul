@@ -319,6 +319,34 @@ document.addEventListener('DOMContentLoaded', function() {
     var toggle = head.querySelector('[data-toggle="collapse"]');
     if (toggle) { e.preventDefault(); toggle.click(); }
   });
+
+  // After a profile section is saved, added or removed in a pop-up, refresh the
+  // "Profile complete" bar and checklist without reloading the whole page
+  (function () {
+    var timer = null;
+    function refreshProgress() {
+      var block = document.querySelector('.bk-progress-block');
+      if (!block) return;
+      fetch(location.href, { credentials: 'same-origin', headers: { 'Accept': 'text/html' } })
+        .then(function (r) { return r.ok ? r.text() : null; })
+        .then(function (html) {
+          if (!html) return;
+          var fresh = new DOMParser().parseFromString(html, 'text/html').querySelector('.bk-progress-block');
+          var current = document.querySelector('.bk-progress-block');
+          if (fresh && current) current.innerHTML = fresh.innerHTML;
+        })
+        .catch(function () {});
+    }
+    document.addEventListener('ajax:complete', function (e) {
+      var el = e.target;
+      if (!el || !document.querySelector('.bk-progress-block')) return;
+      var method = ((el.getAttribute && (el.getAttribute('data-method') || el.getAttribute('method'))) || '').toLowerCase();
+      var isSave = el.tagName === 'FORM' ? method !== 'get' : (method && method !== 'get');
+      if (!isSave) return;
+      clearTimeout(timer);
+      timer = setTimeout(refreshProgress, 400);
+    });
+  })();
 </script>
 </body>
 </html>
