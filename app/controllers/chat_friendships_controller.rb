@@ -95,6 +95,7 @@ class ChatFriendshipsController < ApplicationController
     current_active_profile.decline_chat_request(@marriage_profile)
     # Only a received 2nd Kobul has the sender's butterflies In Process
     @marriage_profile.unblock_blocked_butterflies_chat if received
+    ProfilePass.record!(current_active_profile, @marriage_profile)
     Friendship.where(
       '(friendable_id = ? AND friend_id = ?) OR (friendable_id = ? AND friend_id = ?)',
       current_active_profile.id, @marriage_profile.id,

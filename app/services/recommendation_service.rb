@@ -18,7 +18,9 @@ class RecommendationService
     key = cache_key(current_profile)
     cached_ids = Rails.cache.read(key)
     if cached_ids.present?
-      return MarriageProfile.where(id: cached_ids)
+      # Same order as when the list was made
+      found = MarriageProfile.where(id: cached_ids).includes(:user, :partner_preference, :occupations, :cultural_value).index_by(&:id)
+      return cached_ids.map { |id| found[id] }.compact
     end
 
     recommendations = build_recommendations(current_profile)
@@ -28,15 +30,18 @@ class RecommendationService
 
   # Recalculated daily, and also as soon as a new member joins or this member changes their preferences
   def self.cache_key(profile)
-    "recommendations_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
+    "recommendations_v2_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
       "#{profile.partner_preference&.updated_at.to_i}"
   end
 
   def self.build_recommendations(current_profile)
     excluded_ids = build_excluded_ids(current_profile, [])
     all_candidates = MarriageProfile.where.not(id: excluded_ids)
+                                    .includes(:user, :partner_preference, :occupations, :cultural_value)
     all_candidates = apply_age_gender_filter(all_candidates, current_profile)
     preference = current_profile.partner_preference
+    taste = Taste.new(current_profile)
+    seen = seen_counts(current_profile)
 
     # Always include 75%+ matches first
     high_matches = []
@@ -45,10 +50,9 @@ class RecommendationService
       profile.calculate_matching_percentage!(current_profile)
       high_matches << profile if profile.matching_percentage.to_i >= HIGH_MATCH_THRESHOLD
     end
-    high_matches.sort_by! { |p| [-p.matching_percentage.to_i, -p.match_quality] }
+    high_matches = rank(high_matches, taste, seen)
 
     # Fill remaining slots with the best matches, relaxing the preferences step by step
-    # (equal matches are shuffled, so the list still varies from day to day)
     remaining_count = [MIN_RECOMMENDATIONS - high_matches.count, 0].max
     high_match_ids = high_matches.map(&:id)
 
@@ -57,12 +61,69 @@ class RecommendationService
     while other_profiles.count < remaining_count && preference_level >= 0
       pool = apply_filters(all_candidates.where.not(id: high_match_ids + other_profiles.map(&:id)), preference, preference_level).to_a
       pool.each { |profile| profile.calculate_matching_percentage!(current_profile) }
-      other_profiles += pool.shuffle.sort_by { |profile| [-profile.matching_percentage.to_i, -profile.match_quality] }
-                            .first(remaining_count - other_profiles.count)
+      other_profiles += rank(pool, taste, seen).first(remaining_count - other_profiles.count)
       preference_level -= 1
     end
 
-    (high_matches + other_profiles).first(MIN_RECOMMENDATIONS)
+    picked = (high_matches + other_profiles).first(MIN_RECOMMENDATIONS)
+    remember_seen(current_profile, seen, picked)
+    picked
+  end
+
+  # Order: match % (in 5-point bands, so small differences don't decide everything),
+  # then likeness to profiles the member has favourited or sent Kobuls to, then
+  # profiles the member has been shown on fewer days, then photo / verified / new /
+  # recently active. Anything still equal is shuffled, so the list varies day to day.
+  def self.rank(profiles, taste, seen)
+    profiles.shuffle.sort_by do |p|
+      [-(p.matching_percentage.to_i / 5), -taste.score(p), seen[p.id].to_i, -p.match_quality]
+    end
+  end
+
+  # How many days each profile has already appeared in this member's recommendations
+  # (last two weeks)
+  def self.seen_counts(profile)
+    Rails.cache.read("rec_seen_#{profile.id}") || {}
+  rescue StandardError
+    {}
+  end
+
+  def self.remember_seen(profile, seen, picked)
+    updated = seen.dup
+    picked.each { |p| updated[p.id] = updated[p.id].to_i + 1 }
+    Rails.cache.write("rec_seen_#{profile.id}", updated, expires_in: 14.days)
+  rescue StandardError
+    nil
+  end
+
+  # What a member seems drawn to, learnt from the profiles they favourited, sent a
+  # Kobul to or connected with. Needs at least MIN_SIGNALS of them to say anything.
+  class Taste
+    MIN_SIGNALS = 3
+
+    def initialize(member)
+      ids = (member.favourite_profile_ids + member.pending_friend_ids + member.friend_ids +
+             member.chat_friendships.map(&:chat_friend_id)).uniq
+      liked = ids.size >= MIN_SIGNALS ? MarriageProfile.where(id: ids).includes(:occupations).to_a : []
+      @total = liked.size
+      @counts = {
+        occupation: liked.map(&:matching_occupation).compact.tally,
+        education: liked.map(&:highest_education_level).compact.tally,
+        location: liked.map(&:present_location).compact.tally,
+        hometown: liked.map(&:hometown).compact.tally
+      }
+    rescue StandardError
+      @total = 0
+    end
+
+    # 0 (nothing in common, or not enough to go on) up to 4
+    def score(profile)
+      return 0 if @total.to_i < MIN_SIGNALS
+
+      values = { occupation: profile.matching_occupation, education: profile.highest_education_level,
+                 location: profile.present_location, hometown: profile.hometown }
+      (values.sum { |key, value| value.nil? ? 0.0 : @counts[key][value].to_f / @total } * 10).round
+    end
   end
 
   def self.build_excluded_ids(current_profile, matched_ids)
@@ -75,6 +136,7 @@ class RecommendationService
       current_profile.friend_ids +
       current_profile.blocked_friend_ids +
       current_profile.chat_friendships.map(&:chat_friend_id) +
+      ProfilePass.hidden_ids_for(current_profile) +
       Friendship.where('(friendable_id = ? OR friend_id = ?) AND status = ?', current_profile.id, current_profile.id, 1)
                 .map { |f| f.friendable_id == current_profile.id ? f.friend_id : f.friendable_id }
   end
@@ -125,14 +187,22 @@ class RecommendationService
       matches = matches.where("present_location IN (?)", preference.present_location)
     end
 
-    if preference.min_age.present? && max_level >= 3
-      buffer = max_level >= 4 ? 0 : 2
-      matches = matches.where('extract(year from date_of_birth) <= ?', Time.now.year - preference.min_age.to_i + buffer)
+    # Age range; when the member left both ages blank, a range around their own age
+    min_age = preference.min_age.presence&.to_i
+    max_age = preference.max_age.presence&.to_i
+    if min_age.nil? && max_age.nil? && (own_age = preference.marriage_profile&.age_in_years)
+      min_age = [own_age - MarriageProfile::DEFAULT_AGE_GAP, 18].max
+      max_age = own_age + MarriageProfile::DEFAULT_AGE_GAP
     end
 
-    if preference.max_age.present? && max_level >= 3
+    if min_age && max_level >= 3
       buffer = max_level >= 4 ? 0 : 2
-      matches = matches.where('extract(year from date_of_birth) >= ?', Time.now.year - preference.max_age.to_i - buffer)
+      matches = matches.where('extract(year from date_of_birth) <= ?', Time.now.year - min_age + buffer)
+    end
+
+    if max_age && max_level >= 3
+      buffer = max_level >= 4 ? 0 : 2
+      matches = matches.where('extract(year from date_of_birth) >= ?', Time.now.year - max_age - buffer)
     end
 
     if preference.min_height.present? && max_level >= 2

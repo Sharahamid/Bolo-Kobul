@@ -11,9 +11,7 @@
         <% if profile.verified %>
           <i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i>
         <% end %>
-        <% if match_percent(profile).to_i > 0 %>
-          <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 5px; border-radius:10px; margin-left:auto; font-weight:700;"><%= "%02d" % match_percent(profile) %>%</span>
-        <% end %>
+        <%= render 'shared/match_badge', profile: profile %>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px; align-items:center;">
         <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= years_label(profile.age) %></span>

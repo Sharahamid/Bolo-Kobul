@@ -256,7 +256,8 @@ class MarriageProfilesController < ApplicationController
   end
 
   def reject_request
-    current_active_profile.decline_request(@marriage_profile)    
+    current_active_profile.decline_request(@marriage_profile)
+    ProfilePass.record!(current_active_profile, @marriage_profile)
     @marriage_profile.unblock_blocked_butterflies if @marriage_profile.respond_to?(:unblock_blocked_butterflies)
     @marriage_profile.user.notifications.create(
       content: "Sorry, #{current_active_profile.unique_id} did not accept your 1st Kobul! Do not give up — keep exploring!",

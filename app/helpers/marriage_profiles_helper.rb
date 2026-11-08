@@ -12,7 +12,8 @@ module MarriageProfilesHelper
                    Friendship.where(friendable_id: current_active_profile.id, status: 1).map(&:friend_id)
     profiles = profiles.reject { |p| excluded_ids.include?(p.id) }
     profiles.each { |profile| profile.calculate_matching_percentage!(current_active_profile) }
-    profiles.sort_by { |profile| [-profile.matching_percentage.to_i, -profile.match_quality] }
+    # Keep the day's order (it already weighs taste and freshness) within each 5-point band
+    profiles.each_with_index.sort_by { |profile, i| [-(profile.matching_percentage.to_i / 5), i] }.map(&:first)
   end
 
   def get_accepted_profiles
@@ -41,5 +42,36 @@ module MarriageProfilesHelper
     @bk_match_percent[profile.id] ||= profile.calculate_matching_percentage!(current_active_profile).to_i
   rescue StandardError
     nil
+  end
+
+  # Make sure a profile has its match details worked out for the signed-in member
+  def ensure_match_details(profile)
+    return if profile.nil? || current_active_profile.nil? || profile.id == current_active_profile.id
+    return if profile.instance_variable_defined?(:@match_fit)
+
+    profile.calculate_matching_percentage!(current_active_profile)
+  rescue StandardError
+    nil
+  end
+
+  def mutual_match?(profile)
+    ensure_match_details(profile)
+    profile&.mutual_match ? true : false
+  end
+
+  # "Why this match": the most important things that fit, and what doesn't quite
+  # Returns [good_items, [[item, how], ...]] - how is :near, :unknown or :no
+  def match_reasons(profile)
+    ensure_match_details(profile)
+    fit = profile&.match_fit
+    return [[], []] if fit.blank?
+
+    order = MarriageProfile::MATCH_WEIGHTS.keys
+    sorted = fit.sort_by { |item, _| order.index(item) || 99 }
+    good = sorted.select { |_, f| f >= 1.0 }.map(&:first).first(4)
+    miss = sorted.reject { |_, f| f >= 1.0 }.map do |item, f|
+      [item, f.zero? ? :no : (f >= 0.5 ? :near : :unknown)]
+    end.first(2)
+    [good, miss]
   end
 end

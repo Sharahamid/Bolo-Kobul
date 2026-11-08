@@ -263,6 +263,25 @@
       </small>
     </div>
 
+    <div class="form-group">
+      <%= f.label :occupations, t('bkx.match.profession') %>
+      <%= f.select :occupations,
+                   Occupation.names.keys.map { |k| [occupation_label(k), k] },
+                   {include_blank: false},
+                   multiple: true,
+                   class: 'form-control sign_up-input-field selectpicker',
+                   title: t('preference.nothing_selected') %>
+      <small class="d-block text-muted" style="font-size:11px; margin-top:3px;"><%= t('preference.choose_many') %></small>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :relocation_needed, t('bkx.match.relocation') %>
+      <%= f.select :relocation_needed,
+                   [[t('preference.nothing_selected'), '0'], [t('bkx.match.relocation_yes'), '1']],
+                   {selected: preference.try(:relocation_needed) ? '1' : '0'},
+                   class: 'form-control sign_up-input-field' %>
+    </div>
+
     <div class="<%= preference.new_record? ? 'form-group' : '' %>">
       <%= f.label :blood_group %>
       <%= f.select :blood_group,
@@ -275,6 +294,20 @@
       <small class="text-danger">
         <%= f.object.errors[:blood_group].present? ? f.object.errors.full_messages_for(:blood_group).first : '' %>
       </small>
+    </div>
+
+    <div class="form-group bk-must-haves" style="margin-top:16px;">
+      <label style="margin-bottom:2px;"><%= t('bkx.match.must_title') %></label>
+      <small class="d-block text-muted" style="font-size:11px; margin-bottom:8px;"><%= t('bkx.match.must_hint') %></small>
+      <%= hidden_field_tag 'partner_preference[must_haves][]', '' %>
+      <div style="display:flex; flex-wrap:wrap; gap:8px;">
+        <% PartnerPreference::MUST_HAVE_OPTIONS.each do |item| %>
+          <label class="bk-must-chip">
+            <%= check_box_tag 'partner_preference[must_haves][]', item, Array(preference.must_haves).include?(item), id: "must_have_#{item}" %>
+            <span><%= t("bkx.match.items.#{item}") %></span>
+          </label>
+        <% end %>
+      </div>
     </div>
 
   </div>

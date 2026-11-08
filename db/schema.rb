@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_10_12_090000) do
+ActiveRecord::Schema.define(version: 2026_11_08_090000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -587,6 +587,9 @@ ActiveRecord::Schema.define(version: 2026_10_12_090000) do
     t.text "except_hometown"
     t.string "except_hometown_country"
     t.string "except_hometown_city"
+    t.text "must_haves"
+    t.text "occupations"
+    t.boolean "relocation_needed", default: false, null: false
   end
 
   create_table "partner_requests", force: :cascade do |t|
@@ -665,6 +668,14 @@ ActiveRecord::Schema.define(version: 2026_10_12_090000) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "title_bn"
+  end
+
+  create_table "profile_passes", force: :cascade do |t|
+    t.integer "marriage_profile_id", null: false
+    t.integer "passed_profile_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["marriage_profile_id", "passed_profile_id"], name: "index_profile_passes_on_marriage_profile_id_and_passed_profile_id", unique: true
   end
 
   create_table "profile_reports", force: :cascade do |t|

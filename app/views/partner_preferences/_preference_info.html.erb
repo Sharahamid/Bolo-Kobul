@@ -21,11 +21,13 @@
             </tr>
             <tr>
               <td class="text-muted"><%= t('preference.min_age') %></td>
-              <td><strong><%= preference.min_age.present? ? years_label(preference.min_age) : '-' %></strong></td>
+              <% own_age = preference.marriage_profile&.age_in_years %>
+              <% default_range = preference.min_age.blank? && preference.max_age.blank? && own_age %>
+              <td><strong><%= preference.min_age.present? ? years_label(preference.min_age) : (default_range ? t('bkx.match.age_auto', age: years_label([own_age - MarriageProfile::DEFAULT_AGE_GAP, 18].max)) : '-') %></strong></td>
             </tr>
             <tr>
               <td class="text-muted"><%= t('preference.max_age') %></td>
-              <td><strong><%= preference.max_age.present? ? years_label(preference.max_age) : '-' %></strong></td>
+              <td><strong><%= preference.max_age.present? ? years_label(preference.max_age) : (default_range ? t('bkx.match.age_auto', age: years_label(own_age + MarriageProfile::DEFAULT_AGE_GAP)) : '-') %></strong></td>
             </tr>
             <tr>
               <td class="text-muted"><%= t('preference.min_height') %></td>
@@ -97,6 +99,18 @@
             <tr>
               <td class="text-muted"><%= t('preference.blood_group') %></td>
               <td><strong><%= preference.blood_group.present? ? preference.blood_group.join(', ') : t('preference.nothing_selected') %></strong></td>
+            </tr>
+            <tr>
+              <td class="text-muted"><%= t('bkx.match.profession') %></td>
+              <td><strong><%= Array(preference.occupations).reject(&:blank?).any? ? Array(preference.occupations).reject(&:blank?).map { |o| occupation_label(o) }.join(', ') : t('preference.nothing_selected') %></strong></td>
+            </tr>
+            <tr>
+              <td class="text-muted"><%= t('bkx.match.relocation') %></td>
+              <td><strong><%= preference.try(:relocation_needed) ? t('bkx.match.relocation_yes') : t('preference.nothing_selected') %></strong></td>
+            </tr>
+            <tr>
+              <td class="text-muted"><%= t('bkx.match.must_title') %></td>
+              <td><strong><%= Array(preference.try(:must_haves)).reject(&:blank?).any? ? Array(preference.must_haves).reject(&:blank?).map { |m| t("bkx.match.items.#{m}") }.join(', ') : t('bkx.match.none') %></strong></td>
             </tr>
           </tbody>
         </table>

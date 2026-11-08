@@ -567,28 +567,45 @@ class MarriageProfile < ApplicationRecord
     end
   end
 
-  # age_filter: in Recommendations and Search a bride older than the groom counts as 0%
-  # (so those profiles are not suggested). On a profile someone is already looking at,
-  # or already connected with, the real score is shown instead.
   # Match % between this profile and the member looking at it (current_profile).
   #  - 70% how well this profile fits what the member asked for, 30% how well the
   #    member fits what this profile asked for
   #  - anything left as "Doesn't matter" counts as a full match for that item
   #  - near misses get half points (a year or two outside the age range, an inch or
   #    two outside the height range, one education level below)
-  #  - age is judged only by the member's own age range (no separate bride/groom rule)
-  #  - photo, verified badge and recent activity are not part of the % (they only
-  #    decide the order among equal matches, see #match_quality)
+  #  - a detail the profile has not filled in gets only a third of the points, so
+  #    complete profiles rank higher
+  #  - must-haves: if this profile clearly fails something the member marked as a
+  #    must-have, the % is held at PartnerPreference::MUST_HAVE_CAP
+  #  - photo, verified badge, new members and recent activity are not part of the %
+  #    (they only decide the order among equal matches, see #match_quality)
   # (age_filter is accepted for older callers and no longer used)
+  attr_reader :match_fit, :failed_must_haves, :mutual_match
+
+  MUTUAL_MATCH_THRESHOLD = 80
+
   def calculate_matching_percentage!(current_profile, age_filter: nil)
-    your_score  = calculate_one_way_score(current_profile, self)
-    their_score = calculate_one_way_score(self, current_profile)
-    self.matching_percentage = [(your_score * 0.7 + their_score * 0.3).round, 100].min
+    @match_fit   = match_breakdown(current_profile, self)
+    their_fit    = match_breakdown(self, current_profile)
+    your_score   = score_from_fit(@match_fit)
+    their_score  = score_from_fit(their_fit)
+    @mutual_match = your_score >= MUTUAL_MATCH_THRESHOLD && their_score >= MUTUAL_MATCH_THRESHOLD
+
+    percent = [(your_score * 0.7 + their_score * 0.3).round, 100].min
+    must = Array(current_profile&.partner_preference&.must_haves)
+    @failed_must_haves = must.select { |item| @match_fit && @match_fit[item.to_sym] == 0.0 }
+    if @failed_must_haves.any?
+      percent = [percent, PartnerPreference::MUST_HAVE_CAP].min
+      @mutual_match = false
+    end
+    self.matching_percentage = percent
   end
 
-  # Tie-breaker for profiles with the same match %: photo, verified, recently active
+  # Tie-breaker for profiles with the same match %: photo, verified, new on Bolo Kobul,
+  # recently active
   def match_quality
     (photo_1.present? ? 3 : 0) + (verified? ? 2 : 0) +
+      (created_at.present? && created_at >= 14.days.ago ? 2 : 0) +
       (user&.last_sign_in_at.present? && user.last_sign_in_at >= 7.days.ago ? 1 : 0)
   end
 
@@ -606,99 +623,150 @@ class MarriageProfile < ApplicationRecord
   end
 
   # Points for each item (they add up to 100)
-  MATCH_WEIGHTS = { religion: 20, age: 15, marital_status: 10, education: 10, location: 10,
-                    height: 8, hometown: 7, family_values: 5, family_type: 5, family_status: 5,
-                    blood_group: 5 }.freeze
+  MATCH_WEIGHTS = { religion: 18, age: 14, marital_status: 10, education: 9, location: 9,
+                    height: 7, profession: 7, hometown: 6, relocation: 4, family_values: 4,
+                    family_type: 4, family_status: 4, blood_group: 4 }.freeze
 
-  # How well `candidate` fits what `seeker` asked for, 0-100.
-  # For each item: full points if it matches or the seeker doesn't mind, half points
-  # for a near miss or when the candidate hasn't filled that item in yet, none otherwise.
-  def calculate_one_way_score(seeker, candidate)
+  # Points for a detail the other profile has not filled in yet
+  UNKNOWN_FIT = 0.33
+
+  # Age range assumed when a member leaves both Min and Max Age blank
+  DEFAULT_AGE_GAP = 5
+
+  def age_in_years
+    return nil if date_of_birth.blank?
+
+    ((Time.zone.now - date_of_birth.to_time) / 1.year.seconds).floor
+  end
+
+  # The member's current job (works on already-loaded records, no extra lookups)
+  def matching_occupation
+    list = occupations.loaded? ? occupations.to_a : occupations.to_a
+    list.select { |o| o.working_currently && o.end_date.nil? }.max_by(&:id)&.name
+  end
+
+  # How well `candidate` fits what `seeker` asked for, item by item (0.0 - 1.0).
+  # Only the items the seeker actually chose are listed; nil = no preferences saved.
+  def match_breakdown(seeker, candidate)
     preference = seeker&.partner_preference
-    return 50 unless preference && candidate # no preferences saved yet: neutral
+    return nil unless preference && candidate
 
     fit = {}
-    w = MATCH_WEIGHTS
 
     # Religion
     wanted = Array(preference.religion).map(&:to_s).reject(&:blank?)
-    fit[:religion] = list_fit(wanted, candidate.religion)
+    fit[:religion] = list_fit(wanted, candidate.religion) if wanted.any?
 
-    # Age (either limit may be left open)
+    # Age (either limit may be left open). If both are blank, assume the member wants
+    # someone within DEFAULT_AGE_GAP years of their own age, rather than every age.
     min_age = preference.min_age.presence&.to_i
     max_age = preference.max_age.presence&.to_i
-    fit[:age] =
-      if min_age.nil? && max_age.nil? then 1.0
-      elsif candidate.date_of_birth.blank? then 0.5
-      else
-        age = ((Time.zone.now - candidate.date_of_birth.to_time) / 1.year.seconds).floor
-        below = min_age ? min_age - age : 0
-        above = max_age ? age - max_age : 0
-        miss = [below, above, 0].max
-        miss.zero? ? 1.0 : (miss <= 2 ? 0.5 : 0.0)
-      end
+    if min_age.nil? && max_age.nil? && (own_age = seeker.age_in_years)
+      min_age = [own_age - DEFAULT_AGE_GAP, 18].max
+      max_age = own_age + DEFAULT_AGE_GAP
+    end
+    if min_age || max_age
+      fit[:age] =
+        if candidate.date_of_birth.blank? then UNKNOWN_FIT
+        else
+          age = ((Time.zone.now - candidate.date_of_birth.to_time) / 1.year.seconds).floor
+          miss = [min_age ? min_age - age : 0, max_age ? age - max_age : 0, 0].max
+          miss.zero? ? 1.0 : (miss <= 2 ? 0.5 : 0.0)
+        end
+    end
 
     # Marital status
     wanted = Array(preference.marital_status).map(&:to_s).reject(&:blank?)
-    fit[:marital_status] = list_fit(wanted, candidate.marital_status)
+    fit[:marital_status] = list_fit(wanted, candidate.marital_status) if wanted.any?
 
     # Education (a minimum level; one level below gets half)
-    fit[:education] =
-      if preference.highest_education_level.blank? then 1.0
-      elsif candidate.highest_education_level.blank? then 0.5
-      elsif education_at_least?(candidate.highest_education_level, preference.highest_education_level) then 1.0
-      else
-        rank = EDUCATION_RANK[candidate.highest_education_level.to_s]
-        min_rank = EDUCATION_RANK[preference.highest_education_level.to_s]
-        rank && min_rank && min_rank - rank == 1 ? 0.5 : 0.0
-      end
+    if preference.highest_education_level.present?
+      fit[:education] =
+        if candidate.highest_education_level.blank? then UNKNOWN_FIT
+        elsif education_at_least?(candidate.highest_education_level, preference.highest_education_level) then 1.0
+        else
+          rank = EDUCATION_RANK[candidate.highest_education_level.to_s]
+          min_rank = EDUCATION_RANK[preference.highest_education_level.to_s]
+          rank && min_rank && min_rank - rank == 1 ? 0.5 : 0.0
+        end
+    end
 
     # Where they live now
-    fit[:location] = list_fit(Array(preference.present_location).reject(&:blank?), candidate.present_location)
+    wanted = Array(preference.present_location).reject(&:blank?)
+    fit[:location] = list_fit(wanted, candidate.present_location) if wanted.any?
 
     # Height (minimum and maximum; within 2 inches outside gets half)
     min_h = preference.min_height.presence && (preference.min_height.to_i * 12 + preference.min_inch.to_i)
     max_h = preference.max_height.presence && (preference.max_height.to_i * 12 + preference.max_inch.to_i)
-    fit[:height] =
-      if min_h.nil? && max_h.nil? then 1.0
-      elsif candidate.height_ft.blank? then 0.5
-      else
-        h = candidate.height_ft.to_i * 12 + candidate.height_inch.to_i
-        miss = [min_h ? min_h - h : 0, max_h ? h - max_h : 0, 0].max
-        miss.zero? ? 1.0 : (miss <= 2 ? 0.5 : 0.0)
-      end
+    if min_h || max_h
+      fit[:height] =
+        if candidate.height_ft.blank? then UNKNOWN_FIT
+        else
+          h = candidate.height_ft.to_i * 12 + candidate.height_inch.to_i
+          miss = [min_h ? min_h - h : 0, max_h ? h - max_h : 0, 0].max
+          miss.zero? ? 1.0 : (miss <= 2 ? 0.5 : 0.0)
+        end
+    end
+
+    # Profession
+    wanted = Array(preference.occupations).map(&:to_s).reject(&:blank?)
+    fit[:profession] = list_fit(wanted, candidate.matching_occupation) if wanted.any?
 
     # Hometown (and hometowns the seeker excluded)
     excluded = Array(preference.except_hometown).reject(&:blank?)
-    fit[:hometown] =
-      if candidate.hometown.present? && excluded.include?(candidate.hometown) then 0.0
-      else list_fit(Array(preference.hometown).reject(&:blank?), candidate.hometown)
-      end
+    wanted = Array(preference.hometown).reject(&:blank?)
+    if candidate.hometown.present? && excluded.include?(candidate.hometown)
+      fit[:hometown] = 0.0
+    elsif wanted.any?
+      fit[:hometown] = list_fit(wanted, candidate.hometown)
+    end
 
-    # Family values / type / status ("does_not_matter" = full match)
-    fit[:family_values] = enum_fit(preference.family_values, candidate.family_values)
-    fit[:family_type]   = enum_fit(preference.family_type, candidate.family_type)
-    fit[:family_status] = enum_fit(preference.family_status, candidate.family_status)
+    # Willing to move after marriage (stored as 0 = Yes, 1 = No)
+    if preference.relocation_needed
+      answer = candidate.cultural_value&.willing_to_relocate
+      fit[:relocation] = answer.nil? ? UNKNOWN_FIT : (answer.to_i.zero? ? 1.0 : 0.0)
+    end
+
+    # Family values / type / status ("does_not_matter" = full match, so not listed)
+    { family_values: :family_values, family_type: :family_type, family_status: :family_status }.each do |item, attr|
+      wanted = preference.public_send(attr)
+      next if wanted.blank? || wanted.to_s == 'does_not_matter'
+
+      fit[item] = enum_fit(wanted, candidate.public_send(attr))
+    end
 
     # Blood group
-    fit[:blood_group] = list_fit(Array(preference.blood_group).reject(&:blank?), candidate.blood_group)
+    wanted = Array(preference.blood_group).reject(&:blank?)
+    fit[:blood_group] = list_fit(wanted, candidate.blood_group) if wanted.any?
 
-    w.sum { |item, points| points * fit.fetch(item, 1.0) }.round
+    fit
   end
 
-  # Seeker chose from a list: nothing chosen = doesn't matter; candidate's value unknown = half
+  # 0-100 from an item-by-item breakdown; items the seeker did not choose count in full.
+  # No preferences saved yet: neutral 50.
+  def score_from_fit(fit)
+    return 50 if fit.nil?
+
+    MATCH_WEIGHTS.sum { |item, points| points * fit.fetch(item, 1.0) }.round
+  end
+
+  # Kept for older callers
+  def calculate_one_way_score(seeker, candidate)
+    score_from_fit(match_breakdown(seeker, candidate))
+  end
+
+  # Seeker chose from a list: candidate's value unknown = a third; otherwise in or out
   def list_fit(wanted, value)
     wanted = Array(wanted).map(&:to_s)
     return 1.0 if wanted.empty?
-    return 0.5 if value.blank?
+    return UNKNOWN_FIT if value.blank?
 
     wanted.include?(value.to_s) ? 1.0 : 0.0
   end
 
-  # Seeker chose one option, or "does_not_matter"
   def enum_fit(wanted, value)
     return 1.0 if wanted.blank? || wanted.to_s == 'does_not_matter'
-    return 0.5 if value.blank?
+    return UNKNOWN_FIT if value.blank?
 
     wanted.to_s == value.to_s ? 1.0 : 0.0
   end

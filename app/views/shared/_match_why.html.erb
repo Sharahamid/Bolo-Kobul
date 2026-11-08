@@ -1,0 +1,18 @@
+<%# "Why this match" line under the % on a profile page. locals: profile %>
+<% good, miss = match_reasons(profile) %>
+<% failed = Array(profile.failed_must_haves) %>
+<% if good.any? || miss.any? %>
+  <div class="bk-match-why">
+    <% if failed.any? %>
+      <div class="bk-match-why__must"><i class="fas fa-exclamation-circle"></i> <%= t('bkx.match.fails_must', items: failed.map { |i| t("bkx.match.items.#{i}") }.to_sentence(words_connector: ', ', last_word_connector: ', ', two_words_connector: ', ')) %></div>
+    <% end %>
+    <div class="bk-match-why__row">
+      <% good.each do |item| %>
+        <span class="bk-why-yes"><i class="fas fa-check"></i> <%= t("bkx.match.items.#{item}") %></span>
+      <% end %>
+      <% miss.each do |item, how| %>
+        <span class="bk-why-no"><i class="fas <%= how == :unknown ? 'fa-question' : 'fa-times' %>"></i> <%= t("bkx.match.items.#{item}") %> <em><%= t("bkx.match.how.#{how}") %></em></span>
+      <% end %>
+    </div>
+  </div>
+<% end %>

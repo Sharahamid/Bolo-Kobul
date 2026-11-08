@@ -791,3 +791,36 @@ body.bk-menu-open .sidebar {
 
 // Whole profile-section title bar is tappable
 .panel-group .panel-heading { cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+
+// Match % pill, "Mutual match" pill and the "Why this match" line
+.bk-mini-badges { margin-left: auto; display: inline-flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.bk-pct-pill {
+  background: #FFB627; color: #633806; font-size: 9px; padding: 1px 6px; border-radius: 20px; font-weight: 700; line-height: 1.5;
+}
+.bk-mutual-pill {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: #E7F6EC; color: #1E7B3C; border: 0.5px solid #B9E2C6;
+  font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 20px; line-height: 1.5; white-space: nowrap;
+  i { font-size: 9px; }
+}
+.bk-mutual-pill--lg { font-size: 11px; padding: 3px 10px; i { font-size: 11px; } }
+.bk-match-why {
+  margin: -4px 0 12px; text-align: center;
+  &__must { font-size: 11px; color: #A4262C; font-weight: 600; margin-bottom: 6px; }
+  &__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 5px; }
+  .bk-why-yes, .bk-why-no {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 11px; line-height: 1.4; padding: 2px 8px; border-radius: 20px; white-space: nowrap;
+    i { font-size: 9px; }
+  }
+  .bk-why-yes { background: #FFF8E6; color: #633806; i { color: #2e7d32; } }
+  .bk-why-no { background: #F7F5F0; color: #6b6255; i { color: #A4262C; } em { font-style: normal; opacity: .8; } }
+}
+// Must-have chips in the preference form
+.bk-must-chip {
+  display: inline-flex; align-items: center; gap: 6px; margin: 0; cursor: pointer;
+  border: 1px solid #FAC775; background: #FFFBF0; color: #412402;
+  padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  input { margin: 0; accent-color: #FFB627; }
+  &:has(input:checked) { background: #FFB627; border-color: #FFB627; }
+}

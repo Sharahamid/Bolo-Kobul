@@ -44,6 +44,13 @@ class PartnerPreference < ApplicationRecord
   serialize :except_hometown, type: Array, coder: YAML
   serialize :present_location, type: Array, coder: YAML
   serialize :blood_group, type: Array, coder: YAML
+  serialize :must_haves, type: Array, coder: YAML
+  serialize :occupations, type: Array, coder: YAML
+
+  # Things a member can mark as non-negotiable. A profile that clearly fails one is
+  # held at MUST_HAVE_CAP % and shown after everyone who passes.
+  MUST_HAVE_OPTIONS = %w[religion marital_status age education location height profession].freeze
+  MUST_HAVE_CAP = 40
 
   #Associations
   belongs_to :marriage_profile
@@ -51,6 +58,8 @@ class PartnerPreference < ApplicationRecord
   #validations
   before_validation do |partner_preference|
     partner_preference.blood_group.reject!(&:blank?) if partner_preference.blood_group
+    partner_preference.occupations = Array(partner_preference.occupations).reject(&:blank?)
+    partner_preference.must_haves = Array(partner_preference.must_haves).reject(&:blank?) & MUST_HAVE_OPTIONS
   end
 
   validates_presence_of :religion, :gender
