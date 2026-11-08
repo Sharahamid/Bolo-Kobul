@@ -46,7 +46,7 @@ GEM
       builder (~> 3.1)
       erubi (~> 1.11)
       rails-dom-testing (~> 2.2)
-      rails-html-sanitizer (~> 1.6)
+      rails-html-sanitizer (~> 1.6, >= 1.7.2)
     active_admin_role (0.2.2)
       activeadmin (>= 1.2.0)
       cancancan (>= 1.15.0)
@@ -250,7 +250,8 @@ GEM
     marcel (1.2.1)
     matrix (0.4.3)
     method_source (1.1.0)
-    mini_magick (4.13.2)
+    mini_magick (5.4.0)
+      logger
     mini_mime (1.1.5)
     minitest (6.0.6)
       drb (~> 2.0)
@@ -527,7 +528,7 @@ DEPENDENCIES
   has_friendship (~> 1.2)
   jbuilder (~> 2.13)
   listen
-  mini_magick (~> 4.10)
+  mini_magick (~> 5.1)
   omniauth-facebook (~> 10.0)
   omniauth-google-oauth2 (~> 1.2)
   omniauth-rails_csrf_protection (~> 1.0)
