@@ -21,7 +21,7 @@ gem 'figaro'
 gem 'friendly_id', '~> 5.5'
 gem 'has_friendship', '~> 1.2'
 gem 'jbuilder', '~> 2.13'
-gem 'mini_magick', '~> 4.10'
+gem 'mini_magick', '~> 5.1' # Rails 8.1.4.1 needs 5.1+ (Active Storage security policy)
 gem 'omniauth-facebook', '~> 10.0'
 gem 'omniauth-google-oauth2', '~> 1.2'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'

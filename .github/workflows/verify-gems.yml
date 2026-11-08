@@ -1,0 +1,42 @@
+name: Verify gem update
+on:
+  push:
+    branches: [verify-gems]
+permissions:
+  contents: write
+jobs:
+  check:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq imagemagick libpq-dev libvips >/dev/null
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4.6'
+      - run: gem install bundler -v 2.6.9 --no-document
+      - name: Update the lockfile for mini_magick only
+        run: bundle _2.6.9_ lock --update mini_magick --conservative && git diff --stat Gemfile.lock && git diff Gemfile.lock
+      - run: bundle _2.6.9_ config set --local without 'development test' && bundle _2.6.9_ install --jobs 4 --quiet
+      - name: Image resizing still works (CarrierWave + MiniMagick 5)
+        run: |
+          convert -size 1200x800 xc:orange /tmp/in.jpg
+          bundle exec ruby -e '
+            require "carrierwave"; require "mini_magick"
+            class Up < CarrierWave::Uploader::Base; include CarrierWave::MiniMagick; storage :file; def store_dir; "/tmp/up"; end
+              version(:thumb) { process resize_to_fill: [360, 360] }; process resize_to_limit: [1000, 1000]; end
+            u = Up.new; u.store!(File.open("/tmp/in.jpg"))
+            puts "MiniMagick #{MiniMagick::VERSION rescue MiniMagick.version}"
+            puts MiniMagick::Image.open(u.path).dimensions.inspect, MiniMagick::Image.open(u.thumb.path).dimensions.inspect'
+      - name: App boots and assets build (production)
+        env:
+          RAILS_ENV: production
+          SECRET_KEY_BASE: dummy
+          DATABASE_URL: postgres://u:p@127.0.0.1/none
+        run: |
+          [ -f config/application.yml ] || cp config/application.yml.example config/application.yml 2>/dev/null || true
+          bundle exec rails runner 'puts "BOOT OK Rails #{Rails.version}"; require "active_storage/transformers/image_magick"; puts "ACTIVE STORAGE OK"' 2>&1 | tail -5
+      - run: gem install --no-document bundler-audit && bundle-audit check --update
+      - name: Save the new lockfile to the branch
+        run: |
+          git config user.name "Shara Hamid"; git config user.email "shara@bolokobul.com"
+          git add Gemfile.lock && git commit -m "Lockfile for mini_magick 5" && git push || echo "no lockfile change"
