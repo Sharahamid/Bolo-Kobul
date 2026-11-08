@@ -647,20 +647,31 @@ div.pagination,
   .bk-how-cta { flex-direction: column; align-items: stretch; text-align: center; }
 }
 
-// ---- Side adverts on phones (About, Contact, Referral) ----------------------------------
-// A smaller picture under the page instead of one that fills the whole screen
+// ---- Side adverts (About, Contact, Referral) -------------------------------------
+// The picture sets its own size: no empty white frame around a tall poster,
+// rounded corners, centred; on phones it is kept to a sensible height
+.bk-side-ad > div {
+  height: auto !important;
+  width: fit-content !important;
+  max-width: 100%;
+  margin: 0 auto;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(65, 36, 2, 0.12);
+}
+.bk-side-ad > div a { display: block; }
+.bk-side-ad img {
+  display: block;
+  width: auto !important;
+  max-width: 100%;
+  height: auto !important;
+  object-fit: contain;
+}
 @media (max-width: 767.98px) {
-  .bk-side-ad > div {
-    height: auto !important;
-    max-width: 320px;
-    margin: 4px auto 0;
-  }
-  .bk-side-ad img {
-    max-height: 220px;
-    width: 100% !important;
-    height: auto !important;
-    object-fit: contain;
-  }
+  .bk-side-ad { margin-top: 16px; }
+  .bk-side-ad img { max-height: 420px; }
 }
 
 .bk-empty--compact {
