@@ -8,7 +8,16 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.friendly.find(params[:id]) rescue nil
-    return redirect_to(blogs_path, notice: t('bkx.gone.article')) unless @blog
+    return if @blog
+
+    # A cut-off link (e.g. /blogs/taurus or /blogs/aries-) goes to the article whose
+    # address starts with it; anything else goes to the blog list. Both are permanent
+    # redirects, so Google updates its records instead of reporting "Not found".
+    fragment = params[:id].to_s.downcase.strip.sub(/-+\z/, '')
+    match = Blog.where('slug LIKE ?', "#{Blog.sanitize_sql_like(fragment)}%").order(:id).first if fragment.length >= 3
+    return redirect_to(blog_path(match), status: :moved_permanently) if match
+
+    redirect_to blogs_path, notice: t('bkx.gone.article'), status: :moved_permanently
   end
 
   def create
