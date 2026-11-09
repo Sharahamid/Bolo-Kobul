@@ -1,5 +1,6 @@
 <%# Official address of this page for Google. English is the plain address (?locale=en is
-    the same page), so only the Bangla version keeps ?locale=bn. %>
-<% canonical_query = request.query_parameters.slice("type", "page") %>
+    the same page), so only the Bangla version keeps ?locale=bn. Marketplace categories
+    (Honeymoon, Venues...) keep their category so each can appear on Google on its own. %>
+<% canonical_query = request.query_parameters.slice("type", "page", "market_place_type") %>
 <% canonical_query["locale"] = "bn" if request.query_parameters["locale"] == "bn" %>
 <link rel="canonical" href="https://bolokobul.com<%= request.path %><%= "?#{canonical_query.to_query}" if canonical_query.present? %>">
