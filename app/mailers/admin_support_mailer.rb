@@ -21,6 +21,13 @@ class AdminSupportMailer < ApplicationMailer
     mail(to: "support@bolokobul.com", subject: "New Payment Received - #{@order.customer_name}")
   end
 
+  # The SMS company refused to send texts (usually: balance used up). Codes are being
+  # emailed instead until it is topped up.
+  def sms_problem(reason)
+    @reason = reason
+    mail(to: "support@bolokobul.com", subject: "URGENT - SMS not sending: #{reason}")
+  end
+
   private
 
   # Emails to the Bolo Kobul team are always in English

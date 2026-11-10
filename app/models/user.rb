@@ -365,17 +365,32 @@ class User < ApplicationRecord
     message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 10 minutes. Not you? Please contact support@bolokobul.com\n\n@bolokobul.com ##{otp}"
     # Only Bangladeshi mobile numbers can get a text; any other number (with or without
     # a + and country code) gets the code by email
+    @otp_sent_by = nil
     if PhoneNumber.bd_local(phone_number)
-      SmsService.call(phone_number.to_s, message).present?
-    else
-      begin
-        UserAccountMailer.with(user: self).otp_verification.deliver_now
-        true
-      rescue => e
-        Rails.logger.error "OTP email failed for #{email}: #{e.message}"
-        false
+      if SmsService.call(phone_number.to_s, message).present?
+        @otp_sent_by = :sms
+        return true
       end
+
+      # The text could not be sent (e.g. SMS balance used up): email the code instead
+      email_otp
+    else
+      email_otp
     end
+  end
+
+  # :sms or :email after #send_otp, so the page can say where to look
+  attr_reader :otp_sent_by
+
+  def email_otp
+    return false if email.blank? || email.to_s.end_with?('@bolokobul.local')
+
+    UserAccountMailer.with(user: self).otp_verification.deliver_now
+    @otp_sent_by = :email
+    true
+  rescue => e
+    Rails.logger.error "OTP email failed for #{email}: #{e.message}"
+    false
   end
 
   private

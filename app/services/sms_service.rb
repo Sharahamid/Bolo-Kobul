@@ -29,9 +29,26 @@ class SmsService
     # The gateway's reply says whether the text went out (or e.g. "low balance");
     # see it with: grep "\[sms\]" log/production.log | tail -20
     Rails.logger.info("[sms] to #{params[:receiver].to_s[0, 6]}…: #{response.to_s.squish[0, 300]}")
-    JSON.parse(response)&.first
+    result = JSON.parse(response)&.first
+    # The gateway answers even when it refuses to send (e.g. "Not Enough Balance"), with
+    # success 0. That is a failed send, not a sent message.
+    if result.is_a?(Hash) && [0, '0', false].include?(result['success'])
+      alert_team(result['message'].to_s) if result['message'].to_s =~ /balance/i
+      return nil
+    end
+    result
   rescue *SEND_ERRORS => e
     Rails.logger.error("[sms] could not send to #{msisdn.to_s[0, 6]}…: #{e.class}: #{e.message}")
     nil
+  end
+
+  # Emails support@bolokobul.com when the SMS balance runs out (at most every 6 hours)
+  def self.alert_team(reason)
+    return if Rails.cache.read('sms_balance_alert_sent')
+
+    Rails.cache.write('sms_balance_alert_sent', true, expires_in: 6.hours)
+    AdminSupportMailer.sms_problem(reason).deliver_later
+  rescue StandardError => e
+    Rails.logger.error("[sms] could not send the balance alert: #{e.class}: #{e.message}")
   end
 end

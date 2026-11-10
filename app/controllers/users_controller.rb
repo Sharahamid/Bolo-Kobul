@@ -36,7 +36,8 @@ class UsersController < ApplicationController
 
     if @user.otp_resend_allowed?
       if @user.send_otp
-        redirect_to show_verify_user_path(@user), notice: 'Verification code re-sent'
+        notice = @user.otp_sent_by == :email ? "We couldn't text your code just now, so we've emailed it to #{@user.email}. Please check your inbox (and spam folder)." : 'Verification code re-sent'
+        redirect_to show_verify_user_path(@user), notice: notice
       else
         redirect_to show_verify_user_path(@user), notice: "We couldn't send the code just now. Please try again in a minute."
       end

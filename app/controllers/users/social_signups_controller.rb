@@ -24,7 +24,7 @@ class Users::SocialSignupsController < ApplicationController
         @user.earn_bf_by_reference(session.delete(:pending_referral_code))
       end
       if @user.send_otp
-        flash[:info] = 'Almost done! Enter the verification code we sent to your mobile.'
+        flash[:info] = @user.otp_sent_by == :email ? "We couldn't text your code just now, so we've emailed it to #{@user.email}. Please check your inbox (and spam folder)." : 'Almost done! Enter the verification code we sent to your mobile.'
       else
         flash[:warning] = "Your account is created, but we couldn't send your verification code just now. Please tap Resend Code in a minute."
       end
