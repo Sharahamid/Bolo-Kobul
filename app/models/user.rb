@@ -329,14 +329,14 @@ class User < ApplicationRecord
     verified?
   end
 
-  OTP_VALID_FOR = 10.minutes
+  OTP_VALID_FOR = 3.days
   OTP_MAX_ATTEMPTS = 5
 
   def self.generate_otp
     SecureRandom.random_number(1_000_000).to_s.rjust(6, '0')
   end
 
-  # Checks a verification code: it must match, be under 10 minutes old, and at most
+  # Checks a verification code: it must match, be under 3 days old, and at most
   # 5 guesses are allowed per code. Returns :ok, :wrong, :expired or :too_many_attempts.
   def check_otp(code)
     return :expired if otp.blank? || otp_sent_at.nil? || otp_sent_at < OTP_VALID_FOR.ago
@@ -362,7 +362,7 @@ class User < ApplicationRecord
   # countries). Returns true when it was sent.
   def send_otp
     update_columns(otp: User.generate_otp, otp_sent_at: Time.current, otp_attempts: 0)
-    message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 10 minutes. Not you? Please contact support@bolokobul.com\n\n@bolokobul.com ##{otp}"
+    message = "Welcome to Bolo Kobul! Your verification code is #{otp}. Valid for 3 days. Not you? Please contact support@bolokobul.com\n\n@bolokobul.com ##{otp}"
     # Only Bangladeshi mobile numbers can get a text; any other number (with or without
     # a + and country code) gets the code by email
     @otp_sent_by = nil

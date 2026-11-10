@@ -904,7 +904,7 @@ en:
     otp:
       title: Your verification code
       p1: Thank you for registering with Bolo Kobul! Please use the verification code below to complete your registration.
-      valid: Valid for 10 minutes
+      valid: Valid for 3 days
       p2: Enter this code on the verification page to activate your account and begin your journey on Bolo Kobul.
       button: Verify My Account
       not_you_html: <strong style="color:#333333;">Did not request this?</strong> If you did not register on Bolo Kobul, please ignore this email or contact us at %{email}
