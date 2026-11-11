@@ -22,6 +22,8 @@
   .bks-btn { flex: 1; border: 0; border-radius: 999px; padding: 12px 14px; font-size: 14px; font-weight: 800; cursor: pointer; line-height: 1.2; text-align: center; text-decoration: none !important; }
   .bks-btn--main { background: linear-gradient(135deg, #FFB627, #ffca5e); color: #412402 !important; box-shadow: 0 4px 12px rgba(255,182,39,0.35); }
   .bks-btn--soft { background: #F5F1E8; color: #6b6255 !important; }
+  .bks-btn:focus { outline: none; }
+  .bks-btn:focus-visible { outline: 2px solid #FFB627; outline-offset: 2px; }
   .bks-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
   .bks-check { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #8a7d68; cursor: pointer; margin: 0; }
   .bks-link { background: none; border: 0; padding: 0; font-size: 12px; font-weight: 700; color: #854F0B; text-decoration: underline; cursor: pointer; }
@@ -116,7 +118,11 @@
   document.addEventListener('click', function (e) {
     var link = e.target.closest && e.target.closest('a[data-bk-explain]');
     if (!link) return;
-    if (link.getAttribute('data-bk-confirmed') === '1') { link.removeAttribute('data-bk-confirmed'); return; }
+    // Already confirmed (the butterfly animation taps the button again a moment later):
+    // let it through for a few seconds, then ask again next time
+    var okAt = +(link.getAttribute('data-bk-confirmed') || 0);
+    if (okAt && Date.now() - okAt < 5000) return;
+    if (link.getAttribute('data-bk-done')) return;
     var kind = link.getAttribute('data-bk-explain');
     if (store(true, 'bkExplainOff_' + kind) === '1') return; // member chose "Don't show this again"
 
@@ -137,7 +143,7 @@
     box.querySelector('[data-bks-ok]').addEventListener('click', function () {
       if (box.querySelector('[data-bks-off]').checked) store(false, 'bkExplainOff_' + kind, '1');
       close(back);
-      link.setAttribute('data-bk-confirmed', '1');
+      link.setAttribute('data-bk-confirmed', String(Date.now()));
       link.click(); // now send it as before (same link, same animation)
     });
     open(back);
