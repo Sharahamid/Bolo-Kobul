@@ -4,7 +4,7 @@ class BkPlusPlan < ApplicationRecord
   has_many :orders, dependent: :nullify
 
   validates :days, numericality: { only_integer: true, greater_than: 0 }
-  validates :price, numericality: { greater_than: 0 }
+  validates :price, numericality: { greater_than_or_equal_to: 1 }
   validates :butterflies, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   scope :for_sale, -> { where(active: true).order(:position, :days) }

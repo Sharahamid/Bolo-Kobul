@@ -33,7 +33,7 @@ ActiveAdmin.register BkPlusPlan, as: 'BK Plus Plan' do
     f.semantic_errors
     f.inputs do
       f.input :days, label: 'Length in days (7 = 1 week, 30 = 1 month, 365 = 1 year)'
-      f.input :price, label: 'Price in Taka'
+      f.input :price, label: 'Price in Taka', input_html: { min: 1, step: 1 }
       f.input :butterflies, label: 'Bonus butterflies given with this plan'
       f.input :position, label: 'Order on the BK+ page (1 shows first)'
       f.input :active, label: 'On sale (untick to hide this plan)'

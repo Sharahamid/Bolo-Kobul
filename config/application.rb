@@ -25,7 +25,8 @@ module Bolokobul
 
     # Exception Handler
     config.exception_handler = {
-      email: ENV['EXCEPTION_EMAILS'],
+      # Error alerts (500 errors only) go here unless EXCEPTION_EMAILS is set on the server
+      email: ENV['EXCEPTION_EMAILS'].presence || 'support@bolokobul.com',
       social: {
         facebook: "BoloKobulLtd"
       },
