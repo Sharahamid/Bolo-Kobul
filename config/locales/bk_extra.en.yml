@@ -171,3 +171,7 @@ en:
         family_type: "Family type"
         family_status: "Family status"
         blood_group: "Blood group"
+
+    search_age:
+      female: "You'll only see men aged %{age} (your age) or older. Try searching from %{age}."
+      male: "You'll only see women aged %{age} (your age) or younger. Try searching up to %{age}."

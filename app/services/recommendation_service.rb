@@ -1,6 +1,8 @@
 class RecommendationService
   DAILY_CACHE_EXPIRY = 24.hours
   MIN_RECOMMENDATIONS = 10
+  # Years the age range may stretch when there are not enough members inside it
+  AGE_STRETCH = 2
   HIGH_MATCH_THRESHOLD = 75
 
   def self.with_preference(current_profile, max_level=5, matched_ids=[])
@@ -30,7 +32,7 @@ class RecommendationService
 
   # Recalculated daily, and also as soon as a new member joins or this member changes their preferences
   def self.cache_key(profile)
-    "recommendations_v3_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
+    "recommendations_v4_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
       "#{profile.partner_preference&.updated_at.to_i}"
   end
 
@@ -194,8 +196,22 @@ class RecommendationService
       min_age, max_age = range
     end
 
-    # The age range is never relaxed: nobody outside it is recommended, even if that
-    # means fewer than 10 suggestions (exact age by date of birth)
+    # Age range. Strict at first; when the list is still short it may stretch 2 years
+    # either side, but a woman is never shown men younger than herself and a man is never
+    # shown women older than himself.
+    if max_level <= 3 && (min_age || max_age)
+      seeker = preference.marriage_profile
+      own_age = seeker&.age_in_years
+      if min_age
+        min_age -= AGE_STRETCH
+        min_age = [min_age, [own_age, min_age + AGE_STRETCH].min].max if own_age && seeker.female?
+      end
+      if max_age
+        max_age += AGE_STRETCH
+        max_age = [max_age, [own_age, max_age - AGE_STRETCH].max].min if own_age && seeker.male?
+      end
+    end
+
     if min_age
       matches = matches.where('date_of_birth <= ?', Date.current.years_ago(min_age).end_of_day)
     end

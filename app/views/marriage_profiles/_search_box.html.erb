@@ -197,6 +197,14 @@
           </div>
           <p style="font-size:14px; font-weight:600; color:#854F0B; margin:0 0 4px;"><%= t('search.no_results') %></p>
           <p style="font-size:12px; color:#999; margin:0;"><%= t('search.adjust_filters') %></p>
+          <%# Explain the age rule when the searched ages fall on the side it never shows %>
+          <% me = current_active_profile if user_signed_in? %>
+          <% my_age = me&.age_in_years %>
+          <% if my_age && ((me.female? && params[:age_to].present? && params[:age_to].to_i < my_age) || (me.male? && params[:age_from].present? && params[:age_from].to_i > my_age)) %>
+            <p style="font-size:12px; color:#854F0B; background:#FFF8E6; border-radius:10px; padding:8px 12px; margin:10px auto 0; max-width:340px; line-height:1.5;">
+              <%= me.female? ? t('bkx.search_age.female', age: local_digits(my_age)) : t('bkx.search_age.male', age: local_digits(my_age)) %>
+            </p>
+          <% end %>
         </div>
       <% else %>
         <div style="text-align:center; padding:40px 20px;">
