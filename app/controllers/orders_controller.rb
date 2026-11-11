@@ -26,13 +26,15 @@ class OrdersController < ApplicationController
       @order.assisted_service = AssistedService.find(params[:order][:assisted_service_id])
       @order.price = @order.assisted_service.price
     elsif @order.bk_plus?
-      # BK+ needs a signed-in member and a price set in Admin > Butterfly Config
-      price = ButterflyConfig.last&.bk_plus_price.to_f
+      # BK+ needs a signed-in member and one of the plans on sale (Admin > BK+ Plans)
       return redirect_to(new_user_session_path) unless @user
-      return redirect_to(bk_plus_path, alert: t('bkx.plus.unavailable')) unless price.positive?
 
+      plan = BkPlusPlan.for_sale.find_by(id: params.dig(:order, :bk_plus_plan_id))
+      return redirect_to(bk_plus_path, alert: t('bkx.plus.unavailable')) unless plan
+
+      @order.bk_plus_plan = plan
       @order.quantity = 1
-      @order.price = price
+      @order.price = plan.price
     else
       @order.price =  @butterfly_unit_price
     end
@@ -77,7 +79,7 @@ class OrdersController < ApplicationController
         res_body = JSON.parse(PaymentService.trxcheck(@order.txn_no))
         if res_body["pay_status"] == 'Successful'
           @order.update(status: "success")
-          product_name = @order.butterfly? ? view_context.pluralize(@order.quantity, 'Butterfly') : (@order.bk_plus? ? 'BK+ membership' : @order.assisted_service&.name)
+          product_name = @order.butterfly? ? view_context.pluralize(@order.quantity, 'Butterfly') : (@order.bk_plus? ? "BK+ (#{@order.bk_plus_plan&.label_en || 'membership'})" : @order.assisted_service&.name)
           begin
             AdminSupportMailer.new_payment(@order).deliver_later
           rescue => e
@@ -129,7 +131,7 @@ class OrdersController < ApplicationController
   def fail
     if @order
       @order.update(status: "failed") if @return_verified && @order.pending?
-      product_name = @order.butterfly? ? "Butterfly" : (@order.bk_plus? ? 'BK+ membership' : @order.assisted_service&.name)
+      product_name = @order.butterfly? ? "Butterfly" : (@order.bk_plus? ? "BK+ (#{@order.bk_plus_plan&.label_en || 'membership'})" : @order.assisted_service&.name)
       flash["danger"] = "Your #{product_name} purchase was not successful. Please try again."
     else
       flash["danger"] = "Something went wrong. Please contact support@bolokobul.com"
@@ -145,7 +147,7 @@ class OrdersController < ApplicationController
   def cancel
     if @order
       @order.update(status: "failed") if @return_verified && @order.pending?
-      product_name = @order.butterfly? ? "Butterfly" : (@order.bk_plus? ? 'BK+ membership' : @order.assisted_service&.name)
+      product_name = @order.butterfly? ? "Butterfly" : (@order.bk_plus? ? "BK+ (#{@order.bk_plus_plan&.label_en || 'membership'})" : @order.assisted_service&.name)
       flash["warning"] = "Your #{product_name} purchase was cancelled. No payment has been taken."
     else
       flash["warning"] = "Your purchase was cancelled."

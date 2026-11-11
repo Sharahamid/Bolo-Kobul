@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_11_11_200000) do
+ActiveRecord::Schema.define(version: 2026_11_11_210000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -177,6 +177,16 @@ ActiveRecord::Schema.define(version: 2026_11_11_200000) do
     t.integer "display_order", default: 0
     t.string "name"
     t.decimal "price", default: "0.0"
+  end
+
+  create_table "bk_plus_plans", force: :cascade do |t|
+    t.integer "days", null: false
+    t.float "price", default: 0.0, null: false
+    t.integer "butterflies", default: 0, null: false
+    t.integer "position", default: 0, null: false
+    t.boolean "active", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "blocked_registration_attempts", force: :cascade do |t|
@@ -554,6 +564,7 @@ ActiveRecord::Schema.define(version: 2026_11_11_200000) do
     t.string "customer_email"
     t.bigint "assisted_service_id"
     t.boolean "bk_plus_applied", default: false, null: false
+    t.integer "bk_plus_plan_id"
     t.index ["assisted_service_id"], name: "index_orders_on_assisted_service_id"
   end
 

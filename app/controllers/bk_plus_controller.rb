@@ -3,7 +3,6 @@ class BkPlusController < ApplicationController
   before_action :authenticate_user!, only: %i[saved_you viewed_you]
 
   def show
-    @config = ButterflyConfig.last
     @member = current_user&.bk_plus?
     @saved_count = current_active_profile ? Favourite.where(favourite_profile_id: current_active_profile.id).count : 0
     @view_count = current_active_profile ? ProfileView.recent_for(current_active_profile).count : 0

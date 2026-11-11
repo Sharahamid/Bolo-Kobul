@@ -33,12 +33,10 @@
           </p>
         </div>
       </div>
-      <% if @config&.bk_plus_butterflies.to_i.positive? %>
-        <div class="bkp-benefit">
-          <div class="bkp-ico">🦋</div>
-          <div><h3><%= t('bkx.plus.b4_title', n: local_digits(@config.bk_plus_butterflies)) %></h3><p><%= t('bkx.plus.b4_text') %></p></div>
-        </div>
-      <% end %>
+      <div class="bkp-benefit">
+        <div class="bkp-ico">🦋</div>
+        <div><h3><%= t('bkx.plus.b4_title_plans') %></h3><p><%= t('bkx.plus.b4_text_plans') %></p></div>
+      </div>
 
       <% if @member %>
         <div class="bkp-status" style="margin-top:16px;">
@@ -52,21 +50,35 @@
       <% end %>
 
       <% unless play_store_app? %>
-        <% price = @config&.bk_plus_price.to_f %>
-        <% if price.positive? %>
-          <div class="bkp-price">
-            <strong>৳<%= taka(price) %></strong>
-            <small><%= t('bkx.plus.per_days', days: local_digits(@config.bk_plus_days.to_i.positive? ? @config.bk_plus_days : 30)) %></small>
-          </div>
-          <% if user_signed_in? %>
-            <%= form_for Order.new do |f| %>
-              <%= f.hidden_field :payment_method, value: 'foster_payment' %>
-              <%= f.hidden_field :product, value: 'bk_plus' %>
-              <%= f.hidden_field :quantity, value: 1 %>
+        <% plans = BkPlusPlan.for_sale.to_a %>
+        <% if plans.any? %>
+          <% best = plans.min_by(&:price_per_week) %>
+          <% default_plan = plans.find { |p| [30, 31].include?(p.days) } || plans.first %>
+          <h3 class="bkp-plans-title"><%= @member ? t('bkx.plus.choose_renew') : t('bkx.plus.choose') %></h3>
+          <%= form_for Order.new, html: { id: 'bkp-plan-form' } do |f| %>
+            <%= f.hidden_field :payment_method, value: 'foster_payment' %>
+            <%= f.hidden_field :product, value: 'bk_plus' %>
+            <%= f.hidden_field :quantity, value: 1 %>
+            <div class="bkp-plans" role="radiogroup">
+              <% plans.each do |plan| %>
+                <label class="bkp-plan">
+                  <input type="radio" name="order[bk_plus_plan_id]" value="<%= plan.id %>" <%= 'checked' if plan == default_plan %> required>
+                  <span class="bkp-plan__box">
+                    <% if plan == best && plans.size > 1 %><span class="bkp-plan__tag"><%= t('bkx.plus.best_value') %></span><% end %>
+                    <span class="bkp-plan__name"><%= plan.label %></span>
+                    <span class="bkp-plan__price">৳<%= taka(plan.price) %></span>
+                    <span class="bkp-plan__bonus">+ <%= t('bkx.plus.plan_bonus', count: plan.butterflies, n: local_digits(plan.butterflies)) %></span>
+                    <% if plan.days > 7 %><span class="bkp-plan__week"><%= t('bkx.plus.per_week', price: taka(plan.price_per_week)) %></span><% end %>
+                  </span>
+                </label>
+              <% end %>
+            </div>
+            <% if user_signed_in? %>
               <button type="submit" class="bkp-btn"><%= @member ? t('bkx.plus.renew') : t('bkx.plus.join') %></button>
+              <p class="bkp-note"><%= t('bkx.plus.note') %></p>
             <% end %>
-            <p class="bkp-note"><%= t('bkx.plus.note') %></p>
-          <% else %>
+          <% end %>
+          <% unless user_signed_in? %>
             <a class="bkp-btn" href="#" data-toggle="modal" data-target="#loginModal"><%= t('bkx.plus.login_to_join') %></a>
           <% end %>
         <% elsif !@member %>

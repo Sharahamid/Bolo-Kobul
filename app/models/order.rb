@@ -41,6 +41,7 @@ class Order < ApplicationRecord
 
   belongs_to :user, optional: true
   belongs_to :assisted_service, optional: true
+  belongs_to :bk_plus_plan, optional: true
   has_many :transactions
 
   #
@@ -84,17 +85,20 @@ class Order < ApplicationRecord
     end
   end
 
-  # BK+ bought: extend the membership and add the bonus butterflies (once per order)
+  # BK+ bought: extend the membership by the plan's days and add its bonus butterflies
+  # (once per order)
   def apply_bk_plus
     return unless status == 'success' && bk_plus? && !bk_plus_applied && user
 
-    config = ButterflyConfig.last
-    days = config&.bk_plus_days.to_i.positive? ? config.bk_plus_days : 30
+    days = bk_plus_plan&.days.to_i
+    bonus = bk_plus_plan&.butterflies.to_i
+    return if days <= 0
+
     with_lock do
       unless bk_plus_applied
         start = [user.bk_plus_until, Time.current].compact.max
         user.update_columns(bk_plus_until: start + days.days,
-                            butterfly_number: user.butterfly_number.to_i + config&.bk_plus_butterflies.to_i)
+                            butterfly_number: user.butterfly_number.to_i + bonus)
         update_column(:bk_plus_applied, true)
       end
     end

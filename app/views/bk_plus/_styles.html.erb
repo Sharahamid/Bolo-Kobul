@@ -33,4 +33,26 @@
   .bkp-blur { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 6px 0 16px; }
   .bkp-blur div { aspect-ratio: 1; border-radius: 14px; background: linear-gradient(135deg, #F7E7BE, #FBF2DC); filter: blur(1px);
                   display: flex; align-items: center; justify-content: center; color: #C99A16; font-size: 22px; }
+  .bkp-plans-title { font-size: 15px; font-weight: 800; color: #412402; text-align: center; margin: 22px 0 12px; }
+  .bkp-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px 10px; margin: 0 0 18px; padding-top: 8px; }
+  @media (max-width: 420px) { .bkp-plans { grid-template-columns: 1fr; } }
+  .bkp-plan { margin: 0; cursor: pointer; display: flex; position: relative; }
+  .bkp-plan input { position: absolute; opacity: 0; pointer-events: none; }
+  .bkp-plan__box { position: relative; display: flex; flex-direction: column; align-items: center; gap: 3px; flex: 1 1 auto; box-sizing: border-box;
+                   padding: 18px 8px 14px; border: 1.5px solid #F1E2B5; border-radius: 16px; background: #FFFDF8; text-align: center; transition: all .15s; }
+  .bkp-plan input:checked + .bkp-plan__box { border-color: #FFB627; background: #FFF6DC; box-shadow: 0 4px 14px rgba(255,182,39,0.25); }
+  .bkp-plan input:focus-visible + .bkp-plan__box { outline: 2px solid #854F0B; outline-offset: 2px; }
+  .bkp-plan__tag { position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #412402; color: #FFD27A;
+                   font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 999px; white-space: nowrap; }
+  .bkp-plan__name { font-size: 13px; font-weight: 700; color: #854F0B; }
+  .bkp-plan__price { font-size: 22px; font-weight: 800; color: #412402; line-height: 1.2; }
+  .bkp-plan__bonus { font-size: 12px; color: #633806; }
+  .bkp-plan__week { font-size: 11px; color: #8a7d68; }
+  @media (max-width: 420px) {
+    .bkp-plan__box { flex-direction: row; flex-wrap: wrap; justify-content: space-between; align-items: center; padding: 16px 16px 14px; text-align: left; gap: 2px 10px; }
+    .bkp-plan__name { flex: 1 1 auto; font-size: 15px; }
+    .bkp-plan__price { flex: 0 0 auto; }
+    .bkp-plan__bonus, .bkp-plan__week { flex: 1 1 100%; }
+    .bkp-plan__tag { left: auto; right: 14px; transform: none; }
+  }
 </style>
