@@ -64,7 +64,7 @@
 
     <div style="padding:36px 14px 12px; text-align:center;">
       <div style="display:flex; align-items:center; justify-content:center; gap:5px; margin-bottom:8px; flex-wrap:wrap;">
-        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px;"><%= marriage_profile&.unique_id %></span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px;"><%= marriage_profile&.unique_id %></span><% if marriage_profile&.user&.bk_plus? %> <span class="bkp-badge" title="<%= t('bkx.plus.badge_tip') %>">BK+</span><% end %>
         <strong style="font-size:13px; color:#222;"><%= marriage_profile&.name&.split&.first %></strong>
         <% if marriage_profile&.verified %>
           <i title="<%= t('profile_card.verified') %>" class="fas fa-check-circle" style="color:#FFB627; font-size:13px;"></i>
@@ -124,8 +124,8 @@
       </div>
       <div style="border-top:0.5px solid #eee; margin:10px 0 0;"></div>
       <div class="bk-bf-box">
-        <div class="bk-bf-title">🦋 <%= t('dashboard.butterflies') %></div>
-        <div class="bk-bf-stats">
+        <button type="button" class="bk-bf-title bk-bf-help-btn" data-bk-bf-help>🦋 <%= t('dashboard.butterflies') %> <i class="fas fa-question-circle" aria-hidden="true"></i></button>
+        <div class="bk-bf-stats" data-bk-bf-help style="cursor:pointer;">
           <div class="bk-bf-stat"><div class="bk-bf-num"><%= local_digits(current_user.butterfly_number.to_i) %></div><div class="bk-bf-label"><%= t('dashboard.balance') %></div></div>
           <div class="bk-bf-stat"><div class="bk-bf-num"><%= local_digits(current_user.block_butterfly_number.to_i) %></div><div class="bk-bf-label"><%= t('dashboard.in_process') %></div></div>
         </div>
@@ -145,7 +145,7 @@
 
     <div style="padding:50px 14px 16px; text-align:center;">
       <div style="display:flex; align-items:center; justify-content:center; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
-        <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px;"><%= marriage_profile&.unique_id %></span>
+        <span style="background:#FFF3CC; color:#854F0B; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px;"><%= marriage_profile&.unique_id %></span><% if marriage_profile&.user&.bk_plus? %> <span class="bkp-badge" title="<%= t('bkx.plus.badge_tip') %>">BK+</span><% end %>
         <% if match_percent(marriage_profile).to_i > 0 %>
           <span class="bk-match-badge" style="background:#e8f5e9; color:#2e7d32; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; white-space:nowrap;">⭐ <%= t('profile_card.match', percent: local_digits(match_percent(marriage_profile))) %></span>
         <% end %>
@@ -229,7 +229,7 @@
       <% end %>
       <div style="border-top:0.5px solid #eee; margin:10px 0 0;"></div>
       <div style="background:#FF596C; border-radius:10px; padding:12px 14px; margin-top:10px;">
-        <div style="font-size:12px; font-weight:700; color:#fff; text-align:center; margin-bottom:8px;">🦋 <%= t('dashboard.butterflies') %></div>
+        <button type="button" data-bk-bf-help style="display:block; width:100%; background:none; border:0; padding:0; cursor:pointer; font-size:12px; font-weight:700; color:#fff; text-align:center; margin-bottom:8px;">🦋 <%= t('dashboard.butterflies') %> <i class="fas fa-question-circle" aria-hidden="true"></i></button>
         <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:4px;"><span><%= t('dashboard.balance') %></span><span><%= local_digits(current_user.butterfly_number.to_i) %></span></div>
         <div style="display:flex; justify-content:space-between; font-size:12px; color:#fff; margin-bottom:10px;"><span><%= t('dashboard.in_process') %></span><span><%= local_digits(current_user.block_butterfly_number.to_i) %></span></div>
         <%= link_to t('dashboard.get_more'), new_order_path, class: 'btn btn-sm btn-default white-background bk-purchase', style: 'width:100%; font-size:11px;' %>

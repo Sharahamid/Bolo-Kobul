@@ -329,6 +329,11 @@ class User < ApplicationRecord
     verified?
   end
 
+  # BK+ membership is active
+  def bk_plus?
+    bk_plus_until.present? && bk_plus_until > Time.current
+  end
+
   # Codes quietly keep working for 3 days, though members are told 10 minutes
   OTP_VALID_FOR = 3.days
   OTP_MAX_ATTEMPTS = 5

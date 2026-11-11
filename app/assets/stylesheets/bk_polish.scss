@@ -862,3 +862,17 @@ body.bk-menu-open .sidebar {
     flex: 1 1 auto;
   }
 }
+
+// BK+ badge (paid membership) next to IDs and match %
+.bkp-badge {
+  display: inline-flex; align-items: center; gap: 3px;
+  background: linear-gradient(135deg, #412402, #854F0B); color: #FFD27A;
+  font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 999px;
+  letter-spacing: .3px; line-height: 1.4; white-space: nowrap; vertical-align: middle;
+}
+
+// Butterflies card title: tap for "What are butterflies?"
+.bk-bf-help-btn {
+  display: block; width: 100%; background: none; border: 0; padding: 0; color: inherit; cursor: pointer;
+  i { font-size: 12px; opacity: .8; margin-left: 2px; }
+}

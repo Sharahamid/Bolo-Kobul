@@ -1,0 +1,35 @@
+<% content_for :title, t('bkx.plus.saved_title') %>
+<%= render 'bk_plus/styles' %>
+<div class="bkp-wrap">
+  <div class="bkp-card">
+    <div class="bkp-hero" style="padding:22px 24px;">
+      <div style="font-size:26px;">💛</div>
+      <h1 style="font-size:20px; font-weight:800; margin:6px 0 0; color:#fff;"><%= t('bkx.plus.saved_title') %></h1>
+      <p><%= t('bkx.plus.saved_count', count: @saved_count, n: local_digits(@saved_count)) %></p>
+    </div>
+    <div class="bkp-body">
+      <% if @saved_count.zero? %>
+        <p style="text-align:center; color:#6b6255; font-size:14px; margin:6px 0;"><%= t('bkx.plus.saved_none') %></p>
+      <% elsif @member %>
+        <div class="bkp-list">
+          <% @profiles.each do |p| %>
+            <a class="bkp-person" href="<%= profile_info_marriage_profile_path(p) %>">
+              <%= image_tag p.profile_image.present? ? p.profile_image.url(:profile_thumb) : 'bk.png', alt: '' %>
+              <div>
+                <div class="bkp-person__id"><%= p.unique_id %></div>
+                <div class="bkp-person__meta"><%= [p.age_in_years && years_label(p.age_in_years), p.present_location].compact.join(' · ') %></div>
+              </div>
+              <% if p.matching_percentage.to_i > 0 %><span class="bkp-person__pct"><%= local_digits(p.matching_percentage) %>%</span><% end %>
+            </a>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="bkp-blur"><% [@saved_count, 3].min.times do %><div><i class="fas fa-user"></i></div><% end %></div>
+        <p style="text-align:center; color:#633806; font-size:14px; margin:0 0 14px; line-height:1.6;"><%= t('bkx.plus.saved_locked') %></p>
+        <% unless play_store_app? %>
+          <a class="bkp-btn" href="<%= bk_plus_path %>"><%= t('bkx.plus.see_benefits') %></a>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

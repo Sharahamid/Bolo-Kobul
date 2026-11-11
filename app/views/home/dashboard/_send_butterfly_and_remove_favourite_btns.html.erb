@@ -10,7 +10,7 @@
   <% elsif current_active_profile.pending_friends.include?(profile) %>
     <a href="<%= cancel_request_marriage_profile_path(profile) %>" data-method="patch" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= kobul_tip('cancel_kobul_1') %>" data-confirm="<%= t('kobul.confirm.cancel_kobul_1') %>"><%= t('kobul.pending') %></a>
   <% else %>
-    <a href="<%= send_request_marriage_profile_path(profile) %>" data-method="post" class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= kobul_tip('send_kobul_1') %>"><%= t('kobul.kobul_1') %></a>
+    <a href="<%= send_request_marriage_profile_path(profile) %>" data-method="post" <%= tag.attributes(data: kobul_explain_data(:send1, profile)) %> class="kobul_btn" style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;" data-toggle="tooltip" title="<%= kobul_tip('send_kobul_1') %>"><%= t('kobul.kobul_1') %></a>
   <% end %>
   <%= link_to remove_favourites_path(favourite_profile_id: profile.id),
               method: :delete,

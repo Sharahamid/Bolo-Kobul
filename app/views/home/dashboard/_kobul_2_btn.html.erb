@@ -6,7 +6,7 @@
       <%= t('kobul.chat_butterfly') %>
     <% end %>
   <% elsif current_active_profile&.chat_friendships&.where(status: 1)&.map(&:chat_friend_id)&.include?(profile.id) %>
-    <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn kobul_2"
+    <a href="<%= accept_request_chat_friendship_path(profile) %>" data-method="PATCH" class="kobul_btn kobul_2" <%= tag.attributes(data: kobul_explain_data(:accept2, profile)) %>
        data-butterfly-target="bk-target-chats"
        style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px;"
        data-toggle="tooltip" title="<%= kobul_tip('accept_kobul_2') %>">
@@ -20,6 +20,7 @@
     </span>
   <% else %>
     <a href="<%= send_request_chat_friendship_path(profile) %>"
+       <%= tag.attributes(data: kobul_explain_data(:send2, profile)) %>
        class="kobul_btn kobul_2"
        data-method="post"
        data-butterfly-target="bk-target-chats"

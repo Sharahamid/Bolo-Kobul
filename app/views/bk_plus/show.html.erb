@@ -1,0 +1,66 @@
+<% content_for :title, t('bkx.plus.page_title') %>
+<%= render 'bk_plus/styles' %>
+<div class="bkp-wrap">
+  <div class="bkp-card">
+    <div class="bkp-hero">
+      <div class="bkp-logo">BK<span>+</span></div>
+      <p><%= t('bkx.plus.tagline') %></p>
+    </div>
+    <div class="bkp-body">
+      <div class="bkp-benefit">
+        <div class="bkp-ico"><i class="fas fa-crown"></i></div>
+        <div><h3><%= t('bkx.plus.b1_title') %></h3><p><%= t('bkx.plus.b1_text') %></p></div>
+      </div>
+      <div class="bkp-benefit">
+        <div class="bkp-ico"><i class="fas fa-arrow-up"></i></div>
+        <div><h3><%= t('bkx.plus.b2_title') %></h3><p><%= t('bkx.plus.b2_text') %></p></div>
+      </div>
+      <div class="bkp-benefit">
+        <div class="bkp-ico"><i class="fas fa-heart"></i></div>
+        <div>
+          <h3><%= t('bkx.plus.b3_title') %></h3>
+          <p><%= t('bkx.plus.b3_text') %>
+            <% if @saved_count.positive? %><br><strong style="color:#854F0B;"><%= t('bkx.plus.saved_count', count: @saved_count, n: local_digits(@saved_count)) %></strong><% end %>
+          </p>
+        </div>
+      </div>
+      <% if @config&.bk_plus_butterflies.to_i.positive? %>
+        <div class="bkp-benefit">
+          <div class="bkp-ico">🦋</div>
+          <div><h3><%= t('bkx.plus.b4_title', n: local_digits(@config.bk_plus_butterflies)) %></h3><p><%= t('bkx.plus.b4_text') %></p></div>
+        </div>
+      <% end %>
+
+      <% if @member %>
+        <div class="bkp-status" style="margin-top:16px;">
+          <span class="bkp-badge">BK+</span>
+          <%= t('bkx.plus.active_until', date: l(current_user.bk_plus_until.in_time_zone('Asia/Dhaka').to_date, format: :long)) %>
+        </div>
+        <a class="bkp-btn bkp-btn--ghost" style="margin-top:12px;" href="<%= bk_plus_saved_you_path %>"><i class="fas fa-heart"></i> <%= t('bkx.plus.see_who') %></a>
+      <% end %>
+
+      <% unless play_store_app? %>
+        <% price = @config&.bk_plus_price.to_f %>
+        <% if price.positive? %>
+          <div class="bkp-price">
+            <strong>৳<%= taka(price) %></strong>
+            <small><%= t('bkx.plus.per_days', days: local_digits(@config.bk_plus_days.to_i.positive? ? @config.bk_plus_days : 30)) %></small>
+          </div>
+          <% if user_signed_in? %>
+            <%= form_for Order.new do |f| %>
+              <%= f.hidden_field :payment_method, value: 'foster_payment' %>
+              <%= f.hidden_field :product, value: 'bk_plus' %>
+              <%= f.hidden_field :quantity, value: 1 %>
+              <button type="submit" class="bkp-btn"><%= @member ? t('bkx.plus.renew') : t('bkx.plus.join') %></button>
+            <% end %>
+            <p class="bkp-note"><%= t('bkx.plus.note') %></p>
+          <% else %>
+            <a class="bkp-btn" href="#" data-toggle="modal" data-target="#loginModal"><%= t('bkx.plus.login_to_join') %></a>
+          <% end %>
+        <% elsif !@member %>
+          <p class="bkp-note" style="margin-top:16px;"><%= t('bkx.plus.coming_soon') %></p>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

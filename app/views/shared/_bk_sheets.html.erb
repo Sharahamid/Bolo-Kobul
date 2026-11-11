@@ -1,0 +1,179 @@
+<%# Pop-up sheets for signed-in members:
+    1. "What happens now" before a Kobul is sent or accepted (links with data-bk-explain,
+       filled by LocaleHelper#kobul_explain_data)
+    2. "What are butterflies?" (anything with data-bk-bf-help)
+    3. The 3-card welcome, shown once on the dashboard (users.welcome_seen_at) %>
+<% costs = bk_costs %>
+<% balance = current_user.butterfly_number.to_i %>
+<% show_welcome = current_user.welcome_seen_at.nil? && controller_name == 'marriage_profiles' && action_name == 'dashboard' %>
+<style>
+  .bks-back { position: fixed; inset: 0; z-index: 2000; background: rgba(34, 22, 6, 0.55); display: flex;
+              align-items: center; justify-content: center; padding: 16px; opacity: 0; transition: opacity .18s ease; }
+  .bks-back.is-open { opacity: 1; }
+  .bks-back[hidden] { display: none !important; }
+  .bks { width: 100%; max-width: 400px; max-height: calc(100vh - 32px); overflow-y: auto; background: #fff; border-radius: 20px;
+         box-shadow: 0 18px 50px rgba(0,0,0,0.25); padding: 22px 20px 18px; transform: translateY(12px); transition: transform .18s ease; }
+  .bks-back.is-open .bks { transform: none; }
+  .bks h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 800; color: #412402; margin: 0 0 14px; line-height: 1.35; }
+  .bks ul { list-style: none; padding: 0; margin: 0 0 14px; }
+  .bks li { font-size: 14px; color: #4a3f30; line-height: 1.55; padding: 9px 12px; background: #FFFBF0; border-radius: 12px; margin-bottom: 8px; }
+  .bks-warn { font-size: 13px; color: #A4262C; background: #FDEDEE; border-radius: 12px; padding: 9px 12px; margin: 0 0 12px; }
+  .bks-actions { display: flex; gap: 10px; }
+  .bks-btn { flex: 1; border: 0; border-radius: 999px; padding: 12px 14px; font-size: 14px; font-weight: 800; cursor: pointer; line-height: 1.2; text-align: center; text-decoration: none !important; }
+  .bks-btn--main { background: linear-gradient(135deg, #FFB627, #ffca5e); color: #412402 !important; box-shadow: 0 4px 12px rgba(255,182,39,0.35); }
+  .bks-btn--soft { background: #F5F1E8; color: #6b6255 !important; }
+  .bks-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+  .bks-check { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: #8a7d68; cursor: pointer; margin: 0; }
+  .bks-link { background: none; border: 0; padding: 0; font-size: 12px; font-weight: 700; color: #854F0B; text-decoration: underline; cursor: pointer; }
+  /* Welcome cards */
+  .bkw-card { text-align: center; }
+  .bkw-card[hidden] { display: none; }
+  .bkw-icon { width: 64px; height: 64px; margin: 4px auto 12px; border-radius: 50%; background: #FFF3CC; display: flex; align-items: center; justify-content: center; font-size: 28px; }
+  .bkw-card p { font-size: 14px; color: #5c5244; line-height: 1.65; margin: 0 0 16px; }
+  .bkw-dots { display: flex; justify-content: center; gap: 6px; margin: 0 0 14px; }
+  .bkw-dots span { width: 7px; height: 7px; border-radius: 50%; background: #F1E2B5; transition: all .2s; }
+  .bkw-dots span.on { width: 20px; border-radius: 4px; background: #FFB627; }
+  .bkw-alerts { display: block; width: 100%; margin: 0 0 12px; border: 1px solid #FAC775; background: #FFF8E6; color: #854F0B; border-radius: 999px; padding: 10px; font-size: 13px; font-weight: 700; cursor: pointer; }
+</style>
+
+<%# 1 + 2: one shared sheet, filled in by the script %>
+<div class="bks-back" id="bks-back" hidden role="dialog" aria-modal="true" aria-labelledby="bks-title">
+  <div class="bks" id="bks"></div>
+</div>
+
+<%# 3: welcome cards %>
+<% if show_welcome %>
+  <div class="bks-back" id="bkw-back" hidden role="dialog" aria-modal="true" aria-labelledby="bkw-title-1">
+    <div class="bks">
+      <div class="bkw-dots" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+      <% [['🦋', 1], ['💬', 2], ['✨', 3]].each do |icon, i| %>
+        <div class="bkw-card" data-card="<%= i %>"<%= ' hidden' unless i == 1 %>>
+          <div class="bkw-icon" aria-hidden="true"><%= icon %></div>
+          <h3 id="bkw-title-<%= i %>"><%= t("bkx.welcome.c#{i}_title") %></h3>
+          <p><%= t("bkx.welcome.c#{i}_text", balance: local_digits(balance)) %></p>
+          <% if i == 3 %>
+            <button type="button" class="bkw-alerts" data-bkw-alerts hidden><i class="fas fa-bell"></i> <%= t('bkx.welcome.alerts') %></button>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="bks-actions">
+        <button type="button" class="bks-btn bks-btn--soft" data-bkw-skip><%= t('bkx.welcome.skip') %></button>
+        <button type="button" class="bks-btn bks-btn--main" data-bkw-next data-next="<%= t('bkx.welcome.next') %>" data-start="<%= t('bkx.welcome.start') %>"><%= t('bkx.welcome.next') %></button>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<script>
+(function () {
+  var T = <%= raw({
+    notNow: t('bkx.explain.not_now'), dontShow: t('bkx.explain.dont_show'), whatBf: t('bkx.explain.what_butterflies'),
+    bfTitle: t('bkx.bf_help.title'), gotIt: t('bkx.bf_help.got_it'), getMore: t('bkx.bf_help.get_more'),
+    bfLines: [t('bkx.bf_help.l1'), t('bkx.bf_help.l2', n1: local_digits(costs[:n1])), t('bkx.bf_help.l3', n2: local_digits(costs[:n2])),
+              t('bkx.bf_help.l4'), (costs[:free].positive? ? t('bkx.bf_help.l5', free: local_digits(costs[:free])) : nil)].compact,
+    buyUrl: (play_store_app? ? nil : new_order_path)
+  }.to_json) %>;
+  var back = document.getElementById('bks-back'), box = document.getElementById('bks');
+  if (!back) return;
+  var lastFocus = null;
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+  function store(get, key, val) {
+    try { return get ? localStorage.getItem(key) : localStorage.setItem(key, val); } catch (e) { return null; }
+  }
+  function open(el) {
+    lastFocus = document.activeElement;
+    el.hidden = false;
+    requestAnimationFrame(function () { el.classList.add('is-open'); });
+    var f = el.querySelector('button, a'); if (f) f.focus();
+  }
+  function close(el) {
+    el.classList.remove('is-open');
+    setTimeout(function () { el.hidden = true; }, 180);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  back.addEventListener('click', function (e) { if (e.target === back) close(back); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !back.hidden) close(back); });
+
+  // 2. What are butterflies?
+  function showButterflies() {
+    box.innerHTML = '<h3 id="bks-title">' + esc(T.bfTitle) + '</h3><ul>' +
+      T.bfLines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' +
+      '<div class="bks-actions">' +
+      (T.buyUrl ? '<a class="bks-btn bks-btn--soft" href="' + T.buyUrl + '">' + esc(T.getMore) + '</a>' : '') +
+      '<button type="button" class="bks-btn bks-btn--main" data-bks-close>' + esc(T.gotIt) + '</button></div>';
+    box.querySelector('[data-bks-close]').addEventListener('click', function () { close(back); });
+    if (back.hidden) open(back);
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-bk-bf-help]');
+    if (!t) return;
+    e.preventDefault();
+    showButterflies();
+  });
+
+  // 1. What happens now (before a Kobul is sent or accepted)
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest && e.target.closest('a[data-bk-explain]');
+    if (!link) return;
+    if (link.getAttribute('data-bk-confirmed') === '1') { link.removeAttribute('data-bk-confirmed'); return; }
+    var kind = link.getAttribute('data-bk-explain');
+    if (store(true, 'bkExplainOff_' + kind) === '1') return; // member chose "Don't show this again"
+
+    e.preventDefault();
+    e.stopImmediatePropagation(); // hold the Kobul until they confirm
+    var lines = [];
+    try { lines = JSON.parse(link.getAttribute('data-bk-explain-lines') || '[]'); } catch (err) {}
+    var low = link.getAttribute('data-bk-explain-low');
+    box.innerHTML = '<h3 id="bks-title">' + esc(link.getAttribute('data-bk-explain-title')) + '</h3>' +
+      '<ul>' + lines.map(function (l) { return '<li>' + esc(l) + '</li>'; }).join('') + '</ul>' +
+      (low ? '<p class="bks-warn">' + esc(low) + '</p>' : '') +
+      '<div class="bks-actions">' +
+      '<button type="button" class="bks-btn bks-btn--soft" data-bks-close>' + esc(T.notNow) + '</button>' +
+      '<button type="button" class="bks-btn bks-btn--main" data-bks-ok>' + esc(link.getAttribute('data-bk-explain-ok')) + '</button></div>' +
+      '<div class="bks-row"><label class="bks-check"><input type="checkbox" data-bks-off> ' + esc(T.dontShow) + '</label>' +
+      '<button type="button" class="bks-link" data-bk-bf-help>' + esc(T.whatBf) + '</button></div>';
+    box.querySelector('[data-bks-close]').addEventListener('click', function () { close(back); });
+    box.querySelector('[data-bks-ok]').addEventListener('click', function () {
+      if (box.querySelector('[data-bks-off]').checked) store(false, 'bkExplainOff_' + kind, '1');
+      close(back);
+      link.setAttribute('data-bk-confirmed', '1');
+      link.click(); // now send it as before (same link, same animation)
+    });
+    open(back);
+  }, true);
+
+  // 3. Welcome cards (once)
+  var wb = document.getElementById('bkw-back');
+  if (!wb) return;
+  var step = 1, cards = wb.querySelectorAll('.bkw-card'), dots = wb.querySelectorAll('.bkw-dots span');
+  var next = wb.querySelector('[data-bkw-next]'), alertsBtn = wb.querySelector('[data-bkw-alerts]');
+  var token = (document.querySelector('meta[name="csrf-token"]') || {}).content;
+  function seen() {
+    fetch('<%= welcome_seen_users_path %>', { method: 'POST', credentials: 'same-origin', headers: { 'X-CSRF-Token': token || '' } }).catch(function () {});
+    close(wb);
+  }
+  function show(n) {
+    step = n;
+    cards.forEach(function (c) { c.hidden = c.getAttribute('data-card') !== String(n); });
+    dots.forEach(function (d, i) { d.classList.toggle('on', i === n - 1); });
+    next.textContent = n === cards.length ? next.getAttribute('data-start') : next.getAttribute('data-next');
+    if (n === cards.length && alertsBtn && window.bkPush && window.Notification && Notification.permission === 'default') alertsBtn.hidden = false;
+  }
+  next.addEventListener('click', function () { step < cards.length ? show(step + 1) : seen(); });
+  wb.querySelector('[data-bkw-skip]').addEventListener('click', seen);
+  if (alertsBtn) alertsBtn.addEventListener('click', function () {
+    window.bkPush.enable().then(function () { alertsBtn.hidden = true; }).catch(function () {});
+  });
+  // Swipe between cards on phones
+  var x0 = null;
+  wb.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  wb.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (dx < -40 && step < cards.length) show(step + 1);
+    if (dx > 40 && step > 1) show(step - 1);
+  });
+  setTimeout(function () { open(wb); }, 600);
+})();
+</script>

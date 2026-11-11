@@ -132,7 +132,25 @@ module LocaleHelper
       b2: "#{n2} #{n2 == 1 ? 'butterfly' : 'butterflies'}")
   end
 
-  # Butterfly costs from Admin > Butterfly Config, for public pages
+  # "What happens now" box shown before a Kobul is sent or accepted (see kobul_explain.js
+  # in the layout). kind: :send1, :send2, :accept1, :accept2
+  def kobul_explain_data(kind, profile)
+    costs = bk_costs
+    n = %i[send1 accept1].include?(kind) ? costs[:n1] : costs[:n2]
+    balance = current_user&.butterfly_number.to_i
+    {
+      'bk-explain' => kind.to_s,
+      'bk-explain-title' => t("bkx.explain.#{kind}.title", id: profile&.unique_id),
+      'bk-explain-lines' => [
+        t('bkx.explain.cost', count: n, n: local_digits(n), balance: local_digits(balance)),
+        t("bkx.explain.#{kind}.back"),
+        t("bkx.explain.#{kind}.then")
+      ].to_json,
+      'bk-explain-ok' => t("bkx.explain.#{kind}.ok"),
+      'bk-explain-low' => (balance < n ? t('bkx.explain.low', n: local_digits(n)) : '')
+    }
+  end
+
   def bk_costs
     @bk_costs ||= begin
       config = ButterflyConfig.last

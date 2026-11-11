@@ -33,7 +33,7 @@ class Order < ApplicationRecord
 
   enum :status, %i[pending success failed]
   enum :payment_method, %i[foster_payment]
-  enum :product, %i[butterfly assisted_service]
+  enum :product, %i[butterfly assisted_service bk_plus]
 
   #
   # associations
@@ -46,7 +46,7 @@ class Order < ApplicationRecord
   #
   # Callbacks
   #
-  after_commit :update_butterflies, :make_transaction
+  after_commit :update_butterflies, :make_transaction, :apply_bk_plus
 
   #
   # instance methods
@@ -82,6 +82,24 @@ class Order < ApplicationRecord
         Rails.logger.error "Butterfly update failed for order #{id}: #{e.message}"
       end
     end
+  end
+
+  # BK+ bought: extend the membership and add the bonus butterflies (once per order)
+  def apply_bk_plus
+    return unless status == 'success' && bk_plus? && !bk_plus_applied && user
+
+    config = ButterflyConfig.last
+    days = config&.bk_plus_days.to_i.positive? ? config.bk_plus_days : 30
+    with_lock do
+      unless bk_plus_applied
+        start = [user.bk_plus_until, Time.current].compact.max
+        user.update_columns(bk_plus_until: start + days.days,
+                            butterfly_number: user.butterfly_number.to_i + config&.bk_plus_butterflies.to_i)
+        update_column(:bk_plus_applied, true)
+      end
+    end
+  rescue => e
+    Rails.logger.error "BK+ activation failed for order #{id}: #{e.message}"
   end
 
   def butterflies_already_added?

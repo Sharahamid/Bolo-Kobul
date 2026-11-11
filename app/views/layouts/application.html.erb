@@ -118,6 +118,7 @@
 <%= render 'shared/header' %>
 <%= render 'shared/deletion_banner' %>
 <%= render 'shared/push_prompt' if push_enabled %>
+<%= render 'shared/bk_sheets' if user_signed_in? %>
 <%= content_for?(:content) ? yield(:content) : yield %>
 <%= render 'shared/modal' %>
 <%= render 'shared/report_block_modal' if user_signed_in? && current_active_profile %>

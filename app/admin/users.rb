@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   permit_params :name, :country_code, :phone_number, :national_id, :verified,
-                :email, :username, :butterfly_number, :block_butterfly_number
+                :email, :username, :butterfly_number, :block_butterfly_number, :bk_plus_until
 
   menu parent: 'User'
   filter :name
@@ -57,6 +57,9 @@ ActiveAdmin.register User do
     end
     column :verified
     column :butterfly_number
+    column "BK+" do |user|
+      user.bk_plus? ? status_tag("Until #{user.bk_plus_until.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y')}", class: 'yes') : ''
+    end
     column "Deletion" do |user|
       user.deletion_scheduled? ? status_tag("On #{user.deletion_date.strftime('%-d %b %Y')}", class: 'red') : ''
     end
@@ -76,6 +79,8 @@ ActiveAdmin.register User do
       row :otp
       row :butterfly_number
       row :block_butterfly_number
+      row("BK+ until") { |user| user.bk_plus_until ? "#{user.bk_plus_until.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y, %l:%M %p')}#{' (expired)' unless user.bk_plus?}" : 'No' }
+      row("Daily nudges") { |user| user.nudges_enabled ? 'On' : 'Off' }
       row "Identification Document" do |user|
         profile = user.marriage_profiles.first
         if profile&.identification_document.present?
@@ -137,6 +142,7 @@ ActiveAdmin.register User do
       input :verified, as: :select
       input :butterfly_number, as: :number
       input :block_butterfly_number, as: :number
+      input :bk_plus_until, as: :datepicker, label: 'BK+ until (pick a future date to give BK+; clear it to remove)'
     end
     f.actions
   end

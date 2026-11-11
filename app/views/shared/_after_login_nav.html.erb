@@ -160,6 +160,32 @@
           </div>
         </div>
       <% end %>
+      <% if !play_store_app? || current_user.bk_plus? %>
+      <%= link_to bk_plus_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fas fa-crown"></i>
+            </div>
+            <div class="col-10 p-0">
+              BK+
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% end %>
+      <%= link_to bk_plus_saved_you_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fas fa-heart"></i>
+            </div>
+            <div class="col-10 p-0">
+              <%= t('bkx.plus.saved_menu') %>
+            </div>
+          </div>
+        </div>
+      <% end %>
       <%= link_to privacy_settings_path, class: 'dropdown-item' do %>
         <div class="col-12 p-1">
           <div class="row">

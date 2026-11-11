@@ -46,6 +46,21 @@ class UsersController < ApplicationController
     end
   end
 
+  # The 3-card welcome was seen (shown only once per member)
+  def welcome_seen
+    current_user.update_column(:welcome_seen_at, Time.current) if current_user.welcome_seen_at.nil?
+    head :no_content
+  end
+
+  # Daily friendly nudges ("new matches this week") on or off
+  def toggle_nudges
+    current_user.update_column(:nudges_enabled, !current_user.nudges_enabled)
+    respond_to do |format|
+      format.html { redirect_back fallback_location: notifications_users_path, notice: current_user.nudges_enabled ? t('bkx.nudges.on_notice') : t('bkx.nudges.off_notice') }
+      format.json { render json: { enabled: current_user.nudges_enabled } }
+    end
+  end
+
   def notifications
     @notifications = current_user.notifications
   end

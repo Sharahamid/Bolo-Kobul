@@ -175,3 +175,93 @@ en:
     search_age:
       female: "You'll only see men aged %{age} (your age) or older. Try searching from %{age}."
       male: "You'll only see women aged %{age} (your age) or younger. Try searching up to %{age}."
+
+    explain:
+      cost:
+        one: "🦋 Cost: %{n} butterfly · You have %{balance}"
+        other: "🦋 Cost: %{n} butterflies · You have %{balance}"
+      low: "⚠️ You don't have enough butterflies for this yet."
+      not_now: "Not now"
+      dont_show: "Don't show this again"
+      what_butterflies: "What are butterflies?"
+      send1:
+        title: "Send a 1st Kobul to %{id}?"
+        back: "↩️ You get it back if they decline or you cancel"
+        then: "🔓 If they accept, you both see each other's photos, education, work and family"
+        ok: "Send 1st Kobul"
+      send2:
+        title: "Ask %{id} to chat?"
+        back: "⚠️ These butterflies are not returned if they decline"
+        then: "💬 If they accept, a private chat opens. Phone numbers stay hidden"
+        ok: "Send 2nd Kobul"
+      accept1:
+        title: "Accept %{id}'s 1st Kobul?"
+        back: "↩️ Not ready? You can decline instead, at no cost"
+        then: "🔓 You both see each other's photos, education, work and family"
+        ok: "Accept"
+      accept2:
+        title: "Accept %{id}'s chat request?"
+        back: "🔒 Your phone number stays hidden"
+        then: "💬 A private chat opens straight away"
+        ok: "Accept and chat"
+
+    bf_help:
+      title: "What are butterflies? 🦋"
+      l1: "Butterflies are how you send and accept Kobuls on Bolo Kobul."
+      l2: "1st Kobul uses %{n1} — you both see each other's full profile. It comes back if they decline or you cancel."
+      l3: "2nd Kobul uses %{n2} — a private chat opens. Not returned if they decline."
+      l4: "Balance = butterflies you can use now. In process = butterflies on hold for 1st Kobuls waiting for a reply."
+      l5: "New members get %{free} free butterflies."
+      got_it: "Got it"
+      get_more: "Get more"
+
+    welcome:
+      c1_title: "1st Kobul — show you're interested"
+      c1_text: "Like someone? Send a 1st Kobul. If they accept, you both see each other's photos, education, work and family."
+      c2_title: "2nd Kobul — start chatting"
+      c2_text: "Ready to talk? Send a 2nd Kobul. When they accept, a private chat opens. Phone numbers always stay hidden."
+      c3_title: "Butterflies — how Kobuls work"
+      c3_text: "Each Kobul uses butterflies. You have %{balance} now. A 1st Kobul's butterfly comes back if they decline."
+      alerts: "Turn on alerts so you never miss a Kobul"
+      next: "Next"
+      start: "Start exploring"
+      skip: "Skip"
+
+    nudges:
+      label: "Friendly reminders (new matches, who saved you)"
+      on_notice: "Friendly reminders are on."
+      off_notice: "Friendly reminders are off. You'll still get Kobul and message alerts."
+      turn_off: "Turn off"
+      turn_on: "Turn on"
+
+    plus:
+      page_title: "BK+ membership"
+      tagline: "Stand out, be seen first, and know who's interested in you."
+      member: "Member"
+      badge_tip: "BK+ member"
+      b1_title: "BK+ badge on your profile"
+      b1_text: "A gold BK+ badge beside your ID on every card and profile, so families know you're serious."
+      b2_title: "Shown first"
+      b2_text: "Among equally good matches, your profile appears before others in members' recommendations."
+      b3_title: "See who saved you"
+      b3_text: "See every member who saved you to their favourites, with their match %."
+      b4_title: "%{n} bonus butterflies"
+      b4_text: "Added to your balance each time you join or renew."
+      saved_count:
+        zero: "Nobody has saved you to their favourites yet"
+        one: "%{n} member has saved you to their favourites"
+        other: "%{n} members have saved you to their favourites"
+      per_days: "for %{days} days"
+      join: "Join BK+"
+      renew: "Add more days"
+      login_to_join: "Log in to join BK+"
+      note: "Secure payment. Your membership starts as soon as the payment is confirmed."
+      active_until: "Your BK+ is active until %{date}."
+      see_who: "See who saved you"
+      coming_soon: "BK+ is coming soon."
+      unavailable: "BK+ isn't available to buy just yet."
+      saved_title: "Who saved you"
+      saved_menu: "Who saved you"
+      saved_none: "When members save you to their favourites, they'll appear here."
+      saved_locked: "BK+ members can see exactly who saved them, with their match %."
+      see_benefits: "See BK+"

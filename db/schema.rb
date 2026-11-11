@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_11_08_100000) do
+ActiveRecord::Schema.define(version: 2026_11_11_180000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,6 +219,9 @@ ActiveRecord::Schema.define(version: 2026_11_08_100000) do
     t.boolean "anim_kobul1_recommendations", default: true
     t.boolean "anim_kobul1_request", default: true
     t.boolean "anim_kobul2", default: true
+    t.float "bk_plus_price", default: 0.0
+    t.integer "bk_plus_days", default: 30
+    t.integer "bk_plus_butterflies", default: 5
   end
 
   create_table "chat_friendships", force: :cascade do |t|
@@ -550,6 +553,7 @@ ActiveRecord::Schema.define(version: 2026_11_08_100000) do
     t.string "customer_phone"
     t.string "customer_email"
     t.bigint "assisted_service_id"
+    t.boolean "bk_plus_applied", default: false, null: false
     t.index ["assisted_service_id"], name: "index_orders_on_assisted_service_id"
   end
 
@@ -816,6 +820,10 @@ ActiveRecord::Schema.define(version: 2026_11_08_100000) do
     t.datetime "deletion_requested_at"
     t.boolean "weekly_matches_email", default: true, null: false
     t.string "locale"
+    t.datetime "bk_plus_until"
+    t.datetime "welcome_seen_at"
+    t.boolean "nudges_enabled", default: true, null: false
+    t.datetime "last_nudge_at"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["deletion_requested_at"], name: "index_users_on_deletion_requested_at"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

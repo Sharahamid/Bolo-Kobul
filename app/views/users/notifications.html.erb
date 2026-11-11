@@ -54,6 +54,18 @@
   end
 %>
 <%= render 'shared/push_settings' %>
+<%# Daily friendly reminders on/off (lib/tasks/nudges.rake) %>
+<div class="bk-push-settings" style="border-left-color:#FFB627;">
+  <div class="bk-push-settings__text">
+    <p class="bk-push-settings__title"><%= t('bkx.nudges.label') %></p>
+  </div>
+  <div class="bk-push-settings__actions">
+    <%= button_to (current_user.nudges_enabled ? t('bkx.nudges.turn_off') : t('bkx.nudges.turn_on')),
+                  toggle_nudges_users_path, method: :patch,
+                  class: "bk-push-settings__btn #{current_user.nudges_enabled ? 'bk-push-settings__btn--ghost' : 'bk-push-settings__btn--primary'}",
+                  form: { style: 'margin:0;' } %>
+  </div>
+</div>
 <% notif_collection.each_with_index do |notif, i| %>
   <%= render partial: 'users/notification_mobile',
              locals: { notification: notif,

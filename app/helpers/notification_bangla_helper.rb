@@ -66,6 +66,15 @@ module NotificationBanglaHelper
      'আপনার মাত্র \1টি বাটারফ্লাই বাকি আছে। নতুন প্রোফাইলের সঙ্গে যোগাযোগ চালিয়ে যেতে আরও নিন! \2আরও বাটারফ্লাই নিন →</a>'],
     [/\AYou have received a butterfly from (.+) through a referral!\z/,
      'রেফারেলের মাধ্যমে \1-এর কাছ থেকে আপনি একটি বাটারফ্লাই পেয়েছেন!'],
+    # Daily friendly nudges (lib/tasks/nudges.rake)
+    [/\ASomeone saved you to their favourites today 💛 #{LINK}See who<\/a>\z/,
+     'আজ একজন আপনাকে ফেভারিটে রেখেছেন 💛 \\1কে, দেখুন</a>'],
+    [/\A(\d+) members saved you to their favourites today 💛 #{LINK}See who<\/a>\z/,
+     'আজ \\1 জন সদস্য আপনাকে ফেভারিটে রেখেছেন 💛 \\2কারা, দেখুন</a>'],
+    [/\AA (\d+)% match just joined Bolo Kobul ✨ #{LINK}Take a look<\/a>\z/,
+     '\\1% মিলের একজন সদস্য এইমাত্র বলো কবুলে যোগ দিয়েছেন ✨ \\2দেখে নিন</a>'],
+    [/\A(\d+) new members? (?:match|matches) your preferences this week 💛 #{LINK}See them<\/a>\z/,
+     'এই সপ্তাহে \\1 জন নতুন সদস্য আপনার পছন্দের সঙ্গে মিলে যান 💛 \\2দেখুন</a>'],
     [/\AThere is an update on your Ticket No\. # (\d+)\. #{LINK}Show details<\/a>\z/,
      'আপনার টিকিট নং #\1-এ নতুন আপডেট আছে। \2বিস্তারিত দেখুন</a>']
   ].freeze

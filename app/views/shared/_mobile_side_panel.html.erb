@@ -117,6 +117,21 @@
             <span class="notification-counter"><%= mob_unread.zero? ? '' : (mob_unread > 99 ? '99+' : mob_unread) %></span>
           </div>
         </a>
+        <%# BK+: in the Play Store app only for members who already have it (Google's payments policy) %>
+        <% if !play_store_app? || current_user.bk_plus? %>
+          <a href="<%= bk_plus_path %>" class="bk-active">
+            <div class="">
+              <i class="fas fa-crown"></i>
+              BK+ <% if current_user.bk_plus? %><span class="bkp-badge" style="margin-left:4px;"><%= t('bkx.plus.member') %></span><% end %>
+            </div>
+          </a>
+        <% end %>
+        <a href="<%= bk_plus_saved_you_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-heart"></i>
+            <%= t('bkx.plus.saved_menu') %>
+          </div>
+        </a>
         <% unless current_user.self? || current_user.other_as_matchmaker? %>
           <div class="nav-item dropup text-center">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

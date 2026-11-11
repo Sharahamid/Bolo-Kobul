@@ -73,12 +73,12 @@ class RecommendationService
   end
 
   # Order: match % (in 5-point bands, so small differences don't decide everything),
-  # then likeness to profiles the member has favourited or sent Kobuls to, then
+  # then BK+ members first, then likeness to profiles the member has favourited or sent Kobuls to, then
   # profiles the member has been shown on fewer days, then photo / verified / new /
   # recently active. Anything still equal is shuffled, so the list varies day to day.
   def self.rank(profiles, taste, seen)
     profiles.shuffle.sort_by do |p|
-      [-(p.matching_percentage.to_i / 5), -taste.score(p), seen[p.id].to_i, -p.match_quality]
+      [-(p.matching_percentage.to_i / 5), p.user&.bk_plus? ? 0 : 1, -taste.score(p), seen[p.id].to_i, -p.match_quality]
     end
   end
 

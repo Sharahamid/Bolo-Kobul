@@ -47,3 +47,8 @@ end
 every '0 19 15,28,29,30 * *' do
   rake 'weekly_report:send'
 end
+
+# Friendly nudges: 1:00 pm UTC = 7:00 pm in Bangladesh, when members are most likely free
+every :day, at: '1:00 pm' do
+  rake 'nudges:daily'
+end

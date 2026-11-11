@@ -3,7 +3,8 @@ ActiveAdmin.register ButterflyConfig, as: "Configurations" do
   permit_params :butterfly_price, :profile_view_butterflies, :chat_butterflies,
                 :text_alert_butterflies, :num_of_free_butterfly,
                 :butterfly_animation, :adv_search_butterflies,
-                :max_marriage_profiles
+                :max_marriage_profiles, :bk_plus_price, :bk_plus_days, :bk_plus_butterflies,
+                :anim_kobul1_recommendations, :anim_kobul1_request, :anim_kobul2
   actions :all, :except => [:new, :destroy]
 
   show do
@@ -29,6 +30,11 @@ ActiveAdmin.register ButterflyConfig, as: "Configurations" do
       row "Maximum Marriage Profiles" do |butterfly_config|
         butterfly_config.max_marriage_profiles
       end
+      row "BK+ price (৳)" do |c|
+        c.bk_plus_price.to_f.positive? ? c.bk_plus_price : 'Not set — BK+ cannot be bought yet'
+      end
+      row("BK+ length (days)") { |c| c.bk_plus_days }
+      row("BK+ bonus butterflies") { |c| c.bk_plus_butterflies }
       row "Butterfly Animation" do |butterfly_config|
         butterfly_config.butterfly_animation
       end
@@ -52,6 +58,12 @@ ActiveAdmin.register ButterflyConfig, as: "Configurations" do
             label: "Price per butterfly"
       input :max_marriage_profiles, as: :number,
             label: "Maximum Marriage Profiles"
+      input :bk_plus_price, as: :number,
+            label: "BK+ price in Taka (0 = not on sale yet)"
+      input :bk_plus_days, as: :number,
+            label: "BK+ length in days (each purchase adds this many days)"
+      input :bk_plus_butterflies, as: :number,
+            label: "BK+ bonus butterflies (given with each purchase)"
       input :butterfly_animation, label: 'Master: All Butterfly Animations', as: :boolean
       input :anim_kobul1_recommendations, label: 'Kobul 1 Click (Recommendations → Requests Sent)', as: :boolean
       input :anim_kobul1_request, label: 'Kobul 1 Click (1st Kobul Received → Chat Requests Sent)', as: :boolean

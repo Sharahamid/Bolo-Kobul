@@ -52,6 +52,9 @@ Rails.application.routes.draw do
       post :mark_notification_read
       patch :update_referral_code
       get :next_unread_notification
+      # Welcome cards seen; daily nudges on/off
+      post :welcome_seen
+      patch :toggle_nudges
     end
     member do
       get :show_verify
@@ -70,6 +73,10 @@ Rails.application.routes.draw do
       patch :toggle_advanced_search
     end
   end
+
+  # BK+ membership: what it gives, and the list of members who saved you
+  get 'bk-plus', to: 'bk_plus#show', as: :bk_plus
+  get 'bk-plus/saved-you', to: 'bk_plus#saved_you', as: :bk_plus_saved_you
 
   resources :orders, except: %i[edit update destroy] do
     member do
