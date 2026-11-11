@@ -35,6 +35,7 @@ class MarriageProfilesController < ApplicationController
     if current_active_profile&.id != @marriage_profile.id && current_user
       key = "profile_views_#{@marriage_profile.id}"
       Rails.cache.write(key, (Rails.cache.read(key) || 0) + 1, expires_in: 8.days)
+      ProfileView.record!(current_active_profile, @marriage_profile) # for "Who viewed you" (BK+)
       @marriage_profile.calculate_matching_percentage!(current_active_profile) if current_active_profile
     end
   end

@@ -132,6 +132,12 @@
             <%= t('bkx.plus.saved_menu') %>
           </div>
         </a>
+        <a href="<%= bk_plus_viewed_you_path %>" class="bk-active">
+          <div class="">
+            <i class="fas fa-eye"></i>
+            <%= t('bkx.plus.viewed_title') %>
+          </div>
+        </a>
         <% unless current_user.self? || current_user.other_as_matchmaker? %>
           <div class="nav-item dropup text-center">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

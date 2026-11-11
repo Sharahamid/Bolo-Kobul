@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_11_11_180000) do
+ActiveRecord::Schema.define(version: 2026_11_11_200000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -694,6 +694,17 @@ ActiveRecord::Schema.define(version: 2026_11_11_180000) do
     t.index ["reported_profile_id"], name: "index_profile_reports_on_reported_profile_id"
     t.index ["reporter_profile_id"], name: "index_profile_reports_on_reporter_profile_id"
     t.index ["status"], name: "index_profile_reports_on_status"
+  end
+
+  create_table "profile_views", force: :cascade do |t|
+    t.integer "viewer_id", null: false
+    t.integer "viewed_id", null: false
+    t.integer "views_count", default: 1, null: false
+    t.datetime "last_viewed_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["viewed_id", "last_viewed_at"], name: "index_profile_views_on_viewed_id_and_last_viewed_at"
+    t.index ["viewed_id", "viewer_id"], name: "index_profile_views_on_viewed_id_and_viewer_id", unique: true
   end
 
   create_table "push_subscriptions", force: :cascade do |t|

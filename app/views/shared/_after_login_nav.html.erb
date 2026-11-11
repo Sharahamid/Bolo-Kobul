@@ -186,6 +186,18 @@
           </div>
         </div>
       <% end %>
+      <%= link_to bk_plus_viewed_you_path, class: 'dropdown-item' do %>
+        <div class="col-12 p-1">
+          <div class="row">
+            <div class="col-2 p-0">
+              <i class="fas fa-eye"></i>
+            </div>
+            <div class="col-10 p-0">
+              <%= t('bkx.plus.viewed_title') %>
+            </div>
+          </div>
+        </div>
+      <% end %>
       <%= link_to privacy_settings_path, class: 'dropdown-item' do %>
         <div class="col-12 p-1">
           <div class="row">

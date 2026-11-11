@@ -24,6 +24,15 @@
           </p>
         </div>
       </div>
+      <div class="bkp-benefit">
+        <div class="bkp-ico"><i class="fas fa-eye"></i></div>
+        <div>
+          <h3><%= t('bkx.plus.b5_title') %></h3>
+          <p><%= t('bkx.plus.b5_text') %>
+            <% if @view_count.positive? %><br><strong style="color:#854F0B;"><%= t('bkx.plus.viewed_count', count: @view_count, n: local_digits(@view_count)) %></strong><% end %>
+          </p>
+        </div>
+      </div>
       <% if @config&.bk_plus_butterflies.to_i.positive? %>
         <div class="bkp-benefit">
           <div class="bkp-ico">🦋</div>
@@ -36,7 +45,10 @@
           <span class="bkp-badge">BK+</span>
           <%= t('bkx.plus.active_until', date: l(current_user.bk_plus_until.in_time_zone('Asia/Dhaka').to_date, format: :long)) %>
         </div>
-        <a class="bkp-btn bkp-btn--ghost" style="margin-top:12px;" href="<%= bk_plus_saved_you_path %>"><i class="fas fa-heart"></i> <%= t('bkx.plus.see_who') %></a>
+        <div style="display:flex; gap:10px; margin-top:12px; flex-wrap:wrap;">
+          <a class="bkp-btn bkp-btn--ghost" style="flex:1 1 180px;" href="<%= bk_plus_saved_you_path %>"><i class="fas fa-heart"></i> <%= t('bkx.plus.see_who') %></a>
+          <a class="bkp-btn bkp-btn--ghost" style="flex:1 1 180px;" href="<%= bk_plus_viewed_you_path %>"><i class="fas fa-eye"></i> <%= t('bkx.plus.viewed_title') %></a>
+        </div>
       <% end %>
 
       <% unless play_store_app? %>

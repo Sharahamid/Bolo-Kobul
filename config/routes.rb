@@ -77,6 +77,7 @@ Rails.application.routes.draw do
   # BK+ membership: what it gives, and the list of members who saved you
   get 'bk-plus', to: 'bk_plus#show', as: :bk_plus
   get 'bk-plus/saved-you', to: 'bk_plus#saved_you', as: :bk_plus_saved_you
+  get 'bk-plus/viewed-you', to: 'bk_plus#viewed_you', as: :bk_plus_viewed_you
 
   resources :orders, except: %i[edit update destroy] do
     member do

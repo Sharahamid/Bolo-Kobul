@@ -64,5 +64,8 @@ namespace :nudges do
       Rails.logger.error("[nudges] user #{user.id}: #{e.class}: #{e.message}")
     end
     puts "Friendly nudges sent: #{sent}"
+
+    # "Who viewed you" keeps 90 days of visits
+    ProfileView.where('last_viewed_at < ?', ProfileView::KEEP_FOR.ago).delete_all
   end
 end

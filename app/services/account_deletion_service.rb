@@ -28,6 +28,7 @@ class AccountDeletionService
       PartnerRequest.where(sender_id: profile_ids).or(PartnerRequest.where(recipient_id: profile_ids))
                     .or(PartnerRequest.where(blocker_id: profile_ids)).delete_all
       ProfilePass.where(marriage_profile_id: profile_ids).or(ProfilePass.where(passed_profile_id: profile_ids)).delete_all
+      ProfileView.where(viewer_id: profile_ids).or(ProfileView.where(viewed_id: profile_ids)).delete_all
 
       # Payment records stay for the accounts, but no longer identify the member
       orders = Order.where(user_id: @user.id)
