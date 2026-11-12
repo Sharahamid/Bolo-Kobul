@@ -82,13 +82,19 @@
           <div class="vl"></div>
           <table class=" flex-fill pr-3 table table-borderless table-responsive">
             <tbody>
-              <% if marriage_profile.cultural_value&.languages_spoken.present? || marriage_profile.id == current_active_profile.id %>
+              <%# Religion is chosen at sign-up and saved on the marriage profile (the same value the edit window shows). %>
+              <% religion_key = marriage_profile.religion %>
+              <% if religion_key.present? || marriage_profile.id == current_active_profile.id %>
                 <tr>
                   <td> <%= t('profile.cultural.religion') %></td>
                   <td>:</td>
                   <td>
-                    <%= marriage_profile&.cultural_value&.religion.present? ?
-                        religion_label(choice_label(:religion, User::RELIGION.keys[marriage_profile.cultural_value.religion])) : '' %>
+                    <% if religion_key.blank? %>
+                    <% elsif marriage_profile.mr_other? && marriage_profile.other_religion.present? %>
+                      <%= marriage_profile.other_religion %>
+                    <% else %>
+                      <%= I18n.locale == :bn ? religion_label(religion_key) : religion_key.titleize %>
+                    <% end %>
                   </td>
                 </tr>
               <% end %>
