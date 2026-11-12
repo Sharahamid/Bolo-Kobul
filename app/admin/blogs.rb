@@ -37,7 +37,13 @@ ActiveAdmin.register Blog do
       input :story_type, as: :select
       input :email, as: :string
       input :married_life_duration, as: :string
-      input :story, as: :text
+      # Word-style editor (bold, underline, headings, lists). Older stories typed as plain
+      # text are turned into paragraphs first so their line breaks are not lost.
+      story = f.object.story.to_s
+      if story.present? && !story.match?(%r{<(p|br|div|li|h[1-6]|table)\b}i)
+        story = simple_format(ERB::Util.html_escape(story), {}, sanitize: false)
+      end
+      input :story, as: :ckeditor, input_html: { value: story }
       input :status, as: :select
       input :image, as: :file, hint: admin_image_hint(f.object, :image)
     end
