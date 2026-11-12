@@ -55,6 +55,10 @@ en:
       cta_text: "Creating a profile is free and takes a few minutes."
       cta: "Create my free profile"
       cta_member: "Find my matches"
+      plus_title: "Optional: BK+ membership"
+      plus_text: "Want to move faster? BK+ adds a gold badge, shows your profile first among equally good matches, lets you see who viewed and who saved your profile, and gives bonus butterflies."
+      plus_from: "Plans start at ৳%{price} (%{plan})."
+      plus_link: "See BK+"
 
     todo:
       progress: "%{done} of %{total} done"
