@@ -1,6 +1,6 @@
 # Undo script/bk_plus_pages.rb using the backup it saved.
 require "json"
-file = File.expand_path("~/bk_plus_pages_backup.json")
+file = File.expand_path(ENV["BACKUP"] || "~/bk_plus_pages_backup.json")
 data = JSON.parse(File.read(file))
 ActiveRecord::Base.transaction do
   data["records"].each { |r| m = r["model"].constantize; a = r["attrs"]; m.find(a["id"]).update_columns(a.except("id")) }
