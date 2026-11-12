@@ -23,7 +23,8 @@ class ChatFriendshipsController < ApplicationController
         KobulTwoMailer.with(current_profile: current_active_profile, profile: @marriage_profile).send_request.deliver_later
         SmsService.call(
           @marriage_profile.user.phone_number.to_s,
-          "Someone has sent you a 2nd Kobul and wants to chat! Log in to respond: #{profile_dashboard_url(@marriage_profile)}"
+          "Someone has sent you a 2nd Kobul and wants to chat! Log in to respond: #{profile_dashboard_url(@marriage_profile)}",
+          kind: :kobul2_received
         )
       end
       flash[:notice] = "Your 2nd Kobul has been sent successfully"
@@ -66,13 +67,15 @@ class ChatFriendshipsController < ApplicationController
         KobulTwoMailer.with(current_user: current_user, profile: @marriage_profile).accept_request.deliver_later
         SmsService.call(
           @current_user.phone_number.to_s,
-          "You can now start chatting safely with #{@marriage_profile.unique_id}: #{profile_message_url(@marriage_profile)} Your name or number will still not be disclosed."
+          "You can now start chatting safely with #{@marriage_profile.unique_id}: #{profile_message_url(@marriage_profile)} Your name or number will still not be disclosed.",
+          kind: :kobul2_you_accepted
         )
 
         KobulTwoMailer.with(current_profile: current_active_profile, profile: @marriage_profile).get_acceptance.deliver_later
         SmsService.call(
           @marriage_profile.user.phone_number.to_s,
-          "Congratulations! Your 2nd Kobul was accepted. Log in and start chatting now: #{profile_message_url(current_active_profile)}"
+          "Congratulations! Your 2nd Kobul was accepted. Log in and start chatting now: #{profile_message_url(current_active_profile)}",
+          kind: :kobul2_accepted
         )
       end
       flash[:notice] = "Your 2nd Kobul has been accepted successfully"
@@ -118,7 +121,8 @@ class ChatFriendshipsController < ApplicationController
     KobulTwoMailer.with(current_profile: current_active_profile, profile: @marriage_profile).get_rejection.deliver_later
     SmsService.call(
       @marriage_profile.user.phone_number.to_s,
-      "Your 2nd Kobul was not accepted this time. Keep exploring — the right match is out there: www.bolokobul.com"
+      "Your 2nd Kobul was not accepted this time. Keep exploring — the right match is out there: www.bolokobul.com",
+      kind: :kobul2_declined
     )
     
     flash[:notice] = "2nd Kobul rejected. Check out more profiles!"

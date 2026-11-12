@@ -18,7 +18,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def apply_message_switches
-    return if MessageSetting.email_allowed?(self.class.name)
+    return if MessageSetting.email_allowed?(self.class.name, action_name)
 
     Rails.logger.info("[mail] #{self.class.name}##{action_name} not sent (switched off in admin)")
     message.perform_deliveries = false
