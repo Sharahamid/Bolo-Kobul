@@ -8,7 +8,14 @@ class SmsService
   SEND_ERRORS = [OpenURI::HTTPError, SocketError, SystemCallError, IOError, Timeout::Error,
                  Net::OpenTimeout, Net::ReadTimeout, OpenSSL::SSL::SSLError, JSON::ParserError].freeze
 
-  def self.call(msisdn, msg)
+  # kind: :otp, :kobul, :purchase or :text_alerts - each can be switched off in
+  # Admin > Manage Site > Messages On / Off
+  def self.call(msisdn, msg, kind: :kobul)
+    unless MessageSetting.sms_allowed?(kind)
+      Rails.logger.info("[sms] not sent (#{kind} SMS switched off in admin)")
+      return nil
+    end
+
     if msg.blank? || msisdn.blank?
       return { success: 0, message: 'Please provide both phone number as well as message'}
     end

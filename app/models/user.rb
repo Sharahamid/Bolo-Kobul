@@ -373,7 +373,7 @@ class User < ApplicationRecord
     # a + and country code) gets the code by email
     @otp_sent_by = nil
     if PhoneNumber.bd_local(phone_number)
-      if SmsService.call(phone_number.to_s, message).present?
+      if SmsService.call(phone_number.to_s, message, kind: :otp).present?
         @otp_sent_by = :sms
         return true
       end

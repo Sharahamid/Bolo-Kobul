@@ -97,7 +97,8 @@ class OrdersController < ApplicationController
           begin
             SmsService.call(
               @order.user.phone_number.to_s,
-              "Your purchase was successful! You have received #{product_name}. Log in to use them: bolokobul.com"
+              "Your purchase was successful! You have received #{product_name}. Log in to use them: bolokobul.com",
+              kind: :purchase
             )
           rescue => e
             Rails.logger.error "Purchase SMS failed: #{e.message}"

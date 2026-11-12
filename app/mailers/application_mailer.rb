@@ -12,7 +12,17 @@ class ApplicationMailer < ActionMailer::Base
   # picked Bangla). Admin emails override locale_recipient and stay in English.
   around_action :use_recipient_locale
 
+  # Admin > Manage Site > Messages On / Off can stop a group of emails
+  after_action :apply_message_switches
+
   private
+
+  def apply_message_switches
+    return if MessageSetting.email_allowed?(self.class.name)
+
+    Rails.logger.info("[mail] #{self.class.name}##{action_name} not sent (switched off in admin)")
+    message.perform_deliveries = false
+  end
 
   def use_recipient_locale(&block)
     locale = locale_recipient.try(:locale).to_s

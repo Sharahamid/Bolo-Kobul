@@ -103,7 +103,8 @@ class Notification < ApplicationRecord
     if recipient.text_alert == "on"
       SmsService.call(
         recipient.phone_number.to_s,
-        content + ". Visit: bolokobul.com"
+        content + ". Visit: bolokobul.com",
+        kind: :text_alerts
       )
     end
   end

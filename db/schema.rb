@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_11_11_210000) do
+ActiveRecord::Schema.define(version: 2026_11_12_180000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -503,6 +503,23 @@ ActiveRecord::Schema.define(version: 2026_11_11_210000) do
     t.string "present_location_country"
     t.string "present_location_city"
     t.index ["slug"], name: "index_marriage_profiles_on_slug", unique: true
+  end
+
+  create_table "message_settings", force: :cascade do |t|
+    t.boolean "sms_all", default: true, null: false
+    t.boolean "sms_otp", default: true, null: false
+    t.boolean "sms_kobul", default: true, null: false
+    t.boolean "sms_purchase", default: true, null: false
+    t.boolean "sms_text_alerts", default: true, null: false
+    t.boolean "email_all", default: true, null: false
+    t.boolean "email_account", default: true, null: false
+    t.boolean "email_kobul", default: true, null: false
+    t.boolean "email_chat", default: true, null: false
+    t.boolean "email_purchase", default: true, null: false
+    t.boolean "email_reminders", default: true, null: false
+    t.boolean "email_admin", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "messages", force: :cascade do |t|
