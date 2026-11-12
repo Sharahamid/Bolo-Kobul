@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 class Users::SessionsController < Devise::SessionsController
+  # Log out must always work. A page left open from before another account signed in
+  # (another tab, or the app) carries an out-of-date security code; checking it here only
+  # led to a refused log-out and a "page had expired" message. Skipping the check for
+  # log-out is safe: the worst a forged request could do is log someone out.
+  skip_forgery_protection only: :destroy
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in

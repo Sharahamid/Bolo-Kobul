@@ -357,7 +357,16 @@ class MarriageProfilesController < ApplicationController
 
   # Editing, switching to or viewing the dashboard of a profile is only allowed for its owner
   def require_own_profile
-    raise ActiveRecord::RecordNotFound unless current_user.marriage_profiles.exists?(@marriage_profile.id)
+    return if current_user.marriage_profiles.exists?(@marriage_profile.id)
+
+    # Opening the dashboard or search page of a profile that belongs to another account
+    # (e.g. a page left open from before switching accounts): go to your own homepage
+    # instead of showing a "not found" page.
+    if %w[dashboard search_page].include?(action_name) && request.get? && request.format.html?
+      return redirect_to(user_homepage(current_user))
+    end
+
+    raise ActiveRecord::RecordNotFound
   end
 
   def set_marriage_profile
