@@ -31,7 +31,7 @@
                 <tr class="p-2">
                   <td class="special-td"> <%= t('profile.about.about_myself') %></td>
                   <td>:</td>
-                  <td class=" text-justify pr-5">
+                  <td class="text-left pr-5" style="word-break: break-word;">
                     <%= marriage_profile.about_my_self? ? marriage_profile.about_my_self : '' %>
                   </td>
                 </tr>
@@ -41,7 +41,7 @@
                 <tr class="p-2">
                   <td class="special-td"> <%= t('profile.about.special_circumstances') %></td>
                   <td>:</td>
-                  <td class=" text-justify pr-5">
+                  <td class="text-left pr-5" style="word-break: break-word;">
                     <%= marriage_profile.special_circumstances? ? marriage_profile.special_circumstances : '' %>
                   </td>
                 </tr>
@@ -51,7 +51,7 @@
                 <tr class="p-2">
                   <td class="special-td"> <%= t('profile.about.family_lines') %></td>
                   <td>:</td>
-                  <td class=" text-justify pr-5">
+                  <td class="text-left pr-5" style="word-break: break-word;">
                     <%= marriage_profile.description? ? marriage_profile.description : '' %>
                   </td>
                 </tr>
