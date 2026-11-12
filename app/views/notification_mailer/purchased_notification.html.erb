@@ -67,7 +67,12 @@
       </tr>
       <tr style="background:#ffffff;">
       <td style="padding:10px 8px; border:1px solid #eeeeee; color:#333333;">
-        <%= @notification.notifiable&.butterfly? ? t('email.receipt.butterfly_pack') : @notification.notifiable&.assisted_service&.name %>
+        <% order = @notification.notifiable %>
+        <% if order&.bk_plus? %>
+          <%= t('email.receipt.bk_plus_item', plan: order.bk_plus_plan&.label.to_s, bonus: local_digits(order.bk_plus_plan&.butterflies.to_i)) %>
+        <% else %>
+          <%= order&.butterfly? ? t('email.receipt.butterfly_pack') : order&.assisted_service&.name %>
+        <% end %>
       </td>
         <td style="padding:10px 8px; border:1px solid #eeeeee; color:#333333; text-align:center;"><%= @notification.notifiable&.quantity %></td>
         <td style="padding:10px 8px; border:1px solid #eeeeee; color:#333333; text-align:right;"><%= number_with_precision(@notification.notifiable&.price, precision: 2, delimiter: ',') %></td>
@@ -86,6 +91,12 @@
         <td style="padding:10px 8px; border:1px solid #e8a020; text-align:right; font-weight:bold; color:#ffffff;"><%= number_with_precision(@notification.notifiable&.total_amount, precision: 2, delimiter: ',') %></td>
       </tr>
     </table>
+
+    <% if @notification.notifiable&.bk_plus? && @notification.recipient&.bk_plus_until %>
+    <div style="background:#412402; border-radius:6px; padding:12px 16px; margin-bottom:1.5rem; font-size:14px; color:#FAC775;">
+      👑 <%= t('email.receipt.bk_plus_until') %>: <strong style="color:#FFB627;"><%= email_date(@notification.recipient.bk_plus_until.to_date) %></strong>
+    </div>
+    <% end %>
 
     <div style="background:#FFF8E7; border-radius:6px; padding:16px; margin-bottom:1.5rem;">
       <div style="font-size:13px; font-weight:bold; color:#333333; margin-bottom:10px;"><%= t('email.receipt.transaction') %></div>

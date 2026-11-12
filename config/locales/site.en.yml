@@ -868,11 +868,37 @@ en:
       otp: Your Bolo Kobul Verification Code
       deletion: Your Bolo Kobul account will be deleted on %{date}
       welcome: Welcome to Bolo Kobul! Find Your Soulmate
+      bk_plus_welcome: 👑 Welcome to BK+ — your membership is active
+      bk_plus_extended: 👑 Your BK+ membership has been extended
     notification:
       support_title: Your support request has been updated
       title: You have a new update from Bolo Kobul
     help_html: <strong style="color:#333333;">Need help?</strong> Our support team is always here for you. Simply reply to this email or reach us at %{email}
     visit: Visit Bolo Kobul
+    bk_plus:
+      title_welcome: Welcome to BK+!
+      title_extended: Your BK+ has been extended!
+      p1_welcome: Thank you for joining BK+. Your membership is active now, and these extra features are ready for you.
+      p1_extended: Thank you for staying with BK+. The new days have been added after your current end date, so you lose nothing.
+      plan: Plan
+      valid_until: Active until
+      bonus: Bonus butterflies added
+      features_title: What you get with BK+
+      f1_title: Gold BK+ badge
+      f1_text: Shown beside your Profile ID on your profile and on profile cards.
+      f2_title: Shown first
+      f2_text: Among equally good matches, your profile appears before others in recommendations.
+      f3_title: Who viewed you
+      f3_text: See who viewed your profile in the last 30 days, when, and how well they match you.
+      f4_title: Who saved you
+      f4_text: See which members added you to their Favourites, with their match percentage.
+      f5_title: Bonus butterflies
+      f5_text: Extra butterflies with every plan, to send and accept more Kobuls.
+      button: See who viewed you
+      saved_link: See who saved you
+      note_title: 'Good to know:'
+      note: BK+ does not renew automatically, and you are never charged unless you pay yourself. To add more days, open BK+ any time; the new days are added after your current end date.
+      more_days: Add more days
     receipt:
       title: Your purchase was successful!
       p1: Thank you for your purchase on Bolo Kobul! Please find your receipt below for your records.
@@ -898,6 +924,8 @@ en:
       tx_time: Transaction Time
       online_payment: Online Payment
       butterfly_pack: Butterfly Pack
+      bk_plus_item: BK+ membership – %{plan} (+%{bonus} bonus butterflies)
+      bk_plus_until: BK+ active until
       questions_html: If you have any questions about your purchase, please contact us at %{email} or WhatsApp us at %{whatsapp}.
       disclaimer_html: <strong style="color:#666666;">Disclaimer:</strong> This email is confidential and may also be legally privileged. If you are not the intended recipient you must not copy, forward,
         disclose or use any part of it. If you have received this email in error, please notify us immediately at %{email} and delete it from your system.
