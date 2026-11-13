@@ -102,7 +102,7 @@ ActiveAdmin.register MarriageProfile do
       row "Partner Preference — Marital Status" do |m|
         m.partner_preference&.marital_status&.map(&:to_s)&.map(&:titleize)&.join(', ')
       end
-      row "Partner Preference — Education" do |m|
+      row "Partner Preference — Minimum Education" do |m|
         m.partner_preference&.highest_education_level&.to_s&.titleize
       end
       row "Partner Preference — Family Type" do |m|
