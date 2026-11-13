@@ -21,6 +21,15 @@ class ProfileReportsController < ApplicationController
       return params[:block] == '1' ? redirect_to(user_homepage(current_user)) : redirect_back(fallback_location: user_homepage(current_user))
     end
 
+    # At most MAX_OPEN_PER_MEMBER reports waiting for review per member (all their profiles)
+    open_count = ProfileReport.unresolved.where(reporter_profile_id: current_user.marriage_profiles.select(:id)).count
+    if open_count >= ProfileReport::MAX_OPEN_PER_MEMBER
+      current_active_profile.block_profile!(reported) if params[:block] == '1'
+      key = params[:block] == '1' ? 'report.flash.limit_blocked' : 'report.flash.limit'
+      flash[:warning] = I18n.t(key, count: helpers.local_digits(ProfileReport::MAX_OPEN_PER_MEMBER), id: reported.unique_id)
+      return params[:block] == '1' ? redirect_to(user_homepage(current_user)) : redirect_back(fallback_location: user_homepage(current_user))
+    end
+
     report = ProfileReport.new(reporter_profile: current_active_profile, reported_profile: reported,
                                reason: params[:reason], details: params[:details].to_s.strip.presence)
     unless report.save

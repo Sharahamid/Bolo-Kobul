@@ -11,6 +11,8 @@ class ProfileReport < ApplicationRecord
     'other'             => 'Something else'
   }.freeze
   STATUSES = %w[open reviewing action_taken dismissed].freeze
+  # A member can have this many reports waiting for review (open or reviewing) at a time
+  MAX_OPEN_PER_MEMBER = 5
 
   belongs_to :reporter_profile, class_name: 'MarriageProfile', optional: true
   belongs_to :reported_profile, class_name: 'MarriageProfile'
