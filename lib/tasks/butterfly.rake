@@ -1,10 +1,10 @@
 namespace :butterfly do
-  desc '1st Kobuls expire after 7 days without an answer; the butterflies are returned'
+  desc '1st Kobuls expire after the days set in admin (Butterfly prices; 7 by default); the butterflies are returned'
   task :return_after_7_days => :environment do
     #
     # Check Kobul-1 expirations
     #
-    expired_friendships = HasFriendship::Friendship.pending.where('created_at <= ?', 7.days.ago)
+    expired_friendships = HasFriendship::Friendship.pending.where('created_at <= ?', ButterflyConfig.kobul1_expiry_days.days.ago)
     expired_friendships.each do |friendship|
       marriage_profile = friendship.friendable
       marriage_profile.unblock_blocked_butterflies
@@ -30,10 +30,16 @@ namespace :butterfly do
   desc 'Reminder to the receiver 2 days before an unanswered 1st Kobul expires'
   task expiry_reminders: :environment do
     # Runs once a day; each 1st Kobul falls in this 24-hour window exactly once.
-    # It expires at the first nightly run after it is 7 days old.
+    # It expires at the first nightly run after it is N days old (N set in admin).
+    days = ButterflyConfig.kobul1_expiry_days
+    before = ButterflyConfig::REMINDER_DAYS_BEFORE
+    if days <= before
+      puts "1st Kobuls expire after #{days} day(s): too short for a #{before}-day reminder, none sent"
+      next
+    end
     helpers = Rails.application.routes.url_helpers
     sent = 0
-    HasFriendship::Friendship.pending.where(created_at: 6.days.ago..5.days.ago).find_each do |friendship|
+    HasFriendship::Friendship.pending.where(created_at: (days - before + 1).days.ago..(days - before).days.ago).find_each do |friendship|
       sender = friendship.friendable
       receiver_user = friendship.friend&.user
       next if sender.nil? || receiver_user.nil? || receiver_user.deactivated

@@ -12,7 +12,7 @@ class MessageSetting < ApplicationRecord
     ['sms.kobul1_you_accepted', 'SMS: 1st Kobul', 'To the person who accepted: "Check out the profile…"'],
     ['sms.kobul1_accepted', 'SMS: 1st Kobul', 'To the sender: "Your 1st Kobul was accepted!"'],
     ['sms.kobul1_declined', 'SMS: 1st Kobul', 'To the sender: "Your 1st Kobul was not accepted"'],
-    ['sms.kobul1_expired', 'SMS: 1st Kobul', 'To the sender: "Your 1st Kobul has expired" (after 7 days)'],
+    ['sms.kobul1_expired', 'SMS: 1st Kobul', 'To the sender: "Your 1st Kobul has expired" (after the days set in Butterfly prices)'],
     ['sms.kobul2_received', 'SMS: 2nd Kobul', 'To the receiver: "Someone has sent you a 2nd Kobul"'],
     ['sms.kobul2_you_accepted', 'SMS: 2nd Kobul', 'To the person who accepted: "You can now start chatting"'],
     ['sms.kobul2_accepted', 'SMS: 2nd Kobul', 'To the sender: "Your 2nd Kobul was accepted"'],
