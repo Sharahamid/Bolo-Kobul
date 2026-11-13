@@ -1,5 +1,28 @@
 ActiveAdmin.register MarriageProfile do
-  permit_params :verified
+  # Admin can correct a member's details (Edit button on a profile)
+  EDITABLE = %i[verified gender date_of_birth height_ft height_inch religion other_religion marital_status
+                highest_education_level other_education blood_group hometown present_location
+                family_type family_values family_status about_my_self special_circumstances].freeze
+  permit_params(*EDITABLE)
+
+  controller do
+    # Older profiles can miss things the member form now requires (e.g. an ID file), which
+    # would stop every correction. Admin changes are saved without those checks, but a date
+    # of birth under 18 is still refused.
+    def update
+      resource.assign_attributes(permitted_params[:marriage_profile] || {})
+      if resource.date_of_birth.present? && resource.date_of_birth.to_date > 18.years.ago.to_date
+        resource.errors.add(:date_of_birth, 'makes this person younger than 18')
+        return render :edit
+      end
+      if resource.save(validate: false)
+        resource.calculate_profile_completeness! if resource.respond_to?(:calculate_profile_completeness!)
+        redirect_to resource_path(resource), notice: "#{resource.unique_id} saved. The member sees the change straight away."
+      else
+        render :edit
+      end
+    end
+  end
 
   menu parent: 'Members', priority: 2
   filter :profile_id_eq, as: :string, label: 'Profile ID (BK…)'
@@ -139,10 +162,31 @@ ActiveAdmin.register MarriageProfile do
   end
 
   form do |f|
-    f.semantic_errors
-    f.inputs do
-      input :verified, as: :select
+    f.semantic_errors(*f.object.errors.attribute_names)
+    titled = ->(enum) { MarriageProfile.send(enum).keys.map { |k| [k.to_s.tr('_', ' ').capitalize, k] } }
+    f.inputs "Correct #{f.object.unique_id}'s details" do
+      f.input :verified, as: :select
+      f.input :gender, as: :select, collection: titled.call(:genders), include_blank: false
+      f.input :date_of_birth, as: :datepicker, hint: 'Must be 18 or older.'
+      f.input :height_ft, as: :select, label: 'Height: feet', collection: (4..7).map { |n| [n.to_s, n.to_s] }, include_blank: false
+      f.input :height_inch, as: :select, label: 'Height: inches', collection: (0..11).map { |n| [n.to_s, n.to_s] }, include_blank: false
+      f.input :religion, as: :select, collection: titled.call(:religions)
+      f.input :other_religion, hint: 'Only when Religion is Other.'
+      f.input :marital_status, as: :select, collection: titled.call(:marital_statuses)
+      f.input :highest_education_level, as: :select, label: 'Education', collection: titled.call(:highest_education_levels)
+      f.input :other_education, hint: 'Only when Education is Other.'
+      f.input :blood_group, as: :select, collection: MarriageProfile.blood_groups.keys.map { |k| [k, k] }
+      f.input :hometown, as: :string, hint: 'District, as the member chose it (e.g. Khulna).'
+      f.input :present_location, as: :string, label: 'Present location'
+      f.input :family_type, as: :select, collection: titled.call(:family_types)
+      f.input :family_values, as: :select, collection: titled.call(:family_values)
+      f.input :family_status, as: :select, collection: titled.call(:family_statuses)
+      f.input :about_my_self, label: 'About me', input_html: { rows: 5 }
+      f.input :special_circumstances, input_html: { rows: 3 }
     end
-    f.actions
+    f.actions do
+      f.action :submit, label: 'Save changes'
+      f.cancel_link
+    end
   end
 end
