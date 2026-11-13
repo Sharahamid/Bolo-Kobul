@@ -10,8 +10,8 @@
 <!-- success story-->
 <%= render 'home/landing/success_stories' %>
 
-<!-- prices -->
-<%= render 'home/landing/pricing' unless play_store_app? %>
+<%# Prices section removed from the homepage (Nov 2026) - no money talk here.
+    To bring it back, add: render 'home/landing/pricing' unless play_store_app? %>
 
 <!-- campaign section -->
 <%= render 'home/landing/campaign' %>
