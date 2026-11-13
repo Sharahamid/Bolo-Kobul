@@ -503,6 +503,19 @@ table.index_table {
     .count { color: $bk-muted; font-weight: 500; }
   }
   li a { border-radius: 999px !important; border: 1px solid #E2D9C7 !important; }
+  li:first-child a { margin-left: 0; }
+}
+// The list of scopes can be the .scopes element itself or a list inside it: both sit
+// side by side as pills on one line (wrapping only when the screen is too narrow)
+.scopes > ul, ul.table_tools_segmented_control, .table_tools .scopes ul {
+  display: flex !important;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li { float: none !important; display: block; margin: 0; }
+  li a { display: inline-block; white-space: nowrap; }
   li.selected a { background: $bk-brown; border-color: $bk-brown !important; color: $bk-gold; .count { color: #F3E3C3; } }
 }
 .table_tools .batch_actions_selector .dropdown_menu_button { @include bk-button-light; }
