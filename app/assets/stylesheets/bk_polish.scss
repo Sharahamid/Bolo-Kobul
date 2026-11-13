@@ -502,6 +502,23 @@ div.pagination,
 }
 
 // ---- Trust row on the home page -------------------------------------------------------
+// ---- "127 successful marriages" band on the home page --------------------------------
+.bk-marriages { background: #412402; color: #fff; padding: 18px 16px; }
+.bk-marriages__in { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+.bk-marriages__icon { flex: 0 0 46px; width: 46px; height: 46px; border-radius: 50%; background: rgba(255, 182, 39, 0.15);
+                      display: flex; align-items: center; justify-content: center; }
+.bk-marriages__num { font-size: 34px; font-weight: 800; color: #FFB627; line-height: 1; }
+.bk-marriages__txt { font-size: 15px; line-height: 1.35; color: #fff;
+  small { display: block; color: #e9d9b8; font-size: 12px; margin-top: 2px; } }
+.bk-marriages__link { color: #FFB627; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap;
+                      border: 1px solid rgba(255, 182, 39, 0.5); padding: 7px 14px; border-radius: 999px;
+  &:hover, &:focus { color: #412402; background: #FFB627; text-decoration: none; } }
+@media (max-width: 575.98px) {
+  .bk-marriages__in { gap: 10px 14px; }
+  .bk-marriages__num { font-size: 30px; }
+  .bk-marriages__txt, .bk-marriages__link { flex-basis: 100%; text-align: center; }
+}
+
 .bk-trust {
   background: #fff;
   border-bottom: 1px solid #F1E6C8;

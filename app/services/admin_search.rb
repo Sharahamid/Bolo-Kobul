@@ -33,6 +33,7 @@ class AdminSearch
     ['Blogs & Stories', '/blogs', 'success stories articles'],
     ['Ads', '/ads', 'advertisements banners'],
     ['Butterfly prices', '/configurations', 'butterflies settings price'],
+    ['Homepage numbers', '/homepage_numbers', 'successful marriages count homepage'],
     ['BK+ Plans', '/bk_plus_plans', 'bk plus bk+ prices'],
     ['Assisted Services', '/assisted_services', 'services'],
     ['Messages On / Off', '/messages_on_offs', 'sms email switches'],

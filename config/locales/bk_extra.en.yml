@@ -4,6 +4,11 @@ en:
   bkx:
     hero_promise: "Find your life partner — free, private, verified."
 
+    marriages:
+      line: "successful marriages arranged so far"
+      sub: "Real families who found their match on Bolo Kobul"
+      link: "Read their stories →"
+
     trust:
       phone: "Phone-verified members"
       phone_text: "Every member confirms their number with a one-time code"
