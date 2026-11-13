@@ -55,6 +55,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     remove_abandoned_sign_ups
     build_resource(sign_up_params)
+    resource.consent_required = true # "I have the candidate's permission…" when for someone else
 
     if resource.save
       session[:ga_event] = 'sign_up' # reported to Google Analytics on the next page

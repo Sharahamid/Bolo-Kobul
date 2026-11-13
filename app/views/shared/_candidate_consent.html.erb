@@ -1,0 +1,33 @@
+<%# Shown only when the profile is for someone else (Parents, Sibling, Matchmaker...):
+    "I have the candidate's permission, the details are true, and the candidate is 18 or older."
+    The checkbox becomes required as soon as such an option is chosen above. %>
+<% ticked = f.object.candidate_consent.to_s == '1' %>
+<% show = f.object.created_for.present? && f.object.created_for.to_s != 'self' %>
+<div class="bk-candidate-consent" data-candidate-consent <%= 'hidden' unless show %>
+     style="margin:4px 0 12px; padding:10px 12px; border-radius:10px; background:#FFF8E7; border:1px solid #FAC775; text-align:left;">
+  <label style="display:flex; gap:8px; align-items:flex-start; margin:0; font-size:13px; line-height:1.5; color:#412402; cursor:pointer;">
+    <input type="checkbox" name="user[candidate_consent]" value="1" <%= 'checked' if ticked %> <%= 'required' if show %>
+           style="margin-top:3px; flex-shrink:0; width:16px; height:16px; accent-color:#C99A16;">
+    <span><%= t('signup.candidate_consent') %></span>
+  </label>
+  <% if f.object.errors[:candidate_consent].present? %>
+    <small class="text-danger" style="display:block; margin-top:4px;"><%= t('signup.candidate_consent_needed') %></small>
+  <% end %>
+</div>
+<script>
+  (function () {
+    var box = document.currentScript.previousElementSibling;
+    var form = box.closest('form');
+    var select = form && form.querySelector('select[name="user[created_for]"]');
+    if (!select) return;
+    var tick = box.querySelector('input[type="checkbox"]');
+    function update() {
+      var other = select.value !== '' && select.value !== 'self';
+      box.hidden = !other;
+      tick.required = other;
+      if (!other) tick.checked = false;
+    }
+    select.addEventListener('change', update);
+    update();
+  })();
+</script>

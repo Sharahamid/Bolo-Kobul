@@ -114,6 +114,17 @@ class User < ApplicationRecord
 
   # From Devise module Validatable
   validates_presence_of :created_for, :name, :email, :phone_number
+
+  # Registering for someone else (parent, sibling, matchmaker...): the sign-up forms ask
+  # them to confirm the candidate's permission, true details and age 18+. Checked only on
+  # those forms (consent_required is set by the sign-up controllers).
+  attr_accessor :candidate_consent, :consent_required
+  validate :candidate_consent_given, on: :create, if: :consent_required
+  before_create :stamp_candidate_consent
+
+  def for_someone_else?
+    created_for.present? && created_for.to_s != 'self'
+  end
   validate :name_not_spam
 
   def name_not_spam
@@ -454,5 +465,16 @@ class User < ApplicationRecord
     else
       self.admin_message_sent_at = nil
     end
+  end
+
+  def candidate_consent_given
+    return unless for_someone_else?
+    return if candidate_consent.to_s == '1'
+
+    errors.add(:candidate_consent, I18n.t('signup.candidate_consent_needed'))
+  end
+
+  def stamp_candidate_consent
+    self.candidate_consent_at = Time.current if for_someone_else? && candidate_consent.to_s == '1'
   end
 end

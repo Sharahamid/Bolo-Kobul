@@ -10,7 +10,8 @@ class Users::SocialSignupsController < ApplicationController
   end
 
   def create
-    @user = User.new(params.require(:user).permit(:name, :phone_number, :created_for))
+    @user = User.new(params.require(:user).permit(:name, :phone_number, :created_for, :candidate_consent))
+    @user.consent_required = true
     @user.email = @data['email']
     @user.provider = @data['provider']
     @user.uid = @data['uid']

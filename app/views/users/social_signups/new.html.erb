@@ -24,6 +24,8 @@
       <%= f.select :created_for, options_for_select(User.created_fors.keys.map { |k| [enum_label(:user, :created_for, k), k] }, @user.created_for),
                    { prompt: t('social_signup.choose') }, class: 'form-control', required: true %>
 
+      <%= render 'shared/candidate_consent', f: f %>
+
       <label class="bk-social-signup__terms">
         <input type="checkbox" required>
         <span><%= t('social_signup.terms_html', terms: link_to(t('signup.terms_of_use'), terms_of_uses_path, target: '_blank'), privacy: link_to(t('signup.privacy_policy'), privacy_policies_path, target: '_blank')) %></span>
