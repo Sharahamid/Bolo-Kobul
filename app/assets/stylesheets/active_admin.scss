@@ -393,7 +393,19 @@ body.active_admin form {
   box-shadow: $bk-shadow;
   overflow: hidden;
 }
-.paginated_collection_contents { overflow-x: auto; }
+.paginated_collection_contents {
+  // The list scrolls inside its own box, so the column headings stay visible at the
+  // top while scrolling down, and the sideways scrollbar is always in view
+  overflow: auto;
+  max-height: calc(100vh - 210px);
+  min-height: 180px;
+}
+table.index_table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  box-shadow: 0 1px 0 $bk-line;
+}
 
 table.index_table {
   border: 0;
@@ -453,7 +465,7 @@ table.index_table {
     z-index: 1;
     box-shadow: -8px 0 10px -8px rgba(65, 36, 2, 0.18);
   }
-  th.col-actions { background: #FBF7EF; }
+  th.col-actions { background: #FBF7EF; z-index: 3; }
   .table_actions {
     display: flex;
     gap: 6px;
