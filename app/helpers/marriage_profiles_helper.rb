@@ -17,8 +17,12 @@ module MarriageProfilesHelper
     profiles.each_with_index.sort_by { |profile, i| [-(profile.matching_percentage.to_i / 5), i] }.map(&:first)
   end
 
+  # Dashboard "2nd Kobul Received": only people who sent this profile a 2nd Kobul that is
+  # still waiting for an answer. 2nd Kobuls this member sent are on Chat Requests Sent.
   def get_accepted_profiles
-    MarriageProfile.accepted_profiles(current_active_profile)
+    @second_kobul_received ||= MarriageProfile
+      .where(id: current_active_profile.chat_friendships.where(status: 1).select(:chat_friend_id))
+      .where.not(id: User.deactivated_users_profile_ids)
   end
 
   def get_requested_profiles
