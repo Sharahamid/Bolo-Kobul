@@ -7,6 +7,12 @@
       <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
         <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;"><%= t('pages.faq.title') %></h2>
         <p style="font-size:13px; color:#633806; margin:0;"><%= t('pages.faq.sub') %></p>
+        <div style="max-width:520px; margin:16px auto 0; position:relative;">
+          <i class="fas fa-search" style="position:absolute; left:16px; top:50%; transform:translateY(-50%); color:#B07A12; font-size:14px;"></i>
+          <input type="search" id="bk-faq-search" autocomplete="off" placeholder="<%= t('pages.faq.search_placeholder') %>"
+                 style="width:100%; box-sizing:border-box; border:none; border-radius:999px; padding:12px 44px 12px 42px; font-size:14px; color:#412402; background:#fff; box-shadow:0 2px 8px rgba(65,36,2,0.12); outline:none;">
+          <button type="button" id="bk-faq-clear" aria-label="<%= t('pages.faq.search_clear') %>" style="display:none; position:absolute; right:10px; top:50%; transform:translateY(-50%); background:none; border:none; color:#854F0B; font-size:18px; cursor:pointer; line-height:1;">&times;</button>
+        </div>
       </div>
 
       <!-- Two column body -->
@@ -26,6 +32,7 @@
 
         <!-- Right: content -->
         <div class="bk-doc-main" style="flex:1; padding:24px; background:#fff;">
+          <div id="bk-faq-results" style="display:none;"></div>
           <% @faqs.each_with_index do |faq, index| %>
             <div class="bk-faq-content" data-index="<%= index %>" style="<%= index == 0 ? '' : 'display:none;' %>">
               <div style="display:flex; align-items:flex-start; gap:12px; margin-bottom:16px;">
@@ -88,3 +95,89 @@ function bkShowFaq(index) {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 </script>
+
+<style>
+  #bk-faq-results .bk-faq-hit { border:0.5px solid #F1E2B5; border-radius:10px; padding:14px 16px; margin-bottom:12px; background:#FFFDF7; }
+  #bk-faq-results .bk-faq-hit-tag { font-size:11px; color:#854F0B; background:#FFF3CC; padding:2px 10px; border-radius:999px; display:inline-block; margin-bottom:8px; }
+  #bk-faq-results .bk-faq-hit-q { font-weight:700; color:#633806; font-size:14px; margin-bottom:6px; }
+  #bk-faq-results .bk-faq-hit-a, #bk-faq-results .bk-faq-hit-a * { font-size:13px !important; color:#555; line-height:1.7; }
+  #bk-faq-results .bk-faq-hit-a h1, #bk-faq-results .bk-faq-hit-a h2, #bk-faq-results .bk-faq-hit-a h3 { margin:6px 0; }
+  #bk-faq-results .bk-faq-hit-open { font-size:12px; color:#854F0B; font-weight:600; background:none; border:none; padding:0; margin-top:6px; cursor:pointer; text-decoration:underline; }
+  #bk-faq-results mark { background:#FFE7A3; color:inherit; padding:0 1px; border-radius:2px; }
+</style>
+<script>
+/* FAQ search: splits every section into question + answer pieces (a question is a short
+   line ending in "?") and shows the pieces that contain all the words typed. */
+(function () {
+  var input = document.getElementById('bk-faq-search');
+  var clearBtn = document.getElementById('bk-faq-clear');
+  var results = document.getElementById('bk-faq-results');
+  if (!input || !results) return;
+  var T = <%= raw({ results: t('pages.faq.search_results'), none: t('pages.faq.search_none'), open: t('pages.faq.search_open') }.to_json) %>;
+  var units = [];
+  var lastIndex = 0;
+  document.querySelectorAll('.bk-faq-content').forEach(function (section) {
+    var index = parseInt(section.getAttribute('data-index'), 10);
+    var title = (section.querySelector('h3') || {}).textContent || '';
+    var body = section.querySelector('.bk-faq-body');
+    if (!body) return;
+    var blocks = Array.prototype.slice.call(body.children);
+    if (blocks.length === 1 && blocks[0].children.length > 1) blocks = Array.prototype.slice.call(blocks[0].children);
+    var current = null;
+    blocks.forEach(function (el) {
+      var text = (el.textContent || '').trim();
+      if (!text) return;
+      var isQ = /[?？]$/.test(text) && text.length < 220;
+      if (isQ || !current) { current = { index: index, title: title.trim(), q: isQ ? el : null, a: [] }; units.push(current); if (isQ) return; }
+      current.a.push(el);
+    });
+  });
+  units.forEach(function (u) { u.text = ((u.q ? u.q.textContent : '') + ' ' + u.a.map(function (e) { return e.textContent; }).join(' ')).toLowerCase(); });
+
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function highlight(node, words) {
+    var walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, null);
+    var texts = []; while (walker.nextNode()) texts.push(walker.currentNode);
+    var re = new RegExp('(' + words.map(function (w) { return w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }).join('|') + ')', 'gi');
+    texts.forEach(function (tn) {
+      if (!re.test(tn.nodeValue)) return; re.lastIndex = 0;
+      var span = document.createElement('span');
+      span.innerHTML = esc(tn.nodeValue).replace(re, '<mark>$1</mark>');
+      tn.parentNode.replaceChild(span, tn);
+    });
+  }
+  function showNormal() {
+    results.style.display = 'none'; results.innerHTML = '';
+    bkShowFaq(lastIndex);
+  }
+  function run() {
+    var q = input.value.trim();
+    clearBtn.style.display = q ? 'block' : 'none';
+    if (q.length < 2) { showNormal(); return; }
+    var words = q.toLowerCase().split(/\s+/).filter(Boolean);
+    var hits = units.filter(function (u) { return words.every(function (w) { return u.text.indexOf(w) !== -1; }); }).slice(0, 30);
+    document.querySelectorAll('.bk-faq-content').forEach(function (s) { s.style.display = 'none'; });
+    results.style.display = 'block';
+    var head = document.createElement('p');
+    head.style.cssText = 'font-size:13px; color:#888; margin:0 0 14px;';
+    head.textContent = (hits.length ? T.results : T.none).replace('%{q}', q);
+    results.innerHTML = ''; results.appendChild(head);
+    hits.forEach(function (u) {
+      var box = document.createElement('div'); box.className = 'bk-faq-hit';
+      var tag = document.createElement('div'); tag.className = 'bk-faq-hit-tag'; tag.textContent = u.title; box.appendChild(tag);
+      if (u.q) { var qd = document.createElement('div'); qd.className = 'bk-faq-hit-q'; qd.textContent = u.q.textContent.trim(); box.appendChild(qd); }
+      var ad = document.createElement('div'); ad.className = 'bk-faq-hit-a';
+      u.a.forEach(function (e) { ad.appendChild(e.cloneNode(true)); }); box.appendChild(ad);
+      highlight(box, words);
+      var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'bk-faq-hit-open'; btn.textContent = T.open;
+      btn.onclick = function () { lastIndex = u.index; input.value = ''; clearBtn.style.display = 'none'; results.style.display = 'none'; bkShowFaq(u.index); (u.q || u.a[0]).scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+      box.appendChild(btn);
+      results.appendChild(box);
+    });
+  }
+  var timer;
+  input.addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(run, 150); });
+  clearBtn.addEventListener('click', function () { input.value = ''; run(); input.focus(); });
+})();
+</script>
+

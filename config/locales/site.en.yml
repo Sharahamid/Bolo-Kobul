@@ -1016,6 +1016,11 @@ en:
       sub: Everything you need to know about BoloKobul.com
       next: Next Question →
       end: End of FAQs
+      search_placeholder: Search the FAQ, e.g. refund, photo, BK+
+      search_results: Questions matching "%{q}"
+      search_none: No answers found for "%{q}". Try a shorter word, or write to support@bolokobul.com.
+      search_clear: Clear search
+      search_open: Open this section
     terms:
       title: Terms of Use
       sub: Please read carefully before registering on BoloKobul.com

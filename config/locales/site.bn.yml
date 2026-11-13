@@ -1546,6 +1546,11 @@ bn:
       sub: BoloKobul.com সম্পর্কে যা কিছু জানা দরকার
       next: পরবর্তী প্রশ্ন →
       end: সাধারণ জিজ্ঞাসা — শেষ
+      search_placeholder: প্রশ্ন খুঁজুন, যেমন রিফান্ড, ছবি, BK+
+      search_results: '"%{q}" এর সাথে মেলে এমন প্রশ্ন'
+      search_none: '"%{q}" এর কোনো উত্তর পাওয়া যায়নি। ছোট কোনো শব্দ দিয়ে চেষ্টা করুন, অথবা support@bolokobul.com এ লিখুন।'
+      search_clear: খোঁজা মুছুন
+      search_open: এই অংশটি খুলুন
     terms:
       title: ব্যবহারের শর্তাবলি
       sub: BoloKobul.com-এ নিবন্ধনের আগে মনোযোগ দিয়ে পড়ুন
