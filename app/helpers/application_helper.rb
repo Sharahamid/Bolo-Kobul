@@ -53,6 +53,15 @@ module ApplicationHelper
     sanitize(html.to_s, tags: RICH_TEXT_TAGS, attributes: RICH_TEXT_ATTRIBUTES)
   end
 
+  # Text for the FAQ, Terms, Privacy, Safety tips and About pages. Paragraphs that only
+  # hold a space (left by the admin editor) are dropped, so there are no uneven blank gaps.
+  def doc_html(html)
+    text = html.to_s
+                .gsub(%r{<p[^>]*>(?:\s|&nbsp;|&#160;|\u00A0|<br\s*/?>)*</p>}i, '')
+                .gsub(%r{(?:<br\s*/?>\s*){3,}}i, '<br><br>')
+    safe_html(text)
+  end
+
   # Stories typed in a plain text box: blank lines become paragraphs and single line
   # breaks are kept. Stories already written as HTML (paragraph/line-break tags) keep
   # their own layout.

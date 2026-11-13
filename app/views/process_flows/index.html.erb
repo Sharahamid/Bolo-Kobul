@@ -2,7 +2,8 @@
     The butterfly numbers come from Admin > Butterfly Config. %>
 <% c = bk_costs %>
 <% vars = { n1: local_digits(c[:n1]), n2: local_digits(c[:n2]),
-            b1: butterflies_label(c[:n1]), b2: butterflies_label(c[:n2]) } %>
+            b1: butterflies_label(c[:n1]), b2: butterflies_label(c[:n2]),
+         days: local_digits(ButterflyConfig.kobul1_expiry_days) } %>
 <% icons = %w[fa-user-plus fa-sliders-h fa-search fa-paper-plane fa-unlock-alt fa-comment-dots fa-shield-alt fa-ring] %>
 
 <div class="container bk-how" style="padding-top:20px; padding-bottom:36px;">

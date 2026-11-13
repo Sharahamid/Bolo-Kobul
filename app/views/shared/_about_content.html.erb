@@ -14,7 +14,7 @@
         <% about_content.each_with_index do |about, index| %>
           <div class="bk-about-nav" data-index="<%= index %>" onclick="bkShowAbout(<%= index %>)"
                style="padding:8px 10px; border-radius:8px; margin-bottom:4px; cursor:pointer; display:flex; align-items:center; gap:8px; <%= index == 0 ? 'background:#FAEEDA; border-left:3px solid #FFB627;' : '' %>">
-            <span class="bk-about-nav-label" style="font-size:12px; color:<%= index == 0 ? '#633806' : '#888' %>; font-weight:<%= index == 0 ? '600' : '400' %>; line-height:1.4;"><%= about.content_type %></span>
+            <span class="bk-about-nav-label" style="font-size:12px; color:<%= index == 0 ? '#633806' : '#6b5a45' %>; font-weight:<%= index == 0 ? '600' : '400' %>; line-height:1.4;"><%= about.content_type %></span>
           </div>
         <% end %>
       </div>
@@ -25,7 +25,7 @@
           <div class="bk-about-content" data-index="<%= index %>" style="<%= index == 0 ? '' : 'display:none;' %>">
             <h3 style="font-size:16px; font-weight:700; color:#633806; margin:0 0 16px; border-left:4px solid #FFB627; padding-left:12px;"><%= about.content_type %></h3>
             <div style="font-size:13px; color:#555; line-height:1.9;">
-              <div class="bk-rich-text"><%= safe_html(about.content) %></div>
+              <div class="bk-rich-text"><%= doc_html(about.content) %></div>
             </div>
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:24px; padding-top:14px; border-top:0.5px solid #eee;">
               <% if index > 0 %>
@@ -65,7 +65,7 @@ function bkShowAbout(index) {
     } else {
       el.style.background = '';
       el.style.borderLeft = '';
-      label.style.color = '#888';
+      label.style.color = '#6b5a45';
       label.style.fontWeight = '400';
     }
   });

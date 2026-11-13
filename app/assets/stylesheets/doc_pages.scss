@@ -50,3 +50,8 @@
     img { max-width: 100%; height: auto; }
   }
 }
+
+// Easier reading on phones: slightly larger text in the page body
+@media (max-width: 767px) {
+  .bk-doc-main .bk-rich-text { font-size: 15px; line-height: 1.75; }
+}

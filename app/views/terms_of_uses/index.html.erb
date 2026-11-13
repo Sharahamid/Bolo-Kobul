@@ -14,12 +14,12 @@
 
         <!-- Left: index -->
         <div class="bk-doc-nav" style="width:210px; flex-shrink:0; background:#fafaf8; padding:14px 10px; border-right:0.5px solid #eee;">
-          <p style="font-size:10px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 10px; padding:0 4px;"><%= t('pages.contents') %></p>
+          <p style="font-size:11px; font-weight:700; color:#8a7a66; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 10px; padding:0 4px;"><%= t('pages.contents') %></p>
           <% @terms_of_uses.each_with_index do |term, index| %>
             <div class="bk-tos-nav" data-index="<%= index %>" onclick="bkShowTos(<%= index %>)"
                  style="padding:8px 10px; border-radius:8px; margin-bottom:4px; cursor:pointer; display:flex; align-items:center; gap:8px; <%= index == 0 ? 'background:#FAEEDA; border-left:3px solid #FFB627;' : '' %>">
-              <span style="font-size:10px; background:#FFF3CC; color:#854F0B; padding:1px 7px; border-radius:10px; flex-shrink:0; white-space:nowrap;"><%= term.title.match(/^\d+\.\d+/) ? term.title.match(/^\d+\.\d+/)[0] : (term.title.match(/^\d+/) ? term.title.match(/^\d+/)[0] : (index + 1)) %></span>
-              <span class="bk-nav-label" style="font-size:12px; color:<%= index == 0 ? '#633806' : '#888' %>; font-weight:<%= index == 0 ? '600' : '400' %>; line-height:1.4;"><%= term.title.gsub(/^\d+\.?\d*\.?\s*/, '') %></span>
+              <span style="font-size:11px; background:#FFF3CC; color:#854F0B; padding:1px 7px; border-radius:10px; flex-shrink:0; white-space:nowrap;"><%= term.title.match(/^\d+\.\d+/) ? term.title.match(/^\d+\.\d+/)[0] : (term.title.match(/^\d+/) ? term.title.match(/^\d+/)[0] : (index + 1)) %></span>
+              <span class="bk-nav-label" style="font-size:12px; color:<%= index == 0 ? '#633806' : '#6b5a45' %>; font-weight:<%= index == 0 ? '600' : '400' %>; line-height:1.4;"><%= term.title.gsub(/^\d+\.?\d*\.?\s*/, '') %></span>
             </div>
           <% end %>
         </div>
@@ -35,7 +35,7 @@
                 <h3 style="font-size:16px; font-weight:700; color:#633806; margin:0;"><%= term.title.gsub(/^\d+\.?\d*\.?\s*/, '') %></h3>
               </div>
               <div style="font-size:13px; color:#555; line-height:1.9;">
-                <div class="bk-rich-text"><%= safe_html(term.content) %></div>
+                <div class="bk-rich-text"><%= doc_html(term.content) %></div>
               </div>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-top:28px; padding-top:16px; border-top:0.5px solid #eee;">
                 <% if index > 0 %>
@@ -81,7 +81,7 @@ function bkShowTos(index) {
     } else {
       el.style.background = '';
       el.style.borderLeft = '';
-      label.style.color = '#888';
+      label.style.color = '#6b5a45';
       label.style.fontWeight = '400';
     }
   });
