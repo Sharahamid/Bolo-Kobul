@@ -4,23 +4,29 @@ ActiveAdmin.register_page "Dashboard" do
   content title: "Bolo Kobul — Admin Dashboard" do
 
     # ── Data queries ──────────────────────────────────────────────────────────
-    total_users        = User.count
-    new_today          = User.where(created_at: Date.today.all_day).count
+    # Active members only (deactivated accounts are shown separately)
+    active_users       = User.where(deactivated: [false, nil])
+    total_users        = active_users.count
+    deactivated_users  = User.where(deactivated: true).count
+    new_today          = User.where(created_at: Date.current.all_day).count
     new_this_week      = User.where(created_at: 1.week.ago..Time.current).count
-    new_this_month     = User.where(created_at: Date.today.beginning_of_month..Time.current).count
-    new_this_year      = User.where(created_at: Date.today.beginning_of_year..Time.current).count
+    new_this_month     = User.where(created_at: Date.current.beginning_of_month..Time.current).count
+    new_this_year      = User.where(created_at: Date.current.beginning_of_year..Time.current).count
 
     kobul1_sent        = Friendship.count rescue 0
     kobul1_pending     = Friendship.pending.count rescue 0
     kobul1_accepted    = Friendship.accepted.count rescue 0
     kobul1_declined    = Friendship.declined.count rescue 0
 
-    kobul2_total       = ChatFriendship.count rescue 0
-    kobul2_pending     = ChatFriendship.pending.count rescue 0
-    kobul2_accepted    = ChatFriendship.accepted.count rescue 0
+    pair_key           = Arel.sql("LEAST(marriage_profile_id, chat_friend_id)::text || '-' || GREATEST(marriage_profile_id, chat_friend_id)::text")
+    accepted_pairs     = (ChatFriendship.where(status: :accepted).distinct.pluck(pair_key) rescue [])
+    waiting_pairs      = (ChatFriendship.where(status: [:pending, :requested]).distinct.pluck(pair_key) rescue []) - accepted_pairs
+    kobul2_accepted    = accepted_pairs.size
+    kobul2_pending     = waiting_pairs.size
+    kobul2_total       = (ChatFriendship.distinct.count(pair_key) rescue 0)
 
     total_revenue      = Order.success.sum(:total_amount).to_f
-    monthly_revenue    = Order.success.where(created_at: Date.today.beginning_of_month..Time.current).sum(:total_amount).to_f
+    monthly_revenue    = Order.success.where(created_at: Date.current.beginning_of_month..Time.current).sum(:total_amount).to_f
     total_orders       = Order.success.count
 
     butterfly_orders      = Order.success.butterfly.count
@@ -28,12 +34,28 @@ ActiveAdmin.register_page "Dashboard" do
     butterfly_revenue     = Order.success.butterfly.sum(:total_amount).to_f
     assisted_orders       = Order.success.assisted_service.count
     assisted_revenue      = Order.success.assisted_service.sum(:total_amount).to_f
-    butterfly_this_month  = Order.success.butterfly.where(created_at: Date.today.beginning_of_month..Time.current).sum(:quantity)
-    assisted_this_month   = Order.success.assisted_service.where(created_at: Date.today.beginning_of_month..Time.current).count
+    bk_orders             = Order.success.bk_plus.count
+    bk_revenue            = Order.success.bk_plus.sum(:total_amount).to_f
+    bk_this_month         = Order.success.bk_plus.where(created_at: Date.current.beginning_of_month..Time.current).count
+    bk_active             = User.where('bk_plus_until > ?', Time.current).count
+    bk_ending_soon        = User.where(bk_plus_until: Time.current..7.days.from_now).count
+    butterfly_this_month  = Order.success.butterfly.where(created_at: Date.current.beginning_of_month..Time.current).sum(:quantity)
+    assisted_this_month   = Order.success.assisted_service.where(created_at: Date.current.beginning_of_month..Time.current).count
 
-    pending_profiles   = MarriageProfile.where(verified: [nil, false]).count rescue 0
+    # Members who paid for Get Verified and are still waiting (not every unverified profile)
+    verify_service_ids = AssistedService.where('name ILIKE ?', '%verif%').pluck(:id)
+    pending_profiles   = Order.success.assisted_service.where(assisted_service_id: verify_service_ids).where.not(fulfilment_status: 'done').count rescue 0
     pending_blogs      = Blog.where(status: 'pending').count rescue 0
-    open_tickets       = CustomerSupport.count rescue 0
+    open_tickets       = CustomerSupport.where(status: [:in_queue, :processing]).count rescue 0
+
+    # Needs attention today
+    reports_waiting    = (ProfileReport.unresolved.count rescue 0)
+    reports_late       = (ProfileReport.unresolved.where('created_at < ?', 24.hours.ago).count rescue 0)
+    followups_todo     = (Order.success.assisted_service.where(fulfilment_status: 'to_do').count rescue 0)
+    sms_failed_week    = (MessageLog.where(channel: 'sms_failed').where('created_at > ?', 7.days.ago).count rescue 0)
+    active_7_days      = active_users.where('last_seen_at > ?', 7.days.ago).count
+    last_month_range   = (Date.current.beginning_of_month - 1.month)..(Date.current.beginning_of_month - 1.day).end_of_day
+    last_month_revenue = Order.success.where(created_at: last_month_range).sum(:total_amount).to_f
 
     created_for_summary = User.group(:created_for).count
     
@@ -44,7 +66,7 @@ ActiveAdmin.register_page "Dashboard" do
         users:       User.where(created_at: d.beginning_of_month..d.end_of_month).count,
         revenue:     Order.success.where(created_at: d.beginning_of_month..d.end_of_month).sum(:total_amount).to_f.round(0),
         connections: (Friendship.where(status: 1, updated_at: d.beginning_of_month..d.end_of_month).count rescue 0),
-        chats:       (ChatFriendship.where(status: 2, updated_at: d.beginning_of_month..d.end_of_month).count rescue 0)
+        chats:       (ChatFriendship.where(status: 2, updated_at: d.beginning_of_month..d.end_of_month).distinct.count(pair_key) rescue 0)
       }
     end
 
@@ -78,14 +100,65 @@ ActiveAdmin.register_page "Dashboard" do
       </style>
     HTML
 
+    # ── Needs attention today ─────────────────────────────────────────────────
+    attention = [
+      ['Profile reports waiting', reports_waiting, '/shaheer10inara20/profile_reports?q[status_in][]=open&q[status_in][]=reviewing', reports_late.positive? ? "#{reports_late} over 24 hours" : nil],
+      ['Paid Assisted Services to do', followups_todo, '/shaheer10inara20/assisted_service_orders?follow=to_do', nil],
+      ['Support tickets waiting', open_tickets, '/shaheer10inara20/customer_supports', nil],
+      ['BK+ ending in 7 days', bk_ending_soon, '/shaheer10inara20/bk_plus_members', nil],
+      ['SMS failed this week', sms_failed_week, '/shaheer10inara20/messages_sent', sms_failed_week.positive? ? 'Check Boom Cast balance' : nil],
+      ['Blog posts / stories to approve', pending_blogs, '/shaheer10inara20/blogs', nil]
+    ]
+    attention_html = attention.map do |label, n, url, warn|
+      cls = n.to_i.zero? ? 'bk-pill-green' : (warn ? 'bk-pill-red' : 'bk-pill-amber')
+      "<a class='bk-att' href='#{url}'><span>#{label}#{warn ? "<br><small class='down'>#{warn}</small>" : ''}</span><span class='bk-pill #{cls}'>#{n.to_i.zero? ? 'All clear' : n}</span></a>"
+    end.join
+    rev_change = if last_month_revenue.zero? then ''
+                 else d = ((monthly_revenue - last_month_revenue) * 100 / last_month_revenue).round; d >= 0 ? "<span class='up'>▲ #{d}%</span> vs last month" : "<span class='down'>▼ #{d.abs}%</span> vs last month"
+                 end
+    text_node raw(<<~HTML)
+      <style>
+        .bk-att-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:20px; }
+        @media (max-width: 900px) { .bk-att-grid { grid-template-columns:1fr; } }
+        .bk-att { display:flex; justify-content:space-between; align-items:center; gap:10px; background:#fff; border:1px solid #e8e8e8; border-radius:6px; padding:12px 14px; font-size:13px; color:#333 !important; text-decoration:none !important; }
+        .bk-att:hover { border-color:#FFB627; }
+        .bk-att small { font-size:11px; }
+      </style>
+      <div style='font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;'>Needs attention today</div>
+      <div class="bk-att-grid">#{attention_html}</div>
+      <div class="bk-grid">
+        <div class="bk-stat">
+          <div class="val">#{number_with_delimiter(bk_active)}</div>
+          <div class="lbl">Active BK+ members</div>
+          <div class="sub">#{bk_ending_soon} ending in the next 7 days</div>
+        </div>
+        <div class="bk-stat">
+          <div class="val">#{number_with_delimiter(active_7_days)}</div>
+          <div class="lbl">Members active in the last 7 days</div>
+          <div class="sub">of #{number_with_delimiter(total_users)} active accounts</div>
+        </div>
+        <div class="bk-stat">
+          <div class="val">৳#{number_with_delimiter(monthly_revenue.to_i)}</div>
+          <div class="lbl">Revenue this month</div>
+          <div class="sub">#{rev_change.presence || "Last month ৳#{number_with_delimiter(last_month_revenue.to_i)}"}</div>
+        </div>
+        <div class="bk-stat">
+          <div class="val">৳#{number_with_delimiter(last_month_revenue.to_i)}</div>
+          <div class="lbl">Revenue last month</div>
+          <div class="sub"><a href="/shaheer10inara20/revenue">See Revenue report</a></div>
+        </div>
+      </div>
+    HTML
+
     # ── Snapshot stats ────────────────────────────────────────────────────────
     text_node raw("<div class='bk-section-title' style='font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;'>Platform snapshot — today</div>")
     text_node raw(<<~HTML)
       <div class="bk-grid">
         <div class="bk-stat">
           <div class="val">#{number_with_delimiter(total_users)}</div>
-          <div class="lbl">Total users</div>
+          <div class="lbl">Active member accounts</div>
           <div class="sub up">+#{new_today} today &nbsp;|&nbsp; +#{new_this_week} this week</div>
+          <div class="sub" style="color:#999">#{deactivated_users} deactivated</div>
         </div>
         <div class="bk-stat">
           <div class="val">#{number_with_delimiter(kobul1_sent)}</div>
@@ -99,7 +172,7 @@ ActiveAdmin.register_page "Dashboard" do
         </div>
         <div class="bk-stat">
           <div class="val">#{number_with_delimiter(kobul2_accepted)}</div>
-          <div class="lbl">Active chats (2nd Kobul)</div>
+          <div class="lbl">Open chats (pairs)</div>
           <div class="sub">#{number_with_delimiter(kobul2_pending)} pending &nbsp;|&nbsp; #{number_with_delimiter(kobul2_total)} total sent</div>
         </div>
         <div class="bk-stat">
@@ -114,13 +187,13 @@ ActiveAdmin.register_page "Dashboard" do
         </div>
         <div class="bk-stat">
           <div class="val">#{number_with_delimiter(kobul2_total)}</div>
-          <div class="lbl">2nd Kobul sent</div>
+          <div class="lbl">2nd Kobul pairs</div>
           <div class="sub">#{kobul2_pending} pending &nbsp;|&nbsp; #{kobul2_accepted} accepted</div>
         </div>
         <div class="bk-stat">
           <div class="val #{open_tickets > 0 ? 'down' : 'up'}">#{open_tickets}</div>
-          <div class="lbl">Support tickets</div>
-          <div class="sub">Total open tickets</div>
+          <div class="lbl">Support tickets waiting</div>
+          <div class="sub">In queue or being handled</div>
         </div>
       </div>
     HTML
@@ -165,6 +238,13 @@ ActiveAdmin.register_page "Dashboard" do
               </div>
             </div>
             <div style="border-top:1px solid #f0f0f0; padding-top:16px; margin-top:4px;">
+              <div style="font-size:11px; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">👑 BK+</div>
+              <div class="bk-action-row"><span>Total purchases</span><strong>#{number_with_delimiter(bk_orders)}</strong></div>
+              <div class="bk-action-row"><span>Purchases this month</span><strong>#{number_with_delimiter(bk_this_month)}</strong></div>
+              <div class="bk-action-row"><span>Active members now</span><strong>#{number_with_delimiter(bk_active)}</strong></div>
+              <div class="bk-action-row"><span>Revenue from BK+</span><strong>৳#{number_with_delimiter(bk_revenue.to_i)}</strong></div>
+            </div>
+            <div style="border-top:1px solid #f0f0f0; padding-top:16px; margin-top:4px;">
               <div style="font-size:11px; font-weight:600; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">💰 Combined</div>
               <div class="bk-action-row">
                 <span>Total orders</span>
@@ -187,12 +267,12 @@ ActiveAdmin.register_page "Dashboard" do
         panel "Pending Actions" do
           text_node raw(<<~HTML)
             <div class="bk-action-row">
-              <span>Profile approvals</span>
-              <a href="/shaheer10inara20/marriage_profiles" class="bk-pill bk-pill-amber">#{pending_profiles} pending</a>
+              <span>Get Verified requests waiting</span>
+              <a href="/shaheer10inara20/assisted_service_orders" class="bk-pill bk-pill-amber">#{pending_profiles} waiting</a>
             </div>
             <div class="bk-action-row">
               <span>Support tickets</span>
-              <a href="/shaheer10inara20/customer_supports" class="bk-pill bk-pill-red">#{open_tickets} open</a>
+              <a href="/shaheer10inara20/customer_supports" class="bk-pill #{open_tickets.positive? ? 'bk-pill-red' : 'bk-pill-green'}">#{open_tickets} waiting</a>
             </div>
             <div class="bk-action-row">
               <span>Blog approvals</span>
