@@ -133,6 +133,7 @@ en:
       received: Thank you. We've received your report about %{id}. Our team will review it within 24 hours.
       too_many: Too many reports in a short time. Please try again later.
       own: You can't report your own profile.
+      already: You have already reported %{id}. Our team is reviewing it, so there is no need to report it again.
   profile_card:
     years: '%{age} years'
     match: '%{percent}% Match'

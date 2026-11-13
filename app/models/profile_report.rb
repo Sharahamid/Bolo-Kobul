@@ -22,6 +22,17 @@ class ProfileReport < ApplicationRecord
 
   scope :unresolved, -> { where(status: %w[open reviewing]) }
 
+  # Backup for the controller check: no second open report from the same member on the same profile
+  validate :no_open_duplicate, on: :create
+
+  def no_open_duplicate
+    return unless reporter_profile_id && reported_profile_id
+
+    if ProfileReport.unresolved.exists?(reporter_profile_id: reporter_profile_id, reported_profile_id: reported_profile_id)
+      errors.add(:base, 'you have already reported this profile')
+    end
+  end
+
   def reason_label
     REASONS[reason] || reason.to_s.humanize
   end

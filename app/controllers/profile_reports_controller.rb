@@ -13,6 +13,14 @@ class ProfileReportsController < ApplicationController
       return redirect_back(fallback_location: root_path, warning: I18n.t('report.flash.own'))
     end
 
+    # One open report per member per profile: a second tap (or a repeat report) is not saved
+    # again while the team is still looking at the first one
+    if ProfileReport.unresolved.exists?(reporter_profile_id: current_active_profile.id, reported_profile_id: reported.id)
+      current_active_profile.block_profile!(reported) if params[:block] == '1'
+      flash[:notice] = I18n.t('report.flash.already', id: reported.unique_id)
+      return params[:block] == '1' ? redirect_to(user_homepage(current_user)) : redirect_back(fallback_location: user_homepage(current_user))
+    end
+
     report = ProfileReport.new(reporter_profile: current_active_profile, reported_profile: reported,
                                reason: params[:reason], details: params[:details].to_s.strip.presence)
     unless report.save

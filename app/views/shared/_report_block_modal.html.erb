@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <%= form_with url: profile_reports_path, method: :post, local: true, id: 'bk-report-form' do %>
+    <%= form_with url: profile_reports_path, method: :post, local: true, id: 'bk-report-form', html: { onsubmit: "var b=this.querySelectorAll('button[type=submit]'); setTimeout(function(){ b.forEach(function(x){ x.disabled = true; }); }, 0);" } do %>
       <%= hidden_field_tag :profile_id, '', id: 'bk-report-profile' %>
       <p class="bk-report-label"><%= t('report.why') %></p>
       <% ProfileReport::REASONS.each_key do |key| %>
