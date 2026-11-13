@@ -15,33 +15,28 @@ class ChatRoom < ApplicationRecord
   has_many :marriage_profiles, through: :chat_room_users
   has_many :messages, dependent: :destroy
 
+  # The private chat between two profiles. Older data can hold more than one room for
+  # the same two people; the one with the latest message is used so nothing is missed.
   def self.get_private_chat_room(user, current_user)
+    room = shared_rooms(user, current_user)
+           .left_joins(:messages).group('chat_rooms.id')
+           .order(Arel.sql('MAX(messages.created_at) DESC NULLS LAST'), 'chat_rooms.id')
+           .first
+    return room if room
 
-    user_chat_rooms = user.chat_rooms.where(is_private: true)
-    if user_chat_rooms.present?
-      chat_room_user_ids = user_chat_rooms.map(&:id)
+    transaction do
+      room = ChatRoom.create!(is_private: true)
+      ChatRoomUser.create!(marriage_profile_id: user.id, chat_room_id: room.id)
+      ChatRoomUser.create!(marriage_profile_id: current_user.id, chat_room_id: room.id)
+      room
     end
+  end
 
-
-    if user_chat_rooms.present?
-      current_user_chat_rooms = current_user.chat_room_users.where(chat_room_id: chat_room_user_ids)
-
-      if current_user_chat_rooms.present?
-
-        current_user_chat_rooms.first.chat_room
-      else
-        chat_room = ChatRoom.create!(is_private: true)
-        chat_room_users = ChatRoomUser.create!(marriage_profile_id: user.id, chat_room_id: chat_room.id)
-        current_user_chat_room = ChatRoomUser.create!(marriage_profile_id: current_user.id, chat_room_id: chat_room.id)
-        return chat_room
-      end
-
-    else
-      chat_room = ChatRoom.create!(is_private: true)
-      chat_room_user = ChatRoomUser.create!(marriage_profile_id: user.id, chat_room_id: chat_room.id)
-      current_user_chat_room = ChatRoomUser.create!(marriage_profile_id: current_user.id, chat_room_id: chat_room.id)
-      return chat_room
-    end
+  # Every private room these two profiles are both in (normally just one)
+  def self.shared_rooms(profile_a, profile_b)
+    where(is_private: true)
+      .where(id: ChatRoomUser.where(marriage_profile_id: profile_a.id).select(:chat_room_id))
+      .where(id: ChatRoomUser.where(marriage_profile_id: profile_b.id).select(:chat_room_id))
   end
 
   # Messages from the other person this profile has not seen yet

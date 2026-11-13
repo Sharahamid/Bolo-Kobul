@@ -26,8 +26,10 @@ class MessagesController < ApplicationController
 
     respond_to do |format|
       @chat_room = ChatRoom.get_private_chat_room(@marriage_profile, current_active_profile)
-      @chat_room.mark_read!(current_active_profile)
-      @messages = Message.includes(:chat_room, :marriage_profile).where(chat_room_id: @chat_room.id).order(created_at: :asc)
+      # Opening the chat reads everything from this person (older data can have two rooms)
+      shared_rooms = ChatRoom.shared_rooms(@marriage_profile, current_active_profile).to_a
+      shared_rooms.each { |room| room.mark_read!(current_active_profile) }
+      @messages = Message.includes(:chat_room, :marriage_profile).where(chat_room_id: shared_rooms.map(&:id)).order(created_at: :asc)
       @message = Message.new
       format.html
       format.js

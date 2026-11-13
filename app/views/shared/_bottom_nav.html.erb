@@ -1,7 +1,9 @@
 <%# App-style bar at the bottom of the screen on phones (members with a profile) %>
 <% profile = current_active_profile %>
 <% kobul_count = get_requested_profiles.count %>
-<% unread_chats = profile.chat_rooms.count { |room| room.unread_count_for(profile).positive? } %>
+<%# Only chats the member can open (not blocked or deleted ones), so the number can always be cleared %>
+<% unread_room_ids = profile.active_chat_rooms.select { |room| room.unread_count_for(profile).positive? }.map(&:id) %>
+<% unread_chats = unread_room_ids.size %>
 <% here = "#{controller_name}##{action_name}" %>
 <% own_profile_page = here == 'marriage_profiles#profile_info' && @marriage_profile&.id == profile.id %>
 <style>
@@ -21,6 +23,7 @@
     .bk-bottom-nav a.active::before { content:''; position:absolute; top:0; left:30%; right:30%; height:3px; border-radius:0 0 3px 3px; background:#FFB627; }
     .bk-bottom-nav .bk-badge { position:absolute; top:6px; left:calc(50% + 6px); min-width:17px; height:17px; padding:0 5px; border-radius:9px;
                                background:#FF596C; color:#fff; font-size:10px; font-weight:700; line-height:17px; text-align:center; }
+    .bk-bottom-nav .bk-badge[hidden] { display:none; }
   }
 </style>
 <div class="bk-bottom-nav-spacer"></div>
@@ -41,7 +44,7 @@
   <% end %>
   <%= link_to messages_path, class: ('active' if controller_name == 'messages') do %>
     <i class="fas fa-comment-dots"></i><span><%= t('bottom_nav.chats') %></span>
-    <% if unread_chats.positive? %><span class="bk-badge"><%= unread_chats > 9 ? '9+' : unread_chats %></span><% end %>
+    <span class="bk-badge" id="bk-chat-badge" data-rooms="<%= unread_room_ids.join(',') %>"<%= ' hidden' unless unread_chats.positive? %>><%= unread_chats > 9 ? '9+' : unread_chats %></span>
   <% end %>
   <%= link_to profile_info_marriage_profile_path(profile), class: ('active' if own_profile_page) do %>
     <i class="fas fa-user-circle"></i><span><%= t('bottom_nav.profile') %></span>
