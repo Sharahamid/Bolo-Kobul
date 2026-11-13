@@ -1,4 +1,4 @@
-<%# Phone/desktop notification status for this device, with Turn on %>
+<%# Phone/desktop notifications for this device: shown only when they are off (Turn on) or blocked %>
 <style>
   .bk-push-settings { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:0 0 14px; padding:14px 16px;
                       background:#FFFFFF; border:1px solid #F1E6C8; border-left:4px solid #C99A16; border-radius:12px; }
@@ -9,9 +9,9 @@
   .bk-push-settings__btn { appearance:none; border:0; cursor:pointer; font-size:13px; font-weight:600; padding:9px 16px; border-radius:999px; }
   .bk-push-settings__btn--primary { background:#C99A16; color:#FFFFFF; }
   .bk-push-settings__btn--ghost { background:#FBF4E2; color:#7A5C0C; }
-  .bk-push-settings__btn[hidden] { display:none; }
+  .bk-push-settings__btn[hidden], .bk-push-settings[hidden] { display:none; }
 </style>
-<div class="bk-push-settings" id="bk-push-settings">
+<div class="bk-push-settings" id="bk-push-settings" hidden>
   <div class="bk-push-settings__text">
     <p class="bk-push-settings__title"><%= t('push.settings_title') %></p>
     <p class="bk-push-settings__status" data-push-status><%= t('push.checking') %></p>
@@ -26,12 +26,15 @@
     var status = box.querySelector('[data-push-status]');
     var turnOn = box.querySelector('[data-push-turn-on]');
 
+    // The card only appears when the member can do something about it: notifications are
+    // off (Turn on) or blocked (how to allow them). When they are on, nothing is shown.
     function show() {
       if (!window.bkPush) {
-        status.textContent = <%= raw t('push.unsupported').to_json %>;
+        box.hidden = true;
         return;
       }
       var permission = window.bkPush.permission();
+      box.hidden = permission === 'granted';
       turnOn.hidden = permission !== 'default';
       if (permission === 'granted') {
         status.textContent = <%= raw t('push.on').to_json %>;
