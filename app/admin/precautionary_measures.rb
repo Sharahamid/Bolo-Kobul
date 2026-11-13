@@ -1,5 +1,6 @@
 ActiveAdmin.register PrecautionaryMeasure do
   menu parent: 'Website', priority: 7, label: 'Safety tips'
+  config.filters = false
   permit_params :title, :content, :title_bn, :content_bn, :display_order
 
   form do |f|

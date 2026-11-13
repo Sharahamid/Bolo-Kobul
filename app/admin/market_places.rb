@@ -1,5 +1,10 @@
 ActiveAdmin.register MarketPlace do
   menu parent: 'Wedding Shopping', priority: 1, label: 'Listings'
+  filter :name
+  filter :market_place_type, label: 'Category'
+  filter :location
+  filter :status, as: :select, collection: -> { MarketPlace.statuses }
+  filter :created_at
 
   permit_params :name , :status, :cost, :costing_unit, :facility, :link,
                 :policy, :experience, :about, :service_coverage, :image, :image2, :image3, :location, :market_place_type_id,
@@ -37,14 +42,6 @@ ActiveAdmin.register MarketPlace do
     actions
   end
 
-  filter :name
-  filter :market_place_type
-  filter :location
-  filter :status, as: :select, collection: MarketPlace.statuses
-  filter :submitted_online
-  filter :contact_phone
-  filter :contact_email
-  filter :created_at
 
   show do
     attributes_table do

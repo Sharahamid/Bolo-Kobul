@@ -1,5 +1,8 @@
 ActiveAdmin.register CustomerSupport do
   menu parent: 'Members', priority: 4, label: 'Support Tickets'
+  filter :status, as: :select, collection: -> { CustomerSupport.statuses }
+  filter :issue_type
+  filter :created_at
   permit_params :status
   actions :all, :except => [:new, :create, :destroy]
 

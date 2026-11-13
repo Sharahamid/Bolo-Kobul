@@ -1,5 +1,8 @@
 ActiveAdmin.register Notification do
   menu parent: 'Members', priority: 5
+  filter :recipient_email, as: :string, label: 'Member email'
+  filter :is_read
+  filter :created_at
   permit_params :content, :is_read, :assign_to
 
   form do |f|

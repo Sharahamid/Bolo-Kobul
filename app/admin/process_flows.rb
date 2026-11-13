@@ -1,5 +1,6 @@
 ActiveAdmin.register ProcessFlow do
   menu parent: 'Website', priority: 6, label: 'How It Works'
+  config.filters = false
   permit_params :title, :content, :process_image, :title_bn
 
   form do |f|

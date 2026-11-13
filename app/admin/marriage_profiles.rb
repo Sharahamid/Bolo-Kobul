@@ -1,10 +1,14 @@
 ActiveAdmin.register MarriageProfile do
   permit_params :verified
 
-  # The Kobul lists (from has_friendship) cannot be used as filters
-  remove_filter :friends, :blocked_friends, :requested_friends, :pending_friends
-
   menu parent: 'Members', priority: 2
+  filter :name
+  filter :gender, as: :select, collection: -> { MarriageProfile.genders.keys.map { |k| [k.titleize, MarriageProfile.genders[k]] } }
+  filter :religion, as: :select, collection: -> { MarriageProfile.religions.keys.map { |k| [k.titleize, MarriageProfile.religions[k]] } }
+  filter :marital_status, as: :select, collection: -> { MarriageProfile.marital_statuses.keys.map { |k| [k.humanize, MarriageProfile.marital_statuses[k]] } }
+  filter :verified
+  filter :doc_verification_status, as: :select, label: 'Doc check', collection: [['Waiting', 0], ['Verified', 1], ['Not verified', 2]]
+  filter :created_at
 
   # Shows the member's ID document (NID or passport). The file is stored outside the public
   # folder, so this admin-only page is the only way to open it.

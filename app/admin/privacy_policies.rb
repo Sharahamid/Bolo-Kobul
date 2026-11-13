@@ -1,5 +1,6 @@
 ActiveAdmin.register PrivacyPolicy do
   menu parent: 'Website', priority: 5, label: 'Privacy Policy'
+  config.filters = false
   permit_params :title, :content, :title_bn, :content_bn, :pdf_content, :display_order
 
   # generate custom link

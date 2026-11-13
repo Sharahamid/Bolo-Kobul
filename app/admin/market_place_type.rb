@@ -1,5 +1,6 @@
 ActiveAdmin.register MarketPlaceType do
   menu parent: 'Wedding Shopping', priority: 2, label: 'Categories'
+  config.filters = false
   permit_params :name, :display_order
   config.sort_order = 'display_order_asc'
 

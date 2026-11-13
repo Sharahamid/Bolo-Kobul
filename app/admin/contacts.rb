@@ -1,6 +1,7 @@
 ActiveAdmin.register Contact do
  permit_params :content, :address, :contact, :heading, :heading_bn, :content_bn
  menu parent: 'Website', priority: 2, label: 'Contact page'
+  config.filters = false
  actions :all, :except => [:new, :create, :destroy]
 
   index do

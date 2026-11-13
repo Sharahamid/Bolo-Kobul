@@ -1,5 +1,9 @@
 ActiveAdmin.register Blog do
   menu parent: 'Website', priority: 8, label: 'Blogs & Stories'
+  filter :title
+  filter :story_type, as: :select, label: 'Type', collection: -> { Blog.story_types.keys.map { |k| [k.humanize, Blog.story_types[k]] } }
+  filter :status, as: :select, collection: -> { Blog.statuses }
+  filter :created_at
   permit_params :author, :partner, :title, :email, :married_life_duration,
                 :story, :status, :image, :story_type
 

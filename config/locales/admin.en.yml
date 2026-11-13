@@ -1,0 +1,8 @@
+# Date format of the admin panel (config.localize_format in config/initializers/active_admin.rb)
+en:
+  date:
+    formats:
+      bk_admin: "%-d %b %Y"
+  time:
+    formats:
+      bk_admin: "%-d %b %Y, %-I:%M %p"

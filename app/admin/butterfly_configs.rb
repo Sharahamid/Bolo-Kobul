@@ -1,5 +1,6 @@
 ActiveAdmin.register ButterflyConfig, as: "Configurations" do
   menu parent: 'Settings', priority: 1, label: 'Butterfly prices'
+  config.filters = false
   permit_params :butterfly_price, :profile_view_butterflies, :chat_butterflies,
                 :text_alert_butterflies, :num_of_free_butterfly,
                 :butterfly_animation, :adv_search_butterflies,

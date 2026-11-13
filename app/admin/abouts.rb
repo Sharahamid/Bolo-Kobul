@@ -1,5 +1,6 @@
 ActiveAdmin.register About do
   menu parent: 'Website', priority: 1, label: 'About page'
+  config.filters = false
   permit_params :content, :content_type, :display_order, :content_bn, :content_type_bn
   # actions :all, :except => [:new, :create, :destroy]
 

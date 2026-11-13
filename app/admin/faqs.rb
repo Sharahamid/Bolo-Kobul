@@ -1,5 +1,6 @@
 ActiveAdmin.register Faq do
   menu parent: 'Website', priority: 3, label: 'FAQ'
+  config.filters = false
   permit_params :title, :content, :title_bn, :content_bn, :pdf_content, :display_order
 
   # generate custom link

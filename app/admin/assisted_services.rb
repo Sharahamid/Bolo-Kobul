@@ -1,5 +1,6 @@
 ActiveAdmin.register AssistedService do
   menu parent: 'Settings', priority: 3
+  config.filters = false
   permit_params :name, :price, :page_title, :page_content, :display_order
 
   form do |f|

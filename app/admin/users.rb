@@ -46,8 +46,8 @@ ActiveAdmin.register User do
                when 2 then "<span style='color:red; font-size:16px;' title='Not Verified'>❌</span>"
                else "<span style='color:orange; font-size:16px;' title='Pending'>⚠️</span>"
                end
-        links = "<br/>"
-        links += link_to("View", shaheer10inara20_marriage_profile_path(profile), style: "font-size:11px; margin-right:5px;")
+        links = " "
+        links += link_to("View", shaheer10inara20_marriage_profile_path(profile), style: "font-size:12px; margin-right:5px;")
         links += link_to("✅", verify_doc_shaheer10inara20_user_path(user, status: 1), method: :patch, style: "margin-right:3px;", title: "Mark Verified")
         links += link_to("❌", verify_doc_shaheer10inara20_user_path(user, status: 2), method: :patch, style: "margin-right:3px;", title: "Mark Unverified")
         raw(icon + links)

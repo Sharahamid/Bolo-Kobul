@@ -1,5 +1,6 @@
 ActiveAdmin.register AdminUser do
   menu parent: 'Settings', priority: 6, label: 'Admin users'
+  filter :email
   role_changeable
   permit_params :email, :password, :password_confirmation
 
@@ -13,10 +14,6 @@ ActiveAdmin.register AdminUser do
     actions
   end
 
-  filter :email
-  filter :current_sign_in_at
-  filter :sign_in_count
-  filter :created_at
 
   form do |f|
     f.inputs do

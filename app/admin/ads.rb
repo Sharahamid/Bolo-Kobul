@@ -1,5 +1,6 @@
 ActiveAdmin.register Ad do
   menu parent: 'Website', priority: 9
+  config.filters = false
   permit_params :title, :url, :price, :location, :advertiser, :status, :image
 
   form do |f|

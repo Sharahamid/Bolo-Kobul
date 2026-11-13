@@ -206,7 +206,8 @@ ActiveAdmin.setup do |config|
   # You can run `bin/rails runner 'puts I18n.t("date.formats")'` to see the
   # available formats in your application.
   #
-  config.localize_format = :long
+  # "13 Nov 2026, 2:49 PM" (config/locales/admin.*.yml)
+  config.localize_format = :bk_admin
 
   # == Setting a Favicon
   #
