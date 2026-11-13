@@ -45,6 +45,22 @@ class MessagesController < ApplicationController
     head :no_content
   end
 
+  # Messages newer than the last one on screen. The open chat asks for these when the live
+  # connection is down or was asleep (phone screen off), so nothing is ever missed.
+  def since
+    chat_room = current_active_profile&.chat_rooms&.find_by(id: params[:chat_room_id])
+    return head(:not_found) unless chat_room
+
+    other = chat_room.connected_profile(current_active_profile)
+    room_ids = other ? ChatRoom.shared_rooms(other, current_active_profile).pluck(:id) : [chat_room.id]
+    news = Message.where(chat_room_id: room_ids).where('messages.id > ?', params[:after_id].to_i)
+                  .includes(:reply_to).order(:id).limit(100)
+    chat_room.mark_read!(current_active_profile) if news.any? { |m| m.sender_id != current_active_profile.id }
+    render json: news.map { |m|
+      m.as_json.merge('body' => ERB::Util.html_escape(m.body.to_s), 'reply' => reply_json(m.reply_to))
+    }
+  end
+
   def create
     @message = current_active_profile.messages.build(message_params.except(:reply_to_id))
     # Only allow posting into chat rooms the sender is a member of
@@ -68,9 +84,11 @@ class MessagesController < ApplicationController
         notify_chat_recipients(chat_room)
         chat_room.mark_read!(current_active_profile)
 
-        format.js
+        # The page shows the message itself (live, or by asking for new messages)
+        format.js { head :ok }
+        format.json { head :ok }
       else
-        format.js
+        format.js { head :unprocessable_entity }
         format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end

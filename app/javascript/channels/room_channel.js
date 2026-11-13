@@ -176,6 +176,35 @@ function setUpMessageBox(box) {
     box.bkResize = resize;
 }
 
+// ---- Catch up on missed messages ----
+// Phones put the live connection to sleep when the screen is off, and some networks block
+// it. So the open chat also asks the server for anything newer than the last message on
+// screen: when the connection comes back, when the page is shown again, and every 15
+// seconds while the chat is open. Messages already shown are never added twice.
+function lastMessageId() {
+    var max = 0;
+    document.querySelectorAll('#privat-chat-messages .bk-msg[data-message-id]').forEach(function (el) {
+        var id = parseInt(el.getAttribute('data-message-id'), 10);
+        if (id > max) max = id;
+    });
+    return max;
+}
+var catchingUp = false, catchUpAgain = false;
+function catchUp(chatRoomId, onNew) {
+    if (!chatRoomId) return;
+    if (catchingUp) { catchUpAgain = true; return; }
+    catchingUp = true;
+    fetch('/messages/since?chat_room_id=' + encodeURIComponent(chatRoomId) + '&after_id=' + lastMessageId(),
+          { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .then(function (list) { (list || []).forEach(function (content) { onNew(content, true); }); })
+        .catch(function () {})
+        .finally(function () {
+            catchingUp = false;
+            if (catchUpAgain) { catchUpAgain = false; catchUp(chatRoomId, onNew); }
+        });
+}
+
 $(function () {
     var box = document.getElementById('message_text');
     if (!box) return;
@@ -187,13 +216,50 @@ $(function () {
     };
     setTimeout(messages_to_bottom, 300);
 
+    var chatRoomId = box.getAttribute('data-chat-room-id');
+
+    // Shows one message (live or caught up), once only
+    function addMessage(content, fromCatchUp) {
+        if (!content || document.getElementById('bk-msg-' + content['id'])) return;
+        var myProfileId = String($('#privat-chat-messages').attr('data-login-user-id'));
+        var mine = String(content['sender_id']) === myProfileId;
+        $('#privat-chat-messages').append(messageRow(content, mine));
+        if (mine) {
+            // First message sent: the conversation starters are no longer needed
+            var starters = document.getElementById('bk-icebreakers');
+            if (starters) starters.remove();
+        } else {
+            chimeAndVibrate();
+            if (!fromCatchUp) markRead(content['chat_room_id']);
+        }
+        messages_to_bottom();
+    }
+
+    // Sent: empty the box straight away and show the message, even if the live
+    // connection is not working
+    if (box.form) {
+        box.form.addEventListener('ajax:success', function () {
+            box.value = '';
+            box.bkResize();
+            cancelReply();
+            catchUp(chatRoomId, addMessage);
+        });
+    }
+
+    document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) catchUp(chatRoomId, addMessage);
+    });
+    setInterval(function () { if (!document.hidden) catchUp(chatRoomId, addMessage); }, 15000);
+
     consumer.subscriptions.create({
             channel: "RoomChannel",
-            chat_room_id: box.getAttribute('data-chat-room-id')
+            chat_room_id: chatRoomId
         },
         {
             connected() {
                 box.setAttribute('placeholder', box.getAttribute('data-placeholder-connected') || 'Send message...');
+                // Back online (or first connect): fetch anything sent meanwhile
+                catchUp(chatRoomId, addMessage);
             },
 
             disconnected() {
@@ -206,20 +272,7 @@ $(function () {
                     if (String(data.receipt.profile_id) !== myProfileId) applyReceipt(data.receipt);
                     return;
                 }
-                var mine = String(data.content['sender_id']) === myProfileId;
-                $('#privat-chat-messages').append(messageRow(data.content, mine));
-                if (mine) {
-                    box.value = '';
-                    box.bkResize();
-                    cancelReply();
-                    // First message sent: the conversation starters are no longer needed
-                    var starters = document.getElementById('bk-icebreakers');
-                    if (starters) starters.remove();
-                } else {
-                    chimeAndVibrate();
-                    markRead(data.content['chat_room_id']);
-                }
-                return messages_to_bottom();
+                addMessage(data.content, false);
             }
         });
 });
