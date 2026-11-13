@@ -3,7 +3,7 @@
 require 'csv'
 
 ActiveAdmin.register_page 'BK Plus Members' do
-  menu priority: 3, label: 'BK+ Members'
+  menu parent: 'Reports', priority: 1, label: 'BK+ Members'
 
   # rows for one list: :active, :expiring (next 7 days) or :expired (last 30 days)
   bk_rows = lambda do |list|

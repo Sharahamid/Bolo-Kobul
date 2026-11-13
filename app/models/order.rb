@@ -34,6 +34,8 @@ class Order < ApplicationRecord
   enum :status, %i[pending success failed]
   enum :payment_method, %i[foster_payment]
   enum :product, %i[butterfly assisted_service bk_plus]
+  # Follow-up of a paid Assisted Service by the team (Admin > Reports > Assisted Services Sold)
+  FULFILMENT_STATUSES = { 'to_do' => 'To do', 'in_progress' => 'In progress', 'done' => 'Done' }.freeze
 
   #
   # associations
@@ -48,10 +50,15 @@ class Order < ApplicationRecord
   # Callbacks
   #
   after_commit :update_butterflies, :make_transaction, :apply_bk_plus
+  before_save :stamp_fulfilled_at, if: :will_save_change_to_fulfilment_status?
 
   #
   # instance methods
   #
+  def stamp_fulfilled_at
+    self.fulfilled_at = fulfilment_status == 'done' ? Time.current : nil
+  end
+
   def discount_amount
     0
   end

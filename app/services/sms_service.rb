@@ -41,8 +41,10 @@ class SmsService
     # success 0. That is a failed send, not a sent message.
     if result.is_a?(Hash) && [0, '0', false].include?(result['success'])
       alert_team(result['message'].to_s) if result['message'].to_s =~ /balance/i
+      MessageLog.record(:sms_failed, kind)
       return nil
     end
+    MessageLog.record(:sms, kind)
     result
   rescue *SEND_ERRORS => e
     Rails.logger.error("[sms] could not send to #{msisdn.to_s[0, 6]}…: #{e.class}: #{e.message}")

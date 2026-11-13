@@ -6,7 +6,7 @@
 # Kobul is removed from the Kobul tables. Notifications of members who deleted their
 # account are removed too, so those members drop out of the counts.
 ActiveAdmin.register_page 'Kobul Activity' do
-  menu priority: 2, label: 'Kobul Activity'
+  menu parent: 'Reports', priority: 5, label: 'Kobul Activity'
 
   content title: 'Kobul Activity — week by week' do
     weeks_shown = (params[:weeks].presence || 12).to_i.clamp(4, 52)

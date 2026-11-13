@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2026_11_12_190000) do
+ActiveRecord::Schema.define(version: 2026_11_13_130000) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -505,6 +505,13 @@ ActiveRecord::Schema.define(version: 2026_11_12_190000) do
     t.index ["slug"], name: "index_marriage_profiles_on_slug", unique: true
   end
 
+  create_table "message_logs", force: :cascade do |t|
+    t.string "channel", null: false
+    t.string "kind"
+    t.datetime "created_at", null: false
+    t.index ["channel", "created_at"], name: "index_message_logs_on_channel_and_created_at"
+  end
+
   create_table "message_settings", force: :cascade do |t|
     t.boolean "sms_all", default: true, null: false
     t.boolean "sms_otp", default: true, null: false
@@ -584,6 +591,9 @@ ActiveRecord::Schema.define(version: 2026_11_12_190000) do
     t.boolean "bk_plus_applied", default: false, null: false
     t.integer "bk_plus_plan_id"
     t.index ["assisted_service_id"], name: "index_orders_on_assisted_service_id"
+    t.string "fulfilment_status", default: "to_do", null: false
+    t.text "fulfilment_note"
+    t.datetime "fulfilled_at"
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -723,6 +733,7 @@ ActiveRecord::Schema.define(version: 2026_11_12_190000) do
     t.index ["reported_profile_id"], name: "index_profile_reports_on_reported_profile_id"
     t.index ["reporter_profile_id"], name: "index_profile_reports_on_reporter_profile_id"
     t.index ["status"], name: "index_profile_reports_on_status"
+    t.datetime "reviewed_at"
   end
 
   create_table "profile_views", force: :cascade do |t|

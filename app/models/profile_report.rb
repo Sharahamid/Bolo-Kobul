@@ -24,6 +24,9 @@ class ProfileReport < ApplicationRecord
 
   scope :unresolved, -> { where(status: %w[open reviewing]) }
 
+  # When the team finishes a report (Admin > Reports > Safety shows the average time)
+  before_save { self.reviewed_at ||= Time.current if will_save_change_to_status? && %w[action_taken dismissed].include?(status) }
+
   # Backup for the controller check: no second open report from the same member on the same profile
   validate :no_open_duplicate, on: :create
 
