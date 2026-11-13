@@ -3,7 +3,7 @@
     <i class="fas fa-comment-dots" style="color:#854F0B; font-size:14px;"></i>
     <% if profile %>
       <%= link_to profile_info_marriage_profile_path(profile), title: t('chat.view_profile'), style: "font-size:14px; font-weight:700; color:#412402; text-decoration:underline; text-decoration-color:#FAC775; text-underline-offset:3px;" do %>
-        <%= profile.unique_id %><%= " (#{profile.user.created_for})" unless profile.user.self? %>
+        <%= profile.unique_id %><% if (made_by = created_by_label(profile.user)).present? %><span style="font-size:11px; font-weight:500; color:#8a7a66; text-decoration:none; margin-left:4px;">· <%= made_by %></span><% end %>
       <% end %>
       <% if match_percent(profile).to_i > 0 %>
         <span style="background:#FFB627; color:#412402; font-size:11px; font-weight:700; padding:2px 8px; border-radius:20px;"><%= local_digits(match_percent(profile)) %>%</span>

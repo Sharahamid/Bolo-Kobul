@@ -10,7 +10,7 @@
     <div style="flex:1; min-width:0;">
       <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:6px; margin-bottom:6px;">
         <%= link_to profile_info_marriage_profile_path(profile), title: t('chat.view_profile'), style: "font-size:14px; font-weight:700; min-width:0; overflow-wrap:anywhere; color:#854F0B; text-decoration:none;" do %>
-          <%= profile&.unique_id %><%= " (#{profile.user.created_for})" unless profile.user.self? %>
+          <%= profile&.unique_id %><% if (made_by = created_by_label(profile.user)).present? %><span style="display:block; font-size:11px; font-weight:500; color:#8a7a66; margin-top:1px;"><%= made_by %></span><% end %>
           <% if profile.verified %>
             <i class="fas fa-check-circle" style="color:#FFB627; font-size:10px;"></i>
           <% end %>

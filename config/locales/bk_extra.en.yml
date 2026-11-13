@@ -9,6 +9,15 @@ en:
       sub: "Real families who found their match on Bolo Kobul"
       link: "Read their stories →"
 
+    created_by:
+      parents: Created by a parent
+      sibling: Created by a sibling
+      relative: Created by a relative
+      friend: Created by a friend
+      colleague: Created by a colleague
+      children: Created by their child
+      other_as_matchmaker: Created by a matchmaker
+
     trust:
       phone: "Phone-verified members"
       phone_text: "Every member confirms their number with a one-time code"

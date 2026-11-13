@@ -27,6 +27,15 @@ module LocaleHelper
     I18n.locale == :bn ? text.tr('0123456789', BANGLA_DIGITS) : text
   end
 
+  # Who made the profile, for profiles not made by the member themself:
+  # "Created by a parent", "Created by a sibling", "Created by a matchmaker"... nil for self
+  def created_by_label(user)
+    key = user&.created_for.to_s
+    return nil if key.blank? || key == 'self'
+
+    t("bkx.created_by.#{key}", default: '')
+  end
+
   # "28 years" / "২৮ বছর"
   def years_label(age)
     return '' if age.blank?
