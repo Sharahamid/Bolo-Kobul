@@ -29,6 +29,8 @@ Rails.application.routes.draw do
   get '/advertise', to: 'listings#new', as: 'advertise'
   # Basics step: read an uploaded biodata and fill the form
   post '/biodata/read', to: 'biodata#read', as: 'biodata_read'
+  # Message from the team pop-up: "OK" / its button
+  post '/team_message/seen', to: 'team_messages#seen', as: 'team_message_seen'
   post '/advertise', to: 'listings#create'
   # Public page explaining how to delete an account (linked from the Google Play listing)
   get '/delete-account', to: 'home#delete_account', as: 'delete_account_info'

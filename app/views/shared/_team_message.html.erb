@@ -1,0 +1,43 @@
+<%# Personal message from the Bolo Kobul team (Admin > Users > Edit > Message to this member).
+    Shown as a pop-up on every page until the member presses a button; same look as the
+    butterflies explanation (shared/_bk_sheets). %>
+<% msg = current_user.admin_message.to_s %>
+<% action = current_user.admin_message_action.presence %>
+<div class="bks-back" id="bk-team-msg" role="dialog" aria-modal="true" aria-labelledby="bk-team-msg-title" hidden>
+  <div class="bks" style="max-width:420px;">
+    <div style="text-align:center;">
+      <div style="width:64px; height:64px; margin:2px auto 12px; border-radius:50%; background:#FFF3CC; display:flex; align-items:center; justify-content:center; font-size:28px;" aria-hidden="true">💌</div>
+      <div style="font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#B07A0E; margin-bottom:4px;"><%= t('team_msg.label') %></div>
+      <h3 id="bk-team-msg-title" style="margin-bottom:12px;"><%= t('team_msg.hello', name: current_user.name.to_s.split.first.presence || t('team_msg.member')) %></h3>
+    </div>
+    <div style="background:#FFFBF0; border:1px solid #F6E3B4; border-radius:14px; padding:14px 16px; font-size:14.5px; color:#3d3326; line-height:1.65; overflow-wrap:anywhere;">
+      <%= simple_format(h(msg), {}, sanitize: false) %>
+      <div style="margin-top:10px; font-size:12.5px; color:#8a7d68;">— <%= t('team_msg.signature') %> · <%= local_digits(current_user.admin_message_sent_at.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y')) %></div>
+    </div>
+    <div class="bks-actions" style="margin-top:16px; flex-direction:column;">
+      <% if action %>
+        <%= button_to t("team_msg.go_#{action}"), team_message_seen_path(go: action), class: 'bks-btn bks-btn--main', form: { style: 'margin:0; display:block;' }, style: 'width:100%;' %>
+      <% end %>
+      <button type="button" class="bks-btn <%= action ? 'bks-btn--soft' : 'bks-btn--main' %>" id="bk-team-msg-ok" style="width:100%;"><%= t('team_msg.ok') %></button>
+    </div>
+  </div>
+</div>
+<script>
+  (function () {
+    var back = document.getElementById('bk-team-msg');
+    if (!back) return;
+    // After the page and any other pop-up have settled
+    setTimeout(function () {
+      if (document.querySelector('.bks-back.is-open:not(#bk-team-msg)')) return;
+      back.hidden = false;
+      requestAnimationFrame(function () { back.classList.add('is-open'); });
+    }, 600);
+    document.getElementById('bk-team-msg-ok').addEventListener('click', function () {
+      var token = document.querySelector('meta[name="csrf-token"]');
+      fetch('<%= team_message_seen_path(format: :json) %>', { method: 'POST', credentials: 'same-origin',
+        headers: { 'Accept': 'application/json', 'X-CSRF-Token': token ? token.content : '' } });
+      back.classList.remove('is-open');
+      setTimeout(function () { back.hidden = true; }, 200);
+    });
+  })();
+</script>

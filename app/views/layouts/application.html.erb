@@ -119,6 +119,8 @@
 <%= render 'shared/deletion_banner' %>
 <%= render 'shared/push_prompt' if push_enabled %>
 <%= render 'shared/bk_sheets' if user_signed_in? %>
+<%# Message from the team (Admin > Users > Edit); waits on the first-visit welcome cards %>
+<%= render 'shared/team_message' if user_signed_in? && current_user.admin_message_waiting? && current_user.welcome_seen_at.present? %>
 <%= content_for?(:content) ? yield(:content) : yield %>
 <%= render 'shared/modal' %>
 <%= render 'shared/report_block_modal' if user_signed_in? && current_active_profile %>

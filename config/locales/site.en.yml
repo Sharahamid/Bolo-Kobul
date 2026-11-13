@@ -580,6 +580,16 @@ en:
     copy: Copy
     note: Share this code with friends or family who are looking for a soulmate. When they register using your code, you earn one free butterfly!
     copied: Copied!
+  team_msg:
+    label: Message from the Bolo Kobul team
+    hello: Hello %{name},
+    member: there
+    signature: Team Bolo Kobul
+    ok: OK, got it
+    go_photos: Update my photos
+    go_profile: Complete my profile
+    go_verify: Get verified
+    go_support: Contact support
   hidden:
     button: Not interested
     button_tip: Hide this profile. You won't see it again in recommendations or search.

@@ -330,6 +330,23 @@ class User < ApplicationRecord
   end
 
   # BK+ membership is active
+  # Message from the team (Admin > Users > Edit): where its button takes the member
+  ADMIN_MESSAGE_ACTIONS = {
+    '' => 'Just "OK, got it"',
+    'photos' => 'Button: Update my photos',
+    'profile' => 'Button: Complete my profile',
+    'verify' => 'Button: Get verified',
+    'support' => 'Button: Contact support'
+  }.freeze
+
+  before_save :stamp_admin_message
+
+  # A message waiting to be shown in the pop-up
+  def admin_message_waiting?
+    admin_message.present? && admin_message_sent_at.present? &&
+      (admin_message_seen_at.nil? || admin_message_seen_at < admin_message_sent_at)
+  end
+
   def bk_plus?
     bk_plus_until.present? && bk_plus_until > Time.current
   end
@@ -420,5 +437,19 @@ class User < ApplicationRecord
 
   def downcase_email
     self.email = email.downcase if email.present?
+  end
+
+  private
+
+  # A new or changed message counts as unread again
+  def stamp_admin_message
+    return unless will_save_change_to_admin_message? || will_save_change_to_admin_message_action?
+
+    if admin_message.present?
+      self.admin_message_sent_at = Time.current
+      self.admin_message_seen_at = nil
+    else
+      self.admin_message_sent_at = nil
+    end
   end
 end

@@ -1,6 +1,7 @@
 ActiveAdmin.register User do
   permit_params :name, :country_code, :phone_number, :national_id, :verified,
-                :email, :username, :butterfly_number, :block_butterfly_number, :bk_plus_until
+                :email, :username, :butterfly_number, :block_butterfly_number, :bk_plus_until,
+                :admin_message, :admin_message_action
 
   menu parent: 'Members', priority: 1
   filter :name
@@ -83,6 +84,18 @@ ActiveAdmin.register User do
       row :block_butterfly_number
       row("BK+ until") { |user| user.bk_plus_until ? "#{user.bk_plus_until.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y, %l:%M %p')}#{' (expired)' unless user.bk_plus?}" : 'No' }
       row("Daily nudges") { |user| user.nudges_enabled ? 'On' : 'Off' }
+      row("Message from the team") do |user|
+        if user.admin_message.present?
+          status = if user.admin_message_waiting?
+                     "<span class='status_tag pending'>Not seen yet</span>"
+                   else
+                     "<span class='status_tag yes'>Seen #{user.admin_message_seen_at&.in_time_zone('Asia/Dhaka')&.strftime('%-d %b %Y, %-I:%M %p')}</span>"
+                   end
+          raw("#{status}<br>#{simple_format(h(user.admin_message))}<small style='color:#999'>Sent #{user.admin_message_sent_at&.in_time_zone('Asia/Dhaka')&.strftime('%-d %b %Y, %-I:%M %p')}</small>")
+        else
+          'None'
+        end
+      end
       row "Identification Document" do |user|
         profile = user.marriage_profiles.first
         if profile&.identification_document.present?
@@ -145,6 +158,13 @@ ActiveAdmin.register User do
       input :butterfly_number, as: :number
       input :block_butterfly_number, as: :number
       input :bk_plus_until, as: :datepicker, label: 'BK+ until (pick a future date to give BK+; clear it to remove)'
+    end
+    f.inputs 'Message to this member' do
+      input :admin_message, as: :text, label: 'Message', input_html: { rows: 4, placeholder: 'e.g. Please update your profile photo with a real, clear photo of yourself.' },
+            hint: 'Shown as a pop-up the next time this member opens Bolo Kobul (website or app), until they press OK. ' \
+                  'Write in English or Bangla. Changing the text sends it again; clear it to remove a message not yet seen.'
+      input :admin_message_action, as: :select, label: 'Button', include_blank: false,
+            collection: User::ADMIN_MESSAGE_ACTIONS.map { |k, v| [v, k] }
     end
     f.actions
   end
