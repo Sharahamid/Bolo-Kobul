@@ -211,6 +211,9 @@ $(function () {
                     box.value = '';
                     box.bkResize();
                     cancelReply();
+                    // First message sent: the conversation starters are no longer needed
+                    var starters = document.getElementById('bk-icebreakers');
+                    if (starters) starters.remove();
                 } else {
                     chimeAndVibrate();
                     markRead(data.content['chat_room_id']);

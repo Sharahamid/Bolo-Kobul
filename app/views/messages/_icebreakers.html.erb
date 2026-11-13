@@ -1,0 +1,25 @@
+<%# Conversation starters, shown until this member has sent their first message in the chat.
+    Tapping one puts it in the message box to edit or send; nothing is sent by itself. %>
+<div class="bk-icebreakers" id="bk-icebreakers">
+  <div class="bk-icebreakers__title">💬 <%= t('chat.icebreakers.title') %></div>
+  <div class="bk-icebreakers__list">
+    <% t('chat.icebreakers.items').each do |text| %>
+      <button type="button" class="bk-icebreakers__chip" data-icebreaker="<%= text %>"><%= text %></button>
+    <% end %>
+  </div>
+</div>
+<script>
+  (function () {
+    var box = document.getElementById('bk-icebreakers');
+    if (!box) return;
+    box.addEventListener('click', function (event) {
+      var chip = event.target.closest('[data-icebreaker]');
+      var input = document.getElementById('message_text');
+      if (!chip || !input) return;
+      input.value = chip.getAttribute('data-icebreaker');
+      input.dispatchEvent(new Event('input'));
+      input.focus();
+      try { input.setSelectionRange(input.value.length, input.value.length); } catch (e) {}
+    });
+  })();
+</script>

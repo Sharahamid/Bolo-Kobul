@@ -376,6 +376,15 @@ en:
     terms_html: I have read the %{terms} and %{privacy} of Bolo Kobul
     note: Your email and mobile number are never shown to other members.
   chat:
+    icebreakers:
+      title: Not sure how to start? Tap one, edit it if you like, and send.
+      items:
+        - Hello 👋 Nice to connect with you here!
+        - Hi! How has your week been so far? 🙂
+        - What do you enjoy doing in your free time?
+        - I liked your profile. Could you tell me a little about your family?
+        - What are you looking for in a life partner?
+        - Which place in Bangladesh do you love most, and why?
     reply: Reply
     you: You
     cancel_reply: Cancel reply
