@@ -10,6 +10,7 @@
         <div class="form-group nid-input-field file-input-field">
           <div><%= profile_t('upload_id', @marriage_profile) %></div>
           <%= f.file_field :identification_document,
+                           'data-bk-max': 10,
                            class: 'form-control sign_up-input-field',
                            data: {toggle: "tooltip", placement: "top"},
                            title: t('form.id_document') %>

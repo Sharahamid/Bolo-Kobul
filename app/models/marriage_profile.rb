@@ -116,6 +116,7 @@ class MarriageProfile < ApplicationRecord
   # From Devise module Validatable
   # TODO ADD VALIDATION; Currently not working
   validate :validate_other_supporting_doc
+  validate :identification_document_size
   validate :at_least_18, if: :date_of_birth_changed?
   validates_presence_of :gender,
                         :height_ft,
@@ -526,6 +527,16 @@ class MarriageProfile < ApplicationRecord
     true if id == viewer.id
   end
 
+
+  # ID document: 10 MB at most, the same limit the upload field shows (shared/_file_guard)
+  def identification_document_size
+    return unless identification_document_changed? && identification_document.present?
+    size = identification_document.file&.size.to_i
+    if size > 10_000_000
+      remove_identification_document!
+      errors.add(:identification_document, I18n.t('form.file_too_large', mb: 10))
+    end
+  end
 
   def nid_image_validation
     if nid_image.attached?

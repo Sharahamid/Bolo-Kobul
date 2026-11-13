@@ -495,6 +495,8 @@ en:
     nid: NID or Passport No.
     nid_title: NID or Passport No.* 🔐 (information cannot be edited once submitted)
     upload_id: Upload A Clear Identification Document
+    file_too_large: "This file is too large (max %{mb} MB). Please upload a photo of the document or a smaller file."
+    file_preparing: "Preparing your photo…"
     id_types: NID, passport, birth certificate, driving license, office ID
     id_document: Identification Document
     gender_req: Gender*

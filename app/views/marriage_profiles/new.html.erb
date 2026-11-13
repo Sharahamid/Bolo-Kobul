@@ -65,13 +65,15 @@
             <div class="form-group">
               <div><%= profile_t('upload_id', @marriage_profile) %></div>
               <%# Keeps an already chosen document if the form comes back with an error %>
-              <%= f.hidden_field :identification_document_cache %>
-              <% doc_kept = f.object.identification_document_cache.present? || (f.object.persisted? && f.object.identification_document.present?) %>
+              <% doc_too_large = f.object.errors[:identification_document].present? %>
+              <%= f.hidden_field :identification_document_cache, value: (doc_too_large ? nil : f.object.identification_document_cache) %>
+              <% doc_kept = !doc_too_large && (f.object.identification_document_cache.present? || (f.object.persisted? && f.object.identification_document.present?)) %>
               <% if doc_kept %>
                 <% doc_name = f.object.identification_document.file.try(:original_filename).presence || File.basename(f.object.identification_document.path.to_s) %>
                 <small class="d-block mb-1" style="color:#2e7d32;">✓ <%= t('form.document_kept', name: doc_name) %></small>
               <% end %>
               <%= f.file_field :identification_document, required: !doc_kept,
+                               'data-bk-max': 10,
                                class: 'form-control sign_up-input-field',
                                style: 'padding: 3px',
                                data: {toggle: "tooltip", placement: "top" },

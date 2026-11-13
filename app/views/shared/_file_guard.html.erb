@@ -1,0 +1,93 @@
+<%# Upload helper for file fields marked data-bk-max="<MB>" (ID documents, support attachments).
+    - Photos (JPG/PNG/WebP) are made smaller in the browser before sending (max 1800px, JPEG),
+      so a full-size phone photo uploads quickly and stays under the limit.
+    - Any other file over the limit is stopped right away with a friendly message, so the
+      server never shows its "413 Request Entity Too Large" page and the form is not lost. %>
+<script>
+(function () {
+  if (window.bkFileGuard) return;
+  window.bkFileGuard = true;
+  var T = <%= raw({ too_large: t('form.file_too_large', mb: '%{mb}'), preparing: t('form.file_preparing') }.to_json) %>;
+  var SHRINK = /^image\/(jpeg|jpg|png|webp)$/i;
+  var MAX_SIDE = 1800;
+
+  function msgEl(input) {
+    var el = input.parentNode.querySelector('.bk-file-msg');
+    if (!el) {
+      el = document.createElement('small');
+      el.className = 'bk-file-msg d-block';
+      el.style.marginTop = '4px';
+      input.insertAdjacentElement('afterend', el);
+    }
+    return el;
+  }
+  function say(input, text, bad) {
+    var el = msgEl(input);
+    el.textContent = text || '';
+    el.style.color = bad ? '#dc3545' : '#8a6d1f';
+  }
+  function setBusy(input, busy) {
+    var form = input.form;
+    if (!form) return;
+    form.querySelectorAll('[type=submit]').forEach(function (b) { b.disabled = busy; });
+  }
+  function put(input, file) {
+    try {
+      var dt = new DataTransfer();
+      dt.items.add(file);
+      input.files = dt.files;
+      return true;
+    } catch (e) { return false; }
+  }
+  function shrink(file, done) {
+    var url = URL.createObjectURL(file);
+    var img = new Image();
+    img.onload = function () {
+      var w = img.naturalWidth, h = img.naturalHeight;
+      var scale = Math.min(1, MAX_SIDE / Math.max(w, h));
+      var c = document.createElement('canvas');
+      c.width = Math.round(w * scale); c.height = Math.round(h * scale);
+      var ctx = c.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      c.toBlob(function (blob) {
+        if (!blob || blob.size >= file.size) return done(null);
+        var name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+        done(new File([blob], name, { type: 'image/jpeg', lastModified: Date.now() }));
+      }, 'image/jpeg', 0.85);
+    };
+    img.onerror = function () { URL.revokeObjectURL(url); done(null); };
+    img.src = url;
+  }
+
+  document.addEventListener('change', function (e) {
+    var input = e.target;
+    if (!input || input.type !== 'file' || !input.hasAttribute('data-bk-max')) return;
+    var file = input.files && input.files[0];
+    say(input, '');
+    if (!file) return;
+    var maxMb = parseFloat(input.getAttribute('data-bk-max')) || 10;
+    var max = maxMb * 1000 * 1000;
+    function check(f) {
+      if (f.size > max) {
+        input.value = '';
+        say(input, T.too_large.replace('%{mb}', maxMb), true);
+        return false;
+      }
+      return true;
+    }
+    if (SHRINK.test(file.type) && file.size > 800 * 1024 && window.DataTransfer) {
+      setBusy(input, true);
+      say(input, T.preparing);
+      shrink(file, function (small) {
+        setBusy(input, false);
+        say(input, '');
+        if (small && put(input, small)) { check(small); } else { check(file); }
+      });
+    } else {
+      check(file);
+    }
+  }, true);
+})();
+</script>

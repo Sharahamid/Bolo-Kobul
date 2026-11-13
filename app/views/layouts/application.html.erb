@@ -123,6 +123,7 @@
 <%= render 'shared/modal' %>
 <%= render 'shared/report_block_modal' if user_signed_in? && current_active_profile %>
 <%= render 'shared/photo_protection' if user_signed_in? && current_active_profile %>
+<%= render 'shared/file_guard' if user_signed_in? %>
 <% if content_for?(:mobile_ads) %>
   <%# Phones: the side-column ads move here, below the page content, so they do not come between
       the profile card and the profile itself %>
