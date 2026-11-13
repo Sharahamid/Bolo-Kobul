@@ -9,7 +9,6 @@
 #           found: number of details found, text_found: true/false }.
 # Phone numbers and full addresses are never returned.
 require 'open3'
-require 'zip'
 
 class BiodataReader
   MAX_PAGES = 3
@@ -128,12 +127,17 @@ class BiodataReader
     end
   end
 
+  # A .docx is a zip file; the text is in word/document.xml. Read with Python's built-in zip
+  # support (always on Ubuntu), so no extra Ruby library is needed.
   def docx_text
-    xml = +''
-    Zip::File.open(@path) do |zip|
-      entry = zip.find_entry('word/document.xml')
-      xml = entry.get_input_stream.read.force_encoding('UTF-8') if entry
-    end
+    xml, _err, status = Open3.capture3(
+      'python3', '-c',
+      'import sys, zipfile; sys.stdout.write(zipfile.ZipFile(sys.argv[1]).read("word/document.xml").decode("utf-8", "replace"))',
+      @path
+    )
+    return '' unless status.success?
+
+    xml = xml.force_encoding('UTF-8')
     # Table rows become "Label : Value" lines
     xml.gsub(%r{</w:p>\s*</w:tc>}, '</w:tc>')
        .gsub(%r{</w:tc>}, ' : ')
