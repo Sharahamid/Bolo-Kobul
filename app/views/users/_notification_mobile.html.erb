@@ -6,7 +6,7 @@
   <div class="content d-flex align-items-start">
     <span class="notification-bullet"></span>
     <div class="flex-fill">
-      <div class="bk-notif-text"><%= safe_html(notification_text(notification.content).to_s.gsub(/\s*&lt;3|\s*<3(?![\w\/])/, ' ♥')) %></div>
+      <div class="bk-notif-text"><%= safe_html(notification_text(notification.content).to_s.gsub(/\s*&lt;3|\s*<3(?![\w\/])/, ' 💛')) %></div>
       <div class="bk-notif-time"><%= local_time_tag(notification.created_at, :full) %></div>
     </div>
   </div>

@@ -348,7 +348,7 @@ en:
     sent_email_html: A verification code has been sent to your email address %{email}. Please check your inbox and spam folder, then enter the code below to activate your account.
     code_label: 'Verification Code:'
     code_placeholder: Enter your verification code
-    verify: Verify
+    verify: Confirm Code & Continue
     resend: Resend Code
     help_html: Did not receive the code? Check your spam folder or click %{resend} above. For further help contact us at %{email}
   password:

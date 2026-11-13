@@ -28,10 +28,10 @@
             <%= label_tag :token, t('verify.code_label') %>
             <%= text_field_tag :token, '', class: "form-control", placeholder: t('verify.code_placeholder'), id: 'otp_token', autocomplete: 'one-time-code', inputmode: 'numeric', maxlength: 6 %>
           </div>
-          <button type="submit" class="btn btn-primary"><%= t('verify.verify') %></button>
+          <button type="submit" class="btn" style="background:#FFB627; border-color:#FFB627; color:#412402; font-weight:700; border-radius:999px; padding:8px 22px;"><%= t('verify.verify') %></button>
           &nbsp;
           <%# A real button (not a scripted link), so it works on every phone even if JavaScript fails %>
-          <button type="submit" class="btn btn-link px-1" formaction="<%= resend_user_path(@user) %>" formmethod="post" formnovalidate><%= t('verify.resend') %></button>
+          <button type="submit" class="btn btn-link px-1" style="color:#854F0B; font-weight:600;" formaction="<%= resend_user_path(@user) %>" formmethod="post" formnovalidate><%= t('verify.resend') %></button>
         <% end -%>
         <script>
           // Reads the code from the SMS automatically (Chrome on Android, incl. the app),

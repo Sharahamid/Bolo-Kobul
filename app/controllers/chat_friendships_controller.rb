@@ -50,7 +50,7 @@ class ChatFriendshipsController < ApplicationController
         @marriage_profile.use_with_blocked_butterflies_chat
         @marriage_profile.user.notifications
           .create(
-            content: "#{current_active_profile.unique_id} has accepted your 2nd Kobul. You can now <a href='#{profile_message_path(current_active_profile)}' style='color:#FFB627;font-weight:600;'>Begin Chatting</a> safely! Best of Luck! <3",
+            content: "#{current_active_profile.unique_id} has accepted your 2nd Kobul. You can now <a href='#{profile_message_path(current_active_profile)}' style='color:#FFB627;font-weight:600;'>Begin Chatting</a> safely! Best of luck! 💛",
             notifiable: @marriage_profile,
             will_email: false,
             will_sms: false

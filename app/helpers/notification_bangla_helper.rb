@@ -46,8 +46,8 @@ module NotificationBanglaHelper
     # Added November 2026: the rest of the member notifications
     [/\A#{ID} would like to chat with you\. #{LINK}Check out their Profile<\/a> and begin chatting\z/,
      '\1 আপনার সঙ্গে চ্যাট করতে চান। \2তাঁর প্রোফাইল দেখুন</a> এবং চ্যাট শুরু করুন'],
-    [/\A#{ID} has accepted your 2nd Kobul\. You can now #{LINK}Begin Chatting<\/a> safely! Best of Luck! <3\z/,
-     '\1 আপনার ২য় কবুল গ্রহণ করেছেন। এখন নিরাপদে \2চ্যাট শুরু করুন</a>! শুভকামনা! ♥'],
+    [/\A#{ID} has accepted your 2nd Kobul\. You can now #{LINK}Begin Chatting<\/a> safely! Best of [Ll]uck! (?:<3|💛)\z/,
+     '\1 আপনার ২য় কবুল গ্রহণ করেছেন। এখন নিরাপদে \2চ্যাট শুরু করুন</a>! শুভকামনা! 💛'],
     [/\A#{LINK}Start Chatting<\/a> with #{ID}! Your name or number will still not be disclosed\.\z/,
      '\2-এর সঙ্গে \1চ্যাট শুরু করুন</a>! আপনার নাম বা নম্বর এখনো প্রকাশ করা হবে না।'],
     [/\AYou have a new message from #{ID}\. #{LINK}Read and Reply<\/a>\z/,

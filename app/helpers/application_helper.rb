@@ -101,6 +101,8 @@ module ApplicationHelper
                        .gsub(/\s*(Purchase|Get) more\b[^.!<]*[.!]/i, '')
                        .strip
     end
+    # Older notifications ended with "<3": shown as a gold heart instead
+    content = content.to_s.gsub(/\s*<3\z/, ' 💛')
     I18n.locale == :bn ? bangla_notification(content) : content
   end
 
