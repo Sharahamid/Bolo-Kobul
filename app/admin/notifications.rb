@@ -1,5 +1,6 @@
 ActiveAdmin.register Notification do
   menu parent: 'Members', priority: 5
+  filter :profile_id_eq, as: :string, label: 'Profile ID (BK…)'
   filter :recipient_email, as: :string, label: 'Member email'
   filter :is_read
   filter :created_at

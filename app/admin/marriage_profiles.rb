@@ -2,6 +2,7 @@ ActiveAdmin.register MarriageProfile do
   permit_params :verified
 
   menu parent: 'Members', priority: 2
+  filter :profile_id_eq, as: :string, label: 'Profile ID (BK…)'
   filter :name
   filter :gender, as: :select, collection: -> { MarriageProfile.genders.keys.map { |k| [k.titleize, MarriageProfile.genders[k]] } }
   filter :religion, as: :select, collection: -> { MarriageProfile.religions.keys.map { |k| [k.titleize, MarriageProfile.religions[k]] } }

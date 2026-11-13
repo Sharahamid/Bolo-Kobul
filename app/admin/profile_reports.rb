@@ -8,6 +8,7 @@ ActiveAdmin.register ProfileReport do
   scope :all
   scope('Needs review', default: true) { |reports| reports.unresolved }
 
+  filter :profile_id_eq, as: :string, label: 'Profile ID (BK…)'
   filter :reason, as: :select, collection: -> { ProfileReport::REASONS.invert }
   filter :status, as: :select, collection: ProfileReport::STATUSES
   filter :created_at

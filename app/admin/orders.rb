@@ -5,6 +5,7 @@ ActiveAdmin.register Order do
   permit_params :fulfilment_status, :fulfilment_note
   config.batch_actions = false
 
+  filter :profile_id_eq, as: :string, label: 'Profile ID (BK…)'
   filter :product, as: :select, collection: -> { Order.products }
   filter :status, as: :select, collection: -> { Order.statuses }
   filter :user_email, as: :string, label: 'Member email'

@@ -17,6 +17,12 @@
 #
 
 class Notification < ApplicationRecord
+  # Admin filter "Profile ID" (see ProfileIdFilter)
+  include ProfileIdFilter
+  def self.rows_for_profile_id(text)
+    where(recipient_id: ProfileIdFilter.user_ids_from(text))
+  end
+
   #
   # enum, accessor, constant
   #

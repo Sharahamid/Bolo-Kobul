@@ -55,6 +55,12 @@
 
 #TODO: should have user type field
 class User < ApplicationRecord
+  # Admin filter "Profile ID" (see ProfileIdFilter)
+  include ProfileIdFilter
+  def self.rows_for_profile_id(text)
+    where(id: ProfileIdFilter.user_ids_from(text))
+  end
+
   #
   # enum, constant & attr
   include UserConcern

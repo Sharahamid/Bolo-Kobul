@@ -13,6 +13,12 @@
 #
 
 class CustomerSupport < ApplicationRecord
+  # Admin filter "Profile ID" (see ProfileIdFilter)
+  include ProfileIdFilter
+  def self.rows_for_profile_id(text)
+    where(user_id: ProfileIdFilter.user_ids_from(text))
+  end
+
   #
   # enum & constants
   #

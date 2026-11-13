@@ -1,5 +1,6 @@
 ActiveAdmin.register CustomerSupport do
   menu parent: 'Members', priority: 4, label: 'Support Tickets'
+  filter :profile_id_eq, as: :string, label: 'Profile ID (BK…)'
   filter :status, as: :select, collection: -> { CustomerSupport.statuses }
   filter :issue_type
   filter :created_at

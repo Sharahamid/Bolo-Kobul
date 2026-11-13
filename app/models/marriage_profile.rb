@@ -42,6 +42,12 @@
 #
 
 class MarriageProfile < ApplicationRecord
+  # Admin filter "Profile ID" (see ProfileIdFilter)
+  include ProfileIdFilter
+  def self.rows_for_profile_id(text)
+    where(id: ProfileIdFilter.ids_from(text))
+  end
+
 
   #
   # enum, constant & attr

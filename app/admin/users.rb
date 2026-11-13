@@ -4,6 +4,7 @@ ActiveAdmin.register User do
                 :admin_message, :admin_message_action
 
   menu parent: 'Members', priority: 1
+  filter :profile_id_eq, as: :string, label: 'Profile ID (BK…)'
   filter :name
   filter :email
   filter :phone_number

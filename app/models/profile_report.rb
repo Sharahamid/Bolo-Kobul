@@ -1,6 +1,13 @@
 # A member's report about another profile (fake profile, abusive messages, scam ...).
 # Reports go to support@bolokobul.com and are reviewed in the admin panel.
 class ProfileReport < ApplicationRecord
+  # Admin filter "Profile ID" (see ProfileIdFilter)
+  include ProfileIdFilter
+  def self.rows_for_profile_id(text)
+    ids = ProfileIdFilter.ids_from(text)
+    where(reported_profile_id: ids).or(where(reporter_profile_id: ids))
+  end
+
   REASONS = {
     'fake_profile'      => 'Fake profile or false information',
     'inappropriate'     => 'Inappropriate photos or content',
