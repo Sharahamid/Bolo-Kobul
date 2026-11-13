@@ -14,6 +14,15 @@ class ApplicationController < ActionController::Base
     head :not_acceptable
   end
 
+  # Bots often ask for pages as plain text, XML etc. (e.g. /users.txt). Pages only exist as
+  # HTML, so answer "not available" quietly instead of a 500 error email. A missing template
+  # for a normal HTML page is still a real bug and is reported as before.
+  rescue_from ActionView::MissingTemplate do |error|
+    raise error if request.format.html?
+
+    head :not_acceptable
+  end
+
   rescue_from ActionController::InvalidAuthenticityToken do
     respond_to do |format|
       format.html do
