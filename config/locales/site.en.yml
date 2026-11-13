@@ -439,7 +439,7 @@ en:
     prompt_body: Get a notification when someone sends you a Kobul, accepts yours or messages you.
     not_now: Not now
     turn_on: Turn on
-    settings_title: Phone notifications
+    settings_title: Notifications
     checking: Checking this device…
     send_test: Send test notification
     unsupported: This browser cannot show notifications. On iPhone, add Bolo Kobul to your Home Screen first, then open it from there.

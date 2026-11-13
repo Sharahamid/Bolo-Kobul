@@ -1,4 +1,4 @@
-<%# Phone/desktop notification status for this device, with Turn on and a test %>
+<%# Phone/desktop notification status for this device, with Turn on %>
 <style>
   .bk-push-settings { display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:0 0 14px; padding:14px 16px;
                       background:#FFFFFF; border:1px solid #F1E6C8; border-left:4px solid #C99A16; border-radius:12px; }
@@ -18,7 +18,6 @@
   </div>
   <div class="bk-push-settings__actions">
     <button type="button" class="bk-push-settings__btn bk-push-settings__btn--primary" data-push-turn-on hidden><%= t('push.turn_on') %></button>
-    <button type="button" class="bk-push-settings__btn bk-push-settings__btn--ghost" data-push-test hidden><%= t('push.send_test') %></button>
   </div>
 </div>
 <script>
@@ -26,7 +25,6 @@
     var box = document.getElementById('bk-push-settings');
     var status = box.querySelector('[data-push-status]');
     var turnOn = box.querySelector('[data-push-turn-on]');
-    var testBtn = box.querySelector('[data-push-test]');
 
     function show() {
       if (!window.bkPush) {
@@ -35,7 +33,6 @@
       }
       var permission = window.bkPush.permission();
       turnOn.hidden = permission !== 'default';
-      testBtn.hidden = permission !== 'granted';
       if (permission === 'granted') {
         status.textContent = <%= raw t('push.on').to_json %>;
       } else if (permission === 'denied') {
@@ -47,19 +44,6 @@
 
     turnOn.addEventListener('click', function () {
       window.bkPush.enable().then(show, show);
-    });
-
-    testBtn.addEventListener('click', function () {
-      var token = document.querySelector('meta[name="csrf-token"]');
-      testBtn.disabled = true;
-      fetch('/push_subscriptions/test', {
-        method: 'POST', credentials: 'same-origin',
-        headers: { 'X-CSRF-Token': token ? token.content : '' }
-      }).then(function (response) {
-        status.textContent = response.ok
-          ? <%= raw t('push.test_sent').to_json %>
-          : <%= raw t('push.not_registered').to_json %>;
-      }).finally(function () { setTimeout(function () { testBtn.disabled = false; }, 5000); });
     });
 
     // push-notifications.js loads after this page; wait for it
