@@ -166,26 +166,30 @@
         <% end %>
       <% end %>
 
-      <% unless advanced %>
-        <!-- Advanced Search not activated: show what it adds and an Activate button -->
-        <div class="bk-adv-offer" style="margin-top:12px; background:rgba(255,255,255,.35); border:1px dashed rgba(99,56,6,.35); border-radius:10px; padding:10px 12px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
-          <div style="display:flex; align-items:center; gap:10px; flex:1 1 300px; min-width:0;">
-            <div style="flex:0 0 32px; height:32px; border-radius:50%; background:#633806; color:#FFB627; display:flex; align-items:center; justify-content:center; font-size:13px;"><i class="fas fa-sliders-h"></i></div>
-            <div style="min-width:0;">
-              <div style="font-size:13.5px; font-weight:700; color:#412402;"><%= t('search.adv_title') %> <span style="font-weight:500; color:#7a4a08;">— <%= t('search.adv_subtitle') %></span></div>
-              <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:5px;">
-                <% %w[height education occupation blood_group].each do |k| %>
-                  <span style="background:rgba(255,255,255,.55); color:#633806; border-radius:999px; padding:3px 10px; font-size:11.5px; font-weight:600;"><%= t("search.#{k}") %></span>
-                <% end %>
-              </div>
-            </div>
+    </div>
+
+    <!-- Advanced Search on / off, the same card as in Account Settings -->
+    <div style="padding:12px 14px 0;">
+      <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:10px; flex:1 1 220px; min-width:0;">
+          <div style="width:34px; height:34px; background:#FFF3CC; border-radius:8px; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fas fa-search" style="color:#854F0B; font-size:14px;"></i>
           </div>
-          <%= button_to toggle_advanced_search_user_path(current_user, from: 'search'), method: :patch, form: { style: 'margin:0;' },
-                        style: 'background:#fff; color:#633806; border:1px solid #633806; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:700; white-space:nowrap; cursor:pointer;' do %>
-            <%= adv_cost.positive? ? t('search.adv_activate', n: local_digits(adv_cost)) : t('search.adv_activate_free') %>
-          <% end %>
+          <div style="min-width:0;">
+            <p style="font-size:11px; color:#aaa; margin:0 0 2px; font-weight:600; text-transform:uppercase; letter-spacing:0.05em;"><%= t('settings.advanced_search') %></p>
+            <p style="font-size:13px; color:#412402; font-weight:600; margin:0 0 2px;">
+              <%= advanced ? t('settings.enabled') : t('settings.disabled') %>
+              <span style="font-weight:400; color:#888; font-size:12px;">· <%= %w[height education occupation blood_group].map { |k| t("search.#{k}") }.join(', ') %></span>
+            </p>
+            <p style="font-size:11px; color:#aaa; margin:0;"><%= t('settings.cost', cost: t('settings.butterflies', count: adv_cost).sub(adv_cost.to_s, local_digits(adv_cost))) %></p>
+          </div>
         </div>
-      <% end %>
+        <%= button_to toggle_advanced_search_user_path(current_user, from: 'search'), method: :patch, form: { style: 'margin:0; flex-shrink:0;' },
+                      style: "background:#{advanced ? '#FFB627' : '#f5f5f5'}; color:#{advanced ? '#412402' : '#aaa'}; border:none; border-radius:8px; padding:7px 14px; font-size:12px; font-weight:600; cursor:pointer;" do %>
+          <i class="fas fa-toggle-<%= advanced ? 'on' : 'off' %>"></i>
+          <%= advanced ? t('settings.enabled') : t('settings.disabled') %>
+        <% end %>
+      </div>
     </div>
 
     <!-- Results -->

@@ -742,6 +742,7 @@ bn:
     about_family: আপনার পরিবার সম্পর্কে কিছু কথা
     cancel: বাতিল
   search:
+    adv_disabled: অ্যাডভান্সড সার্চ বন্ধ করা হয়েছে।
     adv_title: অ্যাডভান্সড সার্চ
     adv_subtitle: ঠিক যাকে খুঁজছেন তাকে খুঁজে নিন
     adv_activate: "চালু করুন 🦋 %{n}"

@@ -550,6 +550,7 @@ en:
     about_family: A Few Lines About Your Family
     cancel: Cancel
   search:
+    adv_disabled: Advanced Search is off.
     adv_title: Advanced Search
     adv_subtitle: find exactly who you're looking for
     adv_activate: "Activate for 🦋 %{n}"

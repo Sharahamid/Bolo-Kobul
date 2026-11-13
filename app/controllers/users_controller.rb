@@ -184,8 +184,12 @@ class UsersController < ApplicationController
     else
       @user.advanced_search = "disabled"
       if @user.save
-        redirect_to privacy_settings_path,
-                    notice: "Advanced Search Disabled"
+        if params[:from] == 'search'
+          redirect_to search_page_marriage_profile_path(current_active_profile), notice: I18n.t('search.adv_disabled')
+        else
+          redirect_to privacy_settings_path,
+                      notice: "Advanced Search Disabled"
+        end
       else
         redirect_back fallback_location: root_path,
                       notice: "#{@user.errors.full_messages.first}"
