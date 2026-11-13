@@ -1,0 +1,132 @@
+<%# "Already have a biodata?" box on the Basics step (BiodataController#read). Optional: the
+    member uploads their own biodata (PDF, Word or photo), the details found fill the empty
+    boxes below (highlighted to check), and the file is kept privately with the profile. %>
+<% kept = f.object.biodata_document_cache.present? || f.object.biodata_document.present? %>
+<div class="bk-bio" id="bk-bio">
+  <div class="bk-bio-head">
+    <div class="bk-bio-icon"><i class="fas fa-file-alt"></i></div>
+    <div>
+      <strong><%= t('biodata.title') %></strong>
+      <span><%= t('biodata.subtitle') %></span>
+    </div>
+  </div>
+  <label class="bk-bio-btn" for="bk-bio-file">
+    <i class="fas fa-upload"></i> <span id="bk-bio-btn-text"><%= t(kept ? 'biodata.choose_again' : 'biodata.choose') %></span>
+  </label>
+  <input type="file" id="bk-bio-file" accept=".pdf,.docx,.jpg,.jpeg,.png,.webp,application/pdf,image/*,application/vnd.openxmlformats-officedocument.wordprocessingml.document" hidden>
+  <div class="bk-bio-msg" id="bk-bio-msg" role="status" aria-live="polite"><%= t('biodata.kept') if kept %></div>
+  <small class="bk-bio-note"><%= t('biodata.note') %></small>
+  <%= f.hidden_field :biodata_document_cache, id: 'bk-bio-cache' %>
+  <%= hidden_field_tag 'marriage_profile[biodata_data]', '', id: 'bk-bio-data' %>
+</div>
+
+<style>
+  .bk-bio { background:#FFF8EE; border:1px dashed #FAC775; border-radius:12px; padding:14px; margin-bottom:18px; }
+  .bk-bio-head { display:flex; gap:12px; align-items:flex-start; margin-bottom:10px; }
+  .bk-bio-icon { flex:0 0 38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#412402; display:flex; align-items:center; justify-content:center; }
+  .bk-bio-head strong { display:block; font-size:14px; color:#412402; }
+  .bk-bio-head span { display:block; font-size:12.5px; color:#7a6a50; line-height:1.5; margin-top:2px; }
+  .bk-bio-btn { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid #FFB627; color:#633806; border-radius:9px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; margin:0; }
+  .bk-bio-btn:hover { background:#FFF3CC; }
+  .bk-bio-btn.busy { opacity:.6; pointer-events:none; }
+  .bk-bio-msg { font-size:13px; line-height:1.55; margin-top:10px; color:#633806; }
+  .bk-bio-msg:empty { display:none; }
+  .bk-bio-msg.ok { color:#1D7A55; }
+  .bk-bio-msg.bad { color:#B42318; }
+  .bk-bio-note { display:block; font-size:11.5px; color:#9a8b72; margin-top:8px; }
+  .bk-filled { background:#FFF6D6 !important; border-color:#FFB627 !important; box-shadow:0 0 0 2px rgba(255,182,39,.18); }
+</style>
+
+<script>
+(function () {
+  var input = document.getElementById('bk-bio-file');
+  if (!input) return;
+  var msg = document.getElementById('bk-bio-msg');
+  var btn = document.querySelector('.bk-bio-btn');
+  var btnText = document.getElementById('bk-bio-btn-text');
+  var T = <%= raw({
+    reading: t('biodata.reading'), filled: t('biodata.filled'), none: t('biodata.none'), no_text: t('biodata.no_text'),
+    extras: t('biodata.extras'), failed: t('biodata.failed'), too_large: t('form.file_too_large', mb: 10),
+    choose_again: t('biodata.choose_again')
+  }.to_json) %>;
+
+  function say(text, cls) { msg.textContent = text; msg.className = 'bk-bio-msg ' + (cls || ''); }
+  function mark(el) {
+    el.classList.add('bk-filled');
+    el.addEventListener('change', function () { el.classList.remove('bk-filled'); }, { once: true });
+  }
+  // Only empty boxes are filled: anything the member already chose stays as it is
+  function setSelect(id, value) {
+    var el = document.getElementById(id);
+    if (!el || el.disabled || el.value || value == null) return false;
+    var ok = Array.prototype.some.call(el.options, function (o) { return o.value === String(value); });
+    if (!ok) return false;
+    el.value = String(value);
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+    mark(el);
+    return true;
+  }
+  function setText(id, value) {
+    var el = document.getElementById(id);
+    if (!el || el.readOnly || el.value.trim() || !value) return false;
+    el.value = value;
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    mark(el);
+    return true;
+  }
+  function setDob(iso) {
+    var p = (iso || '').split('-');
+    var d = document.getElementById('bk-dob-day'), m = document.getElementById('bk-dob-month'), y = document.getElementById('bk-dob-year');
+    if (!d || !m || !y || p.length !== 3 || d.value || m.value || y.value) return false;
+    var has = function (sel, v) { return Array.prototype.some.call(sel.options, function (o) { return o.value === v; }); };
+    var yy = String(+p[0]), mm = String(+p[1]), dd = String(+p[2]);
+    if (!has(y, yy)) return false;
+    y.value = yy; m.value = mm; d.value = dd;
+    [y, m, d].forEach(function (s) { s.dispatchEvent(new Event('change', { bubbles: true })); mark(s); });
+    return true;
+  }
+
+  input.addEventListener('change', function () {
+    var file = input.files && input.files[0];
+    if (!file) return;
+    if (file.size > 10000000) { say(T.too_large, 'bad'); input.value = ''; return; }
+    var fd = new FormData();
+    fd.append('file', file);
+    var token = document.querySelector('meta[name="csrf-token"]');
+    btn.classList.add('busy');
+    say(T.reading);
+    fetch('<%= biodata_read_path %>', {
+      method: 'POST', body: fd, credentials: 'same-origin',
+      headers: { 'Accept': 'application/json', 'X-CSRF-Token': token ? token.content : '' }
+    }).then(function (r) { return r.json().catch(function () { return { error: T.failed }; }); })
+      .then(function (data) {
+        btn.classList.remove('busy');
+        input.value = '';
+        if (data.error) { say(data.error, 'bad'); return; }
+        document.getElementById('bk-bio-cache').value = data.cache || '';
+        document.getElementById('bk-bio-data').value = JSON.stringify(data.extras || {});
+        btnText.textContent = T.choose_again;
+        var f = data.fields || {}, n = 0;
+        // Gender first, so the marital status list shows Widow / Widower correctly
+        if (setSelect('marriage_profile_gender', f.gender)) n++;
+        if (setText('marriage_profile_name', f.name)) n++;
+        if (setDob(f.date_of_birth)) n++;
+        ['marital_status', 'religion', 'hometown', 'present_location', 'highest_education_level',
+         'family_type', 'family_status', 'blood_group'].forEach(function (k) {
+          if (setSelect('marriage_profile_' + k, f[k])) n++;
+        });
+        if (f.height_ft && setSelect('marriage_profile_height_ft', f.height_ft)) {
+          n++;
+          setSelect('marriage_profile_height_inch', f.height_inch || '0');
+        }
+        var extras = Object.keys(data.extras || {}).length;
+        if (!data.text_found) { say(T.no_text, 'bad'); return; }
+        if (n === 0 && extras === 0) { say(T.none, 'bad'); return; }
+        say(T.filled.replace('%{count}', n) + (extras ? ' ' + T.extras : ''), 'ok');
+        var first = document.querySelector('.bk-filled');
+        if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      })
+      .catch(function () { btn.classList.remove('busy'); input.value = ''; say(T.failed, 'bad'); });
+  });
+})();
+</script>

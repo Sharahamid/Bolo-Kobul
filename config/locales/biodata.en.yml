@@ -1,0 +1,28 @@
+# "Already have a biodata?" on the Basics step and the dashboard reminder.
+# The Bangla version is biodata.bn.yml - keep both in step.
+en:
+  biodata:
+    title: "Already have a biodata?"
+    subtitle: "Upload it (PDF, Word or a clear photo) and we'll fill in the form for you. Optional."
+    choose: "Upload biodata"
+    choose_again: "Upload a different biodata"
+    reading: "Reading your biodata… this can take up to a minute for photos."
+    filled: "We filled %{count} details from your biodata. They are highlighted in yellow: please check each one before pressing Next."
+    extras: "Other details (profession, family, about you) are saved for the next steps."
+    none: "We could read the file but could not find details in it. Please fill in the form below."
+    no_text: "We could not read text from this file. If it is a photo, try a clearer, straight photo, or upload the Word or PDF file instead."
+    failed: "Something went wrong while reading the file. Please try again or fill in the form below."
+    wrong_type: "Please upload a PDF, a Word file (.docx) or a photo (JPG or PNG)."
+    no_file: "Please choose a file."
+    too_many: "Too many biodatas uploaded. Please wait a few minutes and try again."
+    kept: "Your biodata is attached."
+    note: "Your biodata is kept privately with your ID document. Only the Bolo Kobul team can see it — never other members. Phone numbers and addresses are not copied."
+    card_title: "From your biodata"
+    card_text: "We found these details in your biodata. Add them to your profile so matches see them:"
+    card_button: "Add to my profile"
+    card_hide: "Hide"
+    profession: "Profession"
+    father: "Father"
+    mother: "Mother"
+    siblings: "Siblings"
+    weight: "Weight"

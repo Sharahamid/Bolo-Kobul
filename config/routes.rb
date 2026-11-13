@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   get '/contact', to: 'home#contact', as: 'contact'
   # Businesses apply (and pay) for the Wedding Shopping List
   get '/advertise', to: 'listings#new', as: 'advertise'
+  # Basics step: read an uploaded biodata and fill the form
+  post '/biodata/read', to: 'biodata#read', as: 'biodata_read'
   post '/advertise', to: 'listings#create'
   # Public page explaining how to delete an account (linked from the Google Play listing)
   get '/delete-account', to: 'home#delete_account', as: 'delete_account_info'

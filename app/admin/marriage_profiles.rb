@@ -21,6 +21,16 @@ ActiveAdmin.register MarriageProfile do
     send_file file.path, disposition: 'inline', type: Marcel::MimeType.for(Pathname.new(file.path), name: file.filename)
   end
 
+  # The member's own biodata (uploaded on the Basics step). Private like the ID document.
+  member_action :biodata_document, method: :get do
+    file = resource.biodata_document.file
+    return head(:not_found) unless file&.exists?
+
+    response.headers['Cache-Control'] = 'private, no-store'
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    send_file file.path, disposition: 'inline', type: Marcel::MimeType.for(Pathname.new(file.path), name: file.filename)
+  end
+
   member_action :print_profile, method: :get do
     @profile = MarriageProfile.friendly.find(params[:id])
     render 'admin/marriage_profiles/print_profile', layout: false
@@ -67,6 +77,17 @@ ActiveAdmin.register MarriageProfile do
       end
       row "Identification Document" do |m|
         m.identification_document.present? ? link_to(image_tag(m.identification_document.url, height: 200), m.identification_document.url, target: '_blank') : nil
+      end
+      row "Biodata file (uploaded by the member)" do |m|
+        if m.biodata_document.present?
+          link_to("Open biodata (#{File.extname(m.biodata_document.file.filename.to_s).delete('.').upcase})", m.biodata_document.url, target: '_blank', class: 'button')
+        else
+          'None uploaded'
+        end
+      end
+      row "Details read from the biodata" do |m|
+        extras = (m.biodata_data || {})['extras'] || {}
+        extras.present? ? raw(extras.map { |k, v| "<b>#{ERB::Util.html_escape(k.to_s.humanize)}:</b> #{ERB::Util.html_escape(v)}" }.join('<br>')) : '-'
       end
       row "Partner Preference — Gender" do |m|
         m.partner_preference&.gender&.titleize

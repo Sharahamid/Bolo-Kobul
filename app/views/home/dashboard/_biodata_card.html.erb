@@ -1,0 +1,41 @@
+<%# Details read from the member's uploaded biodata (Basics step) that belong to later profile
+    sections (work, family). Shown until those sections are filled or "Hide" is pressed. %>
+<% profile = current_active_profile %>
+<% extras = (profile&.biodata_data || {})['extras'] || {} %>
+<% rows = [] %>
+<% rows << [:profession, extras['profession']] if extras['profession'].present? && profile.occupations.none? %>
+<% if profile && profile.family_members.none? %>
+  <% %w[father mother siblings].each { |k| rows << [k.to_sym, extras[k]] if extras[k].present? } %>
+<% end %>
+<% rows << [:weight, extras['weight']] if extras['weight'].present? && profile.appearance&.weight.blank? %>
+<% if rows.any? %>
+  <div id="bk-bio-card" data-key="bkBioHide<%= profile.id %>" style="display:none; background:#fff; border:1px solid #F1D48A; border-radius:12px; padding:14px 16px; margin:0 0 12px;">
+    <strong style="display:block; color:#412402; font-size:15px; margin-bottom:4px;"><i class="fas fa-file-alt" style="color:#EF9F27; margin-right:6px;"></i><%= t('biodata.card_title') %></strong>
+    <div style="color:#666; font-size:13px; line-height:1.5; margin-bottom:8px;"><%= t('biodata.card_text') %></div>
+    <table style="width:100%; font-size:13px; border-collapse:collapse;">
+      <% rows.each do |key, value| %>
+        <tr>
+          <td style="padding:4px 10px 4px 0; color:#854F0B; font-weight:600; white-space:nowrap; vertical-align:top; width:1%;"><%= t("biodata.#{key}") %></td>
+          <td style="padding:4px 0; color:#333; vertical-align:top; overflow-wrap:anywhere;"><%= value %></td>
+        </tr>
+      <% end %>
+    </table>
+    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <%= link_to t('biodata.card_button'), profile_info_marriage_profile_path(profile), style: 'background:#FFB627; color:#412402; font-weight:700; font-size:13px; padding:7px 16px; border-radius:999px; text-decoration:none;' %>
+      <button type="button" id="bk-bio-card-hide" style="background:none; border:none; color:#854F0B; font-size:13px; text-decoration:underline; cursor:pointer; padding:4px;"><%= t('biodata.card_hide') %></button>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var box = document.getElementById('bk-bio-card');
+      var key = box.getAttribute('data-key');
+      var hidden = false;
+      try { hidden = localStorage.getItem(key) === '1'; } catch (e) {}
+      if (!hidden) box.style.display = 'block';
+      document.getElementById('bk-bio-card-hide').addEventListener('click', function () {
+        try { localStorage.setItem(key, '1'); } catch (e) {}
+        box.style.display = 'none';
+      });
+    })();
+  </script>
+<% end %>

@@ -143,6 +143,8 @@ class MarriageProfile < ApplicationRecord
   mount_uploader :photo_2, MarriagePhotoUploader
   mount_uploader :photo_3, MarriagePhotoUploader
   mount_uploader :identification_document, IdentificationDocumentUploader
+  # The member's own biodata, if they uploaded one on the Basics step (admin-only)
+  mount_uploader :biodata_document, BiodataUploader
 
   # Both sides accepted the 1st Kobul and aren't chatting yet (includes 2nd Kobuls sent or received)
   scope :accepted_profiles, -> (p) {

@@ -81,7 +81,9 @@ class MarriageProfilesController < ApplicationController
     resumed = pending_profile if params[:resume_profile_id].present? && params[:resume_profile_id].to_s == pending_profile&.id.to_s
     @marriage_profile = resumed || profile_awaiting_preferences || current_user.marriage_profiles.build
     @marriage_profile.assign_attributes(marriage_profile_params)
+    keep_biodata_details(@marriage_profile)
     if @marriage_profile.save
+      fill_from_biodata(@marriage_profile)
       session[:marriage_profile_id] = @marriage_profile.id
       redirect_to new_partner_preference_path
     else
@@ -378,8 +380,37 @@ class MarriageProfilesController < ApplicationController
     @marriage_profile = MarriageProfile.friendly.find(params[:id])
   end
 
+  BIODATA_EXTRAS = %w[profession education father mother siblings weight about].freeze
+
+  # Details read from an uploaded biodata (Basics step) that have no box on the Basics form:
+  # kept on the profile for the later steps
+  def keep_biodata_details(profile)
+    raw = params.dig(:marriage_profile, :biodata_data).to_s
+    return if raw.blank?
+
+    extras = (JSON.parse(raw) rescue {})
+    extras = extras.is_a?(Hash) ? extras.slice(*BIODATA_EXTRAS).transform_values { |v| v.to_s.first(1000) } : {}
+    profile.biodata_data = (profile.biodata_data || {}).merge('extras' => extras, 'read_at' => Time.current.iso8601)
+  end
+
+  # Once, after the profile is saved: About me and education go straight into the profile
+  # (the member can edit them); the rest is offered on the dashboard
+  def fill_from_biodata(profile)
+    data = profile.biodata_data || {}
+    extras = data['extras'] || {}
+    return if extras.blank? || data['applied']
+
+    profile.update(about_my_self: extras['about']) if profile.about_my_self.blank? && extras['about'].present?
+    if extras['education'].present? && profile.academic_informations.none?
+      profile.academic_informations.create(degree: extras['education'].first(250))
+    end
+    profile.update_column(:biodata_data, data.merge('applied' => true))
+  rescue StandardError => e
+    Rails.logger.error "[biodata] fill failed for profile #{profile.id}: #{e.message}"
+  end
+
   def marriage_profile_params
-    params.require(:marriage_profile).permit(:name, :identification_document, :identification_document_cache, :nid_or_passport, :gender,
+    params.require(:marriage_profile).permit(:name, :identification_document, :identification_document_cache, :biodata_document_cache, :nid_or_passport, :gender,
                                              :date_of_birth, :religion, :hometown, :present_location, :present_address,
                                              :height_ft, :height_inch, :highest_education_level, :family_type, :blood_group,
                                              :photo_1, :photo_2, :photo_3, :family_values, :marital_status, :family_status,
