@@ -91,7 +91,7 @@ ActiveAdmin.register User do
                    else
                      "<span class='status_tag yes'>Seen #{user.admin_message_seen_at&.in_time_zone('Asia/Dhaka')&.strftime('%-d %b %Y, %-I:%M %p')}</span>"
                    end
-          raw("#{status}<br>#{simple_format(h(user.admin_message))}<small style='color:#999'>Sent #{user.admin_message_sent_at&.in_time_zone('Asia/Dhaka')&.strftime('%-d %b %Y, %-I:%M %p')}</small>")
+          raw("#{status}<br>#{simple_format(ERB::Util.html_escape(user.admin_message))}<small style='color:#999'>Sent #{user.admin_message_sent_at&.in_time_zone('Asia/Dhaka')&.strftime('%-d %b %Y, %-I:%M %p')}</small>")
         else
           'None'
         end
