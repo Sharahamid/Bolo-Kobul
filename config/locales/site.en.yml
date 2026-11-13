@@ -1053,6 +1053,25 @@ en:
       push:
         one: '%{shown} new match picked for you. Tap to see them.'
         other: '%{shown} new matches picked for you. Tap to see them.'
+    waiting:
+      heading: Waiting for your answer
+      line1: While you were away, someone sent you a Kobul. Open their profile and accept or decline, so they are not left waiting.
+      kobul1: 1st Kobul
+      kobul2: 2nd Kobul
+      matches_heading: New matches picked for you
+      button: Answer Now
+      days_left:
+        one: Answer within %{shown} day, or it expires
+        other: Answer within %{shown} days, or it expires
+      subject:
+        one: 💛 %{shown} person is waiting for your answer
+        other: 💛 %{shown} people are waiting for your answer
+      title:
+        one: '%{shown} person is waiting for your answer'
+        other: '%{shown} people are waiting for your answer'
+      push:
+        one: '%{shown} person sent you a Kobul and is waiting for your answer. Tap to answer.'
+        other: '%{shown} people sent you a Kobul and are waiting for your answer. Tap to answer.'
   pages:
     previous: ← Previous
     next_title: 'Next: %{title} →'

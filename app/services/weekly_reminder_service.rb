@@ -2,6 +2,7 @@
 # "new matches for you" email and, on devices where notifications are on, one push
 # notification.
 # - no profile yet: create one
+# - Kobuls waiting for their answer (1st and 2nd Kobuls received): shown first, up to 5
 # - matches found: up to 5 matches, plus a nudge to reach 80% if the profile is below it
 #   (Kobuls can only be sent from 80%)
 # - no matches and profile under 80%: finish the profile
@@ -11,6 +12,7 @@ class WeeklyReminderService
 
   HOST = 'bolokobul.com'.freeze
   MATCHES_PER_EMAIL = 5
+  WAITING_PER_EMAIL = 5
   INACTIVE_FOR = 14.days
   # The emails are spread evenly over SEND_OVER (10 am to 4 pm in Bangladesh), and never
   # more than one a minute: Mailgun allows our account 100 emails an hour, shared with
@@ -93,8 +95,10 @@ class WeeklyReminderService
     profile = @user.marriage_profiles.order(:id).first
     return no_profile unless profile
 
-    matches = profile.partner_preference ? RecommendationService.daily_recommendations(profile).to_a.first(MATCHES_PER_EMAIL) : []
-    return matches_found(profile, matches) if matches.any?
+    waiting = waiting_kobuls(profile)
+    waiting_ids = waiting.map { |w| w[:profile].id }
+    matches = profile.partner_preference ? RecommendationService.daily_recommendations(profile).to_a.reject { |m| waiting_ids.include?(m.id) }.first(MATCHES_PER_EMAIL) : []
+    return matches_found(profile, matches, waiting) if matches.any? || waiting.any?
     return incomplete_profile(profile) unless profile.ready_for_kobul?
 
     nil
@@ -130,12 +134,35 @@ class WeeklyReminderService
     }
   end
 
-  def matches_found(profile, matches)
+  # Kobuls sent to this member that still wait for their answer: 2nd Kobuls first (they
+  # lead to chat), then 1st Kobuls, the one closest to expiring first
+  def waiting_kobuls(profile)
+    hidden = User.deactivated_users_profile_ids
+    second = MarriageProfile.where(id: profile.chat_friendships.where(status: 1).select(:chat_friend_id))
+                            .where.not(id: hidden).to_a
+                            .map { |p| { profile: p, kind: :kobul2 } }
+    expiry_days = ButterflyConfig.kobul1_expiry_days
+    first = HasFriendship::Friendship.pending.where(friend_id: profile.id, friendable_type: 'MarriageProfile')
+                                     .order(:created_at).to_a
+                                     .filter_map do |f|
+      sender = f.friendable
+      next if sender.nil? || hidden.include?(sender.id)
+
+      days_left = [(expiry_days - ((Time.current - f.created_at) / 1.day).floor), 1].max
+      { profile: sender, kind: :kobul1, days_left: days_left }
+    end
+    (second + first).uniq { |w| w[:profile].id }.first(WAITING_PER_EMAIL)
+  rescue StandardError => e
+    Rails.logger.warn("[WeeklyReminder] waiting Kobuls for profile #{profile.id}: #{e.class}: #{e.message}")
+    []
+  end
+
+  def matches_found(profile, matches, waiting = [])
     count = matches.size
     shown = local_digits(count)
     link = urls.dashboard_marriage_profile_url(profile, host: HOST, protocol: 'https')
     percent = local_digits(profile.profile_completeness.to_i)
-    {
+    reminder = {
       kind: :matches,
       subject: t('reminder.matches.subject', count: count, shown: shown),
       title: t('reminder.matches.title', count: count, shown: shown),
@@ -148,6 +175,27 @@ class WeeklyReminderService
       button: t('reminder.matches.button'), link: link,
       push: push_payload(t('reminder.matches.push', count: count, shown: shown), link)
     }
+    return reminder if waiting.empty?
+
+    # Someone is waiting for an answer: that leads the email, subject and phone notification
+    waiting_count = waiting.size
+    waiting_shown = local_digits(waiting_count)
+    reminder.merge(
+      kind: :waiting,
+      subject: t('reminder.waiting.subject', count: waiting_count, shown: waiting_shown),
+      title: t('reminder.waiting.title', count: waiting_count, shown: waiting_shown),
+      lines: [t('reminder.waiting.line1')],
+      waiting: waiting.map do |w|
+        w[:profile].calculate_matching_percentage!(profile)
+        card = match_card(w[:profile])
+        card[:tag] = t("reminder.waiting.#{w[:kind]}")
+        card[:note] = t('reminder.waiting.days_left', count: w[:days_left], shown: local_digits(w[:days_left])) if w[:days_left]
+        card
+      end,
+      matches_heading: (matches.any? ? t('reminder.waiting.matches_heading') : nil),
+      button: t('reminder.waiting.button'),
+      push: push_payload(t('reminder.waiting.push', count: waiting_count, shown: waiting_shown), link)
+    )
   end
 
   def match_card(match)

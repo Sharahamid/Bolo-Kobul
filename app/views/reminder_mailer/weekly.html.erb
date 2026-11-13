@@ -24,32 +24,26 @@
       <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 <%= i == @reminder[:lines].size - 1 ? '1.5rem' : '1rem' %>;"><%= line %></p>
     <% end %>
 
+    <% if @reminder[:waiting].present? %>
+      <div style="font-size:16px; font-weight:bold; color:#412402; margin:0 0 10px;"><%= t('reminder.waiting.heading') %></div>
+      <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 1.5rem;">
+        <% @reminder[:waiting].each do |m| %>
+          <tr><td style="padding:0 0 10px;">
+            <%= render 'reminder_mailer/card', m: m %>
+          </td></tr>
+        <% end %>
+      </table>
+    <% end %>
+
     <% if @reminder[:matches].present? %>
+      <% if @reminder[:matches_heading] %>
+        <div style="font-size:16px; font-weight:bold; color:#412402; margin:0 0 4px;"><%= @reminder[:matches_heading] %></div>
+        <p style="font-size:14px; color:#555555; line-height:1.7; margin:0 0 10px;"><%= t('reminder.matches.line1') %></p>
+      <% end %>
       <table width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 1.5rem;">
         <% @reminder[:matches].each do |m| %>
           <tr><td style="padding:0 0 10px;">
-            <a href="<%= m[:link] %>" style="text-decoration:none; display:block;">
-              <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #F3E3BD; border-radius:10px; background:#FFFDF7;">
-                <tr>
-                  <td width="76" style="padding:12px 0 12px 12px; vertical-align:middle;">
-                    <% if m[:photo] %>
-                      <img src="<%= m[:photo] %>" width="64" height="64" alt="" style="display:block; width:64px; height:64px; border-radius:50%; object-fit:cover; border:2px solid #FFB627;">
-                    <% else %>
-                      <div style="width:64px; height:64px; border-radius:50%; background:#FFF3CC; border:2px solid #FFB627; text-align:center; line-height:64px; font-size:24px;">🦋</div>
-                    <% end %>
-                  </td>
-                  <td style="padding:12px; vertical-align:middle;">
-                    <div style="font-size:15px; font-weight:bold; color:#854F0B;"><%= m[:id] %><%= ' ✔' if m[:verified] %></div>
-                    <div style="font-size:13px; color:#555555; line-height:1.6; margin-top:2px;"><%= m[:details] %></div>
-                  </td>
-                  <% if m[:percent].positive? %>
-                    <td width="64" style="padding:12px 12px 12px 0; vertical-align:middle; text-align:right;">
-                      <span style="background:#FFB627; color:#633806; font-size:12px; font-weight:bold; padding:4px 8px; border-radius:12px; white-space:nowrap;"><%= local_digits(m[:percent]) %>%</span>
-                    </td>
-                  <% end %>
-                </tr>
-              </table>
-            </a>
+            <%= render 'reminder_mailer/card', m: m %>
           </td></tr>
         <% end %>
       </table>
