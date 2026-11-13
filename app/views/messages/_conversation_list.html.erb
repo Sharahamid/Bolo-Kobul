@@ -1,6 +1,8 @@
 <% room = messages.first&.chat_room %>
 <% other_member = room && room.chat_room_users.where.not(marriage_profile_id: current_active_profile.id).first %>
-<div class="conversation-row p-3" id="privat-chat-messages" data-login-user-id="<%= current_active_profile.id %>">
+<% other_profile = other_member&.marriage_profile %>
+<div class="conversation-row p-3" id="privat-chat-messages" data-login-user-id="<%= current_active_profile.id %>"
+     data-you-label="<%= t('chat.you') %>" data-other-label="<%= other_profile&.unique_id %>" data-reply-label="<%= t('chat.reply') %>">
   <% messages.each do |message| %>
     <div class="d-flex flex-column">
       <div class="conversation-row">

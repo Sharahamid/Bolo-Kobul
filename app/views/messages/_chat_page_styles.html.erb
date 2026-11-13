@@ -1,5 +1,33 @@
 <%# Shared by the chat list page (/messages) and a single chat (/messages/:id/profile) %>
 <style>
+/* ---- Chat messages and WhatsApp-style replies ---- */
+.bk-msg { display:flex; align-items:center; gap:6px; margin-bottom:8px; position:relative; touch-action:pan-y; }
+.bk-msg--mine { justify-content:flex-end; }
+.bk-msg--mine .bk-msg__reply { order:-1; }
+.bk-msg__wrap { max-width:260px; min-width:0; transition:transform .15s ease; }
+.bk-msg__bubble { padding:8px 14px; font-size:13px; line-height:1.5; word-wrap:break-word; overflow-wrap:anywhere; }
+.bk-msg--mine .bk-msg__bubble { background:#FFB627; color:#412402; border-radius:14px 4px 14px 14px; }
+.bk-msg--theirs .bk-msg__bubble { background:#f0f0f0; color:#444; border-radius:4px 14px 14px 14px; }
+.bk-msg__text { white-space:pre-wrap; }
+.bk-msg__meta { font-size:10px; color:#aaa; margin-top:3px; }
+.bk-msg--mine .bk-msg__meta { text-align:right; }
+.bk-msg__quote { display:block; margin:0 0 6px; padding:5px 8px; border-radius:6px; text-decoration:none !important;
+                 background:rgba(255,255,255,.55); border-left:3px solid #854F0B; color:inherit; }
+.bk-msg--theirs .bk-msg__quote { background:#fff; border-left-color:#FFB627; }
+.bk-msg__quote-who { display:block; font-size:11px; font-weight:700; color:#854F0B; }
+.bk-msg__quote-text { display:block; font-size:12px; color:#6b5a45; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bk-msg__reply { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:0; background:#FFF3CC; color:#854F0B;
+                 font-size:14px; line-height:28px; padding:0; cursor:pointer; opacity:0; transition:opacity .15s; }
+.bk-msg:hover .bk-msg__reply, .bk-msg__reply:focus { opacity:1; }
+@media (hover: none) { .bk-msg__reply { display:none; } }
+.bk-msg--flash .bk-msg__bubble { box-shadow:0 0 0 3px rgba(255,182,39,.55); }
+.bk-reply-bar { display:flex; align-items:center; gap:8px; margin:0 0 8px; padding:6px 10px; border-radius:10px;
+                background:#FFF8E7; border-left:3px solid #FFB627; }
+.bk-reply-bar[hidden] { display:none; }
+.bk-reply-bar__body { flex:1; min-width:0; }
+.bk-reply-bar__who { display:block; font-size:11px; font-weight:700; color:#854F0B; }
+.bk-reply-bar__text { display:block; font-size:12px; color:#6b5a45; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bk-reply-bar__close { border:0; background:transparent; color:#854F0B; font-size:14px; cursor:pointer; padding:2px 6px; }
 .bk-chat-container { margin-bottom: 20px; }
 .bk-chat-container .message-page { height: 460px !important; position: relative !important; }
 .bk-chat-container .message-right-sidebar { height: 460px !important; overflow: hidden; display: flex; flex-direction: column; }

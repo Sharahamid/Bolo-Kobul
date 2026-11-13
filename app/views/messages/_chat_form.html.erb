@@ -1,4 +1,13 @@
 <%= form_for message, remote: true, autocomplete: false do |f| %>
+  <%# "Replying to …" bar, filled in by room_channel.js when a message is chosen %>
+  <div class="bk-reply-bar" id="bk-reply-bar" hidden>
+    <div class="bk-reply-bar__body">
+      <span class="bk-reply-bar__who" id="bk-reply-who"></span>
+      <span class="bk-reply-bar__text" id="bk-reply-text"></span>
+    </div>
+    <button type="button" class="bk-reply-bar__close" id="bk-reply-cancel" aria-label="<%= t('chat.cancel_reply') %>">✕</button>
+  </div>
+  <%= f.hidden_field :reply_to_id, value: '', id: 'message_reply_to_id' %>
   <div style="display:flex; gap:8px; align-items:flex-end;">
     <%= f.text_area :body,
                      id: 'message_text',

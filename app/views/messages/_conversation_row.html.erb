@@ -1,9 +1,21 @@
 <% is_mine = message.marriage_profile.user.id == current_active_profile.user.id %>
-<div style="display:flex; justify-content:<%= is_mine ? 'flex-end' : 'flex-start' %>; margin-bottom:8px;">
-  <div>
-    <div style="background:<%= is_mine ? '#FFB627' : '#f0f0f0' %>; color:<%= is_mine ? '#412402' : '#444' %>; padding:8px 14px; border-radius:<%= is_mine ? '14px 4px 14px 14px' : '4px 14px 14px 14px' %>; font-size:13px; max-width:260px; word-wrap:break-word; overflow-wrap:anywhere; white-space:pre-wrap; line-height:1.5;"><%= message.body.to_s.strip %></div>
-    <div style="font-size:10px; color:#aaa; margin-top:3px; text-align:<%= is_mine ? 'right' : 'left' %>;">
+<%# One chat message. Swipe it right (phone) or press the ↩ beside it (computer) to reply,
+    like WhatsApp; a reply shows the message it answers as a small quote on top. %>
+<div class="bk-msg <%= is_mine ? 'bk-msg--mine' : 'bk-msg--theirs' %>" id="bk-msg-<%= message.id %>"
+     data-message-id="<%= message.id %>" data-sender-id="<%= message.sender_id %>" data-quote="<%= message.quote_text %>">
+  <div class="bk-msg__wrap">
+    <div class="bk-msg__bubble">
+      <% if (original = message.reply_to) %>
+        <a href="#bk-msg-<%= original.id %>" class="bk-msg__quote" data-quote-jump="<%= original.id %>">
+          <span class="bk-msg__quote-who"><%= original.sender_id == current_active_profile.id ? t('chat.you') : original.marriage_profile&.unique_id %></span>
+          <span class="bk-msg__quote-text"><%= original.quote_text %></span>
+        </a>
+      <% end %>
+      <div class="bk-msg__text"><%= message.body.to_s.strip %></div>
+    </div>
+    <div class="bk-msg__meta">
       <%= format_date_messaging(message.created_at) %><% if is_mine %><%= message_ticks(message, ChatRoomUser.tick_status(message, local_assigns[:other_member])) %><% end %>
     </div>
   </div>
+  <button type="button" class="bk-msg__reply" title="<%= t('chat.reply') %>" aria-label="<%= t('chat.reply') %>">↩</button>
 </div>

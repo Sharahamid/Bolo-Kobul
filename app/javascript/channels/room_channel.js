@@ -39,19 +39,113 @@ function applyReceipt(receipt) {
     });
 }
 
-// Same look as app/views/messages/_conversation_row.html.erb. The body arrives
-// already HTML-escaped from the server.
+// Same look as app/views/messages/_conversation_row.html.erb. The body and the quoted
+// text arrive already HTML-escaped from the server.
+function escapeAttr(text) {
+    return String(text || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+function quoteText(escapedBody) {
+    var div = document.createElement('div');
+    div.innerHTML = escapedBody || '';
+    var text = (div.textContent || '').replace(/\s+/g, ' ').trim();
+    return text.length > 120 ? text.slice(0, 119) + '…' : text;
+}
+function senderLabel(senderId) {
+    var list = document.getElementById('privat-chat-messages');
+    if (!list) return '';
+    return String(senderId) === String(list.getAttribute('data-login-user-id'))
+        ? list.getAttribute('data-you-label') : list.getAttribute('data-other-label');
+}
 function messageRow(content, mine) {
     var time = window.bkLocalTime ? window.bkLocalTime(content['created_at']) : '';
+    var reply = content['reply'];
+    var list = document.getElementById('privat-chat-messages');
+    var replyLabel = list ? list.getAttribute('data-reply-label') : 'Reply';
+    var quote = reply
+        ? '<a href="#bk-msg-' + reply.id + '" class="bk-msg__quote" data-quote-jump="' + reply.id + '">' +
+          '<span class="bk-msg__quote-who">' + escapeAttr(senderLabel(reply.sender_id)) + '</span>' +
+          '<span class="bk-msg__quote-text">' + reply.text + '</span></a>'
+        : '';
     return '<div class="d-flex flex-column"><div class="conversation-row">' +
-        '<div style="display:flex; justify-content:' + (mine ? 'flex-end' : 'flex-start') + '; margin-bottom:8px;"><div>' +
-        '<div style="background:' + (mine ? '#FFB627' : '#f0f0f0') + '; color:' + (mine ? '#412402' : '#444') + '; padding:8px 14px;' +
-        ' border-radius:' + (mine ? '14px 4px 14px 14px' : '4px 14px 14px 14px') + '; font-size:13px; max-width:260px;' +
-        ' word-wrap:break-word; overflow-wrap:anywhere; white-space:pre-wrap; line-height:1.5;">' + content['body'] + '</div>' +
-        '<div style="font-size:10px; color:#aaa; margin-top:3px; text-align:' + (mine ? 'right' : 'left') + ';">' +
-        '<time class="js-local-time" data-format="message" datetime="' + (content['created_at'] || '') + '">' + time + '</time>' +
-        (mine ? ticks(content['created_at'] || '', 'sent') : '') + '</div>' +
-        '</div></div></div></div>';
+        '<div class="bk-msg ' + (mine ? 'bk-msg--mine' : 'bk-msg--theirs') + '" id="bk-msg-' + content['id'] + '"' +
+        ' data-message-id="' + content['id'] + '" data-sender-id="' + content['sender_id'] + '"' +
+        ' data-quote="' + escapeAttr(quoteText(content['body'])) + '">' +
+        '<div class="bk-msg__wrap"><div class="bk-msg__bubble">' + quote +
+        '<div class="bk-msg__text">' + content['body'] + '</div></div>' +
+        '<div class="bk-msg__meta"><time class="js-local-time" data-format="message" datetime="' + (content['created_at'] || '') + '">' + time + '</time>' +
+        (mine ? ticks(content['created_at'] || '', 'sent') : '') + '</div></div>' +
+        '<button type="button" class="bk-msg__reply" title="' + escapeAttr(replyLabel) + '" aria-label="' + escapeAttr(replyLabel) + '">↩</button>' +
+        '</div></div></div>';
+}
+
+// ---- Reply to one message, like WhatsApp ----
+// Swipe a message to the right on a phone, or press ↩ beside it on a computer. A bar
+// above the typing box shows what is being answered; ✕ cancels it.
+function startReply(row) {
+    var bar = document.getElementById('bk-reply-bar');
+    var field = document.getElementById('message_reply_to_id');
+    if (!bar || !field || !row) return;
+    field.value = row.getAttribute('data-message-id');
+    document.getElementById('bk-reply-who').textContent = senderLabel(row.getAttribute('data-sender-id'));
+    document.getElementById('bk-reply-text').textContent = row.getAttribute('data-quote') || '';
+    bar.hidden = false;
+    var box = document.getElementById('message_text');
+    if (box) box.focus();
+}
+function cancelReply() {
+    var bar = document.getElementById('bk-reply-bar');
+    var field = document.getElementById('message_reply_to_id');
+    if (field) field.value = '';
+    if (bar) bar.hidden = true;
+}
+function setUpReplies() {
+    var list = document.getElementById('privat-chat-messages');
+    if (!list || list.getAttribute('data-replies-ready')) return;
+    list.setAttribute('data-replies-ready', '1');
+
+    var cancel = document.getElementById('bk-reply-cancel');
+    if (cancel) cancel.addEventListener('click', cancelReply);
+
+    list.addEventListener('click', function (event) {
+        var button = event.target.closest('.bk-msg__reply');
+        if (button) { startReply(button.closest('.bk-msg')); return; }
+        // Tapping a quote jumps to the message it answers and makes it glow briefly
+        var quote = event.target.closest('[data-quote-jump]');
+        if (quote) {
+            event.preventDefault();
+            var target = document.getElementById('bk-msg-' + quote.getAttribute('data-quote-jump'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                target.classList.add('bk-msg--flash');
+                setTimeout(function () { target.classList.remove('bk-msg--flash'); }, 1400);
+            }
+        }
+    });
+
+    // Phone: swipe a message right by about 60px to reply (the bubble follows the finger)
+    var startX = 0, startY = 0, row = null, wrap = null, moved = 0;
+    list.addEventListener('touchstart', function (event) {
+        row = event.target.closest('.bk-msg');
+        if (!row || event.target.closest('a')) { row = null; return; }
+        wrap = row.querySelector('.bk-msg__wrap');
+        startX = event.touches[0].clientX;
+        startY = event.touches[0].clientY;
+        moved = 0;
+    }, { passive: true });
+    list.addEventListener('touchmove', function (event) {
+        if (!row) return;
+        var dx = event.touches[0].clientX - startX;
+        var dy = event.touches[0].clientY - startY;
+        if (Math.abs(dy) > Math.abs(dx)) { if (Math.abs(dy) > 10) { wrap.style.transform = ''; row = null; } return; }
+        moved = Math.max(0, Math.min(dx, 80));
+        wrap.style.transform = 'translateX(' + moved + 'px)';
+    }, { passive: true });
+    list.addEventListener('touchend', function () {
+        if (!row) return;
+        wrap.style.transform = '';
+        if (moved >= 60) startReply(row);
+        row = null;
+    });
 }
 
 // The message box grows with the text (up to about 5 lines), like WhatsApp. On a
@@ -85,6 +179,7 @@ $(function () {
     var box = document.getElementById('message_text');
     if (!box) return;
     setUpMessageBox(box);
+    setUpReplies();
 
     var messages_to_bottom = function () {
         return $('#messageBody').scrollTop($('#messageBody').prop("scrollHeight"));
@@ -115,6 +210,7 @@ $(function () {
                 if (mine) {
                     box.value = '';
                     box.bkResize();
+                    cancelReply();
                 } else {
                     chimeAndVibrate();
                     markRead(data.content['chat_room_id']);

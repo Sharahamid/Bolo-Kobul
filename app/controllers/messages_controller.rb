@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
       # Opening the chat reads everything from this person (older data can have two rooms)
       shared_rooms = ChatRoom.shared_rooms(@marriage_profile, current_active_profile).to_a
       shared_rooms.each { |room| room.mark_read!(current_active_profile) }
-      @messages = Message.includes(:chat_room, :marriage_profile).where(chat_room_id: shared_rooms.map(&:id)).order(created_at: :asc)
+      @messages = Message.includes(:chat_room, :marriage_profile, :reply_to).where(chat_room_id: shared_rooms.map(&:id)).order(created_at: :asc)
       @message = Message.new
       format.html
       format.js
@@ -46,20 +46,25 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = current_active_profile.messages.build(message_params)
+    @message = current_active_profile.messages.build(message_params.except(:reply_to_id))
     # Only allow posting into chat rooms the sender is a member of
     chat_room = current_active_profile.chat_rooms.find_by(id: message_params[:chat_room_id])
     head :forbidden and return unless chat_room
     # No messages to or from a blocked member
     other = chat_room.connected_profile(current_active_profile)
     head :forbidden and return if other && current_active_profile.blocked_with?(other)
+    # A reply can only quote a message from the same chat
+    if message_params[:reply_to_id].present?
+      @message.reply_to = chat_room.messages.find_by(id: message_params[:reply_to_id])
+    end
     respond_to do |format|
       if message_params[:body].present? && @message.save!
         chat_room = @message.chat_room
         # The chat window inserts the body as HTML, so send it escaped: a message
         # can never run code in the other person's browser
         ActionCable.server.broadcast "room_#{chat_room.id}_channel",
-                                     { content: @message.as_json.merge('body' => ERB::Util.html_escape(@message.body.to_s)) }
+                                     { content: @message.as_json.merge('body' => ERB::Util.html_escape(@message.body.to_s),
+                                                                       'reply' => reply_json(@message.reply_to)) }
         notify_chat_recipients(chat_room)
         chat_room.mark_read!(current_active_profile)
 
@@ -113,6 +118,13 @@ class MessagesController < ApplicationController
     Rails.logger.warn("[Chat] message alert failed: #{e.message}")
   end
 
+  # The quoted message for the live chat; text escaped like the message itself
+  def reply_json(original)
+    return nil unless original
+
+    { 'id' => original.id, 'sender_id' => original.sender_id, 'text' => ERB::Util.html_escape(original.quote_text) }
+  end
+
   def take_chat_rooms
     blocked_ids = HasFriendship::Friendship.where(friendable_type: 'MarriageProfile', friendable_id: current_active_profile.id, status: 3).select(:friend_id)
     blocked_room_ids = ChatRoomUser.where(marriage_profile_id: blocked_ids).select(:chat_room_id)
@@ -121,6 +133,6 @@ class MessagesController < ApplicationController
 
   def message_params
     # sender_id is always the current profile and is never taken from the form
-    params.require(:message).permit(:body, :chat_room_id, :recipient_id)
+    params.require(:message).permit(:body, :chat_room_id, :recipient_id, :reply_to_id)
   end
 end
