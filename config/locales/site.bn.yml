@@ -59,6 +59,7 @@ bn:
     or_register_email: অথবা ইমেইল দিয়ে নিবন্ধন করুন
     continue_with: '%{provider} দিয়ে চালিয়ে যান'
   signup:
+    referral_applied: "রেফারেল কোড সংরক্ষিত হয়েছে — নিচে নিবন্ধন সম্পন্ন করুন।"
     register_now: এখনই নিবন্ধন করুন
     private_note: এই তথ্য অন্য সদস্যরা দেখতে পাবেন না
     full_name: পূর্ণ নাম*

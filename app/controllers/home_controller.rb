@@ -45,7 +45,7 @@ class HomeController < ApplicationController
       else
         if params[:referral_code].present?
           session[:pending_referral_code] = params[:referral_code]
-          redirect_to new_user_registration_path, notice: "Referral code accepted! Register now to complete your profile."
+          redirect_to new_user_registration_path
         else
           @referral_error = 'Please enter a referral code'
         end

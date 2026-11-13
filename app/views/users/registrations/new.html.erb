@@ -1,9 +1,11 @@
-<div class="container">
-  <div class="reg-for-design", style="width: 40%; margin: auto; background: #fff;">
-    <div class="reg-form-default p-3", style="    width: 100%; margin: auto;">
-      <%= render "devise/shared/error_messages", resource: resource %>
-      <%= render 'shared/bolokobul_sign_up_form' %>
-    </div>
+<%# Stand-alone registration page (e.g. after a referral code). Same card as the homepage
+    registration panel, centred on a soft gold background, and full width on phones. %>
+<div class="bk-signup-page">
+  <div class="bk-signup-card">
+    <% if session[:pending_referral_code].present? %>
+      <div class="bk-signup-ref"><%= t('signup.referral_applied') %></div>
+    <% end %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= render 'shared/bolokobul_sign_up_form' %>
   </div>
-
 </div>

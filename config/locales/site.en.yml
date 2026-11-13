@@ -59,6 +59,7 @@ en:
     or_register_email: or register with your email
     continue_with: Continue with %{provider}
   signup:
+    referral_applied: "Referral code saved — complete your registration below."
     register_now: Register Now
     private_note: This information will not be shown to other members
     full_name: Full Name*

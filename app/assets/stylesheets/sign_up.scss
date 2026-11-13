@@ -162,3 +162,78 @@
     padding-bottom: 1rem;
   }
 }
+
+// Stand-alone registration page (users/registrations/new), e.g. after using a referral code.
+// The same look as the homepage panel, but centred and never wider than the screen.
+.bk-signup-page {
+  background: linear-gradient(160deg, #FFF8EE 0%, #FFEBC7 100%);
+  padding: 2.5rem 16px 3rem;
+  display: flex;
+  justify-content: center;
+
+  .bk-signup-card {
+    width: 100%;
+    max-width: 27rem;
+    background: $white-color;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(65, 36, 2, 0.12);
+    padding: 0.5rem 1.75rem 1.5rem;
+  }
+  .bk-signup-ref {
+    margin: 1rem 0 0;
+    padding: 0.6rem 0.9rem;
+    border-radius: 10px;
+    background: #EAF7EE;
+    color: #1E7B3C;
+    font-size: 13.5px;
+    font-weight: 600;
+    text-align: center;
+  }
+  .sign-up-form {
+    .register {
+      padding: 1.25rem 1rem 0.75rem;
+      line-height: 1;
+      font-family: 'Plus Jakarta Sans', 'Noto Serif Bengali', Arial, sans-serif;
+      strong { font-size: 22px; }
+      .reg_underline { margin-top: 0.5rem; }
+    }
+    .note {
+      font-size: 13px;
+      text-align: center;
+      color: #B07A0E;
+      margin: 0 0 1.1rem;
+    }
+    .bk-input-feilds {
+      .custom-form-group { margin-bottom: 0.8rem; }
+      .sign_up-input-field {
+        background: #F7F7F7;
+        border: 1px solid #D5D9DD;
+        border-radius: 10px;
+        width: 100%;
+        height: 44px;
+        font-size: 14px;
+      }
+      .sign_up-input-field:focus {
+        background: #fff;
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba(255, 182, 39, 0.2);
+      }
+      .password-field-wrapper .password-eye-btn { border-left-color: #D5D9DD; }
+      select.sign_up-input-field { color: #555; }
+      .terms_and_condition {
+        font-size: 13px;
+        text-align: left;
+        padding-left: 1.5rem;
+        margin: 0.25rem 0 1rem;
+        line-height: 1.45;
+      }
+      .btn-sign_up {
+        width: 100%;
+        height: 46px;
+        border-radius: 10px;
+        font-weight: 700;
+        font-size: 15px;
+      }
+    }
+  }
+}
