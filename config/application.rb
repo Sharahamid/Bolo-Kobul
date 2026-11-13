@@ -37,6 +37,17 @@ module Bolokobul
         },
         404 => {
           notification: false
+        },
+        # Bot/hacker probes (bad request, wrong method, odd formats): already blocked,
+        # so no alert email. Real server errors (500) are still emailed.
+        400 => {
+          notification: false
+        },
+        405 => {
+          notification: false
+        },
+        406 => {
+          notification: false
         }
       }
     }
