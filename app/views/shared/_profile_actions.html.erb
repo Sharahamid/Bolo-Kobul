@@ -3,6 +3,12 @@
     &#8942;
   </span>
   <div class="dropdown-menu dropdown-menu-right" style="min-width:150px; font-size:13px;">
+    <% if local_assigns[:not_interested] %>
+      <%# Recommendations only: handled by the script in home/dashboard/_recommended_profiles %>
+      <a href="#" class="dropdown-item bk-not-interested" title="<%= t('hidden.button_tip') %>" style="color:#633806;">
+        <i class="fas fa-eye-slash" style="margin-right:6px;"></i> <%= t('hidden.button') %>
+      </a>
+    <% end %>
     <a href="#" class="dropdown-item text-danger"
        onclick="bkOpenReport('<%= profile.id %>', '<%= j profile.unique_id %>', '<%= block_profile_marriage_profile_path(profile) %>'); return false;">
       <i class="fas fa-flag" style="margin-right:6px;"></i> <%= t('report.menu') %>

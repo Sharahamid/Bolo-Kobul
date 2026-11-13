@@ -51,14 +51,11 @@
                 <span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-graduation-cap" style="color:#FFB627; font-size:10px;"></i><%= p.highest_education_level? ? enum_label(:marriage_profile, :highest_education_level, p&.highest_education_level) : '' %></span><% if p.current_occupation.present? %><span>&middot;</span><span style="display:inline-flex; align-items:center; gap:2px;"><i class="fas fa-briefcase" style="color:#FFB627; font-size:10px;"></i><%= occupation_label(p.current_occupation) %></span><% end %>
               </div>
             </div>
+            <div style="flex-shrink:0; align-self:flex-start; margin:-4px -6px 0 0;">
+              <%= render 'shared/profile_actions', profile: p, not_interested: true %>
+            </div>
           </div>
           <%= render 'home/dashboard/send_and_favourite_btns', marriage_profile: p %>
-          <div style="text-align:right; margin-top:6px;">
-            <button type="button" class="bk-not-interested" title="<%= t('hidden.button_tip') %>"
-                    style="background:none; border:none; color:#a8997f; font-size:11px; padding:2px 0; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
-              <i class="fas fa-eye-slash"></i> <%= t('hidden.button') %>
-            </button>
-          </div>
         </div>
       <% end %>
     <% else %>
@@ -108,8 +105,10 @@
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.bk-not-interested');
       if (!btn) return;
+      e.preventDefault();
       var card = btn.closest('.bk-rec-card');
-      btn.disabled = true;
+      if (btn.dataset.busy) return;
+      btn.dataset.busy = '1';
       call(card.dataset.hideUrl).then(function (r) {
         if (!r.ok) throw new Error();
         var saved = card.innerHTML;
@@ -119,7 +118,7 @@
         card.querySelector('.bk-undo-hide').addEventListener('click', function () {
           call(card.dataset.unhideUrl).then(function () { card.innerHTML = saved; });
         });
-      }).catch(function () { btn.disabled = false; alert(T.failed); });
+      }).catch(function () { delete btn.dataset.busy; alert(T.failed); });
     });
   })();
 </script>
