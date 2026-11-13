@@ -126,7 +126,8 @@ function setUpReplies() {
     var startX = 0, startY = 0, row = null, wrap = null, moved = 0;
     list.addEventListener('touchstart', function (event) {
         row = event.target.closest('.bk-msg');
-        if (!row || event.target.closest('a')) { row = null; return; }
+        // Also when the finger starts on the quote of a reply (a swipe is not a tap on it)
+        if (!row) return;
         wrap = row.querySelector('.bk-msg__wrap');
         startX = event.touches[0].clientX;
         startY = event.touches[0].clientY;
