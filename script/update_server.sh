@@ -30,5 +30,9 @@ if echo "$FILES" | grep -q '^app/assets/\|^app/javascript/'; then
   echo "Rebuilding the design files (takes a minute)..."
   RAILS_ENV=production bundle exec rails assets:precompile
 fi
+# Daily/weekly tasks: refresh the schedule when config/schedule.rb changed
+if echo "$FILES" | grep -q '^config/schedule.rb$'; then
+  bundle exec whenever --update-crontab bolokobul --set environment=production
+fi
 sudo systemctl restart bolokobul-puma
 echo "DONE"

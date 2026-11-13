@@ -44,6 +44,10 @@ class MessageSetting < ApplicationRecord
     ['email.AdminSupportMailer#account_deletion_requested', 'Emails: to the Bolo Kobul team', 'Account deletion requested'],
     ['email.AdminSupportMailer#profile_reported', 'Emails: to the Bolo Kobul team', 'Profile reported'],
     ['email.AdminSupportMailer#new_payment', 'Emails: to the Bolo Kobul team', 'New payment received'],
+    ['email.AdminSupportMailer#new_listing', 'Emails: to the Bolo Kobul team', 'New Wedding Shopping List entry (paid, waiting for approval)'],
+    ['email.MarketPlaceMailer#received', 'Emails: to businesses', 'Wedding Shopping List: payment received, under review'],
+    ['email.MarketPlaceMailer#approved', 'Emails: to businesses', 'Wedding Shopping List: listing approved and live'],
+    ['email.MarketPlaceMailer#renewal_reminder', 'Emails: to businesses', 'Wedding Shopping List: listing ends in 14 days'],
     ['email.AdminSupportMailer#sms_problem', 'Emails: to the Bolo Kobul team', 'SMS balance low / SMS problem'],
     ['email.AdminSecurityMailer#new_device_sign_in', 'Emails: to the Bolo Kobul team', 'Admin login from a new device'],
     ['email.WeeklyReportMailer#weekly_report', 'Emails: to the Bolo Kobul team', 'Twice-monthly site report']

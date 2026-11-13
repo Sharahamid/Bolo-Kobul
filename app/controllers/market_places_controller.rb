@@ -2,9 +2,9 @@ class MarketPlacesController < ApplicationController
   def index
     if params[:market_place_type].present?
       market_place_type = MarketPlaceType.find_by(name: params[:market_place_type])
-      @market_places = market_place_type.market_places.approved if market_place_type.present?
+      @market_places = market_place_type.market_places.live if market_place_type.present?
     else
-      @market_places = MarketPlace.approved
+      @market_places = MarketPlace.live
     end
 
 
@@ -22,7 +22,7 @@ class MarketPlacesController < ApplicationController
   end
 
   def show
-    @market_place = MarketPlace.approved.find_by(id: params[:id])
+    @market_place = MarketPlace.live.find_by(id: params[:id])
     return redirect_to(market_places_path, notice: t('bkx.gone.listing')) unless @market_place
   end
 end

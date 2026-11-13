@@ -1,0 +1,14 @@
+<h2>New Wedding Shopping List entry – paid, waiting for approval</h2>
+
+<p><strong>Business:</strong> <%= @listing&.name %></p>
+<p><strong>Category:</strong> <%= @listing&.market_place_type&.name %></p>
+<p><strong>Location:</strong> <%= @listing&.location %></p>
+<p><strong>Contact person:</strong> <%= @listing&.contact_name %></p>
+<p><strong>Phone:</strong> <%= @listing&.contact_phone %></p>
+<p><strong>Email:</strong> <%= @listing&.contact_email %></p>
+<p><strong>Amount paid:</strong> ৳<%= @order&.total_amount.to_i %> (transaction <%= @order&.txn_no %>)</p>
+
+<p>
+  Review the details and photos, then set Status to <strong>Approved</strong> to put it live for one year:<br>
+  <a href="https://bolokobul.com/shaheer10inara20/market_places/<%= @listing&.id %>">Open it in Admin &gt; Market Places</a>
+</p>

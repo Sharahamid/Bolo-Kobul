@@ -52,6 +52,7 @@ ActiveAdmin.register_page "Dashboard" do
     reports_waiting    = (ProfileReport.unresolved.count rescue 0)
     reports_late       = (ProfileReport.unresolved.where('created_at < ?', 24.hours.ago).count rescue 0)
     followups_todo     = (Order.success.assisted_service.where(fulfilment_status: 'to_do').count rescue 0)
+    listings_waiting   = (MarketPlace.pending.where.not(paid_at: nil).count rescue 0)
     sms_failed_week    = (MessageLog.where(channel: 'sms_failed').where('created_at > ?', 7.days.ago).count rescue 0)
     active_7_days      = active_users.where('last_seen_at > ?', 7.days.ago).count
     last_month_range   = (Date.current.beginning_of_month - 1.month)..(Date.current.beginning_of_month - 1.day).end_of_day
@@ -107,7 +108,8 @@ ActiveAdmin.register_page "Dashboard" do
       ['Support tickets waiting', open_tickets, '/shaheer10inara20/customer_supports', nil],
       ['BK+ ending in 7 days', bk_ending_soon, '/shaheer10inara20/bk_plus_members', nil],
       ['SMS failed this week', sms_failed_week, '/shaheer10inara20/messages_sent', sms_failed_week.positive? ? 'Check Boom Cast balance' : nil],
-      ['Blog posts / stories to approve', pending_blogs, '/shaheer10inara20/blogs', nil]
+      ['Blog posts / stories to approve', pending_blogs, '/shaheer10inara20/blogs', nil],
+      ['Shopping List entries to approve (paid)', listings_waiting, '/shaheer10inara20/market_places?scope=waiting_for_approval_paid', nil]
     ]
     attention_html = attention.map do |label, n, url, warn|
       cls = n.to_i.zero? ? 'bk-pill-green' : (warn ? 'bk-pill-red' : 'bk-pill-amber')

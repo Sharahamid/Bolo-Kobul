@@ -1,0 +1,12 @@
+<%= render layout: 'market_place_mailer/frame', locals: { listing: @listing, icon: '⏳', title: 'Your listing ends soon' } do %>
+  <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1.5rem;">
+    Your Bolo Kobul Wedding Shopping List listing for <strong><%= @listing.name %></strong> ends on
+    <strong><%= @listing.listed_until&.strftime('%-d %b %Y') %></strong>. After that date it will no longer be shown on the site.
+  </p>
+  <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1.5rem;">
+    To keep it up for another year, reply to this email or write to support@bolokobul.com and we will help you renew.
+  </p>
+  <div style="text-align:center;">
+    <a href="<%= market_place_url(@listing) %>" style="background:#FFB627; color:#ffffff; text-decoration:none; padding:14px 36px; border-radius:6px; font-size:15px; font-weight:bold; display:inline-block;">See your listing</a>
+  </div>
+<% end %>

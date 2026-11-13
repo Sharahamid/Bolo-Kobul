@@ -25,6 +25,9 @@ Rails.application.routes.draw do
   root 'home#landing'
   get '/about', to: 'home#about', as: 'about'
   get '/contact', to: 'home#contact', as: 'contact'
+  # Businesses apply (and pay) for the Wedding Shopping List
+  get '/advertise', to: 'listings#new', as: 'advertise'
+  post '/advertise', to: 'listings#create'
   # Public page explaining how to delete an account (linked from the Google Play listing)
   get '/delete-account', to: 'home#delete_account', as: 'delete_account_info'
   get '/child-safety', to: 'home#child_safety', as: 'child_safety'

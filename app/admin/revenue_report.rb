@@ -13,7 +13,7 @@ ActiveAdmin.register_page 'Revenue' do
 
     sums = paid.where('orders.created_at >= ?', since).group(Arel.sql(tz_month), :product).sum(:total_amount)
     counts = paid.where('orders.created_at >= ?', since).group(Arel.sql(tz_month), :product).count
-    products = { 'butterfly' => 'Butterflies', 'bk_plus' => 'BK+', 'assisted_service' => 'Assisted Services' }
+    products = { 'butterfly' => 'Butterflies', 'bk_plus' => 'BK+', 'assisted_service' => 'Assisted Services', 'directory_listing' => 'Shopping List' }
     get = ->(h, m, p) { h.find { |(month, prod), _| month.to_date == m && prod.to_s == p }&.last.to_d }
 
     months = (0...months_shown).map { |i| this_month << i }
@@ -46,7 +46,7 @@ ActiveAdmin.register_page 'Revenue' do
       [bk_taka(all_time), 'All time', "#{paid.count} payments"]
     ])
     text_node raw("<p class='bkr-note'>Successful payments only, by the month they were paid (Bangladesh time). The number in brackets is how many payments. Show: #{[6, 12, 24].map { |n| "<a href='?months=#{n}'#{' style="font-weight:700"' if n == months_shown}>#{n} months</a>" }.join(' · ')}</p>")
-    text_node bk_table(['Month', ['Butterflies', 'r'], ['BK+', 'r'], ['Assisted Services', 'r'], 'Total'], rows,
+    text_node bk_table(['Month', ['Butterflies', 'r'], ['BK+', 'r'], ['Assisted Services', 'r'], ['Shopping List', 'r'], 'Total'], rows,
                        total: ['Total', *col_totals, "<b>#{bk_taka(grand)}</b>"])
   end
 end

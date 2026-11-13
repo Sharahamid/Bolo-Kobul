@@ -1,0 +1,17 @@
+<%= render layout: 'market_place_mailer/frame', locals: { listing: @listing, icon: '🎉', title: 'Your listing is live!' } do %>
+  <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1.5rem;">
+    Good news: <strong><%= @listing.name %></strong> has been approved and is now on Bolo Kobul's
+    Wedding Shopping List, where couples and families planning a wedding can find you.
+  </p>
+  <%= render 'market_place_mailer/details', rows: [
+        ['Business', @listing.name],
+        ['Category', @listing.market_place_type&.name],
+        ['Listed until', @listing.listed_until&.strftime('%-d %b %Y')]
+      ] %>
+  <div style="text-align:center; margin-bottom:0.5rem;">
+    <a href="<%= market_place_url(@listing) %>" style="background:#FFB627; color:#ffffff; text-decoration:none; padding:14px 36px; border-radius:6px; font-size:15px; font-weight:bold; display:inline-block;">See your listing</a>
+  </div>
+  <p style="font-size:14px; color:#555555; line-height:1.8; margin:1.25rem 0 0;">
+    Want to change your photos or details? Just reply to support@bolokobul.com and we will update it for you.
+  </p>
+<% end %>

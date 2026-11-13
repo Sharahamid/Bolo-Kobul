@@ -3,6 +3,20 @@
     <div class="bk-two-col" style="display:grid; grid-template-columns:<%= about_page_ad? ? "1fr 280px" : "1fr" %>; gap:20px; align-items:flex-start;">
       <div>
         <%= render 'shared/contact_content', contact: @contact %>
+
+        <%# Businesses: apply for the Wedding Shopping List (/advertise) %>
+        <div style="margin-top:20px; border:0.5px solid #eee; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); background:#412402;">
+          <div style="padding:24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+            <div style="flex:1 1 320px; min-width:0;">
+              <p style="font-size:11px; font-weight:700; color:#FAC775; text-transform:uppercase; letter-spacing:0.08em; margin:0 0 6px;"><i class="fas fa-store" style="margin-right:6px;"></i><%= t('nav.wedding_shopping') %></p>
+              <h3 style="font-size:19px; font-weight:700; color:#FFB627; margin:0 0 8px;"><%= t('listing.contact_title') %></h3>
+              <p style="font-size:13px; color:#f3e3c3; line-height:1.7; margin:0;"><%= t('listing.contact_text', price: taka(MarketPlace::LISTING_PRICE)) %></p>
+            </div>
+            <a href="<%= advertise_path %>" style="background:#FFB627; color:#412402; border-radius:8px; padding:11px 24px; font-size:14px; font-weight:700; text-decoration:none; display:inline-flex; align-items:center; gap:8px; white-space:nowrap;">
+              <i class="fas fa-plus-circle"></i> <%= t('listing.contact_button') %>
+            </a>
+          </div>
+        </div>
       </div>
       <div class="bk-side-ad">
         <%= render partial: 'shared/ad_for_about_page' %>

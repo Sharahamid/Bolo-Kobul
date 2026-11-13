@@ -33,7 +33,7 @@ class Order < ApplicationRecord
 
   enum :status, %i[pending success failed]
   enum :payment_method, %i[foster_payment]
-  enum :product, %i[butterfly assisted_service bk_plus]
+  enum :product, %i[butterfly assisted_service bk_plus directory_listing]
   # Follow-up of a paid Assisted Service by the team (Admin > Reports > Assisted Services Sold)
   FULFILMENT_STATUSES = { 'to_do' => 'To do', 'in_progress' => 'In progress', 'done' => 'Done' }.freeze
 
@@ -44,6 +44,8 @@ class Order < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :assisted_service, optional: true
   belongs_to :bk_plus_plan, optional: true
+  # Wedding Shopping List listing fee (/advertise)
+  belongs_to :market_place, optional: true
   has_many :transactions
 
   #

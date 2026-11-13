@@ -1,0 +1,17 @@
+<%= render layout: 'market_place_mailer/frame', locals: { listing: @listing, icon: '🧾', title: 'Application received' } do %>
+  <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1.5rem;">
+    Thank you for choosing Bolo Kobul. We have received your payment and your business details.
+    Our team will review your listing, usually within 2 working days, and email you as soon as it is live.
+  </p>
+  <%= render 'market_place_mailer/details', rows: [
+        ['Business', @listing.name],
+        ['Category', @listing.market_place_type&.name],
+        ['Plan', "Wedding Shopping List – #{MarketPlace::LISTING_DAYS / 365} year"],
+        ['Amount paid', "৳#{number_with_delimiter(@order.total_amount.to_i)}"],
+        ['Transaction', @order.txn_no],
+        ['Paid on', @listing.paid_at&.in_time_zone('Dhaka')&.strftime('%-d %b %Y, %-I:%M %p')]
+      ] %>
+  <p style="font-size:14px; color:#555555; line-height:1.8; margin:0;">
+    Your 1-year listing starts on the day it is approved, so you get the full year on the site.
+  </p>
+<% end %>

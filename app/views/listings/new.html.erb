@@ -1,0 +1,196 @@
+<%# Businesses apply for the Wedding Shopping List (ListingsController). Same look as the
+    Contact page: gold header, white card, rounded boxes. Works on phones (one column). %>
+<% price = taka(MarketPlace::LISTING_PRICE) %>
+<div class="bk-adv">
+  <div class="container">
+    <div class="bk-adv-card">
+      <div class="bk-adv-head">
+        <h1><%= t('listing.title') %></h1>
+        <p><%= t('listing.subtitle', price: price) %></p>
+      </div>
+
+      <div class="bk-adv-body">
+        <% if params[:paid].present? %>
+          <div class="bk-adv-thanks">
+            <div class="bk-adv-thanks-icon"><i class="fas fa-check"></i></div>
+            <h2><%= t('listing.thanks_title') %></h2>
+            <p><%= t('listing.thanks_text') %></p>
+            <%= link_to t('listing.thanks_button'), market_places_path, class: 'bk-adv-btn' %>
+          </div>
+        <% else %>
+          <div class="bk-adv-perks">
+            <% [['fa-users', 1], ['fa-images', 2], ['fa-calendar-check', 3]].each do |icon, n| %>
+              <div class="bk-adv-perk">
+                <div class="bk-adv-perk-icon"><i class="fas <%= icon %>"></i></div>
+                <div>
+                  <strong><%= t("listing.perk#{n}_title") %></strong>
+                  <span><%= t("listing.perk#{n}_text") %></span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+
+          <% if @in_play_app %>
+            <div class="bk-adv-note"><%= t('listing.play_app') %></div>
+          <% else %>
+            <% if @listing.errors.any? %>
+              <div class="bk-adv-errors">
+                <strong><%= t('listing.errors_title') %></strong>
+                <ul><% @listing.errors.full_messages.uniq.each do |m| %><li><%= m %></li><% end %></ul>
+              </div>
+            <% end %>
+
+            <%= form_with model: @listing, url: advertise_path, method: :post, local: true, multipart: true, html: { class: 'bk-adv-form' } do |f| %>
+              <div style="display:none !important;" aria-hidden="true">
+                <input type="text" name="market_place[website_hp]" tabindex="-1" autocomplete="off">
+              </div>
+              <input type="hidden" name="form_shown" value="<%= ListingsController.form_shown_token %>">
+
+              <h3><span>1</span><%= t('listing.section_business') %></h3>
+              <div class="bk-adv-grid">
+                <div class="bk-adv-field bk-adv-wide">
+                  <label for="market_place_name"><%= t('listing.name') %> *</label>
+                  <%= f.text_field :name, required: true, maxlength: 80 %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_market_place_type_id"><%= t('listing.category') %> *</label>
+                  <%= f.select :market_place_type_id,
+                               MarketPlaceType.menu_order.map { |type| [market_type_label(type.name), type.id] },
+                               { prompt: t('listing.category_prompt') }, required: true %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_location"><%= t('listing.location') %> *</label>
+                  <%= f.select :location, District.order(:name).pluck(:name),
+                               { prompt: t('listing.location_prompt') }, required: true %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_cost"><%= t('listing.cost') %> *</label>
+                  <%= f.number_field :cost, min: 0, step: 1, required: true, inputmode: 'numeric' %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_costing_unit"><%= t('listing.costing_unit') %></label>
+                  <%= f.text_field :costing_unit, placeholder: t('listing.costing_unit_ph'), maxlength: 40 %>
+                </div>
+                <div class="bk-adv-field bk-adv-wide">
+                  <label for="market_place_about"><%= t('listing.about') %> *</label>
+                  <%= f.text_area :about, rows: 4, required: true, placeholder: t('listing.about_ph') %>
+                </div>
+                <div class="bk-adv-field bk-adv-wide">
+                  <label for="market_place_facility"><%= t('listing.facility') %></label>
+                  <%= f.text_area :facility, rows: 3, placeholder: t('listing.facility_ph') %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_experience"><%= t('listing.experience') %></label>
+                  <%= f.text_area :experience, rows: 3, placeholder: t('listing.experience_ph') %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_policy"><%= t('listing.policy') %></label>
+                  <%= f.text_area :policy, rows: 3, placeholder: t('listing.policy_ph') %>
+                </div>
+                <div class="bk-adv-field bk-adv-wide">
+                  <label for="market_place_link"><%= t('listing.link') %></label>
+                  <%= f.url_field :link, placeholder: t('listing.link_ph') %>
+                </div>
+              </div>
+
+              <h3><span>2</span><%= t('listing.section_photos') %></h3>
+              <p class="bk-adv-hint"><%= t('listing.section_photos_hint') %></p>
+              <div class="bk-adv-photos">
+                <% [[:image, 'photo_main', true], [:image2, 'photo_2', false], [:image3, 'photo_3', false]].each do |field, label, req| %>
+                  <div class="bk-adv-photo">
+                    <label for="market_place_<%= field %>"><i class="fas fa-camera"></i> <%= t("listing.#{label}") %><%= ' *' if req %></label>
+                    <%= f.file_field field, accept: 'image/jpeg,image/png,image/webp', required: req, 'data-bk-max': 2 %>
+                  </div>
+                <% end %>
+              </div>
+
+              <h3><span>3</span><%= t('listing.section_contact') %></h3>
+              <p class="bk-adv-hint"><i class="fas fa-lock"></i> <%= t('listing.section_contact_hint') %></p>
+              <div class="bk-adv-grid">
+                <div class="bk-adv-field bk-adv-wide">
+                  <label for="market_place_contact_name"><%= t('listing.contact_name') %> *</label>
+                  <%= f.text_field :contact_name, required: true, autocomplete: 'name', maxlength: 80 %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_contact_phone"><%= t('listing.contact_phone') %> *</label>
+                  <%= f.telephone_field :contact_phone, required: true, autocomplete: 'tel', placeholder: '01XXXXXXXXX', maxlength: 20 %>
+                </div>
+                <div class="bk-adv-field">
+                  <label for="market_place_contact_email"><%= t('listing.contact_email') %> *</label>
+                  <%= f.email_field :contact_email, required: true, autocomplete: 'email' %>
+                </div>
+              </div>
+
+              <label class="bk-adv-agree">
+                <input type="checkbox" required>
+                <span><%= t('listing.agree', terms: link_to(t('listing.terms'), terms_of_uses_path, target: '_blank')).html_safe %></span>
+              </label>
+
+              <div class="bk-adv-pay">
+                <div class="bk-adv-sum">
+                  <span><%= t('listing.summary_label') %></span>
+                  <strong>৳<%= price %></strong>
+                </div>
+                <%= f.submit t('listing.pay_button', price: price), class: 'bk-adv-btn', data: { disable_with: '…' } %>
+                <p><%= t('listing.pay_note') %></p>
+                <p class="bk-adv-req"><%= t('listing.required_note') %></p>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bk-adv { background:#f7f5f0; padding:24px 0 40px; }
+  .bk-adv-card { max-width:860px; margin:0 auto; border:0.5px solid #eee; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07); background:#fff; }
+  .bk-adv-head { background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center; }
+  .bk-adv-head h1 { font-size:24px; font-weight:700; color:#412402; margin:0 0 6px; }
+  .bk-adv-head p { font-size:14px; color:#633806; margin:0 auto; max-width:560px; line-height:1.6; }
+  .bk-adv-body { padding:28px 24px; }
+  .bk-adv-perks { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; margin-bottom:28px; }
+  .bk-adv-perk { display:flex; gap:12px; align-items:flex-start; border:0.5px solid #FAC775; background:#fffaf0; border-radius:12px; padding:14px; }
+  .bk-adv-perk-icon { flex:0 0 38px; height:38px; border-radius:50%; background:linear-gradient(135deg,#FFB627,#ffca5e); color:#412402; display:flex; align-items:center; justify-content:center; font-size:15px; }
+  .bk-adv-perk strong { display:block; font-size:13px; color:#633806; margin-bottom:3px; }
+  .bk-adv-perk span { display:block; font-size:12px; color:#777; line-height:1.5; }
+  .bk-adv-form h3 { font-size:16px; font-weight:700; color:#412402; margin:26px 0 12px; display:flex; align-items:center; gap:10px; }
+  .bk-adv-form h3:first-of-type { margin-top:0; }
+  .bk-adv-form h3 span { width:26px; height:26px; border-radius:50%; background:#412402; color:#FFB627; font-size:13px; display:inline-flex; align-items:center; justify-content:center; }
+  .bk-adv-hint { font-size:12.5px; color:#8a6d1f; margin:-4px 0 12px; }
+  .bk-adv-grid { display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:14px 16px; }
+  .bk-adv-wide { grid-column:1 / -1; }
+  .bk-adv-field label, .bk-adv-photo label { display:block; font-size:12.5px; font-weight:600; color:#633806; margin-bottom:6px; }
+  .bk-adv-field input, .bk-adv-field select, .bk-adv-field textarea { font-family:inherit; width:100%; box-sizing:border-box; background:#fafaf8; border:1px solid #E8DCC0; border-radius:10px; padding:10px 12px; font-size:14px; color:#333; }
+  .bk-adv-field input, .bk-adv-field select { height:44px; }
+  .bk-adv-field textarea { resize:vertical; line-height:1.5; }
+  .bk-adv-field input:focus, .bk-adv-field select:focus, .bk-adv-field textarea:focus { outline:none; background:#fff; border-color:#FFB627; box-shadow:0 0 0 3px rgba(255,182,39,0.2); }
+  .bk-adv-photos { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:12px; }
+  .bk-adv-photo { border:1px dashed #FAC775; background:#fffaf0; border-radius:12px; padding:14px; min-width:0; }
+  .bk-adv-photo label i { color:#EF9F27; margin-right:4px; }
+  .bk-adv-photo input[type=file] { width:100%; font-size:12px; }
+  .bk-adv-agree { display:flex; gap:10px; align-items:flex-start; margin:24px 0 0; font-size:13px; color:#555; line-height:1.6; cursor:pointer; }
+  .bk-adv-agree input { margin-top:4px; flex:0 0 auto; }
+  .bk-adv-pay { margin-top:20px; background:#FAEEDA; border-radius:12px; padding:20px; text-align:center; }
+  .bk-adv-sum { display:flex; justify-content:space-between; align-items:center; gap:12px; background:#fff; border-radius:10px; padding:12px 16px; margin-bottom:14px; }
+  .bk-adv-sum span { font-size:13.5px; color:#633806; font-weight:600; text-align:left; }
+  .bk-adv-sum strong { font-size:22px; color:#412402; white-space:nowrap; }
+  .bk-adv-btn { display:inline-block; width:100%; max-width:360px; background:#FFB627; color:#412402 !important; border:none; border-radius:10px; padding:13px 20px; font-size:15px; font-weight:700; cursor:pointer; text-decoration:none !important; box-shadow:0 4px 12px rgba(255,182,39,0.35); }
+  .bk-adv-btn:hover { background:#f5a90f; }
+  .bk-adv-pay p { font-size:12.5px; color:#854F0B; margin:12px auto 0; max-width:520px; line-height:1.6; }
+  .bk-adv-pay .bk-adv-req { color:#aa8a4a; margin-top:6px; }
+  .bk-adv-errors { background:#fdecec; border:1px solid #f5c2c2; color:#a12a2a; border-radius:10px; padding:12px 16px; margin-bottom:18px; font-size:13px; }
+  .bk-adv-errors ul { margin:6px 0 0; padding-left:18px; }
+  .bk-adv-note { background:#FAEEDA; border-radius:12px; padding:18px; text-align:center; color:#633806; font-size:14px; }
+  .bk-adv-thanks { text-align:center; padding:20px 8px 8px; }
+  .bk-adv-thanks-icon { width:64px; height:64px; margin:0 auto 14px; border-radius:50%; background:#EAF7EE; color:#1E7B3C; font-size:26px; display:flex; align-items:center; justify-content:center; }
+  .bk-adv-thanks h2 { font-size:21px; color:#412402; font-weight:700; margin:0 0 10px; }
+  .bk-adv-thanks p { font-size:14px; color:#666; line-height:1.7; max-width:520px; margin:0 auto 20px; }
+  @media (max-width: 767px) {
+    .bk-adv-body { padding:20px 16px; }
+    .bk-adv-head { padding:22px 16px; }
+    .bk-adv-head h1 { font-size:20px; }
+    .bk-adv-perks, .bk-adv-grid, .bk-adv-photos { grid-template-columns:minmax(0,1fr); }
+  }
+</style>

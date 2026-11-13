@@ -72,6 +72,8 @@ class OrdersController < ApplicationController
   end
 
   def success
+    return finish_listing_payment if @order&.directory_listing?
+
     begin
       if @order&.success?
         flash["success"] = "This payment has already been confirmed."
@@ -147,6 +149,8 @@ class OrdersController < ApplicationController
   end
 
   def fail
+    return listing_payment_not_done(:fail) if @order&.directory_listing?
+
     if @order
       @order.update(status: "failed") if @return_verified && @order.pending?
       product_name = @order.butterfly? ? "Butterfly" : (@order.bk_plus? ? "BK+ (#{@order.bk_plus_plan&.label_en || 'membership'})" : @order.assisted_service&.name)
@@ -163,6 +167,8 @@ class OrdersController < ApplicationController
   end
 
   def cancel
+    return listing_payment_not_done(:cancel) if @order&.directory_listing?
+
     if @order
       @order.update(status: "failed") if @return_verified && @order.pending?
       product_name = @order.butterfly? ? "Butterfly" : (@order.bk_plus? ? "BK+ (#{@order.bk_plus_plan&.label_en || 'membership'})" : @order.assisted_service&.name)
@@ -179,6 +185,47 @@ class OrdersController < ApplicationController
   end
 
   private
+
+  # Wedding Shopping List fee paid (/advertise): mark the listing paid, tell the team and
+  # the business. The listing still waits for the admin's approval.
+  def finish_listing_payment
+    listing = @order.market_place
+    begin
+      if @order.success?
+        flash[:success] = t('listing.flash.paid')
+      else
+        res_body = JSON.parse(PaymentService.trxcheck(@order.txn_no))
+        if res_body['pay_status'] == 'Successful'
+          @order.update(status: 'success')
+          listing&.update_column(:paid_at, Time.current)
+          begin
+            AdminSupportMailer.new_listing(listing, @order).deliver_later
+          rescue => e
+            Rails.logger.error "Admin listing email failed: #{e.message}"
+          end
+          begin
+            MarketPlaceMailer.received(listing, @order).deliver_later if listing&.contact_email.present?
+          rescue => e
+            Rails.logger.error "Listing receipt email failed: #{e.message}"
+          end
+          flash[:success] = t('listing.flash.paid')
+          return redirect_to(advertise_path(paid: 1))
+        else
+          flash[:danger] = t('listing.flash.not_verified')
+        end
+      end
+    rescue => e
+      Rails.logger.error "Listing payment error: #{e.message}"
+      flash[:danger] = t('listing.flash.not_verified')
+    end
+    redirect_to advertise_path(paid: (@order.reload.success? ? 1 : nil))
+  end
+
+  def listing_payment_not_done(outcome)
+    @order.update(status: 'failed') if @return_verified && @order.pending?
+    flash[:warning] = t(outcome == :cancel ? 'listing.flash.cancelled' : 'listing.flash.failed')
+    redirect_to advertise_path
+  end
 
   # Google Play's payments policy: no butterfly purchases inside the Play Store app
   # (assisted services are real-world services and may still be paid with aamarPay)

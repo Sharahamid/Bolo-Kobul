@@ -52,3 +52,9 @@ end
 every :day, at: '1:00 pm' do
   rake 'nudges:daily'
 end
+
+# Wedding Shopping List: renewal reminder 14 days before a listing's year ends
+# (4:00 am UTC = 10:00 am in Bangladesh). Ended listings hide themselves; no task needed.
+every :day, at: '4:00 am' do
+  rake 'listings:renewal_reminders'
+end
