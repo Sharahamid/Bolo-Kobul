@@ -426,7 +426,7 @@ en:
     delete_my_account: Delete my account
     refer_friend: Refer a Friend
     privacy: Privacy
-    block_list: Block List
+    block_list: Blocked & hidden profiles
     privacy_information: Privacy Information
     public: Public
     private: Private
@@ -580,6 +580,18 @@ en:
     copy: Copy
     note: Share this code with friends or family who are looking for a soulmate. When they register using your code, you earn one free butterfly!
     copied: Copied!
+  hidden:
+    button: Not interested
+    button_tip: Hide this profile. You won't see it again in recommendations or search.
+    card_done: "%{id} is hidden. You won't see this profile again."
+    undo: Undo
+    failed: Something went wrong. Please try again.
+    done: "%{id} is hidden. You won't see this profile again."
+    shown_again: "%{id} can appear in your recommendations and search again."
+    title: Not interested
+    explain: Profiles you marked "Not interested" never appear in your recommendations, search or advanced search. They are not told.
+    show_again: Show again
+    none: No hidden profiles
   blocked:
     title: Blocked Profiles
     unblock: Unblock

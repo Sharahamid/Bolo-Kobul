@@ -147,6 +147,7 @@ class RecommendationService
       current_profile.blocked_friend_ids +
       current_profile.chat_friendships.map(&:chat_friend_id) +
       ProfilePass.hidden_ids_for(current_profile) +
+      ProfileHide.hidden_ids_for(current_profile) +
       Friendship.where('(friendable_id = ? OR friend_id = ?) AND status = ?', current_profile.id, current_profile.id, 1)
                 .map { |f| f.friendable_id == current_profile.id ? f.friend_id : f.friendable_id }
   end

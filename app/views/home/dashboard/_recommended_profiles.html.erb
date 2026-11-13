@@ -28,7 +28,11 @@
     <% end %>
     <% if get_recommended_profiles.present? %>
       <% get_recommended_profiles.each do |p| %>
-        <div style="padding:10px 12px; border-bottom:0.5px solid #f5f5f5;">
+        <div class="bk-rec-card" data-hide-url="<%= hide_profile_marriage_profile_path(p, format: :json) %>" data-unhide-url="<%= unhide_profile_marriage_profile_path(p, format: :json) %>" data-id="<%= p.unique_id %>" style="padding:10px 12px; border-bottom:0.5px solid #f5f5f5; position:relative;">
+          <button type="button" class="bk-not-interested" title="<%= t('hidden.button_tip') %>"
+                  style="position:absolute; top:8px; right:10px; background:none; border:none; color:#b0a28a; font-size:11px; padding:2px 4px; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+            <i class="fas fa-eye-slash"></i> <%= t('hidden.button') %>
+          </button>
           <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
             <div style="flex-shrink:0;">
               <%= render 'shared/profile_photo', profile: p %>
@@ -84,5 +88,35 @@
     window.addEventListener('load', fit);
     window.addEventListener('resize', function () { clearTimeout(window.bkRecFit); window.bkRecFit = setTimeout(fit, 150); });
     setTimeout(fit, 300);
+  })();
+</script>
+
+<script>
+  // "Not interested": hides the profile for good (recommendations, search, advanced search)
+  (function () {
+    if (window.bkNotInterested) return;
+    window.bkNotInterested = true;
+    var T = <%= raw({ hidden: t('hidden.card_done'), undo: t('hidden.undo'), failed: t('hidden.failed') }.to_json) %>;
+    function call(url) {
+      var token = document.querySelector('meta[name="csrf-token"]');
+      return fetch(url, { method: 'PATCH', credentials: 'same-origin',
+        headers: { 'Accept': 'application/json', 'X-CSRF-Token': token ? token.content : '' } });
+    }
+    document.addEventListener('click', function (e) {
+      var btn = e.target.closest('.bk-not-interested');
+      if (!btn) return;
+      var card = btn.closest('.bk-rec-card');
+      btn.disabled = true;
+      call(card.dataset.hideUrl).then(function (r) {
+        if (!r.ok) throw new Error();
+        var saved = card.innerHTML;
+        card.innerHTML = '<div style="display:flex; align-items:center; justify-content:space-between; gap:10px; font-size:12px; color:#7a6a50; padding:6px 0;">' +
+          '<span><i class="fas fa-eye-slash" style="margin-right:6px;"></i>' + T.hidden.replace('%{id}', card.dataset.id) + '</span>' +
+          '<button type="button" class="bk-undo-hide" style="background:none; border:none; color:#854F0B; font-weight:700; text-decoration:underline; cursor:pointer; font-size:12px;">' + T.undo + '</button></div>';
+        card.querySelector('.bk-undo-hide').addEventListener('click', function () {
+          call(card.dataset.unhideUrl).then(function () { card.innerHTML = saved; });
+        });
+      }).catch(function () { btn.disabled = false; alert(T.failed); });
+    });
   })();
 </script>

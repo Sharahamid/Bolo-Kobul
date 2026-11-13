@@ -6,7 +6,7 @@ class MarriageProfilesController < ApplicationController
                                               :send_request, :accept_request,
                                               :cancel_request, :reject_request,
                                               :block_profile,
-                                              :unblock_profile, :switch,
+                                              :unblock_profile, :hide_profile, :unhide_profile, :switch,
                                               :dashboard, :search_page, :search]
   before_action :require_own_profile, only: [:edit_about, :update_about, :edit, :update,
                                             :change_profile, :change_photo, :switch,
@@ -319,6 +319,31 @@ class MarriageProfilesController < ApplicationController
     redirect_back fallback_location: root_path
   end
 
+  # "Not interested" on a recommendation: never show this profile again
+  def hide_profile
+    ProfileHide.hide!(current_active_profile, @marriage_profile)
+    Rails.cache.delete(RecommendationService.cache_key(current_active_profile))
+    respond_to do |format|
+      format.html do
+        flash[:notice] = I18n.t('hidden.done', id: @marriage_profile.unique_id)
+        redirect_back fallback_location: user_homepage(current_user)
+      end
+      format.json { head :no_content }
+    end
+  end
+
+  def unhide_profile
+    ProfileHide.where(marriage_profile_id: current_active_profile.id, hidden_profile_id: @marriage_profile.id).delete_all
+    Rails.cache.delete(RecommendationService.cache_key(current_active_profile))
+    respond_to do |format|
+      format.html do
+        flash[:notice] = I18n.t('hidden.shown_again', id: @marriage_profile.unique_id)
+        redirect_back fallback_location: blocked_profiles_marriage_profiles_path
+      end
+      format.json { head :no_content }
+    end
+  end
+
   def pending_profiles
     @pending_profiles = current_active_profile.pending_friends
   end
@@ -329,6 +354,7 @@ class MarriageProfilesController < ApplicationController
 
   def blocked_profiles
     @blocked_profiles = current_active_profile.profiles_i_blocked
+    @hidden_profiles = MarriageProfile.where(id: ProfileHide.where(marriage_profile_id: current_active_profile.id).order(created_at: :desc).select(:hidden_profile_id))
   end
 
   def refferel_code

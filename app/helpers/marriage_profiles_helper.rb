@@ -7,6 +7,7 @@ module MarriageProfilesHelper
                    current_active_profile.friend_ids +
                    current_active_profile.requested_friend_ids +
                    current_active_profile.blocked_friend_ids +
+                   ProfileHide.hidden_ids_for(current_active_profile) +
                    current_active_profile.chat_friendships.map(&:chat_friend_id) +
                    Friendship.where(friend_id: current_active_profile.id, status: 1).map(&:friendable_id) +
                    Friendship.where(friendable_id: current_active_profile.id, status: 1).map(&:friend_id)

@@ -1,0 +1,33 @@
+<%# Profiles marked "Not interested" (ProfileHide), with "Show again" %>
+<div class="mb-4">
+  <div style="border:0.5px solid #FAC775; border-radius:14px; overflow:hidden; box-shadow:1px 3px 9px rgba(0,0,0,0.07);">
+    <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:14px 18px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <i class="fas fa-eye-slash" style="color:#412402; font-size:16px;"></i>
+        <span style="font-size:15px; font-weight:700; color:#412402;"><%= t('hidden.title') %></span>
+      </div>
+      <% if hidden_profiles.present? %>
+        <span style="background:#633806; color:#FAC775; font-size:11px; padding:2px 10px; border-radius:20px; font-weight:600;"><%= local_digits(hidden_profiles.size) %></span>
+      <% end %>
+    </div>
+    <p style="margin:0; padding:10px 18px 0; background:#fffaf0; font-size:12px; color:#7a6a50;"><%= t('hidden.explain') %></p>
+    <div style="padding:14px; background:#fffaf0; display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:10px;">
+      <% if hidden_profiles.present? %>
+        <% hidden_profiles.each do |profile| %>
+          <div style="border:0.5px solid #FAC775; border-radius:10px; background:#fff; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:8px;">
+            <div style="display:flex; align-items:center; gap:8px; min-width:0;">
+              <i class="fas fa-eye-slash" style="color:#b0a28a; font-size:13px; flex-shrink:0;"></i>
+              <%= link_to profile&.unique_id, profile_info_marriage_profile_path(profile), style: "font-size:12px; font-weight:700; color:#633806; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; text-decoration:none;" %>
+            </div>
+            <%= link_to unhide_profile_marriage_profile_path(profile), method: :patch,
+                        style: "background:#FAEEDA; color:#854F0B; border:0.5px solid #FFB627; border-radius:6px; padding:4px 10px; font-size:11px; font-weight:600; text-decoration:none; white-space:nowrap; flex-shrink:0;" do %>
+              <%= t('hidden.show_again') %>
+            <% end %>
+          </div>
+        <% end %>
+      <% else %>
+        <div style="grid-column:1/-1; text-align:center; padding:24px; color:#aaa; font-size:13px;"><%= t('hidden.none') %></div>
+      <% end %>
+    </div>
+  </div>
+</div>

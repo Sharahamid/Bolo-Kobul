@@ -120,6 +120,8 @@ Rails.application.routes.draw do
       patch :cancel_request
       patch :block_profile
       patch :unblock_profile
+      patch :hide_profile
+      patch :unhide_profile
       patch :change_profile
       patch :change_photo
       get :search_page

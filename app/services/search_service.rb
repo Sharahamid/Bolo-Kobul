@@ -14,6 +14,8 @@ class SearchService
       @matches = @matches.where.not(id: @marriage_profile.pending_friend_ids)
       @matches = @matches.where.not(id: @marriage_profile.requested_friend_ids)
       @matches = @matches.where.not(id: @marriage_profile.blocked_friend_ids)
+      # "Not interested" profiles never come back, in search or advanced search
+      @matches = @matches.where.not(id: ProfileHide.hidden_ids_for(@marriage_profile))
     end
 
     # Age range
