@@ -59,7 +59,7 @@
                                        placeholder: t('signup.password'),
                                        minlength: '8',
                                        maxlength: '128',
-                                       pattern: "(?=.*[A-Za-z])(?=.*\\d).{8,}",
+                                       pattern: "(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[^A-Za-z0-9\\s]).{8,}",
                                        title: t('signup.password_rule'),
                                        data: {toggle: 'tooltip', placement: 'top'},
                                        id: 'mobile_password',
@@ -72,6 +72,7 @@
                 <small class="text-danger error-text">
                   <%= f.object.errors[:password].present? ? f.object.errors.full_messages_for(:password).first : '' %>
                 </small>
+                <%= render 'shared/password_checklist', input_id: 'mobile_password' %>
               </div>
 
               <div class="<%= f.object.errors[:password_confirmation].present? ? '' : 'form-group' %>">

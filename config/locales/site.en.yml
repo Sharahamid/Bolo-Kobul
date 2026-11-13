@@ -65,8 +65,8 @@ en:
     full_name: Full Name*
     email: Email*
     mobile: Mobile number*
-    password: Password* (8+ characters, letters and numbers)
-    password_rule: At least 8 characters, including a letter and a number.
+    password: "Password*"
+    password_rule: "At least 8 characters, with an uppercase letter, a lowercase letter, a number and a symbol (e.g. @ # ! %)."
     confirm_password: Confirm Password*
     created_for: Created For*
     terms_html: Have you read the %{terms} & %{privacy} of Bolo Kobul?
@@ -590,6 +590,13 @@ en:
     go_profile: Complete my profile
     go_verify: Get verified
     go_support: Contact support
+  pwd_rules:
+    length: "8+ characters"
+    upper: "A–Z"
+    lower: "a–z"
+    digit: "0–9"
+    symbol: "a symbol (@ # ! % …)"
+    error: "must be at least 8 characters with an uppercase letter, a lowercase letter, a number and a symbol (e.g. @ # ! %)"
   hidden:
     button: Not interested
     button_tip: Hide this profile. You won't see it again in recommendations or search.

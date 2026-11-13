@@ -267,7 +267,8 @@ class User < ApplicationRecord
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.password = Devise.friendly_token[0, 20]
+      # Random password for Google / Facebook sign-ups, meeting the password rules
+      user.password = "#{Devise.friendly_token[0, 20]}Aa1!"
       user.name = auth.info.name
       #user.image = auth.info.image # assuming the user model has an image
       # user.skip_confirmation!
@@ -419,8 +420,10 @@ class User < ApplicationRecord
   private
 
   def password_regex
-    return if password.blank? || password =~ /\A(?=.*\p{L})(?=.*\d).{8,}\z/
-    errors.add :password, 'must be at least 8 characters and include a letter and a number'
+    # 8+ characters with an uppercase letter, a lowercase letter, a number and a symbol.
+    # Applies to new passwords only (sign-up, change, reset); existing passwords keep working.
+    return if password.blank? || password =~ /\A(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9\s]).{8,}\z/
+    errors.add :password, I18n.t('pwd_rules.error')
   end
 
   def give_default_butterfly
