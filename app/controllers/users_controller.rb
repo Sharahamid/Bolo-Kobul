@@ -168,8 +168,12 @@ class UsersController < ApplicationController
         @user.butterfly_number = @user.butterfly_number - @adv_search_butterflies
         @user.advanced_search = "enabled"
         if @user.save
-          redirect_to privacy_settings_path(butterfly: "animate"),
-                      notice: "Advanced Search Enabled"
+          if params[:from] == 'search'
+            redirect_to search_page_marriage_profile_path(current_active_profile), notice: I18n.t('search.adv_enabled')
+          else
+            redirect_to privacy_settings_path(butterfly: "animate"),
+                        notice: "Advanced Search Enabled"
+          end
         else
           redirect_back fallback_location: root_path,
                         notice: "#{@user.errors.full_messages.first}"

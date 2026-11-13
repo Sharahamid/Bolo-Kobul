@@ -550,6 +550,12 @@ en:
     about_family: A Few Lines About Your Family
     cancel: Cancel
   search:
+    adv_title: Advanced Search
+    adv_subtitle: find exactly who you're looking for
+    adv_activate: "Activate for 🦋 %{n}"
+    adv_activate_free: Activate
+    adv_filters: Advanced filters
+    adv_enabled: Advanced Search is on. Your extra filters are ready below.
     looking_for: I am looking for...
     age_from: Age (from)
     age_to: Age (to)
