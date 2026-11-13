@@ -1,6 +1,7 @@
 <% advanced = current_user.advanced_search == "enabled" %>
 <% adv_keys = %w[height education occupation blood_group] %>
-<% adv_used = adv_keys.any? { |k| Array(params[k]).reject(&:blank?).any? } %>
+<%# Once Advanced Search is on, its filters show open; the member can fold them away %>
+<% adv_used = true %>
 <% adv_cost = ButterflyConfig.last&.adv_search_butterflies.to_i %>
 <div style="width:100%;">
   <%= render 'marriage_profiles/saved_searches' %>
@@ -64,7 +65,7 @@
         </script>
 
         <% if advanced %>
-        <!-- Advanced filters: folded away until "Advanced filters" is tapped (open when in use) -->
+        <!-- Advanced filters: open by default; "Advanced filters" folds them away -->
         <div style="margin-top:10px;">
           <a href="#" id="bk-adv-toggle" aria-expanded="<%= adv_used %>"
              style="display:inline-flex; align-items:center; gap:6px; color:#633806; font-size:13px; font-weight:700; text-decoration:none;">
