@@ -37,7 +37,7 @@ ActiveAdmin.setup do |config|
   # Set the title that is displayed on the main layout
   # for each of the active admin pages.
   #
-  config.site_title = "Bolokobul(Admin)"
+  config.site_title = "Bolo Kobul Admin"
 
   # HTML Editor: CKEditor 4.22.1 (the last open-source CKEditor 4), loaded from
   # CKEditor's CDN. Its settings and toolbar come from the ckeditor gem's ckeditor/config.js.
@@ -368,4 +368,16 @@ ActiveAdmin.setup do |config|
   #
   # config.order_clause = MyOrderClause
   config.skip_before_action :configure_permitted_parameters
+
+  # Order of the top menu (Nov 2026). Pages pick their group with `menu parent: '...'`.
+  config.namespace :shaheer10inara20 do |admin|
+    admin.build_menu :default do |menu|
+      menu.add label: 'Members', priority: 2
+      menu.add label: 'Reports', priority: 3
+      menu.add label: 'Wedding Shopping', priority: 4
+      menu.add label: 'Website', priority: 5
+      menu.add label: 'Settings', priority: 6
+      menu.add label: 'Location', priority: 7
+    end
+  end
 end

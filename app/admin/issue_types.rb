@@ -1,4 +1,4 @@
 ActiveAdmin.register IssueType do
-  menu parent: 'Manage Site', label: 'Customer issue types'
+  menu parent: 'Settings', priority: 5, label: 'Support issue types'
   permit_params :name
 end

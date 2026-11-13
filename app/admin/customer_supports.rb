@@ -1,4 +1,5 @@
 ActiveAdmin.register CustomerSupport do
+  menu parent: 'Members', priority: 4, label: 'Support Tickets'
   permit_params :status
   actions :all, :except => [:new, :create, :destroy]
 
@@ -6,10 +7,11 @@ ActiveAdmin.register CustomerSupport do
     id_column
     column :user
     column :issue_type
-    column :description
+    column('Description') { |c| admin_preview(c.description, 80) }
     column :status
-    column "Customer Attachment" do |customer|
-     image_tag customer.customer_attachment.attached? ? url_for(customer.customer_attachment) : '', width:'100', height:'100', class: 'customer_attachment'
+    column('Received') { |c| c.created_at.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y') }
+    column "Attachment" do |customer|
+      image_tag(url_for(customer.customer_attachment), width: 44, height: 44, class: 'customer_attachment') if customer.customer_attachment.attached?
     end
     actions
   end

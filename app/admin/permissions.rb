@@ -1,4 +1,5 @@
 ActiveAdmin.register ::ActiveAdmin::Permission, as: "Permission" do
+  menu parent: 'Settings', priority: 7
   actions :index, :reload
 
   filter :state, as: :select, collection: controller.resource_class.states

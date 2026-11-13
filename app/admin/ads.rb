@@ -1,5 +1,5 @@
 ActiveAdmin.register Ad do
-  menu parent: 'Manage Site'
+  menu parent: 'Website', priority: 9
   permit_params :title, :url, :price, :location, :advertiser, :status, :image
 
   form do |f|

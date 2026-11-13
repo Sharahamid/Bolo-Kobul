@@ -1,4 +1,5 @@
 ActiveAdmin.register Blog do
+  menu parent: 'Website', priority: 8, label: 'Blogs & Stories'
   permit_params :author, :partner, :title, :email, :married_life_duration,
                 :story, :status, :image, :story_type
 

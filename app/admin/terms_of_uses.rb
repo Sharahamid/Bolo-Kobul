@@ -1,5 +1,5 @@
 ActiveAdmin.register TermsOfUse do
-  menu parent: 'Manage Site'
+  menu parent: 'Website', priority: 4, label: 'Terms of Use'
   permit_params :title, :content, :title_bn, :content_bn, :pdf_content, :display_order
 
   # generate custom link

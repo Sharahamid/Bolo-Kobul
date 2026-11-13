@@ -1,5 +1,5 @@
 ActiveAdmin.register MarketPlace do
-  menu label: 'Market Places (Wedding Shopping)'
+  menu parent: 'Wedding Shopping', priority: 1, label: 'Listings'
 
   permit_params :name , :status, :cost, :costing_unit, :facility, :link,
                 :policy, :experience, :about, :service_coverage, :image, :image2, :image3, :location, :market_place_type_id,

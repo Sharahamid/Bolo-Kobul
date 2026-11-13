@@ -4,7 +4,7 @@ ActiveAdmin.register MarriageProfile do
   # The Kobul lists (from has_friendship) cannot be used as filters
   remove_filter :friends, :blocked_friends, :requested_friends, :pending_friends
 
-  menu parent: 'User'
+  menu parent: 'Members', priority: 2
 
   # Shows the member's ID document (NID or passport). The file is stored outside the public
   # folder, so this admin-only page is the only way to open it.

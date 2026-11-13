@@ -1,5 +1,5 @@
 ActiveAdmin.register ProcessFlow do
-  menu parent: 'Manage Site'
+  menu parent: 'Website', priority: 6, label: 'How It Works'
   permit_params :title, :content, :process_image, :title_bn
 
   form do |f|
@@ -20,5 +20,16 @@ ActiveAdmin.register ProcessFlow do
       row :display_order, as: :number
       row('Process Image') { |p| admin_image_or_none(p, :process_image) }
     end
+  end
+
+  config.sort_order = 'display_order_asc'
+
+  index do
+    id_column
+    column :title
+    column('Title (Bangla)') { |r| r.title_bn }
+    column('Preview') { |r| admin_preview(r.content) }
+    column :display_order
+    actions
   end
 end

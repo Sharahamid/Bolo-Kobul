@@ -1,6 +1,6 @@
 # BK+ plans: price, length and bonus butterflies for each plan
 ActiveAdmin.register BkPlusPlan, as: 'BK Plus Plan' do
-  menu parent: 'Manage Site', label: 'BK+ Plans'
+  menu parent: 'Settings', priority: 2, label: 'BK+ Plans'
   permit_params :days, :price, :butterflies, :position, :active
   config.sort_order = 'position_asc'
   config.filters = false

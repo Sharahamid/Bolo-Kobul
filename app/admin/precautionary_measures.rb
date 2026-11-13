@@ -1,5 +1,5 @@
 ActiveAdmin.register PrecautionaryMeasure do
-  menu parent: 'Manage Site'
+  menu parent: 'Website', priority: 7, label: 'Safety tips'
   permit_params :title, :content, :title_bn, :content_bn, :display_order
 
   form do |f|
@@ -12,5 +12,16 @@ ActiveAdmin.register PrecautionaryMeasure do
       input :display_order, as: :number
     end
     f.actions
+  end
+
+  config.sort_order = 'display_order_asc'
+
+  index do
+    id_column
+    column :title
+    column('Title (Bangla)') { |r| r.title_bn }
+    column('Preview') { |r| admin_preview(r.content) }
+    column :display_order
+    actions
   end
 end

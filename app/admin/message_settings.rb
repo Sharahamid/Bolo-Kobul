@@ -1,5 +1,5 @@
 ActiveAdmin.register MessageSetting, as: "Messages On Off" do
-  menu parent: 'Manage Site', label: 'Messages On / Off'
+  menu parent: 'Settings', priority: 4, label: 'Messages On / Off'
   permit_params :sms_all, :email_all, on_keys: []
   actions :index, :edit, :update
 

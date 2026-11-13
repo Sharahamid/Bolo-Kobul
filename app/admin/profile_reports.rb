@@ -1,5 +1,5 @@
 ActiveAdmin.register ProfileReport do
-  menu parent: 'User', label: 'Profile Reports'
+  menu parent: 'Members', priority: 3, label: 'Profile Reports'
   actions :index, :show, :edit, :update
   permit_params :status, :admin_note
 

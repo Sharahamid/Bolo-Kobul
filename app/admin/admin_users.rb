@@ -1,4 +1,5 @@
 ActiveAdmin.register AdminUser do
+  menu parent: 'Settings', priority: 6, label: 'Admin users'
   role_changeable
   permit_params :email, :password, :password_confirmation
 

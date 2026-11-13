@@ -1,5 +1,5 @@
 ActiveAdmin.register Notification do
-  menu parent: 'User'
+  menu parent: 'Members', priority: 5
   permit_params :content, :is_read, :assign_to
 
   form do |f|
@@ -18,7 +18,7 @@ ActiveAdmin.register Notification do
   index do
     selectable_column
     id_column
-    column :name
+    column('Message') { |n| admin_preview(n.content, 70) }
     column :notifiable
     column :user
     column :recipient
@@ -26,7 +26,6 @@ ActiveAdmin.register Notification do
     column :will_email
     column :will_sms
     column :created_at
-    column :updated_at
     actions
   end
 end

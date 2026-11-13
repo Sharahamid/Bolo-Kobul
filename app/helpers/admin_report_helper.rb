@@ -1,5 +1,10 @@
 # Shared look for the admin report pages (Admin > Reports): stat boxes and tables
 module AdminReportHelper
+  # Short one-line preview of long text (HTML removed) for admin lists
+  def admin_preview(text, length = 90)
+    truncate(strip_tags(text.to_s).squish, length: length)
+  end
+
   def bk_report_css
     <<~HTML.html_safe
       <style>

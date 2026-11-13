@@ -2,7 +2,7 @@ ActiveAdmin.register User do
   permit_params :name, :country_code, :phone_number, :national_id, :verified,
                 :email, :username, :butterfly_number, :block_butterfly_number, :bk_plus_until
 
-  menu parent: 'User'
+  menu parent: 'Members', priority: 1
   filter :name
   filter :email
   filter :phone_number
