@@ -49,7 +49,7 @@ ActiveAdmin.register PrivacyPolicy do
     id_column
     column :title
     column :content do |tou|
-      truncate(tou.content, length: 50)
+      admin_preview(tou.content, 70)
     end
     column :display_order
     column :pdf_content_url do |tou|

@@ -86,6 +86,7 @@ body.active_admin {
     flex: 1 1 auto;
     min-width: 0;
     width: auto;
+    flex-wrap: nowrap;
     > li {
       margin: 8px 2px;
       font-size: 13px;
@@ -130,6 +131,9 @@ body.active_admin {
       }
     }
   }
+
+  // The signed-in email is hidden to keep the menu on one line (hover Logout to see it)
+  #utility_nav li#current_user { display: none; }
 
   #utility_nav {
     display: flex;
@@ -405,10 +409,10 @@ table.index_table {
     color: $bk-brown;
     font-size: 11.5px;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.02em;
     text-transform: uppercase;
     text-shadow: none;
-    padding: 11px 12px;
+    padding: 11px 9px;
     white-space: nowrap;
     a, a:link, a:visited { color: $bk-brown; }
     &.sortable a { background-image: none; padding-right: 0; }
@@ -420,23 +424,36 @@ table.index_table {
   }
   td {
     border-bottom: 1px solid #F3EEE4;
-    padding: 10px 12px;
+    padding: 10px 9px;
     vertical-align: middle;
-    // One line per row: long text is cut with "…" instead of turning the row into
-    // a tall column of words (open the record to read it all)
-    white-space: nowrap;
+    // Text may wrap so the table fits the screen; long texts are already shortened
+    // to a one-line preview in each list (open the record to read it all)
+    white-space: normal;
+    overflow-wrap: anywhere;
     max-width: 320px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    line-height: 1.45;
   }
+  // Short values never break across lines
+  td.col-id, td.col-selectable, td.col-actions, td.col-created_at, td.col-updated_at,
+  td.col-display_order, td.col-status, td.col-verified, td.col-joined,
+  td.col-butterflies { white-space: nowrap; overflow-wrap: normal; }
+  td.col-member { min-width: 190px; overflow-wrap: normal; small { white-space: nowrap; } }
   tr.odd td { background: #fff; }
   tr.even td { background: #FCFAF6; }
   tbody tr:hover td { background: $bk-cream; }
   tr.selected td { background: $bk-gold-soft !important; }
   td.col-id a, td.col-id { font-weight: 700; }
 
-  // View / Edit / Delete as small pill links
-  td.col-actions { white-space: nowrap; }
+  // View / Edit / Delete as small pill links. They stay pinned on the right edge, so
+  // they are always visible even when a wide table has to scroll sideways.
+  td.col-actions, th.col-actions {
+    white-space: nowrap;
+    position: sticky;
+    right: 0;
+    z-index: 1;
+    box-shadow: -8px 0 10px -8px rgba(65, 36, 2, 0.18);
+  }
+  th.col-actions { background: #FBF7EF; }
   .table_actions {
     display: flex;
     gap: 6px;
@@ -643,10 +660,20 @@ body.active_admin.logged_out {
 }
 
 // ── Smaller screens ────────────────────────────────────────────────────────
+// Medium screens: smaller menu so it stays on one line
+@media (max-width: 1350px) {
+  #header h1 { font-size: 15px; padding-right: 12px; }
+  #header ul.tabs > li { margin: 8px 0; font-size: 12.5px; }
+  #header ul.tabs > li a { padding: 7px 8px; }
+  #header ul.tabs > li.has_nested > a { padding-right: 20px; }
+  #bk-admin-search input[type=search] { width: 150px; }
+  #bk-admin-search input[type=search]:focus { width: 210px; }
+}
+
 @media (max-width: 900px) {
   #header { padding: 0 10px; flex-wrap: wrap; h1 { padding-right: 10px; } }
   #wrapper, .index #wrapper { display: block; width: auto; }
-  #header ul.tabs { order: 3; width: 100%; flex: 1 1 100%; flex-wrap: wrap; }
+  #header ul.tabs { order: 3; width: 100%; flex: 1 1 100%; flex-wrap: wrap !important; }
   #title_bar { padding: 16px 14px 4px; }
   #active_admin_content { padding: 10px 14px 30px; }
   #active_admin_content.with_sidebar #main_content_wrapper { float: none; width: 100%; }

@@ -13,9 +13,10 @@ ActiveAdmin.register User do
   index do
     selectable_column
     id_column
-    column :name
-    column :email
-    column :phone_number
+    # Name, email and phone in one cell so the list fits the screen
+    column('Member', sortable: :name) do |user|
+      raw("<b>#{ERB::Util.html_escape(user.name)}</b><br><small style='color:#7A7368'>#{ERB::Util.html_escape(user.email)}<br>#{ERB::Util.html_escape(user.phone_number)}</small>")
+    end
     column "Created For" do |user|
       color = case user.created_for
               when 'self'               then '#D4EDDA'
@@ -56,14 +57,15 @@ ActiveAdmin.register User do
       end
     end
     column :verified
-    column :butterfly_number
-    column "BK+" do |user|
-      user.bk_plus? ? status_tag("Until #{user.bk_plus_until.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y')}", class: 'yes') : ''
+    column('Butterflies', sortable: :butterfly_number) { |user| user.butterfly_number }
+    # BK+ and account deletion together, shown only when they apply
+    column('BK+ / Deletion') do |user|
+      tags = []
+      tags << "<span class='status_tag yes'>BK+ until #{user.bk_plus_until.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y')}</span>" if user.bk_plus?
+      tags << "<span class='status_tag no'>Deleting #{user.deletion_date.strftime('%-d %b %Y')}</span>" if user.deletion_scheduled?
+      raw(tags.join(' '))
     end
-    column "Deletion" do |user|
-      user.deletion_scheduled? ? status_tag("On #{user.deletion_date.strftime('%-d %b %Y')}", class: 'red') : ''
-    end
-    column :created_at
+    column('Joined', sortable: :created_at) { |user| user.created_at.in_time_zone('Asia/Dhaka').strftime('%-d %b %Y') }
     actions
   end
 
