@@ -11,7 +11,11 @@
         <% if profile.verified %>
           <i class="fas fa-check-circle" style="color:#FFB627; font-size:11px;"></i>
         <% end %>
-        <%= render 'shared/match_badge', profile: profile %>
+        <%# Match % and the ⋮ menu sit together at the end of the name line, never on top of each other %>
+        <span style="margin-left:auto; display:inline-flex; align-items:center; gap:2px; flex-shrink:0;">
+          <%= render 'shared/match_badge', profile: profile %>
+          <%= render 'shared/profile_actions', profile: profile if local_assigns[:profile_action] %>
+        </span>
       </div>
       <div style="display:flex; flex-wrap:wrap; gap:3px; margin-bottom:3px; align-items:center;">
         <span style="background:#FFF3CC; color:#854F0B; font-size:10px; padding:1px 6px; border-radius:5px;"><%= years_label(profile.age) %></span>

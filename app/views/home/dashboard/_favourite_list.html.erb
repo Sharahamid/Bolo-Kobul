@@ -20,7 +20,7 @@
                   <% if profile.verified %>
                     <i class="fas fa-check-circle" style="color:#FFB627; font-size:12px;"></i>
                   <% end %>
-                  <%= render 'shared/match_badge', profile: profile %>
+                  <span style="margin-left:auto; display:inline-flex; align-items:center; gap:2px; flex-shrink:0;"><%= render 'shared/match_badge', profile: profile %><%= render 'shared/profile_actions', profile: profile %></span>
                 </div>
                 <div style="font-size:11px; color:#888; margin-bottom:2px;">
                   <i class="fas fa-map-marker-alt" style="color:#FFB627; font-size:10px;"></i>
@@ -37,9 +37,6 @@
             </div>
             <div style="padding:0 14px 12px;">
               <%= render 'home/dashboard/send_butterfly_and_remove_favourite_btns', profile: profile %>
-            </div>
-            <div style="position:absolute; top:8px; right:8px;">
-              <%= render 'shared/profile_actions', profile: profile %>
             </div>
           </div>
         <% end %>

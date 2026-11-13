@@ -20,9 +20,12 @@
                   <% if profile.verified %>
                     <i class="fas fa-check-circle" style="color:#FFB627; font-size:12px;"></i>
                   <% end %>
-                  <% if match_percent(profile).to_i > 0 %>
-                    <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 6px; border-radius:20px; font-weight:700; margin-left:auto;"><%= local_digits("%02d" % match_percent(profile)) %>%</span>
-                  <% end %>
+                  <span style="margin-left:auto; display:inline-flex; align-items:center; gap:2px; flex-shrink:0;">
+                    <% if match_percent(profile).to_i > 0 %>
+                    <span style="background:#FFB627; color:#633806; font-size:9px; padding:1px 6px; border-radius:20px; font-weight:700;"><%= local_digits("%02d" % match_percent(profile)) %>%</span>
+                    <% end %>
+                    <%= render 'shared/profile_actions', profile: profile %>
+                  </span>
                 </div>
                 <div style="font-size:11px; color:#888; margin-bottom:2px;">
                   <i class="fas fa-map-marker-alt" style="color:#FFB627; font-size:10px;"></i>
@@ -58,9 +61,6 @@
                   <i class="far fa-heart"></i> <%= t('kobul.favourite') %>
                 <% end %>
               <% end %>
-            </div>
-            <div style="position:absolute; top:8px; right:8px;">
-              <%= render 'shared/profile_actions', profile: profile %>
             </div>
           </div>
         <% end %>
