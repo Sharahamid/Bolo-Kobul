@@ -305,6 +305,8 @@ en:
       b4_text_plans: "Every plan adds bonus butterflies to your balance — up to 500 with a yearly plan."
       b5_title: "See who viewed you"
       b5_text: "See which members looked at your profile in the last 30 days, and when."
+      b6_title: "%{n} recommendations a day"
+      b6_text: "Get up to %{n} recommended matches every day instead of %{base}, picked for you from the best matches."
       viewed_title: "Who viewed you"
       viewed_count:
         zero: "Nobody has viewed your profile in the last 30 days"

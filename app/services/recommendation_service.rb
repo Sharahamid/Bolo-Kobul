@@ -1,6 +1,8 @@
 class RecommendationService
   DAILY_CACHE_EXPIRY = 24.hours
   MIN_RECOMMENDATIONS = 10
+  # BK+ perk: twice as many recommendations each day
+  BK_PLUS_RECOMMENDATIONS = 20
   # Years the age range may stretch when there are not enough members inside it
   AGE_STRETCH = 2
   HIGH_MATCH_THRESHOLD = 75
@@ -30,10 +32,15 @@ class RecommendationService
     recommendations
   end
 
-  # Recalculated daily, and also as soon as a new member joins or this member changes their preferences
+  def self.daily_count(profile)
+    profile.user&.bk_plus? ? BK_PLUS_RECOMMENDATIONS : MIN_RECOMMENDATIONS
+  end
+
+  # Recalculated daily, and also as soon as a new member joins, this member changes their
+  # preferences, or BK+ starts or ends (20 instead of 10)
   def self.cache_key(profile)
     "recommendations_v4_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
-      "#{profile.partner_preference&.updated_at.to_i}"
+      "#{profile.partner_preference&.updated_at.to_i}_n#{daily_count(profile)}"
   end
 
   def self.build_recommendations(current_profile)
@@ -55,7 +62,8 @@ class RecommendationService
     high_matches = rank(high_matches, taste, seen)
 
     # Fill remaining slots with the best matches, relaxing the preferences step by step
-    remaining_count = [MIN_RECOMMENDATIONS - high_matches.count, 0].max
+    wanted = daily_count(current_profile)
+    remaining_count = [wanted - high_matches.count, 0].max
     high_match_ids = high_matches.map(&:id)
 
     other_profiles = []
@@ -67,7 +75,7 @@ class RecommendationService
       preference_level -= 1
     end
 
-    picked = (high_matches + other_profiles).first(MIN_RECOMMENDATIONS)
+    picked = (high_matches + other_profiles).first(wanted)
     remember_seen(current_profile, seen, picked)
     picked
   end
