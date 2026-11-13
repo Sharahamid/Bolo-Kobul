@@ -5,7 +5,7 @@ class CreateSiteStats < ActiveRecord::Migration[8.1]
       t.integer :marriages_count, null: false, default: 0
       t.timestamps
     end
-    execute "INSERT INTO site_stats (marriages_count, created_at, updated_at) VALUES (127, NOW(), NOW())"
+    execute "INSERT INTO site_stats (marriages_count, created_at, updated_at) VALUES (120, NOW(), NOW())"
   end
 
   def down
