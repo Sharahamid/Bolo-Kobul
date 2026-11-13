@@ -25,5 +25,10 @@ fi
 echo "Updating $(echo $FILES | wc -w) files..."
 git checkout origin/main -- $FILES
 RAILS_ENV=production bundle exec rails db:migrate
+# Design (stylesheet/image/script) changes only show after the assets are rebuilt
+if echo "$FILES" | grep -q '^app/assets/\|^app/javascript/'; then
+  echo "Rebuilding the design files (takes a minute)..."
+  RAILS_ENV=production bundle exec rails assets:precompile
+fi
 sudo systemctl restart bolokobul-puma
 echo "DONE"
