@@ -1,0 +1,38 @@
+<%# "Butterflies running low" reminder: website only (never inside the Play Store app).
+    Shows when the balance can pay for fewer than two 1st Kobuls; "Later" hides it for 3 days. %>
+<% if current_user && !play_store_app? %>
+  <% need = [bk_costs[:n1], 1].max %>
+  <% balance = current_user.butterfly_number.to_i %>
+  <% if balance < need * 2 %>
+    <% empty = balance < need %>
+    <% waiting = current_active_profile ? Friendship.where(friend_id: current_active_profile.id, status: 0).count : 0 %>
+    <div id="bk-low-bf" data-balance="<%= balance %>" style="display:none; background:#FFF8E6; border:1px solid #F1D48A; border-radius:12px; padding:14px 16px; margin:0 0 12px; gap:12px; align-items:flex-start;">
+      <div style="flex:0 0 40px; width:40px; height:40px; border-radius:50%; background:#FFB627; display:flex; align-items:center; justify-content:center; font-size:20px;">🦋</div>
+      <div style="flex:1; min-width:0;">
+        <strong style="display:block; color:#412402; font-size:15px; margin-bottom:3px;"><%= t(empty ? 'bkx.low_bf.title_empty' : 'bkx.low_bf.title_low') %></strong>
+        <div style="color:#555; font-size:13px; line-height:1.55;">
+          <%= t(empty ? 'bkx.low_bf.text_empty' : 'bkx.low_bf.text_low', balance: butterflies_label(balance), need: butterflies_label(need)) %>
+          <% if waiting.positive? %> <%= t('bkx.low_bf.accept_note', n: local_digits(waiting)) %><% end %>
+        </div>
+        <div style="margin-top:10px; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+          <%= link_to t('bkx.low_bf.button'), new_order_path, style: 'background:#FFB627; color:#412402; font-weight:700; font-size:13px; padding:7px 16px; border-radius:999px; text-decoration:none;' %>
+          <button type="button" onclick="bkLowBfLater()" style="background:none; border:none; color:#854F0B; font-size:13px; text-decoration:underline; cursor:pointer; padding:4px;"><%= t('bkx.low_bf.later') %></button>
+        </div>
+      </div>
+    </div>
+    <script>
+      (function () {
+        var box = document.getElementById('bk-low-bf');
+        var hidden = null;
+        try { hidden = JSON.parse(localStorage.getItem('bkLowBfLater') || 'null'); } catch (e) {}
+        var bal = parseInt(box.getAttribute('data-balance'), 10);
+        // Show unless "Later" was pressed in the last 3 days at this same (or a lower) balance
+        if (!hidden || Date.now() - hidden.at > 3 * 864e5 || bal < hidden.balance) box.style.display = 'flex';
+        window.bkLowBfLater = function () {
+          try { localStorage.setItem('bkLowBfLater', JSON.stringify({ at: Date.now(), balance: bal })); } catch (e) {}
+          box.style.display = 'none';
+        };
+      })();
+    </script>
+  <% end %>
+<% end %>

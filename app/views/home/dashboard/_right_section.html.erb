@@ -1,4 +1,5 @@
 <div class="right-section">
+  <%= render 'home/dashboard/low_butterflies' %>
   <%= render 'home/dashboard/dashboard_tabs', marriage_profile: @marriage_profile %>
   <div class='partner-requests' style='margin-top:8px;'><%= render 'home/dashboard/chat_requests' if chat_channels.present? %></div>
   <%= render 'home/dashboard/other_profiles' %>

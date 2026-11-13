@@ -30,6 +30,14 @@ en:
       price_note: "1 butterfly = ৳%{price}. Buy as many as you need. The 1st Kobul butterfly comes back if they decline."
       cta: "Join free"
 
+    low_bf:
+      title_empty: "You're out of butterflies"
+      title_low: "Your butterflies are running low"
+      text_empty: "You have %{balance}. Sending a 1st Kobul needs %{need}, so top up to keep connecting."
+      text_low: "You have %{balance}, enough for just one more 1st Kobul. Top up so you don't miss a good match."
+      accept_note: "You also have %{n} Kobul request(s) waiting, and accepting uses butterflies too."
+      button: "Get more butterflies"
+      later: "Later"
     how:
       title: "How Bolo Kobul works"
       subtitle: "From a free profile to meeting the family — in eight simple steps."
