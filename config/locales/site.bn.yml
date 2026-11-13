@@ -254,7 +254,7 @@ bn:
   dashboard:
     recommendations: আপনার জন্য প্রস্তাবিত
     first_kobul_received: ১ম কবুলের অনুরোধ এসেছে
-    second_kobul_received: ২য় কবুলের অনুরোধ এসেছে
+    second_kobul_received: ২য় কবুল
     no_request: এখনো কোনো অনুরোধ নেই
     no_data: কিছু পাওয়া যায়নি
     chats: চ্যাট

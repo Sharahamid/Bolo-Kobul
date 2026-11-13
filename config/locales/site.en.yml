@@ -144,7 +144,7 @@ en:
   dashboard:
     recommendations: Recommendations
     first_kobul_received: 1st Kobul Request Received
-    second_kobul_received: 2nd Kobul Request Received
+    second_kobul_received: 2nd Kobul
     no_request: No Request Yet
     no_data: No Data Found
     chats: Chats

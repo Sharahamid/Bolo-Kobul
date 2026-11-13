@@ -1,3 +1,4 @@
+<% kobul2_waiting = false %>
 <div style="display:flex; gap:8px; padding:0 8px 8px;">
   <% if current_active_profile&.chat_friendships&.where(status: 2)&.map(&:chat_friend_id)&.include?(profile.id) %>
     <%= link_to profile_message_path(profile),
@@ -13,9 +14,10 @@
       <%= t('kobul.accept_kobul_2') %>
     </a>
   <% elsif current_active_profile&.chat_friendships&.map(&:chat_friend_id)&.include?(profile.id) %>
+    <%# The explanation shows as a line under the buttons, not a pop-up over the profile %>
+    <% kobul2_waiting = true %>
     <span class="kobul_btn kobul_2"
-       style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px; cursor:default;"
-       data-toggle="tooltip" title="<%= kobul_tip('kobul_2_pending') %>">
+       style="flex:1; font-size:11px; padding:8px 4px; border-radius:8px !important; display:flex; align-items:center; justify-content:center; gap:4px; cursor:default;">
       <%= t('kobul.pending') %>
     </span>
   <% else %>
@@ -41,3 +43,6 @@
   <% end %>
   <% end %>
 </div>
+<% if kobul2_waiting %>
+  <p style="margin:0; padding:0 10px 10px; font-size:11px; line-height:1.45; color:#8a7a66; text-align:center;"><%= kobul_tip('kobul_2_pending') %></p>
+<% end %>
