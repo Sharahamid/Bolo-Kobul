@@ -282,6 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!btn) return;
     if (btn.getAttribute('data-bk-done')) return;
     if (btn.getAttribute('data-confirm')) return;
+    // Only buttons that really send or accept a Kobul fly a butterfly. "Pending",
+    // "Chat" and other plain buttons do nothing special.
+    if (!btn.getAttribute('data-method')) return;
 
     e.preventDefault();
     e.stopImmediatePropagation();
