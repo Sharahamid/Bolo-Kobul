@@ -824,6 +824,11 @@ en:
       tip: While you wait, why not explore more profiles and send more butterflies to increase your chances of finding the right match?
       button: Browse More Profiles
     tip: 'Tip:'
+    kobul1_expiry_reminder:
+      title: A 1st Kobul is waiting for your answer
+      p1: Someone sent you a 1st Kobul a few days ago and is still waiting to hear from you. It expires in 2 days.
+      p2: Have a look at their profile and accept or decline before then. If you do nothing, it closes on its own and they will not be able to reach you through it.
+      tip: Your privacy is always protected. No personal contact details are shared until both of you are ready.
     kobul1_received:
       title: Someone sent you a butterfly!
       p1: Exciting news! Someone on Bolo Kobul has noticed your profile and sent you a butterfly — a sign that they are interested in getting to know you better.
@@ -899,6 +904,7 @@ en:
       kobul1_you_accepted: 🦋 1st Kobul Accepted!
       kobul1_accepted: 🦋 Great News - 1st Kobul Accepted!
       kobul1_declined: 🦋 1st Kobul Not Accepted
+      kobul1_expiry_reminder: ⏳ A 1st Kobul expires in 2 days
       kobul1_expired: 🦋 1st Kobul Expired
       kobul2_received: 🦋 You received a 2nd Kobul!
       kobul2_you_accepted: 🦋 2nd Kobul Accepted - Start Chatting!

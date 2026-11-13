@@ -27,6 +27,34 @@ namespace :butterfly do
     # other member rejects them.
   end
 
+  desc 'Reminder to the receiver 2 days before an unanswered 1st Kobul expires'
+  task expiry_reminders: :environment do
+    # Runs once a day; each 1st Kobul falls in this 24-hour window exactly once.
+    # It expires at the first nightly run after it is 7 days old.
+    helpers = Rails.application.routes.url_helpers
+    sent = 0
+    HasFriendship::Friendship.pending.where(created_at: 6.days.ago..5.days.ago).find_each do |friendship|
+      sender = friendship.friendable
+      receiver_user = friendship.friend&.user
+      next if sender.nil? || receiver_user.nil? || receiver_user.deactivated
+
+      begin
+        # Web notification; the phone/app notification goes out with it automatically
+        receiver_user.notifications.create(
+          content: "Reminder: a 1st Kobul you received expires in 2 days. Accept or decline it before it closes. <a href='#{helpers.profile_info_marriage_profile_path(sender)}' style='color:#FFB627;font-weight:600;'>See Who</a>",
+          notifiable: friendship.friend,
+          will_email: false,
+          will_sms: false
+        )
+        KobulOneMailer.with(user: receiver_user, profile: sender).expiry_reminder.deliver_later
+        sent += 1
+      rescue StandardError => e
+        Rails.logger.error "[kobul reminder] #{friendship.id}: #{e.message}"
+      end
+    end
+    puts "1st Kobul expiry reminders sent: #{sent}"
+  end
+
   desc "Clean up old notifications"
   task clean_notifications: :environment do
     deleted = Notification.where('is_read = true AND created_at < ?', 1.month.ago).delete_all

@@ -39,6 +39,14 @@ class KobulOneMailer < ApplicationMailer
          subject: t('email.subject.kobul1_declined'))
   end
 
+  # 2 days before an unanswered 1st Kobul expires, B (who received it) gets this reminder
+  def expiry_reminder
+    @user = params[:user]
+    @profile = params[:profile] # who sent it: the button opens their profile
+    mail(to: @user.email,
+         subject: t('email.subject.kobul1_expiry_reminder'))
+  end
+
   # After expired a request, A will get this message
   def request_expired
     @sender_profile = params[:sender_profile]

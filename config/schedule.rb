@@ -17,6 +17,12 @@ every :day, at: '12:00am' do
   rake 'butterfly:return_after_7_days'
 end
 
+# 1st Kobul about to expire: reminder to the receiver 2 days before
+# (4:30 am UTC = 10:30 am in Bangladesh)
+every :day, at: '4:30 am' do
+  rake 'butterfly:expiry_reminders'
+end
+
 # Accounts whose 30-day deletion period has ended (3 am Bangladesh time)
 every :day, at: '9:00 pm' do
   rake 'accounts:purge_deleted'

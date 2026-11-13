@@ -29,6 +29,7 @@ class MessageSetting < ApplicationRecord
     ['email.KobulOneMailer#accept_request', 'Emails: 1st Kobul', 'To the person who accepted: you accepted a 1st Kobul'],
     ['email.KobulOneMailer#get_acceptance', 'Emails: 1st Kobul', 'To the sender: 1st Kobul accepted'],
     ['email.KobulOneMailer#get_rejection', 'Emails: 1st Kobul', 'To the sender: 1st Kobul declined'],
+    ['email.KobulOneMailer#expiry_reminder', 'Emails: 1st Kobul', 'To the receiver: reminder 2 days before an unanswered 1st Kobul expires'],
     ['email.KobulOneMailer#request_expired', 'Emails: 1st Kobul', 'To the sender: 1st Kobul expired'],
     ['email.KobulTwoMailer#send_request', 'Emails: 2nd Kobul', 'To the receiver: 2nd Kobul received'],
     ['email.KobulTwoMailer#accept_request', 'Emails: 2nd Kobul', 'To the person who accepted: you accepted a 2nd Kobul'],

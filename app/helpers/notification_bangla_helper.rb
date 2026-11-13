@@ -41,6 +41,8 @@ module NotificationBanglaHelper
      'কেনাকাটা সফল হয়েছে! আপনি পেয়েছেন: \1। উপভোগ করুন!'],
     [/\AYour support request has been updated\. #{LINK}See details<\/a>\z/,
      'আপনার সহায়তার অনুরোধে নতুন আপডেট আছে। \1বিস্তারিত দেখুন</a>'],
+    [/\AReminder: a 1st Kobul you received expires in 2 days\. Accept or decline it before it closes\. #{LINK}See Who<\/a>\z/,
+     'মনে করিয়ে দিচ্ছি: আপনার পাওয়া একটি ১ম কবুলের মেয়াদ ২ দিন পর শেষ হবে। বন্ধ হওয়ার আগে গ্রহণ বা প্রত্যাখ্যান করুন। \1দেখুন কে</a>'],
     # Added November 2026: the rest of the member notifications
     [/\A#{ID} would like to chat with you\. #{LINK}Check out their Profile<\/a> and begin chatting\z/,
      '\1 আপনার সঙ্গে চ্যাট করতে চান। \2তাঁর প্রোফাইল দেখুন</a> এবং চ্যাট শুরু করুন'],
