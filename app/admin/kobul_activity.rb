@@ -157,7 +157,7 @@ ActiveAdmin.register_page 'Kobul Activity' do
             </tr>
             <tr>
               <th>Week</th><th>New profiles</th>
-              <th class="sep">Sent</th><th>Accepted</th><th>Declined</th><th>Cancelled</th><th>Acceptance</th>
+              <th class="sep">Sent</th><th>Accepted</th><th>Declined</th><th>Canceled</th><th>Acceptance</th>
               <th class="sep">Sent</th><th>Accepted</th><th>Declined</th><th>Acceptance</th>
               <th class="sep">Chat messages</th>
             </tr>

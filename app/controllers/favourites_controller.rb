@@ -13,7 +13,7 @@ class FavouritesController < ApplicationController
       current_active_profile.favourites
         .create(favourite_profile_id: params[:favourite_profile_id])
     end
-    flash[:notice] = "Added to your favourite list successfully."
+    flash[:notice] = "Added to your favorite list successfully."
     redirect_back(fallback_location: "/")
   end
 
@@ -25,7 +25,7 @@ class FavouritesController < ApplicationController
       current_active_profile.favourites
         .where(favourite_profile_id: params[:favourite_profile_id].to_i).destroy_all
     end
-    flash[:notice] = "Removed from your favourite list."
+    flash[:notice] = "Removed from your favorite list."
     redirect_back(fallback_location: "/")
   end
 

@@ -21,7 +21,7 @@
 
   <div class="">
     <a href="<%= favourites_path %>" class="d-flex flex-row text-black">
-      <div class="info-label flex-fill"> Favourites</div>
+      <div class="info-label flex-fill"> Favorites</div>
       <div class="info-value
             <%= current_active_profile.favourites.present? ? 'text-yellow ' : '' %>">
         <%= current_active_profile.favourites.present? ? current_active_profile.favourites.count : 0 %>

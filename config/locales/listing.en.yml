@@ -61,7 +61,7 @@ en:
       paid: "Payment received. Your listing is waiting for approval."
       not_verified: "We could not confirm your payment yet. If money was taken, please write to support@bolokobul.com with your transaction details."
       failed: "The payment did not go through. Please fill in the form and try again."
-      cancelled: "The payment was cancelled. No money has been taken."
+      cancelled: "The payment was canceled. No money has been taken."
   activerecord:
     attributes:
       market_place:

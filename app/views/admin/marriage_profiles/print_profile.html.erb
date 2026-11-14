@@ -191,7 +191,7 @@
               <div class="field"><div class="field-label">Occupation Type</div><div class="field-value"><%= Occupation::OCCUPATION_LABELS[occ.name.to_s] || occ.name.to_s.titleize %></div></div>
             <% end %>
             <% if occ.company_name.present? %>
-              <div class="field"><div class="field-label">Company / Organisation</div><div class="field-value"><%= occ.company_name %></div></div>
+              <div class="field"><div class="field-label">Company / Organization</div><div class="field-value"><%= occ.company_name %></div></div>
             <% end %>
             <% if occ.designation.present? %>
               <div class="field"><div class="field-label">Designation</div><div class="field-value"><%= occ.designation %></div></div>
@@ -301,13 +301,13 @@
           <div class="field"><div class="field-label">Music</div><div class="field-value"><%= @profile.hobbies_and_interest.music.map{|ds| User::FAVOURITE_MUSIC.keys[ds.to_i]}.join(', ') %></div></div>
         <% end %>
         <% if @profile.hobbies_and_interest.favourite_song.present? %>
-          <div class="field"><div class="field-label">Favourite Song</div><div class="field-value"><%= @profile.hobbies_and_interest.favourite_song.humanize %></div></div>
+          <div class="field"><div class="field-label">Favorite Song</div><div class="field-value"><%= @profile.hobbies_and_interest.favourite_song.humanize %></div></div>
         <% end %>
         <% if @profile.hobbies_and_interest.read.present? %>
           <div class="field"><div class="field-label">Reading</div><div class="field-value"><%= @profile.hobbies_and_interest.read.map{|ds| User::FAVOURITE_BOOK.keys[ds.to_i]}.join(', ') %></div></div>
         <% end %>
         <% if @profile.hobbies_and_interest.favourite_book.present? %>
-          <div class="field"><div class="field-label">Favourite Book</div><div class="field-value"><%= @profile.hobbies_and_interest.favourite_book.humanize %></div></div>
+          <div class="field"><div class="field-label">Favorite Book</div><div class="field-value"><%= @profile.hobbies_and_interest.favourite_book.humanize %></div></div>
         <% end %>
         <% if @profile.hobbies_and_interest.cuisine.present? %>
           <div class="field"><div class="field-label">Cuisine</div><div class="field-value"><%= @profile.hobbies_and_interest.cuisine.map{|ds| User::FAVOURITE_CUISINE.keys[ds.to_i]}.join(', ') %></div></div>

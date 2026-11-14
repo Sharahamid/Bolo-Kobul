@@ -289,13 +289,13 @@ class MarriageProfilesController < ApplicationController
     current_active_profile.unblock_blocked_butterflies
     
     current_active_profile.user.notifications.create(
-      content: "You have cancelled your 1st Kobul request to #{current_active_profile.unique_id}. Your butterfly is on its way back!",
+      content: "You have canceled your 1st Kobul request to #{current_active_profile.unique_id}. Your butterfly is on its way back!",
       notifiable: @marriage_profile,
       will_email: false,
       will_sms: false 
     )
    
-    flash[:notice] = "1st Kobul cancelled, but you got your butterfly back!"
+    flash[:notice] = "1st Kobul canceled, but you got your butterfly back!"
     redirect_back(fallback_location: dashboard_marriage_profile_path(current_active_profile, butterfly: "bk_animate"))
   end
 

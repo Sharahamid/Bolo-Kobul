@@ -7,6 +7,12 @@
       <div style="background:linear-gradient(135deg,#FFB627,#ffca5e); padding:28px 24px; text-align:center;">
         <h2 style="font-size:24px; font-weight:700; color:#412402; margin:0 0 6px;"><%= t('pages.privacy.title') %></h2>
         <p style="font-size:13px; color:#633806; margin:0;"><%= t('pages.privacy.sub') %></p>
+        <%# Set automatically: the latest time any section was changed in admin %>
+        <% if (changed = @privacy_policies.map(&:updated_at).compact.max) %>
+          <p style="display:inline-block; font-size:12px; font-weight:600; color:#412402; background:rgba(255,255,255,.55); border-radius:999px; padding:4px 14px; margin:10px 0 0;">
+            <%= t('pages.last_updated', date: local_date(changed.in_time_zone('Asia/Dhaka').to_date)) %>
+          </p>
+        <% end %>
       </div>
 
       <!-- Intro banner -->

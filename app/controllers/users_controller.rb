@@ -126,7 +126,7 @@ class UsersController < ApplicationController
 
   def cancel_deletion
     current_user.cancel_deletion!
-    redirect_back fallback_location: root_path, notice: 'Deletion cancelled. Welcome back! Your account is active again.'
+    redirect_back fallback_location: root_path, notice: 'Deletion canceled. Welcome back! Your account is active again.'
   end
 
   def toggle_text_alert

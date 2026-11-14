@@ -97,6 +97,16 @@ function bkShowFaq(index) {
 </script>
 
 <style>
+  /* Tap-to-open FAQ questions */
+  .bk-faq-item { border-bottom:0.5px solid #F1E2B5; }
+  .bk-faq-item:first-of-type { border-top:0.5px solid #F1E2B5; }
+  .bk-faq-item > summary { list-style:none; cursor:pointer; padding:14px 30px 14px 0; position:relative; font-weight:700; color:#633806; line-height:1.5; }
+  .bk-faq-item > summary::-webkit-details-marker { display:none; }
+  .bk-faq-item > summary::after { content:'\f107'; font-family:'Font Awesome 5 Free'; font-weight:900; position:absolute; right:4px; top:14px; color:#C99A16; transition:transform .2s; }
+  .bk-faq-item[open] > summary::after { transform:rotate(180deg); }
+  .bk-faq-item > summary:hover { color:#854F0B; }
+  .bk-faq-answer { padding:0 0 14px; }
+  .bk-faq-answer > :last-child { margin-bottom:0; }
   #bk-faq-results .bk-faq-hit { border:0.5px solid #F1E2B5; border-radius:10px; padding:14px 16px; margin-bottom:12px; background:#FFFDF7; }
   #bk-faq-results .bk-faq-hit-tag { font-size:11px; color:#854F0B; background:#FFF3CC; padding:2px 10px; border-radius:999px; display:inline-block; margin-bottom:8px; }
   #bk-faq-results .bk-faq-hit-q { font-weight:700; color:#633806; font-size:14px; margin-bottom:6px; }
@@ -127,12 +137,37 @@ function bkShowFaq(index) {
     blocks.forEach(function (el) {
       var text = (el.textContent || '').trim();
       if (!text) return;
-      var isQ = /[?？]$/.test(text) && text.length < 220;
+      // A question: a short line ending in "?", or a line that is all bold
+      var strong = el.querySelector && el.querySelector('strong, b');
+      var allBold = strong && strong.textContent.trim() === text;
+      var isQ = (/[?？]$/.test(text) || allBold) && text.length < 220;
       if (isQ || !current) { current = { index: index, title: title.trim(), q: isQ ? el : null, a: [] }; units.push(current); if (isQ) return; }
       current.a.push(el);
     });
   });
   units.forEach(function (u) { u.text = ((u.q ? u.q.textContent : '') + ' ' + u.a.map(function (e) { return e.textContent; }).join(' ')).toLowerCase(); });
+
+  // Tap-to-open questions: each question becomes a bold line with an arrow, and its
+  // answer opens underneath when tapped. Text without a question stays as it is.
+  units.forEach(function (u) {
+    if (!u.q || !u.a.length) return;
+    var item = document.createElement('details');
+    item.className = 'bk-faq-item';
+    var summary = document.createElement('summary');
+    summary.textContent = u.q.textContent.trim();
+    var answer = document.createElement('div');
+    answer.className = 'bk-faq-answer';
+    u.q.parentNode.insertBefore(item, u.q);
+    item.appendChild(summary);
+    item.appendChild(answer);
+    u.q.remove();
+    u.q = summary;
+    u.a.forEach(function (e) { answer.appendChild(e); });
+  });
+  function openAround(el) {
+    var item = el && el.closest ? el.closest('details.bk-faq-item') : null;
+    if (item) item.open = true;
+  }
 
   function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function highlight(node, words) {
@@ -170,7 +205,7 @@ function bkShowFaq(index) {
       u.a.forEach(function (e) { ad.appendChild(e.cloneNode(true)); }); box.appendChild(ad);
       highlight(box, words);
       var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'bk-faq-hit-open'; btn.textContent = T.open;
-      btn.onclick = function () { lastIndex = u.index; input.value = ''; clearBtn.style.display = 'none'; results.style.display = 'none'; bkShowFaq(u.index); (u.q || u.a[0]).scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+      btn.onclick = function () { lastIndex = u.index; input.value = ''; clearBtn.style.display = 'none'; results.style.display = 'none'; bkShowFaq(u.index); openAround(u.q || u.a[0]); (u.q || u.a[0]).scrollIntoView({ behavior: 'smooth', block: 'center' }); };
       box.appendChild(btn);
       results.appendChild(box);
     });

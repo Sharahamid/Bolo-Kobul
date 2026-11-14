@@ -143,12 +143,12 @@ class ChatFriendshipsController < ApplicationController
     current_active_profile.decline_chat_request(@marriage_profile)
     current_active_profile.unblock_blocked_butterflies_chat
     current_user.notifications.create(
-      content: "You have cancelled your 2nd Kobul to #{@marriage_profile.unique_id}.",
+      content: "You have canceled your 2nd Kobul to #{@marriage_profile.unique_id}.",
       notifiable: current_active_profile,
       will_email: false,
       will_sms: false
     )
-    flash[:notice] = "2nd Kobul cancelled"
+    flash[:notice] = "2nd Kobul canceled"
     redirect_back(fallback_location: dashboard_marriage_profile_path(current_active_profile))
   end
 

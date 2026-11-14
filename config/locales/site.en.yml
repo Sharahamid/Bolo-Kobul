@@ -150,8 +150,8 @@ en:
     no_request: No Request Yet
     no_data: No Data Found
     chats: Chats
-    favourite_profiles: Favourite Profiles
-    no_favourites: No favourite profiles yet.
+    favourite_profiles: Favorite Profiles
+    no_favourites: No favorite profiles yet.
     unlock_title: Your profile is %{percent}% complete
     unlock_text: Reach %{min}% to send Kobuls.
     complete_profile: Complete profile
@@ -177,7 +177,7 @@ en:
     chat_request: Chat Request
     chat_requests: Chat Requests
     sent: Sent
-    favourite: Favourite
+    favourite: Favorite
     profile_word: Profile
     profiles_word: Profiles
     butterflies: Butterflies
@@ -205,20 +205,20 @@ en:
     chat: Chat
     reject: Reject
     remove: Remove
-    favourite: Favourite
+    favourite: Favorite
     block: Block
     tip:
       send_kobul_1: "1st Kobul · uses %{b1}, held until they reply and returned if they decline or you cancel. If they accept, you both see photos, education, work, family and About Me."
       sent_kobul_1: "1st Kobul sent · your %{b1} is on hold until they reply"
-      send_kobul_2: "2nd Kobul · uses %{b2} to ask to chat. Chat opens when they accept. Not returned if declined or cancelled."
+      send_kobul_2: "2nd Kobul · uses %{b2} to ask to chat. Chat opens when they accept. Not returned if declined or canceled."
       kobul_2_pending: "2nd Kobul sent · waiting for their reply. Chat opens when they accept."
       accept_kobul_2: "Accept · uses %{b2} and opens chat. Phone numbers stay private."
       cancel_kobul_1: "Cancel your 1st Kobul · your butterfly comes back"
       cancel_kobul_2: "Cancel your 2nd Kobul · the butterflies used are not returned"
       reject_1: "Decline · their butterfly goes back to them. They won't see your photos or details."
       reject_2: "Decline · chat won't open, and the 1st Kobul connection is removed too"
-      save_favourite: Save to favourites
-      remove_favourite: Remove from favourites
+      save_favourite: Save to favorites
+      remove_favourite: Remove from favorites
       send_chat: "Accept · uses %{b2} and opens chat. Phone numbers stay private."
       send_view: "Accept · uses %{b1}. You both see photos, education, work, family and About Me."
       remove_chat_request: Remove this chat request
@@ -228,7 +228,7 @@ en:
       cancel_kobul_2: Cancel your 2nd Kobul request?
       reject_1: Reject this 1st Kobul request?
       cancel_kobul_2_req: Cancel this 2nd Kobul request?
-      remove_favourite: Remove from favourites?
+      remove_favourite: Remove from favorites?
   profile:
     edit_information: Edit information
     remove_information: Remove information
@@ -314,9 +314,9 @@ en:
       hobby: Hobby
       interest: Interest
       music: Music
-      favourite_song: Favourite Song
+      favourite_song: Favorite Song
       read: Read
-      favourite_book: Favourite Book
+      favourite_book: Favorite Book
       movie: Movie
       tv_show: TV Show
       sports_show: Sports Show
@@ -634,7 +634,7 @@ en:
     title: Requests Sent
     kobul1: 🦋 1st Kobul Pending
     cancel_confirm: Cancel this 1st Kobul request?
-    remove_favourite: Remove from favourites?
+    remove_favourite: Remove from favorites?
   contact:
     office: Office
     title: Contact Us
@@ -733,8 +733,8 @@ en:
     hair_length: Hair Length
     hair_color: Hair Color
     food_habits: Food Habits
-    favourite_song: Favourite Song?
-    favourite_book: Favourite Book?
+    favourite_song: Favorite Song?
+    favourite_book: Favorite Book?
     eye_wear: Eye Wear
     eye_color: Eye Color
     do_you_smoke: Do you smoke?
@@ -956,7 +956,7 @@ en:
       f3_title: Who viewed you
       f3_text: See who viewed your profile in the last 30 days, when, and how well they match you.
       f4_title: Who saved you
-      f4_text: See which members added you to their Favourites, with their match percentage.
+      f4_text: See which members added you to their Favorites, with their match percentage.
       f5_title: Bonus butterflies
       f5_text: Extra butterflies with every plan, to send and accept more Kobuls.
       f6_title: 20 recommendations a day
@@ -1015,7 +1015,7 @@ en:
       why_html: You received this email because you registered at Bolo Kobul.<br>If this was not you, please %{contact} immediately.
       contact_us: contact us
       sub: Your path to finding your soulmate starts today.
-      p1: Thank you for registering with Bolo Kobul — your trusted matrimonial platform connecting hearts across the world. We are honoured to be part of your journey.
+      p1: Thank you for registering with Bolo Kobul — your trusted matrimonial platform connecting hearts across the world. We are honored to be part of your journey.
       p2: 'Your account has been created successfully. Here is what to do next:'
       s1: Complete your profile
       s1_text: Add your photo, family details, and personal preferences. A complete profile gets much more attention.
@@ -1090,13 +1090,14 @@ en:
         one: '%{shown} person sent you a Kobul and is waiting for your answer. Tap to answer.'
         other: '%{shown} people sent you a Kobul and are waiting for your answer. Tap to answer.'
   pages:
+    last_updated: "Last updated: %{date}"
     previous: ← Previous
     next_title: 'Next: %{title} →'
     sections: Sections
     contents: Contents
     faq:
       title: Frequently Asked Questions
-      sub: Everything you need to know about BoloKobul.com
+      sub: Everything you need to know about Bolo Kobul
       next: Next Question →
       end: End of FAQs
       search_placeholder: Search the FAQ, e.g. refund, photo, BK+
@@ -1106,17 +1107,17 @@ en:
       search_open: Open this section
     terms:
       title: Terms of Use
-      sub: Please read carefully before registering on BoloKobul.com
+      sub: Please read carefully before registering on Bolo Kobul
       end: End of Terms
     privacy:
       title: Privacy Policy
-      sub: How BoloKobul.com collects, uses and protects your information
-      intro: BoloKobul.com is an online matrimonial portal committed to your right to privacy. This policy covers what information we collect from you when you visit our website, how we use it, and under
+      sub: How Bolo Kobul collects, uses and protects your information
+      intro: Bolo Kobul is an online matrimonial portal committed to your right to privacy. This policy covers what information we collect from you when you visit our website, how we use it, and under
         what circumstances we disclose it. By using our website, you agree with the terms and conditions of this privacy statement.
       end: End of Privacy Policy
     safety:
       title: Precautionary Measures
-      sub: Stay safe while finding your ideal match on BoloKobul.com
+      sub: Stay safe while finding your ideal match on Bolo Kobul
       intro: Bolo Kobul is committed to a safer internet and goes to great lengths to ensure you get the best possible experience. Every profile is screened for inappropriate content. While we do our part,
         we want you to play yours too.
       end: End of Precautionary Measures
