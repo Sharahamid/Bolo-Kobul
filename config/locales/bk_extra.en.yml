@@ -58,7 +58,7 @@ en:
       step: "Step %{n}"
       steps:
         s1_title: "Create your profile — free"
-        s1_text: "Sign up with your phone, Google or Facebook. Your phone number is checked with a one-time code and is never shown to other members. Registering for a family member? You confirm you have their permission."
+        s1_text: "Sign up with your phone, Google or Facebook. Your phone number is checked with a one-time code and is never shown to other members."
         s2_title: "Set your partner preferences"
         s2_text: "Choose age, height, religion, education and more. Every profile then shows how well it matches you as a percentage."
         s3_title: "Search and save favourites"
