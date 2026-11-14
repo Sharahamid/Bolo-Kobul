@@ -59,7 +59,7 @@ en:
     or_register_email: or register with your email
     continue_with: Continue with %{provider}
   signup:
-    candidate_consent: I have the candidate’s permission, the details are true, and the candidate is 18 or older.
+    candidate_consent: "I have the candidate’s permission, the details are true, and the candidate is of legal marriage age (21 for men, 18 for women)."
     candidate_consent_needed: Please tick this box to register a profile for someone else.
     referral_applied: "Referral code saved — complete your registration below."
     register_now: Register Now
