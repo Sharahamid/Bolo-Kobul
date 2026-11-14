@@ -426,7 +426,11 @@ class MarriageProfilesController < ApplicationController
     extras = data['extras'] || {}
     return if extras.blank? || data['applied']
 
-    profile.update(about_my_self: extras['about']) if profile.about_my_self.blank? && extras['about'].present?
+    if profile.about_my_self.blank? && extras['about'].present?
+      # Phone numbers, emails and links from the biodata are left out (not allowed in About me)
+      about = MarriageProfile.without_contact_details(extras['about'])
+      profile.update(about_my_self: about) if about.present?
+    end
     if extras['education'].present? && profile.academic_informations.none?
       profile.academic_informations.create(degree: extras['education'].first(250))
     end

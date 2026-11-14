@@ -42,6 +42,8 @@
 #
 
 class MarriageProfile < ApplicationRecord
+  # No phone numbers, emails or social links in About me and the other free-text fields
+  include NoContactDetails
   # Admin filter "Profile ID" (see ProfileIdFilter)
   include ProfileIdFilter
   def self.rows_for_profile_id(text)

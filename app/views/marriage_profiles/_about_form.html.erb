@@ -14,7 +14,12 @@
                         title: profile_t('about_myself', @marriage_profile),
                         data: {toggle: 'tooltip', placement:'top'},
                         required: true %>
+        <small class="text-danger"><%= f.object.errors[:about_my_self].first %></small>
       </div>
+      <%# Shown while typing if a phone number, email or link is written in any box below %>
+      <p class="bk-no-contact-warning" hidden style="font-size:12px; color:#A32D2D; background:#FCEBEB; border-radius:8px; padding:8px 10px; margin:0 0 12px;">
+        <i class="fas fa-exclamation-circle"></i> <%= t('form.no_contact.live') %>
+      </p>
 
 
       <div class="form-group">
@@ -24,7 +29,7 @@
                         data: {toggle: 'tooltip',
                                placement: 'top'},
                         class: 'form-control sign_up-input-field' %>
-        <small class="text-danger"> <%= f.object.errors[:special_circumstances].present? ? f.object.errors.full_messages_for(:special_circumstances).first : '' %> </small>
+        <small class="text-danger"><%= f.object.errors[:special_circumstances].first %></small>
       </div>
 
       <div class="">
@@ -34,7 +39,7 @@
                         data: {toggle: 'tooltip',
                                placement: 'top'},
                         class: 'form-control sign_up-input-field' %>
-        <small class="text-danger"> <%= f.object.errors[:description].present? ? f.object.errors.full_messages_for(:description).first : '' %> </small>
+        <small class="text-danger"><%= f.object.errors[:description].first %></small>
       </div>
 
     </div>
@@ -42,3 +47,24 @@
   <!-- Modal footer -->
   <%= render 'shared/modal_footer', f: f %>
 <% end %>
+<script>
+  (function () {
+    var warning = document.querySelector('.bk-no-contact-warning');
+    if (!warning) return;
+    var form = warning.closest('form');
+    var digits = { '০':'0','১':'1','২':'2','৩':'3','৪':'4','৫':'5','৬':'6','৭':'7','৮':'8','৯':'9' };
+    var phone = /(?:\+?\d[\s\-.()\/]{0,3}){10,}/;
+    var email = /[\w.+-]+\s*(?:@|\(\s*at\s*\)|\[\s*at\s*\])\s*[\w-]+(?:\s*(?:\.|\(\s*dot\s*\)|\[\s*dot\s*\])\s*[a-z]{2,})+/i;
+    var link = /https?:\/\/\S+|\bwww\.\S+|\b(?:facebook|fb|instagram|linkedin|twitter|tiktok|youtube|telegram|whatsapp|imo|viber|snapchat|threads)\.(?:com|me|org|net)\b|\b(?:m\.me|wa\.me|t\.me|fb\.me|x\.com|youtu\.be)\//i;
+    function check() {
+      var found = false;
+      form.querySelectorAll('textarea').forEach(function (box) {
+        var text = box.value.replace(/[০-৯]/g, function (d) { return digits[d]; });
+        if (phone.test(text) || email.test(text) || link.test(text)) found = true;
+      });
+      warning.hidden = !found;
+    }
+    form.addEventListener('input', check);
+    check();
+  })();
+</script>

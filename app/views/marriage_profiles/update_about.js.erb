@@ -1,3 +1,8 @@
-$('.about_marriage_profile').html("<%= escape_javascript(render 'about_marriage_profile', marriage_profile: @marriage_profile) %>");
-$('#global_update_modal_sm').modal('hide');
-$(".update-notice").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');
+<% if @marriage_profile.errors.any? %>
+  <%# Not saved (for example a phone number in About me): keep the form open and show why %>
+  $('#global_update_modal_sm .modal-content').html("<%= escape_javascript(render 'about_form') %>");
+<% else %>
+  $('.about_marriage_profile').html("<%= escape_javascript(render 'about_marriage_profile', marriage_profile: @marriage_profile) %>");
+  $('#global_update_modal_sm').modal('hide');
+  $(".update-notice").html('<%= j render partial: "shared/flash_message", locals: { notice: flash[:notice] } %>');
+<% end %>

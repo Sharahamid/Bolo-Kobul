@@ -465,6 +465,11 @@ en:
     new_message: You have a new message. Tap to read it.
     test: Notifications are working! You will hear about new Kobuls and messages like this.
   form:
+    no_contact:
+      phone: "Please remove the phone number. Contact details can't be shown on your profile; share them in chat when you're ready."
+      email: "Please remove the email address. Contact details can't be shown on your profile; share them in chat when you're ready."
+      link: "Please remove the link (Facebook, WhatsApp, website…). Contact details can't be shown on your profile; share them in chat when you're ready."
+      live: "Please don't add a phone number, email or Facebook / social media link here. For your safety, contact details are shared only in chat."
     document_kept: "Document uploaded: %{name}. Choose a file again only to replace it."
     resume_note: "Your details from this step are saved. Change anything you like and press Next."
     start_new_profile: Start a new profile instead
