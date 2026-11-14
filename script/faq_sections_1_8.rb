@@ -106,8 +106,18 @@ SECTIONS = [
     ['চ্যাট আর চালিয়ে যেতে চাই না।', 'ভদ্রভাবে জানিয়ে দিন, অথবা ⋮ মেনু থেকে “রিপোর্ট ও ব্লক” ব্যবহার করুন। ব্লক করলে চ্যাট সঙ্গে সঙ্গে বন্ধ হয়ে যায়।']]]
 ].freeze
 
+NUMBERED = /(?:\A|\s)(?:\d+|[০-৯]+)\.\s/
+
+# An answer written as "1. ... 2. ... 3. ..." becomes a numbered list, one step per line
+def answer_html(text)
+  return "<p>#{ERB::Util.html_escape(text)}</p>" unless text.match?(/\A(?:1|১)\.\s/)
+
+  steps = text.split(/(?:\A|\s+)(?:\d+|[০-৯]+)\.\s+/).reject(&:blank?)
+  "<ol>\n#{steps.map { |s| "<li>#{ERB::Util.html_escape(s.strip)}</li>" }.join("\n")}\n</ol>"
+end
+
 def to_html(pairs)
-  pairs.map { |q, a| "<p><strong>#{ERB::Util.html_escape(q)}</strong></p>\n<p>#{ERB::Util.html_escape(a)}</p>" }.join("\n")
+  pairs.map { |q, a| "<p><strong>#{ERB::Util.html_escape(q)}</strong></p>\n#{answer_html(a)}" }.join("\n")
 end
 
 if ARGV.first == 'undo'
