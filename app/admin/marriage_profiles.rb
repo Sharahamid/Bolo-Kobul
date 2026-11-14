@@ -8,11 +8,12 @@ ActiveAdmin.register MarriageProfile do
   controller do
     # Older profiles can miss things the member form now requires (e.g. an ID file), which
     # would stop every correction. Admin changes are saved without those checks, but a date
-    # of birth under 18 is still refused.
+    # of birth under the legal age (21 for men, 18 for women) is still refused.
     def update
       resource.assign_attributes(permitted_params[:marriage_profile] || {})
-      if resource.date_of_birth.present? && resource.date_of_birth.to_date > 18.years.ago.to_date
-        resource.errors.add(:date_of_birth, 'makes this person younger than 18')
+      min_age = MarriageProfile.minimum_age_for(resource.gender)
+      if resource.date_of_birth.present? && resource.date_of_birth.to_date > min_age.years.ago.to_date
+        resource.errors.add(:date_of_birth, "makes this person younger than #{min_age} (minimum #{min_age} for #{resource.male? ? 'men' : 'women'})")
         return render :edit
       end
       if resource.save(validate: false)
@@ -167,7 +168,7 @@ ActiveAdmin.register MarriageProfile do
     f.inputs "Correct #{f.object.unique_id}'s details" do
       f.input :verified, as: :select
       f.input :gender, as: :select, collection: titled.call(:genders), include_blank: false
-      f.input :date_of_birth, as: :datepicker, hint: 'Must be 18 or older.'
+      f.input :date_of_birth, as: :datepicker, hint: 'Men must be 21 or older, women 18 or older.'
       f.input :height_ft, as: :select, label: 'Height: feet', collection: (4..7).map { |n| [n.to_s, n.to_s] }, include_blank: false
       f.input :height_inch, as: :select, label: 'Height: inches', collection: (0..11).map { |n| [n.to_s, n.to_s] }, include_blank: false
       f.input :religion, as: :select, collection: titled.call(:religions)

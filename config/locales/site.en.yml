@@ -500,7 +500,9 @@ en:
       specify_education: "Please specify the candidate's education*"
       blood_group_req: "Candidate's Blood Group*"
       blood_group_lock: "Candidate's Blood Group* 🔐"
+      under_21_male: "A male candidate must be at least 21 years old (Bangladesh's legal age for marriage)"
       under_18: "The candidate must be at least 18 years old"
+    under_21_male: Men must be at least 21 years old to create a profile (Bangladesh's legal age for marriage)
     under_18: You must be at least 18 years old to create a profile
     basics: Basics
     privacy_note: Your personal info is safe with us — Name and NID will not be shown to others

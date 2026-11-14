@@ -123,7 +123,7 @@ class MarriageProfile < ApplicationRecord
   # TODO ADD VALIDATION; Currently not working
   validate :validate_other_supporting_doc
   validate :identification_document_size
-  validate :at_least_18, if: :date_of_birth_changed?
+  validate :at_least_18, if: -> { date_of_birth_changed? || gender_changed? }
   validates_presence_of :gender,
                         :height_ft,
                         :height_inch,
@@ -801,10 +801,23 @@ class MarriageProfile < ApplicationRecord
     wanted.to_s == value.to_s ? 1.0 : 0.0
   end
 
-  # Bolo Kobul is for adults only: no profile for anyone under 18
+  # Minimum age to marry in Bangladesh: 21 for men, 18 for women (and for "other")
+  MIN_AGE_MALE = 21
+  MIN_AGE = 18
+
+  def self.minimum_age_for(gender)
+    gender.to_s == 'male' ? MIN_AGE_MALE : MIN_AGE
+  end
+
+  # Bolo Kobul is for adults of marriageable age only (name kept for older references)
   def at_least_18
     return if date_of_birth.blank?
-    errors.add(:date_of_birth, I18n.t(own_profile? ? 'form.under_18' : 'form.candidate.under_18')) if date_of_birth.to_date > Date.current.years_ago(18)
+
+    min = self.class.minimum_age_for(gender)
+    return unless date_of_birth.to_date > Date.current.years_ago(min)
+
+    key = min == MIN_AGE_MALE ? 'under_21_male' : 'under_18'
+    errors.add(:date_of_birth, I18n.t(own_profile? ? "form.#{key}" : "form.candidate.#{key}"))
   end
 
   def remove_private_chat_rooms
