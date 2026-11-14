@@ -18,6 +18,10 @@
       <p style="font-size:13px; color:#666; line-height:1.9; margin:0;">
         <%= contact&.content %>
       </p>
+      <%# Businesses apply for the Wedding Shopping List here %>
+      <%= link_to advertise_path, style: "display:inline-flex; align-items:center; gap:6px; margin-top:12px; background:#FFB627; color:#412402; border-radius:8px; padding:9px 18px; font-size:13px; font-weight:700; text-decoration:none;" do %>
+        <i class="fas fa-plus-circle"></i> <%= t('listing.contact_button') %>
+      <% end %>
     </div>
 
     <!-- Email card -->
@@ -26,12 +30,25 @@
         <i class="fas fa-envelope" style="color:#412402; font-size:18px;"></i>
       </div>
       <div>
-        <p style="font-size:11px; font-weight:700; color:#aaa; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 4px;"><%= t('contact.email') %></p>
+        <p style="font-size:11px; font-weight:700; color:#8a7a66; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 4px;"><%= t('contact.email') %></p>
         <a href="mailto:<%= contact&.contact %>" style="font-size:15px; color:#633806; font-weight:700; text-decoration:none;">
           <%= contact&.contact %>
         </a>
       </div>
     </div>
+
+    <% if contact&.address.present? %>
+      <!-- Office address -->
+      <div style="border:0.5px solid #FAC775; border-radius:12px; background:#fffaf0; padding:18px 24px; margin-bottom:20px; display:flex; align-items:center; gap:16px;">
+        <div style="width:46px; height:46px; background:linear-gradient(135deg,#FFB627,#ffca5e); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+          <i class="fas fa-map-marker-alt" style="color:#412402; font-size:18px;"></i>
+        </div>
+        <div>
+          <p style="font-size:11px; font-weight:700; color:#8a7a66; text-transform:uppercase; letter-spacing:0.06em; margin:0 0 4px;"><%= t('contact.office') %></p>
+          <p style="font-size:14px; color:#633806; font-weight:600; margin:0;"><%= contact.address %></p>
+        </div>
+      </div>
+    <% end %>
 
     <!-- Write to us CTA -->
     <div style="background:#FAEEDA; border-radius:12px; padding:18px 24px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">

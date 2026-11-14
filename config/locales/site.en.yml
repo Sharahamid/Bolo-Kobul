@@ -636,6 +636,7 @@ en:
     cancel_confirm: Cancel this 1st Kobul request?
     remove_favourite: Remove from favourites?
   contact:
+    office: Office
     title: Contact Us
     sub: We'd love to hear from you — reach out anytime
     email: Email Address
