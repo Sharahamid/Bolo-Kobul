@@ -616,7 +616,7 @@ en:
     upper: "A–Z"
     lower: "a–z"
     digit: "0–9"
-    symbol: "a symbol (@ # ! % …)"
+    symbol: "@ # ! %"
     error: "must be at least 8 characters with an uppercase letter, a lowercase letter, a number and a symbol (e.g. @ # ! %)"
   hidden:
     button: Not interested
