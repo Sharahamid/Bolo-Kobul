@@ -48,6 +48,8 @@ module ExceptionHandler
       # profile ...) may be what failed, and then even the error page would fail and the
       # member would see a bare "500 Internal Server Error" with no way out
       return render_safe_error_page if @exception.status.to_i >= 500
+      # Missing page or profile: friendly page in the same look, with a way back
+      return render_not_found_page if @exception.status.to_i == 404
 
       respond_with @exception, status: @exception.status
     rescue StandardError
@@ -58,6 +60,13 @@ module ExceptionHandler
     ##################################
 
     private
+
+    def render_not_found_page
+      @signed_in = (user_signed_in? rescue false)
+      render 'exception_handler/not_found', layout: false, status: 404, formats: [:html]
+    rescue StandardError
+      render file: Rails.public_path.join('404.html'), layout: false, status: 404, content_type: 'text/html'
+    end
 
     def render_safe_error_page
       @signed_in = (user_signed_in? rescue false)

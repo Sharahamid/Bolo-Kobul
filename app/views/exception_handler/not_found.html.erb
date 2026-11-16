@@ -1,0 +1,40 @@
+<%# "Page not found" page: same look as the server-error page (safe_error), English and Bangla.
+    No site layout or database use, so it always shows. %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Page not available | Bolo Kobul</title>
+  <style>
+    body { margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:#f7f5f0;
+           font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans Bengali", sans-serif; color:#412402; padding:16px; box-sizing:border-box; }
+    .card { max-width:420px; width:100%; background:#fff; border:0.5px solid #FAC775; border-radius:14px; padding:28px 22px; text-align:center;
+            box-shadow:0 4px 18px rgba(0,0,0,0.06); }
+    .mark { width:52px; height:52px; border-radius:50%; background:#FFF3CC; color:#B97A00; font-size:24px; line-height:52px; margin:0 auto 12px; }
+    h1 { font-size:19px; margin:0 0 6px; }
+    p { font-size:14px; line-height:1.55; color:#633806; margin:0 0 6px; }
+    .bn { font-size:14px; color:#854F0B; margin-bottom:18px; }
+    .actions { display:flex; flex-direction:column; gap:10px; margin-top:14px; }
+    .btn { display:block; width:100%; box-sizing:border-box; padding:11px 14px; border-radius:9px; font-size:14px; font-weight:600;
+           text-decoration:none; cursor:pointer; border:1px solid #FAC775; background:#FFF8E6; color:#854F0B; font-family:inherit; }
+    .btn.primary { background:#FFB627; border-color:#FFB627; color:#412402; }
+    .help { font-size:12px; color:#9a8a70; margin-top:16px; }
+    .help a { color:#B97A00; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="mark">?</div>
+    <h1>This profile or page is no longer available</h1>
+    <p>It may have been removed, hidden by its owner, or the link may be wrong.</p>
+    <p class="bn">এই প্রোফাইল বা পেজটি আর পাওয়া যাচ্ছে না। এটি সরিয়ে ফেলা হয়েছে, মালিক লুকিয়ে রেখেছেন, অথবা লিংকটি ভুল হতে পারে।</p>
+    <div class="actions">
+      <a class="btn primary" href="/"><%= @signed_in ? 'Go to my dashboard · আমার ড্যাশবোর্ড' : 'Go to home page · হোম পেজ' %></a>
+      <a class="btn" href="/" onclick="if (history.length > 1) { history.back(); return false; }">← Go back · ফিরে যান</a>
+    </div>
+    <div class="help">Need help? Write to <a href="mailto:support@bolokobul.com">support@bolokobul.com</a></div>
+  </div>
+</body>
+</html>
