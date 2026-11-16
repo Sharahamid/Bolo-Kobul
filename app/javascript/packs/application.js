@@ -18,7 +18,7 @@ import 'bootstrap-slider';
 import 'bootstrap-select';
 import 'cropper';
 import $ from 'jquery';
-window.$ = window.jquery = $;
+window.$ = window.jquery = window.jQuery = $; // one jQuery everywhere (with Bootstrap, slider and dropdown add-ons)
 
 import 'packs/custom';
 import 'packs/landing';
