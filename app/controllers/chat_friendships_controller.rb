@@ -21,6 +21,14 @@ class ChatFriendshipsController < ApplicationController
             will_sms: false
           )
         KobulTwoMailer.with(current_profile: current_active_profile, profile: @marriage_profile).send_request.deliver_later
+        # Confirmation to the sender (same as for a 1st Kobul)
+        current_user.notifications.create(
+          content: "Your 2nd Kobul has been sent to #{@marriage_profile.unique_id}. We will notify you as soon as they respond. <a href='#{profile_info_marriage_profile_path(@marriage_profile)}' style='color:#FFB627;font-weight:600;'>View Profile</a>",
+          notifiable: @marriage_profile,
+          will_email: false,
+          will_sms: false
+        )
+        KobulTwoMailer.with(user: current_user, profile: @marriage_profile).sent.deliver_later
         SmsService.call(
           @marriage_profile.user.phone_number.to_s,
           "Someone sent you a 2nd Kobul and wants to chat! Reply here: #{SmsText.profile_link(current_active_profile)}",

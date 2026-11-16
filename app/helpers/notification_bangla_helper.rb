@@ -44,6 +44,10 @@ module NotificationBanglaHelper
     [/\AReminder: a 1st Kobul you received expires in 2 days\. Accept or decline it before it closes\. #{LINK}See Who<\/a>\z/,
      'মনে করিয়ে দিচ্ছি: আপনার পাওয়া একটি ১ম কবুলের মেয়াদ ২ দিন পর শেষ হবে। বন্ধ হওয়ার আগে গ্রহণ বা প্রত্যাখ্যান করুন। \1দেখুন কে</a>'],
     # Added November 2026: the rest of the member notifications
+    [/\AYour 2nd Kobul has been sent to #{ID}\. We will notify you as soon as they respond\. #{LINK}View Profile<\/a>\z/,
+     'আপনার ২য় কবুল \\1-কে পাঠানো হয়েছে। উত্তর এলেই আপনাকে জানানো হবে। \\2প্রোফাইল দেখুন</a>'],
+    [/\AWelcome to Bolo Kobul! Your account is ready\. Complete your profile and partner preferences to see your best matches\. #{LINK}Get Started →<\/a>\z/,
+     'বলো কবুলে স্বাগতম! আপনার অ্যাকাউন্ট তৈরি হয়েছে। সেরা মিলগুলো দেখতে আপনার প্রোফাইল ও পছন্দের তথ্য সম্পূর্ণ করুন। \\1শুরু করুন →</a>'],
     [/\A#{ID} would like to chat with you\. #{LINK}Check out their Profile<\/a> and begin chatting\z/,
      '\1 আপনার সঙ্গে চ্যাট করতে চান। \2তাঁর প্রোফাইল দেখুন</a> এবং চ্যাট শুরু করুন'],
     [/\A#{ID} has accepted your 2nd Kobul\. You can now #{LINK}Begin Chatting<\/a> safely! Best of [Ll]uck! (?:<3|💛)\z/,

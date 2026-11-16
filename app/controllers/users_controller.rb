@@ -19,6 +19,7 @@ class UsersController < ApplicationController
       @user.clear_otp!
       @user.update(verified: true)
       UserAccountMailer.with(user: @user).registration.deliver_later
+      @user.welcome_notification!
       sign_in(:user, @user)
       Devise::Hooks::Proxy.new(warden).remember_me(@user) # signed in for 3 days
       redirect_to after_sign_in_path_for(@user)

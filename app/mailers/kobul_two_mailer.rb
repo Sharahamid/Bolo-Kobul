@@ -1,4 +1,12 @@
 class KobulTwoMailer < ApplicationMailer
+  # After A sends a 2nd Kobul, A gets this confirmation (same as the 1st Kobul one)
+  def sent
+    @user = params[:user]
+    @profile = params[:profile]
+    mail(to: @user.email,
+         subject: t('email.subject.kobul2_sent'))
+  end
+
   # After A Sends a Request, B gets this message
   def send_request
     @sender_profile = params[:current_profile]

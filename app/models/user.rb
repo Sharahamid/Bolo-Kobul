@@ -261,9 +261,23 @@ class User < ApplicationRecord
       referred_by_user.update(butterfly_number: referred_by_user.butterfly_number + 1)
       referred_by_user.notifications.create(
         content: "You have received a butterfly from #{self.name} through a referral!",
-        notifiable: self
+        notifiable: self,
+        will_email: false # its own email below, instead of the general "new update" one
       )
+      UserAccountMailer.with(user: referred_by_user, friend_name: self.name).referral_reward.deliver_later if referred_by_user.email.present?
     end
+  end
+
+  # First notification in the bell after the account is verified
+  def welcome_notification!
+    notifications.create(
+      content: "Welcome to Bolo Kobul! Your account is ready. Complete your profile and partner preferences to see your best matches. <a href='/' style='color:#FFB627;font-weight:600;'>Get Started →</a>",
+      notifiable: self,
+      will_email: false,
+      will_sms: false
+    )
+  rescue StandardError => e
+    Rails.logger.warn("[welcome] notification failed for user #{id}: #{e.message}")
   end
 
   def login

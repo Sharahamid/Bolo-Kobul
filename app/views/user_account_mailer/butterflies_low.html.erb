@@ -1,0 +1,6 @@
+<% out = @count.zero? %>
+<%= render 'shared/simple_email', icon: '🦋', user: @user,
+           title: out ? t('email.bf_low.title_out') : t('email.bf_low.title_low', count: @count, n: local_digits(@count)),
+           p1: out ? t('email.bf_low.p1_out') : t('email.bf_low.p1_low', count: @count, n: local_digits(@count)),
+           p2: t('email.bf_low.p2'), tip: t('email.bf_low.tip'),
+           button: t('email.bf_low.button'), url: 'https://bolokobul.com/orders/new' %>

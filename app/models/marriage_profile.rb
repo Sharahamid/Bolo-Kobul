@@ -436,11 +436,25 @@ class MarriageProfile < ApplicationRecord
     user.block_butterfly_number = user.block_butterfly_number.to_i +
         profile_view_butterflies
     user.butterfly_number = user.butterfly_number.to_i - profile_view_butterflies
+    check_butterfly_balance_notification
     user.save!
   end
 
+  LOW_BUTTERFLIES = 3
+
   def check_butterfly_balance_notification
+    # Only when the balance has just gone down (not when held butterflies are settled)
+    return unless user.butterfly_number_changed?
+
     count = user.butterfly_number.to_i
+    before = user.butterfly_number_was.to_i
+    return unless count < before
+
+    # Email once when the balance drops into "low", and once when it reaches zero
+    if user.email.present? && ((count.zero? && before.positive?) || (count.positive? && count <= LOW_BUTTERFLIES && before > LOW_BUTTERFLIES))
+      UserAccountMailer.with(user: user, count: count).butterflies_low.deliver_later
+    end
+
     if count == 0
       user.notifications.create(
         content: "You have run out of butterflies! Purchase more to continue exploring and connecting. <a href='/orders/new' style='color:#FFB627;font-weight:600;'>Get More Butterflies →</a>",
@@ -448,7 +462,7 @@ class MarriageProfile < ApplicationRecord
         will_email: false,
         will_sms: false
       )
-    elsif count <= 3
+    elsif count <= LOW_BUTTERFLIES
       user.notifications.create(
         content: "You only have #{count} #{'butterfly'.pluralize(count)} left. Get more to keep connecting with new profiles! <a href='/orders/new' style='color:#FFB627;font-weight:600;'>Get More Butterflies →</a>",
         notifiable: user.marriage_profiles.first,
@@ -492,6 +506,7 @@ class MarriageProfile < ApplicationRecord
                            ButterflyConfig.last.chat_butterflies : 0
     user.block_butterfly_number = user.block_butterfly_number.to_i + chat_butterflies
     user.butterfly_number = user.butterfly_number.to_i - chat_butterflies
+    check_butterfly_balance_notification
     user.save!
   end
 

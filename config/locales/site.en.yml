@@ -920,6 +920,32 @@ en:
       tip: Messages are never shown in emails or text messages, and no personal contact details are ever shared.
       button: Read and Reply
       p1_html: <strong>%{id}</strong> has sent you a message on Bolo Kobul.
+    kobul2_sent:
+      title: Your 2nd Kobul is on its way!
+      p1: Your 2nd Kobul has been sent to %{id}. If they accept, the chat opens and you can start talking safely on Bolo Kobul.
+      p2: We will let you know as soon as they respond.
+      tip: Your name and phone number are never shown. All conversations happen safely on Bolo Kobul.
+    bf_low:
+      title_low:
+        one: Only 1 butterfly left
+        other: Only %{count} butterflies left
+      title_out: You have run out of butterflies
+      p1_low:
+        one: You have 1 butterfly left. Butterflies are used to send and accept Kobuls.
+        other: You have %{count} butterflies left. Butterflies are used to send and accept Kobuls.
+      p1_out: You have used all your butterflies. You need butterflies to send and accept Kobuls.
+      p2: Get more butterflies so you don't miss a good match.
+      tip: Invite a friend with your referral code. When they join and complete their profile, you earn a free butterfly.
+      button: Get More Butterflies
+    referral_reward:
+      title: You earned a free butterfly!
+      friend: Your friend
+      p1: "%{name} joined Bolo Kobul with your referral code and completed their profile. Thank you! One free butterfly has been added to your account."
+      p2:
+        one: You now have 1 butterfly.
+        other: You now have %{count} butterflies.
+      tip: Share your code with more friends and family who are looking for a life partner. You earn a butterfly for each one.
+      button: Share My Code
     subject:
       kobul1_sent: 🦋 1st Kobul Sent!
       kobul1_received: 🦋 You received a 1st Kobul!
@@ -928,6 +954,12 @@ en:
       kobul1_declined: 🦋 1st Kobul Not Accepted
       kobul1_expiry_reminder: ⏳ A 1st Kobul expires in 2 days
       kobul1_expired: 🦋 1st Kobul Expired
+      kobul2_sent: 🦋 2nd Kobul Sent!
+      bf_low:
+        one: 🦋 Only 1 butterfly left
+        other: 🦋 Only %{count} butterflies left
+      bf_out: 🦋 You have run out of butterflies
+      referral_reward: 🎁 You earned a free butterfly!
       kobul2_received: 🦋 You received a 2nd Kobul!
       kobul2_you_accepted: 🦋 2nd Kobul Accepted - Start Chatting!
       kobul2_accepted: 🦋 2nd Kobul Accepted!

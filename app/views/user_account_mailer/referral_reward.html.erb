@@ -1,0 +1,5 @@
+<%= render 'shared/simple_email', icon: '🎁', title: t('email.referral_reward.title'), user: @user,
+           p1: t('email.referral_reward.p1', name: @friend_name.presence || t('email.referral_reward.friend')),
+           p2: t('email.referral_reward.p2', count: @user.butterfly_number.to_i, n: local_digits(@user.butterfly_number.to_i)),
+           tip: t('email.referral_reward.tip'), button: t('email.referral_reward.button'),
+           url: 'https://bolokobul.com/marriage_profiles/refferel_code' %>
