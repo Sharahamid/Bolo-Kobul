@@ -33,7 +33,7 @@ en:
       subtitle: "Joining is free. You only use butterflies when you send or accept a Kobul."
       free_title: "Free"
       free_items: "Create your profile · Search and see match % · Save favorites · Receive Kobuls"
-      free_butterflies: "%{n} free butterflies when you join"
+      free_butterflies: "%{n} free butterflies when you join for yourself"
       kobul1_title: "1st Kobul"
       kobul1_text: "See their photos, education, work and family"
       kobul2_title: "2nd Kobul"
@@ -250,7 +250,7 @@ en:
       l2: "1st Kobul uses %{n1} — you both see each other's full profile. It comes back if they decline or you cancel."
       l3: "2nd Kobul uses %{n2} — a private chat opens. Not returned if they decline."
       l4: "Balance = butterflies you can use now. In process = butterflies on hold for 1st Kobuls waiting for a reply."
-      l5: "New members get %{free} free butterflies."
+      l5: "Members who register for themselves (Self) get %{free} free butterflies."
       got_it: "Got it"
       get_more: "Get more"
 
