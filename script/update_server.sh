@@ -30,8 +30,13 @@ if echo "$FILES" | grep -q '^Gemfile.lock$'; then
   bundle install --quiet
 fi
 RAILS_ENV=production bundle exec rails db:migrate
+# New script libraries (package.json / yarn.lock changed): install them, then rebuild
+if echo "$FILES" | grep -q '^package.json$\|^yarn.lock$'; then
+  echo "Installing script library updates..."
+  if command -v yarn >/dev/null; then yarn install --frozen-lockfile --silent; else npx --yes yarn@1 install --frozen-lockfile --silent; fi
+fi
 # Design (stylesheet/image/script) changes only show after the assets are rebuilt
-if echo "$FILES" | grep -q '^app/assets/\|^app/javascript/'; then
+if echo "$FILES" | grep -q '^app/assets/\|^app/javascript/\|^package.json$\|^yarn.lock$'; then
   echo "Rebuilding the design files (takes a minute)..."
   RAILS_ENV=production bundle exec rails assets:precompile
 fi
