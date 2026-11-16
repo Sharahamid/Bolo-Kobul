@@ -2,7 +2,7 @@
 # About and Safety tips pages, in English and Bangla:
 #   1st Kobul - getting to know each other (both see full profiles once it is accepted)
 #   2nd Kobul - opens the chat
-#   3rd Kobul - not on the site: the final "I do", when the two decide to marry
+#   3rd Kobul - not on the site: the final "Kobul", when the two decide to marry
 # The old text called the chat "Kobul 3" and a mutual match "Kobul 2".
 # Run on the server:  RAILS_ENV=production bundle exec rails runner script/three_kobul_wording.rb
 # Undo:               RAILS_ENV=production bundle exec rails runner script/three_kobul_wording.rb undo
@@ -28,9 +28,9 @@ CHANGES = [
   [:content, words('Kobul 2 (Mutual Match)'), '2nd Kobul (Start chatting)'],
   [:content, words('When both parties send a Kobul to each other, it becomes a mutual match. You can now view each other\'s full profile including detailed information about education, family, lifestyle, and preferences.'),
    'Like what you see? Send a 2nd Kobul. If they accept, a private chat opens so you can get to know each other safely on Bolo Kobul, at your own pace.'],
-  [:content, "Kobul#{S}3#{S}\\(Connect#{S}#{AMP}#{S}Chat\\)", '3rd Kobul (The final "I do")'],
+  [:content, "Kobul#{S}3#{S}\\(Connect#{S}#{AMP}#{S}Chat\\)", '3rd Kobul (The final "Kobul")'],
   [:content, words('Once mutually matched, unlock the ability to chat directly and take the conversation forward at your own pace, in a safe and private environment.'),
-   'This one happens off the site. When the two of you like each other after chatting and decide to marry, you say the final Kobul: "I do"!'],
+   'This one happens off the site. When the two of you like each other after chatting and decide to marry, you say the final "Kobul"!'],
   # About us: Bangla
   [:content_bn, words('কবুল ১ (আগ্রহ প্রকাশ)'), '১ম কবুল (একে অপরকে জানা)'],
   [:content_bn, words('প্রোফাইল দেখুন এবং যার প্রতি আগ্রহী তাকে একটি "কবুল" পাঠান। ব্যক্তিগত যোগাযোগের তথ্য না দিয়েই "আমি আগ্রহী" বলার এটাই আপনার উপায়।'),
@@ -48,7 +48,7 @@ CHANGES = [
    'দুজনেই আগ্রহ জানিয়ে গ্রহণ করার পরই কেবল ২য় কবুলের মাধ্যমে চ্যাট চালু হয়।']
 ].map { |col, pat, new_text| [col, Regexp.new(pat), new_text] }.freeze
 
-# Old wording only (the new "3rd Kobul (The final "I do")" is not flagged)
+# Old wording only (the new "3rd Kobul (The final "Kobul")" is not flagged)
 LEFTOVER = /Kobul#{S}[123]\b|chat#{S}\(3rd#{S}Kobul\)|কবুল#{S}[১২৩]|চ্যাট#{S}\(৩য়#{S}কবুল\)/i
 
 if ARGV.first == 'undo'
