@@ -23,6 +23,19 @@ every :day, at: '4:30 am' do
   rake 'butterfly:expiry_reminders'
 end
 
+# 2nd Kobul unanswered for 3 days (reminder to the receiver), and 1st Kobul accepted
+# 3 days ago with no 2nd Kobul yet (nudge to both). 5:00 am UTC = 11:00 am in Bangladesh
+every :day, at: '5:00 am' do
+  rake 'butterfly:kobul2_reminders'
+  rake 'butterfly:kobul2_nudges'
+end
+
+# Quiet hours end: phone notifications and texts held overnight go out at 8 am
+# Bangladesh time (2:00 am UTC)
+every :day, at: '2:00 am' do
+  rake 'quiet_hours:release'
+end
+
 # Accounts whose 30-day deletion period has ended (3 am Bangladesh time)
 every :day, at: '9:00 pm' do
   rake 'accounts:purge_deleted'

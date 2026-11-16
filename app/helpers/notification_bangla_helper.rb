@@ -44,6 +44,10 @@ module NotificationBanglaHelper
     [/\AReminder: a 1st Kobul you received expires in 2 days\. Accept or decline it before it closes\. #{LINK}See Who<\/a>\z/,
      'মনে করিয়ে দিচ্ছি: আপনার পাওয়া একটি ১ম কবুলের মেয়াদ ২ দিন পর শেষ হবে। বন্ধ হওয়ার আগে গ্রহণ বা প্রত্যাখ্যান করুন। \1দেখুন কে</a>'],
     # Added November 2026: the rest of the member notifications
+    [/\AReminder: #{ID} sent you a 2nd Kobul (\d+) days ago and is waiting for your answer\. #{LINK}See Profile<\/a>\z/,
+     'মনে করিয়ে দিচ্ছি: \\1 \\2 দিন আগে আপনাকে একটি ২য় কবুল পাঠিয়েছেন এবং আপনার উত্তরের অপেক্ষায় আছেন। \\3প্রোফাইল দেখুন</a>'],
+    [/\AYou and #{ID} accepted a 1st Kobul (\d+) days ago\. Send a 2nd Kobul to start chatting\. #{LINK}View Profile<\/a>\z/,
+     'আপনি ও \\1 \\2 দিন আগে একটি ১ম কবুল গ্রহণ করেছেন। চ্যাট শুরু করতে একটি ২য় কবুল পাঠান। \\3প্রোফাইল দেখুন</a>'],
     [/\AYour 2nd Kobul has been sent to #{ID}\. We will notify you as soon as they respond\. #{LINK}View Profile<\/a>\z/,
      'আপনার ২য় কবুল \\1-কে পাঠানো হয়েছে। উত্তর এলেই আপনাকে জানানো হবে। \\2প্রোফাইল দেখুন</a>'],
     [/\AWelcome to Bolo Kobul! Your account is ready\. Complete your profile and partner preferences to see your best matches\. #{LINK}Get Started →<\/a>\z/,
@@ -73,9 +77,9 @@ module NotificationBanglaHelper
     [/\AYou have received a butterfly from (.+) through a referral!\z/,
      'রেফারেলের মাধ্যমে \1-এর কাছ থেকে আপনি একটি বাটারফ্লাই পেয়েছেন!'],
     # Daily friendly nudges (lib/tasks/nudges.rake)
-    [/\ASomeone saved you to their favourites today 💛 #{LINK}See who<\/a>\z/,
+    [/\ASomeone saved you to their favou?rites today 💛 #{LINK}See who<\/a>\z/,
      'আজ একজন আপনাকে ফেভারিটে রেখেছেন 💛 \\1কে, দেখুন</a>'],
-    [/\A(\d+) members saved you to their favourites today 💛 #{LINK}See who<\/a>\z/,
+    [/\A(\d+) members saved you to their favou?rites today 💛 #{LINK}See who<\/a>\z/,
      'আজ \\1 জন সদস্য আপনাকে ফেভারিটে রেখেছেন 💛 \\2কারা, দেখুন</a>'],
     [/\AA (\d+)% match just joined Bolo Kobul ✨ #{LINK}Take a look<\/a>\z/,
      '\\1% মিলের একজন সদস্য এইমাত্র বলো কবুলে যোগ দিয়েছেন ✨ \\2দেখে নিন</a>'],

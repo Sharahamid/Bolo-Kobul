@@ -24,6 +24,9 @@
     <% if local_assigns[:p2].present? %>
       <p style="font-size:15px; color:#333333; line-height:1.8; margin:0 0 1.5rem;"><%= p2 %></p>
     <% end %>
+    <% if local_assigns[:card].present? %>
+      <div style="margin:0 0 1.5rem;"><%= card %></div>
+    <% end %>
     <% if local_assigns[:tip].present? %>
       <div style="background:#FFF8E7; border-left:3px solid #FFB627; padding:14px 16px; margin-bottom:1.5rem;">
         <div style="font-size:13px; color:#555555; line-height:1.7;">

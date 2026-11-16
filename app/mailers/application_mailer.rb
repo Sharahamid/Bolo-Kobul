@@ -1,3 +1,5 @@
+require Rails.root.join('lib/email_text_part').to_s
+
 class ApplicationMailer < ActionMailer::Base
   # The sender of every email. MAIL_FROM (server's config/application.yml) changes it, e.g. to
   # the Google Workspace mailbox that sends while Mailgun is unavailable
@@ -14,6 +16,24 @@ class ApplicationMailer < ActionMailer::Base
 
   # Admin > Manage Site > Messages On / Off can stop a group of emails
   after_action :apply_message_switches
+
+  # Every email goes out with its designed (HTML) version and a plain-text copy made
+  # from it (see EmailTextPart). Mailers that build their own formats are left alone.
+  def mail(headers = {}, &block)
+    return super if block
+
+    template = headers[:template_name] || action_name
+    path = headers[:template_path] || mailer_name
+    super(headers) do |format|
+      format.text do
+        html = render_to_string(template: "#{path}/#{template}", formats: [:html], layout: 'mailer')
+        render plain: EmailTextPart.to_text(html)
+      end
+      format.html
+    end
+  rescue ActionView::MissingTemplate
+    super(headers)
+  end
 
   private
 

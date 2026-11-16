@@ -27,7 +27,7 @@ class Occupation < ApplicationRecord
    enum :name, %i[government_official defence private_service business self_employed unemployed student freelancer doctor engineer teacher retired landlord not_working]
    OCCUPATION_LABELS = {
      "government_official" => "Government Official",
-     "defence"             => "Defence / Armed Forces",
+     "defence"             => "Defense / Armed Forces",
      "private_service"     => "Private Service / Corporate",
      "business"            => "Business / Entrepreneur",
      "self_employed"       => "Self-Employed / Consultant",

@@ -1,0 +1,5 @@
+<%= render 'shared/simple_email', icon: '💬', title: t('email.kobul2_reminder.title'), user: @user,
+           p1: t('email.kobul2_reminder.p1', id: @profile.unique_id), p2: t('email.kobul2_reminder.p2'),
+           card: email_profile_card(@profile, @viewer),
+           tip_label: t('email.privacy'), tip: t('email.kobul2_received.tip'),
+           button: t('email.view_profile'), url: profile_info_marriage_profile_url(@profile) %>

@@ -172,9 +172,9 @@ class OrdersController < ApplicationController
     if @order
       @order.update(status: "failed") if @return_verified && @order.pending?
       product_name = @order.butterfly? ? "Butterfly" : (@order.bk_plus? ? "BK+ (#{@order.bk_plus_plan&.label_en || 'membership'})" : @order.assisted_service&.name)
-      flash["warning"] = "Your #{product_name} purchase was cancelled. No payment has been taken."
+      flash["warning"] = "Your #{product_name} purchase was canceled. No payment has been taken."
     else
-      flash["warning"] = "Your purchase was cancelled."
+      flash["warning"] = "Your purchase was canceled."
     end
     if @order&.user.present?
       sign_in_order_user

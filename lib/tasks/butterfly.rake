@@ -61,6 +61,70 @@ namespace :butterfly do
     puts "1st Kobul expiry reminders sent: #{sent}"
   end
 
+  # Runs once a day. Each Kobul falls in the 24-hour window "3 to 4 days ago" exactly once,
+  # so every member gets at most one reminder per Kobul.
+  KOBUL_NUDGE_DAYS = 3
+
+  desc '2nd Kobul with no answer after 3 days: one reminder to the receiver'
+  task kobul2_reminders: :environment do
+    helpers = Rails.application.routes.url_helpers
+    window = (KOBUL_NUDGE_DAYS + 1).days.ago..KOBUL_NUDGE_DAYS.days.ago
+    hidden = User.deactivated_users_profile_ids
+    sent = 0
+    # The receiver's row of a 2nd Kobul has status "requested"
+    ChatFriendship.requested.where(created_at: window).find_each do |row|
+      receiver = row.marriage_profile
+      sender = row.chat_friend
+      user = receiver&.user
+      next if sender.nil? || user.nil? || user.deactivated || hidden.include?(sender.id)
+
+      begin
+        user.notifications.create(
+          content: "Reminder: #{sender.unique_id} sent you a 2nd Kobul #{KOBUL_NUDGE_DAYS} days ago and is waiting for your answer. <a href='#{helpers.profile_info_marriage_profile_path(sender)}' style='color:#FFB627;font-weight:600;'>See Profile</a>",
+          notifiable: receiver,
+          will_email: false,
+          will_sms: false
+        )
+        KobulTwoMailer.with(user: user, profile: sender, receiver_profile: receiver).reminder.deliver_later if user.email.present?
+        sent += 1
+      rescue StandardError => e
+        Rails.logger.error "[kobul2 reminder] #{row.id}: #{e.message}"
+      end
+    end
+    puts "2nd Kobul reminders sent: #{sent}"
+  end
+
+  desc '1st Kobul accepted 3 days ago and no 2nd Kobul yet: one nudge to each of the two members'
+  task kobul2_nudges: :environment do
+    helpers = Rails.application.routes.url_helpers
+    window = (KOBUL_NUDGE_DAYS + 1).days.ago..KOBUL_NUDGE_DAYS.days.ago
+    hidden = User.deactivated_users_profile_ids
+    sent = 0
+    # An accepted 1st Kobul has two rows (one for each member), so each member is nudged once
+    HasFriendship::Friendship.accepted.where(friendable_type: 'MarriageProfile', blocker_id: nil, updated_at: window).find_each do |row|
+      own = MarriageProfile.find_by(id: row.friendable_id)
+      other = MarriageProfile.find_by(id: row.friend_id)
+      user = own&.user
+      next if other.nil? || user.nil? || user.deactivated || hidden.include?(other.id)
+      # Either of them has already sent a 2nd Kobul (or they are chatting)
+      next if ChatFriendship.where(marriage_profile_id: own.id, chat_friend_id: other.id).exists?
+
+      begin
+        user.notifications.create(
+          content: "You and #{other.unique_id} accepted a 1st Kobul #{KOBUL_NUDGE_DAYS} days ago. Send a 2nd Kobul to start chatting. <a href='#{helpers.profile_info_marriage_profile_path(other)}' style='color:#FFB627;font-weight:600;'>View Profile</a>",
+          notifiable: own,
+          will_email: false,
+          will_sms: false
+        )
+        KobulTwoMailer.with(user: user, profile: other, own_profile: own).nudge.deliver_later if user.email.present?
+        sent += 1
+      rescue StandardError => e
+        Rails.logger.error "[kobul2 nudge] #{row.id}: #{e.message}"
+      end
+    end
+    puts "2nd Kobul nudges sent: #{sent}"
+  end
+
   desc "Clean up old notifications"
   task clean_notifications: :environment do
     deleted = Notification.where('is_read = true AND created_at < ?', 1.month.ago).delete_all

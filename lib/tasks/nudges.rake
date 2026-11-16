@@ -24,9 +24,9 @@ namespace :nudges do
                        .where.not(marriage_profile_id: hidden).count
       if saved.positive?
         content = if saved == 1
-                    "Someone saved you to their favourites today 💛 <a href='/bk-plus/saved-you' #{link_style}>See who</a>"
+                    "Someone saved you to their favorites today 💛 <a href='/bk-plus/saved-you' #{link_style}>See who</a>"
                   else
-                    "#{saved} members saved you to their favourites today 💛 <a href='/bk-plus/saved-you' #{link_style}>See who</a>"
+                    "#{saved} members saved you to their favorites today 💛 <a href='/bk-plus/saved-you' #{link_style}>See who</a>"
                   end
       end
 

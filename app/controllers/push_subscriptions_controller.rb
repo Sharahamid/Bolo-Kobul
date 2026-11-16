@@ -35,7 +35,8 @@ class PushSubscriptionsController < ApplicationController
       'title' => 'Bolo Kobul',
       'body' => t('push.test'),
       'url' => '/users/notifications',
-      'tag' => "test-#{Time.current.to_i}"
+      'tag' => "test-#{Time.current.to_i}",
+      'now' => true # the member asked for it: not held by quiet hours
     })
     head :accepted
   end

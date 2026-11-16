@@ -43,7 +43,7 @@ class FamilyMember < ApplicationRecord
 
   FAMILY_OCCUPATION_LABELS = {
     "government_official" => "Government Official",
-    "defence"             => "Defence / Armed Forces",
+    "defence"             => "Defense / Armed Forces",
     "private_service"     => "Private Service / Corporate",
     "business"            => "Business / Entrepreneur",
     "self_employed"       => "Self-Employed / Consultant",

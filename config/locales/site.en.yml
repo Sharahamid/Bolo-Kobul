@@ -920,6 +920,15 @@ en:
       tip: Messages are never shown in emails or text messages, and no personal contact details are ever shared.
       button: Read and Reply
       p1_html: <strong>%{id}</strong> has sent you a message on Bolo Kobul.
+    kobul2_reminder:
+      title: A 2nd Kobul is waiting for your answer
+      p1: "%{id} sent you a 2nd Kobul 3 days ago and would like to chat with you."
+      p2: Have a look at their profile and accept to start chatting, or decline if it is not the right match. Either way, they will appreciate an answer.
+    kobul2_nudge:
+      title: You are one step away from chatting
+      p1: You and %{id} accepted a 1st Kobul 3 days ago, so you can both see each other's full profiles.
+      p2: Send a 2nd Kobul to start chatting. If they accept, the chat opens right away.
+      tip: Your name and phone number are never shown. All conversations happen safely on Bolo Kobul.
     kobul2_sent:
       title: Your 2nd Kobul is on its way!
       p1: Your 2nd Kobul has been sent to %{id}. If they accept, the chat opens and you can start talking safely on Bolo Kobul.
@@ -955,6 +964,8 @@ en:
       kobul1_expiry_reminder: ⏳ A 1st Kobul expires in 2 days
       kobul1_expired: 🦋 1st Kobul Expired
       kobul2_sent: 🦋 2nd Kobul Sent!
+      kobul2_reminder: 💬 A 2nd Kobul is waiting for your answer
+      kobul2_nudge: "🦋 Send a 2nd Kobul to %{id} to start chatting"
       bf_low:
         one: 🦋 Only 1 butterfly left
         other: 🦋 Only %{count} butterflies left

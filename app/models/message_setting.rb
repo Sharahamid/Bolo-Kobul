@@ -33,6 +33,8 @@ class MessageSetting < ApplicationRecord
     ['email.KobulOneMailer#request_expired', 'Emails: 1st Kobul', 'To the sender: 1st Kobul expired'],
     ['email.KobulTwoMailer#sent', 'Emails: 2nd Kobul', 'To the sender: 2nd Kobul sent'],
     ['email.KobulTwoMailer#send_request', 'Emails: 2nd Kobul', 'To the receiver: 2nd Kobul received'],
+    ['email.KobulTwoMailer#reminder', 'Emails: 2nd Kobul', 'To the receiver: reminder when a 2nd Kobul has had no answer for 3 days'],
+    ['email.KobulTwoMailer#nudge', 'Emails: 2nd Kobul', 'To both members: 1st Kobul accepted 3 days ago, send a 2nd Kobul to start chatting'],
     ['email.KobulTwoMailer#accept_request', 'Emails: 2nd Kobul', 'To the person who accepted: you accepted a 2nd Kobul'],
     ['email.KobulTwoMailer#get_acceptance', 'Emails: 2nd Kobul', 'To the sender: 2nd Kobul accepted'],
     ['email.KobulTwoMailer#get_rejection', 'Emails: 2nd Kobul', 'To the sender: 2nd Kobul declined'],

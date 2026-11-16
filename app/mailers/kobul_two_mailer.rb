@@ -10,9 +10,28 @@ class KobulTwoMailer < ApplicationMailer
   # After A Sends a Request, B gets this message
   def send_request
     @sender_profile = params[:current_profile]
+    @receiver_profile = params[:profile]
     @receiver = params[:profile].user
     mail(to: @receiver.email,
          subject: t('email.subject.kobul2_received'))
+  end
+
+  # 3 days after a 2nd Kobul arrived with no answer, B gets one reminder
+  def reminder
+    @user = params[:user]
+    @profile = params[:profile]            # who sent the 2nd Kobul
+    @viewer = params[:receiver_profile]    # B's own profile (for the match %)
+    mail(to: @user.email,
+         subject: t('email.subject.kobul2_reminder'))
+  end
+
+  # 3 days after a 1st Kobul was accepted and nobody has sent a 2nd Kobul yet
+  def nudge
+    @user = params[:user]
+    @profile = params[:profile]            # the other member
+    @viewer = params[:own_profile]
+    mail(to: @user.email,
+         subject: t('email.subject.kobul2_nudge', id: @profile.unique_id))
   end
 
   # After B Accept the Request, B gets this message

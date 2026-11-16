@@ -10,7 +10,8 @@ class SmsService
 
   # kind names the message (e.g. :otp, :kobul1_sent, :purchase); each one can be switched
   # off in Admin > Manage Site > Messages On / Off
-  def self.call(msisdn, msg, kind: :other)
+  # release: true when a text held overnight goes out at 8 am (see QuietHours)
+  def self.call(msisdn, msg, kind: :other, release: false)
     unless MessageSetting.sms_allowed?(kind)
       Rails.logger.info("[sms] not sent (#{kind} SMS switched off in admin)")
       return nil
@@ -18,6 +19,12 @@ class SmsService
 
     if msg.blank? || msisdn.blank?
       return { success: 0, message: 'Please provide both phone number as well as message'}
+    end
+
+    # 10 pm - 8 am Bangladesh time: texts about other members' actions wait for the morning
+    if !release && QuietHours.hold_sms?(msisdn, msg, kind)
+      Rails.logger.info("[sms] #{kind} held for the morning (quiet hours)")
+      return { success: 1, message: 'held for the morning' }
     end
 
     # Every SMS goes out in plain characters (no emoji or long dashes, which would halve

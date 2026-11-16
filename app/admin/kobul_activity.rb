@@ -18,7 +18,7 @@ ActiveAdmin.register_page 'Kobul Activity' do
       k1_sent:      'A butterfly has fluttered your way!%',
       k1_accepted:  'Good news! % has accepted your 1st Kobul!%',
       k1_declined:  'Sorry, % did not accept your 1st Kobul!%',
-      k1_cancelled: 'You have cancelled your 1st Kobul request%',
+      k1_cancelled: 'You have cancel%ed your 1st Kobul request%', # "canceled" now, "cancelled" in older ones
       k2_sent:      '% would like to chat with you.%',
       k2_accepted:  '% has accepted your 2nd Kobul.%',
       k2_declined:  '% did not accept your 2nd Kobul!%'

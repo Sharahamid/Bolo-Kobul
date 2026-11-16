@@ -27,6 +27,8 @@
       <%= t('email.kobul2_received.p2') %>
     </p>
 
+    <div style="margin:0 0 1.5rem;"><%= email_profile_card(@sender_profile, @receiver_profile) %></div>
+
     <div style="background:#FFF8E7; border-left:3px solid #FFB627; padding:14px 16px; margin-bottom:1.5rem;">
       <div style="font-size:13px; color:#555555; line-height:1.7;">
         <strong style="color:#333333;"><%= t('email.privacy') %></strong> <%= t('email.kobul2_received.tip') %>
