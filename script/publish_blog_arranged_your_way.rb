@@ -1,6 +1,7 @@
 # Publishes the blog article "Arranged, But Your Way" (16 Nov 2026) with its cover picture.
 # Run on the server:  RAILS_ENV=production bundle exec rails runner script/publish_blog_arranged_your_way.rb
 # Undo (removes it):  RAILS_ENV=production bundle exec rails runner script/publish_blog_arranged_your_way.rb undo
+# New picture only:   RAILS_ENV=production bundle exec rails runner script/publish_blog_arranged_your_way.rb image
 TITLE = 'Arranged, But Your Way: How Young Bangladesh Is Rewriting Marriage'.freeze
 IMAGE = Rails.root.join('script/blog_images/arranged-but-your-way.jpg')
 
@@ -60,6 +61,15 @@ if ARGV.first == 'undo'
   abort 'Not found: nothing to remove.' unless blog
   blog.destroy!
   puts "Removed: #{TITLE}"
+  exit
+end
+
+if ARGV.first == 'image'
+  blog = Blog.find_by(title: TITLE)
+  abort 'Not published yet: run the script without "image" first.' unless blog
+  blog.image.attach(io: File.open(IMAGE), filename: 'arranged-but-your-way.jpg', content_type: 'image/jpeg')
+  blog.touch
+  puts "Picture replaced: https://bolokobul.com/blogs/#{blog.slug}"
   exit
 end
 
