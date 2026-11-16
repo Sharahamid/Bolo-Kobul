@@ -840,10 +840,10 @@ en:
     warm_wishes: With warm wishes,
     team: The Bolo Kobul Team
     kobul1_sent:
-      title: Your butterfly is on its way!
-      p1: Your butterfly has been sent successfully! The other person will now have the opportunity to view your profile and respond.
+      title: Your 1st Kobul is on its way!
+      p1: Your 1st Kobul has been sent successfully! The other person can now view your profile and respond.
       p2: We will notify you as soon as they respond. Keep your fingers crossed!
-      tip: While you wait, why not explore more profiles and send more butterflies to increase your chances of finding the right match?
+      tip: While you wait, why not explore more profiles and send more Kobuls to increase your chances of finding the right match?
       button: Browse More Profiles
     tip: 'Tip:'
     kobul1_expiry_reminder:
@@ -852,37 +852,37 @@ en:
       p2: Have a look at their profile and accept or decline before then. If you do nothing, it closes on its own and they will not be able to reach you through it.
       tip: Your privacy is always protected. No personal contact details are shared until both of you are ready.
     kobul1_received:
-      title: Someone sent you a butterfly!
-      p1: Exciting news! Someone on Bolo Kobul has noticed your profile and sent you a butterfly — a sign that they are interested in getting to know you better.
+      title: Someone sent you a 1st Kobul!
+      p1: Exciting news! Someone on Bolo Kobul has noticed your profile and sent you a 1st Kobul — a sign that they are interested in getting to know you better.
       p2: Log in to your account to view their profile and decide if you would like to accept or decline. Take your time — there is no rush!
       tip: Your privacy is always protected. No personal contact details are shared until both of you are ready.
     remember: 'Remember:'
     view_profile: View Their Profile
     kobul1_you_accepted:
-      title: You accepted a butterfly!
-      p1: You have accepted the butterfly! This is a wonderful first step. You can now learn more about this person by visiting their full profile on Bolo Kobul.
+      title: You accepted a 1st Kobul!
+      p1: You have accepted the 1st Kobul! This is a wonderful first step. You can now learn more about this person by visiting their full profile on Bolo Kobul.
       p2: Take your time to get to know them better. We hope this connection brings you closer to finding your perfect match!
-      tip: The other person will be notified that you have accepted their butterfly. You can both now view each other's full profiles. If you like what you see, send them another butterfly — that is how
+      tip: The other person will be notified that you have accepted their 1st Kobul. You can both now view each other's full profiles. If you like what you see, send them a 2nd Kobul — that is how
         you unlock the ability to chat and get to know each other better!
     next: What happens next?
     kobul1_accepted:
-      title: Great news — your butterfly was accepted!
-      p1: Wonderful news! The person you sent a butterfly to has accepted it. This means they are interested in getting to know you better too!
+      title: Great news — your 1st Kobul was accepted!
+      p1: Wonderful news! The person you sent a 1st Kobul to has accepted it. This means they are interested in getting to know you better too!
       special: This is a special moment.
       tip: A mutual acceptance on Bolo Kobul is the beginning of something meaningful. Take your time and enjoy getting to know each other.
-      p2: Log in now to view their full profile. If you feel a connection, send them another butterfly — that unlocks the chat feature so you can start talking and get to know each other better. Your love
+      p2: Log in now to view their full profile. If you feel a connection, send them a 2nd Kobul — if they accept, the chat opens so you can start talking and get to know each other better. Your love
         story could be just one conversation away!
     kobul1_declined:
-      title: Your butterfly was not accepted this time
+      title: Your 1st Kobul was not accepted this time
       p1: We understand this is disappointing, but please do not lose heart. Finding the right match takes time, and the perfect person for you is still out there.
-      p2: Your butterfly has been returned to you. Use it to explore more profiles and keep sending — every butterfly brings you one step closer to finding your soulmate!
+      p2: Your butterflies have been returned to you. Use them to explore more profiles and keep sending — every Kobul brings you one step closer to finding your soulmate!
       tip: Completing your profile with a photo and detailed information significantly increases your chances of getting accepted. Make sure your profile shows the best version of you!
     did_you_know: Did you know?
     explore_more: Explore More Profiles
     kobul1_expired:
-      title: Your butterfly has expired
-      p1: Your butterfly did not receive a response within the allowed time and has now expired. Do not be discouraged — this happens and it is simply part of the journey.
-      p2: Your butterfly has been returned to you. Use it to explore new profiles and try again — your perfect match is waiting to be found!
+      title: Your 1st Kobul has expired
+      p1: Your 1st Kobul did not receive a response within the allowed time and has now expired. Do not be discouraged — this happens and it is simply part of the journey.
+      p2: Your butterflies have been returned to you. Use them to explore new profiles and try again — your perfect match is waiting to be found!
       button: Find New Profiles
     keep_going: Keep going!
     keep_going_tip: The most successful members on Bolo Kobul are those who stay active, keep their profiles updated, and never give up on finding the right person.
@@ -1069,8 +1069,8 @@ en:
       s1_text: Add your photo, family details, and personal preferences. A complete profile gets much more attention.
       s2: Set your partner preferences
       s2_text: Tell us what you are looking for — age, location, values, lifestyle — and we will match you better.
-      s3: Browse and send a butterfly
-      s3_text: Found someone special? Send them a butterfly to express your interest — it is our way of saying "I noticed you."
+      s3: Browse and send a 1st Kobul
+      s3_text: Found someone special? Send them a 1st Kobul to show your interest — it is our way of saying "I noticed you."
       button: Start Your Journey
       privacy: Your privacy is our priority.
       privacy_text: Your personal information is never shared with anyone without your permission. You are always in control.
