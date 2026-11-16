@@ -82,7 +82,7 @@ File.open(File.join(Rails.root, "/db/seeds/designations/designation.txt"), "r") 
   end
 end
 
-AdminUser.first_or_create(email: 'admin@example.com', password: 'password', password_confirmation: 'password')
+# No starter admin login is created here: admins are added in Admin > Admin Users
 
 # puts "Slugifying... for Models(User, MarriageProfile, Blog) with friendly ID (If Models got big please do it manually)"
 #
