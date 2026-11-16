@@ -893,3 +893,23 @@ body.bk-menu-open .sidebar {
   display: block; width: 100%; background: none; border: 0; padding: 0; color: inherit; cursor: pointer;
   i { font-size: 12px; opacity: .8; margin-left: 2px; }
 }
+
+
+// ---- Message bar (flash): part of the page, pushes content down, never covers it ----
+.bk-flash-bar { max-height: 200px; overflow: hidden; transition: max-height .35s ease, opacity .35s ease, margin .35s ease;
+  margin: 12px auto 4px; padding: 0 16px; max-width: 1140px; animation: bkFlashIn .35s ease; }
+.bk-flash-bar.is-hiding { max-height: 0 !important; opacity: 0; margin-top: 0; margin-bottom: 0; }
+.bk-flash-bar__in { display: flex; align-items: flex-start; gap: 10px; padding: 11px 14px; border-radius: 12px;
+  font-size: 14px; line-height: 1.5; }
+.bk-flash-bar--ok .bk-flash-bar__in { background: #FFF3CC; color: #412402; border: 1px solid #FAC775; }
+.bk-flash-bar--ok .fas { color: #C99A16; }
+.bk-flash-bar--error .bk-flash-bar__in { background: #FCEBEB; color: #7A1F1F; border: 1px solid #F3B9B9; }
+.bk-flash-bar--error .fas { color: #C0392B; }
+.bk-flash-bar .fas { margin-top: 3px; flex-shrink: 0; }
+.bk-flash-bar__text { flex: 1; min-width: 0; }
+.bk-flash-bar__close { border: 0; background: transparent; color: inherit; font-size: 20px; line-height: 1; padding: 0 2px; cursor: pointer; opacity: .7; }
+.bk-flash-bar__close:hover { opacity: 1; }
+@keyframes bkFlashIn { from { max-height: 0; opacity: 0; } to { max-height: 200px; opacity: 1; } }
+// Messages shown after saving a part of the profile appear in place, above the section
+.flash-msg-profile-change.update-notice { position: static; }
+.flash-msg-profile-change .bk-flash-bar { margin: 0 0 12px; padding: 0; }

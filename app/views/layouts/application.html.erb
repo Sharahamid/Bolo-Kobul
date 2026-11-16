@@ -114,8 +114,8 @@
 </head>
 
 <body class="body_bg page-<%= controller_name %>-<%= action_name %><%= ' bk-viewing-other' if action_name == 'profile_info' && @marriage_profile && user_signed_in? && current_active_profile && @marriage_profile.id != current_active_profile.id %>" data-l>
-<%= render 'shared/flash_message' %>
 <%= render 'shared/header' %>
+<%= render 'shared/flash_message' %>
 <%= render 'shared/deletion_banner' %>
 <%= render 'shared/push_prompt' if push_enabled %>
 <%= render 'shared/bk_sheets' if user_signed_in? %>

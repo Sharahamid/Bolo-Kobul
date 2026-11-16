@@ -1,19 +1,30 @@
+<%# Message bar ("Saved", "Kobul sent"…). It sits in the page, under the header, and pushes
+    the page down instead of covering it; it slides away by itself after a few seconds. %>
 <% flash.each do |type, msg| %>
   <% next if type.to_s.start_with?("bk_") # internal markers, not messages %>
-  <div class="container-fluid">
-  <div class="container bk-flash-msg">
-    <div class="alert yellow-background text-white alert-dismissible custom-alert" id="success-alert">
-      <button type="button" class="close text-white" data-dismiss="alert">&times;</button>
-      <%= flash_text(msg) %>
+  <% kind = %w[error danger alert].include?(type.to_s) ? 'error' : 'ok' %>
+  <div class="bk-flash-bar bk-flash-bar--<%= kind %>" role="status">
+    <div class="bk-flash-bar__in">
+      <i class="fas <%= kind == 'error' ? 'fa-exclamation-circle' : 'fa-check-circle' %>" aria-hidden="true"></i>
+      <span class="bk-flash-bar__text"><%= flash_text(msg) %></span>
+      <button type="button" class="bk-flash-bar__close" aria-label="Close">&times;</button>
     </div>
   </div>
-  </div>
- <% flash.discard %>
+  <% flash.discard %>
 <% end %>
-
-
-<script type="text/javascript" charset="utf-8">
-    $("#success-alert").fadeTo(5000, 500).slideUp(500, function(){
-        $("#success-alert").slideUp(500);
+<script>
+  (function () {
+    document.querySelectorAll('.bk-flash-bar:not([data-ready])').forEach(function (bar) {
+      bar.setAttribute('data-ready', '1');
+      function hide() {
+        if (bar.classList.contains('is-hiding')) return;
+        bar.style.maxHeight = bar.scrollHeight + 'px';
+        bar.offsetHeight; // start the slide from the current height
+        bar.classList.add('is-hiding');
+        setTimeout(function () { bar.remove(); }, 400);
+      }
+      bar.querySelector('.bk-flash-bar__close').addEventListener('click', hide);
+      setTimeout(hide, <%= 6000 %>);
     });
+  })();
 </script>
