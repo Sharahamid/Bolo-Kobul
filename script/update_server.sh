@@ -24,6 +24,11 @@ if [ -n "$BAD" ]; then
 fi
 echo "Updating $(echo $FILES | wc -w) files..."
 git checkout origin/main -- $FILES
+# New library versions (Gemfile.lock changed): install them before anything else
+if echo "$FILES" | grep -q '^Gemfile.lock$'; then
+  echo "Installing library updates..."
+  bundle install --quiet
+fi
 RAILS_ENV=production bundle exec rails db:migrate
 # Design (stylesheet/image/script) changes only show after the assets are rebuilt
 if echo "$FILES" | grep -q '^app/assets/\|^app/javascript/'; then
