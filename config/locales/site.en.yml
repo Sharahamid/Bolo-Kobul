@@ -548,7 +548,7 @@ en:
     height_inch: Height (inch)
     height_inch_req2: Height (inch*)
     education_req: Highest Education Level*
-    education_title: Height Education Level
+    education_title: Highest Education Level
     specify_education: Please specify your education*
     family_type_req: Family Type*
     family_type: Family Type
