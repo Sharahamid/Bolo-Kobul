@@ -96,6 +96,7 @@ class MarriageProfile < ApplicationRecord
   has_many :suggested_profiles, dependent: :destroy
   has_many :saved_searches, -> { order(:created_at) }, dependent: :destroy
   has_many :messages, dependent: :destroy, foreign_key: :sender_id
+  has_many :message_reactions, dependent: :delete_all
   has_many :chat_room_users, dependent: :destroy
   has_many :chat_rooms, through: :chat_room_users
   # A private chat dies with either member: remove it before this profile's links to it go

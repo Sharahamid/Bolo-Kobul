@@ -11,7 +11,8 @@
 /* ---- Chat messages and WhatsApp-style replies ---- */
 .bk-msg { display:flex; align-items:center; gap:6px; margin-bottom:8px; position:relative; touch-action:pan-y; }
 .bk-msg--mine { justify-content:flex-end; }
-.bk-msg--mine .bk-msg__reply { order:-1; }
+.bk-msg--mine .bk-msg__actions { order:-1; }
+.bk-msg__actions { display:flex; gap:4px; flex-shrink:0; }
 .bk-msg__wrap { max-width:260px; min-width:0; transition:transform .15s ease; }
 .bk-msg__bubble { padding:8px 14px; font-size:13px; line-height:1.5; word-wrap:break-word; overflow-wrap:anywhere; }
 .bk-msg--mine .bk-msg__bubble { background:#FFB627; color:#412402; border-radius:14px 4px 14px 14px; }
@@ -26,8 +27,29 @@
 .bk-msg__quote-text { display:block; font-size:12px; color:#6b5a45; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .bk-msg__reply { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:0; background:#FFF3CC; color:#854F0B;
                  font-size:14px; line-height:28px; padding:0; cursor:pointer; opacity:0; transition:opacity .15s; }
-.bk-msg:hover .bk-msg__reply, .bk-msg__reply:focus { opacity:1; }
-@media (hover: none) { .bk-msg__reply { display:none; } }
+.bk-msg__react { flex-shrink:0; width:28px; height:28px; border-radius:50%; border:0; background:#FFF3CC; color:#854F0B;
+                 font-size:15px; line-height:28px; padding:0; cursor:pointer; opacity:0; transition:opacity .15s; }
+.bk-msg:hover .bk-msg__reply, .bk-msg__reply:focus, .bk-msg:hover .bk-msg__react, .bk-msg__react:focus { opacity:1; }
+@media (hover: none) {
+  .bk-msg__actions { display:none; }
+  .bk-msg__bubble { -webkit-touch-callout:none; -webkit-user-select:none; user-select:none; }
+}
+/* Reactions: small pills under the bubble (never on top of the text) */
+.bk-msg__reacts { display:flex; flex-wrap:wrap; gap:4px; margin-top:4px; }
+.bk-msg--mine .bk-msg__reacts { justify-content:flex-end; }
+.bk-msg__reacts[hidden] { display:none; }
+.bk-react-pill { border:1px solid #F3E3BD; background:#fff; border-radius:12px; padding:1px 7px; font-size:13px; line-height:20px;
+                 cursor:pointer; color:#633806; }
+.bk-react-pill span { font-size:11px; font-weight:600; }
+.bk-react-pill--mine { background:#FFF3CC; border-color:#FFB627; }
+/* Emoji picker above the message */
+.bk-react-picker { position:absolute; bottom:calc(100% + 4px); z-index:20; display:flex; gap:2px; padding:4px 6px; background:#fff;
+                   border:1px solid #F3E3BD; border-radius:22px; box-shadow:0 4px 16px rgba(0,0,0,.12); }
+.bk-react-picker--below { bottom:auto; top:calc(100% + 4px); }
+.bk-msg--theirs .bk-react-picker { left:0; }
+.bk-msg--mine .bk-react-picker { right:0; }
+.bk-react-picker button { border:0; background:transparent; font-size:22px; line-height:1; width:36px; height:36px; border-radius:50%; cursor:pointer; padding:0; }
+.bk-react-picker button:hover, .bk-react-picker button.is-mine { background:#FFF3CC; }
 .bk-msg--flash .bk-msg__bubble { box-shadow:0 0 0 3px rgba(255,182,39,.55); }
 .bk-reply-bar { display:flex; align-items:center; gap:8px; margin:0 0 8px; padding:6px 10px; border-radius:10px;
                 background:#FFF8E7; border-left:3px solid #FFB627; }

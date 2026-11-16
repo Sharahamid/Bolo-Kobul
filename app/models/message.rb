@@ -18,6 +18,8 @@ class Message < ApplicationRecord
   belongs_to :marriage_profile, foreign_key: :sender_id
   # The message this one replies to (WhatsApp-style quote above the text)
   belongs_to :reply_to, class_name: 'Message', optional: true
+  # WhatsApp-style emoji reactions (one per member)
+  has_many :reactions, class_name: 'MessageReaction', dependent: :delete_all
 
   QUOTE_LENGTH = 120
 

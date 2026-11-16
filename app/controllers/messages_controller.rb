@@ -29,7 +29,7 @@ class MessagesController < ApplicationController
       # Opening the chat reads everything from this person (older data can have two rooms)
       shared_rooms = ChatRoom.shared_rooms(@marriage_profile, current_active_profile).to_a
       shared_rooms.each { |room| room.mark_read!(current_active_profile) }
-      @messages = Message.includes(:chat_room, :marriage_profile, reply_to: :marriage_profile).where(chat_room_id: shared_rooms.map(&:id)).order(created_at: :asc)
+      @messages = Message.includes(:chat_room, :marriage_profile, :reactions, reply_to: :marriage_profile).where(chat_room_id: shared_rooms.map(&:id)).order(created_at: :asc)
       @message = Message.new
       format.html
       format.js
@@ -59,6 +59,56 @@ class MessagesController < ApplicationController
     render json: news.map { |m|
       m.as_json.merge('body' => ERB::Util.html_escape(m.body.to_s), 'reply' => reply_json(m.reply_to))
     }
+  end
+
+  # React to a message with an emoji (WhatsApp style). The same emoji again removes it;
+  # another emoji replaces it. Only members of the chat can react.
+  def react
+    message = Message.find_by(id: params[:id])
+    chat_room = message && current_active_profile&.chat_rooms&.find_by(id: message.chat_room_id)
+    return head(:not_found) unless chat_room
+
+    other = chat_room.connected_profile(current_active_profile)
+    return head(:forbidden) if other && current_active_profile.blocked_with?(other)
+
+    emoji = params[:emoji].to_s
+    return head(:unprocessable_entity) unless MessageReaction::EMOJIS.include?(emoji)
+
+    reaction = message.reactions.find_by(marriage_profile_id: current_active_profile.id)
+    if reaction&.emoji == emoji
+      reaction.destroy
+    elsif reaction
+      reaction.update!(emoji: emoji)
+    else
+      message.reactions.create!(marriage_profile_id: current_active_profile.id, emoji: emoji)
+    end
+    message.reactions.reset
+
+    data = { 'message_id' => message.id, 'reactions' => MessageReaction.list_for(message) }
+    ActionCable.server.broadcast "room_#{chat_room.id}_channel", { reaction: data }
+    render json: data
+  rescue ActiveRecord::RecordNotUnique
+    head :conflict
+  end
+
+  # Reactions changed since a moment (the open chat asks every 15 seconds, so changes show
+  # even when the live connection is asleep)
+  def reactions
+    chat_room = current_active_profile&.chat_rooms&.find_by(id: params[:chat_room_id])
+    return head(:not_found) unless chat_room
+
+    other = chat_room.connected_profile(current_active_profile)
+    room_ids = other ? ChatRoom.shared_rooms(other, current_active_profile).pluck(:id) : [chat_room.id]
+    after = Time.zone.at(params[:after].to_i / 1000.0) rescue 1.minute.ago
+    changed_ids = MessageReaction.where(message_id: Message.where(chat_room_id: room_ids).select(:id))
+                                 .where('message_reactions.updated_at > ?', after).distinct.pluck(:message_id)
+    # A removed reaction leaves no row behind: the page sends the messages it shows with
+    # reactions, and gets their current state back too
+    shown = params[:shown].to_s.split(',').map(&:to_i).reject(&:zero?).first(200)
+    ids = (changed_ids + shown).uniq
+    messages = Message.where(chat_room_id: room_ids, id: ids).includes(:reactions)
+    render json: { 'now' => (Time.current.to_f * 1000).to_i,
+                   'items' => messages.map { |m| { 'message_id' => m.id, 'reactions' => MessageReaction.list_for(m) } } }
   end
 
   def create

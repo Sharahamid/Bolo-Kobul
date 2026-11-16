@@ -1,6 +1,7 @@
 <% is_mine = message.marriage_profile.user.id == current_active_profile.user.id %>
 <%# One chat message. Swipe it right (phone) or press the ↩ beside it (computer) to reply,
-    like WhatsApp; a reply shows the message it answers as a small quote on top. %>
+    like WhatsApp; a reply shows the message it answers as a small quote on top.
+    Press and hold it (phone) or press ☺ (computer) to react with an emoji. %>
 <div class="bk-msg <%= is_mine ? 'bk-msg--mine' : 'bk-msg--theirs' %>" id="bk-msg-<%= message.id %>"
      data-message-id="<%= message.id %>" data-sender-id="<%= message.sender_id %>" data-quote="<%= message.quote_text %>">
   <div class="bk-msg__wrap">
@@ -13,9 +14,19 @@
       <% end %>
       <div class="bk-msg__text"><%= message.body.to_s.strip %></div>
     </div>
+    <% groups = message.reactions.sort_by(&:created_at).group_by(&:emoji) %>
+    <div class="bk-msg__reacts"<%= ' hidden' if groups.empty? %>>
+      <% groups.each do |emoji, list| %>
+        <% mine = list.any? { |r| r.marriage_profile_id == current_active_profile.id } %>
+        <button type="button" class="bk-react-pill<%= ' bk-react-pill--mine' if mine %>" data-emoji="<%= emoji %>"><%= emoji %><% if list.size > 1 %> <span><%= list.size %></span><% end %></button>
+      <% end %>
+    </div>
     <div class="bk-msg__meta">
       <%= format_date_messaging(message.created_at) %><% if is_mine %><%= message_ticks(message, ChatRoomUser.tick_status(message, local_assigns[:other_member])) %><% end %>
     </div>
   </div>
-  <button type="button" class="bk-msg__reply" title="<%= t('chat.reply') %>" aria-label="<%= t('chat.reply') %>">↩</button>
+  <span class="bk-msg__actions">
+    <button type="button" class="bk-msg__react" title="<%= t('chat.react') %>" aria-label="<%= t('chat.react') %>">☺</button>
+    <button type="button" class="bk-msg__reply" title="<%= t('chat.reply') %>" aria-label="<%= t('chat.reply') %>">↩</button>
+  </span>
 </div>

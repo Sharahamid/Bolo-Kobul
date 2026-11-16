@@ -51,10 +51,12 @@ Rails.application.routes.draw do
   resources :messages, only: [:index, :create] do
     member do
       get :profile
+      post :react
     end
     collection do
       post :read
       get :since
+      get :reactions
     end
   end
 

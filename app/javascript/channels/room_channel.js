@@ -61,6 +61,7 @@ function messageRow(content, mine) {
     var reply = content['reply'];
     var list = document.getElementById('privat-chat-messages');
     var replyLabel = list ? list.getAttribute('data-reply-label') : 'Reply';
+    var reactLabel = list ? list.getAttribute('data-react-label') : 'React';
     var quote = reply
         ? '<a href="#bk-msg-' + reply.id + '" class="bk-msg__quote" data-quote-jump="' + reply.id + '">' +
           '<span class="bk-msg__quote-who">' + escapeAttr(senderLabel(reply.sender_id)) + '</span>' +
@@ -72,10 +73,90 @@ function messageRow(content, mine) {
         ' data-quote="' + escapeAttr(quoteText(content['body'])) + '">' +
         '<div class="bk-msg__wrap"><div class="bk-msg__bubble">' + quote +
         '<div class="bk-msg__text">' + content['body'] + '</div></div>' +
+        '<div class="bk-msg__reacts" hidden></div>' +
         '<div class="bk-msg__meta"><time class="js-local-time" data-format="message" datetime="' + (content['created_at'] || '') + '">' + time + '</time>' +
         (mine ? ticks(content['created_at'] || '', 'sent') : '') + '</div></div>' +
+        '<span class="bk-msg__actions">' +
+        '<button type="button" class="bk-msg__react" title="' + escapeAttr(reactLabel) + '" aria-label="' + escapeAttr(reactLabel) + '">☺</button>' +
         '<button type="button" class="bk-msg__reply" title="' + escapeAttr(replyLabel) + '" aria-label="' + escapeAttr(replyLabel) + '">↩</button>' +
-        '</div></div></div>';
+        '</span></div></div></div>';
+}
+
+// ---- Reactions, like WhatsApp ----
+// Press and hold a message (phone) or press ☺ beside it (computer): a row of emojis opens
+// above it. One emoji per person per message; the same one again takes it off. The
+// reactions show as small pills under the message, never on top of the text.
+function myProfileId() {
+    var list = document.getElementById('privat-chat-messages');
+    return list ? String(list.getAttribute('data-login-user-id')) : '';
+}
+function renderReactions(messageId, reactions) {
+    var row = document.getElementById('bk-msg-' + messageId);
+    if (!row) return;
+    var box = row.querySelector('.bk-msg__reacts');
+    if (!box) return;
+    var order = [], groups = {};
+    (reactions || []).forEach(function (r) {
+        if (!groups[r.emoji]) { groups[r.emoji] = { count: 0, mine: false }; order.push(r.emoji); }
+        groups[r.emoji].count += 1;
+        if (String(r.profile_id) === myProfileId()) groups[r.emoji].mine = true;
+    });
+    box.innerHTML = order.map(function (emoji) {
+        var g = groups[emoji];
+        return '<button type="button" class="bk-react-pill' + (g.mine ? ' bk-react-pill--mine' : '') + '" data-emoji="' + escapeAttr(emoji) + '">' +
+            escapeAttr(emoji) + (g.count > 1 ? ' <span>' + g.count + '</span>' : '') + '</button>';
+    }).join('');
+    box.hidden = order.length === 0;
+}
+function sendReaction(row, emoji) {
+    var token = document.querySelector('meta[name="csrf-token"]');
+    var id = row.getAttribute('data-message-id');
+    fetch('/messages/' + encodeURIComponent(id) + '/react', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-Token': token ? token.content : '' },
+        body: JSON.stringify({ emoji: emoji })
+    }).then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) { if (data) renderReactions(data.message_id, data.reactions); })
+      .catch(function () {});
+}
+function closePicker() {
+    document.querySelectorAll('.bk-react-picker').forEach(function (el) { el.remove(); });
+}
+function openPicker(row) {
+    closePicker();
+    var list = document.getElementById('privat-chat-messages');
+    var emojis = (list && list.getAttribute('data-emojis') || '👍 ❤️ 😂 😮 😢 🙏').split(' ');
+    var minePill = row.querySelector('.bk-react-pill--mine');
+    var mine = minePill ? minePill.getAttribute('data-emoji') : '';
+    var picker = document.createElement('div');
+    picker.className = 'bk-react-picker';
+    picker.innerHTML = emojis.map(function (e) {
+        return '<button type="button" data-emoji="' + escapeAttr(e) + '"' + (e === mine ? ' class="is-mine"' : '') + '>' + escapeAttr(e) + '</button>';
+    }).join('');
+    // Near the top of the chat window there is no room above: open it below the message
+    var scroller = document.getElementById('messageBody');
+    var top = scroller ? scroller.getBoundingClientRect().top : 0;
+    if (row.getBoundingClientRect().top - top < 56) picker.classList.add('bk-react-picker--below');
+    row.appendChild(picker);
+}
+var reactionsStamp = Date.now();
+function catchUpReactions(chatRoomId) {
+    if (!chatRoomId) return;
+    var shown = [];
+    document.querySelectorAll('#privat-chat-messages .bk-msg__reacts:not([hidden])').forEach(function (el) {
+        var row = el.closest('.bk-msg');
+        if (row) shown.push(row.getAttribute('data-message-id'));
+    });
+    fetch('/messages/reactions?chat_room_id=' + encodeURIComponent(chatRoomId) + '&after=' + (reactionsStamp - 20000) +
+          '&shown=' + shown.slice(-200).join(','), { credentials: 'same-origin', headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (data) {
+            if (!data) return;
+            reactionsStamp = data.now || Date.now();
+            (data.items || []).forEach(function (item) { renderReactions(item.message_id, item.reactions); });
+        })
+        .catch(function () {});
 }
 
 // ---- Reply to one message, like WhatsApp ----
@@ -107,6 +188,12 @@ function setUpReplies() {
     if (cancel) cancel.addEventListener('click', cancelReply);
 
     list.addEventListener('click', function (event) {
+        var pick = event.target.closest('.bk-react-picker button');
+        if (pick) { sendReaction(pick.closest('.bk-msg'), pick.getAttribute('data-emoji')); closePicker(); return; }
+        var reactButton = event.target.closest('.bk-msg__react');
+        if (reactButton) { event.stopPropagation(); openPicker(reactButton.closest('.bk-msg')); return; }
+        var pill = event.target.closest('.bk-react-pill');
+        if (pill) { sendReaction(pill.closest('.bk-msg'), pill.getAttribute('data-emoji')); return; }
         var button = event.target.closest('.bk-msg__reply');
         if (button) { startReply(button.closest('.bk-msg')); return; }
         // Tapping a quote jumps to the message it answers and makes it glow briefly
@@ -122,9 +209,17 @@ function setUpReplies() {
         }
     });
 
-    // Phone: swipe a message right by about 60px to reply (the bubble follows the finger)
-    var startX = 0, startY = 0, row = null, wrap = null, moved = 0;
+    // Close the emoji row when tapping elsewhere or pressing Escape
+    document.addEventListener('click', function (event) {
+        if (!event.target.closest('.bk-react-picker') && !event.target.closest('.bk-msg__react')) closePicker();
+    });
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape') closePicker(); });
+
+    // Phone: swipe a message right by about 60px to reply (the bubble follows the finger);
+    // press and hold it (half a second) to react
+    var startX = 0, startY = 0, row = null, wrap = null, moved = 0, holdTimer = null, held = false;
     list.addEventListener('touchstart', function (event) {
+        if (event.target.closest('.bk-react-picker') || event.target.closest('.bk-react-pill')) { row = null; return; }
         row = event.target.closest('.bk-msg');
         // Also when the finger starts on the quote of a reply (a swipe is not a tap on it)
         if (!row) return;
@@ -132,20 +227,34 @@ function setUpReplies() {
         startX = event.touches[0].clientX;
         startY = event.touches[0].clientY;
         moved = 0;
+        held = false;
+        clearTimeout(holdTimer);
+        var pressed = row;
+        holdTimer = setTimeout(function () {
+            held = true;
+            if (navigator.vibrate) { try { navigator.vibrate(15); } catch (e) {} }
+            openPicker(pressed);
+        }, 450);
     }, { passive: true });
     list.addEventListener('touchmove', function (event) {
         if (!row) return;
         var dx = event.touches[0].clientX - startX;
         var dy = event.touches[0].clientY - startY;
+        if (Math.abs(dx) > 8 || Math.abs(dy) > 8) clearTimeout(holdTimer);
         if (Math.abs(dy) > Math.abs(dx)) { if (Math.abs(dy) > 10) { wrap.style.transform = ''; row = null; } return; }
         moved = Math.max(0, Math.min(dx, 80));
         wrap.style.transform = 'translateX(' + moved + 'px)';
     }, { passive: true });
-    list.addEventListener('touchend', function () {
+    list.addEventListener('touchend', function (event) {
+        clearTimeout(holdTimer);
         if (!row) return;
         wrap.style.transform = '';
+        if (held) { if (event.cancelable) event.preventDefault(); row = null; return; }
         if (moved >= 60) startReply(row);
         row = null;
+    });
+    list.addEventListener('contextmenu', function (event) {
+        if (event.target.closest('.bk-msg__bubble') && window.matchMedia('(hover: none)').matches) event.preventDefault();
     });
 }
 
@@ -249,7 +358,11 @@ $(function () {
     document.addEventListener('visibilitychange', function () {
         if (!document.hidden) catchUp(chatRoomId, addMessage);
     });
-    setInterval(function () { if (!document.hidden) catchUp(chatRoomId, addMessage); }, 15000);
+    setInterval(function () {
+        if (document.hidden) return;
+        catchUp(chatRoomId, addMessage);
+        catchUpReactions(chatRoomId);
+    }, 15000);
 
     consumer.subscriptions.create({
             channel: "RoomChannel",
@@ -268,6 +381,10 @@ $(function () {
 
             received(data) {
                 var myProfileId = String($('#privat-chat-messages').attr('data-login-user-id'));
+                if (data.reaction) {
+                    renderReactions(data.reaction.message_id, data.reaction.reactions);
+                    return;
+                }
                 if (data.receipt) {
                     if (String(data.receipt.profile_id) !== myProfileId) applyReceipt(data.receipt);
                     return;
