@@ -69,8 +69,24 @@
   <% ga_id = ENV['GA_MEASUREMENT_ID'].to_s.strip %>
   <% if ga_id.present? %>
     <% ga_event = session.delete(:ga_event) %>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ga_id %>"></script>
+    <%# Analytics starts after the page has appeared (or at the first tap/scroll, if sooner), so
+        it does not slow the page down. Everything below is noted straight away and sent then. %>
     <script>
+      (function () {
+        var started = false;
+        function startAnalytics() {
+          if (started) return;
+          started = true;
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://www.googletagmanager.com/gtag/js?id=' + <%= raw ERB::Util.url_encode(ga_id).to_json %>;
+          document.head.appendChild(s);
+        }
+        window.addEventListener('load', function () { setTimeout(startAnalytics, 4000); });
+        ['pointerdown', 'keydown', 'scroll', 'touchstart'].forEach(function (name) {
+          window.addEventListener(name, startAnalytics, { once: true, passive: true });
+        });
+      })();
       window.dataLayer = window.dataLayer || [];
       function gtag(){ dataLayer.push(arguments); }
       gtag('js', new Date());
