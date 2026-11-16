@@ -102,11 +102,9 @@
   <%= preload_link_tag 'plus-jakarta-sans-700.woff2' %>
 
   <%# Bootstrap, icons and slider styles are served from our own server (public/vendor) %>
-  <link rel="stylesheet" href="/vendor/bootstrap-4.3.1/bootstrap.min.css">
-  <link rel="stylesheet" href="/vendor/slick-1.8.1/slick.css">
-  <link rel="stylesheet" href="/vendor/slick-1.8.1/slick-theme.css">
-  <link rel="stylesheet" href="/vendor/fontawesome-free-5.15.4/css/all.min.css">
-  <link rel="stylesheet" href="/vendor/fontawesome-free-5.15.4/css/v4-shims.min.css">
+  <%# All five library style files in one (public/vendor/bk-vendor-1.css), so phones make one
+      request instead of five before showing the page %>
+  <link rel="stylesheet" href="/vendor/bk-vendor-1.css">
   <link rel="preload" href="/vendor/fontawesome-free-5.15.4/webfonts/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
 
 

@@ -913,3 +913,13 @@ body.bk-menu-open .sidebar {
 // Messages shown after saving a part of the profile appear in place, above the section
 .flash-msg-profile-change.update-notice { position: static; }
 .flash-msg-profile-change .bk-flash-bar { margin: 0 0 12px; padding: 0; }
+
+// Sliders before their script starts (scripts now load without holding up the page):
+// show the first picture only, and the success stories in one row, so the page does not
+// jump when the slider takes over a moment later
+.bk-home-slider:not(.slick-initialized) > .bk-slider:not(:first-child) { display: none; }
+.bk-success-story-slider:not(.slick-initialized) { display: flex; overflow: hidden; }
+.bk-success-story-slider:not(.slick-initialized) > * { flex: 0 0 33.333%; max-width: 33.333%; }
+@media (max-width: 599.98px) {
+  .bk-success-story-slider:not(.slick-initialized) > * { flex-basis: 100%; max-width: 100%; }
+}
