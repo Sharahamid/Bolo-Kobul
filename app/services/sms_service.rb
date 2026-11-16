@@ -20,6 +20,14 @@ class SmsService
       return { success: 0, message: 'Please provide both phone number as well as message'}
     end
 
+    # Every SMS goes out in plain characters (no emoji or long dashes, which would halve
+    # the length of a part); a text that still needs 2+ parts is noted for Messages Sent
+    msg = SmsText.plain(msg) unless kind.to_s == 'otp'
+    if SmsText.parts(msg) > 1
+      Rails.logger.warn("[sms] #{kind} is #{msg.length} characters (#{SmsText.parts(msg)} SMS parts)")
+      MessageLog.record(:sms_long, kind)
+    end
+
     uri =
       URI.parse(SECRETES.dig('sms', 'url'))
     params = {

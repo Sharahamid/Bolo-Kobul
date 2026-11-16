@@ -108,8 +108,8 @@ class OrdersController < ApplicationController
               buyer = @order.user.reload
               until_text = buyer.bk_plus_until&.strftime('%-d %b %Y')
               bonus = @order.bk_plus_plan&.butterflies.to_i
-              text = "Payment received. Welcome to BK+! Your #{@order.bk_plus_plan&.label_en} membership is active until #{until_text}"
-              text += ", with #{bonus} bonus butterflies added" if bonus.positive?
+              text = "Payment received. Welcome to BK+! Active until #{until_text}"
+              text += ", #{bonus} bonus butterflies added" if bonus.positive?
               text += ". See who viewed you: bolokobul.com/bk-plus"
               SmsService.call(buyer.phone_number.to_s, text, kind: :bk_plus_purchase)
             else

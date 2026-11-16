@@ -44,6 +44,10 @@ Rails.application.routes.draw do
   end
   delete 'push_subscriptions', to: 'push_subscriptions#destroy'
 
+  # Short links used in SMS (see ShortLinksController)
+  get 'p/:id', to: 'short_links#profile', as: :short_profile
+  get 'c/:id', to: 'short_links#chat', as: :short_chat
+
   resources :messages, only: [:index, :create] do
     member do
       get :profile

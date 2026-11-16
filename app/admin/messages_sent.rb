@@ -24,7 +24,7 @@ ActiveAdmin.register_page 'Messages Sent' do
     month = MessageLog.where('created_at >= ?', month_start)
     by_kind = month.group(:channel, :kind).count.sort_by { |_, n| -n }.first(25).map do |(ch, kind), n|
       key = ch == 'email' ? "email.#{kind}" : "sms.#{kind}"
-      [ch == 'email' ? 'Email' : (ch == 'sms_failed' ? "<span class='down'>SMS not sent</span>" : 'SMS'),
+      [ch == 'email' ? 'Email' : (ch == 'sms_failed' ? "<span class='down'>SMS not sent</span>" : (ch == 'sms_long' ? 'Long SMS (2+ parts)' : 'SMS')),
        bk_esc(labels[key] || kind), n]
     end
 
@@ -32,6 +32,7 @@ ActiveAdmin.register_page 'Messages Sent' do
     text_node bk_tiles([
       [month.where(channel: 'sms').count, 'SMS sent this month', nil],
       [month.where(channel: 'sms_failed').count, 'SMS that failed this month', 'Usually "not enough balance" - top up Boom Cast'],
+      [month.where(channel: 'sms_long').count, 'Long SMS this month (2+ parts, cost more)', 'Should stay 0 - each long SMS is billed as 2 or more'],
       [month.where(channel: 'email').count, 'Emails sent this month', nil],
       [MessageLog.where(channel: 'sms').count, 'SMS sent since counting began', started ? "Counting since #{bk_dhaka(started)}" : 'Counting starts with the next message']
     ])

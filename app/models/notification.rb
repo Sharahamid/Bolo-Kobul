@@ -107,9 +107,10 @@ class Notification < ApplicationRecord
 
   def send_sms
     if recipient.text_alert == "on"
+      # Plain words and a short link, cut to one SMS part (see SmsText)
       SmsService.call(
         recipient.phone_number.to_s,
-        content + ". Visit: bolokobul.com",
+        SmsText.from_notification(content),
         kind: :text_alerts
       )
     end

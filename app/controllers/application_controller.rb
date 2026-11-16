@@ -89,7 +89,8 @@ class ApplicationController < ActionController::Base
     if resource.is_a?(AdminUser)
       shaheer10inara20_root_path
     else
-      stored_location_for(resource) || resource.is_a?(User) ? user_homepage(resource) : root_path
+      # A page the member tried to open before logging in (e.g. a short link from an SMS)
+      stored_location_for(resource) || (resource.is_a?(User) ? user_homepage(resource) : root_path)
     end
   end
 
