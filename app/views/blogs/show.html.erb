@@ -35,6 +35,25 @@
           <%= formatted_story(@blog.story) %>
         </div>
 
+        <% related = (@blog.related(3) rescue []) %>
+        <% if related.any? %>
+          <%# You may also like: related articles (paired topics first, then similar ones) %>
+          <div class="bk-related" style="margin-top:28px;">
+            <h3 style="font-size:16px; font-weight:700; color:#412402; margin:0 0 12px;"><%= t('blog_related.title') %></h3>
+            <div class="bk-related-grid">
+              <% related.each do |post| %>
+                <%= link_to blog_path(post), class: 'bk-related-card' do %>
+                  <%= image_tag(post.image_url.present? ? post.image_url(:card) : 'bg01.jpg', alt: '', loading: 'lazy', width: 300, height: 300) %>
+                  <span class="bk-related-text">
+                    <span class="bk-related-kind"><%= post.success_story? ? t('blog_related.story') : (post.story_type.to_s.humanize.presence || t('blog_related.article')) %></span>
+                    <span class="bk-related-title"><%= post.title %></span>
+                  </span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
         <!-- Footer -->
         <div style="margin-top:24px; padding-top:16px; border-top:0.5px solid #eee; display:flex; align-items:center; justify-content:space-between;">
           <span></span>

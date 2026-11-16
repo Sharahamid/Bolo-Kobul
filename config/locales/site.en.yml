@@ -1209,3 +1209,7 @@ en:
     open_menu: Open menu
     close_menu: Close menu
     read_story: "Read their story"
+  blog_related:
+    title: You may also like
+    story: Success story
+    article: Article

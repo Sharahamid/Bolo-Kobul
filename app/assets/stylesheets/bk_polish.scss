@@ -938,3 +938,24 @@ body.bk-menu-open .sidebar {
     object-position: center;
   }
 }
+
+// Blog article: "You may also like" cards (picture beside the title, no overlap)
+.bk-related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.bk-related-card {
+  display: flex; flex-direction: column; text-decoration: none !important;
+  border: 0.5px solid #FAC775; border-radius: 12px; overflow: hidden; background: #fffaf0;
+  transition: box-shadow .15s ease;
+  &:hover { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08); }
+  img { width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; display: block; background: #fff8ee; }
+}
+.bk-related-text { display: block; padding: 10px 12px 12px; }
+.bk-related-kind { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .5px; text-transform: uppercase; color: #B98A12; margin-bottom: 4px; }
+.bk-related-title {
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  font-size: 13.5px; font-weight: 600; line-height: 1.4; color: #412402;
+}
+@media (max-width: 575.98px) {
+  .bk-related-grid { grid-template-columns: 1fr; }
+  .bk-related-card { flex-direction: row; align-items: center; }
+  .bk-related-card img { width: 96px; height: 96px; aspect-ratio: auto; flex-shrink: 0; }
+}

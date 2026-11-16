@@ -67,6 +67,40 @@ class Blog < ApplicationRecord
     helpers.rails_representation_path(variant, only_path: true)
   end
 
+  # Articles on almost the same topic always point to each other first ("You may also like")
+  PAIRS = [
+    %w[arranged-marriage-what-you-should-reveal-before-saying-kobul transparency-in-matchmaking-key-disclosures-before-arranged-marriages-in-bangladesh],
+    %w[no-need-to-panic-arranged-marriages-are-not-what-you-think why-be-scared-of-arranged-marriage-busting-the-myths-and-embracing-the-journey],
+    %w[wedding-photography-that-keeps-your-memories-alive wedding-day-photo-session-tips-for-arranged-marriages],
+    %w[ensuring-the-new-bride-feels-like-family-not-a-guest how-to-help-the-bride-to-settle-down],
+    %w[arranged-but-your-way-how-young-bangladesh-is-rewriting-marriage not-old-fashioned-just-smart-modern-arranged-love]
+  ].freeze
+  STOP_WORDS = %w[a an and the of to in for on with your you is are be not what how why when who it its
+                  that this before after about from by at as or vs our their them do does can full].freeze
+
+  # Up to `limit` published articles related to this one: its paired article first, then the
+  # ones of the same kind sharing the most title words (e.g. the same star sign), then the newest
+  def related(limit = 3)
+    pool = Blog.approved.where.not(id: id).to_a
+    picks = []
+    partner_slugs = PAIRS.select { |pair| pair.include?(slug) }.flatten - [slug]
+    picks += pool.select { |b| partner_slugs.include?(b.slug) }
+
+    words = title_words
+    scored = pool.reject { |b| picks.include?(b) }.map do |b|
+      shared = (b.title_words & words).size
+      [b, (b.story_type == story_type ? 1 : 0) + shared * 2, b.created_at.to_i]
+    end
+    picks += scored.select { |_, score, _| score.positive? }
+                   .sort_by { |_, score, time| [-score, -time] }.map(&:first)
+    picks += pool.reject { |b| picks.include?(b) }.sort_by { |b| -b.created_at.to_i }
+    picks.first(limit)
+  end
+
+  def title_words
+    title.to_s.downcase.scan(/[a-z]+/).reject { |w| w.length < 3 || STOP_WORDS.include?(w) }.uniq
+  end
+
   private
 
   def set_title

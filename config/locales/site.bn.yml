@@ -1729,3 +1729,7 @@ bn:
     open_menu: মেনু খুলুন
     close_menu: মেনু বন্ধ করুন
     read_story: "তাঁদের গল্প পড়ুন"
+  blog_related:
+    title: আপনার আরও ভালো লাগতে পারে
+    story: সফল গল্প
+    article: লেখা
