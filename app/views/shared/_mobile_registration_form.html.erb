@@ -1,5 +1,11 @@
 <div class="mobile-registration">
   <div class="mobile-sign-up-form">
+    <%# The photo behind the sign-up form, as a picture marked "load first" (it is the biggest
+        thing on a phone screen). Computers, which do not show this form, get an empty dot. %>
+    <picture class="bk-hero-bg">
+      <source media="(min-width: 701px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+      <img src="<%= asset_path('header-image_mobile.webp') %>" alt="" fetchpriority="high" decoding="async" width="418" height="680">
+    </picture>
     <div class="overlay">
       <div class="container text-center">
         <div class="mobile-reg-form">

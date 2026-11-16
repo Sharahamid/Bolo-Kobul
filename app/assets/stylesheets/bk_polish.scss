@@ -923,3 +923,18 @@ body.bk-menu-open .sidebar {
 @media (max-width: 599.98px) {
   .bk-success-story-slider:not(.slick-initialized) > * { flex-basis: 100%; max-width: 100%; }
 }
+
+// Phone sign-up area: the photo is a real picture (loads first) instead of a background
+.mobile-sign-up-form {
+  background-image: none !important;
+  overflow: hidden;
+  .bk-hero-bg img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+}
