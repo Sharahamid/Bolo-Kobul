@@ -7,7 +7,7 @@
           <div class="register text-center">
             <strong><%= t('signup.register_now') %></strong>
             <div class="reg_underline text-center">
-              <%= image_tag 'white_reg_line.svg' %>
+              <%= image_tag 'white_reg_line.svg', alt: '' %>
             </div>
           </div>
           <p class="note"><%= t('signup.private_note') %></p>
@@ -18,7 +18,7 @@
               <div class="<%= f.object.errors[:name].present? ? '' : 'form-group' %>">
                 <%= f.text_field :name,
                                  autofocus: true,
-                                 autocomplete: "full_name",
+                                 autocomplete: "name",
                                  required: true,
                                  class: 'form-control sign_up-input-field',
                                  placeholder: t('signup.full_name')
@@ -54,7 +54,7 @@
               <div class="<%= f.object.errors[:password].present? ? '' : 'form-group' %>">
                 <div class="password-field-wrapper">
                   <%= f.password_field :password,
-                                       autocomplete: "password",
+                                       autocomplete: "new-password",
                                        class: 'form-control sign_up-input-field',
                                        placeholder: t('signup.password'),
                                        minlength: '8',
@@ -65,7 +65,7 @@
                                        id: 'mobile_password',
                                        required: true, 
                                        oninput: "mobileCheckPwd()" %>
-                  <button type="button" class="password-eye-btn" onclick="togglePassword('mobile_password', this)">
+                  <button type="button" class="password-eye-btn" aria-label="<%= t('a11y.show_password') %>" onclick="togglePassword('mobile_password', this)">
                     <i class="fas fa-eye"></i>
                   </button>
                 </div>
@@ -84,7 +84,7 @@
                                        id: 'mobile_password_confirmation',
                                        required: true, 
                                        oninput: "mobileCheckPwd()" %>
-                  <button type="button" class="password-eye-btn" onclick="togglePassword('mobile_password_confirmation', this)">
+                  <button type="button" class="password-eye-btn" aria-label="<%= t('a11y.show_password') %>" onclick="togglePassword('mobile_password_confirmation', this)">
                     <i class="fas fa-eye"></i>
                   </button>
                 </div>
@@ -101,7 +101,7 @@
                                                     }),
                              {prompt: t('signup.created_for')},
                              required: true,
-                             class: 'form-control sign_up-input-field' %>
+                             class: 'form-control sign_up-input-field', 'aria-label': t('signup.created_for') %>
                 <small class="text-danger error-text">
                   <%= f.object.errors[:created_for].present? ? f.object.errors.full_messages_for(:created_for).first : '' %>
                 </small>

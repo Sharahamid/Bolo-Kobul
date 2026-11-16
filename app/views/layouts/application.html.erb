@@ -86,8 +86,17 @@
   <%# End Google Analytics %>
 
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-  <%= javascript_pack_tag 'application', 'data-turbolinks-track': true %>
+  <%# The site's scripts load without holding up the page (defer); small scripts in pages
+      that need them wait with bkReady(function () { ... }) until they are ready %>
+  <script>
+    window.bkReady = function (fn) {
+      if (window.jQuery) { window.jQuery(fn); return; }
+      document.addEventListener('DOMContentLoaded', function () { window.jQuery(fn); });
+    };
+  </script>
+  <%= javascript_pack_tag 'application', defer: true, 'data-turbolinks-track': true %>
 
+  <%= yield :head %>
   <!-- Preload fonts -->
   <%= preload_link_tag 'poppins-400.woff2' %>
   <%= preload_link_tag 'plus-jakarta-sans-700.woff2' %>
@@ -121,7 +130,9 @@
 <%= render 'shared/bk_sheets' if user_signed_in? %>
 <%# Message from the team (Admin > Users > Edit); waits on the first-visit welcome cards %>
 <%= render 'shared/team_message' if user_signed_in? && current_user.admin_message_waiting? && current_user.welcome_seen_at.present? %>
+<main class="bk-main">
 <%= content_for?(:content) ? yield(:content) : yield %>
+</main>
 <%= render 'shared/modal' %>
 <%= render 'shared/report_block_modal' if user_signed_in? && current_active_profile %>
 <%= render 'shared/photo_protection' if user_signed_in? && current_active_profile %>

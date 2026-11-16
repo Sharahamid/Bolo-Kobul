@@ -129,6 +129,8 @@
       </div>
     </div>
 <script>
+  // Runs once the page's scripts are ready (they load without holding up the page)
+  bkReady(function () {
 (function() {
   function setupPrefAbroadField(selectId, fieldId) {
     var select = document.getElementById(selectId);
@@ -149,6 +151,7 @@
   setupPrefAbroadField('pref_present_location_select', 'pref_present_location_abroad_fields');
   setupPrefAbroadField('pref_except_hometown_select', 'pref_except_hometown_abroad_fields');
 })();
+  });
 </script>
     <div class="form-group">
       <%= f.label :marital_status %>
@@ -323,6 +326,8 @@
 <% end %>
 
 <script>
+  // Runs once the page's scripts are ready (they load without holding up the page)
+  bkReady(function () {
     // Lists where several can be chosen get a "Done" button to close them; the long
     // district lists also get a search box
     (function () {
@@ -347,9 +352,12 @@
         if (picker) picker.options.windowPadding = [top + 8, 0, bottom + 8, 0];
       });
     });
+  });
 </script>
 
 <script>
+  // Runs once the page's scripts are ready (they load without holding up the page)
+  bkReady(function () {
   // Partner height check: compares whole heights (feet + inches), so 5'4" to 6'0" or 5'4" to 5'4" is fine.
   // A blank inch counts as 0; a blank max (or min) height means no limit on that side.
   (function () {
@@ -382,4 +390,5 @@
       }
     });
   })();
+  });
 </script>

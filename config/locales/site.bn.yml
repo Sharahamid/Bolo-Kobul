@@ -1724,3 +1724,8 @@ bn:
       do_you_smoke: "পাত্র/পাত্রী কি ধূমপান করেন?"
       do_you_drink: "পাত্র/পাত্রী কি মদ্যপান করেন?"
       any_specific_habits_you_want_to_share: "পাত্র/পাত্রীর বিশেষ কোনো অভ্যাসের কথা জানাতে চান?"
+  a11y:
+    show_password: পাসওয়ার্ড দেখান বা লুকান
+    open_menu: মেনু খুলুন
+    close_menu: মেনু বন্ধ করুন
+    read_story: "তাঁদের গল্প পড়ুন"

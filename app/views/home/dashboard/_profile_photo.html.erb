@@ -15,6 +15,8 @@
 <% end %>
 <%= render 'shared/image_cropping_modal' %>
 <script type="text/javascript" charset="utf-8">
+  // Runs once the page's scripts are ready (they load without holding up the page)
+  bkReady(function () {
   $(function () {
     $('.profile-photo-upload').on('click', function () {
       $('#js-profile-image-upload').trigger('click');
@@ -22,5 +24,6 @@
     $('.js-profile-image').change(function () {
       $(".js-submit").click();
     });
+  });
   });
 </script>

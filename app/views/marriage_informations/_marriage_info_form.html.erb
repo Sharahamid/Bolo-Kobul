@@ -34,6 +34,8 @@
 <% end %>
 
 <script type="text/javascript" charset="utf-8">
+  // Runs once the page's scripts are ready (they load without holding up the page)
+  bkReady(function () {
     checkchildrens('.js-have-children');
     $(document).on('click', ".js-have-children", function () {
         checkchildrens(this);
@@ -47,4 +49,5 @@
             $('.js-no-of-childrens').val('');
         }
     }
+  });
 </script>

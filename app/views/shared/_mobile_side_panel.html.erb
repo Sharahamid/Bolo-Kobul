@@ -4,7 +4,7 @@
       <%= image_tag 'bk_logo.webp', width: '64', height: '64', alt: 'Bolo Kobul' %>
     <% end %>
 
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#" role="button" class="closebtn" aria-label="<%= t('a11y.close_menu') %>" onclick="closeNav(); return false;">×</a>
 
     <div class="bk-side-panel-lang"><%= render 'shared/language_switch' %></div>
 

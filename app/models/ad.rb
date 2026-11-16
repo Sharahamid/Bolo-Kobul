@@ -34,12 +34,24 @@ class Ad < ApplicationRecord
   # instance method
   #
 
+  # Ads are shown small (240px on the dashboard), so a resized copy is sent instead of the
+  # uploaded file (often a 1 MB+ poster), which makes pages much faster on phones
+  IMAGE_SIZES = {
+    small:  { resize_to_limit: [600, 600] },   # dashboard side column
+    normal: { resize_to_limit: [1000, 1000] }  # About page and profile pages
+  }.freeze
+
   def image_url(size = :normal)
-    if image.attached?
-      Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
-    else
-      ''
-    end
+    return '' unless image.attached?
+
+    helpers = Rails.application.routes.url_helpers
+    return helpers.rails_blob_path(image, only_path: true) unless image.variable?
+
+    variant = image.variant(IMAGE_SIZES.fetch(size, IMAGE_SIZES[:normal]).merge(quality: 82, strip: true))
+    helpers.rails_representation_path(variant, only_path: true)
+  rescue StandardError => e
+    Rails.logger.warn("[ad image] #{id}: #{e.class}: #{e.message}")
+    Rails.application.routes.url_helpers.rails_blob_path(image, only_path: true)
   end
 
   #

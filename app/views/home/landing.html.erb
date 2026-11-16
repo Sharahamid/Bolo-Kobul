@@ -1,3 +1,8 @@
+<%# Phones: the sign-up picture is the biggest thing on the screen; fetch it first instead of
+    waiting until the styles mention it %>
+<% content_for :head do %>
+  <link rel="preload" as="image" href="<%= asset_path('header-image_mobile.webp') %>" media="(max-width: 700px)" fetchpriority="high">
+<% end %>
 <!--slider section-->
 <%= render 'home/landing/slider' %>
 

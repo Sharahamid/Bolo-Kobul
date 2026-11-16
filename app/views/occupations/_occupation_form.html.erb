@@ -91,6 +91,8 @@
   </div>
 
   <script type="text/javascript" charset="utf-8">
+  // Runs once the page's scripts are ready (they load without holding up the page)
+  bkReady(function () {
       (function () {
           function check_occupation_name() {
               var val = $('#occupation_name')[0].value;
@@ -136,7 +138,8 @@
           check_currently_working();
           check_organization();
       })();
-  </script>  
+    });
+</script>  
 
   <!-- Modal footer -->
   <%= render 'shared/modal_footer', f: f %>

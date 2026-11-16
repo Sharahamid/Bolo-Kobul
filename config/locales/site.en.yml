@@ -1204,3 +1204,8 @@ en:
       any_specific_habits_you_want_to_share: "Any specific habits of the candidate to share?"
   errors:
     page_expired: "This page had expired, so nothing was sent. Please try again."
+  a11y:
+    show_password: Show or hide password
+    open_menu: Open menu
+    close_menu: Close menu
+    read_story: "Read their story"
