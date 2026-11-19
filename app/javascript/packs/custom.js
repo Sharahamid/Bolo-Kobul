@@ -69,6 +69,7 @@ window.markNotificationRead = function(el) {
   if (!token) return;
   fetch(el.dataset.markUrl, {
     method: 'POST',
+    keepalive: true, // still saved when the tap opens a link
     headers: {
       'X-CSRF-Token': token.content,
       'X-Requested-With': 'XMLHttpRequest'
