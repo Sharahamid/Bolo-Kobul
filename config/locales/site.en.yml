@@ -375,6 +375,7 @@ en:
     continue: Continue
     terms_html: I have read the %{terms} and %{privacy} of Bolo Kobul
     note: Your email and mobile number are never shown to other members.
+    try_again: Something went wrong. Please try again, or contact support@bolokobul.com.
   chat:
     icebreakers:
       title: Not sure how to start? Tap one, edit it if you like, and send.

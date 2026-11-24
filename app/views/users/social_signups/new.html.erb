@@ -6,8 +6,9 @@
 
     <%= form_for @user, url: social_signup_path, method: :post, html: { 'data-turbolinks' => 'false' } do |f| %>
       <% if @user.errors.any? %>
+        <% messages = @user.errors.full_messages.reject { |m| m.start_with?('Password') } %>
         <div class="bk-social-signup__errors">
-          <% @user.errors.full_messages.reject { |m| m.start_with?('Password') }.each do |message| %>
+          <% (messages.presence || [t('social_signup.try_again')]).each do |message| %>
             <div><%= message %></div>
           <% end %>
         </div>

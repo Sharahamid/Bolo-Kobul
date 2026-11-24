@@ -15,8 +15,9 @@ class Users::SocialSignupsController < ApplicationController
     @user.email = @data['email']
     @user.provider = @data['provider']
     @user.uid = @data['uid']
-    # They log in with Google/Facebook; "Forgot Password" lets them set a password later
-    @user.password = @user.password_confirmation = "#{SecureRandom.base58(24)}a1"
+    # They log in with Google/Facebook; "Forgot Password" lets them set a password later.
+    # Must meet the password rules (capital, small letter, number, symbol), or the sign-up fails.
+    @user.password = @user.password_confirmation = "#{SecureRandom.base58(20)}Aa1!"
 
     if @user.save
       session.delete(:social_signup)
@@ -31,6 +32,7 @@ class Users::SocialSignupsController < ApplicationController
       end
       redirect_to show_verify_user_path(@user)
     else
+      Rails.logger.warn("[social_signup] not saved for #{@user.email}: #{@user.errors.full_messages.join('; ')}")
       render :new, status: :unprocessable_entity
     end
   end
