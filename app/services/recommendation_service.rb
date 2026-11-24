@@ -39,7 +39,7 @@ class RecommendationService
   # Recalculated daily, and also as soon as a new member joins, this member changes their
   # preferences, or BK+ starts or ends (20 instead of 10)
   def self.cache_key(profile)
-    "recommendations_v4_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
+    "recommendations_v5_#{profile.id}_#{Date.today}_#{MarriageProfile.maximum(:id)}_" \
       "#{profile.partner_preference&.updated_at.to_i}_n#{daily_count(profile)}"
   end
 
@@ -146,6 +146,9 @@ class RecommendationService
       current_profile.friend_ids +
       current_profile.blocked_friend_ids +
       current_profile.chat_friendships.map(&:chat_friend_id) +
+      # Anyone they have exchanged messages with (also older chats saved without a chat link)
+      Message.where(sender_id: current_profile.id).distinct.pluck(:recipient_id) +
+      Message.where(recipient_id: current_profile.id).distinct.pluck(:sender_id) +
       ProfilePass.hidden_ids_for(current_profile) +
       ProfileHide.hidden_ids_for(current_profile) +
       Friendship.where('(friendable_id = ? OR friend_id = ?) AND status = ?', current_profile.id, current_profile.id, 1)

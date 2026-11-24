@@ -92,12 +92,16 @@ class WeeklyReminderService
   end
 
   def build_reminder
-    profile = @user.marriage_profiles.order(:id).first
+    # The same profile the member sees on their dashboard
+    profile = @user.main_marriage_profile
     return no_profile unless profile
 
     waiting = waiting_kobuls(profile)
-    waiting_ids = waiting.map { |w| w[:profile].id }
-    matches = profile.partner_preference ? RecommendationService.daily_recommendations(profile).to_a.reject { |m| waiting_ids.include?(m.id) }.first(MATCHES_PER_EMAIL) : []
+    # Never "new matches": anyone already in a Kobul or chat with any of this member's
+    # profiles, blocked, passed or hidden
+    skip = waiting.map { |w| w[:profile].id } +
+           @user.marriage_profiles.flat_map { |p| RecommendationService.build_excluded_ids(p, []) }
+    matches = profile.partner_preference ? RecommendationService.daily_recommendations(profile).to_a.reject { |m| skip.include?(m.id) }.first(MATCHES_PER_EMAIL) : []
     return matches_found(profile, matches, waiting) if matches.any? || waiting.any?
     return incomplete_profile(profile) unless profile.ready_for_kobul?
 
