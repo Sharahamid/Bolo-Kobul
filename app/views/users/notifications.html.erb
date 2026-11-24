@@ -3,8 +3,25 @@
   .notification-unread .notification-bullet { background:#FFB627; }
   .notification-box { cursor:pointer; }
   .notification-unread { border-left:3px solid #FFB627 !important; }
+  .bk-notif-markall { display:flex; justify-content:flex-end; margin:4px 8px 0; }
+  .bk-notif-markall button { background:none; border:0; color:#B7791F; font-weight:600; font-size:14px; padding:6px 4px; cursor:pointer; }
+  .bk-notif-markall button:hover { text-decoration:underline; }
 </style>
 <script>
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest && e.target.closest('#bk-mark-all');
+    if (!btn) return;
+    var token = document.querySelector('meta[name="csrf-token"]');
+    fetch(btn.dataset.url, {
+      method: 'POST',
+      headers: { 'X-CSRF-Token': token ? token.content : '', 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json' }
+    }).then(function(r) {
+      if (!r.ok) return;
+      document.querySelectorAll('.notification-unread').forEach(function(n) { n.classList.remove('notification-unread'); });
+      document.querySelectorAll('.notification-counter').forEach(function(c) { c.textContent = ''; });
+      btn.parentNode.remove();
+    });
+  });
   window.markNotificationRead = function(el) {
     if (!el.classList.contains('notification-unread')) return;
     el.classList.remove('notification-unread');
@@ -55,6 +72,11 @@
   end
 %>
 <%= render 'shared/push_settings' %>
+<% if current_user.notifications.unread.exists? %>
+  <div class="bk-notif-markall">
+    <button type="button" id="bk-mark-all" data-url="<%= mark_all_notifications_read_users_path(format: :json) %>"><i class="fas fa-check-double"></i> <%= t('notifications_page.mark_all') %></button>
+  </div>
+<% end %>
 <% notif_collection.each_with_index do |notif, i| %>
   <%= render partial: 'users/notification_mobile',
              locals: { notification: notif,

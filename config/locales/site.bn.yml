@@ -556,6 +556,8 @@ bn:
     change: পাসওয়ার্ড পরিবর্তন
     current: বর্তমান পাসওয়ার্ড*
     current_hint: পরিবর্তন নিশ্চিত করতে আপনার বর্তমান পাসওয়ার্ড প্রয়োজন
+  notifications_page:
+    mark_all: সব পড়া হয়েছে চিহ্নিত করুন
   social_signup:
     title: প্রায় শেষ
     lead_html: আপনি %{provider} দিয়ে %{email} হিসেবে নিবন্ধন করছেন।

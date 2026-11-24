@@ -3,8 +3,6 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show_verify, :verify, :resend]
   # Opening the notifications page counts as reading them: the new ones still show with the
   # gold mark this time (so the member sees what is new), and are marked read for next time
-  after_action :mark_all_notifications_read, only: [:notifications, :mobile_notifications]
-
   def index
     @user = User.new
     render 'home/landing'
@@ -81,10 +79,15 @@ class UsersController < ApplicationController
     @count = @notifications.unread.count > 0 ? @notifications.unread.count : nil
   end
 
+  # "Mark all as read" button on the notifications page. Opening the page no longer
+  # marks anything: each notification turns read only when it is tapped.
   def mark_all_notifications_read
-    current_user&.notifications&.unread&.update_all(is_read: true)
+    current_user.notifications.unread.update_all(is_read: true)
+    respond_to do |format|
+      format.json { render json: { ok: true } }
+      format.html { redirect_to notifications_users_path }
+    end
   end
-  private :mark_all_notifications_read
 
   def change_password
     @user = current_user

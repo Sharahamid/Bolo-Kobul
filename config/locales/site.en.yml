@@ -364,6 +364,8 @@ en:
     change: Change Password
     current: Current Password*
     current_hint: We need your current password to confirm your changes
+  notifications_page:
+    mark_all: Mark all as read
   social_signup:
     title: Almost there
     lead_html: You're signing up with %{provider} as %{email}.

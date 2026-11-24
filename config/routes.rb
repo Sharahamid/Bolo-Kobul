@@ -64,6 +64,7 @@ Rails.application.routes.draw do
     collection do
       get :notifications
       post :mark_notification_read
+      post :mark_all_notifications_read
       patch :update_referral_code
       get :next_unread_notification
       # Welcome cards seen; daily nudges on/off
