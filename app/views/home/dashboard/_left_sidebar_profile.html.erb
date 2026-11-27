@@ -129,7 +129,7 @@
           <div class="bk-bf-stat"><div class="bk-bf-num"><%= local_digits(current_user.butterfly_number.to_i) %></div><div class="bk-bf-label"><%= t('dashboard.balance') %></div></div>
           <div class="bk-bf-stat"><div class="bk-bf-num"><%= local_digits(current_user.block_butterfly_number.to_i) %></div><div class="bk-bf-label"><%= t('dashboard.in_process') %></div></div>
         </div>
-        <%= link_to t('dashboard.get_more'), new_order_path, class: 'bk-bf-more' %>
+        <%= link_to t('dashboard.get_more'), new_order_path, class: 'bk-bf-more bk-purchase' unless play_store_app? %>
       </div>
     </div>
 

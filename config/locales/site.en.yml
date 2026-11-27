@@ -366,6 +366,13 @@ en:
     current_hint: We need your current password to confirm your changes
   notifications_page:
     mark_all: Mark all as read
+  views:
+    permission:
+      action_item:
+        reload: Reload permissions
+      notice:
+        reloaded: Permissions reloaded.
+        state_changed: "Permission %{state}."
   social_signup:
     title: Almost there
     lead_html: You're signing up with %{provider} as %{email}.
