@@ -1,3 +1,4 @@
+<% content_for :title, (params[:type] == "success_story" ? "Success Stories" : "Blog: Marriage Advice, Wedding Tips & Love Stories") + (params[:page].to_i > 1 ? " (page #{params[:page].to_i})" : "") %>
 <% content_for :meta_description do %>Read success stories, relationship advice, and wedding tips on the Bolo Kobul blog. Real couples, real stories from Bangladesh.<% end %>
 <div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
   <div class="container">

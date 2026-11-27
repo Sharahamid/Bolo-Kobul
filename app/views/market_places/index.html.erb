@@ -1,3 +1,9 @@
+<% if params[:market_place_type].present? %>
+  <% content_for :title, "#{market_type_label(params[:market_place_type])} | Wedding Services in Bangladesh" %>
+  <% content_for :meta_description, "Find #{market_type_label(params[:market_place_type]).downcase} for your wedding in Bangladesh on Bolo Kobul's wedding services directory." %>
+<% else %>
+  <% content_for :title, "Wedding Services in Bangladesh: Venues, Caterers, Photographers & More" %>
+<% end %>
 <% content_for :meta_description do %>Explore Bolo Kobul's wedding vendor directory — venues, caterers, photographers, makeup artists, and more for your perfect wedding in Bangladesh.<% end %>
 <% content_for :robots_meta, tag.meta(name: "robots", content: "noindex, follow") if @market_places.blank? %>
 <div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">

@@ -1,3 +1,5 @@
+<% content_for :title, @assisted_service.page_title.presence || @assisted_service.name %>
+<% content_for :meta_description, strip_tags(@assisted_service.page_content.to_s).squish.truncate(155, separator: ' ') %>
 <div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
   <div class="container" style="max-width:960px;">
 

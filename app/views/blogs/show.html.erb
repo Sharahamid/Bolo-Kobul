@@ -1,3 +1,8 @@
+<%# Own title, description and preview picture, so Google and link previews show this article %>
+<% content_for :title, @blog.title %>
+<% content_for :meta_description, strip_tags(@blog.story.to_s).squish.truncate(155, separator: ' ') %>
+<% if @blog.image.attached? %><% content_for :og_image, request.base_url + @blog.image_url %><% end %>
+<% content_for :og_type, "article" %>
 <div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
   <div class="container" style="max-width:860px;">
 

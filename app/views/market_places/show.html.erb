@@ -1,3 +1,5 @@
+<% content_for :title, [@market_place.name, @market_place.market_place_type&.name].compact.join(" | ") %>
+<% content_for :meta_description, strip_tags(@market_place.about.to_s).squish.presence&.truncate(155, separator: ' ') || "#{@market_place.name}: wedding service in Bangladesh, listed on Bolo Kobul." %>
 <div style="background:#f7f5f0; min-height:100vh; padding:24px 0;">
   <div class="container" style="max-width:960px;">
 
