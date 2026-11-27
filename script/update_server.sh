@@ -22,8 +22,14 @@ if [ -n "$BAD" ]; then
   echo "STOP: nothing changed. These files on the server differ from every known version:$BAD"
   exit 1
 fi
-echo "Updating $(echo $FILES | wc -w) files..."
-git checkout origin/main -- $FILES
+# Files that were deleted on GitHub are removed here too; all others are brought up to date
+KEEP=""; GONE=""
+for f in $FILES; do
+  if git cat-file -e "origin/main:$f" 2>/dev/null; then KEEP="$KEEP $f"; else GONE="$GONE $f"; fi
+done
+echo "Updating $(echo $KEEP | wc -w) files, removing $(echo $GONE | wc -w)..."
+[ -n "$KEEP" ] && git checkout origin/main -- $KEEP
+for f in $GONE; do git rm -q -f --ignore-unmatch -- "$f"; rm -f -- "$f"; done
 # New library versions (Gemfile.lock changed): install them before anything else
 if echo "$FILES" | grep -q '^Gemfile.lock$'; then
   echo "Installing library updates..."
