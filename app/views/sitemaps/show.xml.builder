@@ -8,8 +8,10 @@ xml.urlset xmlns: 'http://www.sitemaps.org/schemas/sitemap/0.9', 'xmlns:xhtml' =
       xml.lastmod page[:lastmod].to_date.iso8601 if page[:lastmod]
       xml.changefreq page[:changefreq]
       xml.priority page[:priority]
-      xml.tag! 'xhtml:link', rel: 'alternate', hreflang: 'en', href: english
-      xml.tag! 'xhtml:link', rel: 'alternate', hreflang: 'bn', href: bangla
+      unless page[:english_only]
+        xml.tag! 'xhtml:link', rel: 'alternate', hreflang: 'en', href: english
+        xml.tag! 'xhtml:link', rel: 'alternate', hreflang: 'bn', href: bangla
+      end
     end
   end
 end

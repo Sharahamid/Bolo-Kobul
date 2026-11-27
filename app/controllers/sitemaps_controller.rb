@@ -1,5 +1,6 @@
 # /sitemap.xml: the public pages, so Google and other search engines find them all.
-# Each page is listed in English with its Bangla version (?locale=bn) as an alternate.
+# Each page is listed in English with its Bangla version (?locale=bn) as an alternate,
+# except articles and assisted services, which are written in English only.
 class SitemapsController < ActionController::Base
   SITE = 'https://bolokobul.com'.freeze
 
@@ -23,13 +24,13 @@ class SitemapsController < ActionController::Base
 
   def blog_pages
     Blog.approved.where.not(slug: [nil, '']).order(updated_at: :desc).limit(5000).map do |blog|
-      { path: "/blogs/#{blog.slug}", lastmod: blog.updated_at, changefreq: 'monthly', priority: '0.7' }
+      { path: "/blogs/#{blog.slug}", lastmod: blog.updated_at, changefreq: 'monthly', priority: '0.7', english_only: true }
     end
   end
 
   def assisted_service_pages
     AssistedService.order(:id).map do |service|
-      { path: "/assisted_services/#{service.id}", lastmod: service.updated_at, changefreq: 'monthly', priority: '0.5' }
+      { path: "/assisted_services/#{service.id}", lastmod: service.updated_at, changefreq: 'monthly', priority: '0.5', english_only: true }
     end
   end
 end

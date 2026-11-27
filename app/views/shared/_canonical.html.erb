@@ -1,6 +1,17 @@
 <%# Official address of this page for Google. English is the plain address (?locale=en is
     the same page), so only the Bangla version keeps ?locale=bn. Marketplace categories
-    (Honeymoon, Venues...) keep their category so each can appear on Google on its own. %>
-<% canonical_query = request.query_parameters.slice("type", "page", "market_place_type") %>
-<% canonical_query["locale"] = "bn" if request.query_parameters["locale"] == "bn" %>
-<link rel="canonical" href="https://bolokobul.com<%= request.path %><%= "?#{canonical_query.to_query}" if canonical_query.present? %>">
+    (Honeymoon, Venues...) keep their category so each can appear on Google on its own.
+    Blog articles and assisted services are written in English only, so their Bangla view
+    is not a separate page: it points to the English address and has no Bangla alternate. %>
+<% english_only = action_name == "show" && controller_name.in?(%w[blogs assisted_services]) %>
+<% base_query = request.query_parameters.slice("type", "page", "market_place_type") %>
+<% base_query.delete("page") if base_query["page"].to_s == "1" %>
+<% english_url = "https://bolokobul.com#{request.path}#{"?#{base_query.to_query}" if base_query.present?}" %>
+<% bangla_url = "https://bolokobul.com#{request.path}?#{base_query.merge("locale" => "bn").to_query}" %>
+<% bangla = !english_only && request.query_parameters["locale"] == "bn" %>
+<link rel="canonical" href="<%= bangla ? bangla_url : english_url %>">
+<% unless english_only %>
+<link rel="alternate" hreflang="en" href="<%= english_url %>">
+<link rel="alternate" hreflang="bn" href="<%= bangla_url %>">
+<link rel="alternate" hreflang="x-default" href="<%= english_url %>">
+<% end %>

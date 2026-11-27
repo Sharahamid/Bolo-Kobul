@@ -8,6 +8,10 @@ class BlogsController < ApplicationController
 
   def show
     @blog = Blog.friendly.find(params[:id]) rescue nil
+    # One address per article: an old number link (/blogs/12) moves to the named address
+    if @blog && @blog.slug.present? && params[:id].to_s != @blog.slug
+      return redirect_to(blog_path(@blog.slug, request.query_parameters), status: :moved_permanently)
+    end
     return if @blog
 
     # A cut-off link (e.g. /blogs/taurus or /blogs/aries-) goes to the article whose
