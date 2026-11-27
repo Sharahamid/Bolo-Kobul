@@ -25,7 +25,9 @@ class ApplicationController < ActionController::Base
 
   # A pop-up form (served as JavaScript) opened directly as a page, e.g. by a bot or a
   # link checker: Rails refuses it for security. Refuse quietly, without an error email.
+  # (Rails checks this after the page is built, so drop that page before answering.)
   rescue_from ActionController::InvalidCrossOriginRequest do
+    self.response_body = nil
     head :unprocessable_entity
   end
 
